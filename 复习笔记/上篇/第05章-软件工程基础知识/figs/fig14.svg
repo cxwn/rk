@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 405" font-family="Microsoft YaHei, 微软雅黑, sans-serif">
+  <rect width="720" height="405" fill="#ffffff"/>
+  <text x="360" y="30" text-anchor="middle" font-size="20" font-weight="bold" fill="#1f4e79">影响软件质量的三组主要因素</text>
+  <g text-anchor="middle">
+    <rect x="25" y="60" width="210" height="295" rx="9" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.5"/>
+    <text x="130" y="96" font-size="20" font-weight="bold" fill="#1f4e79">产品运行</text>
+    <text x="130" y="122" font-size="13" fill="#6b7a8a">用户实际使用时</text>
+    <rect x="50" y="142" width="160" height="32" rx="4" fill="#ffffff"/><text x="130" y="164" font-size="15" fill="#22303f">正确性</text>
+    <rect x="50" y="182" width="160" height="32" rx="4" fill="#ffffff"/><text x="130" y="204" font-size="15" fill="#22303f">健壮性</text>
+    <rect x="50" y="222" width="160" height="32" rx="4" fill="#ffffff"/><text x="130" y="244" font-size="15" fill="#22303f">效率</text>
+    <rect x="50" y="262" width="160" height="32" rx="4" fill="#ffffff"/><text x="130" y="284" font-size="15" fill="#22303f">完整性</text>
+    <rect x="50" y="302" width="160" height="32" rx="4" fill="#ffffff"/><text x="130" y="324" font-size="15" fill="#22303f">可用性</text>
+    <rect x="255" y="60" width="210" height="295" rx="9" fill="#fdf0e6" stroke="#c05621" stroke-width="1.5"/>
+    <text x="360" y="96" font-size="20" font-weight="bold" fill="#c05621">产品修改</text>
+    <text x="360" y="122" font-size="13" fill="#6b7a8a">维护与演进时</text>
+    <rect x="280" y="142" width="160" height="32" rx="4" fill="#ffffff"/><text x="360" y="164" font-size="15" fill="#22303f">可理解性</text>
+    <rect x="280" y="182" width="160" height="32" rx="4" fill="#ffffff"/><text x="360" y="204" font-size="15" fill="#22303f">可维修性</text>
+    <rect x="280" y="222" width="160" height="32" rx="4" fill="#ffffff"/><text x="360" y="244" font-size="15" fill="#22303f">灵活性</text>
+    <rect x="280" y="262" width="160" height="32" rx="4" fill="#ffffff"/><text x="360" y="284" font-size="15" fill="#22303f">可测试性</text>
+    <rect x="485" y="60" width="210" height="295" rx="9" fill="#f3f6ee" stroke="#4a6130" stroke-width="1.5"/>
+    <text x="590" y="96" font-size="20" font-weight="bold" fill="#4a6130">产品转移</text>
+    <text x="590" y="122" font-size="13" fill="#6b7a8a">迁移、复用与集成时</text>
+    <rect x="510" y="142" width="160" height="32" rx="4" fill="#ffffff"/><text x="590" y="164" font-size="15" fill="#22303f">可移植性</text>
+    <rect x="510" y="182" width="160" height="32" rx="4" fill="#ffffff"/><text x="590" y="204" font-size="15" fill="#22303f">可再用性</text>
+    <rect x="510" y="222" width="160" height="32" rx="4" fill="#ffffff"/><text x="590" y="244" font-size="15" fill="#22303f">互运行性</text>
+  </g>
+  <text x="360" y="384" text-anchor="middle" font-size="15" fill="#1f4e79">软件质量＝软件与明确及隐含需求相一致的程度</text>
+</svg>

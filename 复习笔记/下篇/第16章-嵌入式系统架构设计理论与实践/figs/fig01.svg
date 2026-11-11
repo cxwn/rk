@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 430" font-family="Microsoft YaHei, 微软雅黑, sans-serif">
+  <rect width="720" height="430" fill="#ffffff"/>
+  <text x="360" y="28" text-anchor="middle" font-size="20" font-weight="bold" fill="#1f4e79">典型嵌入式系统硬件组成</text>
+  <rect x="250" y="48" width="220" height="58" rx="8" fill="#1f4e79"/>
+  <text x="360" y="73" text-anchor="middle" font-size="17" font-weight="bold" fill="#ffffff">嵌入式微处理器核</text>
+  <text x="360" y="94" text-anchor="middle" font-size="12" fill="#eaf1f8">MPU / MCU / DSP / SoC</text>
+  <rect x="35" y="48" width="150" height="42" rx="6" fill="#eaf1f8" stroke="#1f4e79"/>
+  <text x="110" y="75" text-anchor="middle" font-size="14" fill="#22303f">SDRAM（主存）</text>
+  <rect x="35" y="105" width="150" height="42" rx="6" fill="#eaf1f8" stroke="#1f4e79"/>
+  <text x="110" y="132" text-anchor="middle" font-size="14" fill="#22303f">Flash ROM（固化）</text>
+  <line x1="185" y1="69" x2="239" y2="69" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="247,69 239,64.5 239,73.5" fill="#1f4e79"/>
+  <polyline points="185,126 220,126 220,94 239,94" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="247,94 239,89.5 239,98.5" fill="#1f4e79"/>
+  <rect x="535" y="55" width="150" height="44" rx="6" fill="#fdf0e6" stroke="#c05621"/>
+  <text x="610" y="83" text-anchor="middle" font-size="14" fill="#22303f">网络接口</text>
+  <line x1="470" y1="77" x2="524" y2="77" stroke="#c05621" stroke-width="1.5" fill="none"/>
+  <polygon points="532,77 524,72.5 524,81.5" fill="#c05621"/>
+  <line x1="360" y1="106" x2="360" y2="139" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="360,147 355.5,139 364.5,139" fill="#1f4e79"/>
+  <rect x="180" y="150" width="360" height="38" rx="5" fill="#1f4e79"/>
+  <text x="360" y="175" text-anchor="middle" font-size="15" font-weight="bold" fill="#ffffff">高性能总线（仲裁器）</text>
+  <rect x="300" y="208" width="120" height="38" rx="5" fill="#eaf1f8" stroke="#1f4e79"/>
+  <text x="360" y="233" text-anchor="middle" font-size="14" fill="#22303f">总线桥</text>
+  <line x1="360" y1="188" x2="360" y2="197" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="360,205 355.5,197 364.5,197" fill="#1f4e79"/>
+  <line x1="360" y1="246" x2="360" y2="269" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="360,277 355.5,269 364.5,269" fill="#1f4e79"/>
+  <rect x="140" y="280" width="440" height="38" rx="5" fill="#6b7a8a"/>
+  <text x="360" y="305" text-anchor="middle" font-size="15" font-weight="bold" fill="#ffffff">高性能外围总线</text>
+  <g font-size="13" fill="#22303f" text-anchor="middle">
+    <rect x="20" y="360" width="90" height="40" rx="5" fill="#f3f6ee" stroke="#8aa15c"/><text x="65" y="385">GPIO</text>
+    <rect x="130" y="360" width="90" height="40" rx="5" fill="#f3f6ee" stroke="#8aa15c"/><text x="175" y="385">USB</text>
+    <rect x="240" y="360" width="90" height="40" rx="5" fill="#f3f6ee" stroke="#8aa15c"/><text x="285" y="385">UART</text>
+    <rect x="350" y="360" width="90" height="40" rx="5" fill="#f3f6ee" stroke="#8aa15c"/><text x="395" y="385">Timer / RTC</text>
+    <rect x="460" y="360" width="90" height="40" rx="5" fill="#f3f6ee" stroke="#8aa15c"/><text x="505" y="385">INTC</text>
+    <rect x="570" y="360" width="90" height="40" rx="5" fill="#f3f6ee" stroke="#8aa15c"/><text x="615" y="385">JTAG</text>
+  </g>
+  <g stroke="#4a6130" stroke-width="1.4" fill="none">
+    <polyline points="65,360 65,338 180,338 180,318"/><polyline points="175,360 175,342 245,342 245,318"/>
+    <polyline points="285,360 285,318"/><polyline points="395,360 395,318"/>
+    <polyline points="505,360 505,342 475,342 475,318"/><polyline points="615,360 615,338 540,338 540,318"/>
+  </g>
+  <text x="360" y="422" text-anchor="middle" font-size="12" fill="#6b7a8a">看门狗监测程序活性，异常时触发系统恢复</text>
+</svg>

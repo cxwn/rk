@@ -1,0 +1,56 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 535" font-family="Microsoft YaHei, 微软雅黑, sans-serif">
+  <text x="360" y="26" text-anchor="middle" font-size="16" font-weight="bold" fill="#1f4e79">某网奥运视频平台：Lambda 分层落地（教材图 19-13 重绘）</text>
+  <text x="20" y="58" font-size="11" font-weight="bold" fill="#6b7a8a">数据采集层</text>
+  <rect x="100" y="42" width="100" height="48" rx="6" fill="#eaf1f8" stroke="#1f4e79"/>
+  <text x="150" y="71" text-anchor="middle" font-size="12" fill="#22303f">PC 端</text>
+  <rect x="310" y="42" width="100" height="48" rx="6" fill="#eaf1f8" stroke="#1f4e79"/>
+  <text x="360" y="71" text-anchor="middle" font-size="12" fill="#22303f">App 端</text>
+  <rect x="520" y="42" width="100" height="48" rx="6" fill="#eaf1f8" stroke="#1f4e79"/>
+  <text x="570" y="71" text-anchor="middle" font-size="12" fill="#22303f">TV 端</text>
+  <line x1="150" y1="90" x2="150" y2="124" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="150,132 145.5,124 154.5,124" fill="#1f4e79"/>
+  <line x1="360" y1="90" x2="360" y2="124" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="360,132 355.5,124 364.5,124" fill="#1f4e79"/>
+  <line x1="570" y1="90" x2="570" y2="124" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="570,132 565.5,124 574.5,124" fill="#1f4e79"/>
+  <rect x="50" y="135" width="620" height="70" rx="7" fill="#f3f6ee" stroke="#8aa15c" stroke-width="1.3"/>
+  <text x="75" y="158" font-size="11" font-weight="bold" fill="#4a6130">数据集成层</text>
+  <text x="230" y="158" text-anchor="middle" font-size="11" font-weight="bold" fill="#4a6130">实时：Nginx → Flume → Kafka</text>
+  <text x="230" y="184" text-anchor="middle" font-size="10" fill="#22303f">聚合实时流并分发至流计算</text>
+  <line x1="360" y1="150" x2="360" y2="190" stroke="#8aa15c" stroke-width="1" fill="none"/>
+  <text x="510" y="158" text-anchor="middle" font-size="11" font-weight="bold" fill="#4a6130">离线：Sqoop / ETL</text>
+  <text x="510" y="184" text-anchor="middle" font-size="10" fill="#22303f">持续追加到不可变主数据集</text>
+  <line x1="200" y1="205" x2="200" y2="229" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="200,237 195.5,229 204.5,229" fill="#1f4e79"/>
+  <line x1="520" y1="205" x2="520" y2="229" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="520,237 515.5,229 524.5,229" fill="#1f4e79"/>
+  <rect x="50" y="240" width="620" height="65" rx="7" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.3"/>
+  <text x="75" y="263" font-size="11" font-weight="bold" fill="#1f4e79">数据存储层</text>
+  <rect x="170" y="252" width="110" height="38" rx="5" fill="#ffffff" stroke="#1f4e79"/>
+  <text x="225" y="276" text-anchor="middle" font-size="11" fill="#1f4e79">HDFS</text>
+  <rect x="315" y="252" width="110" height="38" rx="5" fill="#ffffff" stroke="#1f4e79"/>
+  <text x="370" y="276" text-anchor="middle" font-size="11" fill="#1f4e79">HBase</text>
+  <rect x="460" y="252" width="110" height="38" rx="5" fill="#ffffff" stroke="#1f4e79"/>
+  <text x="515" y="276" text-anchor="middle" font-size="11" fill="#1f4e79">MemSQL</text>
+  <line x1="200" y1="305" x2="200" y2="329" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="200,337 195.5,329 204.5,329" fill="#1f4e79"/>
+  <line x1="520" y1="305" x2="520" y2="329" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="520,337 515.5,329 524.5,329" fill="#1f4e79"/>
+  <rect x="50" y="340" width="620" height="85" rx="7" fill="#fdf0e6" stroke="#c05621" stroke-width="1.3"/>
+  <text x="75" y="363" font-size="11" font-weight="bold" fill="#c05621">数据计算层</text>
+  <rect x="140" y="355" width="150" height="52" rx="5" fill="#ffffff" stroke="#c05621"/>
+  <text x="215" y="376" text-anchor="middle" font-size="11" font-weight="bold" fill="#c05621">实时计算</text>
+  <text x="215" y="397" text-anchor="middle" font-size="10" fill="#22303f">Spark Streaming</text>
+  <rect x="300" y="355" width="150" height="52" rx="5" fill="#ffffff" stroke="#c05621"/>
+  <text x="375" y="376" text-anchor="middle" font-size="11" font-weight="bold" fill="#c05621">离线计算</text>
+  <text x="375" y="397" text-anchor="middle" font-size="10" fill="#22303f">Spark / M-R / Hive</text>
+  <rect x="460" y="355" width="150" height="52" rx="5" fill="#ffffff" stroke="#c05621"/>
+  <text x="535" y="376" text-anchor="middle" font-size="11" font-weight="bold" fill="#c05621">合并计算</text>
+  <text x="535" y="397" text-anchor="middle" font-size="10" fill="#22303f">Batch + Real-time</text>
+  <line x1="360" y1="425" x2="360" y2="449" stroke="#c05621" stroke-width="1.5" fill="none"/>
+  <polygon points="360,457 355.5,449 364.5,449" fill="#c05621"/>
+  <rect x="145" y="460" width="430" height="48" rx="7" fill="#f3f6ee" stroke="#8aa15c" stroke-width="1.3"/>
+  <text x="360" y="480" text-anchor="middle" font-size="11" font-weight="bold" fill="#4a6130">数据展现层</text>
+  <text x="360" y="500" text-anchor="middle" font-size="11" fill="#22303f">当日概览：秒级实时指标　｜　赛事回顾：历史趋势与排行</text>
+  <text x="360" y="527" text-anchor="middle" font-size="10" fill="#6b7a8a">存储采用多副本与故障迁移；实时做增量计算，离线做预运算，合并后支撑查询</text>
+</svg>

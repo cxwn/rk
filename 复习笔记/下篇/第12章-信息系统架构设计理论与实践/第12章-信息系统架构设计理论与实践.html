@@ -1,0 +1,762 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>第12章 信息系统架构设计理论与实践</title>
+<style>
+  :root{ --ink:#22303f; --main:#1f4e79; --main-light:#eaf1f8; --accent:#c05621;
+    --accent-light:#fdf0e6; --line:#d5dde5; --muted:#6b7a8a; }
+  *{ box-sizing:border-box; print-color-adjust:exact; -webkit-print-color-adjust:exact; }
+  html,body{ margin:0; padding:0; }
+  body{ font-family:"Microsoft YaHei","微软雅黑","PingFang SC","Noto Sans CJK SC",sans-serif;
+    color:var(--ink); background:#e9edf1; font-size:10.5pt; line-height:1.75; }
+  .sheet{ max-width:190mm; margin:8mm auto; background:#fff; padding:10mm 11mm;
+    box-shadow:0 2px 14px rgba(0,0,0,.12); }
+  h1{ font-size:21pt; color:var(--main); margin:0 0 2mm; border-bottom:3px solid var(--main); padding-bottom:3mm; }
+  h2{ font-size:14pt; color:var(--main); margin:8mm 0 3mm; padding:1.2mm 0 1.2mm 3mm;
+    border-left:5px solid var(--main); background:linear-gradient(to right,var(--main-light),#fff); break-after:avoid; }
+  h3{ font-size:11.5pt; color:var(--main); margin:5mm 0 2mm; break-after:avoid; }
+  p{ margin:1.5mm 0; }
+  code{ background:#f0f3f6; border-radius:1mm; padding:0 1mm; font-size:9.5pt; }
+  .def,.example,.mnemonic{ border-radius:2mm; padding:2.5mm 3.5mm; margin:2.5mm 0; break-inside:avoid; }
+  .def{ border:1.5px solid var(--main); background:#fbfdff; }
+  .example{ background:var(--accent-light); border-left:4px solid var(--accent); }
+  .mnemonic{ background:#f3f6ee; border:1px dashed #8aa15c; color:#4a6130; }
+  table{ border-collapse:collapse; width:100%; margin:2.5mm 0; font-size:9.5pt; table-layout:fixed; }
+  th,td{ border:1px solid var(--line); padding:1.6mm 2mm; text-align:left; vertical-align:top; overflow-wrap:break-word; }
+  th{ background:var(--main); color:#fff; text-align:center; }
+  thead{ display:table-header-group; }
+  tr{ break-inside:avoid; }
+  td.tc{ text-align:center; }
+  tr:nth-child(even) td{ background:#f6f9fc; }
+  .fig{ margin:3mm 0; padding:2.5mm; border:1px solid var(--line); border-radius:2mm;
+    background:#fdfefe; break-inside:avoid; }
+  .fig .cap{ text-align:center; color:var(--muted); font-size:9pt; margin-top:1mm; }
+  svg{ display:block; width:100%; height:auto; }
+  svg text{ font-family:inherit; }
+  ul,ol{ margin:1.5mm 0 1.5mm 5mm; padding-left:4mm; }
+  li{ margin:0.8mm 0; }
+  .footer{ margin-top:8mm; padding-top:2mm; border-top:1px solid var(--line);
+    color:var(--muted); font-size:8.5pt; text-align:center; }
+  @page{ size:A4; margin:12mm; }
+  @media print{ body{ background:#fff; font-size:10pt; }
+    .sheet{ max-width:none; margin:0; padding:0; box-shadow:none; } h2{ margin-top:6mm; } }
+</style>
+</head>
+<body>
+<div class="sheet">
+<h1>第12章 信息系统架构设计理论与实践</h1>
+<ul><li>教材位置：02.系统架构设计师第二版-教材.pdf PDF 第 413～458 页（书页 405～450）</li><li>复习状态：已完成</li><li>复习日期：2026-11-06</li><li>本章地位：下篇首章，把上篇架构基础落到企业信息系统建设，是下午案例题的重点底座。复习要能从企业现状出发选架构、排 ADM 阶段、选规划方法，并说明集成方案如何解决实际痛点。</li></ul>
+<h2>一、大纲考点</h2>
+<p>大纲考试科目 2「系统架构设计案例分析」第 2 主题「信息系统架构的设计理论与实践」（大纲书页 51～52，PDF 页 61～62）与本章直接对应。科目 1 第 11 部分为「标准化与知识产权」，仅与大纲 2.3 的标准法规要求交叉，不是本章主体。</p>
+<table><colgroup><col style="width:14.4%"><col style="width:34.9%"><col style="width:8.6%"><col style="width:42.1%"></colgroup><thead><tr><th>大纲条目</th><th>大纲要求</th><th>教材对应</th><th>复习抓手</th></tr></thead><tbody><tr><td>2.1 信息系统架构概述</td><td>定义和发展；集中式与分布式；四种常用架构模型；企业总体框架</td><td class="tc">12.1、12.2</td><td>架构三要素；物理/逻辑结构；单机、C/S、SOA、数据交换总线；战略/业务/应用/基础设施</td></tr><tr><td>2.2 设计方法（ADM）</td><td>TOGAF；ADM 定义、开发阶段和详细活动</td><td class="tc">12.3.1</td><td>TOGAF 六组件；ADM 十阶段；三级迭代；需求管理居中；范围四维度</td></tr><tr><td>2.3 信息化总体架构方法</td><td>信息化概念、生产力、建设与特征；工程建设方法</td><td class="tc">12.3.2</td><td>数据导向与流程导向；五阶段生命周期；CSF/SST/BSP；资源管理与标准法规意识</td></tr><tr><td>2.4 案例分析</td><td>价值驱动体系结构；Web 服务在 HL7 上的应用；以服务为中心的企业整合</td><td class="tc">12.4</td><td>价值驱动因素；HL7 消息与适配器；业务分析→服务建模→IT 环境分析→高层架构</td></tr></tbody></table>
+<p>⭐【案例题考查形式】通常给出企业异构系统、业务变化、性能或集成困难等材料，要求<b>辨识架构模式并比较优劣、补全 ADM 阶段及活动/交付物、选择信息化规划方法、分析 SOA/ESB/HL7 集成方案</b>。作答不能只默写定义，应按「材料问题 → 对应架构机制 → 能解决什么 → 代价或约束」展开。</p>
+<h2>二、知识点笔记</h2>
+<h3>12.1.1～12.1.3 信息系统架构概念、发展与定义</h3>
+<p>信息系统架构（Information System Architecture，ISA）关注系统组成部分之间、系统与业务之间、系统与技术之间的关系。现代信息系统架构有两个层次：<b>概念层次</b>包含艺术、科学、方法和建设风格；<b>物理层次</b>是架构工作形成的物理结构及相互作用结果。</p>
+<div class="def">教材原文：软件或计算机系统的信息系统架构是该系统的一个（或多个）结构，而结构由软件元素、元素的外部可见属性及它们之间的关系组成。</div>
+<p>⭐【重点】【高频考点】定义抓住三个词：<b>元素、外部可见属性、关系</b>。外部可见属性是其他元素可以依赖的假设，如提供的服务、性能特征；类的私有字段、函数内部算法等纯内部实现细节不属于架构。</p>
+<div class="fig"><div><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 300" font-family="Microsoft YaHei, 微软雅黑, sans-serif">
+  <text x="360" y="26" text-anchor="middle" font-size="17" font-weight="bold" fill="#1f4e79">信息系统架构：三要素与抽象边界</text>
+  <rect x="25" y="55" width="210" height="78" rx="7" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.5"/>
+  <text x="130" y="85" text-anchor="middle" font-size="16" font-weight="bold" fill="#1f4e79">软件元素</text>
+  <text x="130" y="111" text-anchor="middle" font-size="12" fill="#22303f">模块、构件、对象等抽象单元</text>
+  <rect x="255" y="55" width="210" height="78" rx="7" fill="#fdf0e6" stroke="#c05621" stroke-width="1.5"/>
+  <text x="360" y="85" text-anchor="middle" font-size="16" font-weight="bold" fill="#c05621">外部可见属性</text>
+  <text x="360" y="111" text-anchor="middle" font-size="12" fill="#22303f">服务、性能、接口等外部假设</text>
+  <rect x="485" y="55" width="210" height="78" rx="7" fill="#f3f6ee" stroke="#4a6130" stroke-width="1.5"/>
+  <text x="590" y="85" text-anchor="middle" font-size="16" font-weight="bold" fill="#4a6130">元素之间的关系</text>
+  <text x="590" y="111" text-anchor="middle" font-size="12" fill="#22303f">连接、调用、数据与协作关系</text>
+  <line x1="130" y1="133" x2="130" y2="179" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="130,187 125.5,179 134.5,179" fill="#1f4e79"/>
+  <line x1="360" y1="133" x2="360" y2="179" stroke="#c05621" stroke-width="1.5" fill="none"/>
+  <polygon points="360,187 355.5,179 364.5,179" fill="#c05621"/>
+  <line x1="590" y1="133" x2="590" y2="179" stroke="#4a6130" stroke-width="1.5" fill="none"/>
+  <polygon points="590,187 585.5,179 594.5,179" fill="#4a6130"/>
+  <rect x="25" y="190" width="670" height="72" rx="7" fill="#fbfdff" stroke="#1f4e79" stroke-width="1.8"/>
+  <text x="360" y="218" text-anchor="middle" font-size="16" font-weight="bold" fill="#1f4e79">信息系统架构：系统的一个或多个结构</text>
+  <text x="360" y="244" text-anchor="middle" font-size="12" fill="#22303f">静态看大粒度结构，动态看关键行为；架构决策影响深远、变更代价高</text>
+  <text x="360" y="286" text-anchor="middle" font-size="11" fill="#6b7a8a">抽象边界：关注外部可见，不描述纯内部实现；任何软件都有架构，但未必有真实有效的架构文档</text>
+</svg></div><div class="cap">信息系统架构的三要素与抽象边界</div></div>
+<table><colgroup><col style="width:14.1%"><col style="width:56.3%"><col style="width:29.6%"></colgroup><thead><tr><th>理解要点</th><th>必须掌握的含义</th><th>易混点</th></tr></thead><tbody><tr><td class="tc">多结构</td><td>不同结构分别传达模块、运行、部署等方面信息，单个结构不能代表完整大型架构</td><td>架构不是一张部署图</td></tr><tr><td class="tc">架构与文档</td><td>任何软件都有架构，但不一定有架构文档；文档可能过时</td><td>有文档不等于文档反映了真实架构</td></tr><tr><td class="tc">静态与动态</td><td>静态关注大粒度总体结构；动态关注关键行为的共同特征</td><td>不只是「有哪些模块」</td></tr><tr><td class="tc">基础性与决策</td><td>解决关键重复问题，包含影响深远、修改代价高的决策</td><td>架构师水平也是约束，重大决策应评审</td></tr></tbody></table>
+<div class="example">举例：订单服务对外承诺「提交订单后 2 秒内返回订单号」属于外部可见属性；它内部用哪种排序算法整理临时数据，通常不是架构关注点。</div>
+<table><colgroup><col style="width:32.3%"><col style="width:67.7%"></colgroup><thead><tr><th>发展节点</th><th>核心贡献</th></tr></thead><tbody><tr><td>20 世纪 80 年代中期，John Zachman</td><td>引入信息系统架构框架，从信息、流程、网络、人员、时间、基本原理六个视角分析企业</td></tr><tr><td>1999 年，美国联邦 CIO 委员会</td><td>公布联邦企业架构框架，协调公共业务流程、技术引入、信息流和系统投资</td></tr><tr><td>1995 年，TOGAF 发布</td><td>以美国国防部 TAFIM 为基础，形成开放、迭代、可复用架构资产的企业框架</td></tr></tbody></table>
+<p>架构受干系人、开发组织、架构师经验和技术环境影响，也会反作用于组织分工、目标和后续需求，形成<b>架构商业周期</b>。</p>
+<h3>12.2.1 架构风格</h3>
+<div class="def">教材原文：信息系统架构风格是描述某一特定应用领域中系统组织方式的惯用模式。架构风格定义了一个系统家族，即一个架构定义一个词汇表和一组约束。</div>
+<p>通俗地说，架构风格就是某类系统反复使用的「组织套路」：规定有哪些构件/连接件，以及它们怎样组合。它支持<b>架构级大粒度复用</b>，但选择必须结合项目特点。</p>
+<table><colgroup><col style="width:18.5%"><col style="width:44.6%"><col style="width:37.0%"></colgroup><thead><tr><th>通用风格</th><th>代表形式</th><th>一句话识别</th></tr></thead><tbody><tr><td class="tc">数据流</td><td>批处理序列、管道/过滤器</td><td>数据依次经过处理步骤</td></tr><tr><td class="tc">调用/返回</td><td>主程序/子程序、面向对象、层次结构</td><td>一方调用，另一方执行并返回</td></tr><tr><td class="tc">独立构件</td><td>进程通信、事件系统</td><td>构件通过消息或事件协作</td></tr><tr><td class="tc">虚拟机</td><td>解释器、基于规则的系统</td><td>构造执行语义或规则的环境</td></tr><tr><td class="tc">仓库</td><td>数据库、超文本、黑板系统</td><td>围绕共享数据中心协作</td></tr></tbody></table>
+<h3>12.2.2 信息系统架构分类</h3>
+<p>⭐【重点】物理结构看<b>硬件资源的空间分布</b>，逻辑结构看<b>功能子系统的综合体</b>，二者分类维度不同。</p>
+<table><colgroup><col style="width:11.6%"><col style="width:39.1%"><col style="width:49.3%"></colgroup><thead><tr><th>对比项</th><th>集中式结构</th><th>分布式结构</th></tr></thead><tbody><tr><td class="tc">资源配置</td><td>软件、数据、设备集中；多终端共享主机也属集中式</td><td>网络连接不同地点的软硬件和数据，可统一管理，也可本地独立运行</td></tr><tr><td class="tc">优点</td><td>便于管理、资源利用率较高</td><td>按需配置、扩展方便、应变能力强；单结点故障一般不致全系统停止</td></tr><tr><td class="tc">局限</td><td>规模扩大后维护困难；主机故障易形成单点风险</td><td>标准不易统一、协调困难、整体资源规划管理复杂</td></tr><tr><td class="tc">典型形态</td><td>单机、多用户主机终端</td><td>一般分布式、客户机/服务器；已成为主流</td></tr></tbody></table>
+<table><colgroup><col style="width:20.4%"><col style="width:30.6%"><col style="width:49.0%"></colgroup><thead><tr><th>逻辑结构综合</th><th>综合对象</th><th>例子</th></tr></thead><tbody><tr><td class="tc">横向综合</td><td>同一管理层次的多种职能</td><td>运行控制层的人事和工资子系统一体化</td></tr><tr><td class="tc">纵向综合</td><td>同一职能的不同管理层次</td><td>工厂会计系统与公司会计系统贯通</td></tr><tr><td class="tc">纵横综合</td><td>信息模型和处理模型</td><td>建公共数据库、统一处理系统，提取通用模块</td></tr></tbody></table>
+<div class="fig"><div><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 390" font-family="Microsoft YaHei, 微软雅黑, sans-serif">
+  <text x="360" y="26" text-anchor="middle" font-size="17" font-weight="bold" fill="#1f4e79">物理结构对比与逻辑结构综合</text>
+  <rect x="35" y="48" width="310" height="174" rx="8" fill="#fdf0e6" stroke="#c05621" stroke-width="1.5"/>
+  <text x="190" y="76" text-anchor="middle" font-size="16" font-weight="bold" fill="#c05621">集中式：资源集中配置</text>
+  <rect x="115" y="94" width="150" height="44" rx="5" fill="#ffffff" stroke="#c05621" stroke-width="1.2"/>
+  <text x="190" y="121" text-anchor="middle" font-size="13" fill="#22303f">主机 · 软件 · 数据</text>
+  <text x="190" y="160" text-anchor="middle" font-size="12" fill="#22303f">便于管理、利用率较高</text>
+  <text x="190" y="183" text-anchor="middle" font-size="12" fill="#22303f">扩展维护困难，主机存在单点风险</text>
+  <text x="190" y="207" text-anchor="middle" font-size="11" fill="#6b7a8a">多终端共享主机仍属集中式</text>
+  <rect x="375" y="48" width="310" height="174" rx="8" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.5"/>
+  <text x="530" y="76" text-anchor="middle" font-size="16" font-weight="bold" fill="#1f4e79">分布式：网络连接资源</text>
+  <rect x="395" y="96" width="78" height="40" rx="5" fill="#ffffff" stroke="#1f4e79"/>
+  <rect x="491" y="96" width="78" height="40" rx="5" fill="#ffffff" stroke="#1f4e79"/>
+  <rect x="587" y="96" width="78" height="40" rx="5" fill="#ffffff" stroke="#1f4e79"/>
+  <text x="434" y="121" text-anchor="middle" font-size="12" fill="#22303f">结点 A</text>
+  <text x="530" y="121" text-anchor="middle" font-size="12" fill="#22303f">结点 B</text>
+  <text x="626" y="121" text-anchor="middle" font-size="12" fill="#22303f">结点 C</text>
+  <line x1="473" y1="116" x2="488" y2="116" stroke="#1f4e79" stroke-width="1.3" fill="none"/>
+  <line x1="569" y1="116" x2="584" y2="116" stroke="#1f4e79" stroke-width="1.3" fill="none"/>
+  <text x="530" y="160" text-anchor="middle" font-size="12" fill="#22303f">按需配置、扩展方便、局部故障影响较小</text>
+  <text x="530" y="183" text-anchor="middle" font-size="12" fill="#22303f">标准协调和整体资源管理更复杂</text>
+  <text x="530" y="207" text-anchor="middle" font-size="11" fill="#6b7a8a">可统一管理，也可利用本地资源独立运行</text>
+  <rect x="35" y="248" width="650" height="116" rx="8" fill="#fbfdff" stroke="#1f4e79" stroke-width="1.5"/>
+  <text x="360" y="274" text-anchor="middle" font-size="15" font-weight="bold" fill="#1f4e79">逻辑结构：功能子系统的三种综合</text>
+  <rect x="55" y="292" width="185" height="52" rx="5" fill="#eaf1f8" stroke="#1f4e79"/>
+  <text x="147" y="314" text-anchor="middle" font-size="13" font-weight="bold" fill="#1f4e79">横向综合</text>
+  <text x="147" y="334" text-anchor="middle" font-size="11" fill="#22303f">同一层次 · 跨职能</text>
+  <rect x="267" y="292" width="185" height="52" rx="5" fill="#f3f6ee" stroke="#4a6130"/>
+  <text x="359" y="314" text-anchor="middle" font-size="13" font-weight="bold" fill="#4a6130">纵向综合</text>
+  <text x="359" y="334" text-anchor="middle" font-size="11" fill="#22303f">同一职能 · 跨层次</text>
+  <rect x="480" y="292" width="185" height="52" rx="5" fill="#fdf0e6" stroke="#c05621"/>
+  <text x="572" y="314" text-anchor="middle" font-size="13" font-weight="bold" fill="#c05621">纵横综合</text>
+  <text x="572" y="334" text-anchor="middle" font-size="11" fill="#22303f">信息模型 + 处理模型</text>
+  <text x="360" y="382" text-anchor="middle" font-size="11" fill="#6b7a8a">整体优良不等于各子系统简单相加，必须统一规划子系统之间的关系</text>
+</svg></div><div class="cap">物理结构对比与逻辑结构综合</div></div>
+<p>⭐【易错】各子系统单独性能优良，不保证整体性能优良；必须统一规划子系统间关系，强调整体协调。</p>
+<h3>12.2.3 信息系统架构的一般原理</h3>
+<p>ISA 要在企业战略、业务、组织、管理和技术之间建立<b>多维、分层、集成、开放</b>的体系。其柔性来自把系统拆成「组成成分 + 成分关系」，识别相对稳定部分，在稳定部分支撑下重组易变部分，以较小改动适应环境。</p>
+<div class="example">举例：电商的订单、客户、商品等核心概念相对稳定，促销规则变化较快；把促销规则独立配置，就不必每次活动都重写订单核心。</div>
+<h3>12.2.4 四种常用架构模型</h3>
+<table><colgroup><col style="width:21.1%"><col style="width:38.1%"><col style="width:40.8%"></colgroup><thead><tr><th>模型</th><th>核心特征</th><th>典型适用与提醒</th></tr></thead><tbody><tr><td>单机应用</td><td>独立运行于一台物理机，可含多进程/多线程</td><td>架构形态简单不等于业务算法简单，如 CAD、图像处理软件</td></tr><tr><td>两层/多层 C/S（含 MVC）</td><td>请求—响应分工，逐层分离界面、业务与数据</td><td>两层偏胖客户端；多层提升伸缩性、并发和隔离性</td></tr><tr><td>SOA 与多服务集合</td><td>多个能独立提供完整功能的应用以消息/RPC 协作</td><td>服务是广义业务功能单元，不是某个操作系统守护进程</td></tr><tr><td>企业数据交换总线</td><td>以连接器作为公共通道，接收并分发数据、请求、回复</td><td>成熟总线偏实时交易；可靠的大数据量传输常需单独设计</td></tr></tbody></table>
+<p><b>两层、三层、B/S 与多层 C/S</b>：两层常将界面和业务逻辑集成在客户端，后台提供数据库服务；三层把业务处理独立出来；B/S 采用浏览器这一通用客户端；四层常见为浏览器、Web 服务器、中间件/应用服务器、数据库服务器。</p>
+<div class="fig"><div><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 450" font-family="Microsoft YaHei, 微软雅黑, sans-serif">
+  <text x="360" y="26" text-anchor="middle" font-size="17" font-weight="bold" fill="#1f4e79">两层、三层、B/S 与多层 C/S 架构对比</text>
+  <text x="28" y="82" font-size="14" font-weight="bold" fill="#c05621">两层 C/S</text>
+  <rect x="190" y="52" width="150" height="52" rx="6" fill="#fdf0e6" stroke="#c05621" stroke-width="1.4"/>
+  <text x="265" y="74" text-anchor="middle" font-size="13" font-weight="bold" fill="#c05621">前台客户端</text>
+  <text x="265" y="94" text-anchor="middle" font-size="11" fill="#22303f">界面 + 业务逻辑</text>
+  <rect x="460" y="52" width="150" height="52" rx="6" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.4"/>
+  <text x="535" y="83" text-anchor="middle" font-size="13" fill="#1f4e79">数据库服务</text>
+  <line x1="340" y1="78" x2="449" y2="78" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="457,78 449,73.5 449,82.5" fill="#1f4e79"/>
+  <text x="28" y="164" font-size="14" font-weight="bold" fill="#1f4e79">三层 C/S</text>
+  <rect x="150" y="134" width="120" height="52" rx="6" fill="#fdf0e6" stroke="#c05621"/>
+  <text x="210" y="165" text-anchor="middle" font-size="13" fill="#22303f">前台界面</text>
+  <rect x="330" y="134" width="140" height="52" rx="6" fill="#f3f6ee" stroke="#4a6130"/>
+  <text x="400" y="165" text-anchor="middle" font-size="13" fill="#4a6130">后台业务服务</text>
+  <rect x="550" y="134" width="140" height="52" rx="6" fill="#eaf1f8" stroke="#1f4e79"/>
+  <text x="620" y="165" text-anchor="middle" font-size="13" fill="#1f4e79">数据库</text>
+  <line x1="270" y1="160" x2="319" y2="160" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="327,160 319,155.5 319,164.5" fill="#1f4e79"/>
+  <line x1="470" y1="160" x2="539" y2="160" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="547,160 539,155.5 539,164.5" fill="#1f4e79"/>
+  <text x="28" y="246" font-size="14" font-weight="bold" fill="#4a6130">B/S</text>
+  <rect x="150" y="216" width="120" height="52" rx="6" fill="#fdf0e6" stroke="#c05621"/>
+  <text x="210" y="247" text-anchor="middle" font-size="13" fill="#22303f">Web 浏览器</text>
+  <rect x="330" y="216" width="140" height="52" rx="6" fill="#f3f6ee" stroke="#4a6130"/>
+  <text x="400" y="247" text-anchor="middle" font-size="13" fill="#4a6130">Web 服务器</text>
+  <rect x="550" y="216" width="140" height="52" rx="6" fill="#eaf1f8" stroke="#1f4e79"/>
+  <text x="620" y="247" text-anchor="middle" font-size="13" fill="#1f4e79">数据库</text>
+  <line x1="270" y1="242" x2="319" y2="242" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="327,242 319,237.5 319,246.5" fill="#1f4e79"/>
+  <text x="295" y="232" text-anchor="middle" font-size="10" fill="#6b7a8a">HTTP</text>
+  <line x1="470" y1="242" x2="539" y2="242" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="547,242 539,237.5 539,246.5" fill="#1f4e79"/>
+  <text x="28" y="330" font-size="14" font-weight="bold" fill="#1f4e79">多层 C/S</text>
+  <rect x="90" y="300" width="110" height="52" rx="6" fill="#fdf0e6" stroke="#c05621"/>
+  <text x="145" y="331" text-anchor="middle" font-size="12" fill="#22303f">浏览器</text>
+  <rect x="250" y="300" width="110" height="52" rx="6" fill="#eaf1f8" stroke="#1f4e79"/>
+  <text x="305" y="323" text-anchor="middle" font-size="12" fill="#1f4e79">Web 服务器</text>
+  <rect x="410" y="300" width="110" height="52" rx="6" fill="#f3f6ee" stroke="#4a6130"/>
+  <text x="465" y="323" text-anchor="middle" font-size="12" fill="#4a6130">中间件/应用层</text>
+  <text x="465" y="342" text-anchor="middle" font-size="10" fill="#22303f">业务 · 转发 · 隔离</text>
+  <rect x="570" y="300" width="110" height="52" rx="6" fill="#eaf1f8" stroke="#1f4e79"/>
+  <text x="625" y="331" text-anchor="middle" font-size="12" fill="#1f4e79">数据库</text>
+  <line x1="200" y1="326" x2="239" y2="326" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="247,326 239,321.5 239,330.5" fill="#1f4e79"/>
+  <line x1="360" y1="326" x2="399" y2="326" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="407,326 399,321.5 399,330.5" fill="#1f4e79"/>
+  <line x1="520" y1="326" x2="559" y2="326" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="567,326 559,321.5 559,330.5" fill="#1f4e79"/>
+  <rect x="70" y="382" width="580" height="46" rx="6" fill="#f3f6ee" stroke="#8aa15c"/>
+  <text x="360" y="401" text-anchor="middle" font-size="12" font-weight="bold" fill="#4a6130">B/S = 采用通用浏览器客户端的三层 C/S</text>
+  <text x="360" y="419" text-anchor="middle" font-size="11" fill="#22303f">多层中间件提升伸缩与并发、处理业务、隔离数据库访问</text>
+</svg></div><div class="cap">两层、三层、B/S 与多层 C/S 架构对比</div></div>
+<p>⭐【高频考点】<b>B/S 本质是采用通用客户端界面的三层 C/S</b>，浏览器与 Web 服务器仍基于 TCP/IP，只是在应用层用 HTTP 标准化。多层中间件的三大价值：扩展并发与伸缩性、转发请求/处理业务逻辑、隔离 Web 服务器与数据库以提高安全性。</p>
+<p>三层 C/S 前后台通信可基于 Socket、自定义消息、RPC、CORBA/IIOP、Java RMI、J2EE JMS、HTTP 等；HTTP 不是面向对象结构，对象数据需平面化后传输。</p>
+<table><colgroup><col style="width:30.4%"><col style="width:39.1%"><col style="width:30.4%"></colgroup><thead><tr><th>MVC 角色</th><th>职责</th><th>教材中的典型层次映射</th></tr></thead><tbody><tr><td>View（视图）</td><td>图形化展示处理结果</td><td>浏览器/表示相关部分</td></tr><tr><td>Controller（控制器）</td><td>接收请求，连接不同模型和视图</td><td>Web 服务器相关部分</td></tr><tr><td>Model（模型）</td><td>数据或业务逻辑、持久化</td><td>应用逻辑及数据部分</td></tr></tbody></table>
+<div class="fig"><div><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 420" font-family="Microsoft YaHei, 微软雅黑, sans-serif">
+  <text x="360" y="26" text-anchor="middle" font-size="17" font-weight="bold" fill="#1f4e79">MVC：请求、业务处理与页面形成</text>
+  <rect x="280" y="48" width="150" height="70" rx="7" fill="#f3f6ee" stroke="#4a6130" stroke-width="1.5"/>
+  <text x="355" y="77" text-anchor="middle" font-size="15" font-weight="bold" fill="#4a6130">视图 View</text>
+  <text x="355" y="99" text-anchor="middle" font-size="11" fill="#22303f">形成页面 · 展示结果</text>
+  <rect x="30" y="160" width="130" height="70" rx="7" fill="#fdf0e6" stroke="#c05621" stroke-width="1.5"/>
+  <text x="95" y="189" text-anchor="middle" font-size="15" font-weight="bold" fill="#c05621">Web 浏览器</text>
+  <text x="95" y="212" text-anchor="middle" font-size="11" fill="#22303f">用户入口</text>
+  <rect x="280" y="160" width="150" height="70" rx="7" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.5"/>
+  <text x="355" y="187" text-anchor="middle" font-size="14" font-weight="bold" fill="#1f4e79">控制器 Controller</text>
+  <text x="355" y="211" text-anchor="middle" font-size="11" fill="#22303f">接收请求 · 协调模型和视图</text>
+  <rect x="550" y="160" width="140" height="70" rx="7" fill="#f3f6ee" stroke="#4a6130" stroke-width="1.5"/>
+  <text x="620" y="187" text-anchor="middle" font-size="15" font-weight="bold" fill="#4a6130">模型 Model</text>
+  <text x="620" y="211" text-anchor="middle" font-size="11" fill="#22303f">数据或业务逻辑</text>
+  <rect x="550" y="310" width="140" height="58" rx="7" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.5"/>
+  <text x="620" y="345" text-anchor="middle" font-size="14" fill="#1f4e79">数据库</text>
+  <line x1="160" y1="180" x2="269" y2="180" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="277,180 269,175.5 269,184.5" fill="#1f4e79"/>
+  <text x="215" y="170" text-anchor="middle" font-size="10" fill="#6b7a8a">HTTP 请求</text>
+  <line x1="430" y1="180" x2="539" y2="180" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="547,180 539,175.5 539,184.5" fill="#1f4e79"/>
+  <text x="485" y="170" text-anchor="middle" font-size="10" fill="#6b7a8a">处理请求</text>
+  <line x1="550" y1="210" x2="441" y2="210" stroke="#4a6130" stroke-width="1.5" fill="none"/>
+  <polygon points="433,210 441,205.5 441,214.5" fill="#4a6130"/>
+  <text x="495" y="227" text-anchor="middle" font-size="10" fill="#6b7a8a">处理结果</text>
+  <line x1="355" y1="160" x2="355" y2="129" stroke="#4a6130" stroke-width="1.5" fill="none"/>
+  <polygon points="355,121 350.5,129 359.5,129" fill="#4a6130"/>
+  <text x="370" y="143" font-size="10" fill="#6b7a8a">选择视图</text>
+  <line x1="280" y1="83" x2="95" y2="83" stroke="#c05621" stroke-width="1.5" fill="none"/>
+  <line x1="95" y1="83" x2="95" y2="149" stroke="#c05621" stroke-width="1.5" fill="none"/>
+  <polygon points="95,157 90.5,149 99.5,149" fill="#c05621"/>
+  <text x="183" y="72" text-anchor="middle" font-size="10" fill="#6b7a8a">页面 / HTTP 回复</text>
+  <line x1="620" y1="230" x2="620" y2="299" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="620,307 615.5,299 624.5,299" fill="#1f4e79"/>
+  <text x="635" y="270" font-size="10" fill="#6b7a8a">持久化</text>
+  <rect x="85" y="385" width="550" height="26" rx="5" fill="#fdf0e6" stroke="#c05621"/>
+  <text x="360" y="403" text-anchor="middle" font-size="11" fill="#c05621">核心：视图与模型代码分离，控制器负责协调；并非三者互不交互</text>
+</svg></div><div class="cap">MVC 的请求、处理与页面形成过程</div></div>
+<p>MVC 的关键是<b>视图与模型代码分离</b>，控制器负责协调；按业务逻辑是否再独立成服务，可对应三层或四层体系。</p>
+<table><colgroup><col style="width:13.8%"><col style="width:46.6%"><col style="width:39.7%"></colgroup><thead><tr><th>对比</th><th>多层单点应用</th><th>SOA 多服务结构</th></tr></thead><tbody><tr><td class="tc">对外边界</td><td>各层共同组成一个完整应用，去掉关键层就不能工作</td><td>每个服务本身是可独立提供完整功能的应用</td></tr><tr><td class="tc">协作范围</td><td>应用内部各层协作</td><td>多个独立应用之间协作</td></tr><tr><td class="tc">通信本质</td><td>预定义协议、请求/回复</td><td>消息机制或远程过程调用（RPC）</td></tr></tbody></table>
+<p>Web Service 是 SOA 在 Web 应用之间的典型实现，常通过 SOAP、WSDL 开放内部服务，但不能把 SOA 等同于 Web Service。</p>
+<div class="fig"><div><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 440" font-family="Microsoft YaHei, 微软雅黑, sans-serif">
+  <text x="360" y="26" text-anchor="middle" font-size="17" font-weight="bold" fill="#1f4e79">SOA 多服务通信与企业数据交换总线</text>
+  <text x="360" y="52" text-anchor="middle" font-size="13" font-weight="bold" fill="#1f4e79">SOA：独立完整应用之间通过消息 / RPC 协作</text>
+  <rect x="40" y="70" width="250" height="100" rx="8" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.5"/>
+  <text x="165" y="103" text-anchor="middle" font-size="16" font-weight="bold" fill="#1f4e79">多层 C/S 应用 1</text>
+  <text x="165" y="130" text-anchor="middle" font-size="12" fill="#22303f">对外是一个独立完整服务</text>
+  <text x="165" y="151" text-anchor="middle" font-size="11" fill="#6b7a8a">内部各层共同支撑本应用</text>
+  <rect x="430" y="70" width="250" height="100" rx="8" fill="#f3f6ee" stroke="#4a6130" stroke-width="1.5"/>
+  <text x="555" y="103" text-anchor="middle" font-size="16" font-weight="bold" fill="#4a6130">多层 C/S 应用 2</text>
+  <text x="555" y="130" text-anchor="middle" font-size="12" fill="#22303f">对外是一个独立完整服务</text>
+  <text x="555" y="151" text-anchor="middle" font-size="11" fill="#6b7a8a">可开放功能、模块或数据</text>
+  <line x1="290" y1="103" x2="419" y2="103" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="427,103 419,98.5 419,107.5" fill="#1f4e79"/>
+  <text x="360" y="93" text-anchor="middle" font-size="10" fill="#6b7a8a">请求 / 消息</text>
+  <line x1="430" y1="140" x2="301" y2="140" stroke="#4a6130" stroke-width="1.5" fill="none"/>
+  <polygon points="293,140 301,135.5 301,144.5" fill="#4a6130"/>
+  <text x="360" y="158" text-anchor="middle" font-size="10" fill="#6b7a8a">回复 / 消息</text>
+  <rect x="30" y="202" width="660" height="194" rx="8" fill="#fbfdff" stroke="#1f4e79" stroke-width="1.5"/>
+  <text x="360" y="228" text-anchor="middle" font-size="14" font-weight="bold" fill="#1f4e79">企业数据交换总线：公共连接与分发通道</text>
+  <rect x="55" y="248" width="100" height="38" rx="4" fill="#eaf1f8" stroke="#1f4e79"/>
+  <rect x="185" y="248" width="100" height="38" rx="4" fill="#f3f6ee" stroke="#4a6130"/>
+  <rect x="315" y="248" width="100" height="38" rx="4" fill="#fdf0e6" stroke="#c05621"/>
+  <rect x="445" y="248" width="100" height="38" rx="4" fill="#eaf1f8" stroke="#1f4e79"/>
+  <rect x="575" y="248" width="90" height="38" rx="4" fill="#f3f6ee" stroke="#4a6130"/>
+  <text x="105" y="272" text-anchor="middle" font-size="12" fill="#22303f">应用 1</text>
+  <text x="235" y="272" text-anchor="middle" font-size="12" fill="#22303f">应用 2</text>
+  <text x="365" y="272" text-anchor="middle" font-size="12" fill="#22303f">应用 3</text>
+  <text x="495" y="272" text-anchor="middle" font-size="12" fill="#22303f">应用 m</text>
+  <text x="620" y="272" text-anchor="middle" font-size="12" fill="#22303f">应用 n</text>
+  <line x1="105" y1="286" x2="105" y2="309" stroke="#1f4e79" stroke-width="1.3" fill="none"/>
+  <polygon points="105,317 100.5,309 109.5,309" fill="#1f4e79"/>
+  <line x1="235" y1="286" x2="235" y2="309" stroke="#4a6130" stroke-width="1.3" fill="none"/>
+  <polygon points="235,317 230.5,309 239.5,309" fill="#4a6130"/>
+  <line x1="365" y1="286" x2="365" y2="309" stroke="#c05621" stroke-width="1.3" fill="none"/>
+  <polygon points="365,317 360.5,309 369.5,309" fill="#c05621"/>
+  <line x1="495" y1="286" x2="495" y2="309" stroke="#1f4e79" stroke-width="1.3" fill="none"/>
+  <polygon points="495,317 490.5,309 499.5,309" fill="#1f4e79"/>
+  <line x1="620" y1="286" x2="620" y2="309" stroke="#4a6130" stroke-width="1.3" fill="none"/>
+  <polygon points="620,317 615.5,309 624.5,309" fill="#4a6130"/>
+  <rect x="85" y="320" width="550" height="42" rx="5" fill="#1f4e79" stroke="#1f4e79"/>
+  <text x="360" y="346" text-anchor="middle" font-size="14" font-weight="bold" fill="#ffffff">连接器：按配置或消息头接收、分发数据 / 请求 / 回复</text>
+  <text x="360" y="384" text-anchor="middle" font-size="11" fill="#6b7a8a">可基于消息/交易中间件或 CORBA/IIOP；代理可并行或串行工作</text>
+  <text x="360" y="423" text-anchor="middle" font-size="11" fill="#c05621">实践提醒：成熟总线多面向实时交易，可靠的大数据量传输通常需要单独设计</text>
+</svg></div><div class="cap">SOA 多服务通信与企业数据交换总线</div></div>
+<h3>12.2.5 企业信息系统总体框架</h3>
+<p>⭐【重点】【高频考点】总体框架的四部分与管理金字塔对应；<b>业务系统和应用系统同在第二层</b>。</p>
+<table><colgroup><col style="width:16.4%"><col style="width:19.7%"><col style="width:63.9%"></colgroup><thead><tr><th>组成</th><th>管理层次</th><th>核心作用</th></tr></thead><tbody><tr><td class="tc">战略系统</td><td class="tc">第一层，战略管理</td><td>高层决策支持与企业战略规划；向业务系统提重组要求、向应用系统提集成要求</td></tr><tr><td class="tc">业务系统</td><td class="tc">第二层，战术管理</td><td>对业务过程/活动建模，以 BPR 优化流程，识别相对稳定数据</td></tr><tr><td class="tc">应用系统</td><td class="tc">第二层，战术管理</td><td>用 TPS、MIS、DSS、ES、OAS 等软件实现业务控制并提高运行效率</td></tr><tr><td class="tc">信息基础设施</td><td class="tc">第三层，运行管理</td><td>提供数据、技术和管理平台，支撑应用、战略及业务重组</td></tr></tbody></table>
+<div class="fig"><div><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 410" font-family="Microsoft YaHei, 微软雅黑, sans-serif">
+  <text x="360" y="26" text-anchor="middle" font-size="17" font-weight="bold" fill="#1f4e79">企业信息系统总体参考框架</text>
+  <rect x="190" y="52" width="340" height="66" rx="7" fill="#fdf0e6" stroke="#c05621" stroke-width="1.6"/>
+  <text x="360" y="80" text-anchor="middle" font-size="16" font-weight="bold" fill="#c05621">第一层：战略系统</text>
+  <text x="360" y="102" text-anchor="middle" font-size="11" fill="#22303f">战略规划 + 高层决策支持</text>
+  <text x="555" y="82" font-size="12" fill="#c05621">战略管理</text>
+  <rect x="65" y="160" width="270" height="82" rx="7" fill="#f3f6ee" stroke="#4a6130" stroke-width="1.6"/>
+  <text x="200" y="189" text-anchor="middle" font-size="16" font-weight="bold" fill="#4a6130">第二层：业务系统</text>
+  <text x="200" y="213" text-anchor="middle" font-size="11" fill="#22303f">业务建模 · BPR 流程优化</text>
+  <text x="200" y="232" text-anchor="middle" font-size="11" fill="#22303f">识别相对稳定数据</text>
+  <rect x="385" y="160" width="270" height="82" rx="7" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.6"/>
+  <text x="520" y="189" text-anchor="middle" font-size="16" font-weight="bold" fill="#1f4e79">第二层：应用系统</text>
+  <text x="520" y="213" text-anchor="middle" font-size="11" fill="#22303f">TPS · MIS · DSS · ES · OAS</text>
+  <text x="520" y="232" text-anchor="middle" font-size="11" fill="#22303f">内部功能实现 + 外部界面</text>
+  <text x="360" y="148" text-anchor="middle" font-size="12" fill="#6b7a8a">战术管理：业务与应用同层</text>
+  <line x1="285" y1="118" x2="200" y2="149" stroke="#4a6130" stroke-width="1.5" fill="none"/>
+  <polygon points="197,157 196,147 205,151" fill="#4a6130"/>
+  <text x="215" y="134" text-anchor="middle" font-size="10" fill="#4a6130">重组要求</text>
+  <line x1="435" y1="118" x2="520" y2="149" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="523,157 515,151 524,147" fill="#1f4e79"/>
+  <text x="505" y="134" text-anchor="middle" font-size="10" fill="#1f4e79">集成要求</text>
+  <rect x="65" y="292" width="590" height="82" rx="7" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.6"/>
+  <text x="360" y="321" text-anchor="middle" font-size="16" font-weight="bold" fill="#1f4e79">第三层：企业信息基础设施（EII）</text>
+  <text x="360" y="345" text-anchor="middle" font-size="12" fill="#22303f">技术基础设施 · 信息资源设施 · 管理基础设施</text>
+  <text x="360" y="364" text-anchor="middle" font-size="11" fill="#6b7a8a">数据、技术和管理平台支撑</text>
+  <text x="555" y="397" font-size="12" fill="#6b7a8a">运行管理</text>
+  <line x1="200" y1="292" x2="200" y2="253" stroke="#4a6130" stroke-width="1.5" fill="none"/>
+  <polygon points="200,245 195.5,253 204.5,253" fill="#4a6130"/>
+  <line x1="520" y1="292" x2="520" y2="253" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="520,245 515.5,253 524.5,253" fill="#1f4e79"/>
+  <text x="215" y="273" font-size="10" fill="#6b7a8a">灵活响应</text>
+  <text x="535" y="273" font-size="10" fill="#6b7a8a">数据支持</text>
+</svg></div><div class="cap">企业信息系统总体参考框架</div></div>
+<p>企业信息基础设施（EII）分三类：<b>技术基础设施</b>（计算机、网络、系统/支持软件、交换协议）、<b>信息资源设施</b>（数据、交换标准、处理方法）、<b>管理基础设施</b>（组织、人员分工、制度）。一般而言信息资源较稳定，技术和管理变化较多，但每类内部都有稳定与易变部分，不能绝对化。</p>
+<h3>12.3.1 TOGAF 与 ADM 架构开发方法</h3>
+<p>TOGAF 是 The Open Group 制定的开放企业架构框架，目标是统一沟通语言、避免专有方案锁定、节约资源并提高投资回报。其核心思想包括模块化架构、内容框架、扩展指南和适配不同架构风格。</p>
+<table><colgroup><col style="width:32.1%"><col style="width:67.9%"></colgroup><thead><tr><th>TOGAF 9 六组件</th><th>记忆要点</th></tr></thead><tbody><tr><td>架构开发方法（ADM）</td><td><b>核心</b>，开发企业架构的分步方法</td></tr><tr><td>ADM 指南和技术</td><td>应用 ADM 时可采用的指南与技术</td></tr><tr><td>架构内容框架</td><td>工件元模型、架构构建块（ABB）、交付成果</td></tr><tr><td>企业连续体和工具</td><td>对架构输出分类、存储，支持资产复用</td></tr><tr><td>TOGAF 参考模型</td><td>技术参考模型 TRM、集成信息基础设施参考模型 III-RM</td></tr><tr><td>架构能力框架</td><td>建立架构实践所需组织、流程、技能、角色和职责</td></tr></tbody></table>
+<div class="fig"><div><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 440" font-family="Microsoft YaHei, 微软雅黑, sans-serif">
+  <text x="360" y="26" text-anchor="middle" font-size="17" font-weight="bold" fill="#1f4e79">TOGAF 能力框架与六个组件</text>
+  <rect x="25" y="168" width="150" height="92" rx="8" fill="#fdf0e6" stroke="#c05621" stroke-width="1.5"/>
+  <text x="100" y="199" text-anchor="middle" font-size="15" font-weight="bold" fill="#c05621">业务愿景及驱动</text>
+  <text x="100" y="224" text-anchor="middle" font-size="11" fill="#22303f">业务需求与能力成熟度</text>
+  <text x="100" y="243" text-anchor="middle" font-size="11" fill="#22303f">驱动架构建设</text>
+  <rect x="215" y="48" width="475" height="348" rx="9" fill="#fbfdff" stroke="#1f4e79" stroke-width="1.6"/>
+  <text x="452" y="75" text-anchor="middle" font-size="15" font-weight="bold" fill="#1f4e79">架构能力框架</text>
+  <text x="452" y="94" text-anchor="middle" font-size="11" fill="#6b7a8a">组织 · 流程 · 技能 · 角色 · 职责（第 6 组件）</text>
+  <rect x="240" y="115" width="195" height="66" rx="6" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.4"/>
+  <text x="337" y="142" text-anchor="middle" font-size="14" font-weight="bold" fill="#1f4e79">1. 架构开发方法 ADM</text>
+  <text x="337" y="164" text-anchor="middle" font-size="11" fill="#22303f">核心：分步开发企业架构</text>
+  <rect x="465" y="115" width="195" height="66" rx="6" fill="#f3f6ee" stroke="#4a6130" stroke-width="1.4"/>
+  <text x="562" y="142" text-anchor="middle" font-size="14" font-weight="bold" fill="#4a6130">2. ADM 指南和技术</text>
+  <text x="562" y="164" text-anchor="middle" font-size="11" fill="#22303f">支持 ADM 的落地应用</text>
+  <rect x="240" y="207" width="195" height="66" rx="6" fill="#f3f6ee" stroke="#4a6130" stroke-width="1.4"/>
+  <text x="337" y="234" text-anchor="middle" font-size="14" font-weight="bold" fill="#4a6130">3. 架构内容框架</text>
+  <text x="337" y="256" text-anchor="middle" font-size="11" fill="#22303f">元模型 · ABB · 交付成果</text>
+  <rect x="465" y="207" width="195" height="66" rx="6" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.4"/>
+  <text x="562" y="234" text-anchor="middle" font-size="14" font-weight="bold" fill="#1f4e79">4. 企业连续体和工具</text>
+  <text x="562" y="256" text-anchor="middle" font-size="11" fill="#22303f">架构资产分类 · 存储 · 复用</text>
+  <rect x="350" y="300" width="205" height="66" rx="6" fill="#fdf0e6" stroke="#c05621" stroke-width="1.4"/>
+  <text x="452" y="327" text-anchor="middle" font-size="14" font-weight="bold" fill="#c05621">5. TOGAF 参考模型</text>
+  <text x="452" y="349" text-anchor="middle" font-size="11" fill="#22303f">TRM + III-RM</text>
+  <line x1="175" y1="205" x2="205" y2="205" stroke="#c05621" stroke-width="1.5" fill="none"/>
+  <line x1="205" y1="205" x2="205" y2="148" stroke="#c05621" stroke-width="1.5" fill="none"/>
+  <line x1="205" y1="148" x2="229" y2="148" stroke="#c05621" stroke-width="1.5" fill="none"/>
+  <polygon points="237,148 229,143.5 229,152.5" fill="#c05621"/>
+  <text x="192" y="183" text-anchor="middle" font-size="10" fill="#c05621">需求</text>
+  <text x="360" y="423" text-anchor="middle" font-size="11" fill="#6b7a8a">ADM 产出进入资源库并持续回填；企业连续体支持从通用资产演进到组织特定架构</text>
+</svg></div><div class="cap">TOGAF 能力框架与六个组件</div></div>
+<p>企业连续体体现从基础架构、通用基础架构、行业架构到组织特定架构的演进；ADM 指导演进，资源库提供可复用资产，ADM 的新交付物又持续回填资源库。</p>
+<p>⭐【重点】【高频考点】ADM 十个阶段中，需求管理位于中心，准备阶段和 A～H 构成迭代过程。</p>
+<table><colgroup><col style="width:21.4%"><col style="width:78.6%"></colgroup><thead><tr><th>阶段</th><th>主要活动与高频交付物</th></tr></thead><tbody><tr><td class="tc">准备阶段</td><td>建团队、定组织范围与治理框架、选并剪裁框架和工具、定义架构原则；形成资源库雏形和架构工作要求书</td></tr><tr><td class="tc">A 架构愿景</td><td>定范围、约束、干系人和业务需求，评估能力与风险，形成愿景、工作说明书和计划并获批</td></tr><tr><td class="tc">B 业务架构</td><td>描述基线/目标业务架构，差距分析；关注组织、目标、角色等静态特征和流程、功能、服务等动态特征</td></tr><tr><td class="tc">C 信息系统架构</td><td>数据架构定义所需数据源和类型；应用架构定义处理数据、支撑业务的应用；两者可顺序或并行</td></tr><tr><td class="tc">D 技术架构</td><td>将应用组件映射为硬件、软件、通信技术组件，形成基线/目标技术架构并做差距分析</td></tr><tr><td class="tc">E 机会及解决方案</td><td>合并 B～D 差距，识别工作包和项目、过渡架构，决定制造/购买/重用等途径并评估依赖与优先级</td></tr><tr><td class="tc">F 迁移规划</td><td>做业务价值、成本、绩效和风险分析，形成详细实施迁移计划、路线图和架构契约</td></tr><tr><td class="tc">G 实施治理</td><td>签署架构契约，监督实施、开展合规审查，确保部署方案符合目标架构</td></tr><tr><td class="tc">H 架构变更管理</td><td>持续监测基线和业务价值，受控处理技术、业务及经验教训引发的变更，必要时启动新循环</td></tr><tr><td class="tc">需求管理</td><td>贯穿所有阶段，识别、存储、排优先级、跟踪变更及影响，维护需求基线和需求库</td></tr></tbody></table>
+<div class="fig"><div><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 530" font-family="Microsoft YaHei, 微软雅黑, sans-serif">
+  <text x="360" y="26" text-anchor="middle" font-size="17" font-weight="bold" fill="#1f4e79">ADM 全生命周期：准备、A～H 与中心需求管理</text>
+  <rect x="280" y="42" width="160" height="50" rx="7" fill="#fdf0e6" stroke="#c05621" stroke-width="1.4"/>
+  <text x="360" y="72" text-anchor="middle" font-size="14" font-weight="bold" fill="#c05621">准备阶段</text>
+  <rect x="500" y="92" width="160" height="50" rx="7" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.4"/>
+  <text x="580" y="122" text-anchor="middle" font-size="14" font-weight="bold" fill="#1f4e79">A. 架构愿景</text>
+  <rect x="550" y="182" width="150" height="50" rx="7" fill="#f3f6ee" stroke="#4a6130" stroke-width="1.4"/>
+  <text x="625" y="212" text-anchor="middle" font-size="14" font-weight="bold" fill="#4a6130">B. 业务架构</text>
+  <rect x="500" y="282" width="160" height="50" rx="7" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.4"/>
+  <text x="580" y="305" text-anchor="middle" font-size="13" font-weight="bold" fill="#1f4e79">C. 信息系统架构</text>
+  <text x="580" y="323" text-anchor="middle" font-size="10" fill="#22303f">数据 + 应用</text>
+  <rect x="280" y="372" width="160" height="50" rx="7" fill="#f3f6ee" stroke="#4a6130" stroke-width="1.4"/>
+  <text x="360" y="402" text-anchor="middle" font-size="14" font-weight="bold" fill="#4a6130">D. 技术架构</text>
+  <rect x="60" y="372" width="160" height="50" rx="7" fill="#fdf0e6" stroke="#c05621" stroke-width="1.4"/>
+  <text x="140" y="395" text-anchor="middle" font-size="13" font-weight="bold" fill="#c05621">E. 机会及解决方案</text>
+  <text x="140" y="413" text-anchor="middle" font-size="10" fill="#22303f">工作包 · 过渡架构</text>
+  <rect x="20" y="282" width="160" height="50" rx="7" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.4"/>
+  <text x="100" y="312" text-anchor="middle" font-size="14" font-weight="bold" fill="#1f4e79">F. 迁移规划</text>
+  <rect x="20" y="182" width="150" height="50" rx="7" fill="#f3f6ee" stroke="#4a6130" stroke-width="1.4"/>
+  <text x="95" y="212" text-anchor="middle" font-size="14" font-weight="bold" fill="#4a6130">G. 实施治理</text>
+  <rect x="60" y="92" width="160" height="50" rx="7" fill="#fdf0e6" stroke="#c05621" stroke-width="1.4"/>
+  <text x="140" y="122" text-anchor="middle" font-size="14" font-weight="bold" fill="#c05621">H. 架构变更管理</text>
+  <rect x="270" y="190" width="180" height="78" rx="9" fill="#1f4e79" stroke="#1f4e79" stroke-width="1.5"/>
+  <text x="360" y="221" text-anchor="middle" font-size="16" font-weight="bold" fill="#ffffff">需求管理</text>
+  <text x="360" y="244" text-anchor="middle" font-size="11" fill="#ffffff">识别 · 存储 · 优先级 · 变更影响</text>
+  <text x="360" y="261" text-anchor="middle" font-size="10" fill="#ffffff">贯穿 ADM 所有阶段</text>
+  <line x1="400" y1="92" x2="491" y2="109" stroke="#1f4e79" stroke-width="1.4" fill="none"/>
+  <polygon points="499,111 490,104 489,115" fill="#1f4e79"/>
+  <line x1="610" y1="142" x2="625" y2="171" stroke="#4a6130" stroke-width="1.4" fill="none"/>
+  <polygon points="627,179 618,172 629,168" fill="#4a6130"/>
+  <line x1="625" y1="232" x2="610" y2="271" stroke="#1f4e79" stroke-width="1.4" fill="none"/>
+  <polygon points="608,279 605,268 615,272" fill="#1f4e79"/>
+  <line x1="540" y1="332" x2="439" y2="382" stroke="#4a6130" stroke-width="1.4" fill="none"/>
+  <polygon points="432,386 441,377 444,388" fill="#4a6130"/>
+  <line x1="280" y1="397" x2="231" y2="397" stroke="#c05621" stroke-width="1.4" fill="none"/>
+  <polygon points="223,397 231,392.5 231,401.5" fill="#c05621"/>
+  <line x1="110" y1="372" x2="95" y2="343" stroke="#1f4e79" stroke-width="1.4" fill="none"/>
+  <polygon points="92,335 90,346 100,341" fill="#1f4e79"/>
+  <line x1="95" y1="282" x2="95" y2="243" stroke="#4a6130" stroke-width="1.4" fill="none"/>
+  <polygon points="95,235 90.5,243 99.5,243" fill="#4a6130"/>
+  <line x1="110" y1="182" x2="130" y2="153" stroke="#c05621" stroke-width="1.4" fill="none"/>
+  <polygon points="134,145 124,151 132,157" fill="#c05621"/>
+  <line x1="220" y1="107" x2="269" y2="82" stroke="#1f4e79" stroke-width="1.4" fill="none"/>
+  <polygon points="277,79 267,79 271,89" fill="#1f4e79"/>
+  <text x="360" y="451" text-anchor="middle" font-size="12" font-weight="bold" fill="#1f4e79">三级迭代</text>
+  <rect x="40" y="465" width="195" height="44" rx="5" fill="#eaf1f8" stroke="#1f4e79"/>
+  <text x="137" y="484" text-anchor="middle" font-size="12" font-weight="bold" fill="#1f4e79">整体迭代</text>
+  <text x="137" y="501" text-anchor="middle" font-size="10" fill="#22303f">一轮完成进入下一轮</text>
+  <rect x="262" y="465" width="195" height="44" rx="5" fill="#f3f6ee" stroke="#4a6130"/>
+  <text x="359" y="484" text-anchor="middle" font-size="12" font-weight="bold" fill="#4a6130">阶段间迭代</text>
+  <text x="359" y="501" text-anchor="middle" font-size="10" fill="#22303f">如 D 返回 B 重新细化</text>
+  <rect x="485" y="465" width="195" height="44" rx="5" fill="#fdf0e6" stroke="#c05621"/>
+  <text x="582" y="484" text-anchor="middle" font-size="12" font-weight="bold" fill="#c05621">阶段内迭代</text>
+  <text x="582" y="501" text-anchor="middle" font-size="10" fill="#22303f">内部活动反复细化</text>
+</svg></div><div class="cap">ADM 全生命周期：准备、A～H 与中心需求管理</div></div>
+<div class="mnemonic">助记：「预备愿景起，业信技奠基；机会迁移治，变更需求续」——业务、信息系统、技术是 B/C/D，机会、迁移、治理、变更对应 E/F/G/H，需求贯穿始终。</div>
+<p>⭐【易错】B、C、D 的共性步骤是「基线架构 → 目标架构 → 差距分析」；E 才开始直接关注实施，G 是实施中的架构监督，H 是持续变更管理，不要混为一谈。</p>
+<p>ADM 的三级迭代：<b>整体迭代</b>（完成一轮进入下一轮）、<b>阶段间迭代</b>（如技术架构返回业务架构）、<b>阶段内迭代</b>（阶段内部活动反复细化）。架构范围由企业自己确定，从四个维度限定：</p>
+<table><colgroup><col style="width:36.1%"><col style="width:63.9%"></colgroup><thead><tr><th>范围维度</th><th>要回答的问题</th></tr></thead><tbody><tr><td>企业范围或焦点</td><td>覆盖哪个组织、业务或合作联盟</td></tr><tr><td>架构领域</td><td>是否覆盖业务、数据、应用、技术全部四域</td></tr><tr><td>详述垂直范围或级别</td><td>细化到第几层，与系统设计的边界在哪里</td></tr><tr><td>时间周期</td><td>愿景覆盖多久，需要哪些中间目标架构</td></tr></tbody></table>
+<h3>12.3.2 信息化总体架构方法</h3>
+<p>信息化是培育、发展以智能化工具为代表的新生产力并造福社会的历史过程。国家信息化体系六要素：<b>信息资源、信息网络、信息技术应用、信息技术和产业、信息化人才、信息化政策</b>。</p>
+<p>信息化完整内涵包括信息网络体系、信息产业基础、社会运行环境、效用积累过程；常见平台包括知识管理、日常办公、信息集成、信息发布、协同工作、公文流转、企业通信七类。教材归纳的信息化特征为：<b>易用性、健壮性、平台化/灵活性/拓展性、安全性、门户化/整合性、移动性</b>。</p>
+<p>⭐【重点】数据导向与流程导向不是互斥选型，而是互补视角。</p>
+<table><colgroup><col style="width:16.1%"><col style="width:41.6%"><col style="width:42.3%"></colgroup><thead><tr><th>对比项</th><th>数据导向架构</th><th>流程导向架构</th></tr></thead><tbody><tr><td class="tc">关注中心</td><td>数据对象及关系、数据模型和质量</td><td>端到端流程整合及流程变化适应度</td></tr><tr><td class="tc">切入路径</td><td>主题域 → 业务对象 → 对象关系 → 概念/逻辑/物理模型</td><td>价值链 → 流程分解 → 业务组件 → 服务识别与流程编排</td></tr><tr><td class="tc">典型支撑</td><td>数据中心、BI、主数据管理 MDM</td><td>SOA、服务组合、流程服务</td></tr><tr><td class="tc">单独使用的风险</td><td>后续仍需管理数据产生、变更、废弃流程</td><td>可能只有接口元数据，缺完整数据模型，质量治理难落地</td></tr></tbody></table>
+<p>SOA 可帮助 MDM 做数据收集、分发和路由；MDM 的统一数据视图和数据质量能力又支撑 SOA 组合服务。</p>
+<table><colgroup><col style="width:22.0%"><col style="width:78.0%"></colgroup><thead><tr><th>生命周期阶段</th><th>回答的问题与主要成果</th></tr></thead><tbody><tr><td class="tc">系统规划</td><td>是否建设、建什么；初步调查、可行性研究，形成可行性报告和系统设计任务书</td></tr><tr><td class="tc">系统分析</td><td><b>做什么</b>；详细调查现行流程，建立新系统逻辑模型，形成系统说明书</td></tr><tr><td class="tc">系统设计</td><td><b>怎么做</b>；把逻辑模型转为物理方案，分总体/详细设计，形成系统设计说明书</td></tr><tr><td class="tc">系统实施</td><td>把设计落地；购置安装、编程调试、培训、数据转换、系统转换和测试</td></tr><tr><td class="tc">系统运行和维护</td><td>运行记录、评价、修改和效益评估，直至由新系统替代</td></tr></tbody></table>
+<div class="fig"><div><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 320" font-family="Microsoft YaHei, 微软雅黑, sans-serif">
+  <text x="360" y="26" text-anchor="middle" font-size="17" font-weight="bold" fill="#1f4e79">信息化建设五阶段生命周期</text>
+  <rect x="20" y="76" width="112" height="82" rx="7" fill="#fdf0e6" stroke="#c05621" stroke-width="1.4"/>
+  <text x="76" y="105" text-anchor="middle" font-size="14" font-weight="bold" fill="#c05621">系统规划</text>
+  <text x="76" y="128" text-anchor="middle" font-size="10" fill="#22303f">初步调查 · 可行性</text>
+  <text x="76" y="146" text-anchor="middle" font-size="10" fill="#22303f">设计任务书</text>
+  <rect x="162" y="76" width="112" height="82" rx="7" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.4"/>
+  <text x="218" y="105" text-anchor="middle" font-size="14" font-weight="bold" fill="#1f4e79">系统分析</text>
+  <text x="218" y="128" text-anchor="middle" font-size="10" fill="#22303f">做什么 · 逻辑模型</text>
+  <text x="218" y="146" text-anchor="middle" font-size="10" fill="#22303f">系统说明书</text>
+  <rect x="304" y="76" width="112" height="82" rx="7" fill="#f3f6ee" stroke="#4a6130" stroke-width="1.4"/>
+  <text x="360" y="105" text-anchor="middle" font-size="14" font-weight="bold" fill="#4a6130">系统设计</text>
+  <text x="360" y="128" text-anchor="middle" font-size="10" fill="#22303f">怎么做 · 物理模型</text>
+  <text x="360" y="146" text-anchor="middle" font-size="10" fill="#22303f">总体 + 详细设计</text>
+  <rect x="446" y="76" width="112" height="82" rx="7" fill="#fdf0e6" stroke="#c05621" stroke-width="1.4"/>
+  <text x="502" y="105" text-anchor="middle" font-size="14" font-weight="bold" fill="#c05621">系统实施</text>
+  <text x="502" y="128" text-anchor="middle" font-size="10" fill="#22303f">编程调试 · 培训</text>
+  <text x="502" y="146" text-anchor="middle" font-size="10" fill="#22303f">数据与系统转换</text>
+  <rect x="588" y="76" width="112" height="82" rx="7" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.4"/>
+  <text x="644" y="101" text-anchor="middle" font-size="13" font-weight="bold" fill="#1f4e79">运行和维护</text>
+  <text x="644" y="126" text-anchor="middle" font-size="10" fill="#22303f">运行记录 · 评价</text>
+  <text x="644" y="146" text-anchor="middle" font-size="10" fill="#22303f">修改 · 效益评估</text>
+  <line x1="132" y1="117" x2="151" y2="117" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="159,117 151,112.5 151,121.5" fill="#1f4e79"/>
+  <line x1="274" y1="117" x2="293" y2="117" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="301,117 293,112.5 293,121.5" fill="#1f4e79"/>
+  <line x1="416" y1="117" x2="435" y2="117" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="443,117 435,112.5 435,121.5" fill="#1f4e79"/>
+  <line x1="558" y1="117" x2="577" y2="117" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="585,117 577,112.5 577,121.5" fill="#1f4e79"/>
+  <text x="360" y="191" text-anchor="middle" font-size="12" font-weight="bold" fill="#1f4e79">分析形成逻辑模型，设计形成物理模型，实施把设计落地</text>
+  <line x1="644" y1="158" x2="644" y2="249" stroke="#c05621" stroke-width="1.4" fill="none"/>
+  <line x1="644" y1="249" x2="76" y2="249" stroke="#c05621" stroke-width="1.4" fill="none"/>
+  <line x1="76" y1="249" x2="76" y2="169" stroke="#c05621" stroke-width="1.4" fill="none"/>
+  <polygon points="76,161 71.5,169 80.5,169" fill="#c05621"/>
+  <rect x="245" y="224" width="230" height="30" rx="5" fill="#fdf0e6" stroke="#c05621"/>
+  <text x="360" y="244" text-anchor="middle" font-size="11" fill="#c05621">环境变化 · 维护评价 · 新需求反馈</text>
+  <text x="360" y="289" text-anchor="middle" font-size="11" fill="#6b7a8a">系统不再适应时，由新系统替代，形成周期循环</text>
+</svg></div><div class="cap">信息化建设五阶段生命周期</div></div>
+<p>⭐【高频考点】三种总体规划方法的区分：</p>
+<table><colgroup><col style="width:15.0%"><col style="width:45.5%"><col style="width:39.6%"></colgroup><thead><tr><th>方法</th><th>核心路径</th><th>优势与局限</th></tr></thead><tbody><tr><td>关键成功因素法 CSF</td><td>组织目标 → 识别关键成功因素 → 性能指标 → 关键信息集合/数据字典 → 开发优先次序</td><td>抓主要矛盾、重点突出，最利于确定管理目标；关键因素随组织和时期变化</td></tr><tr><td>战略目标集转化法 SST</td><td>使命、目标、战略等战略集合 → 转化为 MIS 战略目标</td><td>反映多方要求、较全面少疏漏；突出重点不如 CSF</td></tr><tr><td>企业系统规划法 BSP</td><td>自上而下识别目标、企业过程和数据 → 过程/数据类矩阵分析 → 自下而上设计系统</td><td>强调企业过程和一致性信息，对组织变动有适应性；没有明显目标导引过程</td></tr></tbody></table>
+<div class="fig"><div><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 390" font-family="Microsoft YaHei, 微软雅黑, sans-serif">
+  <text x="360" y="26" text-anchor="middle" font-size="17" font-weight="bold" fill="#1f4e79">CSF、SST、BSP 三种总体规划方法</text>
+  <rect x="25" y="50" width="210" height="292" rx="8" fill="#fbfdff" stroke="#c05621" stroke-width="1.5"/>
+  <text x="130" y="80" text-anchor="middle" font-size="16" font-weight="bold" fill="#c05621">CSF 关键成功因素法</text>
+  <rect x="48" y="102" width="164" height="48" rx="5" fill="#fdf0e6" stroke="#c05621"/>
+  <text x="130" y="131" text-anchor="middle" font-size="12" fill="#22303f">组织目标</text>
+  <line x1="130" y1="150" x2="130" y2="177" stroke="#c05621" stroke-width="1.4" fill="none"/>
+  <polygon points="130,185 125.5,177 134.5,177" fill="#c05621"/>
+  <rect x="48" y="188" width="164" height="56" rx="5" fill="#fdf0e6" stroke="#c05621"/>
+  <text x="130" y="211" text-anchor="middle" font-size="12" fill="#22303f">识别关键因素</text>
+  <text x="130" y="230" text-anchor="middle" font-size="10" fill="#22303f">与性能指标</text>
+  <line x1="130" y1="244" x2="130" y2="271" stroke="#c05621" stroke-width="1.4" fill="none"/>
+  <polygon points="130,279 125.5,271 134.5,271" fill="#c05621"/>
+  <rect x="48" y="282" width="164" height="42" rx="5" fill="#c05621" stroke="#c05621"/>
+  <text x="130" y="307" text-anchor="middle" font-size="11" fill="#ffffff">关键信息 · 开发优先级</text>
+  <rect x="255" y="50" width="210" height="292" rx="8" fill="#fbfdff" stroke="#4a6130" stroke-width="1.5"/>
+  <text x="360" y="80" text-anchor="middle" font-size="16" font-weight="bold" fill="#4a6130">SST 战略目标集转化法</text>
+  <rect x="278" y="102" width="164" height="48" rx="5" fill="#f3f6ee" stroke="#4a6130"/>
+  <text x="360" y="123" text-anchor="middle" font-size="12" fill="#22303f">使命 · 目标 · 战略</text>
+  <text x="360" y="141" text-anchor="middle" font-size="10" fill="#22303f">战略信息集合</text>
+  <line x1="360" y1="150" x2="360" y2="177" stroke="#4a6130" stroke-width="1.4" fill="none"/>
+  <polygon points="360,185 355.5,177 364.5,177" fill="#4a6130"/>
+  <rect x="278" y="188" width="164" height="56" rx="5" fill="#f3f6ee" stroke="#4a6130"/>
+  <text x="360" y="211" text-anchor="middle" font-size="12" fill="#22303f">结构化转化</text>
+  <text x="360" y="230" text-anchor="middle" font-size="10" fill="#22303f">反映多方要求与分层</text>
+  <line x1="360" y1="244" x2="360" y2="271" stroke="#4a6130" stroke-width="1.4" fill="none"/>
+  <polygon points="360,279 355.5,271 364.5,271" fill="#4a6130"/>
+  <rect x="278" y="282" width="164" height="42" rx="5" fill="#4a6130" stroke="#4a6130"/>
+  <text x="360" y="307" text-anchor="middle" font-size="11" fill="#ffffff">MIS 战略目标</text>
+  <rect x="485" y="50" width="210" height="292" rx="8" fill="#fbfdff" stroke="#1f4e79" stroke-width="1.5"/>
+  <text x="590" y="80" text-anchor="middle" font-size="16" font-weight="bold" fill="#1f4e79">BSP 企业系统规划法</text>
+  <rect x="508" y="102" width="164" height="48" rx="5" fill="#eaf1f8" stroke="#1f4e79"/>
+  <text x="590" y="123" text-anchor="middle" font-size="12" fill="#22303f">自上而下识别</text>
+  <text x="590" y="141" text-anchor="middle" font-size="10" fill="#22303f">目标 · 企业过程 · 数据</text>
+  <line x1="590" y1="150" x2="590" y2="177" stroke="#1f4e79" stroke-width="1.4" fill="none"/>
+  <polygon points="590,185 585.5,177 594.5,177" fill="#1f4e79"/>
+  <rect x="508" y="188" width="164" height="56" rx="5" fill="#eaf1f8" stroke="#1f4e79"/>
+  <text x="590" y="211" text-anchor="middle" font-size="12" fill="#22303f">过程 / 数据类矩阵</text>
+  <text x="590" y="230" text-anchor="middle" font-size="10" fill="#22303f">分析并引出系统目标</text>
+  <line x1="590" y1="244" x2="590" y2="271" stroke="#1f4e79" stroke-width="1.4" fill="none"/>
+  <polygon points="590,279 585.5,271 594.5,271" fill="#1f4e79"/>
+  <rect x="508" y="282" width="164" height="42" rx="5" fill="#1f4e79" stroke="#1f4e79"/>
+  <text x="590" y="307" text-anchor="middle" font-size="11" fill="#ffffff">自下而上设计系统</text>
+  <text x="360" y="369" text-anchor="middle" font-size="11" fill="#6b7a8a">CSF 重点突出；SST 全面但重点较弱；BSP 以企业过程和一致性信息适应组织变动</text>
+</svg></div><div class="cap">CSF、SST、BSP 三种规划方法路径对比</div></div>
+<h3>12.4.1 价值驱动的体系结构</h3>
+<p>系统存在的目的是为干系人创造价值。价值模型把「想要什么」和环境限制联系起来，帮助架构师优先解决最有价值的架构挑战。</p>
+<table><colgroup><col style="width:19.6%"><col style="width:45.1%"><col style="width:35.3%"></colgroup><thead><tr><th>价值驱动因素</th><th>含义</th><th>例子</th></tr></thead><tbody><tr><td class="tc">价值期望值</td><td>对功能、质量及不同质量级别实用性的期望</td><td>高峰期提交订单仍需 2 秒响应</td></tr><tr><td class="tc">反作用力</td><td>实际环境中实现期望的难度</td><td>请求量放大百倍、数据同步开销</td></tr><tr><td class="tc">变革催化剂</td><td>使期望或结果发生变化的环境事件/限制</td><td>大促开始、法规或部署地点变化</td></tr></tbody></table>
+<div class="fig"><div><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 410" font-family="Microsoft YaHei, 微软雅黑, sans-serif">
+  <text x="360" y="26" text-anchor="middle" font-size="17" font-weight="bold" fill="#1f4e79">从价值驱动因素到体系结构策略</text>
+  <rect x="25" y="55" width="210" height="88" rx="7" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.5"/>
+  <text x="130" y="84" text-anchor="middle" font-size="15" font-weight="bold" fill="#1f4e79">价值期望值</text>
+  <text x="130" y="108" text-anchor="middle" font-size="11" fill="#22303f">功能 · 质量 · 质量级别的效用</text>
+  <text x="130" y="128" text-anchor="middle" font-size="10" fill="#6b7a8a">例：高峰期订单 2 秒响应</text>
+  <rect x="255" y="55" width="210" height="88" rx="7" fill="#fdf0e6" stroke="#c05621" stroke-width="1.5"/>
+  <text x="360" y="84" text-anchor="middle" font-size="15" font-weight="bold" fill="#c05621">反作用力</text>
+  <text x="360" y="108" text-anchor="middle" font-size="11" fill="#22303f">环境中实现期望的难度</text>
+  <text x="360" y="128" text-anchor="middle" font-size="10" fill="#6b7a8a">例：请求量放大、同步开销</text>
+  <rect x="485" y="55" width="210" height="88" rx="7" fill="#f3f6ee" stroke="#4a6130" stroke-width="1.5"/>
+  <text x="590" y="84" text-anchor="middle" font-size="15" font-weight="bold" fill="#4a6130">变革催化剂</text>
+  <text x="590" y="108" text-anchor="middle" font-size="11" fill="#22303f">导致期望或结果改变的事件</text>
+  <text x="590" y="128" text-anchor="middle" font-size="10" fill="#6b7a8a">例：大促、法规、部署变化</text>
+  <line x1="130" y1="143" x2="130" y2="181" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="130,189 125.5,181 134.5,181" fill="#1f4e79"/>
+  <line x1="360" y1="143" x2="360" y2="181" stroke="#c05621" stroke-width="1.5" fill="none"/>
+  <polygon points="360,189 355.5,181 364.5,181" fill="#c05621"/>
+  <line x1="590" y1="143" x2="590" y2="181" stroke="#4a6130" stroke-width="1.5" fill="none"/>
+  <polygon points="590,189 585.5,181 594.5,181" fill="#4a6130"/>
+  <rect x="25" y="192" width="670" height="70" rx="7" fill="#fbfdff" stroke="#1f4e79" stroke-width="1.6"/>
+  <text x="360" y="220" text-anchor="middle" font-size="16" font-weight="bold" fill="#1f4e79">体系结构挑战：限制因素使一个或多个价值期望更难满足</text>
+  <text x="360" y="244" text-anchor="middle" font-size="11" fill="#22303f">反作用力 + 变革催化剂 = 限制因素；先识别背景和影响，再评估低 / 中 / 高</text>
+  <line x1="360" y1="262" x2="360" y2="316" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="360,324 355.5,316 364.5,316" fill="#1f4e79"/>
+  <rect x="385" y="280" width="280" height="32" rx="5" fill="#f3f6ee" stroke="#8aa15c"/>
+  <text x="525" y="301" text-anchor="middle" font-size="11" fill="#4a6130">优先级：重要性 · 程度 · 后果 · 隔离</text>
+  <rect x="160" y="327" width="400" height="58" rx="7" fill="#1f4e79" stroke="#1f4e79"/>
+  <text x="360" y="351" text-anchor="middle" font-size="15" font-weight="bold" fill="#ffffff">体系结构策略：先应对最高优先级挑战</text>
+  <text x="360" y="373" text-anchor="middle" font-size="11" fill="#ffffff">组织 · 操作 · 可变性 · 演变</text>
+  <text x="360" y="402" text-anchor="middle" font-size="11" fill="#6b7a8a">策略应简短、可理解，并在系统生存期内保持相对稳定</text>
+</svg></div><div class="cap">从价值驱动因素到体系结构策略</div></div>
+<p>反作用力与变革催化剂合称<b>限制因素</b>。体系结构挑战是限制因素使价值期望更难满足；确定优先级时权衡<b>重要性、程度、后果、隔离</b>。最终策略从组织、操作、可变性、演变四方面给出简短、稳定且可理解的指导原则。</p>
+<h3>12.4.2 Web 服务在 HL7 上的应用</h3>
+<p>HL7 名称中的「第七层」指 OSI 应用层。HL7 V3 以参考信息模型（RIM）为公共静态模型，将领域模型逐步精化并与消息类型结合，生成 XML Schema（XSD）。应用间通过消息交换协作，触发事件启动一次交互，应用程序角色表示发送/接收职责，Storyboard 汇集用例叙述、角色、消息类型与交互顺序。</p>
+<div class="fig"><div><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 400" font-family="Microsoft YaHei, 微软雅黑, sans-serif">
+  <text x="360" y="26" text-anchor="middle" font-size="17" font-weight="bold" fill="#1f4e79">HL7 消息开发框架：活动、模型与规格</text>
+  <text x="145" y="58" text-anchor="middle" font-size="13" font-weight="bold" fill="#c05621">需求分析</text>
+  <text x="505" y="58" text-anchor="middle" font-size="13" font-weight="bold" fill="#1f4e79">解决方案设计与实现</text>
+  <rect x="20" y="82" width="120" height="64" rx="6" fill="#fdf0e6" stroke="#c05621" stroke-width="1.4"/>
+  <text x="80" y="108" text-anchor="middle" font-size="12" font-weight="bold" fill="#c05621">用例分析</text>
+  <text x="80" y="129" text-anchor="middle" font-size="10" fill="#22303f">Use Case Analysis</text>
+  <rect x="162" y="82" width="120" height="64" rx="6" fill="#fdf0e6" stroke="#c05621" stroke-width="1.4"/>
+  <text x="222" y="108" text-anchor="middle" font-size="12" font-weight="bold" fill="#c05621">信息分析</text>
+  <text x="222" y="129" text-anchor="middle" font-size="10" fill="#22303f">Information Analysis</text>
+  <rect x="304" y="82" width="120" height="64" rx="6" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.4"/>
+  <text x="364" y="108" text-anchor="middle" font-size="12" font-weight="bold" fill="#1f4e79">交互设计</text>
+  <text x="364" y="129" text-anchor="middle" font-size="10" fill="#22303f">Interaction Design</text>
+  <rect x="446" y="82" width="120" height="64" rx="6" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.4"/>
+  <text x="506" y="108" text-anchor="middle" font-size="12" font-weight="bold" fill="#1f4e79">消息设计</text>
+  <text x="506" y="129" text-anchor="middle" font-size="10" fill="#22303f">Message Design</text>
+  <rect x="588" y="82" width="112" height="64" rx="6" fill="#f3f6ee" stroke="#4a6130" stroke-width="1.4"/>
+  <text x="644" y="108" text-anchor="middle" font-size="12" font-weight="bold" fill="#4a6130">消息规格</text>
+  <text x="644" y="129" text-anchor="middle" font-size="10" fill="#22303f">Specification</text>
+  <line x1="140" y1="114" x2="151" y2="114" stroke="#1f4e79" stroke-width="1.4" fill="none"/>
+  <polygon points="159,114 151,109.5 151,118.5" fill="#1f4e79"/>
+  <line x1="282" y1="114" x2="293" y2="114" stroke="#1f4e79" stroke-width="1.4" fill="none"/>
+  <polygon points="301,114 293,109.5 293,118.5" fill="#1f4e79"/>
+  <line x1="424" y1="114" x2="435" y2="114" stroke="#1f4e79" stroke-width="1.4" fill="none"/>
+  <polygon points="443,114 435,109.5 435,118.5" fill="#1f4e79"/>
+  <line x1="566" y1="114" x2="577" y2="114" stroke="#1f4e79" stroke-width="1.4" fill="none"/>
+  <polygon points="585,114 577,109.5 577,118.5" fill="#1f4e79"/>
+  <line x1="80" y1="146" x2="80" y2="207" stroke="#c05621" stroke-width="1.4" fill="none"/>
+  <polygon points="80,215 75.5,207 84.5,207" fill="#c05621"/>
+  <line x1="222" y1="146" x2="222" y2="207" stroke="#c05621" stroke-width="1.4" fill="none"/>
+  <polygon points="222,215 217.5,207 226.5,207" fill="#c05621"/>
+  <line x1="364" y1="146" x2="364" y2="207" stroke="#1f4e79" stroke-width="1.4" fill="none"/>
+  <polygon points="364,215 359.5,207 368.5,207" fill="#1f4e79"/>
+  <line x1="506" y1="146" x2="506" y2="207" stroke="#1f4e79" stroke-width="1.4" fill="none"/>
+  <polygon points="506,215 501.5,207 510.5,207" fill="#1f4e79"/>
+  <line x1="644" y1="146" x2="644" y2="207" stroke="#4a6130" stroke-width="1.4" fill="none"/>
+  <polygon points="644,215 639.5,207 648.5,207" fill="#4a6130"/>
+  <rect x="20" y="218" width="120" height="58" rx="6" fill="#fbfdff" stroke="#c05621"/>
+  <text x="80" y="242" text-anchor="middle" font-size="13" font-weight="bold" fill="#c05621">UCM</text>
+  <text x="80" y="263" text-anchor="middle" font-size="11" fill="#22303f">用例模型</text>
+  <rect x="162" y="218" width="120" height="58" rx="6" fill="#fbfdff" stroke="#c05621"/>
+  <text x="222" y="242" text-anchor="middle" font-size="13" font-weight="bold" fill="#c05621">RIM</text>
+  <text x="222" y="263" text-anchor="middle" font-size="11" fill="#22303f">参考信息模型</text>
+  <rect x="304" y="218" width="120" height="58" rx="6" fill="#fbfdff" stroke="#1f4e79"/>
+  <text x="364" y="242" text-anchor="middle" font-size="13" font-weight="bold" fill="#1f4e79">IM</text>
+  <text x="364" y="263" text-anchor="middle" font-size="11" fill="#22303f">交互模型</text>
+  <rect x="446" y="218" width="120" height="58" rx="6" fill="#fbfdff" stroke="#1f4e79"/>
+  <text x="506" y="242" text-anchor="middle" font-size="13" font-weight="bold" fill="#1f4e79">HMD</text>
+  <text x="506" y="263" text-anchor="middle" font-size="11" fill="#22303f">层次消息描述</text>
+  <rect x="588" y="218" width="112" height="58" rx="6" fill="#fbfdff" stroke="#4a6130"/>
+  <text x="644" y="242" text-anchor="middle" font-size="13" font-weight="bold" fill="#4a6130">ITS</text>
+  <text x="644" y="263" text-anchor="middle" font-size="11" fill="#22303f">实现技术规格</text>
+  <rect x="80" y="310" width="560" height="48" rx="6" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.3"/>
+  <text x="360" y="330" text-anchor="middle" font-size="12" font-weight="bold" fill="#1f4e79">参考模型资源库：复用公共模型、消息类型与规则</text>
+  <text x="360" y="349" text-anchor="middle" font-size="11" fill="#22303f">RIM 精化领域模型，并结合消息类型生成 XML Schema（XSD）</text>
+  <text x="360" y="385" text-anchor="middle" font-size="11" fill="#6b7a8a">HL7 应用通过消息交换协作；触发事件启动交互，应用角色承担发送 / 接收职责</text>
+</svg></div><div class="cap">HL7 消息开发框架：活动、模型与规格</div></div>
+<table><colgroup><col style="width:37.5%"><col style="width:62.5%"></colgroup><thead><tr><th>HL7 核心制品</th><th>作用</th></tr></thead><tbody><tr><td class="tc">RIM 参考信息模型</td><td>提供卫生保健领域公共静态信息模型</td></tr><tr><td class="tc">UCM / IM</td><td>分别描述用例和交互关系</td></tr><tr><td class="tc">HMD 层次消息描述</td><td>描述消息的层次结构</td></tr><tr><td class="tc">ITS 实现技术规格</td><td>规定具体实现技术和消息格式</td></tr></tbody></table>
+<p>⭐【重点】参考体系结构把应用内部功能分为<b>业务逻辑</b>与 <b>Web 服务适配器</b>：发送端业务逻辑生成 HL7 XML 消息；适配器读取封装、配置并生成 SOAP 消息，再交给 Web 代理传输。接收端适配器验证 SOAP、拆出并校验 HL7 消息、处理通信确认，再交业务逻辑验证业务规则并按需返回应用层确认。</p>
+<div class="fig"><div><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 500" font-family="Microsoft YaHei, 微软雅黑, sans-serif">
+  <text x="360" y="26" text-anchor="middle" font-size="17" font-weight="bold" fill="#1f4e79">HL7 Web 服务发送 / 接收参考体系结构</text>
+  <rect x="30" y="48" width="255" height="348" rx="9" fill="#fbfdff" stroke="#c05621" stroke-width="1.5"/>
+  <text x="157" y="72" text-anchor="middle" font-size="14" font-weight="bold" fill="#c05621">发送者应用</text>
+  <rect x="435" y="48" width="255" height="348" rx="9" fill="#fbfdff" stroke="#1f4e79" stroke-width="1.5"/>
+  <text x="562" y="72" text-anchor="middle" font-size="14" font-weight="bold" fill="#1f4e79">接收者应用</text>
+  <rect x="58" y="92" width="200" height="66" rx="6" fill="#fdf0e6" stroke="#c05621" stroke-width="1.4"/>
+  <text x="158" y="119" text-anchor="middle" font-size="14" font-weight="bold" fill="#c05621">业务逻辑</text>
+  <text x="158" y="141" text-anchor="middle" font-size="11" fill="#22303f">创建 HL7 XML 消息</text>
+  <rect x="462" y="92" width="200" height="66" rx="6" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.4"/>
+  <text x="562" y="119" text-anchor="middle" font-size="14" font-weight="bold" fill="#1f4e79">业务逻辑</text>
+  <text x="562" y="141" text-anchor="middle" font-size="11" fill="#22303f">验证业务规则 · 应用确认</text>
+  <rect x="58" y="205" width="200" height="74" rx="6" fill="#f3f6ee" stroke="#4a6130" stroke-width="1.4"/>
+  <text x="158" y="232" text-anchor="middle" font-size="14" font-weight="bold" fill="#4a6130">Web 服务适配器</text>
+  <text x="158" y="253" text-anchor="middle" font-size="10" fill="#22303f">读取封装 · 配置并生成 SOAP</text>
+  <text x="158" y="269" text-anchor="middle" font-size="10" fill="#22303f">处理通信确认</text>
+  <rect x="462" y="205" width="200" height="74" rx="6" fill="#f3f6ee" stroke="#4a6130" stroke-width="1.4"/>
+  <text x="562" y="232" text-anchor="middle" font-size="14" font-weight="bold" fill="#4a6130">Web 服务适配器</text>
+  <text x="562" y="253" text-anchor="middle" font-size="10" fill="#22303f">验证 SOAP · 拆出并校验 HL7</text>
+  <text x="562" y="269" text-anchor="middle" font-size="10" fill="#22303f">处理通信确认</text>
+  <rect x="58" y="320" width="200" height="56" rx="6" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.4"/>
+  <text x="158" y="353" text-anchor="middle" font-size="14" fill="#1f4e79">Web 代理</text>
+  <rect x="462" y="320" width="200" height="56" rx="6" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.4"/>
+  <text x="562" y="353" text-anchor="middle" font-size="14" fill="#1f4e79">Web 服务</text>
+  <line x1="158" y1="158" x2="158" y2="194" stroke="#c05621" stroke-width="1.5" fill="none"/>
+  <polygon points="158,202 153.5,194 162.5,194" fill="#c05621"/>
+  <text x="173" y="184" font-size="10" fill="#6b7a8a">HL7 MSG</text>
+  <line x1="158" y1="279" x2="158" y2="309" stroke="#4a6130" stroke-width="1.5" fill="none"/>
+  <polygon points="158,317 153.5,309 162.5,309" fill="#4a6130"/>
+  <text x="173" y="302" font-size="10" fill="#6b7a8a">SOAP MSG</text>
+  <line x1="562" y1="320" x2="562" y2="290" stroke="#4a6130" stroke-width="1.5" fill="none"/>
+  <polygon points="562,282 557.5,290 566.5,290" fill="#4a6130"/>
+  <text x="577" y="306" font-size="10" fill="#6b7a8a">SOAP MSG</text>
+  <line x1="562" y1="205" x2="562" y2="169" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="562,161 557.5,169 566.5,169" fill="#1f4e79"/>
+  <text x="577" y="190" font-size="10" fill="#6b7a8a">HL7 MSG</text>
+  <line x1="258" y1="338" x2="451" y2="338" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="459,338 451,333.5 451,342.5" fill="#1f4e79"/>
+  <text x="360" y="328" text-anchor="middle" font-size="10" fill="#6b7a8a">SOAP 请求</text>
+  <line x1="462" y1="360" x2="269" y2="360" stroke="#4a6130" stroke-width="1.5" fill="none"/>
+  <polygon points="261,360 269,355.5 269,364.5" fill="#4a6130"/>
+  <text x="360" y="378" text-anchor="middle" font-size="10" fill="#6b7a8a">响应 / 通信确认</text>
+  <rect x="90" y="422" width="540" height="42" rx="6" fill="#1f4e79" stroke="#1f4e79"/>
+  <text x="360" y="448" text-anchor="middle" font-size="13" font-weight="bold" fill="#ffffff">Web 服务下层传输：HTTP / HTTPS / TCP …</text>
+  <text x="360" y="486" text-anchor="middle" font-size="11" fill="#6b7a8a">适配器负责消息分发和通信确认；业务逻辑负责 HL7 业务规则与应用层确认</text>
+</svg></div><div class="cap">HL7 Web 服务发送/接收参考体系结构</div></div>
+<p>开发适配器五步骤：<b>消息和数据类型设计 → 适配器模式选择 → WSDL 契约开发 → 生成 Stub/代理 → 开发适配器业务逻辑</b>。WSDL 中，端口指定服务位置和绑定，端口类型表示接口，操作定义输入/输出，消息格式基于 XSD 类型。</p>
+<h3>12.4.3 以服务为中心的企业整合</h3>
+<p>航空公司案例的痛点具有代表性：主机 Information Hub 难向开放系统开放、事件点到点流转导致强耦合、跨系统业务协作硬编码导致自动化成本高和复用差。</p>
+<table><colgroup><col style="width:12.8%"><col style="width:34.6%"><col style="width:52.6%"></colgroup><thead><tr><th>案例步骤</th><th>关键活动</th><th>本章示范结果</th></tr></thead><tbody><tr><td class="tc">业务环境分析</td><td>比较多类航班流程，找共享业务活动</td><td>把机位、卸货、装货、推出检查抽象为可复用服务</td></tr><tr><td class="tc">服务建模</td><td>建业务组件、服务与流程模型</td><td>Flight Management 输出 Retrieve Flight BO；Ramp Control 输出流程和检查服务</td></tr><tr><td class="tc">IT 环境分析</td><td>调研外围应用、接口、交互类型和数据格式</td><td>识别乘务、机务、订票、航班调度四类交互</td></tr><tr><td class="tc">高层架构设计</td><td>将服务映射为信息、流程、事件、人工、传输等服务</td><td>以 ESB 和适配机制连接新旧系统，降低耦合</td></tr><tr><td class="tc">开发与演进</td><td>选择当前实现方式，保持服务契约稳定</td><td>人工服务未来可替换为自动服务，流程无需整体重写</td></tr></tbody></table>
+<p>Retrieve Flight BO 是<b>信息服务</b>，聚合乘务、机务、订票数据形成粗粒度 Flight BO；Ramp Coordination 是<b>流程服务</b>，由 BPEL4WS 执行并编排共享活动；航班到达由<b>事件服务</b>经 MQ、Message Broker 和 JMS 发布/订阅分发；人工检查是 <b>Staff Service</b>。</p>
+<div class="fig"><div><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 530" font-family="Microsoft YaHei, 微软雅黑, sans-serif">
+  <text x="360" y="26" text-anchor="middle" font-size="17" font-weight="bold" fill="#1f4e79">以服务为中心的企业整合：流程编排与 ESB 接入</text>
+  <text x="360" y="52" text-anchor="middle" font-size="13" font-weight="bold" fill="#c05621">Ramp Coordination：把共享业务活动抽象为可复用服务</text>
+  <rect x="20" y="72" width="120" height="58" rx="6" fill="#fdf0e6" stroke="#c05621" stroke-width="1.3"/>
+  <text x="80" y="96" text-anchor="middle" font-size="12" font-weight="bold" fill="#c05621">提取航班 BO</text>
+  <text x="80" y="116" text-anchor="middle" font-size="10" fill="#22303f">信息服务</text>
+  <rect x="162" y="72" width="120" height="58" rx="6" fill="#f3f6ee" stroke="#4a6130" stroke-width="1.3"/>
+  <text x="222" y="96" text-anchor="middle" font-size="12" font-weight="bold" fill="#4a6130">检查机位</text>
+  <text x="222" y="116" text-anchor="middle" font-size="10" fill="#22303f">人工服务</text>
+  <rect x="304" y="72" width="120" height="58" rx="6" fill="#f3f6ee" stroke="#4a6130" stroke-width="1.3"/>
+  <text x="364" y="96" text-anchor="middle" font-size="12" font-weight="bold" fill="#4a6130">检查卸货</text>
+  <text x="364" y="116" text-anchor="middle" font-size="10" fill="#22303f">人工服务</text>
+  <rect x="446" y="72" width="120" height="58" rx="6" fill="#f3f6ee" stroke="#4a6130" stroke-width="1.3"/>
+  <text x="506" y="96" text-anchor="middle" font-size="12" font-weight="bold" fill="#4a6130">检查推出</text>
+  <text x="506" y="116" text-anchor="middle" font-size="10" fill="#22303f">人工服务</text>
+  <rect x="588" y="72" width="112" height="58" rx="6" fill="#f3f6ee" stroke="#4a6130" stroke-width="1.3"/>
+  <text x="644" y="96" text-anchor="middle" font-size="12" font-weight="bold" fill="#4a6130">检查装货</text>
+  <text x="644" y="116" text-anchor="middle" font-size="10" fill="#22303f">人工服务</text>
+  <line x1="140" y1="101" x2="151" y2="101" stroke="#1f4e79" stroke-width="1.4" fill="none"/>
+  <polygon points="159,101 151,96.5 151,105.5" fill="#1f4e79"/>
+  <line x1="282" y1="101" x2="293" y2="101" stroke="#1f4e79" stroke-width="1.4" fill="none"/>
+  <polygon points="301,101 293,96.5 293,105.5" fill="#1f4e79"/>
+  <line x1="424" y1="101" x2="435" y2="101" stroke="#1f4e79" stroke-width="1.4" fill="none"/>
+  <polygon points="443,101 435,96.5 435,105.5" fill="#1f4e79"/>
+  <line x1="566" y1="101" x2="577" y2="101" stroke="#1f4e79" stroke-width="1.4" fill="none"/>
+  <polygon points="585,101 577,96.5 577,105.5" fill="#1f4e79"/>
+  <rect x="20" y="162" width="680" height="344" rx="9" fill="#fbfdff" stroke="#1f4e79" stroke-width="1.5"/>
+  <text x="360" y="188" text-anchor="middle" font-size="14" font-weight="bold" fill="#1f4e79">高层架构：业务分析 → 服务建模 → IT 环境分析 → 架构设计</text>
+  <rect x="48" y="216" width="180" height="68" rx="6" fill="#fdf0e6" stroke="#c05621" stroke-width="1.4"/>
+  <text x="138" y="242" text-anchor="middle" font-size="13" font-weight="bold" fill="#c05621">信息服务</text>
+  <text x="138" y="263" text-anchor="middle" font-size="10" fill="#22303f">聚合为粗粒度 Flight BO</text>
+  <rect x="270" y="216" width="180" height="68" rx="6" fill="#f3f6ee" stroke="#4a6130" stroke-width="1.4"/>
+  <text x="360" y="242" text-anchor="middle" font-size="13" font-weight="bold" fill="#4a6130">流程服务 + 人工服务</text>
+  <text x="360" y="263" text-anchor="middle" font-size="10" fill="#22303f">BPEL 编排共享业务活动</text>
+  <rect x="492" y="216" width="180" height="68" rx="6" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.4"/>
+  <text x="582" y="242" text-anchor="middle" font-size="13" font-weight="bold" fill="#1f4e79">事件服务</text>
+  <text x="582" y="263" text-anchor="middle" font-size="10" fill="#22303f">MQ · Broker · JMS 发布/订阅</text>
+  <line x1="138" y1="284" x2="138" y2="332" stroke="#c05621" stroke-width="1.4" fill="none"/>
+  <polygon points="138,340 133.5,332 142.5,332" fill="#c05621"/>
+  <line x1="360" y1="284" x2="360" y2="332" stroke="#4a6130" stroke-width="1.4" fill="none"/>
+  <polygon points="360,340 355.5,332 364.5,332" fill="#4a6130"/>
+  <line x1="582" y1="284" x2="582" y2="332" stroke="#1f4e79" stroke-width="1.4" fill="none"/>
+  <polygon points="582,340 577.5,332 586.5,332" fill="#1f4e79"/>
+  <rect x="80" y="343" width="560" height="52" rx="6" fill="#1f4e79" stroke="#1f4e79"/>
+  <text x="360" y="365" text-anchor="middle" font-size="15" font-weight="bold" fill="#ffffff">企业服务总线 ESB</text>
+  <text x="360" y="385" text-anchor="middle" font-size="10" fill="#ffffff">传输服务 · 协议适配 · 事件分发 · 服务连接</text>
+  <rect x="38" y="448" width="140" height="42" rx="5" fill="#eaf1f8" stroke="#1f4e79"/>
+  <text x="108" y="474" text-anchor="middle" font-size="11" fill="#22303f">乘务人员管理系统</text>
+  <rect x="206" y="448" width="140" height="42" rx="5" fill="#f3f6ee" stroke="#4a6130"/>
+  <text x="276" y="474" text-anchor="middle" font-size="11" fill="#22303f">机务人员管理系统</text>
+  <rect x="374" y="448" width="140" height="42" rx="5" fill="#fdf0e6" stroke="#c05621"/>
+  <text x="444" y="474" text-anchor="middle" font-size="11" fill="#22303f">订票系统</text>
+  <rect x="542" y="448" width="140" height="42" rx="5" fill="#eaf1f8" stroke="#1f4e79"/>
+  <text x="612" y="474" text-anchor="middle" font-size="11" fill="#22303f">航班调度系统</text>
+  <line x1="108" y1="448" x2="145" y2="406" stroke="#1f4e79" stroke-width="1.4" fill="none"/>
+  <polygon points="149,398 139,403 147,411" fill="#1f4e79"/>
+  <line x1="276" y1="448" x2="270" y2="406" stroke="#4a6130" stroke-width="1.4" fill="none"/>
+  <polygon points="269,398 265,407 274,406" fill="#4a6130"/>
+  <line x1="444" y1="448" x2="450" y2="406" stroke="#c05621" stroke-width="1.4" fill="none"/>
+  <polygon points="451,398 445,406 454,407" fill="#c05621"/>
+  <line x1="612" y1="448" x2="575" y2="406" stroke="#1f4e79" stroke-width="1.4" fill="none"/>
+  <polygon points="571,398 573,409 581,403" fill="#1f4e79"/>
+  <text x="360" y="522" text-anchor="middle" font-size="11" fill="#6b7a8a">服务契约保持稳定，人工服务可平滑替换为自动服务，流程无需整体重写</text>
+</svg></div><div class="cap">以服务为中心的企业整合：流程编排与 ESB 接入</div></div>
+<p>⭐【案例启示】粗粒度业务对象提高旧系统连接的通用性；ESB 发布/订阅替代点到点事件连接；流程编排复用业务活动；服务可替换性支持平滑演进。案例答题要把这些机制对应到题干痛点，而不是罗列产品名。</p>
+<h2>三、重点与易错点</h2>
+<table><colgroup><col style="width:7.5%"><col style="width:14.9%"><col style="width:45.3%"><col style="width:32.3%"></colgroup><thead><tr><th>#</th><th>考点</th><th>必须记住的结论</th><th>易错提醒</th></tr></thead><tbody><tr><td class="tc">1</td><td class="tc">ISA 定义</td><td>元素 + 外部可见属性 + 关系；架构可包含多个结构</td><td>纯内部实现细节不属于架构，文档不等于架构本身</td></tr><tr><td class="tc">2</td><td class="tc">物理与逻辑结构</td><td>物理看空间分布；逻辑看功能子系统综合</td><td>多终端共享主机仍是集中式</td></tr><tr><td class="tc">3</td><td class="tc">集中式与分布式</td><td>分布式扩展和容错较好，但标准协调与整体管理更难</td><td>分布式不等于没有故障或无需统一管理</td></tr><tr><td class="tc">4</td><td class="tc">三种逻辑综合</td><td>横向同层跨职能；纵向同职能跨层；纵横综合信息与处理模型</td><td>横向、纵向的分类维度不要对调</td></tr><tr><td class="tc">5</td><td class="tc">两层 C/S</td><td>前台界面与业务逻辑常集成，后台数据库，偏胖客户端</td><td>不是「客户端只负责展示」</td></tr><tr><td class="tc">6</td><td class="tc">B/S 本质</td><td>通用浏览器作客户端的三层 C/S，仍基于 TCP/IP</td><td>HTTP 标准化不等于脱离 TCP/IP</td></tr><tr><td class="tc">7</td><td class="tc">多层中间件</td><td>伸缩并发、请求转发/业务处理、数据库访问隔离</td><td>中间件不是简单增加一台 Web 服务器</td></tr><tr><td class="tc">8</td><td class="tc">MVC</td><td>视图展示、控制器协调、模型承载数据或业务逻辑</td><td>MVC 目标是视图与模型分离，不是三者完全无交互</td></tr><tr><td class="tc">9</td><td class="tc">SOA 与多层应用</td><td>SOA 服务是可独立提供完整功能的应用，应用间靠消息/RPC</td><td>不要把层内服务、守护进程与 SOA 服务混同</td></tr><tr><td class="tc">10</td><td class="tc">数据交换总线</td><td>连接器负责接收分发；实时交易与大数据量可靠传输常分别设计</td><td>总线不天然包办所有批量传输需求</td></tr><tr><td class="tc">11</td><td class="tc">企业总体框架</td><td>战略第一层；业务与应用同第二层；基础设施第三层</td><td>业务系统和应用系统不是上下两层</td></tr><tr><td class="tc">12</td><td class="tc">TOGAF 组件</td><td>ADM 是核心，另有指南技术、内容、连续体工具、参考模型、能力框架</td><td>TRM 与 III-RM 属参考模型组件</td></tr><tr><td class="tc">13</td><td class="tc">ADM 十阶段</td><td>准备、A～H、需求管理；需求管理贯穿中心</td><td>不要漏准备阶段或把需求管理算作 A～H 之一</td></tr><tr><td class="tc">14</td><td class="tc">B/C/D 与 E/F/G/H</td><td>B/C/D 做基线、目标、差距；E 实施规划，F 迁移，G 实施治理，H 变更</td><td>实施治理不是迁移规划，变更管理不是需求管理</td></tr><tr><td class="tc">15</td><td class="tc">ADM 迭代与范围</td><td>整体、阶段间、阶段内三级迭代；范围四维度</td><td>ADM 不替企业自动确定架构范围</td></tr><tr><td class="tc">16</td><td class="tc">生命周期</td><td>分析回答做什么、形成逻辑模型；设计回答怎么做、形成物理模型</td><td>系统说明书属分析，系统设计说明书属设计</td></tr><tr><td class="tc">17</td><td class="tc">CSF/SST/BSP</td><td>CSF 抓关键重点；SST 战略集转化全面；BSP 上下结合、过程/数据矩阵</td><td>BSP 不是纯粹自底向上规划</td></tr><tr><td class="tc">18</td><td class="tc">数据与流程导向</td><td>数据导向重模型质量，流程导向重端到端整合；MDM 与 SOA 互补</td><td>不是二选一，流程中传递的仍是数据</td></tr><tr><td class="tc">19</td><td class="tc">价值驱动</td><td>期望值、反作用力、变革催化剂；后两者为限制因素</td><td>优先级要看重要性、程度、后果、隔离</td></tr><tr><td class="tc">20</td><td class="tc">HL7 与企业集成</td><td>适配器处理 SOAP/传输确认，业务逻辑处理 HL7 业务规则；ESB 事件解耦</td><td>HL7 标准化消息不等于直接给出完整应用实现</td></tr></tbody></table>
+<h2>四、练习与真题</h2>
+<p>以下为本章自编单选模拟题，答案与解析集中放在全章最后「六、参考答案」。</p>
+<p><b>1.</b> 下列内容中，通常不属于信息系统架构关注的是（ ）。</p>
+<p>A. 构件提供的服务  B. 构件的性能特征  C. 构件之间的关系  D. 类内部私有算法的具体实现</p>
+<p><b>2.</b> 关于分布式信息系统结构，下列说法错误的是（ ）。</p>
+<p>A. 可按应用需求配置资源  B. 系统扩展较方便  C. 任一结点故障都会导致全系统停止  D. 资源分散使标准统一和协调更困难</p>
+<p><b>3.</b> 典型两层 C/S 结构中，「胖客户端」的主要含义是（ ）。</p>
+<p>A. 客户端必须部署高性能服务器  B. 客户端通常集成前台界面和相关业务逻辑  C. 客户端只负责显示静态页面  D. 数据库必须部署在客户端</p>
+<p><b>4.</b> 关于 B/S 模式，下列说法正确的是（ ）。</p>
+<p>A. 浏览器与 Web 服务器不再使用 TCP/IP  B. B/S 与三层 C/S 完全无关  C. B/S 是采用通用客户端界面的三层 C/S  D. HTTP 是面向对象协议，可直接传输对象</p>
+<p><b>5.</b> 在多层 C/S 中引入中间件/应用层，下列哪项不是其主要作用（ ）。</p>
+<p>A. 提高可伸缩性和并发能力  B. 转发请求并处理业务逻辑  C. 隔离 Web 服务器对数据库的直接访问  D. 取消所有访问控制并公开数据库</p>
+<p><b>6.</b> MVC 中负责接收请求、连接不同模型和视图的是（ ）。</p>
+<p>A. Model  B. Controller  C. View  D. DataBase</p>
+<p><b>7.</b> 区分 SOA 多服务结构与多层单点应用的关键是（ ）。</p>
+<p>A. 是否使用数据库  B. 是否采用 Java 技术  C. 各服务能否作为独立应用提供完整功能并相互通信  D. 是否存在 Web 浏览器</p>
+<p><b>8.</b> TOGAF ADM 中，确定主要信息类型及处理这些信息的应用系统属于（ ）。</p>
+<p>A. 阶段 B 业务架构  B. 阶段 D 技术架构  C. 阶段 C 信息系统架构  D. 阶段 F 迁移规划</p>
+<p><b>9.</b> 在 ADM 全生命周期中，识别、存储需求并处理其变更影响，贯穿所有阶段的是（ ）。</p>
+<p>A. 准备阶段  B. 阶段 G 实施治理  C. 阶段 H 架构变更管理  D. 需求管理</p>
+<p><b>10.</b> 关于信息化建设生命周期，下列对应正确的是（ ）。</p>
+<p>A. 系统分析回答「做什么」并形成逻辑模型  B. 系统设计回答「做什么」并形成逻辑模型  C. 系统分析只负责设备采购  D. 系统规划直接形成物理模型</p>
+<p><b>11.</b> 自上而下识别企业过程和数据，经过程/数据类矩阵分析后再自下而上设计系统的方法的是（ ）。</p>
+<p>A. 关键成功因素法  B. 战略目标集转化法  C. 原型法  D. 企业系统规划法</p>
+<p><b>12.</b> 航空公司案例中，用 ESB 的事件发布/订阅替代点到点事件流转，主要目的是（ ）。</p>
+<p>A. 让所有系统共用同一种编程语言  B. 降低应用间耦合并提高事件集成能力  C. 取消业务确认消息  D. 把人工服务强制改成自动服务</p>
+<h2>五、疑问与查漏补缺</h2>
+<ol><li><b>大纲列出但教材未系统展开</b>：2.3 提到信息化资源管理、国际和国内标准/法律/规定，本章主要给概念和案例，未形成完整法规清单；复习时应结合第 4 章安全、大纲科目 1 第 11 部分「标准化与知识产权」以及现行法规补充，不在本章死记产品标准。</li><li><b>TOGAF 版本语境</b>：教材按 TOGAF 9 六组件讲解，考试应以教材术语作答；实际项目使用新版本时需再核对官方结构，不把新旧版本组件混写。</li><li><b>教材表述易误读</b>：12.2.4 标题称「四种架构模型」，实际是把两层/多层 C/S 与 MVC 合为一组；MVC 是多层 C/S 的标准化抽象，不应另算与四组完全并列的第五种企业集成模式。</li><li><b>教材笔误与重复</b>：图 12-4 附近 Browser 有拼写噪声，ADM 输出中「目标技术架构 10.版」应理解为 1.0 版；HL7 案例步骤（4）（5）文字重复，按一次「提取并校验 HL7 负载」理解。</li><li><b>安全性表述不能绝对化</b>：12.3.2 中「绝对加密」等措辞是产品化描述，案例答题应写传输/存储加密、权限、日志、签章等具体机制，不承诺绝对安全。</li><li><b>与其他章节衔接</b>：通用架构风格回接第 7 章，质量权衡回接第 8 章，生命周期回接第 5 章；SOA/ESB 将在第 15 章深化，HL7 的 SOAP、WSDL 是后续学习的具体应用，不必在本章展开全部协议细节。</li></ol>
+<h2>六、参考答案</h2>
+<p><b>1.</b> D。架构强调元素、外部可见属性和关系，纯内部算法实现通常被抽象掉。</p>
+<p><b>2.</b> C。分布式的特点之一是单结点故障通常不会导致整个系统停止，但协调管理更复杂。</p>
+<p><b>3.</b> B。两层 C/S 常把前台界面与相关业务逻辑集成在客户端，后台主要提供数据库服务。</p>
+<p><b>4.</b> C。B/S 仍以 TCP/IP 为基础，只是用浏览器作通用客户端并在应用层采用 HTTP。</p>
+<p><b>5.</b> D。中间件用于伸缩、业务处理和数据库隔离，公开数据库与安全性目标相反。</p>
+<p><b>6.</b> B。Controller 接收请求并协调模型和视图；View 展示，Model 承载数据或业务逻辑。</p>
+<p><b>7.</b> C。SOA 中每个服务可看作独立完整应用，服务之间通过消息或 RPC 协作。</p>
+<p><b>8.</b> C。阶段 C 包含数据架构和应用架构，二者可顺序开发，也可并行开发。</p>
+<p><b>9.</b> D。需求管理位于 ADM 中心，维护需求基线并评估变更对各阶段的影响。</p>
+<p><b>10.</b> A。系统分析形成逻辑模型，系统设计再回答「怎么做」并形成物理模型。</p>
+<p><b>11.</b> D。BSP 的典型特征是自上而下识别、过程/数据类矩阵分析和自下而上设计。</p>
+<p><b>12.</b> B。发布/订阅让事件生产者和消费者不必点到点直连，从而降低耦合并增强复用。</p>
+<div class="footer">第12章 信息系统架构设计理论与实践 · A4 打印版 · 由 README.md 统一生成</div>
+</div>
+</body>
+</html>

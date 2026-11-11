@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 430" font-family="Microsoft YaHei, 微软雅黑, sans-serif">
+  <rect x="300" y="14" width="120" height="34" rx="6" fill="#1f4e79"/>
+  <text x="360" y="37" text-anchor="middle" font-size="16" font-weight="bold" fill="#ffffff">机器学习</text>
+  <polyline points="340,48 340,66 200,66 200,79" fill="none" stroke="#1f4e79" stroke-width="1.5"/>
+  <polygon points="200,87 195.5,79 204.5,79" fill="#1f4e79"/>
+  <polyline points="380,48 380,66 520,66 520,79" fill="none" stroke="#1f4e79" stroke-width="1.5"/>
+  <polygon points="520,87 515.5,79 524.5,79" fill="#1f4e79"/>
+  <rect x="60" y="90" width="280" height="30" rx="5" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.2"/>
+  <text x="200" y="111" text-anchor="middle" font-size="14" font-weight="bold" fill="#1f4e79">按学习模式（四分法）</text>
+  <rect x="400" y="90" width="280" height="30" rx="5" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.2"/>
+  <text x="540" y="111" text-anchor="middle" font-size="14" font-weight="bold" fill="#1f4e79">按学习方法（两分法）</text>
+  <rect x="60" y="138" width="280" height="58" rx="5" fill="#ffffff" stroke="#1f4e79" stroke-width="1.2"/>
+  <text x="72" y="160" font-size="13" font-weight="bold" fill="#1f4e79">监督学习</text>
+  <text x="72" y="182" font-size="11" fill="#22303f">已标注样本集 → 回归、分类；垃圾邮件侦测</text>
+  <rect x="60" y="204" width="280" height="58" rx="5" fill="#ffffff" stroke="#1f4e79" stroke-width="1.2"/>
+  <text x="72" y="226" font-size="13" font-weight="bold" fill="#1f4e79">无监督学习</text>
+  <text x="72" y="248" font-size="11" fill="#22303f">无标注样本 → KMeans、Apriori；市场分割</text>
+  <rect x="60" y="270" width="280" height="58" rx="5" fill="#ffffff" stroke="#1f4e79" stroke-width="1.2"/>
+  <text x="72" y="292" font-size="13" font-weight="bold" fill="#1f4e79">半监督学习</text>
+  <text x="72" y="314" font-size="11" fill="#22303f">少量标注＋大量未标注，减少标注代价</text>
+  <rect x="60" y="336" width="280" height="58" rx="5" fill="#fdf0e6" stroke="#c05621" stroke-width="1.2"/>
+  <text x="72" y="358" font-size="13" font-weight="bold" fill="#c05621">强化学习</text>
+  <text x="72" y="380" font-size="11" fill="#22303f">需反馈机制（奖赏）→ Q-Learning；无人驾驶</text>
+  <rect x="400" y="138" width="280" height="76" rx="5" fill="#ffffff" stroke="#4a6130" stroke-width="1.2"/>
+  <text x="412" y="160" font-size="13" font-weight="bold" fill="#4a6130">传统机器学习</text>
+  <text x="412" y="180" font-size="11" fill="#22303f">人工特征提取，依赖领域专业知识</text>
+  <text x="412" y="200" font-size="11" fill="#22303f">逻辑回归、SVM、决策树、贝叶斯等</text>
+  <rect x="400" y="230" width="280" height="76" rx="5" fill="#ffffff" stroke="#4a6130" stroke-width="1.2"/>
+  <text x="412" y="252" font-size="13" font-weight="bold" fill="#4a6130">深度学习</text>
+  <text x="412" y="272" font-size="11" fill="#22303f">多层神经网络自动学特征，需海量数据＋GPU</text>
+  <text x="412" y="292" font-size="11" fill="#22303f">典型算法：CNN、RNN</text>
+  <rect x="400" y="322" width="280" height="88" rx="5" fill="#f3f6ee" stroke="#8aa15c" stroke-width="1.2"/>
+  <text x="412" y="344" font-size="13" font-weight="bold" fill="#4a6130">其他常见算法思想</text>
+  <text x="412" y="364" font-size="11" fill="#22303f">迁移学习：已训练模型参数迁移到新领域</text>
+  <text x="412" y="382" font-size="11" fill="#22303f">主动学习：挑选最有用样本交专家标记</text>
+  <text x="412" y="400" font-size="11" fill="#22303f">演化学习：粒子群优化等演化算法求解</text>
+  <text x="60" y="420" font-size="11" fill="#6b7a8a">定义三要素：经验数据 E、任务 T、性能度量 P——P 随对 E 的学习而变得更好。</text>
+</svg>

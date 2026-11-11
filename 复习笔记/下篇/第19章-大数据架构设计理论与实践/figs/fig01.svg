@@ -1,0 +1,55 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 390" font-family="Microsoft YaHei, 微软雅黑, sans-serif">
+  <text x="360" y="26" text-anchor="middle" font-size="16" font-weight="bold" fill="#1f4e79">传统数据处理架构演进：压力转移而非根治（图 19-1、19-2 重绘）</text>
+  <rect x="15" y="45" width="220" height="300" rx="8" fill="#f7fafc" stroke="#6b7a8a"/>
+  <text x="125" y="70" text-anchor="middle" font-size="13" font-weight="bold" fill="#1f4e79">① 应用直连数据库</text>
+  <rect x="65" y="100" width="120" height="42" rx="5" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.2"/>
+  <text x="125" y="126" text-anchor="middle" font-size="12" fill="#22303f">Web 服务器</text>
+  <line x1="125" y1="142" x2="125" y2="209" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="125,217 120.5,209 129.5,209" fill="#1f4e79"/>
+  <text x="137" y="180" font-size="10" fill="#c05621">读写请求增长</text>
+  <rect x="65" y="220" width="120" height="46" rx="5" fill="#fdf0e6" stroke="#c05621" stroke-width="1.2"/>
+  <text x="125" y="247" text-anchor="middle" font-size="12" fill="#c05621">数据库</text>
+  <text x="125" y="300" text-anchor="middle" font-size="11" fill="#c05621">响应超时、单机过载</text>
+  <text x="125" y="322" text-anchor="middle" font-size="10" fill="#6b7a8a">扩展能力受单机限制</text>
+  <rect x="250" y="45" width="220" height="300" rx="8" fill="#f7fafc" stroke="#6b7a8a"/>
+  <text x="360" y="70" text-anchor="middle" font-size="13" font-weight="bold" fill="#1f4e79">② 队列缓冲 + 工作层</text>
+  <rect x="300" y="88" width="120" height="34" rx="5" fill="#eaf1f8" stroke="#1f4e79"/>
+  <text x="360" y="110" text-anchor="middle" font-size="11" fill="#22303f">Web 服务器</text>
+  <line x1="360" y1="122" x2="360" y2="134" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="360,142 355.5,134 364.5,134" fill="#1f4e79"/>
+  <rect x="300" y="145" width="120" height="34" rx="5" fill="#f3f6ee" stroke="#8aa15c"/>
+  <text x="360" y="167" text-anchor="middle" font-size="11" fill="#4a6130">异步队列</text>
+  <line x1="360" y1="179" x2="360" y2="191" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="360,199 355.5,191 364.5,191" fill="#1f4e79"/>
+  <rect x="290" y="202" width="140" height="38" rx="5" fill="#eaf1f8" stroke="#1f4e79"/>
+  <text x="360" y="225" text-anchor="middle" font-size="11" fill="#22303f">工作处理层</text>
+  <line x1="360" y1="240" x2="360" y2="252" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="360,260 355.5,252 364.5,252" fill="#1f4e79"/>
+  <rect x="300" y="263" width="120" height="38" rx="5" fill="#fdf0e6" stroke="#c05621"/>
+  <text x="360" y="287" text-anchor="middle" font-size="11" fill="#c05621">数据库</text>
+  <text x="360" y="324" text-anchor="middle" font-size="10" fill="#6b7a8a">削峰有效，消费不足仍积压</text>
+  <rect x="485" y="45" width="220" height="300" rx="8" fill="#f7fafc" stroke="#6b7a8a"/>
+  <text x="595" y="70" text-anchor="middle" font-size="13" font-weight="bold" fill="#1f4e79">③ 读写分离 + 分区</text>
+  <rect x="535" y="88" width="120" height="36" rx="5" fill="#eaf1f8" stroke="#1f4e79"/>
+  <text x="595" y="111" text-anchor="middle" font-size="11" fill="#22303f">应用 + 分区路由</text>
+  <line x1="565" y1="124" x2="540" y2="169" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="538,177 534,169 542,171" fill="#1f4e79"/>
+  <line x1="625" y1="124" x2="650" y2="169" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="652,177 648,171 656,169" fill="#1f4e79"/>
+  <rect x="495" y="180" width="90" height="38" rx="5" fill="#fdf0e6" stroke="#c05621"/>
+  <text x="540" y="203" text-anchor="middle" font-size="11" fill="#c05621">主库</text>
+  <rect x="605" y="180" width="90" height="38" rx="5" fill="#f3f6ee" stroke="#8aa15c"/>
+  <text x="650" y="203" text-anchor="middle" font-size="11" fill="#4a6130">从库</text>
+  <line x1="585" y1="199" x2="597" y2="199" stroke="#8aa15c" stroke-width="1.5" fill="none"/>
+  <polygon points="605,199 597,194.5 597,203.5" fill="#8aa15c"/>
+  <line x1="540" y1="218" x2="540" y2="254" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="540,262 535.5,254 544.5,254" fill="#1f4e79"/>
+  <line x1="650" y1="218" x2="650" y2="254" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="650,262 645.5,254 654.5,254" fill="#1f4e79"/>
+  <rect x="495" y="265" width="90" height="36" rx="5" fill="#eaf1f8" stroke="#1f4e79"/>
+  <text x="540" y="288" text-anchor="middle" font-size="10" fill="#22303f">Hash 分区</text>
+  <rect x="605" y="265" width="90" height="36" rx="5" fill="#eaf1f8" stroke="#1f4e79"/>
+  <text x="650" y="288" text-anchor="middle" font-size="10" fill="#22303f">复制副本</text>
+  <text x="595" y="325" text-anchor="middle" font-size="10" fill="#c05621">reshard、迁移与路由复杂</text>
+  <text x="360" y="374" text-anchor="middle" font-size="12" font-weight="bold" fill="#4a6130">结论：队列、分区、复制能缓压，却把分布式协调与运维复杂性推给应用</text>
+</svg>

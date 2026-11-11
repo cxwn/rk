@@ -1,0 +1,34 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 370" font-family="Microsoft YaHei, 微软雅黑, sans-serif">
+  <text x="360" y="30" text-anchor="middle" font-size="14" fill="#1f4e79" font-weight="bold">Chinese Wall：同一利益冲突组内，最多访问一个公司数据集</text>
+  <rect x="40" y="56" width="400" height="204" rx="4" fill="#fdf0e6" stroke="#c05621" stroke-width="1.2"/>
+  <text x="52" y="80" font-size="12" fill="#c05621" font-weight="bold">利益冲突组 COI-1（如：快递行业）</text>
+  <rect x="70" y="96" width="140" height="134" rx="3" fill="#ffffff" stroke="#c05621" stroke-width="1"/>
+  <text x="80" y="120" font-size="13" fill="#22303f" font-weight="bold">公司 A</text>
+  <text x="80" y="142" font-size="11" fill="#6b7a8a">数据集 CD-A</text>
+  <text x="80" y="170" font-size="11" fill="#6b7a8a">公司资料</text>
+  <text x="80" y="192" font-size="11" fill="#6b7a8a">公司资料</text>
+  <rect x="250" y="96" width="140" height="134" rx="3" fill="#ffffff" stroke="#c05621" stroke-width="1"/>
+  <text x="260" y="120" font-size="13" fill="#22303f" font-weight="bold">公司 B</text>
+  <text x="260" y="142" font-size="11" fill="#6b7a8a">数据集 CD-B</text>
+  <text x="260" y="170" font-size="11" fill="#6b7a8a">公司资料</text>
+  <text x="260" y="192" font-size="11" fill="#6b7a8a">公司资料</text>
+  <rect x="480" y="56" width="200" height="204" rx="4" fill="#f3f6ee" stroke="#8aa15c" stroke-width="1.2"/>
+  <text x="492" y="80" font-size="12" fill="#4a6130" font-weight="bold">利益冲突组 COI-2</text>
+  <rect x="510" y="96" width="140" height="134" rx="3" fill="#ffffff" stroke="#8aa15c" stroke-width="1"/>
+  <text x="520" y="120" font-size="13" fill="#22303f" font-weight="bold">公司 C</text>
+  <text x="520" y="142" font-size="11" fill="#6b7a8a">数据集 CD-C</text>
+  <text x="520" y="170" font-size="11" fill="#6b7a8a">公司资料</text>
+  <text x="520" y="192" font-size="11" fill="#6b7a8a">公司资料</text>
+  <rect x="270" y="300" width="180" height="44" rx="4" fill="#1f4e79"/>
+  <text x="360" y="327" text-anchor="middle" font-size="14" fill="#ffffff" font-weight="bold">银行家 / 咨询师</text>
+  <polyline points="300,300 300,284 140,284 140,241" stroke="#4a6130" stroke-width="1.5" fill="none"/>
+  <polygon points="140,233 135.5,241 144.5,241" fill="#4a6130"/>
+  <text x="150" y="276" font-size="11" fill="#4a6130">√ 墙内可访问</text>
+  <polyline points="360,300 360,266 320,266 320,250" stroke="#c05621" stroke-width="1.5" fill="none"/>
+  <line x1="313" y1="233" x2="327" y2="247" stroke="#c05621" stroke-width="2" fill="none"/>
+  <line x1="313" y1="247" x2="327" y2="233" stroke="#c05621" stroke-width="2" fill="none"/>
+  <text x="330" y="258" font-size="11" fill="#c05621">× 同组禁访</text>
+  <polyline points="420,300 420,290 580,290 580,241" stroke="#4a6130" stroke-width="1.5" fill="none"/>
+  <polygon points="580,233 575.5,241 584.5,241" fill="#4a6130"/>
+  <text x="440" y="282" font-size="11" fill="#4a6130">√ 跨组可访问</text>
+</svg>

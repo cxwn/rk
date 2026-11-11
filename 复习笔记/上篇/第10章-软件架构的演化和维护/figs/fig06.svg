@@ -1,0 +1,48 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 430" font-family="Microsoft YaHei, 微软雅黑, sans-serif">
+  <text x="360" y="30" text-anchor="middle" font-size="20" font-weight="bold" fill="#1f4e79">正交软件架构的单线索演化</text>
+  <text x="65" y="78" text-anchor="middle" font-size="14" fill="#6b7a8a">第一层</text>
+  <text x="65" y="143" text-anchor="middle" font-size="14" fill="#6b7a8a">第二层</text>
+  <text x="65" y="208" text-anchor="middle" font-size="14" fill="#6b7a8a">第三层</text>
+  <text x="65" y="273" text-anchor="middle" font-size="14" fill="#6b7a8a">第四层</text>
+  <text x="65" y="338" text-anchor="middle" font-size="14" fill="#6b7a8a">第五层</text>
+  <g stroke="#6b7a8a" stroke-width="1.5" fill="none">
+    <line x1="340" y1="87" x2="190" y2="117"/>
+    <line x1="360" y1="87" x2="360" y2="117"/>
+    <line x1="190" y1="152" x2="190" y2="182"/>
+    <line x1="360" y1="152" x2="360" y2="182"/>
+    <line x1="190" y1="217" x2="190" y2="247"/>
+    <line x1="360" y1="217" x2="360" y2="247"/>
+    <line x1="190" y1="282" x2="340" y2="312"/>
+    <line x1="360" y1="282" x2="360" y2="312"/>
+  </g>
+  <g stroke="#8aa15c" stroke-width="1.8" fill="none">
+    <line x1="380" y1="87" x2="530" y2="117"/>
+    <line x1="530" y1="152" x2="530" y2="247"/>
+    <line x1="530" y1="282" x2="380" y2="312"/>
+  </g>
+  <rect x="330" y="55" width="60" height="32" rx="4" fill="#eaf1f8" stroke="#1f4e79"/>
+  <text x="360" y="77" text-anchor="middle" font-size="15" font-weight="bold" fill="#1f4e79">A</text>
+  <rect x="160" y="120" width="60" height="32" rx="4" fill="#f5f7f9" stroke="#6b7a8a"/>
+  <text x="190" y="142" text-anchor="middle" font-size="15" fill="#22303f">B</text>
+  <rect x="330" y="120" width="60" height="32" rx="4" fill="#fdf0e6" stroke="#c05621"/>
+  <text x="360" y="142" text-anchor="middle" font-size="15" font-weight="bold" fill="#c05621">C</text>
+  <rect x="500" y="120" width="60" height="32" rx="4" fill="#f3f6ee" stroke="#8aa15c"/>
+  <text x="530" y="142" text-anchor="middle" font-size="15" font-weight="bold" fill="#4a6130">C′</text>
+  <rect x="160" y="185" width="60" height="32" rx="4" fill="#f5f7f9" stroke="#6b7a8a"/>
+  <text x="190" y="207" text-anchor="middle" font-size="15" fill="#22303f">D</text>
+  <rect x="330" y="185" width="60" height="32" rx="4" fill="#fdf0e6" stroke="#c05621"/>
+  <text x="360" y="207" text-anchor="middle" font-size="15" font-weight="bold" fill="#c05621">E</text>
+  <rect x="160" y="250" width="60" height="32" rx="4" fill="#f5f7f9" stroke="#6b7a8a"/>
+  <text x="190" y="272" text-anchor="middle" font-size="15" fill="#22303f">F</text>
+  <rect x="330" y="250" width="60" height="32" rx="4" fill="#fdf0e6" stroke="#c05621"/>
+  <text x="360" y="272" text-anchor="middle" font-size="15" font-weight="bold" fill="#c05621">G</text>
+  <rect x="500" y="250" width="60" height="32" rx="4" fill="#f3f6ee" stroke="#8aa15c"/>
+  <text x="530" y="272" text-anchor="middle" font-size="15" font-weight="bold" fill="#4a6130">G′</text>
+  <rect x="330" y="315" width="60" height="32" rx="4" fill="#eaf1f8" stroke="#1f4e79"/>
+  <text x="360" y="337" text-anchor="middle" font-size="15" font-weight="bold" fill="#1f4e79">H</text>
+  <text x="190" y="375" text-anchor="middle" font-size="13" fill="#6b7a8a">未变线索</text>
+  <text x="360" y="375" text-anchor="middle" font-size="13" fill="#c05621">更新前线索</text>
+  <text x="530" y="375" text-anchor="middle" font-size="13" fill="#4a6130">更新后线索</text>
+  <rect x="95" y="392" width="530" height="28" rx="5" fill="#eaf1f8"/>
+  <text x="360" y="412" text-anchor="middle" font-size="14" font-weight="bold" fill="#1f4e79">同层组件不互调；C、G 的更新只沿一条线索传播</text>
+</svg>

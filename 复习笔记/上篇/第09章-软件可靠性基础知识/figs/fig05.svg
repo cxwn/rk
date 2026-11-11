@@ -1,0 +1,69 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 420" width="720" height="420" font-family="Microsoft YaHei, 微软雅黑, sans-serif">
+  <rect width="720" height="420" fill="#ffffff"/>
+  <text x="360" y="32" text-anchor="middle" font-size="22" font-weight="bold" fill="#1f4e79">影响因素主线：缺陷的引入、发现与清除</text>
+  <rect x="40" y="60" width="200" height="120" rx="8" fill="#fdf0e6" stroke="#c05621" stroke-width="1.5"/>
+  <text x="140" y="88" text-anchor="middle" font-size="15" font-weight="bold" fill="#c05621">缺陷的引入</text>
+  <g font-size="12" fill="#22303f" text-anchor="middle">
+    <text x="140" y="115">取决于软件产品特性</text>
+    <text x="140" y="135">与开发过程特性</text>
+    <text x="140" y="155">（技术、工具、人员、</text>
+    <text x="140" y="175">需求变化频度等）</text>
+  </g>
+  <rect x="260" y="60" width="200" height="120" rx="8" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.5"/>
+  <text x="360" y="88" text-anchor="middle" font-size="15" font-weight="bold" fill="#1f4e79">缺陷的发现</text>
+  <g font-size="12" fill="#22303f" text-anchor="middle">
+    <text x="360" y="115">依靠用户对软件的</text>
+    <text x="360" y="135">操作方式、运行环境</text>
+    <text x="360" y="155">即运行剖面</text>
+  </g>
+  <rect x="480" y="60" width="200" height="120" rx="8" fill="#f3f6ee" stroke="#8aa15c" stroke-width="1.5"/>
+  <text x="580" y="88" text-anchor="middle" font-size="15" font-weight="bold" fill="#4a6130">缺陷的清除</text>
+  <g font-size="12" fill="#22303f" text-anchor="middle">
+    <text x="580" y="115">依赖失效的发现与</text>
+    <text x="580" y="135">修复活动，以及</text>
+    <text x="580" y="155">可靠性方面的投入</text>
+  </g>
+  <line x1="240" y1="120" x2="249" y2="120" stroke="#1f4e79" stroke-width="1.5"/>
+  <polygon points="257,120 249,115.5 249,124.5" fill="#1f4e79"/>
+  <line x1="440" y1="120" x2="469" y2="120" stroke="#1f4e79" stroke-width="1.5"/>
+  <polygon points="477,120 469,115.5 469,124.5" fill="#1f4e79"/>
+  <text x="360" y="225" text-anchor="middle" font-size="16" font-weight="bold" fill="#1f4e79">技术角度的五大影响因素</text>
+  <g>
+    <rect x="30" y="250" width="124" height="120" rx="8" fill="#eaf1f8" stroke="#1f4e79"/>
+    <text x="92" y="276" text-anchor="middle" font-size="13.5" font-weight="bold" fill="#1f4e79">运行剖面</text>
+    <g font-size="11" fill="#22303f" text-anchor="middle">
+      <text x="92" y="302">同一软件在不同</text>
+      <text x="92" y="320">运行剖面下，可</text>
+      <text x="92" y="338">靠性表现不同</text>
+    </g>
+    <rect x="164" y="250" width="124" height="120" rx="8" fill="#eaf1f8" stroke="#1f4e79"/>
+    <text x="226" y="276" text-anchor="middle" font-size="13.5" font-weight="bold" fill="#1f4e79">软件规模</text>
+    <g font-size="11" fill="#22303f" text-anchor="middle">
+      <text x="226" y="302">数十行与数万行</text>
+      <text x="226" y="320">代码的软件不可</text>
+      <text x="226" y="338">相提并论</text>
+    </g>
+    <rect x="298" y="250" width="124" height="120" rx="8" fill="#eaf1f8" stroke="#1f4e79"/>
+    <text x="360" y="276" text-anchor="middle" font-size="13.5" font-weight="bold" fill="#1f4e79">内部结构</text>
+    <g font-size="11" fill="#22303f" text-anchor="middle">
+      <text x="360" y="302">结构越复杂，所</text>
+      <text x="360" y="320">含缺陷数就可能</text>
+      <text x="360" y="338">越多</text>
+    </g>
+    <rect x="432" y="250" width="124" height="120" rx="8" fill="#eaf1f8" stroke="#1f4e79"/>
+    <text x="494" y="276" text-anchor="middle" font-size="13" font-weight="bold" fill="#1f4e79">开发方法与环境</text>
+    <g font-size="11" fill="#22303f" text-anchor="middle">
+      <text x="494" y="302">结构化方法比非</text>
+      <text x="494" y="320">结构方法明显减</text>
+      <text x="494" y="338">少缺陷数</text>
+    </g>
+    <rect x="566" y="250" width="124" height="120" rx="8" fill="#eaf1f8" stroke="#1f4e79"/>
+    <text x="628" y="276" text-anchor="middle" font-size="13.5" font-weight="bold" fill="#1f4e79">可靠性投入</text>
+    <g font-size="11" fill="#22303f" text-anchor="middle">
+      <text x="628" y="302">早期重视并采取</text>
+      <text x="628" y="320">措施，可靠性明</text>
+      <text x="628" y="338">显提高</text>
+    </g>
+  </g>
+  <text x="360" y="402" text-anchor="middle" font-size="12.5" fill="#22303f">缺陷引入→发现→清除构成主线索；许多因素与可靠性的定量关系至今难以确定</text>
+</svg>

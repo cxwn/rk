@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 510" width="720" height="510">
+  <rect width="720" height="510" fill="#ffffff"/>
+  <text x="360" y="34" text-anchor="middle" font-family="Microsoft YaHei, 微软雅黑, sans-serif" font-size="22" font-weight="bold" fill="#22303f">物联网三层架构：感知—传输处理—行业应用</text>
+  <rect x="90" y="62" width="540" height="110" rx="10" fill="#eaf1f8" stroke="#1f4e79" stroke-width="2"/>
+  <text x="360" y="94" text-anchor="middle" font-family="Microsoft YaHei, 微软雅黑, sans-serif" font-size="20" font-weight="bold" fill="#1f4e79">应用层：广泛智能化</text>
+  <text x="360" y="122" text-anchor="middle" font-family="Microsoft YaHei, 微软雅黑, sans-serif" font-size="14" fill="#22303f">应用程序层：数据处理　｜　终端设备层：人机接口</text>
+  <text x="360" y="149" text-anchor="middle" font-family="Microsoft YaHei, 微软雅黑, sans-serif" font-size="14" fill="#22303f">监控型 · 查询型 · 控制型 · 扫描型</text>
+  <line x1="360" y1="172" x2="360" y2="197" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="360,199 355.5,191 364.5,191" fill="#1f4e79"/>
+  <rect x="90" y="202" width="540" height="110" rx="10" fill="#fdf0e6" stroke="#c05621" stroke-width="2"/>
+  <text x="360" y="234" text-anchor="middle" font-family="Microsoft YaHei, 微软雅黑, sans-serif" font-size="20" font-weight="bold" fill="#c05621">网络层：传递信息并处理信息</text>
+  <text x="360" y="262" text-anchor="middle" font-family="Microsoft YaHei, 微软雅黑, sans-serif" font-size="14" fill="#22303f">通信网与互联网融合 · 网络管理 · 信息中心 · 智能处理</text>
+  <text x="360" y="289" text-anchor="middle" font-family="Microsoft YaHei, 微软雅黑, sans-serif" font-size="14" fill="#22303f">感知数据存储、查询、分析、挖掘与云计算平台</text>
+  <line x1="360" y1="312" x2="360" y2="337" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="360,339 355.5,331 364.5,331" fill="#1f4e79"/>
+  <rect x="90" y="342" width="540" height="110" rx="10" fill="#f3f6ee" stroke="#8aa15c" stroke-width="2"/>
+  <text x="360" y="374" text-anchor="middle" font-family="Microsoft YaHei, 微软雅黑, sans-serif" font-size="20" font-weight="bold" fill="#4a6130">感知层：识别物体并采集信息</text>
+  <text x="360" y="402" text-anchor="middle" font-family="Microsoft YaHei, 微软雅黑, sans-serif" font-size="14" fill="#22303f">传感器 · 二维码 · RFID · 摄像头 · GPS · M2M终端</text>
+  <text x="360" y="429" text-anchor="middle" font-family="Microsoft YaHei, 微软雅黑, sans-serif" font-size="14" fill="#22303f">检测技术 · 短距离无线通信 · 传感器网关</text>
+  <text x="656" y="123" text-anchor="middle" font-family="Microsoft YaHei, 微软雅黑, sans-serif" font-size="13" fill="#6b7a8a">社会分工</text>
+  <text x="656" y="263" text-anchor="middle" font-family="Microsoft YaHei, 微软雅黑, sans-serif" font-size="13" fill="#6b7a8a">神经大脑</text>
+  <text x="656" y="403" text-anchor="middle" font-family="Microsoft YaHei, 微软雅黑, sans-serif" font-size="13" fill="#6b7a8a">皮肤五官</text>
+  <text x="360" y="484" text-anchor="middle" font-family="Microsoft YaHei, 微软雅黑, sans-serif" font-size="14" fill="#c05621">易错：云计算平台是网络层的重要组成，不是应用层的同义词</text>
+</svg>

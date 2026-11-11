@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 320" font-family="Microsoft YaHei, 微软雅黑, sans-serif">
+  <text x="360" y="26" text-anchor="middle" font-size="17" font-weight="bold" fill="#1f4e79">信息化建设五阶段生命周期</text>
+  <rect x="20" y="76" width="112" height="82" rx="7" fill="#fdf0e6" stroke="#c05621" stroke-width="1.4"/>
+  <text x="76" y="105" text-anchor="middle" font-size="14" font-weight="bold" fill="#c05621">系统规划</text>
+  <text x="76" y="128" text-anchor="middle" font-size="10" fill="#22303f">初步调查 · 可行性</text>
+  <text x="76" y="146" text-anchor="middle" font-size="10" fill="#22303f">设计任务书</text>
+  <rect x="162" y="76" width="112" height="82" rx="7" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.4"/>
+  <text x="218" y="105" text-anchor="middle" font-size="14" font-weight="bold" fill="#1f4e79">系统分析</text>
+  <text x="218" y="128" text-anchor="middle" font-size="10" fill="#22303f">做什么 · 逻辑模型</text>
+  <text x="218" y="146" text-anchor="middle" font-size="10" fill="#22303f">系统说明书</text>
+  <rect x="304" y="76" width="112" height="82" rx="7" fill="#f3f6ee" stroke="#4a6130" stroke-width="1.4"/>
+  <text x="360" y="105" text-anchor="middle" font-size="14" font-weight="bold" fill="#4a6130">系统设计</text>
+  <text x="360" y="128" text-anchor="middle" font-size="10" fill="#22303f">怎么做 · 物理模型</text>
+  <text x="360" y="146" text-anchor="middle" font-size="10" fill="#22303f">总体 + 详细设计</text>
+  <rect x="446" y="76" width="112" height="82" rx="7" fill="#fdf0e6" stroke="#c05621" stroke-width="1.4"/>
+  <text x="502" y="105" text-anchor="middle" font-size="14" font-weight="bold" fill="#c05621">系统实施</text>
+  <text x="502" y="128" text-anchor="middle" font-size="10" fill="#22303f">编程调试 · 培训</text>
+  <text x="502" y="146" text-anchor="middle" font-size="10" fill="#22303f">数据与系统转换</text>
+  <rect x="588" y="76" width="112" height="82" rx="7" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.4"/>
+  <text x="644" y="101" text-anchor="middle" font-size="13" font-weight="bold" fill="#1f4e79">运行和维护</text>
+  <text x="644" y="126" text-anchor="middle" font-size="10" fill="#22303f">运行记录 · 评价</text>
+  <text x="644" y="146" text-anchor="middle" font-size="10" fill="#22303f">修改 · 效益评估</text>
+  <line x1="132" y1="117" x2="151" y2="117" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="159,117 151,112.5 151,121.5" fill="#1f4e79"/>
+  <line x1="274" y1="117" x2="293" y2="117" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="301,117 293,112.5 293,121.5" fill="#1f4e79"/>
+  <line x1="416" y1="117" x2="435" y2="117" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="443,117 435,112.5 435,121.5" fill="#1f4e79"/>
+  <line x1="558" y1="117" x2="577" y2="117" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="585,117 577,112.5 577,121.5" fill="#1f4e79"/>
+  <text x="360" y="191" text-anchor="middle" font-size="12" font-weight="bold" fill="#1f4e79">分析形成逻辑模型，设计形成物理模型，实施把设计落地</text>
+  <line x1="644" y1="158" x2="644" y2="249" stroke="#c05621" stroke-width="1.4" fill="none"/>
+  <line x1="644" y1="249" x2="76" y2="249" stroke="#c05621" stroke-width="1.4" fill="none"/>
+  <line x1="76" y1="249" x2="76" y2="169" stroke="#c05621" stroke-width="1.4" fill="none"/>
+  <polygon points="76,161 71.5,169 80.5,169" fill="#c05621"/>
+  <rect x="245" y="224" width="230" height="30" rx="5" fill="#fdf0e6" stroke="#c05621"/>
+  <text x="360" y="244" text-anchor="middle" font-size="11" fill="#c05621">环境变化 · 维护评价 · 新需求反馈</text>
+  <text x="360" y="289" text-anchor="middle" font-size="11" fill="#6b7a8a">系统不再适应时，由新系统替代，形成周期循环</text>
+</svg>

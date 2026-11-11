@@ -1,0 +1,48 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 590" width="720" height="590">
+  <rect width="720" height="590" fill="#ffffff"/>
+  <text x="360" y="32" text-anchor="middle" font-family="Microsoft YaHei, 微软雅黑, sans-serif" font-size="22" font-weight="bold" fill="#22303f">电子小票服务系统结构（重绘图13-23）</text>
+  <rect x="34" y="64" width="652" height="222" rx="10" fill="#f3f6ee" stroke="#8aa15c" stroke-width="1.5"/>
+  <text x="360" y="92" text-anchor="middle" font-family="Microsoft YaHei, 微软雅黑, sans-serif" font-size="18" font-weight="bold" fill="#4a6130">小票智能硬件</text>
+  <rect x="66" y="120" width="138" height="58" rx="7" fill="#ffffff" stroke="#1f4e79"/>
+  <text x="135" y="146" text-anchor="middle" font-family="Microsoft YaHei, 微软雅黑, sans-serif" font-size="15" font-weight="bold" fill="#1f4e79">商家收银机</text>
+  <text x="135" y="167" text-anchor="middle" font-family="Microsoft YaHei, 微软雅黑, sans-serif" font-size="12" fill="#22303f">安装硬件驱动</text>
+  <rect x="286" y="112" width="148" height="76" rx="7" fill="#fdf0e6" stroke="#c05621" stroke-width="1.5"/>
+  <text x="360" y="142" text-anchor="middle" font-family="Microsoft YaHei, 微软雅黑, sans-serif" font-size="17" font-weight="bold" fill="#c05621">STM32控制器</text>
+  <text x="360" y="169" text-anchor="middle" font-family="Microsoft YaHei, 微软雅黑, sans-serif" font-size="13" fill="#22303f">完整性判断与控制</text>
+  <rect x="510" y="120" width="138" height="58" rx="7" fill="#ffffff" stroke="#1f4e79"/>
+  <text x="579" y="146" text-anchor="middle" font-family="Microsoft YaHei, 微软雅黑, sans-serif" font-size="15" font-weight="bold" fill="#1f4e79">字模存储Flash</text>
+  <text x="579" y="167" text-anchor="middle" font-family="Microsoft YaHei, 微软雅黑, sans-serif" font-size="12" fill="#22303f">SPI读取字模</text>
+  <line x1="204" y1="149" x2="274" y2="149" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="282,149 274,144.5 274,153.5" fill="#1f4e79"/>
+  <text x="243" y="137" text-anchor="middle" font-family="Microsoft YaHei, 微软雅黑, sans-serif" font-size="12" fill="#1f4e79">串口</text>
+  <line x1="510" y1="149" x2="446" y2="149" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="438,149 446,144.5 446,153.5" fill="#1f4e79"/>
+  <rect x="110" y="214" width="148" height="48" rx="7" fill="#eaf1f8" stroke="#1f4e79"/>
+  <text x="184" y="244" text-anchor="middle" font-family="Microsoft YaHei, 微软雅黑, sans-serif" font-size="15" font-weight="bold" fill="#1f4e79">TFTLCD屏</text>
+  <rect x="462" y="214" width="148" height="48" rx="7" fill="#eaf1f8" stroke="#1f4e79"/>
+  <text x="536" y="244" text-anchor="middle" font-family="Microsoft YaHei, 微软雅黑, sans-serif" font-size="13" font-weight="bold" fill="#1f4e79">无线模块 Wi-Fi/GPRS</text>
+  <line x1="320" y1="188" x2="218" y2="206" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="210,209 217,202 220,209" fill="#1f4e79"/>
+  <text x="150" y="202" text-anchor="middle" font-family="Microsoft YaHei, 微软雅黑, sans-serif" font-size="12" fill="#1f4e79">GPIO模拟8080</text>
+  <line x1="400" y1="188" x2="502" y2="206" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="510,209 500,209 503,202" fill="#1f4e79"/>
+  <rect x="282" y="334" width="156" height="58" rx="8" fill="#fdf0e6" stroke="#c05621" stroke-width="2"/>
+  <text x="360" y="370" text-anchor="middle" font-family="Microsoft YaHei, 微软雅黑, sans-serif" font-size="18" font-weight="bold" fill="#c05621">电子小票云平台</text>
+  <line x1="536" y1="262" x2="536" y2="307" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <line x1="536" y1="307" x2="360" y2="307" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <line x1="360" y1="307" x2="360" y2="322" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="360,330 355.5,322 364.5,322" fill="#1f4e79"/>
+  <rect x="282" y="440" width="156" height="54" rx="8" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.5"/>
+  <text x="360" y="474" text-anchor="middle" font-family="Microsoft YaHei, 微软雅黑, sans-serif" font-size="17" font-weight="bold" fill="#1f4e79">微信公众平台</text>
+  <line x1="360" y1="392" x2="360" y2="428" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="360,436 355.5,428 364.5,428" fill="#1f4e79"/>
+  <rect x="42" y="522" width="172" height="48" rx="8" fill="#f3f6ee" stroke="#8aa15c"/>
+  <text x="128" y="552" text-anchor="middle" font-family="Microsoft YaHei, 微软雅黑, sans-serif" font-size="16" font-weight="bold" fill="#4a6130">消费者智能手机</text>
+  <rect x="506" y="522" width="172" height="48" rx="8" fill="#f3f6ee" stroke="#8aa15c"/>
+  <text x="592" y="552" text-anchor="middle" font-family="Microsoft YaHei, 微软雅黑, sans-serif" font-size="16" font-weight="bold" fill="#4a6130">商家PC终端</text>
+  <line x1="318" y1="494" x2="164" y2="514" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="156,517 163,510 166,517" fill="#1f4e79"/>
+  <line x1="402" y1="494" x2="556" y2="514" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="564,517 554,517 557,510" fill="#1f4e79"/>
+  <text x="404" y="418" text-anchor="middle" font-family="Microsoft YaHei, 微软雅黑, sans-serif" font-size="12" fill="#6b7a8a">实时推送</text>
+</svg>

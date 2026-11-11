@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 620" font-family="Microsoft YaHei, 微软雅黑, sans-serif">
+  <text x="360" y="30" text-anchor="middle" font-size="17" font-weight="bold" fill="#1f4e79">WSDL 文档基本结构：从服务访问点到抽象数据类型</text>
+  <rect x="40" y="55" width="170" height="200" rx="8" fill="#fdf0e6" stroke="#c05621"/>
+  <text x="125" y="135" text-anchor="middle" font-size="14" font-weight="bold" fill="#c05621">服务实现</text>
+  <text x="125" y="160" text-anchor="middle" font-size="12" fill="#22303f">具体访问点</text>
+  <text x="125" y="182" text-anchor="middle" font-size="12" fill="#22303f">协议与地址</text>
+  <rect x="40" y="295" width="170" height="265" rx="8" fill="#eaf1f8" stroke="#1f4e79"/>
+  <text x="125" y="400" text-anchor="middle" font-size="14" font-weight="bold" fill="#1f4e79">服务接口</text>
+  <text x="125" y="425" text-anchor="middle" font-size="12" fill="#22303f">抽象操作</text>
+  <text x="125" y="447" text-anchor="middle" font-size="12" fill="#22303f">消息与类型</text>
+  <rect x="250" y="55" width="300" height="48" rx="6" fill="#fdf0e6" stroke="#c05621" stroke-width="1.5"/>
+  <text x="400" y="85" text-anchor="middle" font-size="13" font-weight="bold" fill="#22303f">service 服务 · 端口集合</text>
+  <rect x="250" y="125" width="300" height="48" rx="6" fill="#fdf0e6" stroke="#c05621" stroke-width="1.5"/>
+  <text x="400" y="155" text-anchor="middle" font-size="13" font-weight="bold" fill="#22303f">port 端口 · binding + 访问地址</text>
+  <rect x="250" y="195" width="300" height="48" rx="6" fill="#fdf0e6" stroke="#c05621" stroke-width="1.5"/>
+  <text x="400" y="225" text-anchor="middle" font-size="13" font-weight="bold" fill="#22303f">binding 绑定 · 协议 + 数据格式</text>
+  <rect x="250" y="285" width="300" height="48" rx="6" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.5"/>
+  <text x="400" y="315" text-anchor="middle" font-size="13" font-weight="bold" fill="#22303f">portType 接口类型 · 操作集合</text>
+  <rect x="250" y="355" width="300" height="48" rx="6" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.5"/>
+  <text x="400" y="385" text-anchor="middle" font-size="13" font-weight="bold" fill="#22303f">operation 操作 · 请求 / 响应</text>
+  <rect x="250" y="425" width="300" height="48" rx="6" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.5"/>
+  <text x="400" y="455" text-anchor="middle" font-size="13" font-weight="bold" fill="#22303f">message 消息 · 数据结构</text>
+  <rect x="250" y="495" width="300" height="48" rx="6" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.5"/>
+  <text x="400" y="525" text-anchor="middle" font-size="13" font-weight="bold" fill="#22303f">types 类型 · XML Schema</text>
+  <line x1="400" y1="103" x2="400" y2="117" stroke="#6b7a8a" stroke-width="1.5" fill="none"/>
+  <polygon points="400,122 395.5,114 404.5,114" fill="#6b7a8a"/>
+  <line x1="400" y1="173" x2="400" y2="187" stroke="#6b7a8a" stroke-width="1.5" fill="none"/>
+  <polygon points="400,192 395.5,184 404.5,184" fill="#6b7a8a"/>
+  <line x1="400" y1="243" x2="400" y2="277" stroke="#6b7a8a" stroke-width="1.5" fill="none"/>
+  <polygon points="400,282 395.5,274 404.5,274" fill="#6b7a8a"/>
+  <line x1="400" y1="333" x2="400" y2="347" stroke="#6b7a8a" stroke-width="1.5" fill="none"/>
+  <polygon points="400,352 395.5,344 404.5,344" fill="#6b7a8a"/>
+  <line x1="400" y1="403" x2="400" y2="417" stroke="#6b7a8a" stroke-width="1.5" fill="none"/>
+  <polygon points="400,422 395.5,414 404.5,414" fill="#6b7a8a"/>
+  <line x1="400" y1="473" x2="400" y2="487" stroke="#6b7a8a" stroke-width="1.5" fill="none"/>
+  <polygon points="400,492 395.5,484 404.5,484" fill="#6b7a8a"/>
+  <text x="585" y="150" font-size="11" fill="#6b7a8a">在哪里</text>
+  <text x="585" y="220" font-size="11" fill="#6b7a8a">如何访问</text>
+  <text x="585" y="310" font-size="11" fill="#6b7a8a">做什么</text>
+  <rect x="245" y="570" width="310" height="30" rx="5" fill="#f3f6ee" stroke="#8aa15c"/>
+  <text x="400" y="590" text-anchor="middle" font-size="11" fill="#4a6130">抽象定义复用，具体绑定决定通信与访问端点</text>
+</svg>

@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 270" font-family="Microsoft YaHei, 微软雅黑, sans-serif">
+  <text x="360" y="28" text-anchor="middle" font-size="16" font-weight="bold" fill="#1f4e79">公钥加密分配会话密钥（A、B 已完成公钥交换）</text>
+  <rect x="80" y="45" width="110" height="40" rx="4" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.5"/>
+  <text x="135" y="70" text-anchor="middle" font-size="13" font-weight="bold" fill="#1f4e79">用户 A</text>
+  <rect x="530" y="45" width="110" height="40" rx="4" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.5"/>
+  <text x="585" y="70" text-anchor="middle" font-size="13" font-weight="bold" fill="#1f4e79">用户 B</text>
+  <line x1="135" y1="85" x2="135" y2="230" stroke="#6b7a8a" stroke-width="1" fill="none"/>
+  <line x1="585" y1="85" x2="585" y2="230" stroke="#6b7a8a" stroke-width="1" fill="none"/>
+  <text x="360" y="106" text-anchor="middle" font-size="11.5" fill="#22303f">① E_PKb[N1‖ID_A]（A 用 B 公钥加密身份与随机数）</text>
+  <line x1="135" y1="115" x2="574" y2="115" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="582,115 574,110.5 574,119.5" fill="#1f4e79"/>
+  <text x="360" y="141" text-anchor="middle" font-size="11.5" fill="#22303f">② E_PKa[N1‖N2]（只有 B 能解读①，证明对方是 B）</text>
+  <line x1="585" y1="150" x2="146" y2="150" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="138,150 146,145.5 146,154.5" fill="#1f4e79"/>
+  <text x="360" y="176" text-anchor="middle" font-size="11.5" fill="#22303f">③ E_PKb[N2]（使 B 相信对方确是 A）</text>
+  <line x1="135" y1="185" x2="574" y2="185" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="582,185 574,180.5 574,189.5" fill="#1f4e79"/>
+  <text x="360" y="211" text-anchor="middle" font-size="11.5" fill="#22303f">④ M=E_PKb[E_SKa[Ks]]（A 私钥签名 + B 公钥加密）</text>
+  <line x1="135" y1="220" x2="574" y2="220" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="582,220 574,215.5 574,219.5" fill="#1f4e79"/>
+  <text x="360" y="252" text-anchor="middle" font-size="11.5" fill="#6b7a8a">B 以 D_PKa[D_SKb[M]] 恢复 Ks：先自己私钥解密（保密），再 A 公钥验证（认证），可防被动与主动攻击</text>
+</svg>

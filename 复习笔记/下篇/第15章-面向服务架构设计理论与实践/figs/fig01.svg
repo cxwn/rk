@@ -1,0 +1,64 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 350" font-family="Microsoft YaHei, 微软雅黑, sans-serif">
+  <text x="360" y="30" text-anchor="middle" font-size="17" font-weight="bold" fill="#1f4e79">SOA 与微服务：集中总线集成 vs 去中心化独立服务</text>
+  <rect x="35" y="50" width="300" height="275" rx="10" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.5"/>
+  <text x="185" y="72" text-anchor="middle" font-size="15" font-weight="bold" fill="#1f4e79">传统 SOA 架构</text>
+  <rect x="120" y="84" width="130" height="32" rx="5" fill="#ffffff" stroke="#6b7a8a"/>
+  <text x="185" y="105" text-anchor="middle" font-size="12" fill="#22303f">用户</text>
+  <rect x="120" y="130" width="130" height="32" rx="5" fill="#ffffff" stroke="#6b7a8a"/>
+  <text x="185" y="151" text-anchor="middle" font-size="12" fill="#22303f">UI</text>
+  <line x1="185" y1="116" x2="185" y2="122" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="185,127 180.5,119 189.5,119" fill="#1f4e79"/>
+  <rect x="60" y="180" width="250" height="38" rx="5" fill="#1f4e79" stroke="#1f4e79"/>
+  <text x="185" y="204" text-anchor="middle" font-size="13" font-weight="bold" fill="#ffffff">企业服务总线 ESB</text>
+  <line x1="185" y1="162" x2="185" y2="172" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="185,177 180.5,169 189.5,169" fill="#1f4e79"/>
+  <rect x="60" y="245" width="76" height="42" rx="5" fill="#ffffff" stroke="#1f4e79"/>
+  <rect x="147" y="245" width="76" height="42" rx="5" fill="#ffffff" stroke="#1f4e79"/>
+  <rect x="234" y="245" width="76" height="42" rx="5" fill="#ffffff" stroke="#1f4e79"/>
+  <text x="98" y="270" text-anchor="middle" font-size="12" fill="#22303f">服务 A</text>
+  <text x="185" y="270" text-anchor="middle" font-size="12" fill="#22303f">服务 B</text>
+  <text x="272" y="270" text-anchor="middle" font-size="12" fill="#22303f">服务 C</text>
+  <line x1="98" y1="218" x2="98" y2="237" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="98,242 93.5,234 102.5,234" fill="#1f4e79"/>
+  <line x1="185" y1="218" x2="185" y2="237" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="185,242 180.5,234 189.5,234" fill="#1f4e79"/>
+  <line x1="272" y1="218" x2="272" y2="237" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="272,242 267.5,234 276.5,234" fill="#1f4e79"/>
+  <text x="185" y="309" text-anchor="middle" font-size="11" fill="#6b7a8a">统一接入 · 路由转换 · 集中治理</text>
+  <rect x="385" y="50" width="300" height="275" rx="10" fill="#f3f6ee" stroke="#8aa15c" stroke-width="1.5"/>
+  <text x="535" y="72" text-anchor="middle" font-size="15" font-weight="bold" fill="#4a6130">微服务架构</text>
+  <rect x="470" y="84" width="130" height="32" rx="5" fill="#ffffff" stroke="#6b7a8a"/>
+  <text x="535" y="105" text-anchor="middle" font-size="12" fill="#22303f">用户 / UI</text>
+  <rect x="410" y="160" width="76" height="55" rx="5" fill="#ffffff" stroke="#8aa15c"/>
+  <rect x="497" y="160" width="76" height="55" rx="5" fill="#ffffff" stroke="#8aa15c"/>
+  <rect x="584" y="160" width="76" height="55" rx="5" fill="#ffffff" stroke="#8aa15c"/>
+  <text x="448" y="183" text-anchor="middle" font-size="11" fill="#22303f">微服务 A</text>
+  <text x="535" y="183" text-anchor="middle" font-size="11" fill="#22303f">微服务 B</text>
+  <text x="622" y="183" text-anchor="middle" font-size="11" fill="#22303f">微服务 C</text>
+  <text x="448" y="201" text-anchor="middle" font-size="10" fill="#4a6130">独立进程</text>
+  <text x="535" y="201" text-anchor="middle" font-size="10" fill="#4a6130">独立进程</text>
+  <text x="622" y="201" text-anchor="middle" font-size="10" fill="#4a6130">独立进程</text>
+  <line x1="490" y1="116" x2="490" y2="136" stroke="#8aa15c" stroke-width="1.5" fill="none"/>
+  <line x1="490" y1="136" x2="448" y2="136" stroke="#8aa15c" stroke-width="1.5" fill="none"/>
+  <line x1="448" y1="136" x2="448" y2="152" stroke="#8aa15c" stroke-width="1.5" fill="none"/>
+  <polygon points="448,157 443.5,149 452.5,149" fill="#8aa15c"/>
+  <line x1="535" y1="116" x2="535" y2="152" stroke="#8aa15c" stroke-width="1.5" fill="none"/>
+  <polygon points="535,157 530.5,149 539.5,149" fill="#8aa15c"/>
+  <line x1="580" y1="116" x2="580" y2="136" stroke="#8aa15c" stroke-width="1.5" fill="none"/>
+  <line x1="580" y1="136" x2="622" y2="136" stroke="#8aa15c" stroke-width="1.5" fill="none"/>
+  <line x1="622" y1="136" x2="622" y2="152" stroke="#8aa15c" stroke-width="1.5" fill="none"/>
+  <polygon points="622,157 617.5,149 626.5,149" fill="#8aa15c"/>
+  <rect x="410" y="250" width="76" height="35" rx="5" fill="#ffffff" stroke="#8aa15c"/>
+  <rect x="497" y="250" width="76" height="35" rx="5" fill="#ffffff" stroke="#8aa15c"/>
+  <rect x="584" y="250" width="76" height="35" rx="5" fill="#ffffff" stroke="#8aa15c"/>
+  <text x="448" y="272" text-anchor="middle" font-size="11" fill="#22303f">数据库 A</text>
+  <text x="535" y="272" text-anchor="middle" font-size="11" fill="#22303f">数据库 B</text>
+  <text x="622" y="272" text-anchor="middle" font-size="11" fill="#22303f">数据库 C</text>
+  <line x1="448" y1="215" x2="448" y2="242" stroke="#8aa15c" stroke-width="1.5" fill="none"/>
+  <polygon points="448,247 443.5,239 452.5,239" fill="#8aa15c"/>
+  <line x1="535" y1="215" x2="535" y2="242" stroke="#8aa15c" stroke-width="1.5" fill="none"/>
+  <polygon points="535,247 530.5,239 539.5,239" fill="#8aa15c"/>
+  <line x1="622" y1="215" x2="622" y2="242" stroke="#8aa15c" stroke-width="1.5" fill="none"/>
+  <polygon points="622,247 617.5,239 626.5,239" fill="#8aa15c"/>
+  <text x="535" y="309" text-anchor="middle" font-size="11" fill="#4a6130">轻量接口 · 独立部署 · 独立数据</text>
+</svg>

@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 420" font-family="Microsoft YaHei, 微软雅黑, sans-serif">
+  <rect width="720" height="420" fill="#ffffff"/>
+  <text x="360" y="30" text-anchor="middle" font-size="20" font-weight="bold" fill="#1f4e79">构件组装的三种方式</text>
+  <rect x="20" y="52" width="210" height="330" rx="9" fill="#fbfdff" stroke="#d5dde5"/>
+  <rect x="255" y="52" width="210" height="330" rx="9" fill="#fbfdff" stroke="#d5dde5"/>
+  <rect x="490" y="52" width="210" height="330" rx="9" fill="#fbfdff" stroke="#d5dde5"/>
+  <text x="125" y="84" text-anchor="middle" font-size="19" font-weight="bold" fill="#1f4e79">顺序组装</text>
+  <text x="360" y="84" text-anchor="middle" font-size="19" font-weight="bold" fill="#1f4e79">层次组装</text>
+  <text x="595" y="84" text-anchor="middle" font-size="19" font-weight="bold" fill="#1f4e79">叠加组装</text>
+  <g text-anchor="middle">
+    <rect x="50" y="115" width="150" height="55" rx="6" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.5"/>
+    <text x="125" y="149" font-size="17" fill="#22303f">构件 A</text>
+    <rect x="50" y="245" width="150" height="55" rx="6" fill="#f3f6ee" stroke="#4a6130" stroke-width="1.5"/>
+    <text x="125" y="279" font-size="17" fill="#22303f">构件 B</text>
+    <rect x="285" y="115" width="150" height="55" rx="6" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.5"/>
+    <text x="360" y="149" font-size="17" fill="#22303f">调用构件</text>
+    <rect x="285" y="245" width="150" height="55" rx="6" fill="#f3f6ee" stroke="#4a6130" stroke-width="1.5"/>
+    <text x="360" y="279" font-size="17" fill="#22303f">被调用构件</text>
+    <rect x="510" y="103" width="170" height="215" rx="8" fill="#fdf0e6" stroke="#c05621" stroke-width="1.5"/>
+    <text x="595" y="130" font-size="15" font-weight="bold" fill="#c05621">新构件 / 新接口</text>
+    <rect x="530" y="148" width="130" height="48" rx="5" fill="#eaf1f8" stroke="#1f4e79"/>
+    <text x="595" y="178" font-size="16" fill="#22303f">构件 A</text>
+    <rect x="530" y="235" width="130" height="48" rx="5" fill="#f3f6ee" stroke="#4a6130"/>
+    <text x="595" y="265" font-size="16" fill="#22303f">构件 B</text>
+  </g>
+  <line x1="125" y1="170" x2="125" y2="234" stroke="#1f4e79" stroke-width="1.5"/>
+  <polygon points="125,242 120.5,234 129.5,234" fill="#1f4e79"/>
+  <text x="140" y="211" font-size="13" fill="#6b7a8a">按顺序调用</text>
+  <line x1="360" y1="170" x2="360" y2="234" stroke="#1f4e79" stroke-width="1.5"/>
+  <polygon points="360,242 355.5,234 364.5,234" fill="#1f4e79"/>
+  <text x="375" y="211" font-size="13" fill="#6b7a8a">请求服务</text>
+  <text x="125" y="335" text-anchor="middle" font-size="13" fill="#22303f">A 输出与 B 输入兼容</text>
+  <text x="125" y="357" text-anchor="middle" font-size="12" fill="#6b7a8a">必要时使用胶水代码</text>
+  <text x="360" y="335" text-anchor="middle" font-size="13" fill="#22303f">请求接口与提供接口兼容</text>
+  <text x="360" y="357" text-anchor="middle" font-size="12" fill="#6b7a8a">不兼容则由适配器转换</text>
+  <text x="595" y="335" text-anchor="middle" font-size="13" fill="#22303f">合并功能，对外提供新接口</text>
+  <text x="595" y="357" text-anchor="middle" font-size="12" fill="#6b7a8a">A、B 互不依赖、互不调用</text>
+  <text x="360" y="404" text-anchor="middle" font-size="14" fill="#c05621">参数不兼容、操作不兼容、操作不完备：用适配器解决</text>
+</svg>

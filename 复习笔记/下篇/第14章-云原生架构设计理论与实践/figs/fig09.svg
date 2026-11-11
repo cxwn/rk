@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 370" font-family="Microsoft YaHei, 微软雅黑, sans-serif">
+  <text x="360" y="22" text-anchor="middle" font-size="16" font-weight="bold" fill="#1f4e79">微服务设计四大约束</text>
+  <!-- 上卡片 个体约束 -->
+  <rect x="210" y="36" width="300" height="64" rx="8" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.5"/>
+  <text x="360" y="56" text-anchor="middle" font-size="13" font-weight="bold" fill="#1f4e79">① 微服务个体约束</text>
+  <text x="360" y="74" text-anchor="middle" font-size="10.5" fill="#22303f">业务域独立、SRP 单一职责、正交分解</text>
+  <text x="360" y="90" text-anchor="middle" font-size="10.5" fill="#6b7a8a">两张披萨团队、两周完成一次迭代</text>
+  <!-- 中心 -->
+  <rect x="270" y="150" width="180" height="80" rx="10" fill="#1f4e79"/>
+  <text x="360" y="184" text-anchor="middle" font-size="15" font-weight="bold" fill="#ffffff">优秀的</text>
+  <text x="360" y="208" text-anchor="middle" font-size="15" font-weight="bold" fill="#ffffff">微服务系统</text>
+  <!-- 左卡片 横向关系 -->
+  <rect x="30" y="140" width="200" height="100" rx="8" fill="#f3f6ee" stroke="#8aa15c" stroke-width="1.5"/>
+  <text x="130" y="162" text-anchor="middle" font-size="13" font-weight="bold" fill="#4a6130">② 横向关系（服务间）</text>
+  <text x="130" y="184" text-anchor="middle" font-size="10.5" fill="#22303f">可发现：服务注册中心</text>
+  <text x="130" y="202" text-anchor="middle" font-size="10.5" fill="#22303f">可交互：REST / IDL 协议</text>
+  <text x="130" y="222" text-anchor="middle" font-size="10.5" fill="#6b7a8a">面向失败：限流熔断隔仓</text>
+  <!-- 右卡片 纵向约束 -->
+  <rect x="490" y="140" width="200" height="100" rx="8" fill="#fdf0e6" stroke="#c05621" stroke-width="1.5"/>
+  <text x="590" y="162" text-anchor="middle" font-size="13" font-weight="bold" fill="#c05621">③ 纵向约束（数据层）</text>
+  <text x="590" y="184" text-anchor="middle" font-size="10.5" fill="#22303f">DSS：数据私有、API 访问</text>
+  <text x="590" y="202" text-anchor="middle" font-size="10.5" fill="#22303f">无状态设计、存算分离</text>
+  <text x="590" y="222" text-anchor="middle" font-size="10.5" fill="#6b7a8a">CQRS 读写分离</text>
+  <!-- 下卡片 全局约束 -->
+  <rect x="210" y="280" width="300" height="64" rx="8" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.5"/>
+  <text x="360" y="300" text-anchor="middle" font-size="13" font-weight="bold" fill="#1f4e79">④ 全局分布式约束</text>
+  <text x="360" y="318" text-anchor="middle" font-size="10.5" fill="#22303f">自动化 CI/CD、蓝绿/金丝雀发布</text>
+  <text x="360" y="334" text-anchor="middle" font-size="10.5" fill="#6b7a8a">全链路可观测、中心化监控、快速定位根因</text>
+  <!-- 上->中心 -->
+  <line x1="360" y1="104" x2="360" y2="139" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="360,147 355.5,139 364.5,139" fill="#1f4e79"/>
+  <!-- 中心->下 -->
+  <line x1="360" y1="234" x2="360" y2="269" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="360,277 355.5,269 364.5,269" fill="#1f4e79"/>
+  <!-- 左->中心 -->
+  <line x1="234" y1="190" x2="259" y2="190" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="267,190 259,185.5 259,194.5" fill="#1f4e79"/>
+  <!-- 中心->右 -->
+  <line x1="454" y1="190" x2="479" y2="190" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="487,190 479,185.5 479,194.5" fill="#1f4e79"/>
+</svg>

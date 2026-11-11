@@ -1,0 +1,725 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>第14章 云原生架构设计理论与实践</title>
+<style>
+  :root{ --ink:#22303f; --main:#1f4e79; --main-light:#eaf1f8; --accent:#c05621;
+    --accent-light:#fdf0e6; --line:#d5dde5; --muted:#6b7a8a; }
+  *{ box-sizing:border-box; print-color-adjust:exact; -webkit-print-color-adjust:exact; }
+  html,body{ margin:0; padding:0; }
+  body{ font-family:"Microsoft YaHei","微软雅黑","PingFang SC","Noto Sans CJK SC",sans-serif;
+    color:var(--ink); background:#e9edf1; font-size:10.5pt; line-height:1.75; }
+  .sheet{ max-width:190mm; margin:8mm auto; background:#fff; padding:10mm 11mm;
+    box-shadow:0 2px 14px rgba(0,0,0,.12); }
+  h1{ font-size:21pt; color:var(--main); margin:0 0 2mm; border-bottom:3px solid var(--main); padding-bottom:3mm; }
+  h2{ font-size:14pt; color:var(--main); margin:8mm 0 3mm; padding:1.2mm 0 1.2mm 3mm;
+    border-left:5px solid var(--main); background:linear-gradient(to right,var(--main-light),#fff); break-after:avoid; }
+  h3{ font-size:11.5pt; color:var(--main); margin:5mm 0 2mm; break-after:avoid; }
+  p{ margin:1.5mm 0; }
+  code{ background:#f0f3f6; border-radius:1mm; padding:0 1mm; font-size:9.5pt; }
+  .def,.example,.mnemonic{ border-radius:2mm; padding:2.5mm 3.5mm; margin:2.5mm 0; break-inside:avoid; }
+  .def{ border:1.5px solid var(--main); background:#fbfdff; }
+  .example{ background:var(--accent-light); border-left:4px solid var(--accent); }
+  .mnemonic{ background:#f3f6ee; border:1px dashed #8aa15c; color:#4a6130; }
+  table{ border-collapse:collapse; width:100%; margin:2.5mm 0; font-size:9.5pt; table-layout:fixed; }
+  th,td{ border:1px solid var(--line); padding:1.6mm 2mm; text-align:left; vertical-align:top; overflow-wrap:break-word; }
+  th{ background:var(--main); color:#fff; text-align:center; }
+  thead{ display:table-header-group; }
+  tr{ break-inside:avoid; }
+  td.tc{ text-align:center; }
+  tr:nth-child(even) td{ background:#f6f9fc; }
+  .fig{ margin:3mm 0; padding:2.5mm; border:1px solid var(--line); border-radius:2mm;
+    background:#fdfefe; break-inside:avoid; }
+  .fig .cap{ text-align:center; color:var(--muted); font-size:9pt; margin-top:1mm; }
+  svg{ display:block; width:100%; height:auto; }
+  svg text{ font-family:inherit; }
+  ul,ol{ margin:1.5mm 0 1.5mm 5mm; padding-left:4mm; }
+  li{ margin:0.8mm 0; }
+  .footer{ margin-top:8mm; padding-top:2mm; border-top:1px solid var(--line);
+    color:var(--muted); font-size:8.5pt; text-align:center; }
+  @page{ size:A4; margin:12mm; }
+  @media print{ body{ background:#fff; font-size:10pt; }
+    .sheet{ max-width:none; margin:0; padding:0; box-shadow:none; } h2{ margin-top:6mm; } }
+</style>
+</head>
+<body>
+<div class="sheet">
+<h1>第14章 云原生架构设计理论与实践</h1>
+<ul><li>教材位置：02.系统架构设计师第二版-教材.pdf PDF 第 490～519 页（书页 482～511）</li><li>复习状态：已完成</li><li>复习日期：2026-11-06</li><li>本章地位：云原生是下午案例分析的高频主题，常以「企业上云/微服务改造」场景考查架构原则、架构模式与技术选型；上午综合知识也会考查容器、K8s、服务网格等概念辨析。</li></ul>
+<h2>一、大纲考点</h2>
+<p>大纲（书页 54）「4. 云原生架构设计理论与实践」条目与教材小节对应如下：</p>
+<table><colgroup><col style="width:18.5%"><col style="width:54.3%"><col style="width:27.2%"></colgroup><thead><tr><th>大纲条目</th><th>大纲要求</th><th>教材对应小节</th></tr></thead><tbody><tr><td>4.1 云原生架构概述</td><td>云原生的背景、定义和特征</td><td>14.1、14.2.1</td></tr><tr><td>4.1 云原生架构概述</td><td>云原生架构的设计原则</td><td>14.2.2（七大原则）</td></tr><tr><td>4.1 云原生架构概述</td><td>架构模式：服务化、Mesh 化、Serverless、存储计算分离、分布式事务、可观测架构、事件驱动架构</td><td>14.2.3（七大模式）、14.2.4（反模式）</td></tr><tr><td>4.2 云原生架构相关技术</td><td>容器技术</td><td>14.3.1（Docker、Kubernetes）</td></tr><tr><td>4.2 云原生架构相关技术</td><td>云原生微服务技术</td><td>14.3.2（设计约束与主流框架）</td></tr><tr><td>4.2 云原生架构相关技术</td><td>无服务器技术</td><td>14.3.3（Serverless/FaaS）</td></tr><tr><td>4.2 云原生架构相关技术</td><td>服务网格</td><td>14.3.4（Istio、Envoy 等）</td></tr><tr><td>4.3 案例分析</td><td>旅行、汽车、快递、电商、体育用品五个云原生改造案例</td><td>14.4.1～14.4.5</td></tr></tbody></table>
+<p><b>下午案例题考查形式</b>：科目 2「系统架构设计案例分析」为主观题，通常给出某企业系统上云或云原生改造的场景材料，设置若干小问题，典型问法包括：①指出原有架构（单体/烟囱式）存在的问题；②说明应采用哪种云原生架构模式并给出理由；③比较容器与虚拟机、微服务与单体、Serverless 与传统部署的优缺点；④结合场景说明 K8s 能力、服务网格收益或分布式事务方案选择。答题关键是「原则/模式名称 + 一句话定义 + 结合场景的收益」。</p>
+<h2>二、知识点笔记</h2>
+<h3>14.1 云原生架构产生背景</h3>
+<ul><li><b>Cloud Native 直译</b>：Cloud 指应用运行在云端而非传统数据中心；Native 指应用<b>从一开始就基于云环境、专为云特性设计</b>，充分利用云的弹性与分布式优势。一句话：云原生不是「把老系统搬上云」，而是「为云而生、按云的方式设计」。</li><li><b>企业侧动因</b>：传统 IT 多为「烟筒（烟囱）式」建设，各部门/各应用独立分配硬件，资源被大量占用且难以共享；上云后 IaaS 层复用程度提升，自然要求 IaaS 以上各层也统一复用，进一步降低运营成本。</li><li><b>研发侧动因（演进链）</b>：瀑布式流程（开发/运营/质量各自独立、信息不对称）→ 敏捷开发（解决开发效率与版本速度，但未打通运维）→ DevOps（开发、技术运营、质量保障三者的交集，促进沟通协作整合）→ 云原生（容器、微服务为 DevOps 与持续交付提供前提条件）。⭐【高频考点】<b>DevOps 是开发、技术运营、质量保障三者的交集</b>；能实现 DevOps 和持续交付是云原生技术价值不可分割的内涵。</li><li><b>新兴领域落地</b>：AI/大数据（容器更小粒度资源划分、计算存储分离）、边缘计算（如全国高速公路取消省界收费站项目，10 万+异构设备、30 多万边缘应用管理）、高性能计算 HPC（如 CERN 等）。</li></ul>
+<div class="fig"><div><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 300" font-family="Microsoft YaHei, 微软雅黑, sans-serif">
+  <text x="360" y="30" text-anchor="middle" font-size="17" font-weight="bold" fill="#1f4e79">开发模式演进：从瀑布式到云原生</text>
+  <!-- 卡片1 瀑布式 -->
+  <rect x="21" y="60" width="150" height="150" rx="8" fill="#f4f6f8" stroke="#6b7a8a" stroke-width="1.5"/>
+  <text x="96" y="88" text-anchor="middle" font-size="15" font-weight="bold" fill="#22303f">瀑布式流程</text>
+  <text x="96" y="118" text-anchor="middle" font-size="11" fill="#22303f">开发/运营/质量</text>
+  <text x="96" y="138" text-anchor="middle" font-size="11" fill="#22303f">各自独立</text>
+  <text x="96" y="164" text-anchor="middle" font-size="11" fill="#6b7a8a">信息不对称</text>
+  <text x="96" y="184" text-anchor="middle" font-size="11" fill="#6b7a8a">周期长、调整难</text>
+  <!-- 卡片2 敏捷 -->
+  <rect x="197" y="60" width="150" height="150" rx="8" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.5"/>
+  <text x="272" y="88" text-anchor="middle" font-size="15" font-weight="bold" fill="#1f4e79">敏捷开发</text>
+  <text x="272" y="118" text-anchor="middle" font-size="11" fill="#22303f">提升开发效率</text>
+  <text x="272" y="138" text-anchor="middle" font-size="11" fill="#22303f">加快版本更新</text>
+  <text x="272" y="164" text-anchor="middle" font-size="11" fill="#6b7a8a">解决开发侧问题</text>
+  <text x="272" y="184" text-anchor="middle" font-size="11" fill="#6b7a8a">但未打通运维</text>
+  <!-- 卡片3 DevOps -->
+  <rect x="373" y="60" width="150" height="150" rx="8" fill="#f3f6ee" stroke="#8aa15c" stroke-width="1.5"/>
+  <text x="448" y="88" text-anchor="middle" font-size="15" font-weight="bold" fill="#4a6130">DevOps</text>
+  <text x="448" y="118" text-anchor="middle" font-size="11" fill="#22303f">开发+技术运营</text>
+  <text x="448" y="138" text-anchor="middle" font-size="11" fill="#22303f">+质量保障</text>
+  <text x="448" y="164" text-anchor="middle" font-size="11" fill="#4a6130">三者的交集</text>
+  <text x="448" y="184" text-anchor="middle" font-size="11" fill="#4a6130">沟通、协作、整合</text>
+  <!-- 卡片4 云原生 -->
+  <rect x="549" y="60" width="150" height="150" rx="8" fill="#fdf0e6" stroke="#c05621" stroke-width="1.5"/>
+  <text x="624" y="88" text-anchor="middle" font-size="15" font-weight="bold" fill="#c05621">云原生</text>
+  <text x="624" y="118" text-anchor="middle" font-size="11" fill="#22303f">容器 + 微服务</text>
+  <text x="624" y="138" text-anchor="middle" font-size="11" fill="#22303f">弹性 + 分布式</text>
+  <text x="624" y="164" text-anchor="middle" font-size="11" fill="#c05621">为DevOps与持续</text>
+  <text x="624" y="184" text-anchor="middle" font-size="11" fill="#c05621">交付提供前提</text>
+  <!-- 箭头1 -->
+  <line x1="175" y1="135" x2="186" y2="135" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="194,135 186,130.5 186,139.5" fill="#1f4e79"/>
+  <!-- 箭头2 -->
+  <line x1="351" y1="135" x2="362" y2="135" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="370,135 362,130.5 362,139.5" fill="#1f4e79"/>
+  <!-- 箭头3 -->
+  <line x1="527" y1="135" x2="538" y2="135" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="546,135 538,130.5 538,139.5" fill="#1f4e79"/>
+  <!-- 底部总结 -->
+  <rect x="21" y="238" width="678" height="42" rx="8" fill="#f3f6ee" stroke="#8aa15c" stroke-width="1"/>
+  <text x="360" y="264" text-anchor="middle" font-size="12" fill="#4a6130">实现 DevOps 和持续交付，已成为云原生技术价值不可分割的内涵</text>
+</svg></div><div class="cap">开发模式从瀑布式到云原生的演进</div></div>
+<h3>14.2 云原生架构内涵</h3>
+<h3>14.2.1 云原生架构定义</h3>
+<div class="def">教材原文：云原生架构是基于云原生技术的一组架构原则和设计模式的集合，旨在将云应用中的非业务代码部分进行最大化的剥离，从而让云设施接管应用中原有的大量非功能特性（如弹性、韧性、安全、可观测性、灰度等），使业务不再有非功能性业务中断困扰的同时，具备轻量、敏捷、高度自动化的特点。</div>
+<p>⭐【重点】云原生应用代码包含<b>三部分</b>：业务代码（实现业务逻辑，唯一核心）、三方软件（业务依赖的所有三方库）、处理非功能特性的代码（高可用、安全、可观测性等）。云原生架构把后两类尽可能剥离到 IaaS/PaaS，让开发者只聚焦业务代码；但<b>不是所有非功能特性都能剥离（如易用性不能剥离）</b>【易错】。</p>
+<div class="fig"><div><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 320" font-family="Microsoft YaHei, 微软雅黑, sans-serif">
+  <text x="360" y="28" text-anchor="middle" font-size="17" font-weight="bold" fill="#1f4e79">云原生应用代码组成与非功能特性剥离</text>
+  <!-- 左框 应用代码 -->
+  <rect x="40" y="50" width="280" height="220" rx="8" fill="#ffffff" stroke="#1f4e79" stroke-width="1.5"/>
+  <text x="180" y="74" text-anchor="middle" font-size="14" font-weight="bold" fill="#1f4e79">云原生应用代码（三部分）</text>
+  <rect x="60" y="86" width="240" height="48" rx="6" fill="#f3f6ee" stroke="#8aa15c" stroke-width="1.5"/>
+  <text x="180" y="106" text-anchor="middle" font-size="13" font-weight="bold" fill="#4a6130">业务代码（唯一核心）</text>
+  <text x="180" y="124" text-anchor="middle" font-size="10.5" fill="#22303f">实现业务逻辑，真正带来业务价值</text>
+  <rect x="60" y="146" width="240" height="48" rx="6" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.5"/>
+  <text x="180" y="166" text-anchor="middle" font-size="13" font-weight="bold" fill="#1f4e79">三方软件</text>
+  <text x="180" y="184" text-anchor="middle" font-size="10.5" fill="#22303f">业务依赖的三方库（业务库、基础库）</text>
+  <rect x="60" y="206" width="240" height="48" rx="6" fill="#fdf0e6" stroke="#c05621" stroke-width="1.5"/>
+  <text x="180" y="226" text-anchor="middle" font-size="13" font-weight="bold" fill="#c05621">处理非功能特性的代码</text>
+  <text x="180" y="244" text-anchor="middle" font-size="10.5" fill="#22303f">高可用、安全、可观测性等</text>
+  <!-- 右框 云设施 -->
+  <rect x="440" y="86" width="240" height="168" rx="8" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.5"/>
+  <text x="560" y="112" text-anchor="middle" font-size="14" font-weight="bold" fill="#1f4e79">云设施（IaaS / PaaS）</text>
+  <text x="560" y="140" text-anchor="middle" font-size="12" fill="#22303f">接管非功能特性：</text>
+  <text x="560" y="164" text-anchor="middle" font-size="12" fill="#22303f">弹性、韧性、安全</text>
+  <text x="560" y="186" text-anchor="middle" font-size="12" fill="#22303f">可观测性、灰度……</text>
+  <text x="560" y="216" text-anchor="middle" font-size="11" fill="#6b7a8a">轻量、敏捷、高度自动化</text>
+  <!-- 箭头1 三方软件右缘 -> 云设施 -->
+  <line x1="304" y1="170" x2="429" y2="170" stroke="#c05621" stroke-width="1.5" fill="none"/>
+  <polygon points="437,170 429,165.5 429,174.5" fill="#c05621"/>
+  <!-- 箭头2 非功能代码 -> 折线 -> 云设施 -->
+  <polyline points="304,230 380,230 380,214 429,214" stroke="#c05621" stroke-width="1.5" fill="none"/>
+  <polygon points="437,214 429,209.5 429,218.5" fill="#c05621"/>
+  <text x="366" y="160" text-anchor="middle" font-size="11" fill="#c05621">最大化剥离</text>
+  <!-- 底部说明 -->
+  <text x="360" y="296" text-anchor="middle" font-size="12" fill="#22303f">业务代码保留在应用内、开发者聚焦；并非全部剥离（如易用性不能剥离）</text>
+</svg></div><div class="cap">云原生应用代码组成与非功能特性剥离</div></div>
+<p>定义带来的三个变化（理解即可，常作为案例题答题素材）：</p>
+<table><colgroup><col style="width:16.1%"><col style="width:47.1%"><col style="width:36.8%"></colgroup><thead><tr><th>变化</th><th>核心内容</th><th>举例</th></tr></thead><tbody><tr><td>代码结构发生巨大变化</td><td>存储、网络等能力变成云服务，云产品解决分布式高可用、扩缩容、安全升级等挑战</td><td>用对象存储代替自己维护文件服务器，不用关心节点宕机与扩容</td></tr><tr><td>非功能性特性大量委托</td><td>虚拟机热迁移、容器自动重启切换、云服务托管有状态部分，应用变薄、无状态化</td><td>应用把缓存、数据库交给云服务，自身故障恢复降到分钟级</td></tr><tr><td>高度自动化的软件交付</td><td>容器标准化打包屏蔽环境差异，以「面向终态」方式完成安装、配置、运行和变更</td><td>微服务部署到成千上万节点时，靠自动化而非安装手册交付</td></tr></tbody></table>
+<h3>14.2.2 云原生架构原则 ⭐【重点】【高频考点】</h3>
+<table><colgroup><col style="width:14.9%"><col style="width:34.5%"><col style="width:50.6%"></colgroup><thead><tr><th>原则</th><th>一句话通俗解释</th><th>关键要点/关键词</th></tr></thead><tbody><tr><td>服务化原则</td><td>把大软件拆成按生命周期独立迭代的服务，面向接口编程</td><td>微服务/小服务拆分；限流降级、熔断隔仓、灰度、零信任等本质是基于<b>服务流量</b>（而非网络流量）的控制策略</td></tr><tr><td>弹性原则</td><td>部署规模随业务量自动伸缩，不按峰值预先采购固定资源</td><td>免容量规划、降闲置成本、扛得住突发流量</td></tr><tr><td>可观测原则</td><td>让一次点击背后的多次服务调用全程可见、可下钻</td><td>日志、链路跟踪、度量三种手段；区别于传统监控/业务探活/APM</td></tr><tr><td>韧性原则</td><td>依赖的软硬件出异常时，软件仍能抵御并持续提供服务</td><td>核心目标提升 MTBF（平均无故障时间）；手段含异步化、重试/限流/降级/熔断/反压、主从、集群、AZ 高可用、单元化、跨 region 容灾、异地多活</td></tr><tr><td>所有过程自动化原则</td><td>交付与运维全过程标准化后再自动化</td><td>IaC、GitOps、OAM、Kubernetes Operator、CI/CD；配置数据自描述、面向终态交付</td></tr><tr><td>零信任原则</td><td>默认不信任网络内外任何人/设备/系统，先认证授权再访问</td><td>IP、主机、地理位置、所处网络均不能作为可信凭证；从「网络中心化」走向「身份中心化」；核心是身份 Identity</td></tr><tr><td>架构持续演进原则</td><td>架构不是一次定死的封闭设计，而要能持续演进</td><td>兼顾架构治理与风险控制；存量迁移要评估迁出/迁入成本风险，用微服务、网关、服务网格、数据迁移、在线灰度等细粒度控制</td></tr></tbody></table>
+<div class="mnemonic">助记：「服弹可观韧，自动零信任，演进」——服务化、弹性、可观测、韧性、所有过程自动化、零信任、架构持续演进，共七原则。</div>
+<div class="fig"><div><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 490" font-family="Microsoft YaHei, 微软雅黑, sans-serif">
+  <text x="360" y="30" text-anchor="middle" font-size="17" font-weight="bold" fill="#1f4e79">云原生架构七大原则</text>
+  <!-- 左竖条 -->
+  <rect x="40" y="50" width="130" height="420" rx="10" fill="#1f4e79"/>
+  <text x="105" y="200" text-anchor="middle" font-size="16" font-weight="bold" fill="#ffffff">云原生架构</text>
+  <text x="105" y="228" text-anchor="middle" font-size="16" font-weight="bold" fill="#ffffff">七大原则</text>
+  <text x="105" y="262" text-anchor="middle" font-size="11" fill="#dbe7f3">核心架构控制面</text>
+  <text x="105" y="284" text-anchor="middle" font-size="11" fill="#dbe7f3">技术选择不跑偏</text>
+  <!-- 卡片1 服务化 -->
+  <rect x="230" y="50" width="460" height="48" rx="6" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.2"/>
+  <text x="246" y="70" font-size="13" font-weight="bold" fill="#1f4e79">1 服务化原则</text>
+  <text x="246" y="88" font-size="11" fill="#22303f">按生命周期拆分服务、面向接口编程；基于服务流量（非网络流量）治理</text>
+  <line x1="174" y1="74" x2="219" y2="74" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="227,74 219,69.5 219,78.5" fill="#1f4e79"/>
+  <!-- 卡片2 弹性 -->
+  <rect x="230" y="110" width="460" height="48" rx="6" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.2"/>
+  <text x="246" y="130" font-size="13" font-weight="bold" fill="#1f4e79">2 弹性原则</text>
+  <text x="246" y="148" font-size="11" fill="#22303f">部署规模随业务量自动伸缩，免预先容量规划、降低闲置成本</text>
+  <line x1="174" y1="134" x2="219" y2="134" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="227,134 219,129.5 219,138.5" fill="#1f4e79"/>
+  <!-- 卡片3 可观测 -->
+  <rect x="230" y="170" width="460" height="48" rx="6" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.2"/>
+  <text x="246" y="190" font-size="13" font-weight="bold" fill="#1f4e79">3 可观测原则</text>
+  <text x="246" y="208" font-size="11" fill="#22303f">日志、链路跟踪、度量手段，让多次服务调用的耗时与参数清晰可见</text>
+  <line x1="174" y1="194" x2="219" y2="194" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="227,194 219,189.5 219,198.5" fill="#1f4e79"/>
+  <!-- 卡片4 韧性 -->
+  <rect x="230" y="230" width="460" height="48" rx="6" fill="#f3f6ee" stroke="#8aa15c" stroke-width="1.2"/>
+  <text x="246" y="250" font-size="13" font-weight="bold" fill="#4a6130">4 韧性原则</text>
+  <text x="246" y="268" font-size="11" fill="#22303f">依赖组件异常时抵御并持续服务，核心目标提升 MTBF；重试/熔断/多活</text>
+  <line x1="174" y1="254" x2="219" y2="254" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="227,254 219,249.5 219,258.5" fill="#1f4e79"/>
+  <!-- 卡片5 自动化 -->
+  <rect x="230" y="290" width="460" height="48" rx="6" fill="#f3f6ee" stroke="#8aa15c" stroke-width="1.2"/>
+  <text x="246" y="310" font-size="13" font-weight="bold" fill="#4a6130">5 所有过程自动化原则</text>
+  <text x="246" y="328" font-size="11" fill="#22303f">IaC、GitOps、OAM、K8s Operator + CI/CD，面向终态标准化自动交付</text>
+  <line x1="174" y1="314" x2="219" y2="314" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="227,314 219,309.5 219,318.5" fill="#1f4e79"/>
+  <!-- 卡片6 零信任 -->
+  <rect x="230" y="350" width="460" height="48" rx="6" fill="#fdf0e6" stroke="#c05621" stroke-width="1.2"/>
+  <text x="246" y="370" font-size="13" font-weight="bold" fill="#c05621">6 零信任原则</text>
+  <text x="246" y="388" font-size="11" fill="#22303f">默认不信任内外任何人/设备/系统；从网络中心化走向身份中心化</text>
+  <line x1="174" y1="374" x2="219" y2="374" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="227,374 219,369.5 219,378.5" fill="#1f4e79"/>
+  <!-- 卡片7 演进 -->
+  <rect x="230" y="410" width="460" height="48" rx="6" fill="#fdf0e6" stroke="#c05621" stroke-width="1.2"/>
+  <text x="246" y="430" font-size="13" font-weight="bold" fill="#c05621">7 架构持续演进原则</text>
+  <text x="246" y="448" font-size="11" fill="#22303f">非封闭式架构；兼顾治理与风险，存量迁移评估迁出/迁入成本风险</text>
+  <line x1="174" y1="434" x2="219" y2="434" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="227,434 219,429.5 219,438.5" fill="#1f4e79"/>
+</svg></div><div class="cap">云原生架构七大原则全景</div></div>
+<div class="example">举例：弹性原则就像餐饮店的「共享充电宝机柜」，旺季人多自动多投放、淡季收回，不用按一年最高峰一次性买死设备；零信任则像小区「进每栋楼都要刷卡验证身份」，而不是进了大门就畅行无阻。</div>
+<h3>14.2.3 主要架构模式 ⭐【重点】【高频考点】</h3>
+<p><b>1. 服务化架构模式</b>：以应用模块为颗粒度划分软件，以接口契约（如 IDL）定义业务关系，以标准协议（HTTP、gRPC 等）互联互通，结合 DDD、TDD、容器化部署提升质量与迭代速度。典型模式为<b>微服务</b>与<b>小服务（MiniService）</b>：小服务是一组关系密切、共享数据的服务组合，适用于非常大型系统，避免接口颗粒度过细带来的调用损耗与治理复杂度。收益：代码模块关系与部署关系分离，每个接口可独立部署实例数、独立扩缩容与升级。</p>
+<p><b>2. Mesh 化架构模式</b>：把中间件框架（RPC、缓存、异步消息等）从业务进程中分离，让中间件 SDK 与业务代码解耦；业务进程只保留很「薄」的 Client，流量控制、安全等逻辑由 Mesh 进程完成。熔断、限流、降级、重试、反压、隔仓等分布式模式都由 Mesh 进程承担，业务代码无需引入对应三方包。</p>
+<div class="fig"><div><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 360" font-family="Microsoft YaHei, 微软雅黑, sans-serif">
+  <text x="170" y="30" text-anchor="middle" font-size="16" font-weight="bold" fill="#6b7a8a">传统架构</text>
+  <text x="510" y="30" text-anchor="middle" font-size="16" font-weight="bold" fill="#1f4e79">Mesh 化架构</text>
+  <!-- 左 业务进程 -->
+  <rect x="50" y="50" width="240" height="200" rx="8" fill="#f4f6f8" stroke="#6b7a8a" stroke-width="1.5"/>
+  <text x="170" y="72" text-anchor="middle" font-size="13" font-weight="bold" fill="#22303f">业务进程</text>
+  <rect x="70" y="82" width="200" height="36" rx="5" fill="#f3f6ee" stroke="#8aa15c" stroke-width="1.2"/>
+  <text x="170" y="105" text-anchor="middle" font-size="12" font-weight="bold" fill="#4a6130">业务代码</text>
+  <rect x="70" y="130" width="95" height="30" rx="4" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1"/>
+  <text x="117" y="149" text-anchor="middle" font-size="11" fill="#1f4e79">RPC SDK</text>
+  <rect x="175" y="130" width="95" height="30" rx="4" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1"/>
+  <text x="222" y="149" text-anchor="middle" font-size="11" fill="#1f4e79">Redis SDK</text>
+  <rect x="70" y="168" width="95" height="30" rx="4" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1"/>
+  <text x="117" y="187" text-anchor="middle" font-size="11" fill="#1f4e79">MQ SDK</text>
+  <rect x="175" y="168" width="95" height="30" rx="4" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1"/>
+  <text x="222" y="187" text-anchor="middle" font-size="11" fill="#1f4e79">DB SDK</text>
+  <text x="170" y="224" text-anchor="middle" font-size="11" fill="#6b7a8a">SDK 与业务代码耦合</text>
+  <!-- 左网络 -->
+  <line x1="170" y1="254" x2="170" y2="269" stroke="#6b7a8a" stroke-width="1.5" fill="none"/>
+  <polygon points="170,277 165.5,269 174.5,269" fill="#6b7a8a"/>
+  <rect x="50" y="280" width="240" height="34" rx="5" fill="#e4e9ee" stroke="#6b7a8a" stroke-width="1.2"/>
+  <text x="170" y="302" text-anchor="middle" font-size="12" fill="#22303f">网络</text>
+  <!-- 右 业务进程 -->
+  <rect x="330" y="50" width="170" height="200" rx="8" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.5"/>
+  <text x="415" y="72" text-anchor="middle" font-size="13" font-weight="bold" fill="#1f4e79">业务进程</text>
+  <rect x="345" y="82" width="140" height="36" rx="5" fill="#f3f6ee" stroke="#8aa15c" stroke-width="1.2"/>
+  <text x="415" y="105" text-anchor="middle" font-size="12" font-weight="bold" fill="#4a6130">业务代码</text>
+  <rect x="345" y="130" width="140" height="30" rx="4" fill="#ffffff" stroke="#1f4e79" stroke-width="1"/>
+  <text x="415" y="149" text-anchor="middle" font-size="11" fill="#1f4e79">薄 Client（少变化）</text>
+  <text x="415" y="190" text-anchor="middle" font-size="11" fill="#6b7a8a">只负责与 Mesh 通信</text>
+  <text x="415" y="212" text-anchor="middle" font-size="11" fill="#6b7a8a">中间件升级业务无感</text>
+  <!-- 右 Mesh 进程 -->
+  <rect x="530" y="50" width="160" height="200" rx="8" fill="#fdf0e6" stroke="#c05621" stroke-width="1.5"/>
+  <text x="610" y="72" text-anchor="middle" font-size="13" font-weight="bold" fill="#c05621">Mesh 进程</text>
+  <text x="610" y="104" text-anchor="middle" font-size="12" fill="#22303f">流量控制</text>
+  <text x="610" y="130" text-anchor="middle" font-size="12" fill="#22303f">安全策略</text>
+  <text x="610" y="156" text-anchor="middle" font-size="12" fill="#22303f">微隔离……</text>
+  <text x="610" y="190" text-anchor="middle" font-size="11" fill="#c05621">熔断/限流/降级</text>
+  <text x="610" y="212" text-anchor="middle" font-size="11" fill="#c05621">重试/反压/隔仓</text>
+  <!-- Client -> Mesh -->
+  <line x1="489" y1="145" x2="519" y2="145" stroke="#c05621" stroke-width="1.5" fill="none"/>
+  <polygon points="527,145 519,140.5 519,149.5" fill="#c05621"/>
+  <!-- Mesh -> 网络 -->
+  <line x1="610" y1="254" x2="610" y2="269" stroke="#c05621" stroke-width="1.5" fill="none"/>
+  <polygon points="610,277 605.5,269 614.5,269" fill="#c05621"/>
+  <rect x="330" y="280" width="360" height="34" rx="5" fill="#e4e9ee" stroke="#6b7a8a" stroke-width="1.2"/>
+  <text x="510" y="302" text-anchor="middle" font-size="12" fill="#22303f">网络（新协议、加密、染色……）</text>
+  <!-- 底部说明 -->
+  <text x="360" y="342" text-anchor="middle" font-size="12" fill="#22303f">中间件 SDK 从业务进程剥离为 Mesh 进程，分布式治理与零信任安全由 Mesh 承担</text>
+</svg></div><div class="cap">Mesh化架构（教材图14-1重绘）</div></div>
+<p><b>3. Serverless 模式</b>：把「部署」从运维中收走，业务流量到来/事件发生时云启动或调度业务进程处理，处理完自动关闭/调度，把整个运行委托给云。【易错】<b>并非适用所有应用</b>：①有状态应用（调度不做状态同步，可能丢上下文）；②长时间后台运行的密集型计算；③频繁外部 I/O 的应用均不适合。适合事件驱动的数据计算、计算时间短的请求/响应应用、无复杂相互调用的长周期任务。</p>
+<p><b>4. 存储计算分离模式</b>：分布式 CAP 困难主要针对<b>有状态应用</b>；无状态应用不存在 C（一致性）维度，可获得更好的 A、P 与弹性。推荐把暂态数据（session）、结构化/非结构化持久数据交给云服务保存。若状态放远端导致交易性能下降，可用「时间日志+快照（检查点）」实现重启后快速增量恢复。</p>
+<p><b>5. 分布式事务模式</b> ⭐【高频考点】【易错】：微服务提倡每个服务私有数据源，跨服务大业务必然带来分布式事务问题，须按场景选型：</p>
+<table><colgroup><col style="width:23.7%"><col style="width:47.4%"><col style="width:28.9%"></colgroup><thead><tr><th>模式</th><th>一致性/性能特点</th><th>主要缺点或限制</th></tr></thead><tbody><tr><td>XA</td><td>一致性很强</td><td>性能差</td></tr><tr><td>基于消息的最终一致性（BASE）</td><td>性能通常很高</td><td>通用性有限</td></tr><tr><td>TCC</td><td>应用层控制事务，隔离性可控，可做到较高效</td><td>业务侵入性非常强，设计开发维护成本高</td></tr><tr><td>SAGA</td><td>优缺点与 TCC 类似，但<b>没有 Try 阶段</b>，每个正向事务对应一个补偿事务</td><td>开发维护成本高</td></tr><tr><td>SEATA 的 AT</td><td>高性能、无代码开发工作量，可自动回滚</td><td>存在一些使用场景限制</td></tr></tbody></table>
+<p><b>6. 可观测架构</b>：包括 <b>Logging、Tracing、Metrics</b> 三方面。Logging 提供 verbose/debug/warning/error/fatal 多级别详细信息，由开发者主动提供；Tracing 提供请求从前端到后端的完整调用链路跟踪，分布式场景尤其有用；Metrics 提供系统量化的多维度度量。落地时要选 OpenTracing、OpenTelemetry 等框架，规范上下文数据，利用 spanid/traceid 做关联分析；主要目标是度量服务 SLO（并发度、耗时、可用时长、容量等）从而优化 SLA。</p>
+<div class="fig"><div><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 340" font-family="Microsoft YaHei, 微软雅黑, sans-serif">
+  <text x="360" y="24" text-anchor="middle" font-size="17" font-weight="bold" fill="#1f4e79">可观测架构三支柱</text>
+  <!-- 顶条 -->
+  <rect x="60" y="38" width="600" height="36" rx="6" fill="#1f4e79"/>
+  <text x="360" y="61" text-anchor="middle" font-size="13" font-weight="bold" fill="#ffffff">可观测能力：一次点击背后的多次服务调用全程可见、可下钻</text>
+  <!-- 三柱 -->
+  <rect x="60" y="110" width="180" height="130" rx="8" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.5"/>
+  <text x="150" y="136" text-anchor="middle" font-size="14" font-weight="bold" fill="#1f4e79">Logging 日志</text>
+  <text x="150" y="160" text-anchor="middle" font-size="11" fill="#22303f">多级别详细信息跟踪</text>
+  <text x="150" y="180" text-anchor="middle" font-size="10.5" fill="#6b7a8a">verbose/debug/warning</text>
+  <text x="150" y="198" text-anchor="middle" font-size="10.5" fill="#6b7a8a">error/fatal</text>
+  <text x="150" y="222" text-anchor="middle" font-size="11" fill="#22303f">由开发者主动提供</text>
+  <rect x="270" y="110" width="180" height="130" rx="8" fill="#f3f6ee" stroke="#8aa15c" stroke-width="1.5"/>
+  <text x="360" y="136" text-anchor="middle" font-size="14" font-weight="bold" fill="#4a6130">Tracing 链路跟踪</text>
+  <text x="360" y="160" text-anchor="middle" font-size="11" fill="#22303f">请求从前端到后端</text>
+  <text x="360" y="180" text-anchor="middle" font-size="11" fill="#22303f">完整调用链路跟踪</text>
+  <text x="360" y="202" text-anchor="middle" font-size="10.5" fill="#6b7a8a">分布式场景尤其有用</text>
+  <text x="360" y="222" text-anchor="middle" font-size="10.5" fill="#6b7a8a">spanid/traceid 关联分析</text>
+  <rect x="480" y="110" width="180" height="130" rx="8" fill="#fdf0e6" stroke="#c05621" stroke-width="1.5"/>
+  <text x="570" y="136" text-anchor="middle" font-size="14" font-weight="bold" fill="#c05621">Metrics 度量</text>
+  <text x="570" y="160" text-anchor="middle" font-size="11" fill="#22303f">系统量化的多维度度量</text>
+  <text x="570" y="182" text-anchor="middle" font-size="10.5" fill="#6b7a8a">并发度、耗时</text>
+  <text x="570" y="202" text-anchor="middle" font-size="10.5" fill="#6b7a8a">可用时长、容量等</text>
+  <text x="570" y="222" text-anchor="middle" font-size="11" fill="#22303f">数字化衡量健康度</text>
+  <!-- 顶条到三柱箭头 -->
+  <line x1="150" y1="78" x2="150" y2="99" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="150,107 145.5,99 154.5,99" fill="#1f4e79"/>
+  <line x1="360" y1="78" x2="360" y2="99" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="360,107 355.5,99 364.5,99" fill="#1f4e79"/>
+  <line x1="540" y1="78" x2="540" y2="99" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="540,107 535.5,99 544.5,99" fill="#1f4e79"/>
+  <!-- 三柱到底条箭头 -->
+  <line x1="150" y1="244" x2="150" y2="269" stroke="#8aa15c" stroke-width="1.5" fill="none"/>
+  <polygon points="150,277 145.5,269 154.5,269" fill="#8aa15c"/>
+  <line x1="360" y1="244" x2="360" y2="269" stroke="#8aa15c" stroke-width="1.5" fill="none"/>
+  <polygon points="360,277 355.5,269 364.5,269" fill="#8aa15c"/>
+  <line x1="540" y1="244" x2="540" y2="269" stroke="#8aa15c" stroke-width="1.5" fill="none"/>
+  <polygon points="540,277 535.5,269 544.5,269" fill="#8aa15c"/>
+  <!-- 底条 -->
+  <rect x="60" y="280" width="600" height="40" rx="6" fill="#f3f6ee" stroke="#8aa15c" stroke-width="1.2"/>
+  <text x="360" y="297" text-anchor="middle" font-size="12" fill="#4a6130">为各组件定义清晰 SLO（并发度、耗时、可用时长、容量）</text>
+  <text x="360" y="313" text-anchor="middle" font-size="12" fill="#4a6130">度量服务 SLO → 优化 SLA；可选 OpenTracing / OpenTelemetry 框架</text>
+</svg></div><div class="cap">可观测架构三支柱与SLO</div></div>
+<p><b>7. 事件驱动架构（EDA）</b>：本质是一种应用/组件间的集成架构模式。【易错】<b>事件不同于传统消息</b>：事件具有 schema 可校验有效性，EDA 具备 QoS 保障机制，能对事件处理失败进行响应。适用场景：增强服务韧性（异步集成，下游宕机不影响上游）、CQRS（命令走事件、查询走同步 API；结合 Event Sourcing 重放事件重建状态）、数据变化通知（订单完成通知积分/信用服务）、构建开放式接口（提供者不关心订阅者）、事件流处理（如基于 Kafka 的日志处理）、基于事件触发的响应（IoT 传感器数据）。</p>
+<div class="fig"><div><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 280" font-family="Microsoft YaHei, 微软雅黑, sans-serif">
+  <text x="360" y="30" text-anchor="middle" font-size="17" font-weight="bold" fill="#1f4e79">事件驱动架构（EDA）：应用/组件间的集成架构模式</text>
+  <!-- 生产者 -->
+  <rect x="50" y="60" width="140" height="160" rx="8" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.5"/>
+  <text x="120" y="130" text-anchor="middle" font-size="15" font-weight="bold" fill="#1f4e79">生产者</text>
+  <text x="120" y="156" text-anchor="middle" font-size="11" fill="#6b7a8a">发布事件</text>
+  <!-- 主题 -->
+  <rect x="290" y="60" width="140" height="160" rx="8" fill="#fdf0e6" stroke="#c05621" stroke-width="1.5"/>
+  <text x="360" y="130" text-anchor="middle" font-size="15" font-weight="bold" fill="#c05621">主题 Topic</text>
+  <text x="360" y="156" text-anchor="middle" font-size="11" fill="#6b7a8a">事件通道</text>
+  <!-- 消费者 -->
+  <rect x="530" y="60" width="140" height="160" rx="8" fill="#f3f6ee" stroke="#8aa15c" stroke-width="1.5"/>
+  <text x="600" y="130" text-anchor="middle" font-size="15" font-weight="bold" fill="#4a6130">消费者</text>
+  <text x="600" y="156" text-anchor="middle" font-size="11" fill="#6b7a8a">订阅并处理事件</text>
+  <!-- 生产者->主题 三条事件箭头 -->
+  <text x="240" y="80" text-anchor="middle" font-size="11" fill="#22303f">事件</text>
+  <line x1="194" y1="90" x2="279" y2="90" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="287,90 279,85.5 279,94.5" fill="#1f4e79"/>
+  <line x1="194" y1="120" x2="279" y2="120" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="287,120 279,115.5 279,124.5" fill="#1f4e79"/>
+  <line x1="194" y1="150" x2="279" y2="150" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="287,150 279,145.5 279,154.5" fill="#1f4e79"/>
+  <!-- 主题->消费者 三条事件箭头 -->
+  <text x="480" y="80" text-anchor="middle" font-size="11" fill="#22303f">事件</text>
+  <line x1="434" y1="90" x2="519" y2="90" stroke="#c05621" stroke-width="1.5" fill="none"/>
+  <polygon points="527,90 519,85.5 519,94.5" fill="#c05621"/>
+  <line x1="434" y1="120" x2="519" y2="120" stroke="#c05621" stroke-width="1.5" fill="none"/>
+  <polygon points="527,120 519,115.5 519,124.5" fill="#c05621"/>
+  <line x1="434" y1="150" x2="519" y2="150" stroke="#c05621" stroke-width="1.5" fill="none"/>
+  <polygon points="527,150 519,145.5 519,154.5" fill="#c05621"/>
+  <!-- 消费者->主题 订阅（左向） -->
+  <text x="480" y="182" text-anchor="middle" font-size="11" fill="#4a6130">订阅</text>
+  <line x1="526" y1="192" x2="441" y2="192" stroke="#8aa15c" stroke-width="1.5" fill="none"/>
+  <polygon points="433,192 441,187.5 441,196.5" fill="#8aa15c"/>
+  <!-- 底部说明 -->
+  <text x="360" y="248" text-anchor="middle" font-size="12" fill="#22303f">事件具有 schema、可校验有效性；EDA 具备 QoS 保障，能对处理失败进行响应</text>
+  <text x="360" y="268" text-anchor="middle" font-size="11" fill="#6b7a8a">典型场景：服务解耦与韧性、CQRS/Event Sourcing、数据变化通知、开放接口、事件流、IoT</text>
+</svg></div><div class="cap">事件驱动架构（教材图14-2重绘）</div></div>
+<h3>14.2.4 典型的云原生架构反模式 ⭐【重点】</h3>
+<table><colgroup><col style="width:20.8%"><col style="width:22.1%"><col style="width:57.1%"></colgroup><thead><tr><th>反模式</th><th>问题本质</th><th>典型表现</th></tr></thead><tbody><tr><td>庞大的单体应用</td><td>缺乏依赖隔离</td><td>代码耦合责任不清、变更影响扩散、发布难协调、局部不稳定拖慢整体、只能整体扩容</td></tr><tr><td>单体应用「硬拆」为微服务</td><td>拆分过度，与组织能力不匹配</td><td>小软件强行拆分；服务拆了但共享数据库造成数据依赖；本地调用变分布式调用，响应时间变大、链路性能急剧下降</td></tr><tr><td>缺乏自动化能力的微服务</td><td>模块数量激增而人效未提升</td><td>人均负责模块数直线上升；测试发布排队、多环境发布靠专家；人工运维不可重现、故障难以快速止血</td></tr></tbody></table>
+<p>一句话：服务化拆分要「适度」，先梳理聚合根与模块边界、让组织关系与架构关系匹配，并配套自动化与治理能力。</p>
+<h3>14.3 云原生架构相关技术</h3>
+<h3>14.3.1 容器技术 ⭐【重点】</h3>
+<ul><li><b>容器价值</b>：容器是标准化软件单元，将应用及其所有依赖打包，使应用不受环境限制、在不同计算环境间快速可靠运行。2008 年 Linux 提供 Cgroups（资源管理）与 NameSpace（视图隔离），直到 <b>Docker 开源</b>才大幅降低使用复杂性。</li><li><b>Docker 特点</b>：基于操作系统虚拟化，<b>共享操作系统内核、轻量、秒级启动</b>，提升部署密度与弹性；创新提出 <b>Docker 镜像</b>打包规范，解耦应用与运行环境，容器镜像成为应用分发的工业标准。</li><li><b>Kubernetes 地位</b>：容器编排的事实标准，成为分布式资源调度和自动化运维的事实标准；屏蔽 IaaS 差异、支持多云/混合云，免厂商锁定。生态上层有 Istio（服务网格）、Kubeflow（机器学习）、Knative（无服务器框架）等。CNCF 推出 Kubernetes 一致性认证保障不同 K8s 实现兼容。</li><li>容器三大核心价值：<b>敏捷、弹性、可移植性</b>（可获 3～10 倍交付效率提升）。</li></ul>
+<div class="fig"><div><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 340" font-family="Microsoft YaHei, 微软雅黑, sans-serif">
+  <!-- 列标题 -->
+  <text x="125" y="26" text-anchor="middle" font-size="15" font-weight="bold" fill="#6b7a8a">传统部署</text>
+  <text x="125" y="44" text-anchor="middle" font-size="10" fill="#6b7a8a">Traditional Deployment</text>
+  <text x="360" y="26" text-anchor="middle" font-size="15" font-weight="bold" fill="#1f4e79">虚拟化部署</text>
+  <text x="360" y="44" text-anchor="middle" font-size="10" fill="#6b7a8a">Virtualized Deployment</text>
+  <text x="595" y="26" text-anchor="middle" font-size="15" font-weight="bold" fill="#c05621">容器部署</text>
+  <text x="595" y="44" text-anchor="middle" font-size="10" fill="#6b7a8a">Container Deployment</text>
+  <!-- 传统列 APP -->
+  <rect x="20" y="56" width="100" height="76" rx="5" fill="#f4f6f8" stroke="#6b7a8a" stroke-width="1.2"/>
+  <text x="70" y="88" text-anchor="middle" font-size="12" font-weight="bold" fill="#22303f">APP</text>
+  <text x="70" y="110" text-anchor="middle" font-size="10" fill="#22303f">Bin/Library</text>
+  <rect x="125" y="56" width="100" height="76" rx="5" fill="#f4f6f8" stroke="#6b7a8a" stroke-width="1.2"/>
+  <text x="175" y="88" text-anchor="middle" font-size="12" font-weight="bold" fill="#22303f">APP</text>
+  <text x="175" y="110" text-anchor="middle" font-size="10" fill="#22303f">Bin/Library</text>
+  <rect x="20" y="148" width="205" height="34" rx="5" fill="#e4e9ee" stroke="#6b7a8a" stroke-width="1.2"/>
+  <text x="122" y="170" text-anchor="middle" font-size="11" fill="#22303f">Operating System</text>
+  <rect x="20" y="198" width="205" height="34" rx="5" fill="#dfe5ea" stroke="#6b7a8a" stroke-width="1.2"/>
+  <text x="122" y="220" text-anchor="middle" font-size="11" fill="#22303f">HardWare</text>
+  <!-- 虚拟化列 VM -->
+  <rect x="255" y="56" width="100" height="76" rx="5" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.2"/>
+  <text x="305" y="68" text-anchor="middle" font-size="8.5" fill="#1f4e79">Virtual Machine</text>
+  <rect x="260" y="74" width="90" height="52" rx="4" fill="#ffffff" stroke="#1f4e79" stroke-width="1"/>
+  <text x="305" y="94" text-anchor="middle" font-size="11" font-weight="bold" fill="#22303f">APP</text>
+  <text x="305" y="114" text-anchor="middle" font-size="9.5" fill="#22303f">Bin/Library</text>
+  <rect x="360" y="56" width="100" height="76" rx="5" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.2"/>
+  <text x="410" y="68" text-anchor="middle" font-size="8.5" fill="#1f4e79">Virtual Machine</text>
+  <rect x="365" y="74" width="90" height="52" rx="4" fill="#ffffff" stroke="#1f4e79" stroke-width="1"/>
+  <text x="410" y="94" text-anchor="middle" font-size="11" font-weight="bold" fill="#22303f">APP</text>
+  <text x="410" y="114" text-anchor="middle" font-size="9.5" fill="#22303f">Bin/Library</text>
+  <rect x="255" y="148" width="205" height="34" rx="5" fill="#e4e9ee" stroke="#6b7a8a" stroke-width="1.2"/>
+  <text x="357" y="170" text-anchor="middle" font-size="11" fill="#22303f">Operating System</text>
+  <rect x="255" y="198" width="205" height="34" rx="5" fill="#dfe5ea" stroke="#6b7a8a" stroke-width="1.2"/>
+  <text x="357" y="220" text-anchor="middle" font-size="11" fill="#22303f">HardWare</text>
+  <!-- 容器列 Container -->
+  <rect x="490" y="56" width="100" height="76" rx="5" fill="#fdf0e6" stroke="#c05621" stroke-width="1.2"/>
+  <text x="540" y="68" text-anchor="middle" font-size="8.5" fill="#c05621">Container</text>
+  <rect x="495" y="74" width="90" height="52" rx="4" fill="#ffffff" stroke="#c05621" stroke-width="1"/>
+  <text x="540" y="94" text-anchor="middle" font-size="11" font-weight="bold" fill="#22303f">APP</text>
+  <text x="540" y="114" text-anchor="middle" font-size="9.5" fill="#22303f">Bin/Library</text>
+  <rect x="595" y="56" width="100" height="76" rx="5" fill="#fdf0e6" stroke="#c05621" stroke-width="1.2"/>
+  <text x="645" y="68" text-anchor="middle" font-size="8.5" fill="#c05621">Container</text>
+  <rect x="600" y="74" width="90" height="52" rx="4" fill="#ffffff" stroke="#c05621" stroke-width="1"/>
+  <text x="645" y="94" text-anchor="middle" font-size="11" font-weight="bold" fill="#22303f">APP</text>
+  <text x="645" y="114" text-anchor="middle" font-size="9.5" fill="#22303f">Bin/Library</text>
+  <rect x="490" y="148" width="205" height="34" rx="5" fill="#fdf0e6" stroke="#c05621" stroke-width="1.2"/>
+  <text x="592" y="170" text-anchor="middle" font-size="11" fill="#c05621">Container Runtime</text>
+  <rect x="490" y="198" width="205" height="34" rx="5" fill="#e4e9ee" stroke="#6b7a8a" stroke-width="1.2"/>
+  <text x="592" y="220" text-anchor="middle" font-size="11" fill="#22303f">Operating System</text>
+  <rect x="490" y="248" width="205" height="34" rx="5" fill="#dfe5ea" stroke="#6b7a8a" stroke-width="1.2"/>
+  <text x="592" y="270" text-anchor="middle" font-size="11" fill="#22303f">HardWare</text>
+  <!-- 底部特点 -->
+  <text x="125" y="308" text-anchor="middle" font-size="11" fill="#6b7a8a">环境不一致、迁移困难</text>
+  <text x="360" y="308" text-anchor="middle" font-size="11" fill="#1f4e79">每 VM 带完整 Guest OS，开销大</text>
+  <text x="595" y="308" text-anchor="middle" font-size="11" fill="#c05621">共享 OS 内核、轻量、秒级启动</text>
+</svg></div><div class="cap">传统、虚拟化、容器部署模式比较（教材图14-3重绘）</div></div>
+<p>⭐【高频考点】<b>Kubernetes 五大核心能力</b>：</p>
+<table><colgroup><col style="width:27.7%"><col style="width:72.3%"></colgroup><thead><tr><th>能力</th><th>说明</th></tr></thead><tbody><tr><td>资源调度</td><td>按应用请求的 CPU、Memory、GPU 等资源在集群中选择合适节点运行</td></tr><tr><td>应用部署与管理</td><td>自动发布与回滚、配置管理、存储卷编排（与容器生命周期关联）</td></tr><tr><td>自动修复</td><td>宿主机/OS 故障时健康检查自动迁移应用，支持应用自愈</td></tr><tr><td>服务发现与负载均衡</td><td>通过 Service 资源暴露服务，结合 DNS 与多种负载均衡机制互通</td></tr><tr><td>弹性伸缩</td><td>监测业务负载（CPU 利用率过高、响应过长）自动扩容</td></tr></tbody></table>
+<p><b>K8s 控制平面四组件</b>：APIServer、Controller、Scheduler、etcd。三大架构特性：①<b>声明式 API</b>——Deployment（无状态）、StatefulSet（有状态）、Job（任务类）等资源抽象工作负载，「level-triggered」实现比「edge-triggered」更健壮；②<b>可扩展性架构</b>——组件基于一致开放 API 交互，三方可用 CRD/Operator 扩展；③<b>可移植性</b>——通过 Load Balance Service、CNI（容器网络接口）、CSI（容器存储接口）屏蔽底层差异。</p>
+<div class="fig"><div><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 400" font-family="Microsoft YaHei, 微软雅黑, sans-serif">
+  <!-- 集群大框 -->
+  <rect x="30" y="20" width="660" height="240" rx="10" fill="#fbfcfd" stroke="#1f4e79" stroke-width="1.5"/>
+  <text x="360" y="42" text-anchor="middle" font-size="15" font-weight="bold" fill="#1f4e79">Kubernetes 集群（容器编排事实标准）</text>
+  <!-- 控制平面 -->
+  <rect x="50" y="54" width="400" height="120" rx="8" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.5"/>
+  <text x="250" y="76" text-anchor="middle" font-size="13" font-weight="bold" fill="#1f4e79">控制平面 Control Plane（四组件）</text>
+  <rect x="60" y="90" width="88" height="40" rx="5" fill="#ffffff" stroke="#1f4e79" stroke-width="1"/>
+  <text x="104" y="114" text-anchor="middle" font-size="11" font-weight="bold" fill="#1f4e79">APIServer</text>
+  <rect x="158" y="90" width="88" height="40" rx="5" fill="#ffffff" stroke="#1f4e79" stroke-width="1"/>
+  <text x="202" y="114" text-anchor="middle" font-size="11" font-weight="bold" fill="#1f4e79">Controller</text>
+  <rect x="256" y="90" width="88" height="40" rx="5" fill="#ffffff" stroke="#1f4e79" stroke-width="1"/>
+  <text x="300" y="114" text-anchor="middle" font-size="11" font-weight="bold" fill="#1f4e79">Scheduler</text>
+  <rect x="354" y="90" width="88" height="40" rx="5" fill="#ffffff" stroke="#1f4e79" stroke-width="1"/>
+  <text x="398" y="114" text-anchor="middle" font-size="11" font-weight="bold" fill="#1f4e79">etcd</text>
+  <text x="250" y="156" text-anchor="middle" font-size="10.5" fill="#6b7a8a">声明式 API · CRD/Operator 可扩展 · CNI/CSI 可移植</text>
+  <!-- 工作节点 -->
+  <rect x="480" y="54" width="190" height="120" rx="8" fill="#f3f6ee" stroke="#8aa15c" stroke-width="1.5"/>
+  <text x="575" y="76" text-anchor="middle" font-size="13" font-weight="bold" fill="#4a6130">工作节点 Node</text>
+  <rect x="495" y="90" width="160" height="32" rx="5" fill="#ffffff" stroke="#8aa15c" stroke-width="1"/>
+  <text x="575" y="111" text-anchor="middle" font-size="11" fill="#4a6130">应用 Pod</text>
+  <text x="575" y="146" text-anchor="middle" font-size="10.5" fill="#6b7a8a">无状态/有状态/任务负载</text>
+  <text x="575" y="164" text-anchor="middle" font-size="10.5" fill="#6b7a8a">kubelet + 容器运行时</text>
+  <!-- 控制平面到节点箭头 -->
+  <line x1="454" y1="114" x2="469" y2="114" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="477,114 469,109.5 469,118.5" fill="#1f4e79"/>
+  <!-- 集群内底部说明 -->
+  <text x="360" y="196" text-anchor="middle" font-size="11" fill="#22303f">屏蔽 IaaS 差异，支持多云/混合云；CNCF 一致性认证保障不同实现兼容</text>
+  <text x="360" y="222" text-anchor="middle" font-size="11" fill="#6b7a8a">上层生态：Istio 服务网格 · Kubeflow 机器学习 · Knative 无服务器框架</text>
+  <text x="360" y="246" text-anchor="middle" font-size="11" fill="#6b7a8a">容器三大核心价值：敏捷 · 弹性 · 可移植性</text>
+  <!-- 五大核心能力 -->
+  <text x="360" y="292" text-anchor="middle" font-size="14" font-weight="bold" fill="#1f4e79">分布式应用管理五大核心能力</text>
+  <rect x="30" y="306" width="124" height="64" rx="6" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.2"/>
+  <text x="92" y="332" text-anchor="middle" font-size="12" font-weight="bold" fill="#1f4e79">资源调度</text>
+  <text x="92" y="354" text-anchor="middle" font-size="10" fill="#22303f">按资源请求选节点</text>
+  <rect x="164" y="306" width="124" height="64" rx="6" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.2"/>
+  <text x="226" y="332" text-anchor="middle" font-size="12" font-weight="bold" fill="#1f4e79">应用部署与管理</text>
+  <text x="226" y="354" text-anchor="middle" font-size="10" fill="#22303f">发布、回滚、配置</text>
+  <rect x="298" y="306" width="124" height="64" rx="6" fill="#f3f6ee" stroke="#8aa15c" stroke-width="1.2"/>
+  <text x="360" y="332" text-anchor="middle" font-size="12" font-weight="bold" fill="#4a6130">自动修复</text>
+  <text x="360" y="354" text-anchor="middle" font-size="10" fill="#22303f">故障迁移与自愈</text>
+  <rect x="432" y="306" width="124" height="64" rx="6" fill="#fdf0e6" stroke="#c05621" stroke-width="1.2"/>
+  <text x="494" y="326" text-anchor="middle" font-size="11" font-weight="bold" fill="#c05621">服务发现与</text>
+  <text x="494" y="342" text-anchor="middle" font-size="11" font-weight="bold" fill="#c05621">负载均衡</text>
+  <text x="494" y="362" text-anchor="middle" font-size="10" fill="#22303f">Service + DNS</text>
+  <rect x="566" y="306" width="124" height="64" rx="6" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.2"/>
+  <text x="628" y="332" text-anchor="middle" font-size="12" font-weight="bold" fill="#1f4e79">弹性伸缩</text>
+  <text x="628" y="354" text-anchor="middle" font-size="10" fill="#22303f">按负载自动扩缩容</text>
+</svg></div><div class="cap">Kubernetes控制平面组件与核心能力</div></div>
+<h3>14.3.2 云原生微服务</h3>
+<p>微服务模式将单体后端拆为松耦合一组子应用，物理独立但逻辑完整；通过分布式水平扩展与冗余部署解决单体扩展性、稳定性先天缺陷，但也带来远程调用、容量预估、负载均衡、集成测试、大规模部署运维等分布式挑战。⭐【重点】<b>微服务设计四大约束</b>：</p>
+<table><colgroup><col style="width:15.6%"><col style="width:35.2%"><col style="width:49.2%"></colgroup><thead><tr><th>约束</th><th>核心要求</th><th>关键词/标准</th></tr></thead><tbody><tr><td>微服务个体约束</td><td>业务域相互独立、按问题域合理拆分，正交分解、单一职责</td><td>「两张披萨饼」团队、「至少两周完成一次迭代」；SRP 单一职责，修改发布不影响其他服务</td></tr><tr><td>服务间横向关系</td><td>可发现性 + 可交互性</td><td>第三方<b>服务注册中心</b>感知发布/扩缩容；与语言无关的远程协议（REST，或高性能场景基于 IDL 的二进制协议）；独立元数据中心；面向失败设计（限流、熔断、隔仓、负载均衡标配）</td></tr><tr><td>服务与数据层纵向约束</td><td>数据存储隔离 DSS，数据是微服务私有资产，只能经 API 访问</td><td>读写分离 CQRS；尽量无状态设计，有状态则计算存储分离、数据下沉分布式存储</td></tr><tr><td>全局分布式约束</td><td>从设计之初考虑高效运维</td><td>全自动化 CI/CD，蓝绿/金丝雀发布；全链路实时多维度可观测；中心化监控、多维展现，快速发现故障定位根因</td></tr></tbody></table>
+<div class="fig"><div><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 370" font-family="Microsoft YaHei, 微软雅黑, sans-serif">
+  <text x="360" y="22" text-anchor="middle" font-size="16" font-weight="bold" fill="#1f4e79">微服务设计四大约束</text>
+  <!-- 上卡片 个体约束 -->
+  <rect x="210" y="36" width="300" height="64" rx="8" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.5"/>
+  <text x="360" y="56" text-anchor="middle" font-size="13" font-weight="bold" fill="#1f4e79">① 微服务个体约束</text>
+  <text x="360" y="74" text-anchor="middle" font-size="10.5" fill="#22303f">业务域独立、SRP 单一职责、正交分解</text>
+  <text x="360" y="90" text-anchor="middle" font-size="10.5" fill="#6b7a8a">两张披萨团队、两周完成一次迭代</text>
+  <!-- 中心 -->
+  <rect x="270" y="150" width="180" height="80" rx="10" fill="#1f4e79"/>
+  <text x="360" y="184" text-anchor="middle" font-size="15" font-weight="bold" fill="#ffffff">优秀的</text>
+  <text x="360" y="208" text-anchor="middle" font-size="15" font-weight="bold" fill="#ffffff">微服务系统</text>
+  <!-- 左卡片 横向关系 -->
+  <rect x="30" y="140" width="200" height="100" rx="8" fill="#f3f6ee" stroke="#8aa15c" stroke-width="1.5"/>
+  <text x="130" y="162" text-anchor="middle" font-size="13" font-weight="bold" fill="#4a6130">② 横向关系（服务间）</text>
+  <text x="130" y="184" text-anchor="middle" font-size="10.5" fill="#22303f">可发现：服务注册中心</text>
+  <text x="130" y="202" text-anchor="middle" font-size="10.5" fill="#22303f">可交互：REST / IDL 协议</text>
+  <text x="130" y="222" text-anchor="middle" font-size="10.5" fill="#6b7a8a">面向失败：限流熔断隔仓</text>
+  <!-- 右卡片 纵向约束 -->
+  <rect x="490" y="140" width="200" height="100" rx="8" fill="#fdf0e6" stroke="#c05621" stroke-width="1.5"/>
+  <text x="590" y="162" text-anchor="middle" font-size="13" font-weight="bold" fill="#c05621">③ 纵向约束（数据层）</text>
+  <text x="590" y="184" text-anchor="middle" font-size="10.5" fill="#22303f">DSS：数据私有、API 访问</text>
+  <text x="590" y="202" text-anchor="middle" font-size="10.5" fill="#22303f">无状态设计、存算分离</text>
+  <text x="590" y="222" text-anchor="middle" font-size="10.5" fill="#6b7a8a">CQRS 读写分离</text>
+  <!-- 下卡片 全局约束 -->
+  <rect x="210" y="280" width="300" height="64" rx="8" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.5"/>
+  <text x="360" y="300" text-anchor="middle" font-size="13" font-weight="bold" fill="#1f4e79">④ 全局分布式约束</text>
+  <text x="360" y="318" text-anchor="middle" font-size="10.5" fill="#22303f">自动化 CI/CD、蓝绿/金丝雀发布</text>
+  <text x="360" y="334" text-anchor="middle" font-size="10.5" fill="#6b7a8a">全链路可观测、中心化监控、快速定位根因</text>
+  <!-- 上->中心 -->
+  <line x1="360" y1="104" x2="360" y2="139" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="360,147 355.5,139 364.5,139" fill="#1f4e79"/>
+  <!-- 中心->下 -->
+  <line x1="360" y1="234" x2="360" y2="269" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="360,277 355.5,269 364.5,269" fill="#1f4e79"/>
+  <!-- 左->中心 -->
+  <line x1="234" y1="190" x2="259" y2="190" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="267,190 259,185.5 259,194.5" fill="#1f4e79"/>
+  <!-- 中心->右 -->
+  <line x1="454" y1="190" x2="479" y2="190" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="487,190 479,185.5 479,194.5" fill="#1f4e79"/>
+</svg></div><div class="cap">微服务设计四大约束</div></div>
+<p>主要微服务技术（识记选型即可）：<b>Apache Dubbo</b>（阿里开源高性能 RPC 框架，透明接口 RPC、智能负载均衡、自动服务注册发现；配套 Spring Cloud Alibaba、Nacos、Sentinel、Seata、Chaosblade）；<b>Spring Cloud</b>（配置管理、服务发现、断路器、智能路由等全家桶）；<b>Eclipse MicroProfile</b>（企业 Java 微服务规范与基础编程模型）；<b>Tars</b>（腾讯开源，多语言、兼顾高性能与服务治理）；<b>SOFAStack</b>（蚂蚁金融级分布式中间件，MOSN 为 Go 语言服务网格数据平面代理，类似 Envoy）；<b>DAPR</b>（微软分布式应用运行时，可移植、事件驱动，构建云与边缘上的弹性微服务）。</p>
+<h3>14.3.3 无服务器技术（Serverless）</h3>
+<p>⭐【高频考点】<b>Serverless 计算四特征</b>：①全托管计算服务，只写代码不管服务器运维；②通用性，结合云 BaaS API 支撑云上重要应用类型；③自动弹性伸缩，无需提前容量规划；④按量计费，不为闲置资源付费。</p>
+<ul><li><b>FaaS（函数计算）</b>：Serverless 最具代表性产品形态。应用逻辑拆成多个函数，由事件驱动触发执行，如对象存储 OSS 上传/删除事件自动触发函数，实现大规模数据实时并行处理。</li><li><b>普及困难</b>：事件驱动改变架构与研发流程；函数生态不成熟；<b>冷启动导致响应延迟</b>、按需建数据库连接成本高等新挑战【易错】。</li><li><b>容器融合形态</b>：以容器镜像为载体、无需修改即可部署到 Serverless 环境，如阿里云 ECI/SAE、Google Cloud Run、开源 Knative，兼享全托管免运维、自动弹性、按量计费。</li><li><b>技术关注点</b>：①计算资源弹性调度——以应用负载特征做「白盒」调度，放置算法要兼顾容错（跨节点/可用区分布）、资源利用率（碎片整理）、性能（复用节点与缓存加速启动）、数据驱动（离线分析优化在线调度）；②负载均衡和流控——调度分片横向扩展，多租户流量隔离；③安全性——权限、网络、数据、运行时全维度保障，轻量安全容器实现更小隔离粒度。</li></ul>
+<h3>14.3.4 服务网格（ServiceMesh）⭐【重点】</h3>
+<p>服务网格把微服务间的<b>连接、安全、流量控制和可观测</b>等通用功能下沉为平台基础设施，实现应用与平台解耦，以<b>无侵入</b>方式实现应用轻量化。服务 A 调用 B 的请求被其下服务代理（Sidecar）截获，由代理完成服务发现、熔断、限流等，策略总控在控制平面配置。</p>
+<div class="fig"><div><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 330" font-family="Microsoft YaHei, 微软雅黑, sans-serif">
+  <text x="360" y="28" text-anchor="middle" font-size="17" font-weight="bold" fill="#1f4e79">Istio 服务网格：数据平面 + 控制平面</text>
+  <!-- 数据平面大框 -->
+  <rect x="30" y="50" width="400" height="230" rx="10" fill="#fbfcfd" stroke="#1f4e79" stroke-width="1.5"/>
+  <text x="230" y="72" text-anchor="middle" font-size="13" font-weight="bold" fill="#1f4e79">数据平面 Data plane</text>
+  <!-- Service A / Proxy A -->
+  <rect x="50" y="90" width="130" height="50" rx="6" fill="#f3f6ee" stroke="#8aa15c" stroke-width="1.5"/>
+  <text x="115" y="120" text-anchor="middle" font-size="13" font-weight="bold" fill="#4a6130">Service A</text>
+  <rect x="50" y="170" width="130" height="50" rx="6" fill="#fdf0e6" stroke="#c05621" stroke-width="1.5"/>
+  <text x="115" y="200" text-anchor="middle" font-size="12" font-weight="bold" fill="#c05621">Proxy（Envoy）</text>
+  <!-- Service B / Proxy B -->
+  <rect x="280" y="90" width="130" height="50" rx="6" fill="#f3f6ee" stroke="#8aa15c" stroke-width="1.5"/>
+  <text x="345" y="120" text-anchor="middle" font-size="13" font-weight="bold" fill="#4a6130">Service B</text>
+  <rect x="280" y="170" width="130" height="50" rx="6" fill="#fdf0e6" stroke="#c05621" stroke-width="1.5"/>
+  <text x="345" y="200" text-anchor="middle" font-size="12" font-weight="bold" fill="#c05621">Proxy（Envoy）</text>
+  <!-- A->ProxyA B->ProxyB -->
+  <line x1="115" y1="144" x2="115" y2="159" stroke="#8aa15c" stroke-width="1.5" fill="none"/>
+  <polygon points="115,167 110.5,159 119.5,159" fill="#8aa15c"/>
+  <line x1="345" y1="144" x2="345" y2="159" stroke="#8aa15c" stroke-width="1.5" fill="none"/>
+  <polygon points="345,167 340.5,159 349.5,159" fill="#8aa15c"/>
+  <!-- ProxyA->ProxyB mesh traffic -->
+  <text x="230" y="184" text-anchor="middle" font-size="10" fill="#6b7a8a">Mesh traffic</text>
+  <line x1="184" y1="195" x2="269" y2="195" stroke="#c05621" stroke-width="1.5" fill="none"/>
+  <polygon points="277,195 269,190.5 269,199.5" fill="#c05621"/>
+  <!-- Ingress / Egress -->
+  <text x="36" y="160" text-anchor="middle" font-size="9" fill="#6b7a8a">Ingress</text>
+  <text x="36" y="172" text-anchor="middle" font-size="9" fill="#6b7a8a">Traffic</text>
+  <line x1="8" y1="195" x2="39" y2="195" stroke="#6b7a8a" stroke-width="1.5" fill="none"/>
+  <polygon points="47,195 39,190.5 39,199.5" fill="#6b7a8a"/>
+  <text x="424" y="160" text-anchor="middle" font-size="9" fill="#6b7a8a">Egress</text>
+  <text x="424" y="172" text-anchor="middle" font-size="9" fill="#6b7a8a">Traffic</text>
+  <line x1="414" y1="195" x2="441" y2="195" stroke="#6b7a8a" stroke-width="1.5" fill="none"/>
+  <polygon points="449,195 441,190.5 441,199.5" fill="#6b7a8a"/>
+  <!-- 数据平面说明 -->
+  <text x="230" y="250" text-anchor="middle" font-size="10.5" fill="#6b7a8a">请求被 Sidecar 代理截获：服务发现、熔断、限流</text>
+  <text x="230" y="268" text-anchor="middle" font-size="10.5" fill="#6b7a8a">业务零改造获得流量治理、可观测、安全能力</text>
+  <!-- 控制平面大框 -->
+  <rect x="470" y="50" width="220" height="230" rx="10" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.5"/>
+  <text x="580" y="72" text-anchor="middle" font-size="13" font-weight="bold" fill="#1f4e79">控制平面（Istiod）</text>
+  <rect x="490" y="90" width="180" height="44" rx="5" fill="#ffffff" stroke="#1f4e79" stroke-width="1"/>
+  <text x="580" y="108" text-anchor="middle" font-size="12" font-weight="bold" fill="#1f4e79">Pilot</text>
+  <text x="580" y="124" text-anchor="middle" font-size="10" fill="#22303f">服务发现、流量管理</text>
+  <rect x="490" y="146" width="180" height="44" rx="5" fill="#ffffff" stroke="#1f4e79" stroke-width="1"/>
+  <text x="580" y="164" text-anchor="middle" font-size="12" font-weight="bold" fill="#1f4e79">Citadel</text>
+  <text x="580" y="180" text-anchor="middle" font-size="10" fill="#22303f">终端用户认证、流量加密</text>
+  <rect x="490" y="202" width="180" height="44" rx="5" fill="#ffffff" stroke="#1f4e79" stroke-width="1"/>
+  <text x="580" y="220" text-anchor="middle" font-size="12" font-weight="bold" fill="#1f4e79">Mixer / Galley</text>
+  <text x="580" y="236" text-anchor="middle" font-size="10" fill="#22303f">访问控制、可观测、配置</text>
+  <!-- 控制平面 -> 数据平面 配置下发（虚线） -->
+  <line x1="466" y1="118" x2="441" y2="118" stroke="#1f4e79" stroke-width="1.5" stroke-dasharray="5,4" fill="none"/>
+  <polygon points="433,118 441,113.5 441,122.5" fill="#1f4e79"/>
+  <!-- 底部说明 -->
+  <text x="360" y="300" text-anchor="middle" font-size="12" fill="#22303f">控制平面经 xDS 协议向 Proxy 下发服务发现、配置与证书；数据平面与控制平面标准化是趋势</text>
+  <text x="360" y="320" text-anchor="middle" font-size="11" fill="#6b7a8a">安全：POD Identity、mTLS 链路加密、RPC 上 RBAC 的 ACL、基于 Identity 的微隔离</text>
+</svg></div><div class="cap">服务网格典型架构（教材图14-4重绘）</div></div>
+<ul><li><b>Istio 主要组件</b>：Pilot（服务发现、流量管理）、Mixer（访问控制、可观测性）、Citadel（终端用户认证、流量加密）；数据平面由 <b>Envoy</b> 承载。网格关注连接与流量控制、可观测性、安全与可运维性；额外 IPC 成本对百毫秒级业务调用延迟影响可控制在 2% 以内，整体收益远大于支出。</li><li><b>标准化趋势</b>：Istio 采纳 Envoy 的 <b>xDS</b> 协议作为数据平面与控制平面间标准协议；微软提出 <b>SMI</b>（Service Mesh Interface）做更高层抽象；<b>UDPA</b> 基于 xDS 发展便于各云厂商扩展。数据平面用 <b>Wasm</b> 做插件沙箱隔离并支持多语言；安全上与零信任天然结合（POD Identity、mTLS 链路加密、RPC 上 RBAC 的 ACL、基于 Identity 的微隔离）。</li><li><b>其他方案对比</b>：Linkerd（数据平面 Rust 实现 linkerd-proxy，控制平面 Go，时延与资源消耗优于 Istio）；Consul（控制面用 Consul Server，数据面可选 Envoy）；Conduit（K8s 超轻量网格，Rust 数据平面+Go 控制平面，倾向低资源部署）。三者功能完整度均不如 Istio。</li></ul>
+<h3>14.4 云原生架构案例分析</h3>
+<p>五个案例是下午案例题的直接素材库，记住「痛点→方案→效益」链条：</p>
+<table><colgroup><col style="width:11.2%"><col style="width:22.8%"><col style="width:33.0%"><col style="width:33.0%"></colgroup><thead><tr><th>案例</th><th>核心痛点</th><th>方案关键点</th><th>量化效益</th></tr></thead><tbody><tr><td>旅行公司（14.4.1）</td><td>合并后技术体系不统一；业务波峰波谷明显、资源利用率低</td><td>三阶段：私有云统一平台+IaaS/PaaS 虚拟化（KVM、Ceph、Kata 解决 Java 识别容器规格问题）→ 声明式 API、服务网格、弹性计算保稳定 → 标准云原生应用模型、跨地域跨云灾备、DevOps</td><td>独享集群改共享后仅用 40% 机器支撑全线业务；部分单机利用率提升 20%；弹性计算扛住 300% 峰值流量</td></tr><tr><td>汽车公司（14.4.2）</td><td>稳态业务与敏捷业务并存，交付周期长</td><td>容器云平台多租户承载互联网应用；私有云+公有云混合交付，按敏态/稳态划分部署；微服务拆分形成业务中台；DevOps 贯穿全流程</td><td>应用交付周期从两个月缩短到一个月</td></tr><tr><td>快递公司（14.4.3）</td><td>IOE 架构、Oracle 存储过程耦合，交付慢、大促资源难保障</td><td>VMware+Oracle → K8s 云原生架构；OLTP/OLAP 数据库分离；应用容器化+按业务域微服务拆分；ACK+神龙裸金属+云数据库；Namespace 资源隔离、Ingress 统一域名转发</td><td>云产品 SLA 至少 5 个 9；持续集成缩短至分钟级；随用随付降成本</td></tr><tr><td>电商业务（14.4.4）</td><td>大促频繁、稳定性压力大、容量评估缺常态机制</td><td>ACK 容器化弹性扩容；链路追踪定位异常；PTS 压测+ARMS 监控做容量评估；AHAS 限流、熔断、降级与系统保护兜底</td><td>节约服务器成本 50% 以上，大促保障常态化</td></tr><tr><td>体育用品公司（14.4.5）</td><td>63 套烟囱系统、数据 T+1 回传、高库存高缺货</td><td>全渠道业务中台：商品/渠道/库存/订单/营销/用户/结算等共享中心；K8s、EDAS、MQ、ARMS、PTS 云原生中间件支撑</td><td>核心交易链路支撑 10w/tps；售罄率提升 8%、缺货率降低 12%、周转率提升 20%；80% 前台应用跑在中台上</td></tr></tbody></table>
+<div class="fig"><div><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 420" font-family="Microsoft YaHei, 微软雅黑, sans-serif">
+  <text x="360" y="26" text-anchor="middle" font-size="16" font-weight="bold" fill="#1f4e79">某快递公司核心业务上云架构（混合过渡态）</text>
+  <!-- 层1 流量入口 -->
+  <text x="70" y="76" text-anchor="middle" font-size="12" font-weight="bold" fill="#1f4e79">流量入口</text>
+  <rect x="110" y="44" width="560" height="52" rx="6" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.2"/>
+  <rect x="122" y="54" width="260" height="32" rx="4" fill="#ffffff" stroke="#1f4e79" stroke-width="1"/>
+  <text x="252" y="75" text-anchor="middle" font-size="11" fill="#22303f">云 DNS / PrivateZone</text>
+  <rect x="396" y="54" width="260" height="32" rx="4" fill="#ffffff" stroke="#1f4e79" stroke-width="1"/>
+  <text x="526" y="75" text-anchor="middle" font-size="11" fill="#22303f">F5 / SLB 内外网 VIP</text>
+  <!-- 层2 接入层 -->
+  <text x="70" y="152" text-anchor="middle" font-size="12" font-weight="bold" fill="#1f4e79">接入层</text>
+  <rect x="110" y="120" width="560" height="52" rx="6" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.2"/>
+  <rect x="122" y="130" width="260" height="32" rx="4" fill="#ffffff" stroke="#1f4e79" stroke-width="1"/>
+  <text x="252" y="151" text-anchor="middle" font-size="11" fill="#22303f">Nginx（内/外网）</text>
+  <rect x="396" y="130" width="260" height="32" rx="4" fill="#ffffff" stroke="#1f4e79" stroke-width="1"/>
+  <text x="526" y="151" text-anchor="middle" font-size="11" fill="#22303f">Ingress 统一域名转发</text>
+  <!-- 层3 应用服务 -->
+  <text x="70" y="228" text-anchor="middle" font-size="12" font-weight="bold" fill="#4a6130">应用服务</text>
+  <rect x="110" y="196" width="560" height="52" rx="6" fill="#f3f6ee" stroke="#8aa15c" stroke-width="1.2"/>
+  <rect x="120" y="206" width="176" height="32" rx="4" fill="#ffffff" stroke="#8aa15c" stroke-width="1"/>
+  <text x="208" y="227" text-anchor="middle" font-size="11" fill="#22303f">Java Pod（K8s）</text>
+  <rect x="304" y="206" width="176" height="32" rx="4" fill="#ffffff" stroke="#8aa15c" stroke-width="1"/>
+  <text x="392" y="227" text-anchor="middle" font-size="11" fill="#22303f">.NET/Java VM（ECS）</text>
+  <rect x="488" y="206" width="176" height="32" rx="4" fill="#ffffff" stroke="#8aa15c" stroke-width="1"/>
+  <text x="576" y="227" text-anchor="middle" font-size="11" fill="#22303f">Namespace 隔离</text>
+  <!-- 层4 中台中间件 -->
+  <text x="70" y="304" text-anchor="middle" font-size="12" font-weight="bold" fill="#c05621">中台中间件</text>
+  <rect x="110" y="272" width="560" height="52" rx="6" fill="#fdf0e6" stroke="#c05621" stroke-width="1.2"/>
+  <rect x="120" y="282" width="176" height="32" rx="4" fill="#ffffff" stroke="#c05621" stroke-width="1"/>
+  <text x="208" y="303" text-anchor="middle" font-size="11" fill="#22303f">云 Redis</text>
+  <rect x="304" y="282" width="176" height="32" rx="4" fill="#ffffff" stroke="#c05621" stroke-width="1"/>
+  <text x="392" y="303" text-anchor="middle" font-size="11" fill="#22303f">OLTP/OLAP 数据库</text>
+  <rect x="488" y="282" width="176" height="32" rx="4" fill="#ffffff" stroke="#c05621" stroke-width="1"/>
+  <text x="576" y="303" text-anchor="middle" font-size="11" fill="#22303f">消息中间件</text>
+  <!-- 层5 基础设施 -->
+  <text x="70" y="380" text-anchor="middle" font-size="12" font-weight="bold" fill="#6b7a8a">基础设施</text>
+  <rect x="110" y="348" width="560" height="52" rx="6" fill="#f4f6f8" stroke="#6b7a8a" stroke-width="1.2"/>
+  <rect x="122" y="358" width="260" height="32" rx="4" fill="#ffffff" stroke="#6b7a8a" stroke-width="1"/>
+  <text x="252" y="379" text-anchor="middle" font-size="11" fill="#22303f">ACK + 神龙裸金属服务器</text>
+  <rect x="396" y="358" width="260" height="32" rx="4" fill="#ffffff" stroke="#6b7a8a" stroke-width="1"/>
+  <text x="526" y="379" text-anchor="middle" font-size="11" fill="#22303f">存量 VMware / 物理机</text>
+  <!-- 层间箭头 -->
+  <line x1="390" y1="100" x2="390" y2="109" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="390,117 385.5,109 394.5,109" fill="#1f4e79"/>
+  <line x1="390" y1="176" x2="390" y2="185" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="390,193 385.5,185 394.5,185" fill="#1f4e79"/>
+  <line x1="390" y1="252" x2="390" y2="261" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="390,269 385.5,261 394.5,261" fill="#1f4e79"/>
+  <line x1="390" y1="328" x2="390" y2="337" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="390,345 385.5,337 394.5,337" fill="#1f4e79"/>
+</svg></div><div class="cap">快递公司核心业务上云架构（教材图14-7简化重绘）</div></div>
+<div class="fig"><div><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 440" font-family="Microsoft YaHei, 微软雅黑, sans-serif">
+  <text x="360" y="26" text-anchor="middle" font-size="16" font-weight="bold" fill="#1f4e79">全渠道业务中台技术架构（教材图14-10简化）</text>
+  <!-- 层1 应用层 六块 -->
+  <text x="70" y="76" text-anchor="middle" font-size="12" font-weight="bold" fill="#1f4e79">应用层</text>
+  <rect x="110" y="44" width="560" height="52" rx="6" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.2"/>
+  <rect x="120" y="54" width="85" height="32" rx="4" fill="#ffffff" stroke="#1f4e79" stroke-width="1"/>
+  <text x="162" y="75" text-anchor="middle" font-size="11" fill="#22303f">POS</text>
+  <rect x="211" y="54" width="85" height="32" rx="4" fill="#ffffff" stroke="#1f4e79" stroke-width="1"/>
+  <text x="253" y="75" text-anchor="middle" font-size="11" fill="#22303f">OMS</text>
+  <rect x="302" y="54" width="85" height="32" rx="4" fill="#ffffff" stroke="#1f4e79" stroke-width="1"/>
+  <text x="344" y="75" text-anchor="middle" font-size="11" fill="#22303f">DRP</text>
+  <rect x="393" y="54" width="85" height="32" rx="4" fill="#ffffff" stroke="#1f4e79" stroke-width="1"/>
+  <text x="435" y="75" text-anchor="middle" font-size="11" fill="#22303f">CRM</text>
+  <rect x="484" y="54" width="85" height="32" rx="4" fill="#ffffff" stroke="#1f4e79" stroke-width="1"/>
+  <text x="526" y="75" text-anchor="middle" font-size="11" fill="#22303f">库存平衡</text>
+  <rect x="575" y="54" width="85" height="32" rx="4" fill="#ffffff" stroke="#1f4e79" stroke-width="1"/>
+  <text x="617" y="70" text-anchor="middle" font-size="10" fill="#22303f">全渠道</text>
+  <text x="617" y="82" text-anchor="middle" font-size="10" fill="#22303f">运营平台</text>
+  <!-- 层2 共享中心 -->
+  <text x="70" y="152" text-anchor="middle" font-size="12" font-weight="bold" fill="#4a6130">共享中心</text>
+  <rect x="110" y="120" width="560" height="52" rx="6" fill="#f3f6ee" stroke="#8aa15c" stroke-width="1.2"/>
+  <text x="390" y="142" text-anchor="middle" font-size="11.5" font-weight="bold" fill="#4a6130">订单中心 · 商品中心 · 库存中心 · 会员中心</text>
+  <text x="390" y="162" text-anchor="middle" font-size="11" fill="#22303f">结算中心 · 营销中心 · 主数据（通用能力沉淀、复用）</text>
+  <!-- 层3 云原生中间件 -->
+  <text x="70" y="228" text-anchor="middle" font-size="12" font-weight="bold" fill="#c05621">技术层</text>
+  <rect x="110" y="196" width="560" height="52" rx="6" fill="#fdf0e6" stroke="#c05621" stroke-width="1.2"/>
+  <rect x="120" y="206" width="85" height="32" rx="4" fill="#ffffff" stroke="#c05621" stroke-width="1"/>
+  <text x="162" y="227" text-anchor="middle" font-size="11" fill="#22303f">K8S</text>
+  <rect x="211" y="206" width="85" height="32" rx="4" fill="#ffffff" stroke="#c05621" stroke-width="1"/>
+  <text x="253" y="227" text-anchor="middle" font-size="11" fill="#22303f">EDAS</text>
+  <rect x="302" y="206" width="85" height="32" rx="4" fill="#ffffff" stroke="#c05621" stroke-width="1"/>
+  <text x="344" y="227" text-anchor="middle" font-size="11" fill="#22303f">MQ</text>
+  <rect x="393" y="206" width="85" height="32" rx="4" fill="#ffffff" stroke="#c05621" stroke-width="1"/>
+  <text x="435" y="227" text-anchor="middle" font-size="11" fill="#22303f">ARMS</text>
+  <rect x="484" y="206" width="85" height="32" rx="4" fill="#ffffff" stroke="#c05621" stroke-width="1"/>
+  <text x="526" y="227" text-anchor="middle" font-size="11" fill="#22303f">PTS</text>
+  <rect x="575" y="206" width="85" height="32" rx="4" fill="#ffffff" stroke="#c05621" stroke-width="1"/>
+  <text x="617" y="227" text-anchor="middle" font-size="11" fill="#22303f">CSB</text>
+  <!-- 层4 基础设施 -->
+  <text x="70" y="304" text-anchor="middle" font-size="12" font-weight="bold" fill="#6b7a8a">基础设施</text>
+  <rect x="110" y="272" width="560" height="52" rx="6" fill="#f4f6f8" stroke="#6b7a8a" stroke-width="1.2"/>
+  <text x="390" y="304" text-anchor="middle" font-size="12" fill="#22303f">阿里云 IaaS：计算 / 存储 / 网络（弹性、高可用）</text>
+  <!-- 层5 后台系统 -->
+  <text x="70" y="380" text-anchor="middle" font-size="12" font-weight="bold" fill="#6b7a8a">后台系统</text>
+  <rect x="110" y="348" width="560" height="52" rx="6" fill="#f4f6f8" stroke="#6b7a8a" stroke-width="1.2"/>
+  <rect x="130" y="358" width="120" height="32" rx="4" fill="#ffffff" stroke="#6b7a8a" stroke-width="1"/>
+  <text x="190" y="379" text-anchor="middle" font-size="11" fill="#22303f">SAP</text>
+  <rect x="266" y="358" width="120" height="32" rx="4" fill="#ffffff" stroke="#6b7a8a" stroke-width="1"/>
+  <text x="326" y="379" text-anchor="middle" font-size="11" fill="#22303f">PLM / MES</text>
+  <rect x="402" y="358" width="120" height="32" rx="4" fill="#ffffff" stroke="#6b7a8a" stroke-width="1"/>
+  <text x="462" y="379" text-anchor="middle" font-size="11" fill="#22303f">HR / OA</text>
+  <rect x="538" y="358" width="120" height="32" rx="4" fill="#ffffff" stroke="#6b7a8a" stroke-width="1"/>
+  <text x="598" y="379" text-anchor="middle" font-size="11" fill="#22303f">其他内部系统</text>
+  <!-- 层间箭头 -->
+  <line x1="390" y1="100" x2="390" y2="109" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="390,117 385.5,109 394.5,109" fill="#1f4e79"/>
+  <line x1="390" y1="176" x2="390" y2="185" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="390,193 385.5,185 394.5,185" fill="#1f4e79"/>
+  <line x1="390" y1="252" x2="390" y2="261" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="390,269 385.5,261 394.5,261" fill="#1f4e79"/>
+  <line x1="390" y1="328" x2="390" y2="337" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="390,345 385.5,337 394.5,337" fill="#1f4e79"/>
+  <!-- 底部说明 -->
+  <text x="360" y="424" text-anchor="middle" font-size="11.5" fill="#4a6130">共享中心输出实时、在线、统一、复用的能力，消除数据孤岛，让前端应用更轻薄</text>
+</svg></div><div class="cap">全渠道业务中台技术架构（教材图14-10简化重绘）</div></div>
+<p><b>案例题可复用结论</b>：混合云按「敏态用公有云弹性、稳态用私有云管控」划分；中台本质是把通用业务能力沉淀为「实时、在线、统一、复用」的共享中心，消除数据孤岛，让前端应用更轻薄。</p>
+<h2>三、重点与易错点</h2>
+<table><colgroup><col style="width:6.1%"><col style="width:12.8%"><col style="width:44.9%"><col style="width:36.2%"></colgroup><thead><tr><th>#</th><th>考点</th><th>必须记住的结论</th><th>易错提醒</th></tr></thead><tbody><tr><td class="tc">1</td><td>DevOps 内涵</td><td>开发、技术运营、质量保障三者的交集</td><td>敏捷开发只解决开发效率，未打通运维，不等于 DevOps</td></tr><tr><td class="tc">2</td><td>云原生代码三部分</td><td>业务代码、三方软件、处理非功能特性的代码；只有业务代码是核心</td><td>非功能特性是「最大化剥离」而非全部剥离，易用性不能剥离</td></tr><tr><td class="tc">3</td><td>七大架构原则</td><td>服务化、弹性、可观测、韧性、所有过程自动化、零信任、持续演进</td><td>勿与七大架构模式混淆，原则与模式是两张清单</td></tr><tr><td class="tc">4</td><td>韧性原则目标</td><td>提升 MTBF（平均无故障时间）</td><td>手段是异步化、重试/限流/降级/熔断/反压、容灾多活等</td></tr><tr><td class="tc">5</td><td>零信任原则</td><td>默认不信任内外任何人/设备/系统，以身份为中心</td><td>IP、地理位置、内网环境都不能作为可信凭证</td></tr><tr><td class="tc">6</td><td>服务化治理本质</td><td>限流降级、熔断隔仓等基于「服务流量」而非「网络流量」的控制</td><td>服务化还为了标准化服务流量传输、跨语言治理</td></tr><tr><td class="tc">7</td><td>小服务模式</td><td>一组关系密切、共享数据的服务组合，用于非常大型系统</td><td>不是服务越小越好，颗粒度过细会增加调用损耗与治理复杂度</td></tr><tr><td class="tc">8</td><td>Mesh 化架构</td><td>中间件 SDK 从业务进程分离为 Mesh 进程，业务只留薄 Client</td><td>熔断限流等由 Mesh 完成，业务制品无需引入对应三方包</td></tr><tr><td class="tc">9</td><td>Serverless 适用性</td><td>适合事件驱动、短时请求响应；不适合有状态、长时密集计算、频繁外部 I/O</td><td>「无服务器」不是真的没有服务器，而是运维委托给云</td></tr><tr><td class="tc">10</td><td>分布式事务选型</td><td>XA 强一致性能差；BASE 高性能通用性有限；TCC/SAGA 侵入强成本高；SEATA AT 高性能零代码侵入可自动回滚</td><td>SAGA 没有 Try 阶段，靠补偿事务回滚</td></tr><tr><td class="tc">11</td><td>可观测三要素</td><td>Logging、Tracing、Metrics；目标是度量 SLO 优化 SLA</td><td>Tracing 管完整调用链路，Metrics 管量化度量，别张冠李戴</td></tr><tr><td class="tc">12</td><td>事件与消息区别</td><td>事件有 schema 可校验，EDA 有 QoS 保障、能响应处理失败</td><td>EDA 属集成架构模式，CQRS/Event Sourcing 常与之搭配</td></tr><tr><td class="tc">13</td><td>容器与虚拟机</td><td>容器共享 OS 内核、轻量、秒级启动；虚拟机带完整 Guest OS</td><td>Docker 基于操作系统级虚拟化，不是硬件虚拟化</td></tr><tr><td class="tc">14</td><td>K8s 控制平面</td><td>APIServer、Controller、Scheduler、etcd 四组件</td><td>工作负载抽象：Deployment 无状态、StatefulSet 有状态、Job 任务类</td></tr><tr><td class="tc">15</td><td>微服务数据约束</td><td>DSS 数据存储隔离：数据私有、只能经本服务 API 访问</td><td>多服务共享数据库是「硬拆微服务」反模式</td></tr><tr><td class="tc">16</td><td>服务网格收益</td><td>治理功能下沉基础设施、无侵入轻量化；Istio=Envoy 数据平面+控制平面</td><td>Pilot 管发现与流量、Mixer 管访问控制与观测、Citadel 管认证加密</td></tr></tbody></table>
+<h2>四、练习与真题</h2>
+<p>以下为本章自编单选模拟题，答案集中放在全章最后。</p>
+<p><b>1.</b> 关于 DevOps 的理解，正确的是（ ）。</p>
+<p>A. 仅指开发团队内部的敏捷实践  B. 开发、技术运营和质量保障三者的交集  C. 只解决版本更新速度、与运维无关  D. 一种容器编排工具</p>
+<p><b>2.</b> 云原生应用代码通常包括业务代码、三方软件和处理非功能特性的代码三部分，其中对业务真正带来价值的核心是（ ）。</p>
+<p>A. 三方软件  B. 处理非功能特性的代码  C. 业务代码  D. 基础设施代码</p>
+<p><b>3.</b> 下列不属于云原生架构原则的是（ ）。</p>
+<p>A. 服务化原则  B. 弹性原则  C. 零信任原则  D. 集中式单体原则</p>
+<p><b>4.</b> 韧性原则的核心目标是提升软件的（ ）。</p>
+<p>A. 平均无故障时间 MTBF  B. 代码复用率  C. 单机并发连接数  D. 编译构建速度</p>
+<p><b>5.</b> 某系统要求「默认不信任网络内部和外部的任何人、设备与系统，访问前必须认证授权」，这体现的是（ ）。</p>
+<p>A. 弹性原则  B. 零信任原则  C. 可观测原则  D. 服务化原则</p>
+<p><b>6.</b> 关于分布式事务模式，下列说法正确的是（ ）。</p>
+<p>A. XA 模式性能很高但一致性弱  B. SAGA 模式包含 Try 阶段  C. SEATA 的 AT 模式高性能、无代码开发工作量且可自动回滚  D. TCC 模式对业务完全无侵入</p>
+<p><b>7.</b> 可观测架构的三要素是（ ）。</p>
+<p>A. Logging、Tracing、Metrics  B. 监控、探活、告警  C. 缓存、消息、搜索  D. 认证、授权、审计</p>
+<p><b>8.</b> 与传统消息相比，事件驱动架构中「事件」的突出特点是（ ）。</p>
+<p>A. 事件没有数据结构约束  B. 事件具有 schema 可校验有效性，且 EDA 具备 QoS 保障  C. 事件只能同步处理  D. 事件不能用于服务解耦</p>
+<p><b>9.</b> 下列应用最适合采用 Serverless 模式的是（ ）。</p>
+<p>A. 需要长期保持会话状态的交易应用  B. 连续运行数天的密集型科学计算  C. 由对象存储上传事件触发的图片处理函数  D. 频繁进行大量外部 I/O 调用的应用</p>
+<p><b>10.</b> 关于容器与虚拟机的比较，正确的是（ ）。</p>
+<p>A. 容器必须携带完整客户操作系统  B. 容器共享操作系统内核、轻量且可秒级启动  C. 容器属于硬件虚拟化技术  D. 容器启动速度通常慢于虚拟机</p>
+<p><b>11.</b> Kubernetes 控制平面的四个主要组件是（ ）。</p>
+<p>A. APIServer、Controller、Scheduler、etcd  B. Docker、Containerd、CRI、CNI  C. Pilot、Mixer、Citadel、Envoy  D. Nacos、Sentinel、Seata、Dubbo</p>
+<p><b>12.</b> 微服务设计中，「数据是微服务的私有资产，对该数据的访问都必须通过当前微服务提供的 API 进行」指的是（ ）。</p>
+<p>A. 服务注册发现原则  B. 数据存储隔离 DSS 原则  C. 蓝绿发布原则  D. 反压原则</p>
+<p><b>13.</b> 在 Istio 服务网格中，负责服务发现与流量管理、终端用户认证与流量加密的组件分别是（ ）。</p>
+<p>A. Mixer、Pilot  B. Pilot、Citadel  C. Citadel、Mixer  D. Envoy、Pilot</p>
+<p><b>14.</b> 某团队把强耦合模块强行拆成多个微服务后，原来本地调用变成分布式调用、响应时间急剧恶化，且各服务仍共享数据库。这属于（ ）反模式。</p>
+<p>A. 庞大的单体应用  B. 单体应用「硬拆」为微服务  C. 存储计算分离  D. 事件驱动架构</p>
+<h2>五、疑问与查漏补缺</h2>
+<ol><li><b>大纲要求但教材未充分展开</b>：①「云原生的特征」大纲单列，教材散落在 14.2.1（轻量、敏捷、高度自动化）与 14.3 技术特点中，复习时自行归纳为「容器化、微服务、DevOps、持续交付、弹性可观测」等通用表述；②ServiceMesh 的数据/控制平面协议（xDS、SMI、UDPA）只给了名称与定位，案例题若考细节需补充官方文档；③Knative、Kubeflow 等生态项目仅点名，无展开。</li><li><b>教材易误读处</b>：①14.2.1 强调非功能特性「最大化剥离」，括号明确「不会是所有，比如易用性还不能剥离」，答题不要说成「全部剥离」；②Serverless「没有复杂相互调用的长周期任务」与「长时间后台运行的密集型计算不适合」并列，前者指事件触发、调用链简单的任务，注意限定条件；③教材称「2019 年 Istio 所发布的 1.12 版已达到小规模集群上线生产环境水平」，版本时间表述与公开时间线不完全一致，属教材原文，识记结论「早期 Istio 性能受诟病、靠架构演进改善」即可，不必纠结版本号。</li><li><b>与其他章节衔接</b>：分布式事务（XA/BASE/TCC/SAGA）可对照第 13 章及数据库章节复习；微服务与 SOA 的关系对照第 15 章「面向服务的架构设计」；韧性、零信任与第 18 章「安全架构设计」呼应；业务中台案例与第 19/20 章数字化转型内容相互印证。</li><li><b>自测留白</b>：七个原则与七个模式能否不看书各用一句话说清？K8s 五大能力、四组件能否默写？五个案例的量化效益数字能否对应到正确案例？</li></ol>
+<h2>六、参考答案</h2>
+<p><b>1.</b> B。DevOps 是开发、技术运营和质量保障三者的交集，促进沟通协作与整合；敏捷只解决开发效率，DevOps 也不是某个具体工具。</p>
+<p><b>2.</b> C。三部分中只有业务代码真正为业务带来价值，三方软件与非功能代码属附属物，应最大化剥离给云设施。</p>
+<p><b>3.</b> D。七大原则为服务化、弹性、可观测、韧性、所有过程自动化、零信任、架构持续演进，集中式单体恰是要改造的对象。</p>
+<p><b>4.</b> A。韧性从多维度诠释持续服务能力，核心目标是提升平均无故障时间 MTBF。</p>
+<p><b>5.</b> B。零信任默认不信任任何人/设备/系统，基于认证授权重构信任基础，以身份为中心。</p>
+<p><b>6.</b> C。SEATA AT 高性能、无代码开发工作量且可自动回滚；XA 强一致但性能差，SAGA 无 Try 阶段，TCC 业务侵入性强。</p>
+<p><b>7.</b> A。Logging 管分级详细信息、Tracing 管完整调用链路、Metrics 管量化多维度度量。</p>
+<p><b>8.</b> B。事件具有 schema 可校验有效性，EDA 具备 QoS 保障且能对处理失败响应，可用于异步解耦。</p>
+<p><b>9.</b> C。Serverless 适合事件驱动、短时计算任务；有状态、长时密集计算与频繁外部 I/O 应用均不适合。</p>
+<p><b>10.</b> B。容器基于操作系统级虚拟化，共享 OS 内核、轻量、秒级启动；虚拟机才携带完整 Guest OS。</p>
+<p><b>11.</b> A。K8s 控制平面为 APIServer、Controller、Scheduler、etcd；C 项是 Istio 组件，D 项是阿里微服务生态组件。</p>
+<p><b>12.</b> B。DSS 数据存储隔离要求数据私有、仅经本服务 API 访问，共享数据库属「硬拆微服务」反模式。</p>
+<p><b>13.</b> B。Pilot 负责服务发现与流量管理，Citadel 负责终端用户认证与流量加密，Mixer 负责访问控制与可观测性。</p>
+<p><b>14.</b> B。强行拆分强耦合模块导致性能下降、共享数据库造成数据依赖，是典型的「硬拆微服务」反模式。</p>
+<div class="footer">第14章 云原生架构设计理论与实践 · A4 打印版 · 由 README.md 统一生成</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 520" font-family="Microsoft YaHei, 微软雅黑, sans-serif">
+  <rect width="720" height="520" fill="#ffffff"/>
+  <text x="360" y="30" text-anchor="middle" font-size="20" font-weight="bold" fill="#22303f">专家系统的一般结构</text>
+  <rect x="25" y="70" width="115" height="55" rx="7" fill="#eaf1f8" stroke="#1f4e79"/>
+  <text x="82.5" y="103" text-anchor="middle" font-size="16" fill="#1f4e79">用户</text>
+  <rect x="25" y="240" width="115" height="60" rx="7" fill="#eaf1f8" stroke="#1f4e79"/>
+  <text x="82.5" y="276" text-anchor="middle" font-size="15" fill="#1f4e79">人—机接口</text>
+  <line x1="82.5" y1="125" x2="82.5" y2="227" stroke="#1f4e79" stroke-width="1.5"/>
+  <polygon points="82.5,237 78,229 87,229" fill="#1f4e79"/>
+  <rect x="180" y="150" width="360" height="250" rx="10" fill="#f8fafc" stroke="#1f4e79" stroke-width="1.5"/>
+  <text x="360" y="177" text-anchor="middle" font-size="15" font-weight="bold" fill="#1f4e79">专家系统核心与工作存储区</text>
+  <rect x="210" y="195" width="140" height="65" rx="7" fill="#f3f6ee" stroke="#8aa15c"/>
+  <text x="280" y="222" text-anchor="middle" font-size="16" font-weight="bold" fill="#4a6130">知识库</text>
+  <text x="280" y="245" text-anchor="middle" font-size="12" fill="#22303f">事实＋启发性知识</text>
+  <rect x="390" y="195" width="140" height="65" rx="7" fill="#fdf0e6" stroke="#c05621"/>
+  <text x="460" y="222" text-anchor="middle" font-size="16" font-weight="bold" fill="#c05621">推理机</text>
+  <text x="460" y="245" text-anchor="middle" font-size="12" fill="#22303f">推理机制＋控制策略</text>
+  <rect x="300" y="310" width="140" height="65" rx="7" fill="#eaf1f8" stroke="#1f4e79"/>
+  <text x="370" y="337" text-anchor="middle" font-size="15" font-weight="bold" fill="#1f4e79">综合数据库</text>
+  <text x="370" y="360" text-anchor="middle" font-size="12" fill="#22303f">动态状态与中间结果</text>
+  <line x1="350" y1="227" x2="377" y2="227" stroke="#1f4e79" stroke-width="1.5"/>
+  <polygon points="387,227 379,222.5 379,231.5" fill="#1f4e79"/>
+  <line x1="420" y1="310" x2="420" y2="273" stroke="#1f4e79" stroke-width="1.5"/>
+  <polygon points="420,263 415.5,271 424.5,271" fill="#1f4e79"/>
+  <polyline points="140,270 160,270 160,342 287,342" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="297,342 289,337.5 289,346.5" fill="#1f4e79"/>
+  <rect x="580" y="55" width="115" height="55" rx="7" fill="#f3f6ee" stroke="#8aa15c"/>
+  <text x="637.5" y="79" text-anchor="middle" font-size="13" fill="#4a6130">领域专家／</text>
+  <text x="637.5" y="99" text-anchor="middle" font-size="13" fill="#4a6130">知识工程师</text>
+  <rect x="580" y="160" width="115" height="60" rx="7" fill="#f3f6ee" stroke="#8aa15c"/>
+  <text x="637.5" y="196" text-anchor="middle" font-size="15" fill="#4a6130">知识获取</text>
+  <line x1="637.5" y1="110" x2="637.5" y2="147" stroke="#4a6130" stroke-width="1.5"/>
+  <polygon points="637.5,157 633,149 642,149" fill="#4a6130"/>
+  <polyline points="580,190 560,190 560,135 170,135 170,227 199,227" stroke="#4a6130" stroke-width="1.5" fill="none"/>
+  <polygon points="207,227 199,222.5 199,231.5" fill="#4a6130"/>
+  <rect x="580" y="300" width="115" height="60" rx="7" fill="#fdf0e6" stroke="#c05621"/>
+  <text x="637.5" y="336" text-anchor="middle" font-size="15" fill="#c05621">解释程序</text>
+  <polyline points="530,227 557,227 557,330 567,330" stroke="#c05621" stroke-width="1.5" fill="none"/>
+  <polygon points="577,330 569,325.5 569,334.5" fill="#c05621"/>
+  <rect x="65" y="440" width="590" height="48" rx="8" fill="#f8fafc" stroke="#6b7a8a"/>
+  <text x="360" y="461" text-anchor="middle" font-size="14" font-weight="bold" fill="#1f4e79">核心＝知识库＋推理机；知识表示与使用知识的程序相分离</text>
+  <text x="360" y="480" text-anchor="middle" font-size="12" fill="#6b7a8a">知识库相对静态，综合数据库随推理动态变化，解释程序展示推理链</text>
+</svg>

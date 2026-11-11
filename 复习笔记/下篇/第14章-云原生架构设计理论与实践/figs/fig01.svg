@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 300" font-family="Microsoft YaHei, 微软雅黑, sans-serif">
+  <text x="360" y="30" text-anchor="middle" font-size="17" font-weight="bold" fill="#1f4e79">开发模式演进：从瀑布式到云原生</text>
+  <!-- 卡片1 瀑布式 -->
+  <rect x="21" y="60" width="150" height="150" rx="8" fill="#f4f6f8" stroke="#6b7a8a" stroke-width="1.5"/>
+  <text x="96" y="88" text-anchor="middle" font-size="15" font-weight="bold" fill="#22303f">瀑布式流程</text>
+  <text x="96" y="118" text-anchor="middle" font-size="11" fill="#22303f">开发/运营/质量</text>
+  <text x="96" y="138" text-anchor="middle" font-size="11" fill="#22303f">各自独立</text>
+  <text x="96" y="164" text-anchor="middle" font-size="11" fill="#6b7a8a">信息不对称</text>
+  <text x="96" y="184" text-anchor="middle" font-size="11" fill="#6b7a8a">周期长、调整难</text>
+  <!-- 卡片2 敏捷 -->
+  <rect x="197" y="60" width="150" height="150" rx="8" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.5"/>
+  <text x="272" y="88" text-anchor="middle" font-size="15" font-weight="bold" fill="#1f4e79">敏捷开发</text>
+  <text x="272" y="118" text-anchor="middle" font-size="11" fill="#22303f">提升开发效率</text>
+  <text x="272" y="138" text-anchor="middle" font-size="11" fill="#22303f">加快版本更新</text>
+  <text x="272" y="164" text-anchor="middle" font-size="11" fill="#6b7a8a">解决开发侧问题</text>
+  <text x="272" y="184" text-anchor="middle" font-size="11" fill="#6b7a8a">但未打通运维</text>
+  <!-- 卡片3 DevOps -->
+  <rect x="373" y="60" width="150" height="150" rx="8" fill="#f3f6ee" stroke="#8aa15c" stroke-width="1.5"/>
+  <text x="448" y="88" text-anchor="middle" font-size="15" font-weight="bold" fill="#4a6130">DevOps</text>
+  <text x="448" y="118" text-anchor="middle" font-size="11" fill="#22303f">开发+技术运营</text>
+  <text x="448" y="138" text-anchor="middle" font-size="11" fill="#22303f">+质量保障</text>
+  <text x="448" y="164" text-anchor="middle" font-size="11" fill="#4a6130">三者的交集</text>
+  <text x="448" y="184" text-anchor="middle" font-size="11" fill="#4a6130">沟通、协作、整合</text>
+  <!-- 卡片4 云原生 -->
+  <rect x="549" y="60" width="150" height="150" rx="8" fill="#fdf0e6" stroke="#c05621" stroke-width="1.5"/>
+  <text x="624" y="88" text-anchor="middle" font-size="15" font-weight="bold" fill="#c05621">云原生</text>
+  <text x="624" y="118" text-anchor="middle" font-size="11" fill="#22303f">容器 + 微服务</text>
+  <text x="624" y="138" text-anchor="middle" font-size="11" fill="#22303f">弹性 + 分布式</text>
+  <text x="624" y="164" text-anchor="middle" font-size="11" fill="#c05621">为DevOps与持续</text>
+  <text x="624" y="184" text-anchor="middle" font-size="11" fill="#c05621">交付提供前提</text>
+  <!-- 箭头1 -->
+  <line x1="175" y1="135" x2="186" y2="135" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="194,135 186,130.5 186,139.5" fill="#1f4e79"/>
+  <!-- 箭头2 -->
+  <line x1="351" y1="135" x2="362" y2="135" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="370,135 362,130.5 362,139.5" fill="#1f4e79"/>
+  <!-- 箭头3 -->
+  <line x1="527" y1="135" x2="538" y2="135" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="546,135 538,130.5 538,139.5" fill="#1f4e79"/>
+  <!-- 底部总结 -->
+  <rect x="21" y="238" width="678" height="42" rx="8" fill="#f3f6ee" stroke="#8aa15c" stroke-width="1"/>
+  <text x="360" y="264" text-anchor="middle" font-size="12" fill="#4a6130">实现 DevOps 和持续交付，已成为云原生技术价值不可分割的内涵</text>
+</svg>

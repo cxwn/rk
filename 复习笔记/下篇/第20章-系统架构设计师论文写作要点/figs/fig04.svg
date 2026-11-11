@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 500" font-family="Microsoft YaHei, 微软雅黑, sans-serif">
+  <rect width="720" height="500" fill="#ffffff"/>
+  <text x="360" y="36" text-anchor="middle" font-size="22" font-weight="bold" fill="#1f4e79">摘要：四要素与两条扣分红线</text>
+  <text x="360" y="62" text-anchor="middle" font-size="14" fill="#6b7a8a">300～400 字｜不看正文，也能知道全文做了什么</text>
+
+  <g text-anchor="middle">
+    <rect x="35" y="88" width="140" height="120" rx="8" fill="#eaf1f8" stroke="#1f4e79"/>
+    <text x="105" y="125" font-size="18" font-weight="bold" fill="#1f4e79">项目背景</text>
+    <text x="105" y="157" font-size="15" fill="#22303f">时间、功能</text>
+    <text x="105" y="183" font-size="15" fill="#22303f">规模与意义</text>
+    <rect x="205" y="88" width="140" height="120" rx="8" fill="#f3f6ee" stroke="#8aa15c"/>
+    <text x="275" y="125" font-size="18" font-weight="bold" fill="#4a6130">本人角色</text>
+    <text x="275" y="157" font-size="15" fill="#22303f">担任架构师</text>
+    <text x="275" y="183" font-size="15" fill="#22303f">负责哪些工作</text>
+    <rect x="375" y="88" width="140" height="120" rx="8" fill="#fdf0e6" stroke="#c05621"/>
+    <text x="445" y="125" font-size="18" font-weight="bold" fill="#c05621">技术措施</text>
+    <text x="445" y="157" font-size="15" fill="#22303f">2～3 个重点</text>
+    <text x="445" y="183" font-size="15" fill="#22303f">各概括一两句</text>
+    <rect x="545" y="88" width="140" height="120" rx="8" fill="#eaf1f8" stroke="#1f4e79"/>
+    <text x="615" y="125" font-size="18" font-weight="bold" fill="#1f4e79">效果改进</text>
+    <text x="615" y="157" font-size="15" fill="#22303f">真实实施效果</text>
+    <text x="615" y="183" font-size="15" fill="#22303f">不足或趋势</text>
+  </g>
+  <g font-size="27" font-weight="bold" text-anchor="middle" fill="#6b7a8a">
+    <text x="190" y="157">＋</text><text x="360" y="157">＋</text><text x="530" y="157">＋</text>
+  </g>
+
+  <rect x="45" y="250" width="300" height="196" rx="9" fill="#f3f6ee" stroke="#8aa15c" stroke-width="1.5"/>
+  <text x="195" y="283" text-anchor="middle" font-size="19" font-weight="bold" fill="#4a6130">合格摘要这样写</text>
+  <text x="72" y="319" font-size="15" fill="#22303f">1　直接压缩正文重点</text>
+  <text x="72" y="351" font-size="15" fill="#22303f">2　项目与本人贡献具体</text>
+  <text x="72" y="383" font-size="15" fill="#22303f">3　措施与效果互相对应</text>
+  <text x="72" y="415" font-size="15" fill="#22303f">4　一般不加空泛“帽子”</text>
+
+  <rect x="375" y="250" width="300" height="196" rx="9" fill="#fdf0e6" stroke="#c05621" stroke-width="1.5"/>
+  <text x="525" y="283" text-anchor="middle" font-size="19" font-weight="bold" fill="#c05621">教材明确的扣分红线</text>
+  <text x="525" y="328" text-anchor="middle" font-size="17" font-weight="bold" fill="#22303f">无摘要／过简／无实质内容</text>
+  <text x="525" y="361" text-anchor="middle" font-size="21" font-weight="bold" fill="#c05621">扣 5～10 分</text>
+  <line x1="405" y1="381" x2="645" y2="381" stroke="#c05621"/>
+  <text x="525" y="414" text-anchor="middle" font-size="17" font-weight="bold" fill="#22303f">摘要少于 120 字：直接不及格</text>
+  <text x="360" y="477" text-anchor="middle" font-size="14" fill="#c05621">“戴帽子”只用于不足 300 字时补约 50 字，不能替代实质内容</text>
+</svg>

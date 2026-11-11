@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 450" font-family="Microsoft YaHei, 微软雅黑, sans-serif">
+  <rect width="720" height="450" fill="#ffffff"/>
+  <text x="360" y="28" text-anchor="middle" font-size="20" font-weight="bold" fill="#1f4e79">消息模型与典型嵌入式中间件</text>
+  <rect x="25" y="48" width="325" height="220" rx="9" fill="#fbfdff" stroke="#1f4e79"/>
+  <text x="187" y="75" text-anchor="middle" font-size="16" font-weight="bold" fill="#1f4e79">点对点 PTP：队列</text>
+  <rect x="45" y="100" width="90" height="44" rx="5" fill="#1f4e79"/><text x="90" y="128" text-anchor="middle" font-size="13" fill="#ffffff">生产者</text>
+  <line x1="135" y1="122" x2="157" y2="122" stroke="#1f4e79" stroke-width="1.4" fill="none"/><polygon points="165,122 157,117.5 157,126.5" fill="#1f4e79"/>
+  <rect x="170" y="96" width="90" height="52" rx="5" fill="#eaf1f8" stroke="#1f4e79"/><text x="215" y="127" text-anchor="middle" font-size="13" fill="#22303f">消息队列</text>
+  <line x1="260" y1="122" x2="277" y2="122" stroke="#1f4e79" stroke-width="1.4" fill="none"/><polygon points="285,122 277,117.5 277,126.5" fill="#1f4e79"/>
+  <rect x="290" y="100" width="45" height="44" rx="5" fill="#1f4e79"/><text x="312" y="128" text-anchor="middle" font-size="12" fill="#ffffff">消费者</text>
+  <text x="187" y="183" text-anchor="middle" font-size="13" fill="#22303f">一个消息由一个消费者处理</text>
+  <text x="187" y="209" text-anchor="middle" font-size="13" fill="#22303f">队列可持久化、接收者可离线</text>
+  <text x="187" y="242" text-anchor="middle" font-size="12" fill="#6b7a8a">异步发送，不必等待响应</text>
+  <rect x="370" y="48" width="325" height="220" rx="9" fill="#fffdfa" stroke="#c05621"/>
+  <text x="532" y="75" text-anchor="middle" font-size="16" font-weight="bold" fill="#c05621">发布—订阅：主题</text>
+  <rect x="390" y="100" width="85" height="44" rx="5" fill="#c05621"/><text x="432" y="128" text-anchor="middle" font-size="13" fill="#ffffff">发布者</text>
+  <line x1="475" y1="122" x2="507" y2="122" stroke="#c05621" stroke-width="1.4" fill="none"/><polygon points="515,122 507,117.5 507,126.5" fill="#c05621"/>
+  <rect x="520" y="100" width="90" height="44" rx="22" fill="#fdf0e6" stroke="#c05621"/><text x="565" y="128" text-anchor="middle" font-size="13" fill="#c05621">主题</text>
+  <polyline points="540,144 540,160 455,160 455,183" stroke="#c05621" stroke-width="1.4" fill="none"/>
+  <polygon points="455,191 450.5,183 459.5,183" fill="#c05621"/>
+  <line x1="565" y1="144" x2="565" y2="183" stroke="#c05621" stroke-width="1.4" fill="none"/>
+  <polygon points="565,191 560.5,183 569.5,183" fill="#c05621"/>
+  <polyline points="590,144 590,170 650,170 650,183" stroke="#c05621" stroke-width="1.4" fill="none"/>
+  <polygon points="650,191 645.5,183 654.5,183" fill="#c05621"/>
+  <g text-anchor="middle" font-size="12" fill="#c05621"><rect x="410" y="194" width="90" height="38" rx="5" fill="#fdf0e6"/><text x="455" y="219">订阅者1</text><rect x="520" y="194" width="90" height="38" rx="5" fill="#fdf0e6"/><text x="565" y="219">订阅者2</text><rect x="620" y="194" width="60" height="38" rx="5" fill="#fdf0e6"/><text x="650" y="219">订阅者N</text></g>
+  <text x="532" y="253" text-anchor="middle" font-size="12" fill="#6b7a8a">多消费者可按主题接收</text>
+  <rect x="25" y="292" width="325" height="125" rx="9" fill="#eaf1f8"/>
+  <text x="187" y="320" text-anchor="middle" font-size="17" font-weight="bold" fill="#1f4e79">CORBA</text>
+  <text x="187" y="349" text-anchor="middle" font-size="14" fill="#22303f">ORB 软总线＋IDL 对象接口</text>
+  <text x="187" y="376" text-anchor="middle" font-size="13" fill="#22303f">跨语言、跨平台对象互操作</text>
+  <text x="187" y="400" text-anchor="middle" font-size="12" fill="#6b7a8a">命名 / 事务 / 安全等公共服务</text>
+  <rect x="370" y="292" width="325" height="125" rx="9" fill="#f3f6ee"/>
+  <text x="532" y="320" text-anchor="middle" font-size="17" font-weight="bold" fill="#4a6130">DDS</text>
+  <text x="532" y="349" text-anchor="middle" font-size="14" fill="#22303f">以数据为中心的发布 / 订阅</text>
+  <text x="532" y="376" text-anchor="middle" font-size="13" fill="#22303f">丰富 QoS，强实时、跨平台</text>
+  <text x="532" y="400" text-anchor="middle" font-size="12" fill="#6b7a8a">支持多种底层物理通信协议</text>
+</svg>

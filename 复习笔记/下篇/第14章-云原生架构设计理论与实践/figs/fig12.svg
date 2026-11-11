@@ -1,0 +1,65 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 440" font-family="Microsoft YaHei, 微软雅黑, sans-serif">
+  <text x="360" y="26" text-anchor="middle" font-size="16" font-weight="bold" fill="#1f4e79">全渠道业务中台技术架构（教材图14-10简化）</text>
+  <!-- 层1 应用层 六块 -->
+  <text x="70" y="76" text-anchor="middle" font-size="12" font-weight="bold" fill="#1f4e79">应用层</text>
+  <rect x="110" y="44" width="560" height="52" rx="6" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.2"/>
+  <rect x="120" y="54" width="85" height="32" rx="4" fill="#ffffff" stroke="#1f4e79" stroke-width="1"/>
+  <text x="162" y="75" text-anchor="middle" font-size="11" fill="#22303f">POS</text>
+  <rect x="211" y="54" width="85" height="32" rx="4" fill="#ffffff" stroke="#1f4e79" stroke-width="1"/>
+  <text x="253" y="75" text-anchor="middle" font-size="11" fill="#22303f">OMS</text>
+  <rect x="302" y="54" width="85" height="32" rx="4" fill="#ffffff" stroke="#1f4e79" stroke-width="1"/>
+  <text x="344" y="75" text-anchor="middle" font-size="11" fill="#22303f">DRP</text>
+  <rect x="393" y="54" width="85" height="32" rx="4" fill="#ffffff" stroke="#1f4e79" stroke-width="1"/>
+  <text x="435" y="75" text-anchor="middle" font-size="11" fill="#22303f">CRM</text>
+  <rect x="484" y="54" width="85" height="32" rx="4" fill="#ffffff" stroke="#1f4e79" stroke-width="1"/>
+  <text x="526" y="75" text-anchor="middle" font-size="11" fill="#22303f">库存平衡</text>
+  <rect x="575" y="54" width="85" height="32" rx="4" fill="#ffffff" stroke="#1f4e79" stroke-width="1"/>
+  <text x="617" y="70" text-anchor="middle" font-size="10" fill="#22303f">全渠道</text>
+  <text x="617" y="82" text-anchor="middle" font-size="10" fill="#22303f">运营平台</text>
+  <!-- 层2 共享中心 -->
+  <text x="70" y="152" text-anchor="middle" font-size="12" font-weight="bold" fill="#4a6130">共享中心</text>
+  <rect x="110" y="120" width="560" height="52" rx="6" fill="#f3f6ee" stroke="#8aa15c" stroke-width="1.2"/>
+  <text x="390" y="142" text-anchor="middle" font-size="11.5" font-weight="bold" fill="#4a6130">订单中心 · 商品中心 · 库存中心 · 会员中心</text>
+  <text x="390" y="162" text-anchor="middle" font-size="11" fill="#22303f">结算中心 · 营销中心 · 主数据（通用能力沉淀、复用）</text>
+  <!-- 层3 云原生中间件 -->
+  <text x="70" y="228" text-anchor="middle" font-size="12" font-weight="bold" fill="#c05621">技术层</text>
+  <rect x="110" y="196" width="560" height="52" rx="6" fill="#fdf0e6" stroke="#c05621" stroke-width="1.2"/>
+  <rect x="120" y="206" width="85" height="32" rx="4" fill="#ffffff" stroke="#c05621" stroke-width="1"/>
+  <text x="162" y="227" text-anchor="middle" font-size="11" fill="#22303f">K8S</text>
+  <rect x="211" y="206" width="85" height="32" rx="4" fill="#ffffff" stroke="#c05621" stroke-width="1"/>
+  <text x="253" y="227" text-anchor="middle" font-size="11" fill="#22303f">EDAS</text>
+  <rect x="302" y="206" width="85" height="32" rx="4" fill="#ffffff" stroke="#c05621" stroke-width="1"/>
+  <text x="344" y="227" text-anchor="middle" font-size="11" fill="#22303f">MQ</text>
+  <rect x="393" y="206" width="85" height="32" rx="4" fill="#ffffff" stroke="#c05621" stroke-width="1"/>
+  <text x="435" y="227" text-anchor="middle" font-size="11" fill="#22303f">ARMS</text>
+  <rect x="484" y="206" width="85" height="32" rx="4" fill="#ffffff" stroke="#c05621" stroke-width="1"/>
+  <text x="526" y="227" text-anchor="middle" font-size="11" fill="#22303f">PTS</text>
+  <rect x="575" y="206" width="85" height="32" rx="4" fill="#ffffff" stroke="#c05621" stroke-width="1"/>
+  <text x="617" y="227" text-anchor="middle" font-size="11" fill="#22303f">CSB</text>
+  <!-- 层4 基础设施 -->
+  <text x="70" y="304" text-anchor="middle" font-size="12" font-weight="bold" fill="#6b7a8a">基础设施</text>
+  <rect x="110" y="272" width="560" height="52" rx="6" fill="#f4f6f8" stroke="#6b7a8a" stroke-width="1.2"/>
+  <text x="390" y="304" text-anchor="middle" font-size="12" fill="#22303f">阿里云 IaaS：计算 / 存储 / 网络（弹性、高可用）</text>
+  <!-- 层5 后台系统 -->
+  <text x="70" y="380" text-anchor="middle" font-size="12" font-weight="bold" fill="#6b7a8a">后台系统</text>
+  <rect x="110" y="348" width="560" height="52" rx="6" fill="#f4f6f8" stroke="#6b7a8a" stroke-width="1.2"/>
+  <rect x="130" y="358" width="120" height="32" rx="4" fill="#ffffff" stroke="#6b7a8a" stroke-width="1"/>
+  <text x="190" y="379" text-anchor="middle" font-size="11" fill="#22303f">SAP</text>
+  <rect x="266" y="358" width="120" height="32" rx="4" fill="#ffffff" stroke="#6b7a8a" stroke-width="1"/>
+  <text x="326" y="379" text-anchor="middle" font-size="11" fill="#22303f">PLM / MES</text>
+  <rect x="402" y="358" width="120" height="32" rx="4" fill="#ffffff" stroke="#6b7a8a" stroke-width="1"/>
+  <text x="462" y="379" text-anchor="middle" font-size="11" fill="#22303f">HR / OA</text>
+  <rect x="538" y="358" width="120" height="32" rx="4" fill="#ffffff" stroke="#6b7a8a" stroke-width="1"/>
+  <text x="598" y="379" text-anchor="middle" font-size="11" fill="#22303f">其他内部系统</text>
+  <!-- 层间箭头 -->
+  <line x1="390" y1="100" x2="390" y2="109" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="390,117 385.5,109 394.5,109" fill="#1f4e79"/>
+  <line x1="390" y1="176" x2="390" y2="185" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="390,193 385.5,185 394.5,185" fill="#1f4e79"/>
+  <line x1="390" y1="252" x2="390" y2="261" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="390,269 385.5,261 394.5,261" fill="#1f4e79"/>
+  <line x1="390" y1="328" x2="390" y2="337" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="390,345 385.5,337 394.5,337" fill="#1f4e79"/>
+  <!-- 底部说明 -->
+  <text x="360" y="424" text-anchor="middle" font-size="11.5" fill="#4a6130">共享中心输出实时、在线、统一、复用的能力，消除数据孤岛，让前端应用更轻薄</text>
+</svg>

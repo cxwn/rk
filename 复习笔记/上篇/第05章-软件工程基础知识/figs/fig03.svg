@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 420" font-family="Microsoft YaHei, 微软雅黑, sans-serif">
+  <rect width="720" height="420" fill="#ffffff"/>
+  <text x="360" y="32" text-anchor="middle" font-size="20" font-weight="bold" fill="#1f4e79">螺旋模型：风险驱动的迭代过程</text>
+  <rect x="45" y="70" width="220" height="75" rx="8" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.5"/>
+  <text x="155" y="100" text-anchor="middle" font-size="18" font-weight="bold" fill="#1f4e79">① 目标设定</text>
+  <text x="155" y="126" text-anchor="middle" font-size="14" fill="#22303f">需求、约束与管理计划</text>
+  <rect x="455" y="70" width="220" height="75" rx="8" fill="#fdf0e6" stroke="#c05621" stroke-width="1.5"/>
+  <text x="565" y="100" text-anchor="middle" font-size="18" font-weight="bold" fill="#c05621">② 风险分析</text>
+  <text x="565" y="126" text-anchor="middle" font-size="14" fill="#22303f">识别风险并制定解决办法</text>
+  <rect x="455" y="285" width="220" height="75" rx="8" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.5"/>
+  <text x="565" y="315" text-anchor="middle" font-size="18" font-weight="bold" fill="#1f4e79">③ 开发与验证</text>
+  <text x="565" y="341" text-anchor="middle" font-size="14" fill="#22303f">选择模型、原型开发、验证</text>
+  <rect x="45" y="285" width="220" height="75" rx="8" fill="#f3f6ee" stroke="#4a6130" stroke-width="1.5"/>
+  <text x="155" y="315" text-anchor="middle" font-size="18" font-weight="bold" fill="#4a6130">④ 评审</text>
+  <text x="155" y="341" text-anchor="middle" font-size="14" fill="#22303f">决定是否进入下一圈</text>
+  <g stroke="#1f4e79" stroke-width="1.8" fill="none">
+    <line x1="265" y1="107" x2="444" y2="107"/>
+    <line x1="565" y1="145" x2="565" y2="274"/>
+    <line x1="455" y1="322" x2="276" y2="322"/>
+    <line x1="155" y1="285" x2="155" y2="156"/>
+  </g>
+  <g fill="#1f4e79">
+    <polygon points="452,107 444,102.5 444,111.5"/>
+    <polygon points="565,282 560.5,274 569.5,274"/>
+    <polygon points="268,322 276,317.5 276,326.5"/>
+    <polygon points="155,148 150.5,156 159.5,156"/>
+  </g>
+  <rect x="285" y="166" width="150" height="98" rx="12" fill="#f3f6ee" stroke="#8aa15c" stroke-width="1.5"/>
+  <text x="360" y="195" text-anchor="middle" font-size="17" font-weight="bold" fill="#4a6130">每迭代一圈</text>
+  <text x="360" y="221" text-anchor="middle" font-size="15" fill="#22303f">形成一个新版本</text>
+  <text x="360" y="245" text-anchor="middle" font-size="14" fill="#6b7a8a">逐步逼近目标</text>
+  <text x="360" y="394" text-anchor="middle" font-size="15" fill="#c05621">适用于大型、高风险项目；若迟迟不收敛，项目也可能中途终止</text>
+</svg>

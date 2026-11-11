@@ -1,0 +1,34 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 450" font-family="Microsoft YaHei, 微软雅黑, sans-serif">
+  <rect width="720" height="450" fill="#ffffff"/>
+  <text x="360" y="30" text-anchor="middle" font-size="20" font-weight="bold" fill="#22303f">批处理与联机事务处理（OLTP）</text>
+  <rect x="30" y="52" width="660" height="170" rx="10" fill="#f8fafc" stroke="#6b7a8a"/>
+  <text x="50" y="80" font-size="16" font-weight="bold" fill="#1f4e79">批处理：先积累成批，再定期处理</text>
+  <g text-anchor="middle" font-size="14">
+    <rect x="50" y="105" width="120" height="55" rx="6" fill="#eaf1f8" stroke="#1f4e79"/><text x="110" y="139">原始凭证</text>
+    <rect x="210" y="105" width="120" height="55" rx="6" fill="#eaf1f8" stroke="#1f4e79"/><text x="270" y="139">事务文件</text>
+    <rect x="370" y="105" width="120" height="55" rx="6" fill="#eaf1f8" stroke="#1f4e79"/><text x="430" y="139">分类排序</text>
+    <rect x="530" y="105" width="140" height="55" rx="6" fill="#f3f6ee" stroke="#8aa15c"/>
+    <text x="600" y="129">对账处理</text><text x="600" y="150">更新主文件</text>
+  </g>
+  <g stroke="#1f4e79" stroke-width="1.5" fill="none">
+    <line x1="170" y1="132" x2="199" y2="132"/><line x1="330" y1="132" x2="359" y2="132"/><line x1="490" y1="132" x2="519" y2="132"/>
+  </g>
+  <g fill="#1f4e79"><polygon points="207,132 199,127.5 199,136.5"/><polygon points="367,132 359,127.5 359,136.5"/><polygon points="527,132 519,127.5 519,136.5"/></g>
+  <text x="110" y="194" text-anchor="middle" font-size="13" fill="#4a6130">优点：大量处理较经济</text>
+  <text x="600" y="194" text-anchor="end" font-size="13" fill="#c05621">缺点：处理间隔期数据可能过时</text>
+  <rect x="30" y="245" width="660" height="170" rx="10" fill="#fdf0e6" stroke="#c05621"/>
+  <text x="50" y="273" font-size="16" font-weight="bold" fill="#c05621">OLTP：事务一产生就立即处理并更新</text>
+  <g text-anchor="middle" font-size="14">
+    <rect x="50" y="298" width="120" height="55" rx="6" fill="#ffffff" stroke="#c05621"/><text x="110" y="332">终端事务</text>
+    <rect x="210" y="298" width="120" height="55" rx="6" fill="#ffffff" stroke="#c05621"/><text x="270" y="332">联机处理</text>
+    <rect x="370" y="298" width="120" height="55" rx="6" fill="#ffffff" stroke="#c05621"/>
+    <text x="430" y="322">立即更新</text><text x="430" y="343">文件和数据库</text>
+    <rect x="530" y="298" width="140" height="55" rx="6" fill="#f3f6ee" stroke="#8aa15c"/><text x="600" y="332">即时响应查询</text>
+  </g>
+  <g stroke="#c05621" stroke-width="1.5" fill="none">
+    <line x1="170" y1="325" x2="199" y2="325"/><line x1="330" y1="325" x2="359" y2="325"/><line x1="490" y1="325" x2="519" y2="325"/>
+  </g>
+  <g fill="#c05621"><polygon points="207,325 199,320.5 199,329.5"/><polygon points="367,325 359,320.5 359,329.5"/><polygon points="527,325 519,320.5 519,329.5"/></g>
+  <text x="110" y="388" text-anchor="middle" font-size="13" fill="#4a6130">优点：数据新、响应快</text>
+  <text x="670" y="388" text-anchor="end" font-size="13" fill="#c05621">代价：需要授权、容错、冗余，成本较高</text>
+</svg>

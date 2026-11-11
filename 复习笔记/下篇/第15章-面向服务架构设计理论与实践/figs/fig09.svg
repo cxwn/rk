@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 320" font-family="Microsoft YaHei, 微软雅黑, sans-serif">
+  <text x="360" y="30" text-anchor="middle" font-size="17" font-weight="bold" fill="#1f4e79">SOA 发展三阶段：先数据，后通信，再治理</text>
+  <rect x="30" y="65" width="210" height="185" rx="8" fill="#f4f6f8" stroke="#6b7a8a" stroke-width="1.5"/>
+  <text x="135" y="94" text-anchor="middle" font-size="15" font-weight="bold" fill="#22303f">① 萌芽阶段</text>
+  <text x="135" y="119" text-anchor="middle" font-size="11" fill="#6b7a8a">20 世纪 90 年代末起</text>
+  <rect x="55" y="137" width="160" height="38" rx="5" fill="#ffffff" stroke="#6b7a8a"/>
+  <text x="135" y="161" text-anchor="middle" font-size="14" font-weight="bold" fill="#1f4e79">XML</text>
+  <text x="135" y="197" text-anchor="middle" font-size="11" fill="#22303f">XSD：完整性与有效性</text>
+  <text x="135" y="219" text-anchor="middle" font-size="11" fill="#22303f">XSLT：数据表达转换</text>
+  <text x="135" y="239" text-anchor="middle" font-size="10" fill="#6b7a8a">统一数据描述与交换</text>
+  <rect x="255" y="65" width="210" height="185" rx="8" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.5"/>
+  <text x="360" y="94" text-anchor="middle" font-size="15" font-weight="bold" fill="#1f4e79">② 标准化阶段</text>
+  <text x="360" y="119" text-anchor="middle" font-size="11" fill="#6b7a8a">2000 年以后</text>
+  <rect x="275" y="137" width="170" height="38" rx="5" fill="#ffffff" stroke="#1f4e79"/>
+  <text x="360" y="161" text-anchor="middle" font-size="12" font-weight="bold" fill="#1f4e79">SOAP · WSDL · UDDI</text>
+  <text x="360" y="197" text-anchor="middle" font-size="11" fill="#22303f">通信 · 描述 · 注册发现</text>
+  <text x="360" y="219" text-anchor="middle" font-size="11" fill="#22303f">Web 服务「三剑客」</text>
+  <text x="360" y="239" text-anchor="middle" font-size="10" fill="#6b7a8a">异构系统标准化交互</text>
+  <rect x="480" y="65" width="210" height="185" rx="8" fill="#f3f6ee" stroke="#8aa15c" stroke-width="1.5"/>
+  <text x="585" y="94" text-anchor="middle" font-size="15" font-weight="bold" fill="#4a6130">③ 成熟应用阶段</text>
+  <text x="585" y="119" text-anchor="middle" font-size="11" fill="#6b7a8a">2005 年以后</text>
+  <rect x="495" y="137" width="180" height="38" rx="5" fill="#ffffff" stroke="#8aa15c"/>
+  <text x="585" y="161" text-anchor="middle" font-size="11" font-weight="bold" fill="#4a6130">SCA · SDO · WS-Policy</text>
+  <text x="585" y="197" text-anchor="middle" font-size="11" fill="#22303f">编程模型 · 策略交互</text>
+  <text x="585" y="219" text-anchor="middle" font-size="11" fill="#22303f">安全 · 流程 · 事务</text>
+  <text x="585" y="239" text-anchor="middle" font-size="10" fill="#4a6130">从服务走向完整治理</text>
+  <line x1="240" y1="157" x2="247" y2="157" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="252,157 244,152.5 244,161.5" fill="#1f4e79"/>
+  <line x1="465" y1="157" x2="472" y2="157" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="477,157 469,152.5 469,161.5" fill="#1f4e79"/>
+  <rect x="95" y="275" width="530" height="30" rx="6" fill="#fdf0e6" stroke="#c05621"/>
+  <text x="360" y="295" text-anchor="middle" font-size="12" fill="#c05621">记忆主线：数据能交换 → 服务能互调 → 企业能治理</text>
+</svg>

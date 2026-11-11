@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 425" font-family="Microsoft YaHei, 微软雅黑, sans-serif">
+  <text x="360" y="26" text-anchor="middle" font-size="16" font-weight="bold" fill="#1f4e79">Lambda 技术选型：组件如何落到三层（教材图 19-9 重绘）</text>
+  <rect x="250" y="45" width="220" height="48" rx="7" fill="#f3f6ee" stroke="#8aa15c" stroke-width="1.3"/>
+  <text x="360" y="74" text-anchor="middle" font-size="14" font-weight="bold" fill="#4a6130">Kafka Topic：数据入口</text>
+  <line x1="360" y1="93" x2="360" y2="110" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <line x1="175" y1="110" x2="545" y2="110" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <line x1="175" y1="110" x2="175" y2="129" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="175,137 170.5,129 179.5,129" fill="#1f4e79"/>
+  <line x1="545" y1="110" x2="545" y2="129" stroke="#c05621" stroke-width="1.5" fill="none"/>
+  <polygon points="545,137 540.5,129 549.5,129" fill="#c05621"/>
+  <rect x="45" y="140" width="260" height="70" rx="7" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.3"/>
+  <text x="175" y="164" text-anchor="middle" font-size="13" font-weight="bold" fill="#1f4e79">Hadoop HDFS</text>
+  <text x="175" y="185" text-anchor="middle" font-size="11" fill="#22303f">主数据集 · MapReduce / Hive</text>
+  <text x="175" y="202" text-anchor="middle" font-size="10" fill="#6b7a8a">高容错、高吞吐的离线批算</text>
+  <rect x="415" y="140" width="260" height="70" rx="7" fill="#fdf0e6" stroke="#c05621" stroke-width="1.3"/>
+  <text x="545" y="164" text-anchor="middle" font-size="13" font-weight="bold" fill="#c05621">Spark / Storm</text>
+  <text x="545" y="185" text-anchor="middle" font-size="11" fill="#22303f">Speed Layer 实时处理作业</text>
+  <text x="545" y="202" text-anchor="middle" font-size="10" fill="#6b7a8a">Spark 中间结果可保存在内存</text>
+  <line x1="175" y1="210" x2="175" y2="249" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="175,257 170.5,249 179.5,249" fill="#1f4e79"/>
+  <line x1="545" y1="210" x2="545" y2="249" stroke="#c05621" stroke-width="1.5" fill="none"/>
+  <polygon points="545,257 540.5,249 549.5,249" fill="#c05621"/>
+  <rect x="45" y="260" width="260" height="48" rx="6" fill="#ffffff" stroke="#1f4e79"/>
+  <text x="175" y="289" text-anchor="middle" font-size="12" font-weight="bold" fill="#1f4e79">Hive 可查询 Batch View</text>
+  <rect x="415" y="260" width="260" height="48" rx="6" fill="#ffffff" stroke="#c05621"/>
+  <text x="545" y="289" text-anchor="middle" font-size="12" font-weight="bold" fill="#c05621">Speed Table / Real-time View</text>
+  <line x1="175" y1="308" x2="280" y2="329" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="287,337 278,333 281,325" fill="#1f4e79"/>
+  <line x1="545" y1="308" x2="440" y2="329" stroke="#c05621" stroke-width="1.5" fill="none"/>
+  <polygon points="433,337 439,325 442,333" fill="#c05621"/>
+  <rect x="230" y="340" width="260" height="55" rx="7" fill="#f3f6ee" stroke="#8aa15c" stroke-width="1.4"/>
+  <text x="360" y="363" text-anchor="middle" font-size="13" font-weight="bold" fill="#4a6130">HBase / Cassandra</text>
+  <text x="360" y="384" text-anchor="middle" font-size="11" fill="#22303f">Serving Layer：合并、索引、低延迟查询</text>
+  <text x="360" y="414" text-anchor="middle" font-size="10" fill="#6b7a8a">技术可替换，答题重点是组件职责与层次匹配，而非背唯一产品组合</text>
+</svg>

@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 280" font-family="Microsoft YaHei, 微软雅黑, sans-serif">
+  <defs>
+    <marker id="arrow" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+      <path d="M0,0 L6,3 L0,6 Z" fill="#1f4e79"/>
+    </marker>
+  </defs>
+  <!-- 三个角色框 -->
+  <rect x="40" y="70" width="160" height="84" rx="8" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.4"/>
+  <text x="120" y="118" font-size="17" font-weight="bold" fill="#1f4e79" text-anchor="middle">架构设计师</text>
+  <rect x="290" y="70" width="150" height="84" rx="8" fill="#fdf0e6" stroke="#c05621" stroke-width="1.4"/>
+  <text x="365" y="118" font-size="17" font-weight="bold" fill="#c05621" text-anchor="middle">架构设计</text>
+  <rect x="560" y="70" width="120" height="84" rx="8" fill="#f3f6ee" stroke="#8aa15c" stroke-width="1.4"/>
+  <text x="620" y="118" font-size="17" font-weight="bold" fill="#4a6130" text-anchor="middle">架构</text>
+  <!-- 执行：架构设计师 -> 架构设计 -->
+  <line x1="203" y1="112" x2="276.0" y2="112.0" stroke="#1f4e79" stroke-width="1.6" fill="none"/>
+    <polygon points="284.0,112.0 276.0,116.5 276.0,107.5" fill="#1f4e79"/>
+  <text x="245" y="98" font-size="13" fill="#22303f" text-anchor="middle">执行</text>
+  <!-- 生成：架构设计 -> 架构 -->
+  <line x1="443" y1="112" x2="546.0" y2="112.0" stroke="#1f4e79" stroke-width="1.6" fill="none"/>
+    <polygon points="554.0,112.0 546.0,116.5 546.0,107.5" fill="#1f4e79"/>
+  <text x="500" y="98" font-size="13" fill="#22303f" text-anchor="middle">生成</text>
+  <!-- 创建：架构设计师 -> 架构（底部直角折线） -->
+  <polyline points="120.0,157.0 120.0,224.0 620.0,224.0 620.0,168.0" stroke="#c05621" stroke-width="1.6" fill="none"/>
+    <polygon points="620.0,160.0 624.5,168.0 615.5,168.0" fill="#c05621"/>
+  <text x="370" y="248" font-size="13" fill="#c05621" text-anchor="middle">创建（架构设计师的成果是创建架构）</text>
+</svg>

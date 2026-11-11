@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 345" font-family="Microsoft YaHei, 微软雅黑, sans-serif">
+  <text x="360" y="26" text-anchor="middle" font-size="16" font-weight="bold" fill="#1f4e79">IPv4 与 IPv6 融合组网三大过渡技术</text>
+  <!-- 左 双栈协议栈 -->
+  <text x="160" y="54" text-anchor="middle" font-size="12" font-weight="bold" fill="#22303f">双栈 IP 协议栈（图 17-19）</text>
+  <rect x="60" y="70" width="200" height="32" rx="4" fill="#f4f6f8" stroke="#6b7a8a" stroke-width="1"/>
+  <text x="160" y="90" text-anchor="middle" font-size="11" fill="#22303f">应用层协议</text>
+  <rect x="60" y="110" width="200" height="32" rx="4" fill="#f4f6f8" stroke="#6b7a8a" stroke-width="1"/>
+  <text x="160" y="130" text-anchor="middle" font-size="11" fill="#22303f">TCP / UDP</text>
+  <rect x="60" y="150" width="95" height="32" rx="4" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.2"/>
+  <text x="107" y="170" text-anchor="middle" font-size="11" font-weight="bold" fill="#1f4e79">IPv4</text>
+  <rect x="165" y="150" width="95" height="32" rx="4" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.2"/>
+  <text x="212" y="170" text-anchor="middle" font-size="11" font-weight="bold" fill="#1f4e79">IPv6</text>
+  <rect x="60" y="190" width="200" height="32" rx="4" fill="#f4f6f8" stroke="#6b7a8a" stroke-width="1"/>
+  <text x="160" y="210" text-anchor="middle" font-size="11" fill="#22303f">链路层及物理层</text>
+  <text x="160" y="246" text-anchor="middle" font-size="10" fill="#6b7a8a">同一物理平台，双栈并存</text>
+  <text x="160" y="264" text-anchor="middle" font-size="10" fill="#6b7a8a">既能通 v4 节点也能通 v6 节点</text>
+  <!-- 右 三卡片 -->
+  <rect x="300" y="50" width="390" height="52" rx="6" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.2"/>
+  <text x="315" y="72" font-size="12" font-weight="bold" fill="#1f4e79">① 双协议栈</text>
+  <text x="315" y="92" font-size="10" fill="#22303f">节点同时运行 IPv4 + IPv6 两个协议栈，各自独立通信</text>
+  <rect x="300" y="112" width="390" height="128" rx="6" fill="#fdf0e6" stroke="#c05621" stroke-width="1.2"/>
+  <text x="315" y="134" font-size="12" font-weight="bold" fill="#c05621">② 隧道技术：封装穿越</text>
+  <text x="315" y="154" font-size="10" fill="#22303f">ISATAP：主机间自动隧道，从 IPv6 地址中抽出 IPv4 建隧</text>
+  <text x="315" y="174" font-size="10" fill="#22303f">6to4：站点间，前缀 2002::/16，需全局合法 IPv4 地址</text>
+  <text x="315" y="194" font-size="10" fill="#22303f">6over4：组播使能的 IPv4 网络上传 IPv6（虚拟以太网）</text>
+  <text x="315" y="214" font-size="10" fill="#22303f">4over6：IPv4 业务承载在 IPv6 网上（向纯 v6 主干过渡）</text>
+  <rect x="300" y="250" width="390" height="52" rx="6" fill="#f3f6ee" stroke="#8aa15c" stroke-width="1.2"/>
+  <text x="315" y="272" font-size="12" font-weight="bold" fill="#4a6130">③ 网络地址翻译 NAT</text>
+  <text x="315" y="292" font-size="10" fill="#22303f">NAT-PT / SIIT：维护 IPv4 与 IPv6 地址映射表，实现互访</text>
+  <text x="360" y="330" text-anchor="middle" font-size="11" fill="#4a6130">助记：双栈「共存」、隧道「封装」、翻译「转换」；6to4 记前缀 2002，4over6＝v4 跑在 v6 上</text>
+</svg>

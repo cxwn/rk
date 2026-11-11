@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 340" font-family="Microsoft YaHei, 微软雅黑, sans-serif">
+  <text x="360" y="30" text-anchor="middle" font-size="20" font-weight="bold" fill="#1f4e79">四个演化时期与动静分界</text>
+  <rect x="25" y="75" width="145" height="145" rx="7" fill="#eaf1f8" stroke="#1f4e79"/>
+  <text x="97" y="108" text-anchor="middle" font-size="16" font-weight="bold" fill="#1f4e79">设计时演化</text>
+  <text x="97" y="140" text-anchor="middle" font-size="14" fill="#22303f">模型与代码</text>
+  <text x="97" y="164" text-anchor="middle" font-size="14" fill="#22303f">编译之前</text>
+  <text x="97" y="196" text-anchor="middle" font-size="13" fill="#6b7a8a">最早</text>
+  <line x1="170" y1="148" x2="192" y2="148" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="200,148 192,143.5 192,152.5" fill="#1f4e79"/>
+  <rect x="203" y="75" width="145" height="145" rx="7" fill="#eaf1f8" stroke="#1f4e79"/>
+  <text x="275" y="108" text-anchor="middle" font-size="16" font-weight="bold" fill="#1f4e79">运行前演化</text>
+  <text x="275" y="140" text-anchor="middle" font-size="14" fill="#22303f">编译之后</text>
+  <text x="275" y="164" text-anchor="middle" font-size="14" fill="#22303f">执行之前</text>
+  <text x="275" y="196" text-anchor="middle" font-size="13" fill="#6b7a8a">不看运行状态</text>
+  <line x1="348" y1="148" x2="370" y2="148" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="378,148 370,143.5 370,152.5" fill="#1f4e79"/>
+  <rect x="381" y="75" width="145" height="145" rx="7" fill="#fdf0e6" stroke="#c05621"/>
+  <text x="453" y="102" text-anchor="middle" font-size="15" font-weight="bold" fill="#c05621">有限制运行时</text>
+  <text x="453" y="126" text-anchor="middle" font-size="15" font-weight="bold" fill="#c05621">演化</text>
+  <text x="453" y="157" text-anchor="middle" font-size="14" fill="#22303f">安全模式下</text>
+  <text x="453" y="185" text-anchor="middle" font-size="13" fill="#6b7a8a">满足预定约束</text>
+  <line x1="526" y1="148" x2="548" y2="148" stroke="#c05621" stroke-width="1.5" fill="none"/>
+  <polygon points="556,148 548,143.5 548,152.5" fill="#c05621"/>
+  <rect x="559" y="75" width="136" height="145" rx="7" fill="#fdf0e6" stroke="#c05621" stroke-width="2"/>
+  <text x="627" y="108" text-anchor="middle" font-size="16" font-weight="bold" fill="#c05621">运行时演化</text>
+  <text x="627" y="140" text-anchor="middle" font-size="14" fill="#22303f">系统运行中</text>
+  <text x="627" y="164" text-anchor="middle" font-size="14" fill="#22303f">改变结构拓扑</text>
+  <text x="627" y="196" text-anchor="middle" font-size="13" fill="#c05621">最难实现</text>
+  <line x1="25" y1="250" x2="348" y2="250" stroke="#1f4e79" stroke-width="2"/>
+  <line x1="25" y1="242" x2="25" y2="258" stroke="#1f4e79" stroke-width="2"/>
+  <line x1="348" y1="242" x2="348" y2="258" stroke="#1f4e79" stroke-width="2"/>
+  <text x="186" y="282" text-anchor="middle" font-size="16" font-weight="bold" fill="#1f4e79">静态演化：未运行或已停止</text>
+  <line x1="381" y1="250" x2="695" y2="250" stroke="#c05621" stroke-width="2"/>
+  <line x1="381" y1="242" x2="381" y2="258" stroke="#c05621" stroke-width="2"/>
+  <line x1="695" y1="242" x2="695" y2="258" stroke="#c05621" stroke-width="2"/>
+  <text x="538" y="282" text-anchor="middle" font-size="16" font-weight="bold" fill="#c05621">动态演化：运行期间不停机</text>
+  <text x="360" y="320" text-anchor="middle" font-size="14" fill="#6b7a8a">时间主线：编译前 → 编译后执行前 → 受限运行中 → 运行中</text>
+</svg>

@@ -1,0 +1,63 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 390" font-family="Microsoft YaHei, 微软雅黑, sans-serif">
+  <text x="360" y="30" text-anchor="middle" font-size="17" font-weight="bold" fill="#1f4e79">单体架构与微服务架构：整体部署 vs 独立部署</text>
+  <rect x="35" y="55" width="280" height="285" rx="9" fill="#fdf0e6" stroke="#c05621" stroke-width="1.5"/>
+  <text x="175" y="79" text-anchor="middle" font-size="15" font-weight="bold" fill="#c05621">单体应用架构</text>
+  <rect x="95" y="94" width="160" height="35" rx="5" fill="#ffffff" stroke="#c05621"/>
+  <text x="175" y="117" text-anchor="middle" font-size="12" fill="#22303f">统一展示层</text>
+  <rect x="95" y="145" width="160" height="35" rx="5" fill="#ffffff" stroke="#c05621"/>
+  <rect x="95" y="190" width="160" height="35" rx="5" fill="#ffffff" stroke="#c05621"/>
+  <rect x="95" y="235" width="160" height="35" rx="5" fill="#ffffff" stroke="#c05621"/>
+  <text x="175" y="168" text-anchor="middle" font-size="12" fill="#22303f">服务 A（同一应用）</text>
+  <text x="175" y="213" text-anchor="middle" font-size="12" fill="#22303f">服务 B（同一应用）</text>
+  <text x="175" y="258" text-anchor="middle" font-size="12" fill="#22303f">服务 C（同一应用）</text>
+  <rect x="95" y="288" width="160" height="35" rx="5" fill="#ffffff" stroke="#c05621"/>
+  <text x="175" y="311" text-anchor="middle" font-size="12" fill="#22303f">共享数据库</text>
+  <rect x="355" y="55" width="330" height="285" rx="9" fill="#f3f6ee" stroke="#8aa15c" stroke-width="1.5"/>
+  <text x="520" y="79" text-anchor="middle" font-size="15" font-weight="bold" fill="#4a6130">微服务架构</text>
+  <rect x="375" y="95" width="60" height="35" rx="4" fill="#ffffff" stroke="#8aa15c"/>
+  <rect x="455" y="95" width="60" height="35" rx="4" fill="#ffffff" stroke="#8aa15c"/>
+  <rect x="535" y="95" width="60" height="35" rx="4" fill="#ffffff" stroke="#8aa15c"/>
+  <rect x="615" y="95" width="60" height="35" rx="4" fill="#ffffff" stroke="#8aa15c"/>
+  <text x="405" y="117" text-anchor="middle" font-size="11" fill="#22303f">展示层</text>
+  <text x="485" y="117" text-anchor="middle" font-size="11" fill="#22303f">展示层</text>
+  <text x="565" y="117" text-anchor="middle" font-size="11" fill="#22303f">展示层</text>
+  <text x="645" y="117" text-anchor="middle" font-size="11" fill="#22303f">展示层</text>
+  <rect x="375" y="160" width="60" height="55" rx="4" fill="#ffffff" stroke="#8aa15c"/>
+  <rect x="455" y="160" width="60" height="55" rx="4" fill="#ffffff" stroke="#8aa15c"/>
+  <rect x="535" y="160" width="60" height="55" rx="4" fill="#ffffff" stroke="#8aa15c"/>
+  <rect x="615" y="160" width="60" height="55" rx="4" fill="#ffffff" stroke="#8aa15c"/>
+  <text x="405" y="184" text-anchor="middle" font-size="12" font-weight="bold" fill="#22303f">服务 A</text>
+  <text x="485" y="184" text-anchor="middle" font-size="12" font-weight="bold" fill="#22303f">服务 B</text>
+  <text x="565" y="184" text-anchor="middle" font-size="12" font-weight="bold" fill="#22303f">服务 C</text>
+  <text x="645" y="184" text-anchor="middle" font-size="12" font-weight="bold" fill="#22303f">服务 D</text>
+  <text x="405" y="202" text-anchor="middle" font-size="9" fill="#4a6130">独立进程</text>
+  <text x="485" y="202" text-anchor="middle" font-size="9" fill="#4a6130">独立进程</text>
+  <text x="565" y="202" text-anchor="middle" font-size="9" fill="#4a6130">独立进程</text>
+  <text x="645" y="202" text-anchor="middle" font-size="9" fill="#4a6130">独立进程</text>
+  <rect x="375" y="255" width="60" height="40" rx="4" fill="#ffffff" stroke="#8aa15c"/>
+  <rect x="455" y="255" width="60" height="40" rx="4" fill="#ffffff" stroke="#8aa15c"/>
+  <rect x="535" y="255" width="60" height="40" rx="4" fill="#ffffff" stroke="#8aa15c"/>
+  <rect x="615" y="255" width="60" height="40" rx="4" fill="#ffffff" stroke="#8aa15c"/>
+  <text x="405" y="279" text-anchor="middle" font-size="10" fill="#22303f">数据库 A</text>
+  <text x="485" y="279" text-anchor="middle" font-size="10" fill="#22303f">数据库 B</text>
+  <text x="565" y="279" text-anchor="middle" font-size="10" fill="#22303f">数据库 C</text>
+  <text x="645" y="279" text-anchor="middle" font-size="10" fill="#22303f">数据库 D</text>
+  <line x1="405" y1="130" x2="405" y2="152" stroke="#8aa15c" stroke-width="1.5" fill="none"/>
+  <polygon points="405,157 400.5,149 409.5,149" fill="#8aa15c"/>
+  <line x1="485" y1="130" x2="485" y2="152" stroke="#8aa15c" stroke-width="1.5" fill="none"/>
+  <polygon points="485,157 480.5,149 489.5,149" fill="#8aa15c"/>
+  <line x1="565" y1="130" x2="565" y2="152" stroke="#8aa15c" stroke-width="1.5" fill="none"/>
+  <polygon points="565,157 560.5,149 569.5,149" fill="#8aa15c"/>
+  <line x1="645" y1="130" x2="645" y2="152" stroke="#8aa15c" stroke-width="1.5" fill="none"/>
+  <polygon points="645,157 640.5,149 649.5,149" fill="#8aa15c"/>
+  <line x1="405" y1="215" x2="405" y2="247" stroke="#8aa15c" stroke-width="1.5" fill="none"/>
+  <polygon points="405,252 400.5,244 409.5,244" fill="#8aa15c"/>
+  <line x1="485" y1="215" x2="485" y2="247" stroke="#8aa15c" stroke-width="1.5" fill="none"/>
+  <polygon points="485,252 480.5,244 489.5,244" fill="#8aa15c"/>
+  <line x1="565" y1="215" x2="565" y2="247" stroke="#8aa15c" stroke-width="1.5" fill="none"/>
+  <polygon points="565,252 560.5,244 569.5,244" fill="#8aa15c"/>
+  <line x1="645" y1="215" x2="645" y2="247" stroke="#8aa15c" stroke-width="1.5" fill="none"/>
+  <polygon points="645,252 640.5,244 649.5,244" fill="#8aa15c"/>
+  <text x="175" y="366" text-anchor="middle" font-size="11" fill="#c05621">整体编译发布 · 整体扩展 · 故障易扩散</text>
+  <text x="520" y="366" text-anchor="middle" font-size="11" fill="#4a6130">独立开发部署 · 按需扩展 · 故障隔离</text>
+</svg>

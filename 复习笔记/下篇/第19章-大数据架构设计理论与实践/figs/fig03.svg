@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 370" font-family="Microsoft YaHei, 微软雅黑, sans-serif">
+  <text x="360" y="26" text-anchor="middle" font-size="16" font-weight="bold" fill="#1f4e79">Monoid 结合律：分组计算、结果合并与复用（图 19-5 重绘）</text>
+  <rect x="25" y="65" width="140" height="48" rx="6" fill="#eaf1f8" stroke="#1f4e79"/>
+  <text x="95" y="94" text-anchor="middle" font-size="12" fill="#22303f">数据子集 A</text>
+  <rect x="25" y="145" width="140" height="48" rx="6" fill="#eaf1f8" stroke="#1f4e79"/>
+  <text x="95" y="174" text-anchor="middle" font-size="12" fill="#22303f">数据子集 B</text>
+  <rect x="25" y="225" width="140" height="48" rx="6" fill="#eaf1f8" stroke="#1f4e79"/>
+  <text x="95" y="254" text-anchor="middle" font-size="12" fill="#22303f">数据子集 C</text>
+  <line x1="165" y1="89" x2="237" y2="89" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="245,89 237,84.5 237,93.5" fill="#1f4e79"/>
+  <line x1="165" y1="169" x2="237" y2="169" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="245,169 237,164.5 237,173.5" fill="#1f4e79"/>
+  <line x1="165" y1="249" x2="237" y2="249" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="245,249 237,244.5 237,253.5" fill="#1f4e79"/>
+  <rect x="250" y="65" width="145" height="48" rx="6" fill="#f3f6ee" stroke="#8aa15c"/>
+  <text x="322" y="94" text-anchor="middle" font-size="12" fill="#4a6130">机器 1：ΣA</text>
+  <rect x="250" y="145" width="145" height="48" rx="6" fill="#f3f6ee" stroke="#8aa15c"/>
+  <text x="322" y="174" text-anchor="middle" font-size="12" fill="#4a6130">机器 2：ΣB</text>
+  <rect x="250" y="225" width="145" height="48" rx="6" fill="#f3f6ee" stroke="#8aa15c"/>
+  <text x="322" y="254" text-anchor="middle" font-size="12" fill="#4a6130">机器 3：ΣC</text>
+  <line x1="395" y1="89" x2="487" y2="151" stroke="#8aa15c" stroke-width="1.5" fill="none"/>
+  <polygon points="495,157 486,154 489,146" fill="#8aa15c"/>
+  <line x1="395" y1="169" x2="487" y2="169" stroke="#8aa15c" stroke-width="1.5" fill="none"/>
+  <polygon points="495,169 487,164.5 487,173.5" fill="#8aa15c"/>
+  <line x1="395" y1="249" x2="487" y2="187" stroke="#8aa15c" stroke-width="1.5" fill="none"/>
+  <polygon points="495,181 489,192 486,184" fill="#8aa15c"/>
+  <rect x="500" y="140" width="190" height="60" rx="7" fill="#fdf0e6" stroke="#c05621" stroke-width="1.4"/>
+  <text x="595" y="164" text-anchor="middle" font-size="13" font-weight="bold" fill="#c05621">合并：ΣA + ΣB + ΣC</text>
+  <text x="595" y="186" text-anchor="middle" font-size="11" fill="#22303f">分组顺序不影响最终结果</text>
+  <rect x="500" y="65" width="190" height="50" rx="6" fill="#eaf1f8" stroke="#1f4e79"/>
+  <text x="595" y="85" text-anchor="middle" font-size="11" fill="#1f4e79">结合律</text>
+  <text x="595" y="104" text-anchor="middle" font-size="12" fill="#22303f">(a+b)+c = a+(b+c)</text>
+  <rect x="500" y="225" width="190" height="50" rx="6" fill="#f3f6ee" stroke="#8aa15c"/>
+  <text x="595" y="245" text-anchor="middle" font-size="11" fill="#4a6130">部分结果可保存复用</text>
+  <text x="595" y="264" text-anchor="middle" font-size="10" fill="#22303f">避免重复子计算</text>
+  <rect x="25" y="300" width="665" height="50" rx="7" fill="#fdf0e6" stroke="#c05621"/>
+  <text x="357" y="321" text-anchor="middle" font-size="12" font-weight="bold" fill="#c05621">易错：平均值不能直接合并平均值</text>
+  <text x="357" y="341" text-anchor="middle" font-size="11" fill="#22303f">分别合并「总分」和「人数」，再用全部总分 ÷ 全部人数</text>
+</svg>

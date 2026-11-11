@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 280" font-family="Microsoft YaHei, 微软雅黑, sans-serif">
+  <defs>
+    <marker id="arrow" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+      <path d="M0,0 L6,3 L0,6 Z" fill="#1f4e79"/>
+    </marker>
+  </defs>
+  <line x1="15" y1="24" x2="692.0" y2="24.0" stroke="#1f4e79" stroke-width="2"/>
+    <polygon points="700.0,24.0 692.0,28.5 692.0,19.5" fill="#1f4e79"/>
+  <g font-size="12" fill="#6b7a8a">
+    <text x="20" y="14">时间</text>
+  </g>
+  <!-- 四个阶段卡片 -->
+  <g>
+    <rect x="5" y="50" width="165" height="200" rx="6" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.2"/>
+    <text x="87" y="78" font-size="15" font-weight="bold" fill="#1f4e79" text-anchor="middle">① 基础研究阶段</text>
+    <text x="87" y="104" font-size="13" fill="#22303f" text-anchor="middle">1968—1994 年</text>
+    <text x="87" y="136" font-size="12" fill="#22303f" text-anchor="middle">1968 NATO 会议</text>
+    <text x="87" y="160" font-size="12" fill="#22303f" text-anchor="middle">首提「软件架构」</text>
+    <text x="87" y="184" font-size="12" fill="#22303f" text-anchor="middle">模块化开发方法</text>
+    <text x="87" y="208" font-size="12" fill="#22303f" text-anchor="middle">形成架构雏形</text>
+  </g>
+  <g>
+    <rect x="190" y="50" width="165" height="200" rx="6" fill="#fdf0e6" stroke="#c05621" stroke-width="1.2"/>
+    <text x="272" y="74" font-size="14" font-weight="bold" fill="#c05621" text-anchor="middle">② 概念体系和核心</text>
+    <text x="272" y="94" font-size="14" font-weight="bold" fill="#c05621" text-anchor="middle">技术形成阶段</text>
+    <text x="272" y="120" font-size="13" fill="#22303f" text-anchor="middle">1999—2000 年</text>
+    <text x="272" y="152" font-size="12" fill="#22303f" text-anchor="middle">IEEE 1471-2000</text>
+    <text x="272" y="176" font-size="12" fill="#22303f" text-anchor="middle">形式化标准发布</text>
+    <text x="272" y="200" font-size="12" fill="#22303f" text-anchor="middle">软件组件化技术</text>
+  </g>
+  <g>
+    <rect x="375" y="50" width="165" height="200" rx="6" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.2"/>
+    <text x="457" y="74" font-size="14" font-weight="bold" fill="#1f4e79" text-anchor="middle">③ 理论体系完善</text>
+    <text x="457" y="94" font-size="14" font-weight="bold" fill="#1f4e79" text-anchor="middle">与发展阶段</text>
+    <text x="457" y="120" font-size="13" fill="#22303f" text-anchor="middle">1996 年至今</text>
+    <text x="457" y="152" font-size="12" fill="#22303f" text-anchor="middle">描述 / 分析 / 测试</text>
+    <text x="457" y="176" font-size="12" fill="#22303f" text-anchor="middle">发现 / 演化 / 重用</text>
+    <text x="457" y="200" font-size="12" fill="#22303f" text-anchor="middle">架构风格、动态架构</text>
+  </g>
+  <g>
+    <rect x="550" y="50" width="165" height="200" rx="6" fill="#f3f6ee" stroke="#8aa15c" stroke-width="1.2"/>
+    <text x="632" y="78" font-size="15" font-weight="bold" fill="#4a6130" text-anchor="middle">④ 普及应用阶段</text>
+    <text x="632" y="104" font-size="13" fill="#22303f" text-anchor="middle">2000 年至今</text>
+    <text x="632" y="136" font-size="12" fill="#22303f" text-anchor="middle">1999 第一届 IFIP</text>
+    <text x="632" y="160" font-size="12" fill="#22303f" text-anchor="middle">软件架构会议</text>
+    <text x="632" y="184" font-size="12" fill="#22303f" text-anchor="middle">ADML（基于 XML）</text>
+    <text x="632" y="208" font-size="12" fill="#22303f" text-anchor="middle">软件产品线兴起</text>
+  </g>
+  <text x="360" y="272" font-size="11" fill="#6b7a8a" text-anchor="middle">注：各阶段年份在教材中相互交叉，应记「阶段名称 + 标志事件」</text>
+</svg>

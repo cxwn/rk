@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 305" font-family="Microsoft YaHei, 微软雅黑, sans-serif">
+  <rect x="0" y="0" width="720" height="305" fill="#ffffff"/>
+  <text x="175" y="24" text-anchor="middle" font-size="13" font-weight="bold" fill="#22303f">两层 C/S：胖客户机，瘦服务器</text>
+  <rect x="40" y="60" width="180" height="50" rx="6" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.2"/>
+  <text x="130" y="82" text-anchor="middle" font-size="13" font-weight="bold" fill="#1f4e79">客户应用程序</text>
+  <text x="130" y="100" text-anchor="middle" font-size="11" fill="#22303f">完成与用户的交互</text>
+  <rect x="40" y="190" width="180" height="50" rx="6" fill="#1f4e79"/>
+  <text x="130" y="212" text-anchor="middle" font-size="13" font-weight="bold" fill="#ffffff">数据库服务器</text>
+  <text x="130" y="230" text-anchor="middle" font-size="11" fill="#ffffff">负责数据管理</text>
+  <line x1="110" y1="110" x2="110" y2="179" stroke="#1f4e79" stroke-width="1.5"/>
+  <polygon points="110,187 105.5,179 114.5,179" fill="#1f4e79"/>
+  <line x1="150" y1="190" x2="150" y2="121" stroke="#1f4e79" stroke-width="1.5"/>
+  <polygon points="150,113 145.5,121 154.5,121" fill="#1f4e79"/>
+  <text x="185" y="155" font-size="11" fill="#6b7a8a">网络</text>
+  <text x="175" y="272" text-anchor="middle" font-size="11" fill="#22303f">组成：数据库服务器、客户应用程序、网络</text>
+  <line x1="345" y1="14" x2="345" y2="292" stroke="#6b7a8a" stroke-width="1" stroke-dasharray="4 3"/>
+  <text x="535" y="24" text-anchor="middle" font-size="13" font-weight="bold" fill="#22303f">三层 C/S：瘦客户机</text>
+  <rect x="420" y="44" width="240" height="44" rx="6" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.2"/>
+  <text x="540" y="63" text-anchor="middle" font-size="13" font-weight="bold" fill="#1f4e79">表示层（客户机）</text>
+  <text x="540" y="80" text-anchor="middle" font-size="11" fill="#22303f">用户接口，图形用户界面</text>
+  <rect x="420" y="134" width="240" height="44" rx="6" fill="#fdf0e6" stroke="#c05621" stroke-width="1.2"/>
+  <text x="540" y="153" text-anchor="middle" font-size="13" font-weight="bold" fill="#c05621">功能层（应用服务器）</text>
+  <text x="540" y="170" text-anchor="middle" font-size="11" fill="#22303f">应用主体，实现业务处理逻辑</text>
+  <rect x="420" y="224" width="240" height="44" rx="6" fill="#1f4e79"/>
+  <text x="540" y="243" text-anchor="middle" font-size="13" font-weight="bold" fill="#ffffff">数据层</text>
+  <text x="540" y="260" text-anchor="middle" font-size="11" fill="#ffffff">数据库管理系统</text>
+  <g stroke="#1f4e79" stroke-width="1.4">
+    <line x1="510" y1="88" x2="510" y2="123"/>
+    <line x1="510" y1="178" x2="510" y2="213"/>
+    <line x1="570" y1="134" x2="570" y2="99"/>
+    <line x1="570" y1="224" x2="570" y2="189"/>
+  </g>
+  <g fill="#1f4e79">
+    <polygon points="510,131 505.5,123 514.5,123"/>
+    <polygon points="510,221 505.5,213 514.5,213"/>
+    <polygon points="570,91 565.5,99 574.5,99"/>
+    <polygon points="570,181 565.5,189 574.5,189"/>
+  </g>
+  <text x="535" y="292" text-anchor="middle" font-size="11" fill="#22303f">应用逻辑驻留应用服务器，三层逻辑上独立</text>
+</svg>

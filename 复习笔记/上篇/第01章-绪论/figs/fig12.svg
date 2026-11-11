@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 420" font-family="Microsoft YaHei, 微软雅黑, sans-serif">
+  <defs>
+    <marker id="arrow" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+      <path d="M0,0 L6,3 L0,6 Z" fill="#1f4e79"/>
+    </marker>
+  </defs>
+  <!-- 六级阶梯卡片：从左下到右上 -->
+  <g>
+    <rect x="10" y="270" width="110" height="110" rx="5" fill="#eaf1f8" stroke="#1f4e79"/>
+    <text x="65" y="296" font-size="14" font-weight="bold" fill="#1f4e79" text-anchor="middle">工程师</text>
+    <text x="65" y="318" font-size="11" fill="#22303f" text-anchor="middle">1～3 年</text>
+    <text x="65" y="342" font-size="11" fill="#22303f" text-anchor="middle">在指导下</text>
+    <text x="65" y="360" font-size="11" fill="#22303f" text-anchor="middle">完成开发</text>
+    <rect x="130" y="228" width="110" height="110" rx="5" fill="#eaf1f8" stroke="#1f4e79"/>
+    <text x="185" y="254" font-size="14" font-weight="bold" fill="#1f4e79" text-anchor="middle">高级工程师</text>
+    <text x="185" y="276" font-size="11" fill="#22303f" text-anchor="middle">3～5 年</text>
+    <text x="185" y="300" font-size="11" fill="#22303f" text-anchor="middle">独立完成开发</text>
+    <text x="185" y="318" font-size="11" fill="#6b7a8a" text-anchor="middle">How → Why</text>
+    <rect x="250" y="186" width="110" height="110" rx="5" fill="#eaf1f8" stroke="#1f4e79"/>
+    <text x="305" y="212" font-size="14" font-weight="bold" fill="#1f4e79" text-anchor="middle">技术专家</text>
+    <text x="305" y="234" font-size="11" fill="#22303f" text-anchor="middle">4～8 年</text>
+    <text x="305" y="258" font-size="11" fill="#22303f" text-anchor="middle">某个领域专家</text>
+    <text x="305" y="276" font-size="11" fill="#6b7a8a" text-anchor="middle">拓展技术宽度</text>
+    <rect x="370" y="144" width="110" height="110" rx="5" fill="#fdf0e6" stroke="#c05621"/>
+    <text x="425" y="170" font-size="14" font-weight="bold" fill="#c05621" text-anchor="middle">初级架构师</text>
+    <text x="425" y="192" font-size="11" fill="#22303f" text-anchor="middle">5～8 年</text>
+    <text x="425" y="216" font-size="11" fill="#22303f" text-anchor="middle">独立设计系统</text>
+    <text x="425" y="234" font-size="11" fill="#6b7a8a" text-anchor="middle">形成方法论</text>
+    <rect x="490" y="102" width="110" height="110" rx="5" fill="#fdf0e6" stroke="#c05621"/>
+    <text x="545" y="128" font-size="14" font-weight="bold" fill="#c05621" text-anchor="middle">中级架构师</text>
+    <text x="545" y="150" font-size="11" fill="#22303f" text-anchor="middle">8～10 年以上</text>
+    <text x="545" y="174" font-size="11" fill="#22303f" text-anchor="middle">复杂系统设计</text>
+    <text x="545" y="192" font-size="11" fill="#6b7a8a" text-anchor="middle">深度与理论</text>
+    <rect x="610" y="60" width="104" height="110" rx="5" fill="#f3f6ee" stroke="#8aa15c"/>
+    <text x="662" y="86" font-size="14" font-weight="bold" fill="#4a6130" text-anchor="middle">高级架构师</text>
+    <text x="662" y="108" font-size="11" fill="#22303f" text-anchor="middle">10 年以上</text>
+    <text x="662" y="132" font-size="11" fill="#22303f" text-anchor="middle">创造新的</text>
+    <text x="662" y="150" font-size="11" fill="#22303f" text-anchor="middle">架构模式</text>
+  </g>
+  <!-- 阶梯间上升箭头（相邻卡片，独立短箭头） -->
+  <g stroke="#1f4e79" stroke-width="1.5" fill="none">
+    <line x1="123" y1="290" x2="127" y2="283"/>
+    <line x1="243" y1="248" x2="247" y2="241"/>
+    <line x1="363" y1="206" x2="367" y2="199"/>
+    <line x1="483" y1="164" x2="487" y2="157"/>
+    <line x1="603" y1="122" x2="607" y2="115"/>
+  </g>
+  <!-- 底部成长主线 -->
+  <line x1="30" y1="402" x2="682.0" y2="402.0" stroke="#1f4e79" stroke-width="1.6"/>
+    <polygon points="690.0,402.0 682.0,406.5 682.0,397.5" fill="#1f4e79"/>
+  <text x="360" y="394" font-size="12" fill="#1f4e79" text-anchor="middle">判断力 · 执行力 · 创新力（积累经验、拓宽视野、深度思考）</text>
+</svg>

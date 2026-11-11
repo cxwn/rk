@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 420" font-family="Microsoft YaHei, 微软雅黑, sans-serif">
+  <text x="360" y="26" font-size="12" fill="#1f4e79" text-anchor="middle">靠近 CPU：速度更快、容量更小、单位成本更高</text>
+  <!-- 四层金字塔 -->
+  <g>
+    <rect x="240" y="44" width="240" height="66" rx="5" fill="#1f4e79"/>
+    <text x="360" y="70" font-size="14" font-weight="bold" fill="#ffffff" text-anchor="middle">片上缓存</text>
+    <text x="360" y="92" font-size="11" fill="#ffffff" text-anchor="middle">SRAM ｜ 16kB～512kB（L1/L2）</text>
+    <rect x="180" y="134" width="360" height="66" rx="5" fill="#3a6b99"/>
+    <text x="360" y="160" font-size="14" font-weight="bold" fill="#ffffff" text-anchor="middle">片外缓存</text>
+    <text x="360" y="182" font-size="11" fill="#ffffff" text-anchor="middle">SRAM ｜ 256kB～4MB（L2/L3/平台 Cache）</text>
+    <rect x="120" y="224" width="480" height="66" rx="5" fill="#6a8fb5"/>
+    <text x="360" y="250" font-size="14" font-weight="bold" fill="#ffffff" text-anchor="middle">主存（内存）</text>
+    <text x="360" y="272" font-size="11" fill="#ffffff" text-anchor="middle">DRAM ｜ 数百 MB～数十 GB（不断充电维持，易失）</text>
+    <rect x="60" y="314" width="600" height="66" rx="5" fill="#c05621"/>
+    <text x="360" y="340" font-size="14" font-weight="bold" fill="#ffffff" text-anchor="middle">外存</text>
+    <text x="360" y="362" font-size="11" fill="#ffffff" text-anchor="middle">磁带 / 磁盘 / 光盘 / Flash ｜ MB～TB 级（掉电保持数据）</text>
+  </g>
+  <!-- 层间箭头：距离拉远 -->
+  <g stroke="#6b7a8a" stroke-width="1.4" fill="none">
+    <line x1="360" y1="113" x2="360" y2="126"/>
+    <polygon points="360,131 355.5,123 364.5,123" fill="#6b7a8a"/>
+    <line x1="360" y1="203" x2="360" y2="216"/>
+    <polygon points="360,221 355.5,213 364.5,213" fill="#6b7a8a"/>
+    <line x1="360" y1="293" x2="360" y2="306"/>
+    <polygon points="360,311 355.5,303 364.5,303" fill="#6b7a8a"/>
+  </g>
+  <text x="360" y="404" font-size="12" fill="#6b7a8a" text-anchor="middle">远离 CPU：速度更慢、容量更大、成本更低；外存保持数据也有年限（Flash≈10 年、磁带＞30 年）</text>
+</svg>

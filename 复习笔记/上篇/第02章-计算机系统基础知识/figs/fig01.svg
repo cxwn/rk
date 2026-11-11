@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 430" font-family="Microsoft YaHei, 微软雅黑, sans-serif">
+  <!-- 顶层 -->
+  <rect x="260" y="16" width="200" height="46" rx="7" fill="#1f4e79"/>
+  <text x="360" y="45" font-size="17" font-weight="bold" fill="#ffffff" text-anchor="middle">计算机系统</text>
+  <!-- 硬件外框 -->
+  <rect x="30" y="104" width="300" height="296" rx="8" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.4"/>
+  <text x="180" y="130" font-size="15" font-weight="bold" fill="#1f4e79" text-anchor="middle">硬件（有形）</text>
+  <g font-size="12" fill="#22303f">
+    <rect x="50" y="146" width="260" height="48" rx="5" fill="#ffffff" stroke="#1f4e79"/>
+    <text x="180" y="166" text-anchor="middle" font-weight="bold">中央处理器</text>
+    <text x="180" y="184" text-anchor="middle" font-size="10" fill="#6b7a8a">运算单元 + 控制单元</text>
+    <rect x="50" y="206" width="260" height="48" rx="5" fill="#ffffff" stroke="#1f4e79"/>
+    <text x="180" y="226" text-anchor="middle" font-weight="bold">存储器</text>
+    <text x="180" y="244" text-anchor="middle" font-size="10" fill="#6b7a8a">主存（内存）+ 外存</text>
+    <rect x="50" y="266" width="260" height="48" rx="5" fill="#ffffff" stroke="#1f4e79"/>
+    <text x="180" y="286" text-anchor="middle" font-weight="bold">输入设备</text>
+    <text x="180" y="304" text-anchor="middle" font-size="10" fill="#6b7a8a">键盘、鼠标等</text>
+    <rect x="50" y="326" width="260" height="48" rx="5" fill="#ffffff" stroke="#1f4e79"/>
+    <text x="180" y="346" text-anchor="middle" font-weight="bold">输出设备</text>
+    <text x="180" y="364" text-anchor="middle" font-size="10" fill="#6b7a8a">显示器等</text>
+  </g>
+  <!-- 软件外框 -->
+  <rect x="390" y="104" width="300" height="296" rx="8" fill="#f3f6ee" stroke="#8aa15c" stroke-width="1.4"/>
+  <text x="540" y="130" font-size="15" font-weight="bold" fill="#4a6130" text-anchor="middle">软件（无形）</text>
+  <g font-size="12" fill="#22303f">
+    <rect x="410" y="146" width="260" height="64" rx="5" fill="#ffffff" stroke="#8aa15c"/>
+    <text x="540" y="170" text-anchor="middle" font-weight="bold">系统软件</text>
+    <text x="540" y="190" text-anchor="middle" font-size="10" fill="#6b7a8a">操作系统、编译工具</text>
+    <rect x="410" y="226" width="260" height="64" rx="5" fill="#ffffff" stroke="#8aa15c"/>
+    <text x="540" y="250" text-anchor="middle" font-weight="bold">应用软件</text>
+    <text x="540" y="270" text-anchor="middle" font-size="10" fill="#6b7a8a">办公软件、娱乐软件等</text>
+  </g>
+  <!-- 顶层 -> 硬件/软件（顶框底缘两个独立连接点，直角折线） -->
+  <g stroke="#1f4e79" stroke-width="1.5" fill="none">
+    <polyline points="320,65 320,84 180,84 180,96"/>
+    <polygon points="180,99 175.5,91 184.5,91" fill="#1f4e79"/>
+    <polyline points="400,65 400,84 540,84 540,96"/>
+    <polygon points="540,99 535.5,91 544.5,91" fill="#1f4e79"/>
+  </g>
+  <text x="360" y="422" font-size="11" fill="#6b7a8a" text-anchor="middle">硬件与软件功能界限逐渐模糊；计算机网络 = 连接多个计算机实现数据交换的网络设备</text>
+</svg>

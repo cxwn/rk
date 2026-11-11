@@ -1,0 +1,706 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>第11章 未来信息综合技术</title>
+<style>
+  :root{ --ink:#22303f; --main:#1f4e79; --main-light:#eaf1f8; --accent:#c05621;
+    --accent-light:#fdf0e6; --line:#d5dde5; --muted:#6b7a8a; }
+  *{ box-sizing:border-box; print-color-adjust:exact; -webkit-print-color-adjust:exact; }
+  html,body{ margin:0; padding:0; }
+  body{ font-family:"Microsoft YaHei","微软雅黑","PingFang SC","Noto Sans CJK SC",sans-serif;
+    color:var(--ink); background:#e9edf1; font-size:10.5pt; line-height:1.75; }
+  .sheet{ max-width:190mm; margin:8mm auto; background:#fff; padding:10mm 11mm;
+    box-shadow:0 2px 14px rgba(0,0,0,.12); }
+  h1{ font-size:21pt; color:var(--main); margin:0 0 2mm; border-bottom:3px solid var(--main); padding-bottom:3mm; }
+  h2{ font-size:14pt; color:var(--main); margin:8mm 0 3mm; padding:1.2mm 0 1.2mm 3mm;
+    border-left:5px solid var(--main); background:linear-gradient(to right,var(--main-light),#fff); break-after:avoid; }
+  h3{ font-size:11.5pt; color:var(--main); margin:5mm 0 2mm; break-after:avoid; }
+  p{ margin:1.5mm 0; }
+  code{ background:#f0f3f6; border-radius:1mm; padding:0 1mm; font-size:9.5pt; }
+  .def,.example,.mnemonic{ border-radius:2mm; padding:2.5mm 3.5mm; margin:2.5mm 0; break-inside:avoid; }
+  .def{ border:1.5px solid var(--main); background:#fbfdff; }
+  .example{ background:var(--accent-light); border-left:4px solid var(--accent); }
+  .mnemonic{ background:#f3f6ee; border:1px dashed #8aa15c; color:#4a6130; }
+  table{ border-collapse:collapse; width:100%; margin:2.5mm 0; font-size:9.5pt; table-layout:fixed; }
+  th,td{ border:1px solid var(--line); padding:1.6mm 2mm; text-align:left; vertical-align:top; overflow-wrap:break-word; }
+  th{ background:var(--main); color:#fff; text-align:center; }
+  thead{ display:table-header-group; }
+  tr{ break-inside:avoid; }
+  td.tc{ text-align:center; }
+  tr:nth-child(even) td{ background:#f6f9fc; }
+  .fig{ margin:3mm 0; padding:2.5mm; border:1px solid var(--line); border-radius:2mm;
+    background:#fdfefe; break-inside:avoid; }
+  .fig .cap{ text-align:center; color:var(--muted); font-size:9pt; margin-top:1mm; }
+  svg{ display:block; width:100%; height:auto; }
+  svg text{ font-family:inherit; }
+  ul,ol{ margin:1.5mm 0 1.5mm 5mm; padding-left:4mm; }
+  li{ margin:0.8mm 0; }
+  .footer{ margin-top:8mm; padding-top:2mm; border-top:1px solid var(--line);
+    color:var(--muted); font-size:8.5pt; text-align:center; }
+  @page{ size:A4; margin:12mm; }
+  @media print{ body{ background:#fff; font-size:10pt; }
+    .sheet{ max-width:none; margin:0; padding:0; box-shadow:none; } h2{ margin-top:6mm; } }
+</style>
+</head>
+<body>
+<div class="sheet">
+<h1>第11章 未来信息综合技术</h1>
+<ul><li>教材位置：02.系统架构设计师第二版-教材.pdf PDF 第 379～412 页（书页 369～402）</li><li>复习状态：已完成</li><li>复习日期：2026-11-06</li><li>本章地位：本章是新兴技术的概念大集合，综合知识选择题几乎每次必考 2～4 分；考点以「定义归属、分类辨析、特征记忆」为主，深度要求不高，但面广、名词多，适合用表格+图示集中记忆。</li></ul>
+<h2>一、大纲考点</h2>
+<p>大纲科目 1 第 10 部分「未来信息综合技术」对应教材本章，共 6 个条目，与教材 6 个小节一一对应；大纲科目 1 的第 11 部分是「标准化与知识产权」，不属于本章。</p>
+<table><colgroup><col style="width:20.0%"><col style="width:27.8%"><col style="width:12.2%"><col style="width:40.0%"></colgroup><thead><tr><th>大纲条目</th><th>大纲要求</th><th>教材对应</th><th>复习抓手</th></tr></thead><tbody><tr><td>10.1 信息物理系统（CPS）技术</td><td>CPS 概念、实现、建设与应用</td><td class="tc">11.1.1～11.1.3</td><td>三级体系架构；四大核心要素「一硬一软一网一平台」；闭环赋能体系</td></tr><tr><td>10.2 人工智能（AI）技术</td><td>AI 概念、发展历程、关键技术</td><td class="tc">11.2.1～11.2.3</td><td>弱/强 AI 辨析；发展里程碑事件；机器学习四分类与传统/深度学习对比</td></tr><tr><td>10.3 机器人技术</td><td>机器人定义、发展历程、4.0 核心技术、分类</td><td class="tc">11.3.1～11.3.4</td><td>三代机器人特征；机器人 4.0 五大核心技术；两种分类法</td></tr><tr><td>10.4 边缘计算技术</td><td>概念、定义、特点、边云协同、安全与应用</td><td class="tc">11.4.1～11.4.6</td><td>章鱼类比；三类落地形态；四大特点；边云六种协同</td></tr><tr><td>10.5 数字孪生技术</td><td>发展历程、定义、关键技术、应用</td><td class="tc">11.5.1～11.5.4</td><td>三项核心技术（建模/仿真/数字线程）；三种类型；四大应用领域</td></tr><tr><td>10.6 云计算和大数据技术</td><td>云计算服务与部署模式、大数据定义与研究内容</td><td class="tc">11.6.1～11.6.2</td><td>SaaS/PaaS/IaaS 对比；四种部署模式；大数据 3V/4V；分析五阶段</td></tr></tbody></table>
+<h2>二、知识点笔记</h2>
+<h3>11.1.1 信息物理系统的概念</h3>
+<p>信息物理系统（Cyber-Physical Systems，CPS）术语最早由<b>美国国家航空航天局（NASA）于 1992 年</b>提出；2006 年美国国家科学基金会科学家海伦·吉尔在首个 CPS 国际研讨会上对其进行了详细描述。CPS 是控制系统、嵌入式系统的扩展与延伸。</p>
+<div class="def">教材原文：CPS 通过集成先进的感知、计算、通信、控制等信息技术和自动控制技术，构建了物理空间与信息空间中人、机、物、环境、信息等要素相互映射、适时交互、高效协同的复杂系统，实现系统内资源配置和运行的按需响应、快速迭代、动态优化。</div>
+<p>⭐【重点】CPS 的本质：构建一套信息空间与物理空间之间<b>基于数据自动流动</b>的「状态感知、实时分析、科学决策、精准执行」<b>闭环赋能体系</b>，解决生产制造、应用服务过程中的复杂性和不确定性问题，提高资源配置效率，实现资源优化。</p>
+<p>通俗地说，CPS 就是给物理设备配上一个「数字大脑」：传感器持续把设备状态传给大脑，大脑分析后下达指令，设备执行后再反馈，循环不息。</p>
+<div class="example">举例：智能机床的传感器发现刀具磨损加剧（状态感知），系统分析剩余寿命（实时分析），决定降低转速并安排换刀（科学决策），自动调整加工参数（精准执行），整个过程无需人工干预。</div>
+<div class="fig"><div><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 330" font-family="Microsoft YaHei, 微软雅黑, sans-serif">
+  <text x="360" y="26" text-anchor="middle" font-size="16" font-weight="bold" fill="#1f4e79">CPS 闭环赋能体系：状态感知 → 实时分析 → 科学决策 → 精准执行</text>
+  <rect x="40" y="80" width="230" height="170" rx="8" fill="#f3f6ee" stroke="#4a6130" stroke-width="1.5"/>
+  <text x="155" y="112" text-anchor="middle" font-size="16" font-weight="bold" fill="#4a6130">物理空间</text>
+  <text x="155" y="142" text-anchor="middle" font-size="12" fill="#22303f">人·机·物·环境</text>
+  <text x="155" y="168" text-anchor="middle" font-size="12" fill="#22303f">智能装备 / 生产线</text>
+  <text x="155" y="208" text-anchor="middle" font-size="11" fill="#6b7a8a">资源优化配置</text>
+  <text x="155" y="228" text-anchor="middle" font-size="11" fill="#6b7a8a">复杂性·不确定性问题求解</text>
+  <rect x="450" y="80" width="230" height="170" rx="8" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.5"/>
+  <text x="565" y="104" text-anchor="middle" font-size="15" font-weight="bold" fill="#1f4e79">信息空间</text>
+  <rect x="470" y="118" width="190" height="42" rx="5" fill="#ffffff" stroke="#1f4e79" stroke-width="1.2"/>
+  <text x="565" y="144" text-anchor="middle" font-size="13" font-weight="bold" fill="#22303f">② 实时分析</text>
+  <rect x="470" y="182" width="190" height="42" rx="5" fill="#ffffff" stroke="#1f4e79" stroke-width="1.2"/>
+  <text x="565" y="208" text-anchor="middle" font-size="13" font-weight="bold" fill="#22303f">③ 科学决策</text>
+  <line x1="565" y1="160" x2="565" y2="171" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="565,179 560.5,171 569.5,171" fill="#1f4e79"/>
+  <text x="360" y="86" text-anchor="middle" font-size="12" fill="#22303f">① 状态感知（数据上行）</text>
+  <line x1="278" y1="100" x2="439" y2="100" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="447,100 439,95.5 439,104.5" fill="#1f4e79"/>
+  <line x1="442" y1="228" x2="281" y2="228" stroke="#c05621" stroke-width="1.5" fill="none"/>
+  <polygon points="273,228 281,223.5 281,232.5" fill="#c05621"/>
+  <text x="360" y="252" text-anchor="middle" font-size="12" fill="#c05621">④ 精准执行（指令下行）</text>
+  <text x="60" y="292" font-size="12" fill="#22303f">本质：基于数据自动流动的闭环赋能——数据在流动中以隐性数据→显性数据→信息→知识</text>
+  <text x="60" y="314" font-size="12" fill="#22303f">的形态变化，逐步向外部环境释放价值，为物理实体「赋予」资源优化能力。</text>
+</svg></div><div class="cap">CPS 闭环赋能体系：物理空间与信息空间之间的数据自动流动</div></div>
+<h3>11.1.2 CPS 的实现</h3>
+<p>⭐【重点】【高频考点】CPS 体系架构分为三个层级，逐级扩展：</p>
+<table><colgroup><col style="width:7.5%"><col style="width:18.3%"><col style="width:47.3%"><col style="width:26.9%"></colgroup><thead><tr><th>层级</th><th>定位</th><th>核心功能</th><th>举例</th></tr></thead><tbody><tr><td class="tc">单元级</td><td>不可分割的 CPS 最小单元</td><td>可感知、可计算、可交互、可延展、自决策，形成最基本的数据闭环</td><td>一个智能部件、一台工业机器人、一台智能机床</td></tr><tr><td class="tc">系统级</td><td>多个单元级通过工业网络互联</td><td>互联互通、即插即用、边缘网关、数据互操作、协同控制、监视与诊断；局部资源自组织、自配置、自决策、自优化</td><td>一条冲压生产线：传送带+机器人+冲压机床协同</td></tr><tr><td class="tc">SoS 级</td><td>多个系统级 CPS 的有机组合</td><td>数据存储、数据融合、分布式计算、大数据分析、数据服务；资产性能管理和运营优化服务</td><td>多个工序构成车间级乃至整个工厂的 CPS</td></tr></tbody></table>
+<div class="fig"><div><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 360" font-family="Microsoft YaHei, 微软雅黑, sans-serif">
+  <text x="360" y="24" text-anchor="middle" font-size="16" font-weight="bold" fill="#1f4e79">CPS 三级体系架构：逐级扩展、数据自动流动范围逐级扩大</text>
+  <rect x="60" y="44" width="600" height="72" rx="6" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.5"/>
+  <text x="360" y="72" text-anchor="middle" font-size="15" font-weight="bold" fill="#1f4e79">SoS 级 CPS（系统之系统）</text>
+  <text x="360" y="98" text-anchor="middle" font-size="12" fill="#22303f">数据汇聚·大数据平台：数据存储/融合/分布式计算·资产性能管理·运营优化服务</text>
+  <rect x="100" y="152" width="520" height="72" rx="6" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.5"/>
+  <text x="360" y="180" text-anchor="middle" font-size="15" font-weight="bold" fill="#1f4e79">系统级 CPS（多个单元级经工业网络互联）</text>
+  <text x="360" y="206" text-anchor="middle" font-size="12" fill="#22303f">互联互通·即插即用·边缘网关·数据互操作·协同控制·监视与诊断</text>
+  <rect x="140" y="260" width="440" height="72" rx="6" fill="#fdf0e6" stroke="#c05621" stroke-width="1.5"/>
+  <text x="360" y="288" text-anchor="middle" font-size="15" font-weight="bold" fill="#c05621">单元级 CPS（不可分割的最小单元）</text>
+  <text x="360" y="314" text-anchor="middle" font-size="12" fill="#22303f">可感知·可计算·可交互·可延展·自决策，形成最基本数据闭环</text>
+  <line x1="360" y1="252" x2="360" y2="233" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="360,227 355.5,235 364.5,235" fill="#1f4e79"/>
+  <line x1="360" y1="144" x2="360" y2="125" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="360,119 355.5,127 364.5,127" fill="#1f4e79"/>
+  <text x="378" y="246" font-size="11" fill="#6b7a8a">工业网络（现场总线/工业以太网）</text>
+  <text x="378" y="138" font-size="11" fill="#6b7a8a">多系统有机组合</text>
+  <text x="90" y="352" font-size="11" fill="#6b7a8a">例：智能机床（单元级）→ 冲压生产线（系统级）→ 车间乃至整个工厂（SoS 级）</text>
+</svg></div><div class="cap">CPS 三级体系架构：单元级、系统级与 SoS 级</div></div>
+<p>CPS 技术体系分三类：<b>总体技术</b>（系统架构、异构系统集成、安全技术、试验验证等顶层设计）、<b>支撑技术</b>（智能感知、嵌入式软件、数据库、中间件、SDN、物联网、大数据等）、<b>核心技术</b>（虚实融合控制、智能装备、MBD、数字孪生、现场总线、工业以太网等基础技术）。</p>
+<p>⭐【重点】上述技术可归纳为四大核心技术要素，务必记牢对应关系：</p>
+<table><colgroup><col style="width:12.7%"><col style="width:25.5%"><col style="width:61.8%"></colgroup><thead><tr><th>要素</th><th>内容</th><th>作用</th></tr></thead><tbody><tr><td class="tc">一硬</td><td>感知和自动控制</td><td>CPS 实现的硬件支撑</td></tr><tr><td class="tc">一软</td><td>工业软件</td><td>固化 CPS 计算和数据流程的规则，是 CPS 的核心</td></tr><tr><td class="tc">一网</td><td>工业网络</td><td>互联互通和数据传输的网络载体</td></tr><tr><td class="tc">一平台</td><td>工业云和智能服务平台</td><td>数据汇聚和支撑上层解决方案的基础，对外提供资源管控和能力服务</td></tr></tbody></table>
+<div class="fig"><div><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 320" font-family="Microsoft YaHei, 微软雅黑, sans-serif">
+  <text x="360" y="28" text-anchor="middle" font-size="16" font-weight="bold" fill="#1f4e79">CPS 四大核心技术要素：一硬 · 一软 · 一网 · 一平台</text>
+  <rect x="30" y="56" width="150" height="168" rx="6" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.5"/>
+  <text x="105" y="88" text-anchor="middle" font-size="18" font-weight="bold" fill="#1f4e79">一硬</text>
+  <text x="105" y="118" text-anchor="middle" font-size="13" font-weight="bold" fill="#22303f">感知和自动控制</text>
+  <text x="105" y="146" text-anchor="middle" font-size="11" fill="#22303f">智能感知（传感器）</text>
+  <text x="105" y="166" text-anchor="middle" font-size="11" fill="#22303f">虚实融合控制</text>
+  <text x="105" y="200" text-anchor="middle" font-size="12" fill="#6b7a8a">CPS 的硬件支撑</text>
+  <rect x="200" y="56" width="150" height="168" rx="6" fill="#fdf0e6" stroke="#c05621" stroke-width="1.5"/>
+  <text x="275" y="88" text-anchor="middle" font-size="18" font-weight="bold" fill="#c05621">一软</text>
+  <text x="275" y="118" text-anchor="middle" font-size="13" font-weight="bold" fill="#22303f">工业软件</text>
+  <text x="275" y="146" text-anchor="middle" font-size="11" fill="#22303f">固化计算与数据</text>
+  <text x="275" y="166" text-anchor="middle" font-size="11" fill="#22303f">流程的规则</text>
+  <text x="275" y="200" text-anchor="middle" font-size="12" font-weight="bold" fill="#c05621">CPS 的核心</text>
+  <rect x="370" y="56" width="150" height="168" rx="6" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.5"/>
+  <text x="445" y="88" text-anchor="middle" font-size="18" font-weight="bold" fill="#1f4e79">一网</text>
+  <text x="445" y="118" text-anchor="middle" font-size="13" font-weight="bold" fill="#22303f">工业网络</text>
+  <text x="445" y="146" text-anchor="middle" font-size="11" fill="#22303f">现场总线·工业以太网</text>
+  <text x="445" y="166" text-anchor="middle" font-size="11" fill="#22303f">分布式全新范式</text>
+  <text x="445" y="200" text-anchor="middle" font-size="12" fill="#6b7a8a">互联互通传输载体</text>
+  <rect x="540" y="56" width="150" height="168" rx="6" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.5"/>
+  <text x="615" y="88" text-anchor="middle" font-size="18" font-weight="bold" fill="#1f4e79">一平台</text>
+  <text x="615" y="114" text-anchor="middle" font-size="12" font-weight="bold" fill="#22303f">工业云和</text>
+  <text x="615" y="132" text-anchor="middle" font-size="12" font-weight="bold" fill="#22303f">智能服务平台</text>
+  <text x="615" y="158" text-anchor="middle" font-size="11" fill="#22303f">边缘/雾计算·大数据</text>
+  <text x="615" y="178" text-anchor="middle" font-size="11" fill="#22303f">加工处理形成服务</text>
+  <text x="615" y="206" text-anchor="middle" font-size="12" fill="#6b7a8a">数据汇聚·能力服务</text>
+  <line x1="105" y1="228" x2="105" y2="245" stroke="#6b7a8a" stroke-width="1.5" fill="none"/>
+  <polygon points="105,253 100.5,245 109.5,245" fill="#6b7a8a"/>
+  <line x1="275" y1="228" x2="275" y2="245" stroke="#6b7a8a" stroke-width="1.5" fill="none"/>
+  <polygon points="275,253 270.5,245 279.5,245" fill="#6b7a8a"/>
+  <line x1="445" y1="228" x2="445" y2="245" stroke="#6b7a8a" stroke-width="1.5" fill="none"/>
+  <polygon points="445,253 440.5,245 449.5,245" fill="#6b7a8a"/>
+  <line x1="615" y1="228" x2="615" y2="245" stroke="#6b7a8a" stroke-width="1.5" fill="none"/>
+  <polygon points="615,253 610.5,245 619.5,245" fill="#6b7a8a"/>
+  <rect x="60" y="256" width="600" height="44" rx="6" fill="#f3f6ee" stroke="#4a6130" stroke-width="1.5"/>
+  <text x="360" y="284" text-anchor="middle" font-size="14" font-weight="bold" fill="#4a6130">共同目标：资源优化配置（按需响应 · 快速迭代 · 动态优化）</text>
+</svg></div><div class="cap">CPS 四大核心技术要素：一硬、一软、一网、一平台</div></div>
+<div class="mnemonic">助记：「硬软网台」——硬件感知控制、软件固化规则、网络承载互联、平台汇聚服务。</div>
+<h3>11.1.3 信息物理系统的建设和应用</h3>
+<p>CPS 典型应用场景归纳为四类：</p>
+<table><colgroup><col style="width:11.9%"><col style="width:41.8%"><col style="width:46.3%"></colgroup><thead><tr><th>场景</th><th>内涵</th><th>典型应用</th></tr></thead><tbody><tr><td class="tc">智能设计</td><td>在虚拟空间中仿真「预演」，及早发现设计问题</td><td>产品及工艺设计、生产线/工厂设计</td></tr><tr><td class="tc">智能生产</td><td>打破信息孤岛，设备互联互通，从「制造」到「智造」</td><td>设备管理、生产管理、柔性制造</td></tr><tr><td class="tc">智能服务</td><td>本地与远程云服务协作的一体化工业云服务体系</td><td>健康管理、智能维护、远程征兆性诊断、协同优化、共享服务</td></tr><tr><td class="tc">智能应用</td><td>设计者、生产者、使用者转变为新价值创造的参与者</td><td>无人装备、产业链互动、价值链共赢</td></tr></tbody></table>
+<p>⭐【易错】CPS 建设路径循序渐进，四阶段各有重点：<b>体系设计</b>（应用模式、层次架构、安全体系、标准规范的整体设计）→ <b>单元级建设</b>（重点是感控设备安装、制造工艺与流程数字化）→ <b>系统级建设</b>（重点是工业网络建设）→ <b>SoS 级建设</b>（重点是大数据平台、智能服务平台建设）。不要把各阶段重点张冠李戴。</p>
+<h3>11.2.1 人工智能的概念</h3>
+<p>人工智能（AI）是利用数字计算机或其控制的机器<b>模拟、延伸和扩展人的智能</b>，感知环境、获取知识并使用知识获得最佳结果的理论、方法、技术及应用系统。研究领域包括机器人、自然语言处理、计算机视觉和专家系统等。</p>
+<p>⭐【高频考点】按能否真正实现推理、思考和解决问题，AI 分为两类：</p>
+<table><colgroup><col style="width:9.3%"><col style="width:45.4%"><col style="width:45.4%"></colgroup><thead><tr><th>类别</th><th>判定标准</th><th>现状</th></tr></thead><tbody><tr><td class="tc">弱人工智能</td><td>不能真正实现推理和解决问题，看似智能但并不真正拥有智能、无自主意识</td><td>迄今为止的 AI 系统都属于弱人工智能，主流研究集中于此；语音识别、机器翻译等已接近或超越人类水平</td></tr><tr><td class="tc">强人工智能</td><td>真正能思维，有知觉和自我意识；类人（思考类似人）与非类人（完全不同的意识与推理方式）</td><td>又称通用人工智能、类人智能；至少未来几十年内难以实现</td></tr></tbody></table>
+<div class="example">举例：人脸识别闸机能准确认出你，但它并不知道自己「在认人」，也不会推理和思考，属于典型的弱人工智能。</div>
+<h3>11.2.2 人工智能的发展历程</h3>
+<p>⭐【高频考点】关键里程碑事件（人物、年份、意义常考）：</p>
+<table><colgroup><col style="width:17.9%"><col style="width:40.7%"><col style="width:41.4%"></colgroup><thead><tr><th>时间</th><th>事件</th><th>意义</th></tr></thead><tbody><tr><td>1950</td><td>图灵发表《计算机与智能》，提出图灵测试</td><td>机器与人对话而不被辨别出机器身份，即称具有智能</td></tr><tr><td>1956</td><td>麦卡锡、明斯基等召开达特茅斯夏季研讨会</td><td>正式使用「人工智能」术语，标志 AI 研究领域诞生</td></tr><tr><td>1959</td><td>阿瑟·塞缪尔提出机器学习</td><td>从制造智能演化为通过学习获取智能，进入第一次繁荣期</td></tr><tr><td>1968</td><td>费根鲍姆提出首个专家系统 DENDRAL</td><td>AI 从理论研究走向实际应用</td></tr><tr><td>20 世纪 70 年代</td><td>算力与数据不足，遭遇基础性障碍</td><td>AI 进入「寒冬」</td></tr><tr><td>20 世纪 80 年代初</td><td>专家系统商业成功；1980 年计算机战胜双陆棋世界冠军</td><td>第二次浪潮；1987 年 LISP 机市场崩塌后再度萧瑟</td></tr><tr><td>1997</td><td>IBM 深蓝战胜国际象棋世界冠军卡斯帕罗夫</td><td>基于规则的 AI 的里程碑式胜利</td></tr><tr><td>2006</td><td>辛顿等推动深度学习</td><td>为 AI 发展带来重大影响</td></tr><tr><td>2010 年起</td><td>大数据+算力+算法提升，进入爆炸式发展</td><td>2016 年 AlphaGo 战胜围棋世界冠军李世石</td></tr></tbody></table>
+<div class="fig"><div><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 400" font-family="Microsoft YaHei, 微软雅黑, sans-serif">
+  <text x="360" y="26" text-anchor="middle" font-size="16" font-weight="bold" fill="#1f4e79">人工智能发展历程时间线</text>
+  <line x1="110" y1="46" x2="110" y2="350" stroke="#6b7a8a" stroke-width="2" fill="none"/>
+  <circle cx="110" cy="58" r="4" fill="#1f4e79"/>
+  <text x="96" y="62" text-anchor="end" font-size="12" font-weight="bold" fill="#1f4e79">1950</text>
+  <rect x="140" y="45" width="540" height="26" rx="4" fill="#eaf1f8"/>
+  <text x="150" y="63" font-size="12" fill="#22303f">图灵发表《计算机与智能》，提出图灵测试</text>
+  <circle cx="110" cy="92" r="4" fill="#1f4e79"/>
+  <text x="96" y="96" text-anchor="end" font-size="12" font-weight="bold" fill="#1f4e79">1956</text>
+  <rect x="140" y="79" width="540" height="26" rx="4" fill="#fdf0e6"/>
+  <text x="150" y="97" font-size="12" fill="#22303f">达特茅斯夏季研讨会：正式使用「人工智能」，标志 AI 诞生</text>
+  <circle cx="110" cy="126" r="4" fill="#1f4e79"/>
+  <text x="96" y="130" text-anchor="end" font-size="12" font-weight="bold" fill="#1f4e79">1959</text>
+  <rect x="140" y="113" width="540" height="26" rx="4" fill="#eaf1f8"/>
+  <text x="150" y="131" font-size="12" fill="#22303f">塞缪尔提出机器学习，进入第一次繁荣期</text>
+  <circle cx="110" cy="160" r="4" fill="#1f4e79"/>
+  <text x="96" y="164" text-anchor="end" font-size="12" font-weight="bold" fill="#1f4e79">1968</text>
+  <rect x="140" y="147" width="540" height="26" rx="4" fill="#eaf1f8"/>
+  <text x="150" y="165" font-size="12" fill="#22303f">费根鲍姆提出首个专家系统 DENDRAL，走向实际应用</text>
+  <circle cx="110" cy="194" r="4" fill="#6b7a8a"/>
+  <text x="96" y="198" text-anchor="end" font-size="12" font-weight="bold" fill="#6b7a8a">1970s</text>
+  <rect x="140" y="181" width="540" height="26" rx="4" fill="#f3f6ee"/>
+  <text x="150" y="199" font-size="12" fill="#22303f">算力与数据不足，遭遇基础性障碍，AI 进入「寒冬」</text>
+  <circle cx="110" cy="228" r="4" fill="#6b7a8a"/>
+  <text x="96" y="232" text-anchor="end" font-size="12" font-weight="bold" fill="#6b7a8a">1980s</text>
+  <rect x="140" y="215" width="540" height="26" rx="4" fill="#f3f6ee"/>
+  <text x="150" y="233" font-size="12" fill="#22303f">专家系统商业成功带来第二次浪潮；1987 年后再度萧瑟</text>
+  <circle cx="110" cy="262" r="4" fill="#1f4e79"/>
+  <text x="96" y="266" text-anchor="end" font-size="12" font-weight="bold" fill="#1f4e79">1997</text>
+  <rect x="140" y="249" width="540" height="26" rx="4" fill="#eaf1f8"/>
+  <text x="150" y="267" font-size="12" fill="#22303f">IBM 深蓝战胜国际象棋世界冠军卡斯帕罗夫（基于规则的胜利）</text>
+  <circle cx="110" cy="296" r="4" fill="#1f4e79"/>
+  <text x="96" y="300" text-anchor="end" font-size="12" font-weight="bold" fill="#1f4e79">2006</text>
+  <rect x="140" y="283" width="540" height="26" rx="4" fill="#eaf1f8"/>
+  <text x="150" y="301" font-size="12" fill="#22303f">辛顿等推动深度学习，带来重大影响</text>
+  <circle cx="110" cy="330" r="4" fill="#c05621"/>
+  <text x="96" y="334" text-anchor="end" font-size="12" font-weight="bold" fill="#c05621">2016</text>
+  <rect x="140" y="317" width="540" height="26" rx="4" fill="#fdf0e6"/>
+  <text x="150" y="335" font-size="12" fill="#22303f">AlphaGo 战胜围棋世界冠军李世石（2010 年起爆炸式发展）</text>
+  <text x="140" y="378" font-size="11" fill="#6b7a8a">助记：50 图灵 56 诞生，59 学习 68 专家；97 深蓝 06 深度，16 阿尔法胜围棋。</text>
+</svg></div><div class="cap">人工智能发展历程时间线</div></div>
+<div class="mnemonic">助记：「50 图灵 56 诞生，59 学习 68 专家；97 深蓝 06 深度，16 阿尔法胜围棋」。</div>
+<h3>11.2.3 人工智能关键技术</h3>
+<p>六大关键技术先建立整体印象：<b>自然语言处理</b>（机器翻译、语义理解、问答系统）、<b>计算机视觉</b>（模仿人类视觉，端到端算法）、<b>知识图谱</b>（结构化的语义知识库，由节点和边组成的图数据结构，从「关系」角度分析问题）、<b>人机交互</b>（语音、情感、体感、脑机交互等）、<b>VR/AR</b>（生成高度近似的数字化环境）、<b>机器学习</b>（核心研究领域）。</p>
+<p>⭐【重点】【高频考点】机器学习定义：从经验数据 E 中对任务 T 进行学习的算法，其在任务 T 上的性能度量 P 随经验数据 E 的学习而变得更好（E、T、P 三要素）。按学习模式分四类：</p>
+<table><colgroup><col style="width:13.0%"><col style="width:25.4%"><col style="width:32.6%"><col style="width:29.0%"></colgroup><thead><tr><th>类型</th><th>训练数据要求</th><th>典型算法</th><th>典型应用</th></tr></thead><tbody><tr><td class="tc">监督学习</td><td>已标注的样本集</td><td>回归、分类</td><td>垃圾邮件侦测、手写体辨识</td></tr><tr><td class="tc">无监督学习</td><td>无需标注样本</td><td>Apriori、KMeans、随机森林、主成分分析</td><td>市场分割、异常检测、社交网络分析</td></tr><tr><td class="tc">半监督学习</td><td>少量标注样本+大量未标注样本</td><td>图论推理、拉普拉斯支持向量机</td><td>减少标注代价的分类与回归</td></tr><tr><td class="tc">强化学习</td><td>需要反馈机制（奖赏）</td><td>Q-Learning、时间差学习</td><td>机器人控制、无人驾驶、工业控制</td></tr></tbody></table>
+<p>⭐【易错】「强化学习需要反馈机制」是与其他三类最本质的区别；「半监督=少量标注+大量未标注」不要与无监督混淆。</p>
+<p>按学习方法分为传统机器学习与深度学习：</p>
+<table><colgroup><col style="width:12.0%"><col style="width:54.7%"><col style="width:33.3%"></colgroup><thead><tr><th>对比项</th><th>传统机器学习</th><th>深度学习</th></tr></thead><tbody><tr><td class="tc">特征提取</td><td>需人工完成，依赖大量领域专业知识</td><td>不需人工特征提取，自动学习特征</td></tr><tr><td class="tc">数据与算力</td><td>适合有限样本</td><td>需要大量训练数据和强大 GPU 算力</td></tr><tr><td class="tc">典型算法</td><td>逻辑回归、支持向量机、K 近邻、决策树、贝叶斯、Adaboost、三层人工神经网络等</td><td>卷积神经网络（CNN）、循环神经网络（RNN）等</td></tr></tbody></table>
+<div class="fig"><div><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 430" font-family="Microsoft YaHei, 微软雅黑, sans-serif">
+  <rect x="300" y="14" width="120" height="34" rx="6" fill="#1f4e79"/>
+  <text x="360" y="37" text-anchor="middle" font-size="16" font-weight="bold" fill="#ffffff">机器学习</text>
+  <polyline points="340,48 340,66 200,66 200,79" fill="none" stroke="#1f4e79" stroke-width="1.5"/>
+  <polygon points="200,87 195.5,79 204.5,79" fill="#1f4e79"/>
+  <polyline points="380,48 380,66 520,66 520,79" fill="none" stroke="#1f4e79" stroke-width="1.5"/>
+  <polygon points="520,87 515.5,79 524.5,79" fill="#1f4e79"/>
+  <rect x="60" y="90" width="280" height="30" rx="5" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.2"/>
+  <text x="200" y="111" text-anchor="middle" font-size="14" font-weight="bold" fill="#1f4e79">按学习模式（四分法）</text>
+  <rect x="400" y="90" width="280" height="30" rx="5" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.2"/>
+  <text x="540" y="111" text-anchor="middle" font-size="14" font-weight="bold" fill="#1f4e79">按学习方法（两分法）</text>
+  <rect x="60" y="138" width="280" height="58" rx="5" fill="#ffffff" stroke="#1f4e79" stroke-width="1.2"/>
+  <text x="72" y="160" font-size="13" font-weight="bold" fill="#1f4e79">监督学习</text>
+  <text x="72" y="182" font-size="11" fill="#22303f">已标注样本集 → 回归、分类；垃圾邮件侦测</text>
+  <rect x="60" y="204" width="280" height="58" rx="5" fill="#ffffff" stroke="#1f4e79" stroke-width="1.2"/>
+  <text x="72" y="226" font-size="13" font-weight="bold" fill="#1f4e79">无监督学习</text>
+  <text x="72" y="248" font-size="11" fill="#22303f">无标注样本 → KMeans、Apriori；市场分割</text>
+  <rect x="60" y="270" width="280" height="58" rx="5" fill="#ffffff" stroke="#1f4e79" stroke-width="1.2"/>
+  <text x="72" y="292" font-size="13" font-weight="bold" fill="#1f4e79">半监督学习</text>
+  <text x="72" y="314" font-size="11" fill="#22303f">少量标注＋大量未标注，减少标注代价</text>
+  <rect x="60" y="336" width="280" height="58" rx="5" fill="#fdf0e6" stroke="#c05621" stroke-width="1.2"/>
+  <text x="72" y="358" font-size="13" font-weight="bold" fill="#c05621">强化学习</text>
+  <text x="72" y="380" font-size="11" fill="#22303f">需反馈机制（奖赏）→ Q-Learning；无人驾驶</text>
+  <rect x="400" y="138" width="280" height="76" rx="5" fill="#ffffff" stroke="#4a6130" stroke-width="1.2"/>
+  <text x="412" y="160" font-size="13" font-weight="bold" fill="#4a6130">传统机器学习</text>
+  <text x="412" y="180" font-size="11" fill="#22303f">人工特征提取，依赖领域专业知识</text>
+  <text x="412" y="200" font-size="11" fill="#22303f">逻辑回归、SVM、决策树、贝叶斯等</text>
+  <rect x="400" y="230" width="280" height="76" rx="5" fill="#ffffff" stroke="#4a6130" stroke-width="1.2"/>
+  <text x="412" y="252" font-size="13" font-weight="bold" fill="#4a6130">深度学习</text>
+  <text x="412" y="272" font-size="11" fill="#22303f">多层神经网络自动学特征，需海量数据＋GPU</text>
+  <text x="412" y="292" font-size="11" fill="#22303f">典型算法：CNN、RNN</text>
+  <rect x="400" y="322" width="280" height="88" rx="5" fill="#f3f6ee" stroke="#8aa15c" stroke-width="1.2"/>
+  <text x="412" y="344" font-size="13" font-weight="bold" fill="#4a6130">其他常见算法思想</text>
+  <text x="412" y="364" font-size="11" fill="#22303f">迁移学习：已训练模型参数迁移到新领域</text>
+  <text x="412" y="382" font-size="11" fill="#22303f">主动学习：挑选最有用样本交专家标记</text>
+  <text x="412" y="400" font-size="11" fill="#22303f">演化学习：粒子群优化等演化算法求解</text>
+  <text x="60" y="420" font-size="11" fill="#6b7a8a">定义三要素：经验数据 E、任务 T、性能度量 P——P 随对 E 的学习而变得更好。</text>
+</svg></div><div class="cap">机器学习分类全景</div></div>
+<p>此外还有三类常见算法思想：<b>迁移学习</b>（把已训练好的模型参数迁移到新领域，解决目标领域数据不足）、<b>主动学习</b>（算法主动查询最有用的未标记样本交专家标记，用较少样本获得高性能）、<b>演化学习</b>（用演化算法的优化工具设计机器学习算法，如粒子群优化）。</p>
+<h3>11.3.1～11.3.2 机器人概念与发展历程</h3>
+<p>Robot 一词最早出现在 <b>1920 年捷克作家卡雷尔·卡佩克</b>的剧本中，捷克语意为「苦力」「奴隶」。加藤一郎提出的机器人三条件：具有脑、手、脚三要素；具有非接触与接触传感器；具有平衡觉和固有觉传感器。</p>
+<p>⭐【高频考点】机器人发展分三代：</p>
+<table><colgroup><col style="width:10.2%"><col style="width:13.1%"><col style="width:51.1%"><col style="width:25.5%"></colgroup><thead><tr><th>代际</th><th>类型</th><th>核心特征</th><th>例子</th></tr></thead><tbody><tr><td class="tc">第一代</td><td class="tc">示教再现型</td><td>通过示教存储程序和信息，工作时读取并重复示教动作，对环境无感知</td><td>汽车点焊机器人</td></tr><tr><td class="tc">第二代</td><td class="tc">感觉型</td><td>拥有力觉、触觉、滑觉、视觉、听觉等感觉，能感受和识别工件</td><td>20 世纪 70 年代后期开始研究</td></tr><tr><td class="tc">第三代</td><td class="tc">智能型</td><td>带多种传感器，能复杂逻辑推理、判断及决策，自主决定自身行为</td><td>20 世纪 90 年代以来</td></tr></tbody></table>
+<p><b>机器人 4.0 时代</b>：把云端大脑分布在各个地方，充分利用边缘计算优势，实现规模化部署；强调感知智能协作之外还应具有理解和决策能力，并能通过少量数据建立识别能力。</p>
+<h3>11.3.3 机器人 4.0 的核心技术</h3>
+<p>⭐【重点】五大核心技术：</p>
+<table><colgroup><col style="width:25.4%"><col style="width:74.6%"></colgroup><thead><tr><th>技术</th><th>要点</th></tr></thead><tbody><tr><td>云-边-端的无缝协同计算</td><td>云侧提供高性能计算和知识存储，边缘侧处理数据并协同共享，机器人端只完成实时操作；需动态任务迁移机制</td></tr><tr><td>持续学习与协同学习</td><td>少量数据建立识别能力→自主找数据并自动标注→重训练提升；机器人之间经云端共享数据</td></tr><tr><td>知识图谱</td><td>需要更动态、个性化的知识；与感知决策深度结合；分别存在于机器人侧、云侧和边缘侧</td></tr><tr><td>场景自适应</td><td>基于三维语义理解预测场景事件，改变行为模式；关键是场景预测能力</td></tr><tr><td>数据安全</td><td>端到端安全传输+服务器端安全存储；机器人本体、云侧、边缘侧安全需求各不相同</td></tr></tbody></table>
+<div class="fig"><div><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 460" font-family="Microsoft YaHei, 微软雅黑, sans-serif">
+  <text x="360" y="26" text-anchor="middle" font-size="16" font-weight="bold" fill="#1f4e79">机器人三代演进与机器人 4.0 五大核心技术</text>
+  <text x="360" y="50" text-anchor="middle" font-size="12" fill="#6b7a8a">三代演进：环境感知与自主决策能力逐步增强</text>
+  <rect x="30" y="66" width="200" height="112" rx="6" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.5"/>
+  <text x="130" y="90" text-anchor="middle" font-size="15" font-weight="bold" fill="#1f4e79">第一代</text>
+  <text x="130" y="111" text-anchor="middle" font-size="13" font-weight="bold" fill="#22303f">示教再现型</text>
+  <text x="130" y="135" text-anchor="middle" font-size="11" fill="#22303f">示教存储程序和信息</text>
+  <text x="130" y="154" text-anchor="middle" font-size="11" fill="#22303f">重复动作 · 无环境感知</text>
+  <text x="130" y="171" text-anchor="middle" font-size="10" fill="#6b7a8a">例：汽车点焊机器人</text>
+  <line x1="230" y1="122" x2="249" y2="122" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="257,122 249,117.5 249,126.5" fill="#1f4e79"/>
+  <rect x="260" y="66" width="200" height="112" rx="6" fill="#f3f6ee" stroke="#4a6130" stroke-width="1.5"/>
+  <text x="360" y="90" text-anchor="middle" font-size="15" font-weight="bold" fill="#4a6130">第二代</text>
+  <text x="360" y="111" text-anchor="middle" font-size="13" font-weight="bold" fill="#22303f">感觉型</text>
+  <text x="360" y="135" text-anchor="middle" font-size="11" fill="#22303f">力觉 · 触觉 · 视觉 · 听觉</text>
+  <text x="360" y="154" text-anchor="middle" font-size="11" fill="#22303f">能感受和识别工件</text>
+  <text x="360" y="171" text-anchor="middle" font-size="10" fill="#6b7a8a">20 世纪 70 年代后期起</text>
+  <line x1="460" y1="122" x2="479" y2="122" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="487,122 479,117.5 479,126.5" fill="#1f4e79"/>
+  <rect x="490" y="66" width="200" height="112" rx="6" fill="#fdf0e6" stroke="#c05621" stroke-width="1.5"/>
+  <text x="590" y="90" text-anchor="middle" font-size="15" font-weight="bold" fill="#c05621">第三代</text>
+  <text x="590" y="111" text-anchor="middle" font-size="13" font-weight="bold" fill="#22303f">智能型</text>
+  <text x="590" y="135" text-anchor="middle" font-size="11" fill="#22303f">多种传感器 · 复杂逻辑推理</text>
+  <text x="590" y="154" text-anchor="middle" font-size="11" fill="#22303f">自主判断、决策与行动</text>
+  <text x="590" y="171" text-anchor="middle" font-size="10" fill="#6b7a8a">20 世纪 90 年代以来</text>
+  <line x1="590" y1="178" x2="590" y2="195" stroke="#c05621" stroke-width="1.5" fill="none"/>
+  <polygon points="590,203 585.5,195 594.5,195" fill="#c05621"/>
+  <rect x="30" y="206" width="660" height="44" rx="6" fill="#1f4e79"/>
+  <text x="360" y="234" text-anchor="middle" font-size="13" font-weight="bold" fill="#ffffff">机器人 4.0：云端大脑分布部署 · 边缘计算赋能 · 理解决策 · 少量数据学习</text>
+  <line x1="84" y1="250" x2="84" y2="281" stroke="#6b7a8a" stroke-width="1.5" fill="none"/>
+  <polygon points="84,289 79.5,281 88.5,281" fill="#6b7a8a"/>
+  <line x1="222" y1="250" x2="222" y2="281" stroke="#6b7a8a" stroke-width="1.5" fill="none"/>
+  <polygon points="222,289 217.5,281 226.5,281" fill="#6b7a8a"/>
+  <line x1="360" y1="250" x2="360" y2="281" stroke="#6b7a8a" stroke-width="1.5" fill="none"/>
+  <polygon points="360,289 355.5,281 364.5,281" fill="#6b7a8a"/>
+  <line x1="498" y1="250" x2="498" y2="281" stroke="#6b7a8a" stroke-width="1.5" fill="none"/>
+  <polygon points="498,289 493.5,281 502.5,281" fill="#6b7a8a"/>
+  <line x1="636" y1="250" x2="636" y2="281" stroke="#6b7a8a" stroke-width="1.5" fill="none"/>
+  <polygon points="636,289 631.5,281 640.5,281" fill="#6b7a8a"/>
+  <rect x="20" y="292" width="128" height="136" rx="5" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.2"/>
+  <text x="84" y="316" text-anchor="middle" font-size="12" font-weight="bold" fill="#1f4e79">云-边-端</text>
+  <text x="84" y="336" text-anchor="middle" font-size="12" font-weight="bold" fill="#1f4e79">无缝协同计算</text>
+  <text x="84" y="362" text-anchor="middle" font-size="10" fill="#22303f">云侧计算与存储</text>
+  <text x="84" y="382" text-anchor="middle" font-size="10" fill="#22303f">边缘处理与共享</text>
+  <text x="84" y="402" text-anchor="middle" font-size="10" fill="#22303f">端侧实时操作</text>
+  <text x="84" y="419" text-anchor="middle" font-size="9" fill="#6b7a8a">动态任务迁移</text>
+  <rect x="158" y="292" width="128" height="136" rx="5" fill="#f3f6ee" stroke="#4a6130" stroke-width="1.2"/>
+  <text x="222" y="316" text-anchor="middle" font-size="12" font-weight="bold" fill="#4a6130">持续学习</text>
+  <text x="222" y="336" text-anchor="middle" font-size="12" font-weight="bold" fill="#4a6130">与协同学习</text>
+  <text x="222" y="362" text-anchor="middle" font-size="10" fill="#22303f">少量数据建识别</text>
+  <text x="222" y="382" text-anchor="middle" font-size="10" fill="#22303f">自主找数与标注</text>
+  <text x="222" y="402" text-anchor="middle" font-size="10" fill="#22303f">重训练持续提升</text>
+  <text x="222" y="419" text-anchor="middle" font-size="9" fill="#6b7a8a">云端共享数据</text>
+  <rect x="296" y="292" width="128" height="136" rx="5" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.2"/>
+  <text x="360" y="326" text-anchor="middle" font-size="13" font-weight="bold" fill="#1f4e79">知识图谱</text>
+  <text x="360" y="362" text-anchor="middle" font-size="10" fill="#22303f">动态、个性化知识</text>
+  <text x="360" y="382" text-anchor="middle" font-size="10" fill="#22303f">结合感知与决策</text>
+  <text x="360" y="402" text-anchor="middle" font-size="10" fill="#22303f">分布于云边端</text>
+  <rect x="434" y="292" width="128" height="136" rx="5" fill="#fdf0e6" stroke="#c05621" stroke-width="1.2"/>
+  <text x="498" y="326" text-anchor="middle" font-size="13" font-weight="bold" fill="#c05621">场景自适应</text>
+  <text x="498" y="362" text-anchor="middle" font-size="10" fill="#22303f">三维语义理解</text>
+  <text x="498" y="382" text-anchor="middle" font-size="10" fill="#22303f">预测场景事件</text>
+  <text x="498" y="402" text-anchor="middle" font-size="10" fill="#22303f">改变行为模式</text>
+  <rect x="572" y="292" width="128" height="136" rx="5" fill="#f3f6ee" stroke="#4a6130" stroke-width="1.2"/>
+  <text x="636" y="326" text-anchor="middle" font-size="13" font-weight="bold" fill="#4a6130">数据安全</text>
+  <text x="636" y="362" text-anchor="middle" font-size="10" fill="#22303f">端到端安全传输</text>
+  <text x="636" y="382" text-anchor="middle" font-size="10" fill="#22303f">服务器安全存储</text>
+  <text x="636" y="402" text-anchor="middle" font-size="10" fill="#22303f">云边端差异防护</text>
+  <text x="30" y="452" font-size="11" fill="#6b7a8a">记忆：示教再现无感知 → 感觉型能识别 → 智能型可决策；4.0 重协同、学习与安全。</text>
+</svg></div><div class="cap">机器人三代演进与机器人 4.0 五大核心技术</div></div>
+<div class="fig"><div><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 495" font-family="Microsoft YaHei, 微软雅黑, sans-serif">
+  <text x="360" y="26" text-anchor="middle" font-size="16" font-weight="bold" fill="#1f4e79">云-边-端协同计算架构</text>
+  <rect x="100" y="46" width="520" height="68" rx="7" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.5"/>
+  <text x="360" y="74" text-anchor="middle" font-size="16" font-weight="bold" fill="#1f4e79">云侧：高性能计算与知识存储</text>
+  <text x="360" y="97" text-anchor="middle" font-size="12" fill="#22303f">集中训练模型 · 汇聚协同经验 · 提供全局知识与策略</text>
+  <line x1="250" y1="114" x2="250" y2="179" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="250,187 245.5,179 254.5,179" fill="#1f4e79"/>
+  <line x1="470" y1="190" x2="470" y2="125" stroke="#4a6130" stroke-width="1.5" fill="none"/>
+  <polygon points="470,117 465.5,125 474.5,125" fill="#4a6130"/>
+  <text x="360" y="145" text-anchor="middle" font-size="11" fill="#1f4e79">模型 / 知识 / 策略下发</text>
+  <text x="360" y="171" text-anchor="middle" font-size="11" fill="#4a6130">数据 / 经验 / 状态上传</text>
+  <rect x="70" y="190" width="580" height="86" rx="7" fill="#fdf0e6" stroke="#c05621" stroke-width="1.5"/>
+  <text x="360" y="217" text-anchor="middle" font-size="16" font-weight="bold" fill="#c05621">边缘侧：数据处理、协同共享与任务承接</text>
+  <text x="360" y="241" text-anchor="middle" font-size="12" fill="#22303f">就近处理实时数据 · 执行模型推理 · 协同多个机器人</text>
+  <text x="360" y="263" text-anchor="middle" font-size="11" fill="#6b7a8a">降低云端传输压力与端侧计算负担</text>
+  <line x1="250" y1="276" x2="250" y2="335" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="250,343 245.5,335 254.5,335" fill="#1f4e79"/>
+  <line x1="470" y1="346" x2="470" y2="287" stroke="#4a6130" stroke-width="1.5" fill="none"/>
+  <polygon points="470,279 465.5,287 474.5,287" fill="#4a6130"/>
+  <text x="360" y="307" text-anchor="middle" font-size="11" fill="#1f4e79">任务协同 / 应用部署</text>
+  <text x="360" y="331" text-anchor="middle" font-size="11" fill="#4a6130">实时数据 / 协同经验</text>
+  <rect x="40" y="346" width="640" height="106" rx="7" fill="#f3f6ee" stroke="#4a6130" stroke-width="1.5"/>
+  <text x="360" y="372" text-anchor="middle" font-size="15" font-weight="bold" fill="#4a6130">机器人端：只完成实时操作，保留必要感知与控制能力</text>
+  <rect x="90" y="388" width="140" height="44" rx="5" fill="#ffffff" stroke="#8aa15c" stroke-width="1.2"/>
+  <text x="160" y="416" text-anchor="middle" font-size="12" fill="#22303f">机器人 A</text>
+  <rect x="290" y="388" width="140" height="44" rx="5" fill="#ffffff" stroke="#8aa15c" stroke-width="1.2"/>
+  <text x="360" y="416" text-anchor="middle" font-size="12" fill="#22303f">机器人 B</text>
+  <rect x="490" y="388" width="140" height="44" rx="5" fill="#ffffff" stroke="#8aa15c" stroke-width="1.2"/>
+  <text x="560" y="416" text-anchor="middle" font-size="12" fill="#22303f">机器人 C</text>
+  <text x="360" y="480" text-anchor="middle" font-size="11" fill="#6b7a8a">动态任务迁移：按实时性、算力与负载，在云、边、端之间合理分配任务。</text>
+</svg></div><div class="cap">云-边-端协同计算架构</div></div>
+<h3>11.3.4 机器人的分类</h3>
+<p>⭐【易错】两种分类标准不要混淆：</p>
+<table><colgroup><col style="width:11.5%"><col style="width:44.9%"><col style="width:43.6%"></colgroup><thead><tr><th>分类标准</th><th>类别</th><th>说明</th></tr></thead><tbody><tr><td class="tc">按控制方式</td><td>操作机器人、程序机器人、示教再现机器人、智能机器人、综合机器人</td><td>综合机器人由操纵、示教再现、智能机器人组合而成，如火星机器人</td></tr><tr><td class="tc">按应用行业</td><td>工业机器人、服务机器人、特殊领域机器人</td><td>特殊领域机器人用于核电站、海底、宇宙空间等人员难以进入的场合</td></tr></tbody></table>
+<h3>11.4.1～11.4.2 边缘计算概念与定义</h3>
+<div class="example">举例：章鱼是无脊椎动物中智商最高的动物之一，其神经元 <b>60% 分布在八条腕足上，脑部仅 40%</b>，用「腿」就近解决问题——这正是边缘计算的形象类比：把数据处理、应用运行由网络中心下放到网络边缘节点，就近采集并处理数据，不必把海量原生数据全部上传到远端大数据平台。</div>
+<p>⭐【高频考点】边缘计算产业联盟（ECC）定义：边缘计算是在<b>靠近物或数据源头</b>的网络边缘侧，融合<b>网络、计算、存储、应用</b>核心能力的开放平台，就近提供边缘智能服务，满足行业数字化在敏捷连接、实时业务、数据优化、应用智能、安全与隐私保护等方面的关键需求。其三类落地形态：</p>
+<table><colgroup><col style="width:10.3%"><col style="width:56.4%"><col style="width:33.3%"></colgroup><thead><tr><th>落地形态</th><th>内涵</th><th>代表方案</th></tr></thead><tbody><tr><td class="tc">云边缘</td><td>云服务在边缘侧的延伸，逻辑上仍是云服务，能力依赖云或与云紧密协同</td><td>华为云 IEF、阿里云 Link Edge、AWS Greengrass</td></tr><tr><td class="tc">边缘云</td><td>在边缘侧构建中小规模云服务能力，中心云主要提供管理调度</td><td>多接入边缘计算（MEC）、CDN、华为云 IEC</td></tr><tr><td class="tc">云化网关</td><td>以云化技术重构原有嵌入式网关，边缘侧提供协议/接口转换，云侧控制器负责资源调度与业务编排</td><td>云化网关形态</td></tr></tbody></table>
+<div class="fig"><div><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 478" font-family="Microsoft YaHei, 微软雅黑, sans-serif">
+  <text x="360" y="26" text-anchor="middle" font-size="16" font-weight="bold" fill="#1f4e79">边缘计算三类落地形态</text>
+  <rect x="60" y="48" width="600" height="66" rx="7" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.5"/>
+  <text x="360" y="75" text-anchor="middle" font-size="14" font-weight="bold" fill="#1f4e79">靠近物或数据源头：网络 + 计算 + 存储 + 应用</text>
+  <text x="360" y="98" text-anchor="middle" font-size="12" fill="#22303f">开放平台就近提供边缘智能服务</text>
+  <line x1="135" y1="114" x2="135" y2="149" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="135,157 130.5,149 139.5,149" fill="#1f4e79"/>
+  <line x1="360" y1="114" x2="360" y2="149" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="360,157 355.5,149 364.5,149" fill="#1f4e79"/>
+  <line x1="585" y1="114" x2="585" y2="149" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="585,157 580.5,149 589.5,149" fill="#1f4e79"/>
+  <rect x="30" y="160" width="210" height="226" rx="6" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.5"/>
+  <text x="135" y="188" text-anchor="middle" font-size="17" font-weight="bold" fill="#1f4e79">云边缘</text>
+  <text x="135" y="212" text-anchor="middle" font-size="12" font-weight="bold" fill="#22303f">云服务在边缘侧延伸</text>
+  <text x="135" y="240" text-anchor="middle" font-size="11" fill="#22303f">逻辑上仍是云服务</text>
+  <text x="135" y="262" text-anchor="middle" font-size="11" fill="#22303f">能力依赖云</text>
+  <text x="135" y="282" text-anchor="middle" font-size="11" fill="#22303f">或与云紧密协同</text>
+  <text x="135" y="310" text-anchor="middle" font-size="11" font-weight="bold" fill="#1f4e79">代表方案</text>
+  <text x="135" y="332" text-anchor="middle" font-size="10" fill="#22303f">华为云 IEF</text>
+  <text x="135" y="351" text-anchor="middle" font-size="10" fill="#22303f">阿里云 Link Edge</text>
+  <text x="135" y="370" text-anchor="middle" font-size="10" fill="#22303f">AWS Greengrass</text>
+  <rect x="255" y="160" width="210" height="226" rx="6" fill="#f3f6ee" stroke="#4a6130" stroke-width="1.5"/>
+  <text x="360" y="188" text-anchor="middle" font-size="17" font-weight="bold" fill="#4a6130">边缘云</text>
+  <text x="360" y="212" text-anchor="middle" font-size="12" font-weight="bold" fill="#22303f">在边缘侧构建云能力</text>
+  <text x="360" y="240" text-anchor="middle" font-size="11" fill="#22303f">中小规模云服务能力</text>
+  <text x="360" y="262" text-anchor="middle" font-size="11" fill="#22303f">中心云主要负责</text>
+  <text x="360" y="282" text-anchor="middle" font-size="11" fill="#22303f">管理与调度</text>
+  <text x="360" y="310" text-anchor="middle" font-size="11" font-weight="bold" fill="#4a6130">代表方案</text>
+  <text x="360" y="332" text-anchor="middle" font-size="10" fill="#22303f">多接入边缘计算（MEC）</text>
+  <text x="360" y="351" text-anchor="middle" font-size="10" fill="#22303f">CDN</text>
+  <text x="360" y="370" text-anchor="middle" font-size="10" fill="#22303f">华为云 IEC</text>
+  <rect x="480" y="160" width="210" height="226" rx="6" fill="#fdf0e6" stroke="#c05621" stroke-width="1.5"/>
+  <text x="585" y="188" text-anchor="middle" font-size="17" font-weight="bold" fill="#c05621">云化网关</text>
+  <text x="585" y="212" text-anchor="middle" font-size="12" font-weight="bold" fill="#22303f">以云化技术重构网关</text>
+  <text x="585" y="240" text-anchor="middle" font-size="11" fill="#22303f">边缘侧：协议转换</text>
+  <text x="585" y="262" text-anchor="middle" font-size="11" fill="#22303f">与接口转换</text>
+  <text x="585" y="290" text-anchor="middle" font-size="11" fill="#22303f">云侧控制器：</text>
+  <text x="585" y="312" text-anchor="middle" font-size="11" fill="#22303f">资源调度与业务编排</text>
+  <text x="585" y="348" text-anchor="middle" font-size="11" font-weight="bold" fill="#c05621">代表形态</text>
+  <text x="585" y="370" text-anchor="middle" font-size="10" fill="#22303f">云化网关形态</text>
+  <rect x="45" y="414" width="630" height="44" rx="6" fill="#ffffff" stroke="#8aa15c" stroke-width="1.2"/>
+  <text x="360" y="442" text-anchor="middle" font-size="12" font-weight="bold" fill="#4a6130">辨析：云边缘＝云服务延伸｜边缘云＝边缘建云｜云化网关＝网关云化</text>
+</svg></div><div class="cap">边缘计算三类落地形态</div></div>
+<h3>11.4.3～11.4.4 边缘计算特点与边云协同</h3>
+<p>⭐【重点】边缘计算四大特点：</p>
+<table><colgroup><col style="width:18.5%"><col style="width:81.5%"></colgroup><thead><tr><th>特点</th><th>含义</th></tr></thead><tbody><tr><td class="tc">联接性</td><td>边缘计算的基础；需支持丰富网络接口、协议、拓扑，借鉴 TSN、SDN、NFV、5G 等并与工业总线互通</td></tr><tr><td class="tc">数据第一入口</td><td>物理世界到数字世界的桥梁，拥有大量、实时、完整的数据，支撑数据全生命周期管理</td></tr><tr><td class="tc">约束性</td><td>适配工业现场恶劣条件（防电磁、防尘、防爆、抗振动等），受功耗、成本、空间约束</td></tr><tr><td class="tc">分布性</td><td>天然分布式部署，要求分布式计算与存储、动态调度、分布式智能与分布式安全</td></tr></tbody></table>
+<p>⭐【重点】【高频考点】边缘计算与云计算<b>不是替代关系，而是互补协同关系</b>：云计算擅长<b>全局性、非实时、长周期</b>的大数据处理；边缘计算适合<b>局部性、实时、短周期</b>数据处理。边云协同包括六种：</p>
+<table><colgroup><col style="width:17.5%"><col style="width:45.6%"><col style="width:36.8%"></colgroup><thead><tr><th>协同</th><th>边缘侧职责</th><th>云端职责</th></tr></thead><tbody><tr><td class="tc">资源协同</td><td>本地资源调度管理，执行云端策略</td><td>设备、资源、网络连接管理策略</td></tr><tr><td class="tc">数据协同</td><td>数据采集、初步处理分析并上传</td><td>海量数据存储、分析与价值挖掘</td></tr><tr><td class="tc">智能协同</td><td>按 AI 模型执行推理，实现分布式智能</td><td>集中式模型训练，模型下发边缘</td></tr><tr><td class="tc">应用管理协同</td><td>应用部署运行环境、本节点应用生命周期管理</td><td>应用开发测试环境、生命周期管理能力</td></tr><tr><td class="tc">业务管理协同</td><td>提供模块化、微服务化的应用/数字孪生/网络实例</td><td>按客户需求实现业务编排</td></tr><tr><td class="tc">服务协同</td><td>按云端策略实现部分 EC-SaaS 服务</td><td>SaaS 服务分布策略与云端 SaaS 能力</td></tr></tbody></table>
+<div class="fig"><div><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 485" font-family="Microsoft YaHei, 微软雅黑, sans-serif">
+  <text x="360" y="26" text-anchor="middle" font-size="16" font-weight="bold" fill="#1f4e79">边云协同：六种协同</text>
+  <rect x="50" y="48" width="220" height="68" rx="7" fill="#f3f6ee" stroke="#4a6130" stroke-width="1.5"/>
+  <text x="160" y="76" text-anchor="middle" font-size="16" font-weight="bold" fill="#4a6130">边缘计算</text>
+  <text x="160" y="98" text-anchor="middle" font-size="11" fill="#22303f">局部性 · 实时 · 短周期</text>
+  <rect x="450" y="48" width="220" height="68" rx="7" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.5"/>
+  <text x="560" y="76" text-anchor="middle" font-size="16" font-weight="bold" fill="#1f4e79">云计算</text>
+  <text x="560" y="98" text-anchor="middle" font-size="11" fill="#22303f">全局性 · 非实时 · 长周期</text>
+  <line x1="270" y1="73" x2="439" y2="73" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="447,73 439,68.5 439,77.5" fill="#1f4e79"/>
+  <line x1="450" y1="96" x2="281" y2="96" stroke="#4a6130" stroke-width="1.5" fill="none"/>
+  <polygon points="273,96 281,91.5 281,100.5" fill="#4a6130"/>
+  <text x="360" y="65" text-anchor="middle" font-size="10" fill="#1f4e79">策略 / 模型 / 应用</text>
+  <text x="360" y="111" text-anchor="middle" font-size="10" fill="#4a6130">数据 / 状态 / 经验</text>
+  <rect x="30" y="150" width="320" height="84" rx="6" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.2"/>
+  <text x="190" y="174" text-anchor="middle" font-size="14" font-weight="bold" fill="#1f4e79">1. 资源协同</text>
+  <text x="44" y="198" font-size="11" fill="#22303f">边缘：本地资源调度管理，执行云端策略</text>
+  <text x="44" y="218" font-size="11" fill="#22303f">云端：设备、资源、网络连接管理策略</text>
+  <rect x="370" y="150" width="320" height="84" rx="6" fill="#f3f6ee" stroke="#4a6130" stroke-width="1.2"/>
+  <text x="530" y="174" text-anchor="middle" font-size="14" font-weight="bold" fill="#4a6130">2. 数据协同</text>
+  <text x="384" y="198" font-size="11" fill="#22303f">边缘：数据采集、初步处理分析并上传</text>
+  <text x="384" y="218" font-size="11" fill="#22303f">云端：海量存储、分析与价值挖掘</text>
+  <rect x="30" y="250" width="320" height="84" rx="6" fill="#fdf0e6" stroke="#c05621" stroke-width="1.2"/>
+  <text x="190" y="274" text-anchor="middle" font-size="14" font-weight="bold" fill="#c05621">3. 智能协同</text>
+  <text x="44" y="298" font-size="11" fill="#22303f">边缘：按 AI 模型执行推理，分布式智能</text>
+  <text x="44" y="318" font-size="11" fill="#22303f">云端：集中式模型训练，模型下发边缘</text>
+  <rect x="370" y="250" width="320" height="84" rx="6" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.2"/>
+  <text x="530" y="274" text-anchor="middle" font-size="14" font-weight="bold" fill="#1f4e79">4. 应用管理协同</text>
+  <text x="384" y="298" font-size="11" fill="#22303f">边缘：部署运行环境，本节点生命周期管理</text>
+  <text x="384" y="318" font-size="11" fill="#22303f">云端：开发测试环境，生命周期管理能力</text>
+  <rect x="30" y="350" width="320" height="84" rx="6" fill="#f3f6ee" stroke="#4a6130" stroke-width="1.2"/>
+  <text x="190" y="374" text-anchor="middle" font-size="14" font-weight="bold" fill="#4a6130">5. 业务管理协同</text>
+  <text x="44" y="398" font-size="11" fill="#22303f">边缘：模块化、微服务化应用与各类实例</text>
+  <text x="44" y="418" font-size="11" fill="#22303f">云端：按客户需求实现业务编排</text>
+  <rect x="370" y="350" width="320" height="84" rx="6" fill="#fdf0e6" stroke="#c05621" stroke-width="1.2"/>
+  <text x="530" y="374" text-anchor="middle" font-size="14" font-weight="bold" fill="#c05621">6. 服务协同</text>
+  <text x="384" y="398" font-size="11" fill="#22303f">边缘：按云端策略提供部分 EC-SaaS 服务</text>
+  <text x="384" y="418" font-size="11" fill="#22303f">云端：SaaS 分布策略与云端 SaaS 能力</text>
+  <text x="360" y="465" text-anchor="middle" font-size="11" fill="#6b7a8a">边云不是替代关系，而是互补协同关系。</text>
+</svg></div><div class="cap">边云协同六种协同</div></div>
+<h3>11.4.5～11.4.6 边缘计算安全与应用</h3>
+<p>边缘计算的 <b>CROSS 价值</b>：Connectivity（联接）、Realtime（实时）、data Optimization（数据优化）、Smart（智能）、Security（安全）。边缘安全价值体现在：提供可信基础设施、为边缘应用提供可信赖安全服务、保障安全的设备接入和协议转换、提供安全可信的网络及覆盖。</p>
+<p>边缘计算五大应用场合速记：<b>智慧园区</b>（海量连接管理、实时采集处理、本地业务自治）、<b>安卓云与云游戏</b>（游戏集中在边缘数据中心运行，终端相当于视频播放设备）、<b>视频监控</b>（边缘图像识别与视频分析、智能存储、边云协同）、<b>工业物联网</b>（OPC UA over TSN、vPLC、缺陷检测）、<b>Cloud VR</b>（渲染计算、转码、缓存加速卸载到边缘，带宽可降 30%、时延降 50%）。</p>
+<h3>11.5.1～11.5.2 数字孪生体发展历程与定义</h3>
+<p>数字孪生体最早的概念模型由 <b>Michael Grieves 博士于 2002 年</b>提出；「数字孪生体（Digital Twin）」名称最早出现在<b>美国空军实验室 2009 年</b>的「机身数字孪生体」概念中；2010 年 NASA 在技术路线图中直接使用该名称。发展历程四阶段：技术准备期（1960—21 世纪初）→ 概念产生期（2002—2010）→ 领先应用期（2010—2020，NASA、美军方、GE）→ 深度开发与大规模扩展应用期（2020—2030）。</p>
+<div class="def">教材原文：数字孪生体是现有或将有的物理实体对象的数字模型，通过实测、仿真和数据分析来实时感知、诊断、预测物理实体对象的状态，通过优化和指令来调控物理实体对象的行为，通过相关数字模型间的相互学习来进化自身，同时改进利益相关方在物理实体对象生命周期内的决策。</div>
+<p>通俗地说，数字孪生体就是给物理对象在电脑里造一个实时同步的「影子」：影子能反映本体当前状态，还能仿真预演未来，指挥本体优化运行。</p>
+<p>⭐【重点】Grieves &amp; Vickers（2016）提出数字孪生体三种类型：<b>数字孪生原型体</b>（描述设计形态）、<b>数字孪生实例体</b>（对应具体实物个体）、<b>数字孪生聚合体</b>（实例体的聚合）；其操作环境称为<b>数字孪生环境</b>。</p>
+<div class="fig"><div><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 510" font-family="Microsoft YaHei, 微软雅黑, sans-serif">
+  <text x="360" y="26" text-anchor="middle" font-size="16" font-weight="bold" fill="#1f4e79">数字孪生体概念模型与三种类型</text>
+  <rect x="40" y="60" width="220" height="150" rx="7" fill="#f3f6ee" stroke="#4a6130" stroke-width="1.5"/>
+  <text x="150" y="90" text-anchor="middle" font-size="16" font-weight="bold" fill="#4a6130">物理实体对象</text>
+  <text x="150" y="120" text-anchor="middle" font-size="12" fill="#22303f">现有或将有的实体</text>
+  <text x="150" y="145" text-anchor="middle" font-size="11" fill="#22303f">设备 · 生产线 · 城市</text>
+  <text x="150" y="172" text-anchor="middle" font-size="11" fill="#22303f">状态被实时感知</text>
+  <text x="150" y="193" text-anchor="middle" font-size="11" fill="#6b7a8a">行为接受优化调控</text>
+  <rect x="460" y="60" width="220" height="150" rx="7" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.5"/>
+  <text x="570" y="90" text-anchor="middle" font-size="16" font-weight="bold" fill="#1f4e79">数字孪生体</text>
+  <text x="570" y="120" text-anchor="middle" font-size="12" fill="#22303f">物理实体的数字模型</text>
+  <text x="570" y="145" text-anchor="middle" font-size="11" fill="#22303f">感知 · 诊断 · 预测</text>
+  <text x="570" y="172" text-anchor="middle" font-size="11" fill="#22303f">仿真预演 · 优化决策</text>
+  <text x="570" y="193" text-anchor="middle" font-size="11" fill="#6b7a8a">模型相互学习、进化自身</text>
+  <line x1="260" y1="112" x2="449" y2="112" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="457,112 449,107.5 449,116.5" fill="#1f4e79"/>
+  <text x="360" y="94" text-anchor="middle" font-size="11" fill="#1f4e79">实测 / 仿真 / 数据分析</text>
+  <line x1="460" y1="162" x2="271" y2="162" stroke="#c05621" stroke-width="1.5" fill="none"/>
+  <polygon points="263,162 271,157.5 271,166.5" fill="#c05621"/>
+  <text x="360" y="149" text-anchor="middle" font-size="11" fill="#c05621">优化与指令调控</text>
+  <rect x="110" y="246" width="500" height="42" rx="6" fill="#1f4e79"/>
+  <text x="360" y="273" text-anchor="middle" font-size="13" font-weight="bold" fill="#ffffff">三种类型（Grieves &amp; Vickers，2016）</text>
+  <rect x="30" y="310" width="210" height="116" rx="6" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.5"/>
+  <text x="135" y="340" text-anchor="middle" font-size="14" font-weight="bold" fill="#1f4e79">数字孪生原型体</text>
+  <text x="135" y="369" text-anchor="middle" font-size="12" fill="#22303f">描述设计形态</text>
+  <text x="135" y="395" text-anchor="middle" font-size="11" fill="#6b7a8a">面向产品与工艺设计</text>
+  <rect x="255" y="310" width="210" height="116" rx="6" fill="#fdf0e6" stroke="#c05621" stroke-width="1.5"/>
+  <text x="360" y="340" text-anchor="middle" font-size="14" font-weight="bold" fill="#c05621">数字孪生实例体</text>
+  <text x="360" y="369" text-anchor="middle" font-size="12" fill="#22303f">对应具体实物个体</text>
+  <text x="360" y="395" text-anchor="middle" font-size="11" fill="#6b7a8a">伴随单个实体生命周期</text>
+  <rect x="480" y="310" width="210" height="116" rx="6" fill="#f3f6ee" stroke="#4a6130" stroke-width="1.5"/>
+  <text x="585" y="340" text-anchor="middle" font-size="14" font-weight="bold" fill="#4a6130">数字孪生聚合体</text>
+  <text x="585" y="369" text-anchor="middle" font-size="12" fill="#22303f">多个实例体的聚合</text>
+  <text x="585" y="395" text-anchor="middle" font-size="11" fill="#6b7a8a">支撑群体分析与优化</text>
+  <line x1="135" y1="426" x2="135" y2="441" stroke="#6b7a8a" stroke-width="1.5" fill="none"/>
+  <polygon points="135,449 130.5,441 139.5,441" fill="#6b7a8a"/>
+  <line x1="360" y1="426" x2="360" y2="441" stroke="#6b7a8a" stroke-width="1.5" fill="none"/>
+  <polygon points="360,449 355.5,441 364.5,441" fill="#6b7a8a"/>
+  <line x1="585" y1="426" x2="585" y2="441" stroke="#6b7a8a" stroke-width="1.5" fill="none"/>
+  <polygon points="585,449 580.5,441 589.5,441" fill="#6b7a8a"/>
+  <rect x="60" y="452" width="600" height="38" rx="6" fill="#ffffff" stroke="#8aa15c" stroke-width="1.2"/>
+  <text x="360" y="477" text-anchor="middle" font-size="13" font-weight="bold" fill="#4a6130">三类数字孪生体的操作环境：数字孪生环境</text>
+</svg></div><div class="cap">数字孪生体概念模型与三种类型</div></div>
+<h3>11.5.3 数字孪生体的关键技术</h3>
+<p>⭐【重点】【高频考点】技术体系层次归属是常考点：</p>
+<table><colgroup><col style="width:13.1%"><col style="width:29.4%"><col style="width:57.5%"></colgroup><thead><tr><th>层次</th><th>技术</th><th>定位</th></tr></thead><tbody><tr><td class="tc">三项核心技术</td><td>建模、仿真、基于数据融合的数字线程</td><td>建模是「数化」阶段核心、创建数字孪生体的源头；仿真保证数字孪生体与物理实体有效闭环；数字线程支撑多视图模型协同</td></tr><tr><td class="tc">顶层框架技术</td><td>系统工程和 MBSE（基于模型的系统工程）</td><td>统领建模、仿真和数字线程</td></tr><tr><td class="tc">底层伴生技术</td><td>物联网</td><td>为数字孪生体提供数据连接基础</td></tr><tr><td class="tc">外围使能技术</td><td>云计算、机器学习、大数据、区块链</td><td>支撑数字孪生体构建与运行</td></tr></tbody></table>
+<div class="fig"><div><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 480" font-family="Microsoft YaHei, 微软雅黑, sans-serif">
+  <text x="360" y="26" text-anchor="middle" font-size="16" font-weight="bold" fill="#1f4e79">数字孪生体关键技术体系</text>
+  <rect x="30" y="40" width="660" height="390" rx="8" fill="#f3f6ee" stroke="#8aa15c" stroke-width="1.5" stroke-dasharray="6 4"/>
+  <text x="360" y="66" text-anchor="middle" font-size="12" font-weight="bold" fill="#4a6130">外围使能技术：云计算 · 机器学习 · 大数据 · 区块链（支撑构建与运行）</text>
+  <rect x="130" y="84" width="460" height="58" rx="6" fill="#1f4e79"/>
+  <text x="360" y="108" text-anchor="middle" font-size="14" font-weight="bold" fill="#ffffff">顶层框架技术：系统工程与 MBSE</text>
+  <text x="360" y="130" text-anchor="middle" font-size="11" fill="#ffffff">基于模型的系统工程，统领三项核心技术</text>
+  <line x1="360" y1="142" x2="360" y2="173" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="360,181 355.5,173 364.5,173" fill="#1f4e79"/>
+  <rect x="70" y="184" width="580" height="130" rx="7" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.5"/>
+  <text x="360" y="210" text-anchor="middle" font-size="14" font-weight="bold" fill="#1f4e79">三项核心技术</text>
+  <rect x="90" y="226" width="160" height="70" rx="5" fill="#ffffff" stroke="#1f4e79" stroke-width="1.2"/>
+  <text x="170" y="251" text-anchor="middle" font-size="14" font-weight="bold" fill="#1f4e79">建模</text>
+  <text x="170" y="274" text-anchor="middle" font-size="10" fill="#22303f">「数化」阶段核心</text>
+  <text x="170" y="290" text-anchor="middle" font-size="10" fill="#6b7a8a">创建数字孪生体源头</text>
+  <rect x="280" y="226" width="160" height="70" rx="5" fill="#ffffff" stroke="#c05621" stroke-width="1.2"/>
+  <text x="360" y="251" text-anchor="middle" font-size="14" font-weight="bold" fill="#c05621">仿真</text>
+  <text x="360" y="274" text-anchor="middle" font-size="10" fill="#22303f">验证与确认模型</text>
+  <text x="360" y="290" text-anchor="middle" font-size="10" fill="#6b7a8a">保证虚实有效闭环</text>
+  <rect x="470" y="226" width="160" height="70" rx="5" fill="#ffffff" stroke="#4a6130" stroke-width="1.2"/>
+  <text x="550" y="251" text-anchor="middle" font-size="13" font-weight="bold" fill="#4a6130">数字线程</text>
+  <text x="550" y="274" text-anchor="middle" font-size="10" fill="#22303f">基于数据融合</text>
+  <text x="550" y="290" text-anchor="middle" font-size="10" fill="#6b7a8a">支撑多视图模型协同</text>
+  <line x1="360" y1="350" x2="360" y2="323" stroke="#4a6130" stroke-width="1.5" fill="none"/>
+  <polygon points="360,317 355.5,325 364.5,325" fill="#4a6130"/>
+  <rect x="150" y="350" width="420" height="54" rx="6" fill="#ffffff" stroke="#4a6130" stroke-width="1.5"/>
+  <text x="360" y="374" text-anchor="middle" font-size="14" font-weight="bold" fill="#4a6130">底层伴生技术：物联网</text>
+  <text x="360" y="395" text-anchor="middle" font-size="11" fill="#22303f">为数字孪生体提供数据连接基础</text>
+  <text x="360" y="458" text-anchor="middle" font-size="11" fill="#6b7a8a">记忆：MBSE 顶层统领，建模 / 仿真 / 数字线程为核心，物联网托底，外围技术使能。</text>
+</svg></div><div class="cap">数字孪生体关键技术体系</div></div>
+<p>建模与仿真是一对伴生体：<b>建模</b>是把对物理世界的理解简化和模型化；<b>仿真</b>是验证和确认这种理解的正确性和有效性，把包含确定性规律和完整机理的模型转化为软件来模拟物理世界。建模技术体系的三维空间：<b>需求指标、生存期阶段、空间尺度</b>。</p>
+<h3>11.5.4 数字孪生体的应用</h3>
+<p>四大应用领域：<b>制造</b>（设计阶段仿真优化、制造阶段数字生产线与物理生产线实时交互，是智能制造的基石）、<b>产业</b>（按数化→互动→先知→先觉→共智顺序深入，覆盖市场营销、供应链物流、维保服务）、<b>城市</b>（数字孪生城市是新型智慧城市的前提，特征含传感监控即时性、信息传递交互性等）、<b>战场</b>（单体装备应用与战场综合应用，服务于战略、战役、战术层次）。</p>
+<h3>11.6.1 云计算技术概述</h3>
+<p>云计算概念于 <b>2007 年 10 月</b>正式出现（谷歌与 IBM 宣布联合研究）。IBM 定义的内涵包含<b>平台和应用</b>两方面：平台即基础设施，地位相当于 PC 上的操作系统；云应用所需的计算与存储通常在「云端」完成，客户端通过互联网访问。</p>
+<p>⭐【重点】【高频考点】三类典型服务方式：</p>
+<table><colgroup><col style="width:16.6%"><col style="width:38.0%"><col style="width:23.3%"><col style="width:22.1%"></colgroup><thead><tr><th>服务方式</th><th>提供内容</th><th>用户要做的事</th><th>类比</th></tr></thead><tbody><tr><td>IaaS 基础设施即服务</td><td>内存、I/O、存储、计算能力整合成虚拟资源池</td><td>自己在之上搭建系统与应用</td><td>租毛坯房</td></tr><tr><td>PaaS 平台即服务</td><td>分布式开发环境、服务器平台、硬件资源，对外提供 Web API</td><td>在平台上定制开发自己的应用程序</td><td>租带精装修的房，自己布置软装</td></tr><tr><td>SaaS 软件即服务</td><td>统一部署的应用软件，按数量、时长订购，浏览器访问</td><td>简单配置后即可上线使用</td><td>直接住酒店</td></tr></tbody></table>
+<p>⭐【易错】<b>灵活性 SaaS→PaaS→IaaS 依次增强</b>（可控资源越来越底层），<b>方便性 IaaS→PaaS→SaaS 依次增强</b>。PaaS 是云计算服务模式中最为关键的一层，地位相当于系统软件，为上层 SaaS 应用提供 API。</p>
+<p>⭐【重点】NIST 定义的四种部署模式：<b>公有云</b>（基础设施公开分配给公众）、<b>社区云</b>（分配给共同关注任务、安全需求、政策的一些社区组织专有，属公有云范畴内的组成部分）、<b>私有云</b>（分配给单个组织）、<b>混合云</b>（公有云、私有云和社区云的组合）。</p>
+<div class="fig"><div><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 470" font-family="Microsoft YaHei, 微软雅黑, sans-serif">
+  <text x="360" y="26" text-anchor="middle" font-size="16" font-weight="bold" fill="#1f4e79">云计算三种服务方式与四种部署模式</text>
+  <text x="30" y="56" font-size="13" font-weight="bold" fill="#1f4e79">三种服务方式：底层资源逐层封装，使用越来越方便</text>
+  <rect x="30" y="74" width="210" height="184" rx="6" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.5"/>
+  <text x="135" y="101" text-anchor="middle" font-size="18" font-weight="bold" fill="#1f4e79">IaaS</text>
+  <text x="135" y="123" text-anchor="middle" font-size="12" font-weight="bold" fill="#22303f">基础设施即服务</text>
+  <text x="135" y="151" text-anchor="middle" font-size="11" fill="#22303f">内存 / I/O / 存储 / 计算</text>
+  <text x="135" y="173" text-anchor="middle" font-size="11" fill="#22303f">整合成虚拟资源池</text>
+  <text x="135" y="204" text-anchor="middle" font-size="11" fill="#22303f">用户搭建系统与应用</text>
+  <text x="135" y="235" text-anchor="middle" font-size="12" font-weight="bold" fill="#1f4e79">类比：租毛坯房</text>
+  <line x1="240" y1="142" x2="244" y2="142" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="252,142 244,137.5 244,146.5" fill="#1f4e79"/>
+  <rect x="255" y="74" width="210" height="184" rx="6" fill="#fdf0e6" stroke="#c05621" stroke-width="1.5"/>
+  <text x="360" y="101" text-anchor="middle" font-size="18" font-weight="bold" fill="#c05621">PaaS</text>
+  <text x="360" y="123" text-anchor="middle" font-size="12" font-weight="bold" fill="#22303f">平台即服务</text>
+  <text x="360" y="151" text-anchor="middle" font-size="11" fill="#22303f">分布式开发环境</text>
+  <text x="360" y="173" text-anchor="middle" font-size="11" fill="#22303f">服务器平台与 Web API</text>
+  <text x="360" y="204" text-anchor="middle" font-size="11" fill="#22303f">用户定制开发应用</text>
+  <text x="360" y="228" text-anchor="middle" font-size="11" font-weight="bold" fill="#c05621">类比：租精装房</text>
+  <text x="360" y="247" text-anchor="middle" font-size="10" fill="#6b7a8a">自己布置软装</text>
+  <line x1="465" y1="142" x2="469" y2="142" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="477,142 469,137.5 469,146.5" fill="#1f4e79"/>
+  <rect x="480" y="74" width="210" height="184" rx="6" fill="#f3f6ee" stroke="#4a6130" stroke-width="1.5"/>
+  <text x="585" y="101" text-anchor="middle" font-size="18" font-weight="bold" fill="#4a6130">SaaS</text>
+  <text x="585" y="123" text-anchor="middle" font-size="12" font-weight="bold" fill="#22303f">软件即服务</text>
+  <text x="585" y="151" text-anchor="middle" font-size="11" fill="#22303f">统一部署的应用软件</text>
+  <text x="585" y="173" text-anchor="middle" font-size="11" fill="#22303f">浏览器访问、按需订购</text>
+  <text x="585" y="204" text-anchor="middle" font-size="11" fill="#22303f">简单配置即可上线</text>
+  <text x="585" y="235" text-anchor="middle" font-size="12" font-weight="bold" fill="#4a6130">类比：直接住酒店</text>
+  <rect x="60" y="280" width="600" height="48" rx="6" fill="#ffffff" stroke="#8aa15c" stroke-width="1.2"/>
+  <text x="360" y="301" text-anchor="middle" font-size="12" font-weight="bold" fill="#4a6130">灵活性：SaaS → PaaS → IaaS 依次增强</text>
+  <text x="360" y="320" text-anchor="middle" font-size="11" fill="#22303f">方便性：IaaS → PaaS → SaaS 依次增强；PaaS 为上层 SaaS 提供 API</text>
+  <text x="30" y="354" font-size="13" font-weight="bold" fill="#1f4e79">NIST 四种部署模式</text>
+  <rect x="30" y="370" width="155" height="76" rx="6" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.2"/>
+  <text x="107.5" y="397" text-anchor="middle" font-size="14" font-weight="bold" fill="#1f4e79">公有云</text>
+  <text x="107.5" y="424" text-anchor="middle" font-size="11" fill="#22303f">基础设施向公众公开</text>
+  <rect x="200" y="370" width="155" height="76" rx="6" fill="#f3f6ee" stroke="#4a6130" stroke-width="1.2"/>
+  <text x="277.5" y="397" text-anchor="middle" font-size="14" font-weight="bold" fill="#4a6130">社区云</text>
+  <text x="277.5" y="419" text-anchor="middle" font-size="10" fill="#22303f">共同关注的社区组织</text>
+  <text x="277.5" y="437" text-anchor="middle" font-size="10" fill="#22303f">专有使用</text>
+  <rect x="370" y="370" width="155" height="76" rx="6" fill="#fdf0e6" stroke="#c05621" stroke-width="1.2"/>
+  <text x="447.5" y="397" text-anchor="middle" font-size="14" font-weight="bold" fill="#c05621">私有云</text>
+  <text x="447.5" y="424" text-anchor="middle" font-size="11" fill="#22303f">分配给单个组织</text>
+  <rect x="540" y="370" width="150" height="76" rx="6" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.2"/>
+  <text x="615" y="397" text-anchor="middle" font-size="14" font-weight="bold" fill="#1f4e79">混合云</text>
+  <text x="615" y="419" text-anchor="middle" font-size="10" fill="#22303f">公有云、私有云</text>
+  <text x="615" y="437" text-anchor="middle" font-size="10" fill="#22303f">与社区云的组合</text>
+</svg></div><div class="cap">云计算三种服务方式与四种部署模式</div></div>
+<p>云计算发展历程三条线索：<b>虚拟化技术</b>（1959 年 Christopher Strachey 首次提出，对应 IaaS 的发展）、<b>分布式计算技术</b>（经历多处理器运行、分布式对象、Web 服务、网格计算、对等计算、效用计算等阶段，对应 PaaS 的发展）、<b>软件应用模式</b>（SaaS 概念 2001 年 SIIA 白皮书确立，2003 年起 Salesforce 等企业成功实践，对应 SaaS 的发展）。</p>
+<h3>11.6.2 大数据技术概述</h3>
+<p>⭐【高频考点】大数据特征的不同提法：</p>
+<table><colgroup><col style="width:15.4%"><col style="width:84.6%"></colgroup><thead><tr><th>提出方</th><th>特征模型</th></tr></thead><tbody><tr><td class="tc">维基百科</td><td>大小或复杂性超出现有常用软件工具以合理成本、可接受时限处理的数据集</td></tr><tr><td class="tc">Gartner</td><td>三个量化指标：数据量、数据种类、处理速度（三大挑战：不断增长的数据量、多格式数据、性能）</td></tr><tr><td class="tc">IBM</td><td>3V：大规模 Volume、高速度 Velocity、多样化 Variety，另含潜藏价值 Value（第 4 个 V）</td></tr><tr><td class="tc">SAS</td><td>3V 基础上增加「可变性」（数据流不一致、周期性峰值）和「复杂性」（数据来源多样、需数据治理）</td></tr></tbody></table>
+<div class="fig"><div><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 455" font-family="Microsoft YaHei, 微软雅黑, sans-serif">
+  <text x="360" y="26" text-anchor="middle" font-size="16" font-weight="bold" fill="#1f4e79">大数据 4V 特征与分析五阶段</text>
+  <text x="30" y="54" font-size="13" font-weight="bold" fill="#1f4e79">IBM：3V + 第 4 个 V（Value）</text>
+  <rect x="30" y="70" width="150" height="118" rx="6" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.5"/>
+  <text x="105" y="99" text-anchor="middle" font-size="16" font-weight="bold" fill="#1f4e79">Volume</text>
+  <text x="105" y="126" text-anchor="middle" font-size="14" font-weight="bold" fill="#22303f">大规模</text>
+  <text x="105" y="154" text-anchor="middle" font-size="11" fill="#22303f">数据规模巨大</text>
+  <text x="105" y="174" text-anchor="middle" font-size="10" fill="#6b7a8a">持续增长</text>
+  <rect x="200" y="70" width="150" height="118" rx="6" fill="#fdf0e6" stroke="#c05621" stroke-width="1.5"/>
+  <text x="275" y="99" text-anchor="middle" font-size="16" font-weight="bold" fill="#c05621">Velocity</text>
+  <text x="275" y="126" text-anchor="middle" font-size="14" font-weight="bold" fill="#22303f">高速度</text>
+  <text x="275" y="154" text-anchor="middle" font-size="11" fill="#22303f">数据产生速度快</text>
+  <text x="275" y="174" text-anchor="middle" font-size="10" fill="#6b7a8a">处理性能要求高</text>
+  <rect x="370" y="70" width="150" height="118" rx="6" fill="#f3f6ee" stroke="#4a6130" stroke-width="1.5"/>
+  <text x="445" y="99" text-anchor="middle" font-size="16" font-weight="bold" fill="#4a6130">Variety</text>
+  <text x="445" y="126" text-anchor="middle" font-size="14" font-weight="bold" fill="#22303f">多样化</text>
+  <text x="445" y="154" text-anchor="middle" font-size="11" fill="#22303f">数据种类丰富</text>
+  <text x="445" y="174" text-anchor="middle" font-size="10" fill="#6b7a8a">多来源、多格式</text>
+  <rect x="540" y="70" width="150" height="118" rx="6" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.5"/>
+  <text x="615" y="99" text-anchor="middle" font-size="16" font-weight="bold" fill="#1f4e79">Value</text>
+  <text x="615" y="126" text-anchor="middle" font-size="14" font-weight="bold" fill="#22303f">潜藏价值</text>
+  <text x="615" y="154" text-anchor="middle" font-size="11" fill="#22303f">分析挖掘价值</text>
+  <text x="615" y="174" text-anchor="middle" font-size="10" fill="#6b7a8a">第 4 个 V</text>
+  <text x="30" y="216" font-size="11" fill="#6b7a8a">注意：SAS 在传统 3V 基础上另增「可变性」与「复杂性」，不要与 IBM 的第 4 个 V 混淆。</text>
+  <text x="30" y="248" font-size="13" font-weight="bold" fill="#1f4e79">大数据分析五阶段</text>
+  <rect x="30" y="270" width="120" height="98" rx="6" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.2"/>
+  <text x="90" y="296" text-anchor="middle" font-size="13" font-weight="bold" fill="#1f4e79">1. 数据获取</text>
+  <text x="90" y="319" text-anchor="middle" font-size="12" fill="#22303f">记录</text>
+  <text x="90" y="346" text-anchor="middle" font-size="10" fill="#6b7a8a">先拿到数据</text>
+  <line x1="150" y1="319" x2="154" y2="319" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="162,319 154,314.5 154,323.5" fill="#1f4e79"/>
+  <rect x="165" y="270" width="120" height="98" rx="6" fill="#fdf0e6" stroke="#c05621" stroke-width="1.2"/>
+  <text x="225" y="296" text-anchor="middle" font-size="13" font-weight="bold" fill="#c05621">2. 信息抽取</text>
+  <text x="225" y="319" text-anchor="middle" font-size="11" fill="#22303f">清洗 / 注记</text>
+  <text x="225" y="346" text-anchor="middle" font-size="10" fill="#6b7a8a">洗净并说明</text>
+  <line x1="285" y1="319" x2="289" y2="319" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="297,319 289,314.5 289,323.5" fill="#1f4e79"/>
+  <rect x="300" y="270" width="120" height="98" rx="6" fill="#f3f6ee" stroke="#4a6130" stroke-width="1.2"/>
+  <text x="360" y="296" text-anchor="middle" font-size="13" font-weight="bold" fill="#4a6130">3. 数据集成</text>
+  <text x="360" y="319" text-anchor="middle" font-size="11" fill="#22303f">聚集 / 表现</text>
+  <text x="360" y="346" text-anchor="middle" font-size="10" fill="#6b7a8a">统一组织数据</text>
+  <line x1="420" y1="319" x2="424" y2="319" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="432,319 424,314.5 424,323.5" fill="#1f4e79"/>
+  <rect x="435" y="270" width="120" height="98" rx="6" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.2"/>
+  <text x="495" y="296" text-anchor="middle" font-size="13" font-weight="bold" fill="#1f4e79">4. 数据分析</text>
+  <text x="495" y="319" text-anchor="middle" font-size="12" fill="#22303f">建模</text>
+  <text x="495" y="346" text-anchor="middle" font-size="10" fill="#6b7a8a">发现规律</text>
+  <line x1="555" y1="319" x2="559" y2="319" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="567,319 559,314.5 559,323.5" fill="#1f4e79"/>
+  <rect x="570" y="270" width="120" height="98" rx="6" fill="#fdf0e6" stroke="#c05621" stroke-width="1.2"/>
+  <text x="630" y="296" text-anchor="middle" font-size="13" font-weight="bold" fill="#c05621">5. 数据解释</text>
+  <text x="630" y="319" text-anchor="middle" font-size="11" fill="#22303f">出处 + 可视化</text>
+  <text x="630" y="346" text-anchor="middle" font-size="10" fill="#6b7a8a">理解验证结果</text>
+  <rect x="90" y="396" width="540" height="42" rx="6" fill="#f3f6ee" stroke="#8aa15c" stroke-width="1.2"/>
+  <text x="360" y="423" text-anchor="middle" font-size="14" font-weight="bold" fill="#4a6130">助记：取 → 洗 → 集 → 析 → 释</text>
+</svg></div><div class="cap">大数据 4V 特征与分析五阶段</div></div>
+<p>⭐【重点】大数据分析五个主要阶段：<b>数据获取/记录 → 信息抽取/清洗/注记 → 数据集成/聚集/表现 → 数据分析/建模 → 数据解释</b>。解释阶段强调「数据的出处（data provenance）」与可视化，让用户理解、验证分析结果。大数据应用四大领域：制造业、服务业、交通行业、医疗行业。</p>
+<div class="mnemonic">助记：分析五步「取—洗—集—析—释」，先拿数据再洗净，集成之后做建模，最后解释给人听。</div>
+<h2>三、重点与易错点</h2>
+<table><colgroup><col style="width:6.6%"><col style="width:14.9%"><col style="width:48.6%"><col style="width:29.8%"></colgroup><thead><tr><th>#</th><th>考点</th><th>必须记住的结论</th><th>易错提醒</th></tr></thead><tbody><tr><td class="tc">1</td><td>CPS 术语来源</td><td>NASA 于 1992 年最早提出；2006 年海伦·吉尔详述</td><td>不要记成 2006 年才提出</td></tr><tr><td class="tc">2</td><td>CPS 本质</td><td>基于数据自动流动的「状态感知—实时分析—科学决策—精准执行」闭环赋能体系</td><td>闭环四环节顺序不能颠倒</td></tr><tr><td class="tc">3</td><td>CPS 三级架构</td><td>单元级（最小单元）→系统级（工业网络互联）→SoS 级（数据汇聚与运营优化）</td><td>即插即用、协同控制属系统级，不属于单元级</td></tr><tr><td class="tc">4</td><td>CPS 四要素</td><td>一硬（感知和自动控制）、一软（工业软件）、一网（工业网络）、一平台（工业云和智能服务平台）</td><td>工业软件是 CPS 的核心，不是硬件</td></tr><tr><td class="tc">5</td><td>CPS 建设路径重点</td><td>单元级重感控设备与工艺数字化；系统级重工业网络；SoS 级重大数据与智能服务平台</td><td>各阶段建设重点常交叉出题</td></tr><tr><td class="tc">6</td><td>弱/强人工智能</td><td>迄今所有 AI 系统都是弱人工智能；强 AI 有自我意识，分为类人与非类人</td><td>AlphaGo 再强也属弱人工智能</td></tr><tr><td class="tc">7</td><td>AI 里程碑</td><td>1956 达特茅斯标志 AI 诞生；1959 塞缪尔提出机器学习；1968 DENDRAL 首个专家系统；1997 深蓝；2006 辛顿深度学习；2016 AlphaGo</td><td>图灵测试是 1950 年，不是 AI 诞生标志</td></tr><tr><td class="tc">8</td><td>机器学习四分类</td><td>监督（标注样本）、无监督（无标注）、半监督（少量标注）、强化（反馈机制）</td><td>随机森林在教材中列入无监督常见算法，按教材记忆</td></tr><tr><td class="tc">9</td><td>传统 ML vs 深度学习</td><td>传统 ML 需人工特征提取；深度学习靠多层神经网络自动学特征，需海量数据+GPU</td><td>CNN、RNN 属深度学习；SVM、决策树属传统 ML</td></tr><tr><td class="tc">10</td><td>三代机器人</td><td>示教再现型→感觉型→智能型</td><td>第一代无环境感知；第三代才能自主决策</td></tr><tr><td class="tc">11</td><td>机器人 4.0 五大技术</td><td>云-边-端协同计算、持续与协同学习、知识图谱、场景自适应、数据安全</td><td>云侧重计算与知识存储，端侧重实时操作</td></tr><tr><td class="tc">12</td><td>边缘计算落地形态</td><td>云边缘、边缘云、云化网关三类</td><td>MEC、CDN 属边缘云；IEF、Greengrass 属云边缘</td></tr><tr><td class="tc">13</td><td>边云关系与六协同</td><td>互补协同而非替代；资源、数据、智能、应用管理、业务管理、服务</td><td>云端训练模型、边缘执行推理属智能协同</td></tr><tr><td class="tc">14</td><td>数字孪生体核心技术</td><td>建模、仿真、数字线程三项核心；MBSE 顶层框架；物联网底层伴生</td><td>云计算、大数据、区块链只是外围使能技术</td></tr><tr><td class="tc">15</td><td>云计算服务与部署</td><td>灵活性 IaaS 最强、方便性 SaaS 最强；部署分公有/社区/私有/混合四云</td><td>PaaS 是最关键一层，相当于系统软件</td></tr><tr><td class="tc">16</td><td>大数据特征与分析</td><td>IBM 3V+Value；SAS 另加可变性、复杂性；分析五阶段「取洗集析释」</td><td>数据出处与可视化属解释阶段</td></tr></tbody></table>
+<h2>四、练习与真题</h2>
+<p>以下为本章自编单选模拟题，答案与解析集中放在全章最后「六、参考答案」。</p>
+<p><b>1.</b> 信息物理系统（CPS）这一术语最早由（ ）于 1992 年提出。</p>
+<p>A. 美国国家科学基金会  B. 美国国家航空航天局  C. 美国国防部  D. 欧盟委员会</p>
+<p><b>2.</b> 在 CPS 体系架构中，实现互联互通、即插即用、协同控制、监视与诊断等功能的是（ ）。</p>
+<p>A. 单元级 CPS  B. 系统级 CPS  C. SoS 级 CPS  D. 器件级 CPS</p>
+<p><b>3.</b> CPS 四大核心技术要素「一硬、一软、一网、一平台」中，「一软」指的是（ ）。</p>
+<p>A. 嵌入式操作系统  B. 工业软件  C. 工业数据库  D. 智能感知软件</p>
+<p><b>4.</b> 关于强人工智能与弱人工智能，下列说法正确的是（ ）。</p>
+<p>A. AlphaGo 属于强人工智能  B. 目前的 AI 系统均属于弱人工智能  C. 弱人工智能具有自主意识  D. 强人工智能已广泛应用于语音识别</p>
+<p><b>5.</b> 标志人工智能研究领域正式诞生的事件是（ ）。</p>
+<p>A. 1950 年图灵提出图灵测试  B. 1956 年达特茅斯夏季研讨会  C. 1959 年塞缪尔提出机器学习  D. 1968 年专家系统 DENDRAL 问世</p>
+<p><b>6.</b> 某系统仅利用少量标注样本和大量未标注样本进行训练分类，以降低标注代价，该学习方式属于（ ）。</p>
+<p>A. 监督学习  B. 无监督学习  C. 半监督学习  D. 强化学习</p>
+<p><b>7.</b> 与传统机器学习相比，深度学习的主要特点是（ ）。</p>
+<p>A. 需要人工完成领域特征提取  B. 只需少量训练样本即可工作  C. 基于多层神经网络自动学习特征，依赖大量数据与 GPU 算力  D. 典型算法为支持向量机和决策树</p>
+<p><b>8.</b> 按照机器人发展历程，第三代机器人是（ ）。</p>
+<p>A. 示教再现型机器人  B. 感觉型机器人  C. 智能型机器人  D. 遥控操作型机器人</p>
+<p><b>9.</b> 按照边缘计算产业联盟（ECC）的定义，多接入边缘计算（MEC）和 CDN 属于边缘计算的（ ）落地形态。</p>
+<p>A. 云边缘  B. 边缘云  C. 云化网关  D. 中心云</p>
+<p><b>10.</b> 在边云协同中，「云端开展 AI 集中式模型训练并下发模型，边缘节点按模型执行推理」属于（ ）。</p>
+<p>A. 资源协同  B. 数据协同  C. 智能协同  D. 服务协同</p>
+<p><b>11.</b> 数字孪生体的三项核心技术是（ ）。</p>
+<p>A. 物联网、云计算、大数据  B. 建模、仿真、基于数据融合的数字线程  C. 系统工程、MBSE、区块链  D. CAD、CAE、CAM</p>
+<p><b>12.</b> 关于云计算三种服务方式，下列说法错误的是（ ）。</p>
+<p>A. 灵活性按 SaaS→PaaS→IaaS 依次增强  B. 方便性按 IaaS→PaaS→SaaS 依次增强  C. PaaS 在整个云计算体系中起支撑作用  D. SaaS 模式下用户需自行搭建服务器平台才能使用应用</p>
+<p><b>13.</b> SAS 公司在大数据传统 3V 模型基础上增加的两个特征是（ ）。</p>
+<p>A. 价值性和真实性  B. 可变性和复杂性  C. 规模性和高速性  D. 多样性和隐私性</p>
+<h2>五、疑问与查漏补缺</h2>
+<ol><li><b>大纲无细目、教材面面俱到</b>：大纲第 10 部分仅列 6 个技术条目、未列细目，复习深度以教材标题级概念和分类为准即可，不必深究算法推导；但「分类归属」类选择题需逐表记牢。</li><li><b>教材笔误与排版</b>：11.2.3 中 Q-Learning 印为「Q-Leamning」、人机交互缩写印为「HCl」（应为 HCI）、11.6.2 中 Gartner 印为「Granter」、SIIA 印为「SIA」，均为 OCR/排版噪声，复习时按正确术语理解；11.5.2 PTC 定义一句原文有脱字，不影响「中物、连接、数据管理、应用」四构成要点。</li><li><b>随机森林的归类</b>：教材把随机森林列为无监督学习常见算法，而业界通常将其用作监督学习集成算法；考试以教材为准，实际工程中按主流理解使用，两处不要互相否定。</li><li><b>与其他章节的衔接</b>：云计算服务/部署模式与第 7 章架构风格、第 8 章质量属性（性能、可用性、安全性）结合出案例题；边缘计算、CPS 与第 4 章安全技术（边界防护、数据安全）呼应；数字孪生中的 MBSE 与第 5 章软件工程的模型驱动开发思想一脉相承，可串联复习。</li><li><b>时效性说明</b>：教材成书较早，AI 部分未覆盖大模型/生成式 AI 新进展；若真题出现 ChatGPT 等新名词，按「属于弱人工智能、属于自然语言处理应用」的教材框架作答即可。</li></ol>
+<h2>六、参考答案</h2>
+<p><b>1.</b> B。CPS 术语最早由美国国家航空航天局（NASA）于 1992 年提出，2006 年由 NSF 的海伦·吉尔详细描述。</p>
+<p><b>2.</b> B。系统级 CPS 在单元级基础上增加互联互通、即插即用、边缘网关、数据互操作、协同控制、监视与诊断等功能。</p>
+<p><b>3.</b> B。「一软」指工业软件，它固化了 CPS 计算和数据流程的规则，是 CPS 的核心。</p>
+<p><b>4.</b> B。迄今为止的 AI 系统（含 AlphaGo）都是弱人工智能；强人工智能有知觉和自我意识，未来几十年内难以实现。</p>
+<p><b>5.</b> B。1956 年达特茅斯会议正式使用「人工智能」术语，标志 AI 研究领域诞生；图灵测试只是思想奠基。</p>
+<p><b>6.</b> C。半监督学习利用少量标注样本加大量未标注样本训练，目的是减少标注代价、提高学习能力。</p>
+<p><b>7.</b> C。深度学习基于多层神经网络自动学习特征，需海量训练数据和强大 GPU 算力；SVM、决策树属传统机器学习。</p>
+<p><b>8.</b> C。三代顺序为示教再现型（第一代）→感觉型（第二代）→智能型（第三代），智能型可自主推理、判断和决策。</p>
+<p><b>9.</b> B。边缘云在边缘侧构建中小规模云服务能力，代表有 MEC、CDN、华为云 IEC；IEF、Greengrass 属云边缘。</p>
+<p><b>10.</b> C。智能协同的分工是「云端训练、边缘推理」，实现分布式智能。</p>
+<p><b>11.</b> B。建模、仿真和基于数据融合的数字线程是三项核心技术；物联网是底层伴生技术，云计算、大数据、区块链是外围使能技术。</p>
+<p><b>12.</b> D。SaaS 由服务商统一部署应用软件，用户浏览器订购使用、简单配置即可，无需自行搭建平台；其余三项均正确。</p>
+<p><b>13.</b> B。SAS 在 3V 基础上增加「可变性」（数据流不一致、周期性峰值）与「复杂性」（来源多样、需数据治理）。</p>
+<div class="footer">第11章 未来信息综合技术 · A4 打印版 · 由 README.md 统一生成</div>
+</div>
+</body>
+</html>

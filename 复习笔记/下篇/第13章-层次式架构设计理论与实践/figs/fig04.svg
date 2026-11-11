@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 470" width="720" height="470">
+  <rect width="720" height="470" fill="#ffffff"/>
+  <text x="360" y="34" text-anchor="middle" font-family="Microsoft YaHei, 微软雅黑, sans-serif" font-size="22" font-weight="bold" fill="#22303f">UIP在分布式应用中的位置（重绘图13-5）</text>
+  <rect x="270" y="58" width="180" height="48" rx="8" fill="#fdf0e6" stroke="#c05621" stroke-width="1.5"/>
+  <text x="360" y="89" text-anchor="middle" font-family="Microsoft YaHei, 微软雅黑, sans-serif" font-size="17" font-weight="bold" fill="#c05621">Users 用户</text>
+  <line x1="360" y1="106" x2="360" y2="125" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="360,133 355.5,125 364.5,125" fill="#1f4e79"/>
+  <rect x="150" y="136" width="420" height="64" rx="8" fill="#eaf1f8" stroke="#1f4e79" stroke-width="2"/>
+  <text x="360" y="163" text-anchor="middle" font-family="Microsoft YaHei, 微软雅黑, sans-serif" font-size="18" font-weight="bold" fill="#1f4e79">UI Components（UIC）</text>
+  <text x="360" y="187" text-anchor="middle" font-family="Microsoft YaHei, 微软雅黑, sans-serif" font-size="13" fill="#22303f">可见界面：采集用户数据、显示处理结果</text>
+  <line x1="360" y1="200" x2="360" y2="219" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="360,227 355.5,219 364.5,219" fill="#1f4e79"/>
+  <rect x="150" y="230" width="420" height="82" rx="8" fill="#fdf0e6" stroke="#c05621" stroke-width="2"/>
+  <text x="360" y="257" text-anchor="middle" font-family="Microsoft YaHei, 微软雅黑, sans-serif" font-size="18" font-weight="bold" fill="#c05621">UI Process Components（UIP）</text>
+  <text x="360" y="281" text-anchor="middle" font-family="Microsoft YaHei, 微软雅黑, sans-serif" font-size="13" fill="#22303f">不可见协调：导航 · 工作流 · 视图与状态管理</text>
+  <text x="360" y="301" text-anchor="middle" font-family="Microsoft YaHei, 微软雅黑, sans-serif" font-size="13" fill="#22303f">管理信息流与事件事务，异常时调整用户过程</text>
+  <line x1="360" y1="312" x2="360" y2="331" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="360,339 355.5,331 364.5,331" fill="#1f4e79"/>
+  <rect x="150" y="342" width="420" height="58" rx="8" fill="#f3f6ee" stroke="#8aa15c" stroke-width="2"/>
+  <text x="360" y="367" text-anchor="middle" font-family="Microsoft YaHei, 微软雅黑, sans-serif" font-size="17" font-weight="bold" fill="#4a6130">Service Interfaces / Business Workflows</text>
+  <text x="360" y="389" text-anchor="middle" font-family="Microsoft YaHei, 微软雅黑, sans-serif" font-size="13" fill="#22303f">业务组件、业务实体与后台服务</text>
+  <rect x="72" y="420" width="576" height="34" rx="6" fill="#eaf1f8"/>
+  <text x="360" y="443" text-anchor="middle" font-family="Microsoft YaHei, 微软雅黑, sans-serif" font-size="14" fill="#1f4e79">目的：把界面代码与导航、流程、状态分离，使过程逻辑可复用</text>
+</svg>

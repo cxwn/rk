@@ -1,0 +1,75 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 840" font-family="Microsoft YaHei, 微软雅黑, sans-serif">
+  <rect width="720" height="840" fill="#ffffff"/>
+  <text x="360" y="30" text-anchor="middle" font-size="20" font-weight="bold" fill="#22303f">MIS 金字塔、功能结构与功能—过程</text>
+  <text x="195" y="62" text-anchor="middle" font-size="15" font-weight="bold" fill="#1f4e79">管理层次：越往下处理量越大</text>
+  <polygon points="195,78 250,140 140,140" fill="#fdf0e6" stroke="#c05621" stroke-width="1.5"/>
+  <text x="195" y="126" text-anchor="middle" font-size="14" font-weight="bold" fill="#c05621">战略计划</text>
+  <polygon points="140,150 250,150 290,220 100,220" fill="#f3f6ee" stroke="#8aa15c" stroke-width="1.5"/>
+  <text x="195" y="190" text-anchor="middle" font-size="14" font-weight="bold" fill="#4a6130">管理控制</text>
+  <polygon points="100,230 290,230 325,300 65,300" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.5"/>
+  <text x="195" y="270" text-anchor="middle" font-size="14" font-weight="bold" fill="#1f4e79">运行控制</text>
+  <polygon points="65,310 325,310 355,380 35,380" fill="#eaf1f8" stroke="#6b7a8a" stroke-width="1.5"/>
+  <text x="195" y="350" text-anchor="middle" font-size="14" font-weight="bold" fill="#22303f">业务处理</text>
+  <text x="195" y="412" text-anchor="middle" font-size="13" fill="#6b7a8a">下层数据量大，上层数据量小</text>
+  <text x="195" y="438" text-anchor="middle" font-size="13" fill="#6b7a8a">职能条与管理层次纵横交织</text>
+  <rect x="385" y="52" width="310" height="402" rx="10" fill="#f8fafc" stroke="#6b7a8a"/>
+  <text x="540" y="80" text-anchor="middle" font-size="15" font-weight="bold" fill="#1f4e79">功能／层次矩阵（简化）</text>
+  <g stroke="#6b7a8a" stroke-width="1" fill="#ffffff">
+    <rect x="400" y="105" width="100" height="52"/><rect x="500" y="105" width="60" height="52"/><rect x="560" y="105" width="60" height="52"/><rect x="620" y="105" width="60" height="52"/>
+    <rect x="400" y="157" width="100" height="52"/><rect x="500" y="157" width="60" height="52"/><rect x="560" y="157" width="60" height="52"/><rect x="620" y="157" width="60" height="52"/>
+    <rect x="400" y="209" width="100" height="52"/><rect x="500" y="209" width="60" height="52"/><rect x="560" y="209" width="60" height="52"/><rect x="620" y="209" width="60" height="52"/>
+    <rect x="400" y="261" width="100" height="52"/><rect x="500" y="261" width="60" height="52"/><rect x="560" y="261" width="60" height="52"/><rect x="620" y="261" width="60" height="52"/>
+    <rect x="400" y="313" width="100" height="52"/><rect x="500" y="313" width="60" height="52"/><rect x="560" y="313" width="60" height="52"/><rect x="620" y="313" width="60" height="52"/>
+  </g>
+  <g text-anchor="middle" font-size="12" fill="#22303f">
+    <text x="450" y="136" font-weight="bold">管理层次</text><text x="530" y="136">销售</text><text x="590" y="136">生产</text><text x="650" y="136">财务</text>
+    <text x="450" y="188">战略计划</text><text x="530" y="188">新市场</text><text x="590" y="188">自动化</text><text x="650" y="188">长期财务</text>
+    <text x="450" y="240">管理控制</text><text x="530" y="240">计划比较</text><text x="590" y="240">成本进度</text><text x="650" y="240">预算成本</text>
+    <text x="450" y="292">运行控制</text><text x="530" y="292">日常调度</text><text x="590" y="292">实际进度</text><text x="650" y="292">异常报告</text>
+    <text x="450" y="344">业务处理</text><text x="530" y="344">销售订单</text><text x="590" y="344">工时票</text><text x="650" y="344">会计凭证</text>
+  </g>
+  <rect x="410" y="390" width="260" height="40" rx="6" fill="#fdf0e6" stroke="#c05621"/>
+  <text x="540" y="415" text-anchor="middle" font-size="14" font-weight="bold" fill="#c05621">横向按层｜纵向按职能条</text>
+  <text x="360" y="492" text-anchor="middle" font-size="15" font-weight="bold" fill="#1f4e79">功能结构：按管理职能划分子系统</text>
+  <rect x="260" y="515" width="200" height="45" rx="7" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.5"/>
+  <text x="360" y="543" text-anchor="middle" font-size="15" font-weight="bold" fill="#1f4e79">管理信息系统</text>
+  <g stroke="#1f4e79" stroke-width="1.4" fill="none">
+    <polyline points="280,560 280,578 80,578 80,607"/>
+    <polyline points="320,560 320,585 220,585 220,607"/>
+    <line x1="360" y1="560" x2="360" y2="607"/>
+    <polyline points="400,560 400,585 500,585 500,607"/>
+    <polyline points="440,560 440,578 640,578 640,607"/>
+  </g>
+  <g fill="#1f4e79">
+    <polygon points="80,617 75.5,609 84.5,609"/><polygon points="220,617 215.5,609 224.5,609"/>
+    <polygon points="360,617 355.5,609 364.5,609"/><polygon points="500,617 495.5,609 504.5,609"/>
+    <polygon points="640,617 635.5,609 644.5,609"/>
+  </g>
+  <g text-anchor="middle" font-size="14" fill="#22303f">
+    <rect x="30" y="620" width="100" height="55" rx="6" fill="#f3f6ee" stroke="#8aa15c"/><text x="80" y="654">市场子系统</text>
+    <rect x="170" y="620" width="100" height="55" rx="6" fill="#f3f6ee" stroke="#8aa15c"/><text x="220" y="654">财会子系统</text>
+    <rect x="310" y="620" width="100" height="55" rx="6" fill="#f3f6ee" stroke="#8aa15c"/><text x="360" y="654">人事子系统</text>
+    <rect x="450" y="620" width="100" height="55" rx="6" fill="#f3f6ee" stroke="#8aa15c"/><text x="500" y="654">生产子系统</text>
+    <rect x="590" y="620" width="100" height="55" rx="6" fill="#f3f6ee" stroke="#8aa15c"/><text x="640" y="654">供运子系统</text>
+  </g>
+  <text x="360" y="714" text-anchor="middle" font-size="15" font-weight="bold" fill="#1f4e79">功能—过程结构：职能通过逻辑相关活动落地（简化）</text>
+  <g text-anchor="middle" font-size="12" fill="#22303f">
+    <rect x="30" y="740" width="95" height="55" rx="6" fill="#eaf1f8" stroke="#1f4e79"/><text x="77.5" y="773">主计划</text>
+    <rect x="143" y="740" width="95" height="55" rx="6" fill="#eaf1f8" stroke="#1f4e79"/><text x="190.5" y="773">采购进货</text>
+    <rect x="256" y="740" width="95" height="55" rx="6" fill="#eaf1f8" stroke="#1f4e79"/><text x="303.5" y="773">库存管理</text>
+    <rect x="369" y="740" width="95" height="55" rx="6" fill="#fdf0e6" stroke="#c05621"/><text x="416.5" y="773">制造计划</text>
+    <rect x="482" y="740" width="95" height="55" rx="6" fill="#fdf0e6" stroke="#c05621"/><text x="529.5" y="762">工作令</text><text x="529.5" y="783">监督执行</text>
+    <rect x="595" y="740" width="95" height="55" rx="6" fill="#f3f6ee" stroke="#8aa15c"/><text x="642.5" y="773">包装运出</text>
+  </g>
+  <g stroke="#1f4e79" stroke-width="1.4" fill="none">
+    <line x1="125" y1="767" x2="132" y2="767"/><line x1="238" y1="767" x2="245" y2="767"/>
+    <line x1="351" y1="767" x2="358" y2="767"/><line x1="464" y1="767" x2="471" y2="767"/>
+    <line x1="577" y1="767" x2="584" y2="767"/>
+  </g>
+  <g fill="#1f4e79">
+    <polygon points="140,767 132,762.5 132,771.5"/><polygon points="253,767 245,762.5 245,771.5"/>
+    <polygon points="366,767 358,762.5 358,771.5"/><polygon points="479,767 471,762.5 471,771.5"/>
+    <polygon points="592,767 584,762.5 584,771.5"/>
+  </g>
+  <text x="360" y="824" text-anchor="middle" font-size="12" fill="#6b7a8a">过程是逻辑上相关活动的集合；各职能子系统经信息流相互联系</text>
+</svg>

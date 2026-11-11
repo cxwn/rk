@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 390" font-family="Microsoft YaHei, 微软雅黑, sans-serif">
+  <rect width="720" height="390" fill="#ffffff"/>
+  <text x="360" y="30" text-anchor="middle" font-size="20" font-weight="bold" fill="#22303f">诺兰模型：信息系统发展的六个阶段</text>
+  <rect x="25" y="58" width="325" height="38" rx="8" fill="#eaf1f8" stroke="#1f4e79"/>
+  <text x="187.5" y="83" text-anchor="middle" font-size="16" font-weight="bold" fill="#1f4e79">计算机时代（前三阶段）</text>
+  <rect x="370" y="58" width="325" height="38" rx="8" fill="#f3f6ee" stroke="#8aa15c"/>
+  <text x="532.5" y="83" text-anchor="middle" font-size="16" font-weight="bold" fill="#4a6130">信息时代（后三阶段）</text>
+  <g text-anchor="middle">
+    <rect x="25" y="130" width="95" height="108" rx="7" fill="#eaf1f8" stroke="#1f4e79"/>
+    <text x="72.5" y="157" font-size="16" font-weight="bold" fill="#1f4e79">1 初始</text>
+    <text x="72.5" y="185" font-size="12" fill="#22303f">少数人使用</text><text x="72.5" y="207" font-size="12" fill="#22303f">财务部门常见</text>
+    <rect x="140" y="130" width="95" height="108" rx="7" fill="#eaf1f8" stroke="#1f4e79"/>
+    <text x="187.5" y="157" font-size="16" font-weight="bold" fill="#1f4e79">2 传播</text>
+    <text x="187.5" y="185" font-size="12" fill="#22303f">应用投入快增</text><text x="187.5" y="207" font-size="12" fill="#22303f">冗余不一致</text>
+    <rect x="255" y="130" width="95" height="108" rx="7" fill="#fdf0e6" stroke="#c05621"/>
+    <text x="302.5" y="157" font-size="16" font-weight="bold" fill="#c05621">3 控制</text>
+    <text x="302.5" y="185" font-size="12" fill="#22303f">领导小组</text><text x="302.5" y="207" font-size="12" fill="#22303f">数据库技术</text>
+    <rect x="370" y="130" width="95" height="108" rx="7" fill="#f3f6ee" stroke="#8aa15c"/>
+    <text x="417.5" y="157" font-size="16" font-weight="bold" fill="#4a6130">4 集成</text>
+    <text x="417.5" y="185" font-size="12" fill="#22303f">统一规划</text><text x="417.5" y="207" font-size="12" fill="#22303f">集中式数据库</text>
+    <rect x="485" y="130" width="95" height="108" rx="7" fill="#f3f6ee" stroke="#8aa15c"/>
+    <text x="532.5" y="157" font-size="15" font-weight="bold" fill="#4a6130">5 数据管理</text>
+    <text x="532.5" y="185" font-size="12" fill="#22303f">统一数据平台</text><text x="532.5" y="207" font-size="12" fill="#22303f">资源整合共享</text>
+    <rect x="600" y="130" width="95" height="108" rx="7" fill="#f3f6ee" stroke="#8aa15c"/>
+    <text x="647.5" y="157" font-size="16" font-weight="bold" fill="#4a6130">6 成熟</text>
+    <text x="647.5" y="185" font-size="12" fill="#22303f">IT 融合管理</text><text x="647.5" y="207" font-size="12" fill="#22303f">支持各层决策</text>
+  </g>
+  <g stroke="#1f4e79" stroke-width="1.5" fill="none">
+    <line x1="120" y1="184" x2="129" y2="184"/><line x1="235" y1="184" x2="244" y2="184"/>
+    <line x1="350" y1="184" x2="359" y2="184"/><line x1="465" y1="184" x2="474" y2="184"/>
+    <line x1="580" y1="184" x2="589" y2="184"/>
+  </g>
+  <g fill="#1f4e79">
+    <polygon points="137,184 129,179.5 129,188.5"/><polygon points="252,184 244,179.5 244,188.5"/>
+    <polygon points="367,184 359,179.5 359,188.5"/><polygon points="482,184 474,179.5 474,188.5"/>
+    <polygon points="597,184 589,179.5 589,188.5"/>
+  </g>
+  <rect x="175" y="278" width="370" height="60" rx="9" fill="#fdf0e6" stroke="#c05621" stroke-width="1.5"/>
+  <text x="360" y="303" text-anchor="middle" font-size="15" font-weight="bold" fill="#c05621">时代转折点：进行信息资源规划的时机</text>
+  <text x="360" y="326" text-anchor="middle" font-size="13" fill="#22303f">由分散计算机应用转向数据资源统一管理</text>
+  <text x="360" y="370" text-anchor="middle" font-size="14" fill="#4a6130">助记：初传控，集数成</text>
+</svg>

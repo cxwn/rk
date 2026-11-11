@@ -1,0 +1,58 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 470" font-family="Microsoft YaHei, 微软雅黑, sans-serif">
+  <rect width="720" height="470" fill="#ffffff"/>
+  <text x="360" y="28" text-anchor="middle" font-size="20" font-weight="bold" fill="#1f4e79">规范化阶梯与供应关系分解</text>
+  <rect x="20" y="55" width="120" height="140" rx="7" fill="#f6f9fc" stroke="#6b7a8a"/>
+  <text x="80" y="86" text-anchor="middle" font-size="19" font-weight="bold" fill="#22303f">1NF</text>
+  <text x="80" y="120" text-anchor="middle" font-size="14" fill="#22303f">属性值原子</text>
+  <text x="80" y="150" text-anchor="middle" font-size="12" fill="#6b7a8a">每项不可再分</text>
+  <line x1="140" y1="125" x2="149" y2="125" stroke="#1f4e79" stroke-width="1.5"/>
+  <polygon points="157,125 149,120.5 149,129.5" fill="#1f4e79"/>
+  <rect x="160" y="55" width="120" height="140" rx="7" fill="#eaf1f8" stroke="#1f4e79"/>
+  <text x="220" y="86" text-anchor="middle" font-size="19" font-weight="bold" fill="#1f4e79">2NF</text>
+  <text x="220" y="116" text-anchor="middle" font-size="13" fill="#22303f">非主属性</text>
+  <text x="220" y="140" text-anchor="middle" font-size="13" fill="#22303f">完全依赖于码</text>
+  <text x="220" y="169" text-anchor="middle" font-size="12" fill="#6b7a8a">去掉部分依赖</text>
+  <line x1="280" y1="125" x2="289" y2="125" stroke="#1f4e79" stroke-width="1.5"/>
+  <polygon points="297,125 289,120.5 289,129.5" fill="#1f4e79"/>
+  <rect x="300" y="55" width="120" height="140" rx="7" fill="#eaf1f8" stroke="#1f4e79"/>
+  <text x="360" y="86" text-anchor="middle" font-size="19" font-weight="bold" fill="#1f4e79">3NF</text>
+  <text x="360" y="116" text-anchor="middle" font-size="13" fill="#22303f">非主属性</text>
+  <text x="360" y="140" text-anchor="middle" font-size="13" fill="#22303f">不传递依赖于码</text>
+  <text x="360" y="169" text-anchor="middle" font-size="12" fill="#6b7a8a">去掉传递依赖</text>
+  <line x1="420" y1="125" x2="429" y2="125" stroke="#1f4e79" stroke-width="1.5"/>
+  <polygon points="437,125 429,120.5 429,129.5" fill="#1f4e79"/>
+  <rect x="440" y="55" width="120" height="140" rx="7" fill="#fdf0e6" stroke="#c05621"/>
+  <text x="500" y="86" text-anchor="middle" font-size="19" font-weight="bold" fill="#c05621">BCNF</text>
+  <text x="500" y="116" text-anchor="middle" font-size="13" fill="#22303f">每个决定因素</text>
+  <text x="500" y="140" text-anchor="middle" font-size="13" fill="#22303f">都含有码</text>
+  <text x="500" y="169" text-anchor="middle" font-size="12" fill="#6b7a8a">管函数依赖</text>
+  <line x1="560" y1="125" x2="569" y2="125" stroke="#1f4e79" stroke-width="1.5"/>
+  <polygon points="577,125 569,120.5 569,129.5" fill="#1f4e79"/>
+  <rect x="580" y="55" width="120" height="140" rx="7" fill="#f3f6ee" stroke="#8aa15c"/>
+  <text x="640" y="86" text-anchor="middle" font-size="19" font-weight="bold" fill="#4a6130">4NF</text>
+  <text x="640" y="116" text-anchor="middle" font-size="13" fill="#22303f">非平凡多值依赖</text>
+  <text x="640" y="140" text-anchor="middle" font-size="13" fill="#22303f">决定因素含码</text>
+  <text x="640" y="169" text-anchor="middle" font-size="12" fill="#6b7a8a">管多值依赖</text>
+  <text x="35" y="230" font-size="15" font-weight="bold" fill="#1f4e79">供应关系 FIRST 的分解结果</text>
+  <rect x="45" y="290" width="170" height="90" rx="7" fill="#fdf0e6" stroke="#c05621"/>
+  <text x="130" y="318" text-anchor="middle" font-size="14" font-weight="bold" fill="#c05621">FIRST（1NF）</text>
+  <text x="130" y="344" text-anchor="middle" font-size="12" fill="#22303f">供应者＋零件＋数量</text>
+  <text x="130" y="366" text-anchor="middle" font-size="12" fill="#6b7a8a">冗余与增删改异常</text>
+  <line x1="215" y1="307" x2="300" y2="307" stroke="#1f4e79" stroke-width="1.4"/>
+  <line x1="300" y1="255" x2="300" y2="307" stroke="#1f4e79" stroke-width="1.4"/>
+  <line x1="300" y1="255" x2="389" y2="255" stroke="#1f4e79" stroke-width="1.4"/>
+  <polygon points="397,255 389,250.5 389,259.5" fill="#1f4e79"/>
+  <line x1="215" y1="335" x2="389" y2="335" stroke="#1f4e79" stroke-width="1.4"/>
+  <polygon points="397,335 389,330.5 389,339.5" fill="#1f4e79"/>
+  <line x1="215" y1="363" x2="320" y2="363" stroke="#1f4e79" stroke-width="1.4"/>
+  <line x1="320" y1="363" x2="320" y2="415" stroke="#1f4e79" stroke-width="1.4"/>
+  <line x1="320" y1="415" x2="389" y2="415" stroke="#1f4e79" stroke-width="1.4"/>
+  <polygon points="397,415 389,410.5 389,419.5" fill="#1f4e79"/>
+  <rect x="400" y="230" width="285" height="50" rx="6" fill="#f3f6ee" stroke="#8aa15c"/>
+  <text x="542" y="260" text-anchor="middle" font-size="13" fill="#22303f">供应者（Sno，名称，状态）→ 3NF</text>
+  <rect x="400" y="310" width="285" height="50" rx="6" fill="#f3f6ee" stroke="#8aa15c"/>
+  <text x="542" y="340" text-anchor="middle" font-size="13" fill="#22303f">状态城市（状态，城市）→ 3NF</text>
+  <rect x="400" y="390" width="285" height="50" rx="6" fill="#f3f6ee" stroke="#8aa15c"/>
+  <text x="542" y="420" text-anchor="middle" font-size="13" fill="#22303f">供应（Sno，Pno，数量）→ 3NF</text>
+  <text x="35" y="449" font-size="12" fill="#6b7a8a">分解同时消除非主属性的部分依赖与传递依赖，降低冗余和增删改异常。</text>
+</svg>

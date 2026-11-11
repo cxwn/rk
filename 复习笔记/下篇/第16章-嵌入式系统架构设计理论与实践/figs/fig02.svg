@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 390" font-family="Microsoft YaHei, 微软雅黑, sans-serif">
+  <rect width="720" height="390" fill="#ffffff"/>
+  <text x="180" y="30" text-anchor="middle" font-size="20" font-weight="bold" fill="#1f4e79">层次化模式</text>
+  <text x="535" y="30" text-anchor="middle" font-size="20" font-weight="bold" fill="#1f4e79">递归模式</text>
+  <rect x="45" y="55" width="270" height="250" rx="10" fill="#fbfdff" stroke="#d5dde5"/>
+  <rect x="75" y="75" width="210" height="52" rx="6" fill="#1f4e79"/>
+  <text x="180" y="98" text-anchor="middle" font-size="15" font-weight="bold" fill="#ffffff">领域包 A</text>
+  <text x="180" y="117" text-anchor="middle" font-size="12" fill="#eaf1f8">高抽象概念</text>
+  <rect x="75" y="157" width="210" height="52" rx="6" fill="#eaf1f8" stroke="#1f4e79"/>
+  <text x="180" y="180" text-anchor="middle" font-size="15" font-weight="bold" fill="#22303f">领域包 B</text>
+  <text x="180" y="199" text-anchor="middle" font-size="12" fill="#6b7a8a">较具体实现</text>
+  <rect x="75" y="239" width="210" height="52" rx="6" fill="#fdf0e6" stroke="#c05621"/>
+  <text x="180" y="262" text-anchor="middle" font-size="15" font-weight="bold" fill="#22303f">领域包 C</text>
+  <text x="180" y="281" text-anchor="middle" font-size="12" fill="#6b7a8a">底层具体服务</text>
+  <line x1="180" y1="127" x2="180" y2="149" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="180,154 175.5,146 184.5,146" fill="#1f4e79"/>
+  <line x1="180" y1="209" x2="180" y2="231" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="180,236 175.5,228 184.5,228" fill="#1f4e79"/>
+  <text x="180" y="329" text-anchor="middle" font-size="13" fill="#22303f">封闭：同层或下一层</text>
+  <text x="180" y="351" text-anchor="middle" font-size="13" fill="#22303f">开放：同层或任意更低层</text>
+  <rect x="375" y="55" width="315" height="250" rx="12" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.5"/>
+  <text x="400" y="82" font-size="15" font-weight="bold" fill="#1f4e79">系统</text>
+  <rect x="415" y="96" width="235" height="180" rx="10" fill="#ffffff" stroke="#1f4e79" stroke-width="1.5"/>
+  <text x="438" y="122" font-size="14" font-weight="bold" fill="#1f4e79">子系统</text>
+  <rect x="455" y="137" width="155" height="105" rx="8" fill="#fdf0e6" stroke="#c05621" stroke-width="1.5"/>
+  <text x="478" y="163" font-size="14" font-weight="bold" fill="#c05621">构件</text>
+  <rect x="485" y="177" width="95" height="42" rx="6" fill="#f3f6ee" stroke="#8aa15c"/>
+  <text x="532" y="203" text-anchor="middle" font-size="13" fill="#4a6130">功能模块</text>
+  <text x="532" y="329" text-anchor="middle" font-size="13" fill="#22303f">重复应用包含关系</text>
+  <text x="532" y="351" text-anchor="middle" font-size="13" fill="#22303f">自顶向下 / 自底向上</text>
+  <text x="360" y="378" text-anchor="middle" font-size="12" fill="#6b7a8a">层次化抽象依赖；递归化逐步求精</text>
+</svg>

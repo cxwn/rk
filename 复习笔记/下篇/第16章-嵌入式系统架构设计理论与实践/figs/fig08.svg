@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 440" font-family="Microsoft YaHei, 微软雅黑, sans-serif">
+  <rect width="720" height="440" fill="#ffffff"/>
+  <text x="360" y="29" text-anchor="middle" font-size="20" font-weight="bold" fill="#1f4e79">任务间通信：本机队列、管道与跨机 Socket</text>
+  <rect x="35" y="65" width="130" height="55" rx="7" fill="#1f4e79"/>
+  <text x="100" y="99" text-anchor="middle" font-size="16" font-weight="bold" fill="#ffffff">任务 A / ISR</text>
+  <line x1="165" y1="92" x2="247" y2="92" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="255,92 247,87.5 247,96.5" fill="#1f4e79"/>
+  <text x="210" y="80" text-anchor="middle" font-size="12" fill="#22303f">发送</text>
+  <rect x="260" y="58" width="200" height="70" rx="7" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.5"/>
+  <g fill="#ffffff" stroke="#6b7a8a"><rect x="278" y="76" width="36" height="32"/><rect x="314" y="76" width="36" height="32"/><rect x="350" y="76" width="36" height="32"/><rect x="386" y="76" width="52" height="32"/></g>
+  <g text-anchor="middle" font-size="12" fill="#22303f"><text x="296" y="97">msg1</text><text x="332" y="97">msg2</text><text x="368" y="97">…</text><text x="412" y="97">msg n</text></g>
+  <text x="360" y="148" text-anchor="middle" font-size="13" fill="#1f4e79">消息队列：缓冲并解耦收发双方</text>
+  <line x1="460" y1="92" x2="542" y2="92" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="550,92 542,87.5 542,96.5" fill="#1f4e79"/>
+  <text x="505" y="80" text-anchor="middle" font-size="12" fill="#22303f">接收</text>
+  <rect x="555" y="65" width="130" height="55" rx="7" fill="#1f4e79"/>
+  <text x="620" y="99" text-anchor="middle" font-size="16" font-weight="bold" fill="#ffffff">任务 B</text>
+  <rect x="35" y="195" width="130" height="52" rx="7" fill="#f3f6ee" stroke="#8aa15c"/>
+  <text x="100" y="227" text-anchor="middle" font-size="15" font-weight="bold" fill="#4a6130">写任务</text>
+  <line x1="165" y1="221" x2="237" y2="221" stroke="#4a6130" stroke-width="1.5" fill="none"/>
+  <polygon points="245,221 237,216.5 237,225.5" fill="#4a6130"/>
+  <rect x="250" y="204" width="185" height="34" rx="17" fill="#f3f6ee" stroke="#8aa15c" stroke-width="1.5"/>
+  <text x="342" y="227" text-anchor="middle" font-size="13" fill="#4a6130">管道：FIFO 字节流</text>
+  <line x1="435" y1="221" x2="507" y2="221" stroke="#4a6130" stroke-width="1.5" fill="none"/>
+  <polygon points="515,221 507,216.5 507,225.5" fill="#4a6130"/>
+  <rect x="520" y="195" width="130" height="52" rx="7" fill="#f3f6ee" stroke="#8aa15c"/>
+  <text x="585" y="227" text-anchor="middle" font-size="15" font-weight="bold" fill="#4a6130">读任务</text>
+  <text x="360" y="269" text-anchor="middle" font-size="12" fill="#6b7a8a">空时阻塞读，满时阻塞写</text>
+  <rect x="75" y="305" width="160" height="42" rx="6" fill="#eaf1f8" stroke="#1f4e79"/>
+  <text x="155" y="332" text-anchor="middle" font-size="14" fill="#22303f">应用进程</text>
+  <rect x="275" y="305" width="170" height="42" rx="6" fill="#1f4e79"/>
+  <text x="360" y="332" text-anchor="middle" font-size="14" font-weight="bold" fill="#ffffff">Socket 抽象层</text>
+  <rect x="485" y="305" width="160" height="42" rx="6" fill="#eaf1f8" stroke="#1f4e79"/>
+  <text x="565" y="332" text-anchor="middle" font-size="14" fill="#22303f">TCP / UDP / IP</text>
+  <line x1="235" y1="326" x2="267" y2="326" stroke="#1f4e79" stroke-width="1.5" fill="none"/><polygon points="272,326 264,321.5 264,330.5" fill="#1f4e79"/>
+  <line x1="445" y1="326" x2="477" y2="326" stroke="#1f4e79" stroke-width="1.5" fill="none"/><polygon points="482,326 474,321.5 474,330.5" fill="#1f4e79"/>
+  <g text-anchor="middle" font-size="12" fill="#22303f">
+    <rect x="25" y="380" width="125" height="36" rx="18" fill="#fdf0e6"/><text x="87" y="404">共享内存＋互斥</text>
+    <rect x="165" y="380" width="125" height="36" rx="18" fill="#fdf0e6"/><text x="227" y="404">信号量：同步</text>
+    <rect x="305" y="380" width="125" height="36" rx="18" fill="#fdf0e6"/><text x="367" y="404">Signals：异步</text>
+    <rect x="445" y="380" width="125" height="36" rx="18" fill="#fdf0e6"/><text x="507" y="404">消息：可排队</text>
+    <rect x="585" y="380" width="110" height="36" rx="18" fill="#fdf0e6"/><text x="640" y="404">临界区互斥</text>
+  </g>
+</svg>

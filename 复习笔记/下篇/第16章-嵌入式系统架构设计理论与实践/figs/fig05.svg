@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 340" font-family="Microsoft YaHei, 微软雅黑, sans-serif">
+  <rect width="720" height="340" fill="#ffffff"/>
+  <text x="360" y="30" text-anchor="middle" font-size="20" font-weight="bold" fill="#1f4e79">任务三种状态及合法转换</text>
+  <rect x="55" y="60" width="150" height="70" rx="10" fill="#f3f6ee" stroke="#8aa15c" stroke-width="1.8"/>
+  <text x="130" y="91" text-anchor="middle" font-size="18" font-weight="bold" fill="#4a6130">就绪态</text>
+  <text x="130" y="114" text-anchor="middle" font-size="12" fill="#4a6130">只缺 CPU</text>
+  <rect x="515" y="60" width="150" height="70" rx="10" fill="#1f4e79"/>
+  <text x="590" y="91" text-anchor="middle" font-size="18" font-weight="bold" fill="#ffffff">执行态</text>
+  <text x="590" y="114" text-anchor="middle" font-size="12" fill="#eaf1f8">正在占用 CPU</text>
+  <rect x="285" y="230" width="150" height="65" rx="10" fill="#fdf0e6" stroke="#c05621" stroke-width="1.8"/>
+  <text x="360" y="259" text-anchor="middle" font-size="18" font-weight="bold" fill="#c05621">阻塞态</text>
+  <text x="360" y="281" text-anchor="middle" font-size="12" fill="#c05621">等待事件或资源</text>
+  <line x1="205" y1="82" x2="507" y2="82" stroke="#1f4e79" stroke-width="1.6" fill="none"/>
+  <polygon points="512,82 504,77.5 504,86.5" fill="#1f4e79"/>
+  <text x="360" y="72" text-anchor="middle" font-size="13" fill="#22303f">调度器分配 CPU</text>
+  <line x1="515" y1="112" x2="213" y2="112" stroke="#1f4e79" stroke-width="1.6" fill="none"/>
+  <polygon points="208,112 216,107.5 216,116.5" fill="#1f4e79"/>
+  <text x="360" y="132" text-anchor="middle" font-size="13" fill="#22303f">时间片用完 / 被抢占</text>
+  <polyline points="550,130 550,185 405,185 405,222" stroke="#c05621" stroke-width="1.6" fill="none"/>
+  <polygon points="405,227 400.5,219 409.5,219" fill="#c05621"/>
+  <text x="480" y="176" text-anchor="middle" font-size="13" fill="#c05621">等待 I/O 或事件</text>
+  <polyline points="315,230 315,177 130,177 130,138" stroke="#4a6130" stroke-width="1.6" fill="none"/>
+  <polygon points="130,133 125.5,141 134.5,141" fill="#4a6130"/>
+  <text x="205" y="167" text-anchor="middle" font-size="13" fill="#4a6130">等待的事件完成</text>
+  <rect x="205" y="310" width="310" height="22" rx="11" fill="#eaf1f8"/>
+  <text x="360" y="326" text-anchor="middle" font-size="12" fill="#1f4e79">阻塞 → 就绪 → 执行：中间不能省</text>
+</svg>

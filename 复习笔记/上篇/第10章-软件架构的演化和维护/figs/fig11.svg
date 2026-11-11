@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 400" font-family="Microsoft YaHei, 微软雅黑, sans-serif">
+  <text x="360" y="30" text-anchor="middle" font-size="20" font-weight="bold" fill="#1f4e79">演化过程已知的架构评估</text>
+  <text x="360" y="58" text-anchor="middle" font-size="14" fill="#6b7a8a">完整演化拆为原子操作序列，每步形成一个中间版本</text>
+  <rect x="25" y="80" width="100" height="52" rx="6" fill="#eaf1f8" stroke="#1f4e79"/>
+  <text x="75" y="113" text-anchor="middle" font-size="18" font-weight="bold" fill="#1f4e79">A0</text>
+  <line x1="125" y1="106" x2="149" y2="106" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="157,106 149,101.5 149,110.5" fill="#1f4e79"/>
+  <rect x="160" y="80" width="100" height="52" rx="6" fill="#eaf1f8" stroke="#1f4e79"/>
+  <text x="210" y="113" text-anchor="middle" font-size="18" font-weight="bold" fill="#1f4e79">A1</text>
+  <line x1="260" y1="106" x2="284" y2="106" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="292,106 284,101.5 284,110.5" fill="#1f4e79"/>
+  <rect x="295" y="80" width="100" height="52" rx="6" fill="#eaf1f8" stroke="#1f4e79"/>
+  <text x="345" y="113" text-anchor="middle" font-size="18" font-weight="bold" fill="#1f4e79">A2</text>
+  <line x1="395" y1="106" x2="419" y2="106" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="427,106 419,101.5 419,110.5" fill="#1f4e79"/>
+  <rect x="430" y="80" width="100" height="52" rx="6" fill="#f5f7f9" stroke="#6b7a8a"/>
+  <text x="480" y="113" text-anchor="middle" font-size="20" font-weight="bold" fill="#6b7a8a">…</text>
+  <line x1="530" y1="106" x2="554" y2="106" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="562,106 554,101.5 554,110.5" fill="#1f4e79"/>
+  <rect x="565" y="80" width="100" height="52" rx="6" fill="#eaf1f8" stroke="#1f4e79"/>
+  <text x="615" y="113" text-anchor="middle" font-size="18" font-weight="bold" fill="#1f4e79">An</text>
+  <g stroke="#6b7a8a" stroke-width="1.4" fill="none">
+    <line x1="75" y1="132" x2="75" y2="174"/>
+    <line x1="210" y1="132" x2="210" y2="174"/>
+    <line x1="345" y1="132" x2="345" y2="174"/>
+    <line x1="480" y1="132" x2="480" y2="174"/>
+    <line x1="615" y1="132" x2="615" y2="174"/>
+  </g>
+  <g fill="#6b7a8a">
+    <polygon points="75,182 70.5,174 79.5,174"/>
+    <polygon points="210,182 205.5,174 214.5,174"/>
+    <polygon points="345,182 340.5,174 349.5,174"/>
+    <polygon points="480,182 475.5,174 484.5,174"/>
+    <polygon points="615,182 610.5,174 619.5,174"/>
+  </g>
+  <rect x="25" y="185" width="100" height="58" rx="6" fill="#f3f6ee" stroke="#8aa15c"/>
+  <text x="75" y="221" text-anchor="middle" font-size="18" font-weight="bold" fill="#4a6130">Q0</text>
+  <rect x="160" y="185" width="100" height="58" rx="6" fill="#f3f6ee" stroke="#8aa15c"/>
+  <text x="210" y="221" text-anchor="middle" font-size="18" font-weight="bold" fill="#4a6130">Q1</text>
+  <rect x="295" y="185" width="100" height="58" rx="6" fill="#f3f6ee" stroke="#8aa15c"/>
+  <text x="345" y="221" text-anchor="middle" font-size="18" font-weight="bold" fill="#4a6130">Q2</text>
+  <rect x="430" y="185" width="100" height="58" rx="6" fill="#f5f7f9" stroke="#6b7a8a"/>
+  <text x="480" y="221" text-anchor="middle" font-size="20" font-weight="bold" fill="#6b7a8a">…</text>
+  <rect x="565" y="185" width="100" height="58" rx="6" fill="#f3f6ee" stroke="#8aa15c"/>
+  <text x="615" y="221" text-anchor="middle" font-size="18" font-weight="bold" fill="#4a6130">Qn</text>
+  <rect x="70" y="270" width="580" height="48" rx="7" fill="#eaf1f8" stroke="#1f4e79"/>
+  <text x="360" y="300" text-anchor="middle" font-size="15" font-weight="bold" fill="#1f4e79">逐版本度量 Qi，逐对计算 D(i-1,i)，综合评估质量变化</text>
+  <rect x="105" y="338" width="510" height="42" rx="7" fill="#fdf0e6" stroke="#c05621"/>
+  <text x="360" y="365" text-anchor="middle" font-size="15" font-weight="bold" fill="#c05621">关键：D(0,n) ≠ 各相邻质量距离之和</text>
+</svg>

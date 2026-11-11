@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 480" font-family="Microsoft YaHei, 微软雅黑, sans-serif">
+  <text x="360" y="26" text-anchor="middle" font-size="16" font-weight="bold" fill="#1f4e79">数字孪生体关键技术体系</text>
+  <rect x="30" y="40" width="660" height="390" rx="8" fill="#f3f6ee" stroke="#8aa15c" stroke-width="1.5" stroke-dasharray="6 4"/>
+  <text x="360" y="66" text-anchor="middle" font-size="12" font-weight="bold" fill="#4a6130">外围使能技术：云计算 · 机器学习 · 大数据 · 区块链（支撑构建与运行）</text>
+  <rect x="130" y="84" width="460" height="58" rx="6" fill="#1f4e79"/>
+  <text x="360" y="108" text-anchor="middle" font-size="14" font-weight="bold" fill="#ffffff">顶层框架技术：系统工程与 MBSE</text>
+  <text x="360" y="130" text-anchor="middle" font-size="11" fill="#ffffff">基于模型的系统工程，统领三项核心技术</text>
+  <line x1="360" y1="142" x2="360" y2="173" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="360,181 355.5,173 364.5,173" fill="#1f4e79"/>
+  <rect x="70" y="184" width="580" height="130" rx="7" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.5"/>
+  <text x="360" y="210" text-anchor="middle" font-size="14" font-weight="bold" fill="#1f4e79">三项核心技术</text>
+  <rect x="90" y="226" width="160" height="70" rx="5" fill="#ffffff" stroke="#1f4e79" stroke-width="1.2"/>
+  <text x="170" y="251" text-anchor="middle" font-size="14" font-weight="bold" fill="#1f4e79">建模</text>
+  <text x="170" y="274" text-anchor="middle" font-size="10" fill="#22303f">「数化」阶段核心</text>
+  <text x="170" y="290" text-anchor="middle" font-size="10" fill="#6b7a8a">创建数字孪生体源头</text>
+  <rect x="280" y="226" width="160" height="70" rx="5" fill="#ffffff" stroke="#c05621" stroke-width="1.2"/>
+  <text x="360" y="251" text-anchor="middle" font-size="14" font-weight="bold" fill="#c05621">仿真</text>
+  <text x="360" y="274" text-anchor="middle" font-size="10" fill="#22303f">验证与确认模型</text>
+  <text x="360" y="290" text-anchor="middle" font-size="10" fill="#6b7a8a">保证虚实有效闭环</text>
+  <rect x="470" y="226" width="160" height="70" rx="5" fill="#ffffff" stroke="#4a6130" stroke-width="1.2"/>
+  <text x="550" y="251" text-anchor="middle" font-size="13" font-weight="bold" fill="#4a6130">数字线程</text>
+  <text x="550" y="274" text-anchor="middle" font-size="10" fill="#22303f">基于数据融合</text>
+  <text x="550" y="290" text-anchor="middle" font-size="10" fill="#6b7a8a">支撑多视图模型协同</text>
+  <line x1="360" y1="350" x2="360" y2="323" stroke="#4a6130" stroke-width="1.5" fill="none"/>
+  <polygon points="360,317 355.5,325 364.5,325" fill="#4a6130"/>
+  <rect x="150" y="350" width="420" height="54" rx="6" fill="#ffffff" stroke="#4a6130" stroke-width="1.5"/>
+  <text x="360" y="374" text-anchor="middle" font-size="14" font-weight="bold" fill="#4a6130">底层伴生技术：物联网</text>
+  <text x="360" y="395" text-anchor="middle" font-size="11" fill="#22303f">为数字孪生体提供数据连接基础</text>
+  <text x="360" y="458" text-anchor="middle" font-size="11" fill="#6b7a8a">记忆：MBSE 顶层统领，建模 / 仿真 / 数字线程为核心，物联网托底，外围技术使能。</text>
+</svg>

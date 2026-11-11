@@ -1,0 +1,48 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 500" width="720" height="500" font-family="Microsoft YaHei, 微软雅黑, sans-serif">
+  <rect width="720" height="500" fill="#ffffff"/>
+  <text x="360" y="30" text-anchor="middle" font-size="21" font-weight="bold" fill="#1f4e79">Banking 事件架构：封装不足与耦合（据图8-7简化）</text>
+  <rect x="25" y="60" width="410" height="390" rx="10" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.5"/>
+  <rect x="460" y="60" width="235" height="390" rx="10" fill="#fdf0e6" stroke="#c05621" stroke-width="1.5"/>
+  <text x="45" y="89" font-size="16" font-weight="bold" fill="#1f4e79">Framework（含应用特定信息）</text>
+  <text x="577" y="89" text-anchor="middle" font-size="16" font-weight="bold" fill="#c05621">框架外部 / 应用</text>
+  <g text-anchor="middle">
+    <g fill="#ffffff" stroke="#1f4e79">
+      <rect x="50" y="110" width="150" height="60" rx="6"/><rect x="245" y="110" width="150" height="60" rx="6"/>
+      <rect x="50" y="225" width="150" height="60" rx="6"/>
+      <rect x="50" y="340" width="90" height="45" rx="6"/><rect x="155" y="340" width="90" height="45" rx="6"/><rect x="260" y="340" width="90" height="45" rx="6"/>
+    </g>
+    <g fill="#ffffff" stroke="#c05621">
+      <rect x="490" y="110" width="170" height="60" rx="6"/><rect x="490" y="250" width="170" height="65" rx="6"/>
+    </g>
+    <g font-size="14" fill="#22303f">
+      <text x="125" y="136" font-weight="bold">Event Queue</text><text x="125" y="157" font-size="11">空队列产生 IDLE</text>
+      <text x="320" y="136" font-weight="bold">Main</text><text x="320" y="157" font-size="11">取事件并分派</text>
+      <text x="125" y="251" font-weight="bold">Handler</text><text x="125" y="272" font-size="11">基本处理程序</text>
+      <text x="95" y="368" font-size="12">START</text><text x="200" y="368" font-size="12">STOP</text><text x="305" y="368" font-size="12">IDLE</text>
+      <text x="575" y="136" font-weight="bold">Event Manager</text><text x="575" y="157" font-size="11">暴露给应用，含应用信息</text>
+      <text x="575" y="278" font-weight="bold">Application Handler</text><text x="575" y="300" font-size="11">由事件管理器调用</text>
+    </g>
+  </g>
+  <g stroke="#1f4e79" stroke-width="1.4" fill="none">
+    <line x1="245" y1="140" x2="211" y2="140"/>
+    <line x1="95" y1="285" x2="95" y2="329"/>
+    <polyline points="140,285 140,312 200,312 200,329"/>
+    <polyline points="185,285 185,320 305,320 305,329"/>
+  </g>
+  <g fill="#1f4e79">
+    <polygon points="203,140 211,135.5 211,144.5"/>
+    <polygon points="95,337 90.5,329 99.5,329"/><polygon points="200,337 195.5,329 204.5,329"/><polygon points="305,337 300.5,329 309.5,329"/>
+  </g>
+  <g stroke="#c05621" stroke-width="1.4" fill="none">
+    <line x1="395" y1="140" x2="479" y2="140"/>
+    <line x1="575" y1="170" x2="575" y2="239"/>
+  </g>
+  <g fill="#c05621">
+    <polygon points="487,140 479,135.5 479,144.5"/><polygon points="575,247 570.5,239 579.5,239"/>
+  </g>
+  <rect x="50" y="405" width="345" height="28" rx="5" fill="#fdf0e6"/>
+  <text x="222" y="424" text-anchor="middle" font-size="11" fill="#c05621">IDLE 在入队前验证输入，验证逻辑随应用变化</text>
+  <text x="577" y="420" text-anchor="middle" font-size="12" fill="#c05621">核心组件未被框架封装</text>
+  <rect x="70" y="462" width="580" height="25" rx="5" fill="#fdf0e6"/>
+  <text x="360" y="480" text-anchor="middle" font-size="12" fill="#c05621">评估结论：可修改性、复用性、概念完整性、安全与性能存在风险</text>
+</svg>

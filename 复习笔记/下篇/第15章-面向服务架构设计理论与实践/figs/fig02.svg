@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 480" font-family="Microsoft YaHei, 微软雅黑, sans-serif">
+  <text x="360" y="30" text-anchor="middle" font-size="17" font-weight="bold" fill="#1f4e79">IBM WebSphere 业务集成参考架构：六类服务</text>
+  <rect x="60" y="50" width="600" height="42" rx="6" fill="#fdf0e6" stroke="#c05621" stroke-width="1.5"/>
+  <text x="360" y="76" text-anchor="middle" font-size="14" font-weight="bold" fill="#c05621">开发服务 Development Services</text>
+  <rect x="60" y="104" width="600" height="42" rx="6" fill="#fdf0e6" stroke="#c05621" stroke-width="1.5"/>
+  <text x="360" y="130" text-anchor="middle" font-size="14" font-weight="bold" fill="#c05621">业务创新和优化服务 · 事件采集 · KPI 监控</text>
+  <rect x="60" y="158" width="600" height="90" rx="6" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.5"/>
+  <text x="360" y="179" text-anchor="middle" font-size="13" font-weight="bold" fill="#1f4e79">控制服务 Control Services</text>
+  <rect x="85" y="190" width="165" height="40" rx="5" fill="#ffffff" stroke="#1f4e79"/>
+  <rect x="278" y="190" width="165" height="40" rx="5" fill="#ffffff" stroke="#1f4e79"/>
+  <rect x="470" y="190" width="165" height="40" rx="5" fill="#ffffff" stroke="#1f4e79"/>
+  <text x="167" y="215" text-anchor="middle" font-size="12" fill="#22303f">交互服务 · 人</text>
+  <text x="360" y="215" text-anchor="middle" font-size="12" fill="#22303f">流程服务 · 流程</text>
+  <text x="552" y="215" text-anchor="middle" font-size="12" fill="#22303f">信息服务 · 信息</text>
+  <rect x="60" y="260" width="600" height="46" rx="6" fill="#1f4e79" stroke="#1f4e79" stroke-width="1.5"/>
+  <text x="360" y="288" text-anchor="middle" font-size="14" font-weight="bold" fill="#ffffff">连接服务 Connectivity Services · 企业服务总线 ESB</text>
+  <rect x="60" y="318" width="600" height="90" rx="6" fill="#f3f6ee" stroke="#8aa15c" stroke-width="1.5"/>
+  <text x="360" y="339" text-anchor="middle" font-size="13" font-weight="bold" fill="#4a6130">业务逻辑服务 Business Logic Services</text>
+  <rect x="78" y="350" width="175" height="40" rx="5" fill="#ffffff" stroke="#8aa15c"/>
+  <rect x="273" y="350" width="175" height="40" rx="5" fill="#ffffff" stroke="#8aa15c"/>
+  <rect x="468" y="350" width="175" height="40" rx="5" fill="#ffffff" stroke="#8aa15c"/>
+  <text x="165" y="375" text-anchor="middle" font-size="12" fill="#22303f">伙伴服务</text>
+  <text x="360" y="375" text-anchor="middle" font-size="12" fill="#22303f">业务应用服务</text>
+  <text x="555" y="375" text-anchor="middle" font-size="12" fill="#22303f">应用和信息资产</text>
+  <rect x="60" y="420" width="600" height="42" rx="6" fill="#f4f6f8" stroke="#6b7a8a" stroke-width="1.5"/>
+  <text x="360" y="446" text-anchor="middle" font-size="14" font-weight="bold" fill="#22303f">IT 服务管理 · 安全目录 · 系统管理 · 资源虚拟化</text>
+</svg>

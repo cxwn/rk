@@ -1,0 +1,55 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 280" font-family="Microsoft YaHei, 微软雅黑, sans-serif">
+  <rect width="720" height="280" fill="#ffffff"/>
+  <text x="360" y="30" text-anchor="middle" font-size="20" font-weight="bold" fill="#1f4e79">数据库设计六阶段及主要产物</text>
+  <rect x="20" y="70" width="95" height="95" rx="7" fill="#eaf1f8" stroke="#1f4e79"/>
+  <text x="67" y="99" text-anchor="middle" font-size="14" font-weight="bold" fill="#1f4e79">① 用户需求</text>
+  <text x="67" y="125" text-anchor="middle" font-size="14" font-weight="bold" fill="#1f4e79">分析</text>
+  <text x="67" y="150" text-anchor="middle" font-size="12" fill="#6b7a8a">调查业务</text>
+  <line x1="115" y1="117" x2="126" y2="117" stroke="#1f4e79" stroke-width="1.5"/>
+  <polygon points="134,117 126,112.5 126,121.5" fill="#1f4e79"/>
+  <rect x="137" y="70" width="95" height="95" rx="7" fill="#eaf1f8" stroke="#1f4e79"/>
+  <text x="184" y="99" text-anchor="middle" font-size="14" font-weight="bold" fill="#1f4e79">② 概念结构</text>
+  <text x="184" y="125" text-anchor="middle" font-size="14" font-weight="bold" fill="#1f4e79">设计</text>
+  <text x="184" y="150" text-anchor="middle" font-size="12" fill="#6b7a8a">抽象信息</text>
+  <line x1="232" y1="117" x2="243" y2="117" stroke="#1f4e79" stroke-width="1.5"/>
+  <polygon points="251,117 243,112.5 243,121.5" fill="#1f4e79"/>
+  <rect x="254" y="70" width="95" height="95" rx="7" fill="#fdf0e6" stroke="#c05621"/>
+  <text x="301" y="99" text-anchor="middle" font-size="14" font-weight="bold" fill="#c05621">③ 逻辑结构</text>
+  <text x="301" y="125" text-anchor="middle" font-size="14" font-weight="bold" fill="#c05621">设计</text>
+  <text x="301" y="150" text-anchor="middle" font-size="12" fill="#6b7a8a">关系模式</text>
+  <line x1="349" y1="117" x2="360" y2="117" stroke="#1f4e79" stroke-width="1.5"/>
+  <polygon points="368,117 360,112.5 360,121.5" fill="#1f4e79"/>
+  <rect x="371" y="70" width="95" height="95" rx="7" fill="#fdf0e6" stroke="#c05621"/>
+  <text x="418" y="99" text-anchor="middle" font-size="14" font-weight="bold" fill="#c05621">④ 物理结构</text>
+  <text x="418" y="125" text-anchor="middle" font-size="14" font-weight="bold" fill="#c05621">设计</text>
+  <text x="418" y="150" text-anchor="middle" font-size="12" fill="#6b7a8a">存储访问</text>
+  <line x1="466" y1="117" x2="477" y2="117" stroke="#1f4e79" stroke-width="1.5"/>
+  <polygon points="485,117 477,112.5 477,121.5" fill="#1f4e79"/>
+  <rect x="488" y="70" width="95" height="95" rx="7" fill="#f3f6ee" stroke="#8aa15c"/>
+  <text x="535" y="99" text-anchor="middle" font-size="14" font-weight="bold" fill="#4a6130">⑤ 数据库</text>
+  <text x="535" y="125" text-anchor="middle" font-size="14" font-weight="bold" fill="#4a6130">实施</text>
+  <text x="535" y="150" text-anchor="middle" font-size="12" fill="#6b7a8a">建库试运行</text>
+  <line x1="583" y1="117" x2="594" y2="117" stroke="#1f4e79" stroke-width="1.5"/>
+  <polygon points="602,117 594,112.5 594,121.5" fill="#1f4e79"/>
+  <rect x="605" y="70" width="95" height="95" rx="7" fill="#f3f6ee" stroke="#8aa15c"/>
+  <text x="652" y="99" text-anchor="middle" font-size="14" font-weight="bold" fill="#4a6130">⑥ 运行</text>
+  <text x="652" y="125" text-anchor="middle" font-size="14" font-weight="bold" fill="#4a6130">和维护</text>
+  <text x="652" y="150" text-anchor="middle" font-size="12" fill="#6b7a8a">监测调整</text>
+  <rect x="20" y="195" width="95" height="55" rx="5" fill="#f6f9fc"/>
+  <text x="67" y="218" text-anchor="middle" font-size="12" fill="#22303f">数据流图</text>
+  <text x="67" y="239" text-anchor="middle" font-size="12" fill="#22303f">数据字典</text>
+  <rect x="137" y="195" width="95" height="55" rx="5" fill="#f6f9fc"/>
+  <text x="184" y="229" text-anchor="middle" font-size="12" fill="#22303f">全局 E-R 图</text>
+  <rect x="254" y="195" width="95" height="55" rx="5" fill="#f6f9fc"/>
+  <text x="301" y="218" text-anchor="middle" font-size="12" fill="#22303f">规范模式</text>
+  <text x="301" y="239" text-anchor="middle" font-size="12" fill="#22303f">约束与视图</text>
+  <rect x="371" y="195" width="95" height="55" rx="5" fill="#f6f9fc"/>
+  <text x="418" y="218" text-anchor="middle" font-size="12" fill="#22303f">分布、索引</text>
+  <text x="418" y="239" text-anchor="middle" font-size="12" fill="#22303f">存取路径</text>
+  <rect x="488" y="195" width="95" height="55" rx="5" fill="#f6f9fc"/>
+  <text x="535" y="218" text-anchor="middle" font-size="12" fill="#22303f">DDL、加载</text>
+  <text x="535" y="239" text-anchor="middle" font-size="12" fill="#22303f">调试评价</text>
+  <rect x="605" y="195" width="95" height="55" rx="5" fill="#f6f9fc"/>
+  <text x="652" y="218" text-anchor="middle" font-size="12" fill="#22303f">备份恢复</text>
+  <text x="652" y="239" text-anchor="middle" font-size="12" fill="#22303f">重组重构</text>
+</svg>

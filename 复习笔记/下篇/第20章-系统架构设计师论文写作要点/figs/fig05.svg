@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 590" font-family="Microsoft YaHei, 微软雅黑, sans-serif">
+  <rect width="720" height="590" fill="#ffffff"/>
+  <text x="360" y="36" text-anchor="middle" font-size="22" font-weight="bold" fill="#1f4e79">论文常见 12 类问题分类自查</text>
+  <text x="360" y="60" text-anchor="middle" font-size="13" fill="#6b7a8a">写完按编号逐项打勾，先处理走题、缺摘要、缺项目等致命问题</text>
+
+  <g text-anchor="middle" font-size="17" font-weight="bold">
+    <rect x="25" y="82" width="145" height="48" rx="7" fill="#1f4e79"/>
+    <text x="97.5" y="112" fill="#ffffff">审题与篇幅</text>
+    <rect x="200" y="82" width="145" height="48" rx="7" fill="#c05621"/>
+    <text x="272.5" y="112" fill="#ffffff">摘要与深度</text>
+    <rect x="375" y="82" width="145" height="48" rx="7" fill="#8aa15c"/>
+    <text x="447.5" y="112" fill="#ffffff">表达与项目</text>
+    <rect x="550" y="82" width="145" height="48" rx="7" fill="#6b7a8a"/>
+    <text x="622.5" y="112" fill="#ffffff">项目与形式</text>
+  </g>
+
+  <g font-size="15" fill="#22303f">
+    <rect x="25" y="150" width="145" height="92" rx="7" fill="#eaf1f8" stroke="#1f4e79"/>
+    <text x="42" y="181" font-weight="bold" fill="#1f4e79">01 走题</text><text x="42" y="211">按三问组织</text><text x="42" y="232">不能只看标题</text>
+    <rect x="25" y="262" width="145" height="92" rx="7" fill="#eaf1f8" stroke="#1f4e79"/>
+    <text x="42" y="293" font-weight="bold" fill="#1f4e79">02 字数不够</text><text x="42" y="323">摘要约 350 字</text><text x="42" y="344">正文约 2500 字</text>
+    <rect x="25" y="374" width="145" height="92" rx="7" fill="#eaf1f8" stroke="#1f4e79"/>
+    <text x="42" y="405" font-weight="bold" fill="#1f4e79">03 字数偏多</text><text x="42" y="435">严格限时练习</text><text x="42" y="456">拒绝肆意发挥</text>
+
+    <rect x="200" y="150" width="145" height="92" rx="7" fill="#fdf0e6" stroke="#c05621"/>
+    <text x="217" y="181" font-weight="bold" fill="#c05621">04 摘要欠妥</text><text x="217" y="211">压缩正文重点</text><text x="217" y="232">少写空泛帽子</text>
+    <rect x="200" y="262" width="145" height="92" rx="7" fill="#fdf0e6" stroke="#c05621"/>
+    <text x="217" y="293" font-weight="bold" fill="#c05621">05 深度不够</text><text x="217" y="323">精选 2～3 个</text><text x="217" y="344">措施深入展开</text>
+    <rect x="200" y="374" width="145" height="92" rx="7" fill="#fdf0e6" stroke="#c05621"/>
+    <text x="217" y="405" font-weight="bold" fill="#c05621">06 缺少特色</text><text x="217" y="435">紧扣项目细节</text><text x="217" y="456">拒绝理论罗列</text>
+
+    <rect x="375" y="150" width="145" height="92" rx="7" fill="#f3f6ee" stroke="#8aa15c"/>
+    <text x="392" y="181" font-weight="bold" fill="#4a6130">07 口语化重</text><text x="392" y="211">书面语言表达</text><text x="392" y="232">多用“我们”</text>
+    <rect x="375" y="262" width="145" height="92" rx="7" fill="#f3f6ee" stroke="#8aa15c"/>
+    <text x="392" y="293" font-weight="bold" fill="#4a6130">08 表达较差</text><text x="392" y="323">平时多读多写</text><text x="392" y="344">训练准确表达</text>
+    <rect x="375" y="374" width="145" height="92" rx="7" fill="#f3f6ee" stroke="#8aa15c"/>
+    <text x="392" y="405" font-weight="bold" fill="#4a6130">09 缺主题项目</text><text x="392" y="435">时间背景功能</text><text x="392" y="456">本人角色齐全</text>
+
+    <rect x="550" y="150" width="145" height="92" rx="7" fill="#eaf1f8" stroke="#6b7a8a"/>
+    <text x="567" y="181" font-weight="bold" fill="#1f4e79">10 项目久远</text><text x="567" y="211">选近 3 年内</text><text x="567" y="232">代表性项目</text>
+    <rect x="550" y="262" width="145" height="92" rx="7" fill="#eaf1f8" stroke="#6b7a8a"/>
+    <text x="567" y="293" font-weight="bold" fill="#1f4e79">11 条目堆砌</text><text x="567" y="323">保留自然段</text><text x="567" y="344">避免多级编号</text>
+    <rect x="550" y="374" width="145" height="92" rx="7" fill="#eaf1f8" stroke="#6b7a8a"/>
+    <text x="567" y="405" font-weight="bold" fill="#1f4e79">12 结构不清</text><text x="567" y="435">重排过长段落</text><text x="567" y="456">每段不超 8 行</text>
+  </g>
+
+  <rect x="60" y="500" width="600" height="56" rx="9" fill="#fdf0e6" stroke="#c05621"/>
+  <text x="360" y="525" text-anchor="middle" font-size="15" font-weight="bold" fill="#c05621">优先级：审题完整 ＞ 摘要与项目真实 ＞ 措施深度 ＞ 文字与卷面</text>
+  <text x="360" y="547" text-anchor="middle" font-size="13" fill="#22303f">所有项目、措施和效果必须真实，模板只负责组织表达</text>
+</svg>

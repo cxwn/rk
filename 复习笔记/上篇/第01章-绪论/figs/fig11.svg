@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 400" font-family="Microsoft YaHei, 微软雅黑, sans-serif">
+  <defs>
+    <marker id="arrow" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+      <path d="M0,0 L6,3 L0,6 Z" fill="#1f4e79"/>
+    </marker>
+  </defs>
+  <!-- 中心 -->
+  <circle cx="360" cy="190" r="58" fill="#1f4e79"/>
+  <text x="360" y="184" font-size="15" font-weight="bold" fill="#ffffff" text-anchor="middle">系统架构</text>
+  <text x="360" y="206" font-size="15" font-weight="bold" fill="#ffffff" text-anchor="middle">设计师</text>
+  <!-- 六个角色节点 -->
+  <g font-size="14" font-weight="bold">
+    <rect x="290" y="24" width="140" height="48" rx="24" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.2"/>
+    <text x="360" y="54" fill="#1f4e79" text-anchor="middle">领导者</text>
+    <rect x="530" y="100" width="160" height="48" rx="24" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.2"/>
+    <text x="610" y="130" fill="#1f4e79" text-anchor="middle">战略技术专家</text>
+    <rect x="530" y="280" width="160" height="48" rx="24" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.2"/>
+    <text x="610" y="310" fill="#1f4e79" text-anchor="middle">沟通专家</text>
+    <rect x="290" y="332" width="140" height="48" rx="24" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.2"/>
+    <text x="360" y="362" fill="#1f4e79" text-anchor="middle">系统综合者</text>
+    <rect x="30" y="280" width="160" height="48" rx="24" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.2"/>
+    <text x="110" y="310" fill="#1f4e79" text-anchor="middle">企业家思维</text>
+    <rect x="30" y="100" width="160" height="48" rx="24" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.2"/>
+    <text x="110" y="130" fill="#1f4e79" text-anchor="middle">开发者</text>
+  </g>
+  <!-- 节点 -> 中心（直线，止于圆外） -->
+  <g stroke="#1f4e79" stroke-width="1.5" fill="none">
+    <line x1="360" y1="75" x2="360.0" y2="118.0"/>
+    <polygon points="360.0,126.0 355.5,118.0 364.5,118.0" fill="#1f4e79"/>
+    <line x1="527" y1="124" x2="425.5" y2="162.2"/>
+    <polygon points="418.0,165.0 423.9,158.0 427.1,166.4" fill="#1f4e79"/>
+    <line x1="527" y1="304" x2="417.6" y2="228.5"/>
+    <polygon points="411.0,224.0 420.1,224.8 415.0,232.2" fill="#1f4e79"/>
+    <line x1="360" y1="329" x2="360.0" y2="260.0"/>
+    <polygon points="360.0,252.0 364.5,260.0 355.5,260.0" fill="#1f4e79"/>
+    <line x1="193" y1="304" x2="302.4" y2="228.5"/>
+    <polygon points="309.0,224.0 305.0,232.2 299.9,224.8" fill="#1f4e79"/>
+    <line x1="193" y1="124" x2="294.5" y2="162.2"/>
+    <polygon points="302.0,165.0 292.9,166.4 296.1,158.0" fill="#1f4e79"/>
+  </g>
+  <text x="360" y="396" font-size="11" fill="#6b7a8a" text-anchor="middle">Pat Kua：技术全面的架构设计师应具备的 6 种角色特质</text>
+</svg>

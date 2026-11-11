@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 520" font-family="Microsoft YaHei, 微软雅黑, sans-serif">
+  <rect width="720" height="520" fill="#ffffff"/>
+  <text x="360" y="30" text-anchor="middle" font-size="20" font-weight="bold" fill="#22303f">电子政务：五类互动与四个发展阶段</text>
+  <rect x="25" y="52" width="670" height="210" rx="10" fill="#f8fafc" stroke="#6b7a8a"/>
+  <text x="45" y="80" font-size="15" font-weight="bold" fill="#1f4e79">三个行为主体：政府、企业、居民 → 五类互动</text>
+  <g text-anchor="middle">
+    <rect x="40" y="108" width="120" height="110" rx="7" fill="#eaf1f8" stroke="#1f4e79"/>
+    <text x="100" y="137" font-size="16" font-weight="bold" fill="#1f4e79">G2G</text><text x="100" y="163" font-size="13" fill="#22303f">政府与政府</text><text x="100" y="192" font-size="12" fill="#6b7a8a">共享／公文</text>
+    <rect x="175" y="108" width="120" height="110" rx="7" fill="#f3f6ee" stroke="#8aa15c"/>
+    <text x="235" y="137" font-size="16" font-weight="bold" fill="#4a6130">G2B</text><text x="235" y="163" font-size="13" fill="#22303f">政府 → 企业</text><text x="235" y="192" font-size="12" fill="#6b7a8a">法规／许可</text>
+    <rect x="310" y="108" width="120" height="110" rx="7" fill="#f3f6ee" stroke="#8aa15c"/>
+    <text x="370" y="137" font-size="16" font-weight="bold" fill="#4a6130">G2C</text><text x="370" y="163" font-size="13" fill="#22303f">政府 → 居民</text><text x="370" y="192" font-size="12" fill="#6b7a8a">公共服务</text>
+    <rect x="445" y="108" width="120" height="110" rx="7" fill="#fdf0e6" stroke="#c05621"/>
+    <text x="505" y="137" font-size="16" font-weight="bold" fill="#c05621">B2G</text><text x="505" y="163" font-size="13" fill="#22303f">企业 → 政府</text><text x="505" y="192" font-size="12" fill="#6b7a8a">纳税／投标</text>
+    <rect x="580" y="108" width="120" height="110" rx="7" fill="#fdf0e6" stroke="#c05621"/>
+    <text x="640" y="137" font-size="16" font-weight="bold" fill="#c05621">C2G</text><text x="640" y="163" font-size="13" fill="#22303f">居民 → 政府</text><text x="640" y="192" font-size="12" fill="#6b7a8a">申报／议政</text>
+  </g>
+  <text x="360" y="244" text-anchor="middle" font-size="12" fill="#6b7a8a">注意方向：政府对企业／居民的服务，与企业／居民对政府的申报、参与分别计数</text>
+  <text x="360" y="298" text-anchor="middle" font-size="16" font-weight="bold" fill="#1f4e79">技术发展形式：由信息发布走向完整业务在线办结</text>
+  <g text-anchor="middle">
+    <rect x="35" y="325" width="140" height="105" rx="7" fill="#eaf1f8" stroke="#1f4e79"/>
+    <text x="105" y="352" font-size="15" font-weight="bold" fill="#1f4e79">1 起步阶段</text><text x="105" y="382" font-size="13" fill="#22303f">网上发布</text><text x="105" y="405" font-size="13" fill="#22303f">静态信息</text>
+    <rect x="205" y="325" width="140" height="105" rx="7" fill="#eaf1f8" stroke="#1f4e79"/>
+    <text x="275" y="352" font-size="15" font-weight="bold" fill="#1f4e79">2 单向互动</text><text x="275" y="382" font-size="13" fill="#22303f">动态信息</text><text x="275" y="405" font-size="13" fill="#22303f">下载／查询服务</text>
+    <rect x="375" y="325" width="140" height="105" rx="7" fill="#fdf0e6" stroke="#c05621"/>
+    <text x="445" y="352" font-size="15" font-weight="bold" fill="#c05621">3 双向互动</text><text x="445" y="382" font-size="13" fill="#22303f">在线填写</text><text x="445" y="405" font-size="13" fill="#22303f">并在线提交</text>
+    <rect x="545" y="325" width="140" height="105" rx="7" fill="#f3f6ee" stroke="#8aa15c"/>
+    <text x="615" y="350" font-size="14" font-weight="bold" fill="#4a6130">4 网上事务处理</text><text x="615" y="382" font-size="13" fill="#22303f">审核／划账等</text><text x="615" y="405" font-size="13" fill="#22303f">全流程在线完成</text>
+  </g>
+  <g stroke="#1f4e79" stroke-width="1.5" fill="none">
+    <line x1="175" y1="377" x2="194" y2="377"/><line x1="345" y1="377" x2="364" y2="377"/><line x1="515" y1="377" x2="534" y2="377"/>
+  </g>
+  <g fill="#1f4e79"><polygon points="202,377 194,372.5 194,381.5"/><polygon points="372,377 364,372.5 364,381.5"/><polygon points="542,377 534,372.5 534,381.5"/></g>
+  <rect x="85" y="462" width="550" height="36" rx="7" fill="#fdf0e6" stroke="#c05621"/>
+  <text x="360" y="486" text-anchor="middle" font-size="14" font-weight="bold" fill="#c05621">易错：能在线提交是双向互动；完成整个业务才是网上事务处理</text>
+</svg>

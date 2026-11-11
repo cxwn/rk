@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 485" font-family="Microsoft YaHei, 微软雅黑, sans-serif">
+  <text x="360" y="26" text-anchor="middle" font-size="16" font-weight="bold" fill="#1f4e79">边云协同：六种协同</text>
+  <rect x="50" y="48" width="220" height="68" rx="7" fill="#f3f6ee" stroke="#4a6130" stroke-width="1.5"/>
+  <text x="160" y="76" text-anchor="middle" font-size="16" font-weight="bold" fill="#4a6130">边缘计算</text>
+  <text x="160" y="98" text-anchor="middle" font-size="11" fill="#22303f">局部性 · 实时 · 短周期</text>
+  <rect x="450" y="48" width="220" height="68" rx="7" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.5"/>
+  <text x="560" y="76" text-anchor="middle" font-size="16" font-weight="bold" fill="#1f4e79">云计算</text>
+  <text x="560" y="98" text-anchor="middle" font-size="11" fill="#22303f">全局性 · 非实时 · 长周期</text>
+  <line x1="270" y1="73" x2="439" y2="73" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="447,73 439,68.5 439,77.5" fill="#1f4e79"/>
+  <line x1="450" y1="96" x2="281" y2="96" stroke="#4a6130" stroke-width="1.5" fill="none"/>
+  <polygon points="273,96 281,91.5 281,100.5" fill="#4a6130"/>
+  <text x="360" y="65" text-anchor="middle" font-size="10" fill="#1f4e79">策略 / 模型 / 应用</text>
+  <text x="360" y="111" text-anchor="middle" font-size="10" fill="#4a6130">数据 / 状态 / 经验</text>
+  <rect x="30" y="150" width="320" height="84" rx="6" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.2"/>
+  <text x="190" y="174" text-anchor="middle" font-size="14" font-weight="bold" fill="#1f4e79">1. 资源协同</text>
+  <text x="44" y="198" font-size="11" fill="#22303f">边缘：本地资源调度管理，执行云端策略</text>
+  <text x="44" y="218" font-size="11" fill="#22303f">云端：设备、资源、网络连接管理策略</text>
+  <rect x="370" y="150" width="320" height="84" rx="6" fill="#f3f6ee" stroke="#4a6130" stroke-width="1.2"/>
+  <text x="530" y="174" text-anchor="middle" font-size="14" font-weight="bold" fill="#4a6130">2. 数据协同</text>
+  <text x="384" y="198" font-size="11" fill="#22303f">边缘：数据采集、初步处理分析并上传</text>
+  <text x="384" y="218" font-size="11" fill="#22303f">云端：海量存储、分析与价值挖掘</text>
+  <rect x="30" y="250" width="320" height="84" rx="6" fill="#fdf0e6" stroke="#c05621" stroke-width="1.2"/>
+  <text x="190" y="274" text-anchor="middle" font-size="14" font-weight="bold" fill="#c05621">3. 智能协同</text>
+  <text x="44" y="298" font-size="11" fill="#22303f">边缘：按 AI 模型执行推理，分布式智能</text>
+  <text x="44" y="318" font-size="11" fill="#22303f">云端：集中式模型训练，模型下发边缘</text>
+  <rect x="370" y="250" width="320" height="84" rx="6" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.2"/>
+  <text x="530" y="274" text-anchor="middle" font-size="14" font-weight="bold" fill="#1f4e79">4. 应用管理协同</text>
+  <text x="384" y="298" font-size="11" fill="#22303f">边缘：部署运行环境，本节点生命周期管理</text>
+  <text x="384" y="318" font-size="11" fill="#22303f">云端：开发测试环境，生命周期管理能力</text>
+  <rect x="30" y="350" width="320" height="84" rx="6" fill="#f3f6ee" stroke="#4a6130" stroke-width="1.2"/>
+  <text x="190" y="374" text-anchor="middle" font-size="14" font-weight="bold" fill="#4a6130">5. 业务管理协同</text>
+  <text x="44" y="398" font-size="11" fill="#22303f">边缘：模块化、微服务化应用与各类实例</text>
+  <text x="44" y="418" font-size="11" fill="#22303f">云端：按客户需求实现业务编排</text>
+  <rect x="370" y="350" width="320" height="84" rx="6" fill="#fdf0e6" stroke="#c05621" stroke-width="1.2"/>
+  <text x="530" y="374" text-anchor="middle" font-size="14" font-weight="bold" fill="#c05621">6. 服务协同</text>
+  <text x="384" y="398" font-size="11" fill="#22303f">边缘：按云端策略提供部分 EC-SaaS 服务</text>
+  <text x="384" y="418" font-size="11" fill="#22303f">云端：SaaS 分布策略与云端 SaaS 能力</text>
+  <text x="360" y="465" text-anchor="middle" font-size="11" fill="#6b7a8a">边云不是替代关系，而是互补协同关系。</text>
+</svg>

@@ -1,0 +1,82 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 520" font-family="Microsoft YaHei, 微软雅黑, sans-serif">
+  <text x="360" y="30" text-anchor="middle" font-size="17" font-weight="bold" fill="#1f4e79">典型微服务调用模式：聚合、链式、分支、异步</text>
+  <rect x="30" y="55" width="310" height="190" rx="8" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.5"/>
+  <text x="185" y="78" text-anchor="middle" font-size="14" font-weight="bold" fill="#1f4e79">聚合器模式</text>
+  <rect x="45" y="91" width="75" height="34" rx="4" fill="#ffffff" stroke="#1f4e79"/>
+  <rect x="155" y="91" width="150" height="34" rx="4" fill="#ffffff" stroke="#1f4e79"/>
+  <text x="82" y="113" text-anchor="middle" font-size="11" fill="#22303f">客户端</text>
+  <text x="230" y="113" text-anchor="middle" font-size="11" fill="#22303f">聚合器 / 组合服务</text>
+  <line x1="120" y1="108" x2="147" y2="108" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="152,108 144,103.5 144,112.5" fill="#1f4e79"/>
+  <rect x="45" y="165" width="80" height="38" rx="4" fill="#ffffff" stroke="#1f4e79"/>
+  <rect x="145" y="165" width="80" height="38" rx="4" fill="#ffffff" stroke="#1f4e79"/>
+  <rect x="245" y="165" width="80" height="38" rx="4" fill="#ffffff" stroke="#1f4e79"/>
+  <text x="85" y="189" text-anchor="middle" font-size="11" fill="#22303f">服务 A</text>
+  <text x="185" y="189" text-anchor="middle" font-size="11" fill="#22303f">服务 B</text>
+  <text x="285" y="189" text-anchor="middle" font-size="11" fill="#22303f">服务 C</text>
+  <line x1="180" y1="125" x2="180" y2="140" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <line x1="180" y1="140" x2="85" y2="140" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <line x1="85" y1="140" x2="85" y2="157" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="85,162 80.5,154 89.5,154" fill="#1f4e79"/>
+  <line x1="230" y1="125" x2="230" y2="140" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <line x1="230" y1="140" x2="185" y2="140" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <line x1="185" y1="140" x2="185" y2="157" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="185,162 180.5,154 189.5,154" fill="#1f4e79"/>
+  <line x1="280" y1="125" x2="280" y2="140" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <line x1="280" y1="140" x2="285" y2="140" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <line x1="285" y1="140" x2="285" y2="157" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="285,162 280.5,154 289.5,154" fill="#1f4e79"/>
+  <text x="185" y="228" text-anchor="middle" font-size="10" fill="#6b7a8a">调用多个服务并合并结果，可再发布为高层服务</text>
+  <rect x="380" y="55" width="310" height="190" rx="8" fill="#fdf0e6" stroke="#c05621" stroke-width="1.5"/>
+  <text x="535" y="78" text-anchor="middle" font-size="14" font-weight="bold" fill="#c05621">链式模式</text>
+  <rect x="392" y="105" width="62" height="45" rx="4" fill="#ffffff" stroke="#c05621"/>
+  <rect x="474" y="105" width="62" height="45" rx="4" fill="#ffffff" stroke="#c05621"/>
+  <rect x="556" y="105" width="52" height="45" rx="4" fill="#ffffff" stroke="#c05621"/>
+  <rect x="628" y="105" width="52" height="45" rx="4" fill="#ffffff" stroke="#c05621"/>
+  <text x="423" y="132" text-anchor="middle" font-size="10" fill="#22303f">客户端</text>
+  <text x="505" y="132" text-anchor="middle" font-size="11" fill="#22303f">服务 A</text>
+  <text x="582" y="132" text-anchor="middle" font-size="11" fill="#22303f">服务 B</text>
+  <text x="654" y="132" text-anchor="middle" font-size="11" fill="#22303f">服务 C</text>
+  <line x1="454" y1="127" x2="466" y2="127" stroke="#c05621" stroke-width="1.5" fill="none"/>
+  <polygon points="471,127 463,122.5 463,131.5" fill="#c05621"/>
+  <line x1="536" y1="127" x2="548" y2="127" stroke="#c05621" stroke-width="1.5" fill="none"/>
+  <polygon points="553,127 545,122.5 545,131.5" fill="#c05621"/>
+  <line x1="608" y1="127" x2="620" y2="127" stroke="#c05621" stroke-width="1.5" fill="none"/>
+  <polygon points="625,127 617,122.5 617,131.5" fill="#c05621"/>
+  <text x="535" y="181" text-anchor="middle" font-size="11" fill="#c05621">同步调用 · 逐级合并响应</text>
+  <text x="535" y="204" text-anchor="middle" font-size="10" fill="#6b7a8a">调用完成前持续阻塞，链不宜过长</text>
+  <text x="535" y="226" text-anchor="middle" font-size="10" fill="#6b7a8a">响应逐级返回上游</text>
+  <rect x="30" y="275" width="310" height="210" rx="8" fill="#f3f6ee" stroke="#8aa15c" stroke-width="1.5"/>
+  <text x="185" y="299" text-anchor="middle" font-size="14" font-weight="bold" fill="#4a6130">分支模式</text>
+  <rect x="45" y="315" width="75" height="34" rx="4" fill="#ffffff" stroke="#8aa15c"/>
+  <rect x="155" y="315" width="150" height="34" rx="4" fill="#ffffff" stroke="#8aa15c"/>
+  <text x="82" y="337" text-anchor="middle" font-size="11" fill="#22303f">客户端</text>
+  <text x="230" y="337" text-anchor="middle" font-size="11" fill="#22303f">分支服务</text>
+  <line x1="120" y1="332" x2="147" y2="332" stroke="#8aa15c" stroke-width="1.5" fill="none"/>
+  <polygon points="152,332 144,327.5 144,336.5" fill="#8aa15c"/>
+  <rect x="55" y="395" width="100" height="42" rx="4" fill="#ffffff" stroke="#8aa15c"/>
+  <rect x="215" y="395" width="100" height="42" rx="4" fill="#ffffff" stroke="#8aa15c"/>
+  <text x="105" y="421" text-anchor="middle" font-size="11" fill="#22303f">服务链 A1 → A2</text>
+  <text x="265" y="421" text-anchor="middle" font-size="11" fill="#22303f">服务链 B1 → B2</text>
+  <line x1="195" y1="349" x2="195" y2="368" stroke="#8aa15c" stroke-width="1.5" fill="none"/>
+  <line x1="195" y1="368" x2="105" y2="368" stroke="#8aa15c" stroke-width="1.5" fill="none"/>
+  <line x1="105" y1="368" x2="105" y2="387" stroke="#8aa15c" stroke-width="1.5" fill="none"/>
+  <polygon points="105,392 100.5,384 109.5,384" fill="#8aa15c"/>
+  <line x1="265" y1="349" x2="265" y2="387" stroke="#8aa15c" stroke-width="1.5" fill="none"/>
+  <polygon points="265,392 260.5,384 269.5,384" fill="#8aa15c"/>
+  <text x="185" y="465" text-anchor="middle" font-size="10" fill="#4a6130">两条独立服务链可并行调用、互不影响</text>
+  <rect x="380" y="275" width="310" height="210" rx="8" fill="#f4f6f8" stroke="#6b7a8a" stroke-width="1.5"/>
+  <text x="535" y="299" text-anchor="middle" font-size="14" font-weight="bold" fill="#22303f">异步消息传递模式</text>
+  <rect x="400" y="320" width="80" height="38" rx="4" fill="#ffffff" stroke="#6b7a8a"/>
+  <rect x="510" y="315" width="150" height="48" rx="4" fill="#fdf0e6" stroke="#c05621"/>
+  <text x="440" y="344" text-anchor="middle" font-size="11" fill="#22303f">请求者</text>
+  <text x="585" y="336" text-anchor="middle" font-size="11" font-weight="bold" fill="#c05621">消息队列</text>
+  <text x="585" y="353" text-anchor="middle" font-size="9" fill="#6b7a8a">写入后立即响应</text>
+  <line x1="480" y1="339" x2="502" y2="339" stroke="#c05621" stroke-width="1.5" fill="none"/>
+  <polygon points="507,339 499,334.5 499,343.5" fill="#c05621"/>
+  <rect x="510" y="410" width="150" height="42" rx="4" fill="#ffffff" stroke="#6b7a8a"/>
+  <text x="585" y="436" text-anchor="middle" font-size="11" fill="#22303f">消费者异步处理</text>
+  <line x1="585" y1="363" x2="585" y2="402" stroke="#6b7a8a" stroke-width="1.5" fill="none"/>
+  <polygon points="585,407 580.5,399 589.5,399" fill="#6b7a8a"/>
+  <text x="535" y="474" text-anchor="middle" font-size="10" fill="#6b7a8a">削峰解耦、加快响应，但增加系统复杂性</text>
+</svg>

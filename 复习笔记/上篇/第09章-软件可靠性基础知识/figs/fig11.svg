@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 430" width="720" height="430" font-family="Microsoft YaHei, 微软雅黑, sans-serif">
+  <rect width="720" height="430" fill="#ffffff"/>
+  <text x="360" y="32" text-anchor="middle" font-size="22" font-weight="bold" fill="#1f4e79">双机热备：组成、心跳与三种工作模式</text>
+  <rect x="50" y="80" width="120" height="54" rx="6" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.5"/>
+  <text x="110" y="103" text-anchor="middle" font-size="14" font-weight="bold" fill="#1f4e79">服务器 A</text>
+  <text x="110" y="122" text-anchor="middle" font-size="11" fill="#22303f">（主机 Active）</text>
+  <rect x="50" y="200" width="120" height="54" rx="6" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.5"/>
+  <text x="110" y="223" text-anchor="middle" font-size="14" font-weight="bold" fill="#1f4e79">服务器 B</text>
+  <text x="110" y="242" text-anchor="middle" font-size="11" fill="#22303f">（备机 Standby）</text>
+  <rect x="230" y="140" width="110" height="54" rx="6" fill="#f3f6ee" stroke="#8aa15c" stroke-width="1.5"/>
+  <text x="285" y="163" text-anchor="middle" font-size="13" font-weight="bold" fill="#4a6130">共享磁盘阵列</text>
+  <text x="285" y="183" text-anchor="middle" font-size="10.5" fill="#22303f">用户数据集中管理</text>
+  <g stroke="#c05621" stroke-width="1.5" fill="none">
+    <line x1="95" y1="134" x2="95" y2="189"/>
+    <line x1="125" y1="200" x2="125" y2="145"/>
+  </g>
+  <polygon points="95,197 90.5,189 99.5,189" fill="#c05621"/>
+  <polygon points="125,137 120.5,145 129.5,145" fill="#c05621"/>
+  <text x="140" y="170" font-size="12" fill="#c05621">心跳</text>
+  <g stroke="#1f4e79" stroke-width="1.5" fill="none">
+    <polyline points="170,107 200,107 200,160 219,160"/>
+    <polyline points="170,227 200,227 200,178 219,178"/>
+  </g>
+  <g fill="#1f4e79">
+    <polygon points="227,160 219,155.5 219,164.5"/>
+    <polygon points="227,178 219,173.5 219,182.5"/>
+  </g>
+  <text x="185" y="290" text-anchor="middle" font-size="11.5" fill="#22303f">心跳异常或中断即判定主机故障，</text>
+  <text x="185" y="310" text-anchor="middle" font-size="11.5" fill="#22303f">备机接管系统资源，保证服务不中断</text>
+  <rect x="380" y="60" width="310" height="90" rx="8" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.5"/>
+  <text x="395" y="85" font-size="13.5" font-weight="bold" fill="#1f4e79">双机热备模式（Active/Standby）</text>
+  <text x="395" y="109" font-size="11.5" fill="#22303f">主机工作、备机监控准备，数据同时写入多台</text>
+  <text x="395" y="128" font-size="11.5" fill="#22303f">保证同步；备机长期空闲，存在计算资源浪费</text>
+  <rect x="380" y="165" width="310" height="90" rx="8" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.5"/>
+  <text x="395" y="190" font-size="13.5" font-weight="bold" fill="#1f4e79">双机互备模式</text>
+  <text x="395" y="214" font-size="11.5" fill="#22303f">两台各运行相对独立的应用并互为备机，故障</text>
+  <text x="395" y="233" font-size="11.5" fill="#22303f">时相互接管应用；对服务器性能要求比较高</text>
+  <rect x="380" y="270" width="310" height="90" rx="8" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.5"/>
+  <text x="395" y="295" font-size="13.5" font-weight="bold" fill="#1f4e79">双机双工模式</text>
+  <text x="395" y="319" font-size="11.5" fill="#22303f">双活运行相同应用，负载均衡又互为备份，属</text>
+  <text x="395" y="338" font-size="11.5" fill="#22303f">集群的一种形式；Web、FTP 服务器用得较多</text>
+  <rect x="40" y="380" width="640" height="36" rx="6" fill="#f3f6ee" stroke="#8aa15c"/>
+  <text x="360" y="403" text-anchor="middle" font-size="12" fill="#4a6130">服务器集群：多台独立服务器组合为单一系统统一管理，故障结点的应用由其他结点自动接管</text>
+</svg>

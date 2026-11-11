@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 410" font-family="Microsoft YaHei, 微软雅黑, sans-serif">
+  <text x="360" y="26" text-anchor="middle" font-size="17" font-weight="bold" fill="#1f4e79">从价值驱动因素到体系结构策略</text>
+  <rect x="25" y="55" width="210" height="88" rx="7" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.5"/>
+  <text x="130" y="84" text-anchor="middle" font-size="15" font-weight="bold" fill="#1f4e79">价值期望值</text>
+  <text x="130" y="108" text-anchor="middle" font-size="11" fill="#22303f">功能 · 质量 · 质量级别的效用</text>
+  <text x="130" y="128" text-anchor="middle" font-size="10" fill="#6b7a8a">例：高峰期订单 2 秒响应</text>
+  <rect x="255" y="55" width="210" height="88" rx="7" fill="#fdf0e6" stroke="#c05621" stroke-width="1.5"/>
+  <text x="360" y="84" text-anchor="middle" font-size="15" font-weight="bold" fill="#c05621">反作用力</text>
+  <text x="360" y="108" text-anchor="middle" font-size="11" fill="#22303f">环境中实现期望的难度</text>
+  <text x="360" y="128" text-anchor="middle" font-size="10" fill="#6b7a8a">例：请求量放大、同步开销</text>
+  <rect x="485" y="55" width="210" height="88" rx="7" fill="#f3f6ee" stroke="#4a6130" stroke-width="1.5"/>
+  <text x="590" y="84" text-anchor="middle" font-size="15" font-weight="bold" fill="#4a6130">变革催化剂</text>
+  <text x="590" y="108" text-anchor="middle" font-size="11" fill="#22303f">导致期望或结果改变的事件</text>
+  <text x="590" y="128" text-anchor="middle" font-size="10" fill="#6b7a8a">例：大促、法规、部署变化</text>
+  <line x1="130" y1="143" x2="130" y2="181" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="130,189 125.5,181 134.5,181" fill="#1f4e79"/>
+  <line x1="360" y1="143" x2="360" y2="181" stroke="#c05621" stroke-width="1.5" fill="none"/>
+  <polygon points="360,189 355.5,181 364.5,181" fill="#c05621"/>
+  <line x1="590" y1="143" x2="590" y2="181" stroke="#4a6130" stroke-width="1.5" fill="none"/>
+  <polygon points="590,189 585.5,181 594.5,181" fill="#4a6130"/>
+  <rect x="25" y="192" width="670" height="70" rx="7" fill="#fbfdff" stroke="#1f4e79" stroke-width="1.6"/>
+  <text x="360" y="220" text-anchor="middle" font-size="16" font-weight="bold" fill="#1f4e79">体系结构挑战：限制因素使一个或多个价值期望更难满足</text>
+  <text x="360" y="244" text-anchor="middle" font-size="11" fill="#22303f">反作用力 + 变革催化剂 = 限制因素；先识别背景和影响，再评估低 / 中 / 高</text>
+  <line x1="360" y1="262" x2="360" y2="316" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="360,324 355.5,316 364.5,316" fill="#1f4e79"/>
+  <rect x="385" y="280" width="280" height="32" rx="5" fill="#f3f6ee" stroke="#8aa15c"/>
+  <text x="525" y="301" text-anchor="middle" font-size="11" fill="#4a6130">优先级：重要性 · 程度 · 后果 · 隔离</text>
+  <rect x="160" y="327" width="400" height="58" rx="7" fill="#1f4e79" stroke="#1f4e79"/>
+  <text x="360" y="351" text-anchor="middle" font-size="15" font-weight="bold" fill="#ffffff">体系结构策略：先应对最高优先级挑战</text>
+  <text x="360" y="373" text-anchor="middle" font-size="11" fill="#ffffff">组织 · 操作 · 可变性 · 演变</text>
+  <text x="360" y="402" text-anchor="middle" font-size="11" fill="#6b7a8a">策略应简短、可理解，并在系统生存期内保持相对稳定</text>
+</svg>

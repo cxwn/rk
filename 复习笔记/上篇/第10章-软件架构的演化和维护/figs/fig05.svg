@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 330" font-family="Microsoft YaHei, 微软雅黑, sans-serif">
+  <text x="360" y="30" text-anchor="middle" font-size="20" font-weight="bold" fill="#1f4e79">静态演化五步循环过程</text>
+  <text x="76" y="62" text-anchor="middle" font-size="14" fill="#6b7a8a">原系统</text>
+  <line x1="76" y1="70" x2="76" y2="89" stroke="#6b7a8a" stroke-width="1.5" fill="none"/>
+  <polygon points="76,97 71.5,89 80.5,89" fill="#6b7a8a"/>
+  <rect x="20" y="100" width="112" height="90" rx="7" fill="#eaf1f8" stroke="#1f4e79"/>
+  <text x="76" y="135" text-anchor="middle" font-size="16" font-weight="bold" fill="#1f4e79">1 软件理解</text>
+  <text x="76" y="163" text-anchor="middle" font-size="12" fill="#22303f">文档·架构·关系</text>
+  <line x1="132" y1="145" x2="149" y2="145" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="157,145 149,140.5 149,149.5" fill="#1f4e79"/>
+  <rect x="160" y="100" width="112" height="90" rx="7" fill="#eaf1f8" stroke="#1f4e79"/>
+  <text x="216" y="130" text-anchor="middle" font-size="15" font-weight="bold" fill="#1f4e79">2 需求变更</text>
+  <text x="216" y="151" text-anchor="middle" font-size="15" font-weight="bold" fill="#1f4e79">分析</text>
+  <text x="216" y="174" text-anchor="middle" font-size="12" fill="#22303f">找新旧差异</text>
+  <line x1="272" y1="145" x2="289" y2="145" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="297,145 289,140.5 289,149.5" fill="#1f4e79"/>
+  <rect x="300" y="100" width="112" height="90" rx="7" fill="#fdf0e6" stroke="#c05621"/>
+  <text x="356" y="135" text-anchor="middle" font-size="16" font-weight="bold" fill="#c05621">3 演化计划</text>
+  <text x="356" y="163" text-anchor="middle" font-size="12" fill="#22303f">范围·成本·方案</text>
+  <line x1="412" y1="145" x2="429" y2="145" stroke="#c05621" stroke-width="1.5" fill="none"/>
+  <polygon points="437,145 429,140.5 429,149.5" fill="#c05621"/>
+  <rect x="440" y="100" width="112" height="90" rx="7" fill="#fdf0e6" stroke="#c05621"/>
+  <text x="496" y="135" text-anchor="middle" font-size="16" font-weight="bold" fill="#c05621">4 系统重构</text>
+  <text x="496" y="163" text-anchor="middle" font-size="12" fill="#22303f">实施结构调整</text>
+  <line x1="552" y1="145" x2="569" y2="145" stroke="#c05621" stroke-width="1.5" fill="none"/>
+  <polygon points="577,145 569,140.5 569,149.5" fill="#c05621"/>
+  <rect x="580" y="100" width="112" height="90" rx="7" fill="#f3f6ee" stroke="#8aa15c"/>
+  <text x="636" y="135" text-anchor="middle" font-size="16" font-weight="bold" fill="#4a6130">5 系统测试</text>
+  <text x="636" y="163" text-anchor="middle" font-size="12" fill="#22303f">验证更新后系统</text>
+  <polyline points="636,190 636,220 76,220 76,201" stroke="#8aa15c" stroke-width="1.5" fill="none"/>
+  <polygon points="76,193 71.5,201 80.5,201" fill="#8aa15c"/>
+  <text x="360" y="250" text-anchor="middle" font-size="14" font-weight="bold" fill="#4a6130">发现不足：返回理解，循环迭代</text>
+  <text x="360" y="292" text-anchor="middle" font-size="14" fill="#22303f">系统停止运行期间执行；每一步都要分析组件变更的波及范围</text>
+  <text x="360" y="316" text-anchor="middle" font-size="13" fill="#6b7a8a">对应维护：更正性维护 · 适应性维护 · 完善性维护</text>
+</svg>

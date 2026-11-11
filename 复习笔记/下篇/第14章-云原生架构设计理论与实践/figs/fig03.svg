@@ -1,0 +1,51 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 490" font-family="Microsoft YaHei, 微软雅黑, sans-serif">
+  <text x="360" y="30" text-anchor="middle" font-size="17" font-weight="bold" fill="#1f4e79">云原生架构七大原则</text>
+  <!-- 左竖条 -->
+  <rect x="40" y="50" width="130" height="420" rx="10" fill="#1f4e79"/>
+  <text x="105" y="200" text-anchor="middle" font-size="16" font-weight="bold" fill="#ffffff">云原生架构</text>
+  <text x="105" y="228" text-anchor="middle" font-size="16" font-weight="bold" fill="#ffffff">七大原则</text>
+  <text x="105" y="262" text-anchor="middle" font-size="11" fill="#dbe7f3">核心架构控制面</text>
+  <text x="105" y="284" text-anchor="middle" font-size="11" fill="#dbe7f3">技术选择不跑偏</text>
+  <!-- 卡片1 服务化 -->
+  <rect x="230" y="50" width="460" height="48" rx="6" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.2"/>
+  <text x="246" y="70" font-size="13" font-weight="bold" fill="#1f4e79">1 服务化原则</text>
+  <text x="246" y="88" font-size="11" fill="#22303f">按生命周期拆分服务、面向接口编程；基于服务流量（非网络流量）治理</text>
+  <line x1="174" y1="74" x2="219" y2="74" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="227,74 219,69.5 219,78.5" fill="#1f4e79"/>
+  <!-- 卡片2 弹性 -->
+  <rect x="230" y="110" width="460" height="48" rx="6" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.2"/>
+  <text x="246" y="130" font-size="13" font-weight="bold" fill="#1f4e79">2 弹性原则</text>
+  <text x="246" y="148" font-size="11" fill="#22303f">部署规模随业务量自动伸缩，免预先容量规划、降低闲置成本</text>
+  <line x1="174" y1="134" x2="219" y2="134" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="227,134 219,129.5 219,138.5" fill="#1f4e79"/>
+  <!-- 卡片3 可观测 -->
+  <rect x="230" y="170" width="460" height="48" rx="6" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.2"/>
+  <text x="246" y="190" font-size="13" font-weight="bold" fill="#1f4e79">3 可观测原则</text>
+  <text x="246" y="208" font-size="11" fill="#22303f">日志、链路跟踪、度量手段，让多次服务调用的耗时与参数清晰可见</text>
+  <line x1="174" y1="194" x2="219" y2="194" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="227,194 219,189.5 219,198.5" fill="#1f4e79"/>
+  <!-- 卡片4 韧性 -->
+  <rect x="230" y="230" width="460" height="48" rx="6" fill="#f3f6ee" stroke="#8aa15c" stroke-width="1.2"/>
+  <text x="246" y="250" font-size="13" font-weight="bold" fill="#4a6130">4 韧性原则</text>
+  <text x="246" y="268" font-size="11" fill="#22303f">依赖组件异常时抵御并持续服务，核心目标提升 MTBF；重试/熔断/多活</text>
+  <line x1="174" y1="254" x2="219" y2="254" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="227,254 219,249.5 219,258.5" fill="#1f4e79"/>
+  <!-- 卡片5 自动化 -->
+  <rect x="230" y="290" width="460" height="48" rx="6" fill="#f3f6ee" stroke="#8aa15c" stroke-width="1.2"/>
+  <text x="246" y="310" font-size="13" font-weight="bold" fill="#4a6130">5 所有过程自动化原则</text>
+  <text x="246" y="328" font-size="11" fill="#22303f">IaC、GitOps、OAM、K8s Operator + CI/CD，面向终态标准化自动交付</text>
+  <line x1="174" y1="314" x2="219" y2="314" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="227,314 219,309.5 219,318.5" fill="#1f4e79"/>
+  <!-- 卡片6 零信任 -->
+  <rect x="230" y="350" width="460" height="48" rx="6" fill="#fdf0e6" stroke="#c05621" stroke-width="1.2"/>
+  <text x="246" y="370" font-size="13" font-weight="bold" fill="#c05621">6 零信任原则</text>
+  <text x="246" y="388" font-size="11" fill="#22303f">默认不信任内外任何人/设备/系统；从网络中心化走向身份中心化</text>
+  <line x1="174" y1="374" x2="219" y2="374" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="227,374 219,369.5 219,378.5" fill="#1f4e79"/>
+  <!-- 卡片7 演进 -->
+  <rect x="230" y="410" width="460" height="48" rx="6" fill="#fdf0e6" stroke="#c05621" stroke-width="1.2"/>
+  <text x="246" y="430" font-size="13" font-weight="bold" fill="#c05621">7 架构持续演进原则</text>
+  <text x="246" y="448" font-size="11" fill="#22303f">非封闭式架构；兼顾治理与风险，存量迁移评估迁出/迁入成本风险</text>
+  <line x1="174" y1="434" x2="219" y2="434" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="227,434 219,429.5 219,438.5" fill="#1f4e79"/>
+</svg>

@@ -1,0 +1,70 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 500" font-family="Microsoft YaHei, 微软雅黑, sans-serif">
+  <rect width="720" height="500" fill="#ffffff"/>
+  <text x="360" y="30" text-anchor="middle" font-size="20" font-weight="bold" fill="#1f4e79">选择、投影、自然连接与除运算</text>
+  <rect x="20" y="50" width="330" height="190" rx="8" fill="#fbfdff" stroke="#d5dde5"/>
+  <text x="185" y="78" text-anchor="middle" font-size="16" font-weight="bold" fill="#1f4e79">选择 σ：按条件筛行</text>
+  <rect x="40" y="98" width="125" height="95" fill="#ffffff" stroke="#6b7a8a"/>
+  <rect x="40" y="98" width="125" height="30" fill="#eaf1f8"/>
+  <line x1="40" y1="128" x2="165" y2="128" stroke="#6b7a8a"/>
+  <line x1="40" y1="150" x2="165" y2="150" stroke="#d5dde5"/>
+  <line x1="40" y1="172" x2="165" y2="172" stroke="#d5dde5"/>
+  <text x="102" y="119" text-anchor="middle" font-size="12" fill="#1f4e79">学号　成绩</text>
+  <text x="102" y="143" text-anchor="middle" font-size="12" fill="#22303f">S1　　80</text>
+  <text x="102" y="165" text-anchor="middle" font-size="12" fill="#22303f">S2　　55</text>
+  <text x="102" y="187" text-anchor="middle" font-size="12" fill="#22303f">S3　　90</text>
+  <line x1="165" y1="145" x2="224" y2="145" stroke="#1f4e79" stroke-width="1.5"/>
+  <polygon points="232,145 224,140.5 224,149.5" fill="#1f4e79"/>
+  <rect x="235" y="112" width="90" height="68" fill="#f3f6ee" stroke="#8aa15c"/>
+  <text x="280" y="138" text-anchor="middle" font-size="12" fill="#22303f">S1　80</text>
+  <text x="280" y="164" text-anchor="middle" font-size="12" fill="#22303f">S3　90</text>
+  <text x="185" y="218" text-anchor="middle" font-size="13" fill="#6b7a8a">条件：成绩 ≥ 60；列不变，行减少</text>
+  <rect x="370" y="50" width="330" height="190" rx="8" fill="#fbfdff" stroke="#d5dde5"/>
+  <text x="535" y="78" text-anchor="middle" font-size="16" font-weight="bold" fill="#1f4e79">投影 π：取列并去重</text>
+  <rect x="390" y="98" width="130" height="95" fill="#ffffff" stroke="#6b7a8a"/>
+  <rect x="390" y="98" width="130" height="30" fill="#eaf1f8"/>
+  <line x1="455" y1="98" x2="455" y2="193" stroke="#6b7a8a"/>
+  <line x1="390" y1="128" x2="520" y2="128" stroke="#6b7a8a"/>
+  <line x1="390" y1="150" x2="520" y2="150" stroke="#d5dde5"/>
+  <line x1="390" y1="172" x2="520" y2="172" stroke="#d5dde5"/>
+  <text x="422" y="119" text-anchor="middle" font-size="12" fill="#1f4e79">学号</text>
+  <text x="487" y="119" text-anchor="middle" font-size="12" fill="#1f4e79">姓名</text>
+  <text x="422" y="143" text-anchor="middle" font-size="12" fill="#22303f">S1</text>
+  <text x="487" y="143" text-anchor="middle" font-size="12" fill="#22303f">小林</text>
+  <text x="422" y="165" text-anchor="middle" font-size="12" fill="#22303f">S2</text>
+  <text x="487" y="165" text-anchor="middle" font-size="12" fill="#22303f">小周</text>
+  <line x1="520" y1="145" x2="569" y2="145" stroke="#1f4e79" stroke-width="1.5"/>
+  <polygon points="577,145 569,140.5 569,149.5" fill="#1f4e79"/>
+  <rect x="580" y="105" width="90" height="82" fill="#f3f6ee" stroke="#8aa15c"/>
+  <text x="625" y="130" text-anchor="middle" font-size="12" fill="#4a6130">姓名</text>
+  <text x="625" y="153" text-anchor="middle" font-size="12" fill="#22303f">小林</text>
+  <text x="625" y="176" text-anchor="middle" font-size="12" fill="#22303f">小周</text>
+  <text x="535" y="218" text-anchor="middle" font-size="13" fill="#6b7a8a">垂直取列；重复元组要消除</text>
+  <rect x="20" y="265" width="330" height="215" rx="8" fill="#fbfdff" stroke="#d5dde5"/>
+  <text x="185" y="293" text-anchor="middle" font-size="16" font-weight="bold" fill="#1f4e79">自然连接</text>
+  <rect x="35" y="320" width="75" height="65" fill="#eaf1f8" stroke="#1f4e79"/>
+  <text x="72" y="345" text-anchor="middle" font-size="13" font-weight="bold" fill="#1f4e79">R</text>
+  <text x="72" y="370" text-anchor="middle" font-size="12" fill="#22303f">学号,姓名</text>
+  <text x="123" y="357" text-anchor="middle" font-size="12" fill="#c05621">连接</text>
+  <rect x="140" y="320" width="80" height="65" fill="#fdf0e6" stroke="#c05621"/>
+  <text x="180" y="345" text-anchor="middle" font-size="13" font-weight="bold" fill="#c05621">S</text>
+  <text x="180" y="370" text-anchor="middle" font-size="12" fill="#22303f">学号,成绩</text>
+  <line x1="220" y1="352" x2="239" y2="352" stroke="#1f4e79" stroke-width="1.5"/>
+  <polygon points="247,352 239,347.5 239,356.5" fill="#1f4e79"/>
+  <rect x="250" y="310" width="85" height="85" fill="#f3f6ee" stroke="#8aa15c"/>
+  <text x="292" y="338" text-anchor="middle" font-size="12" fill="#4a6130">学号</text>
+  <text x="292" y="360" text-anchor="middle" font-size="12" fill="#22303f">姓名</text>
+  <text x="292" y="382" text-anchor="middle" font-size="12" fill="#22303f">成绩</text>
+  <text x="185" y="424" text-anchor="middle" font-size="13" fill="#22303f">同名学号等值匹配</text>
+  <text x="185" y="450" text-anchor="middle" font-size="13" fill="#6b7a8a">结果只保留一个“学号”列</text>
+  <rect x="370" y="265" width="330" height="215" rx="8" fill="#fbfdff" stroke="#d5dde5"/>
+  <text x="535" y="293" text-anchor="middle" font-size="16" font-weight="bold" fill="#1f4e79">除运算 ÷：关键词“全部”</text>
+  <rect x="392" y="318" width="125" height="65" rx="5" fill="#eaf1f8" stroke="#1f4e79"/>
+  <text x="454" y="344" text-anchor="middle" font-size="13" fill="#1f4e79">R（学生，课程）</text>
+  <text x="454" y="369" text-anchor="middle" font-size="12" fill="#22303f">记录实际选课</text>
+  <text x="531" y="357" text-anchor="middle" font-size="22" fill="#c05621">÷</text>
+  <rect x="550" y="318" width="125" height="65" rx="5" fill="#fdf0e6" stroke="#c05621"/>
+  <text x="612" y="344" text-anchor="middle" font-size="13" fill="#c05621">S（课程）</text>
+  <text x="612" y="369" text-anchor="middle" font-size="12" fill="#22303f">指定全部课程</text>
+  <rect x="420" y="410" width="230" height="45" rx="6" fill="#f3f6ee" stroke="#8aa15c"/>
+  <text x="535" y="438" text-anchor="middle" font-size="14" font-weight="bold" fill="#4a6130">结果：选修全部指定课程的学生</text>
+</svg>

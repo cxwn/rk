@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 400" font-family="Microsoft YaHei, 微软雅黑, sans-serif">
+  <text x="360" y="30" text-anchor="middle" font-size="17" font-weight="bold" fill="#1f4e79">REST：资源、表述、状态转移与超链接</text>
+  <rect x="300" y="45" width="120" height="40" rx="6" fill="#fdf0e6" stroke="#c05621"/>
+  <text x="360" y="62" text-anchor="middle" font-size="12" font-weight="bold" fill="#c05621">URI 标识资源</text>
+  <text x="360" y="78" text-anchor="middle" font-size="9" fill="#22303f">一个 URI 一种资源</text>
+  <rect x="40" y="100" width="220" height="220" rx="9" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.5"/>
+  <text x="150" y="126" text-anchor="middle" font-size="15" font-weight="bold" fill="#1f4e79">客户端</text>
+  <rect x="70" y="145" width="160" height="55" rx="5" fill="#ffffff" stroke="#1f4e79"/>
+  <text x="150" y="168" text-anchor="middle" font-size="12" font-weight="bold" fill="#22303f">应用状态</text>
+  <text x="150" y="188" text-anchor="middle" font-size="10" fill="#6b7a8a">由客户端维护</text>
+  <rect x="70" y="220" width="160" height="65" rx="5" fill="#ffffff" stroke="#1f4e79"/>
+  <text x="150" y="244" text-anchor="middle" font-size="12" font-weight="bold" fill="#22303f">超链接</text>
+  <text x="150" y="264" text-anchor="middle" font-size="10" fill="#6b7a8a">发现相关资源 URI</text>
+  <text x="150" y="280" text-anchor="middle" font-size="10" fill="#6b7a8a">驱动下一步操作</text>
+  <rect x="460" y="100" width="220" height="220" rx="9" fill="#f3f6ee" stroke="#8aa15c" stroke-width="1.5"/>
+  <text x="570" y="126" text-anchor="middle" font-size="15" font-weight="bold" fill="#4a6130">服务端</text>
+  <rect x="490" y="145" width="160" height="55" rx="5" fill="#ffffff" stroke="#8aa15c"/>
+  <text x="570" y="168" text-anchor="middle" font-size="12" font-weight="bold" fill="#22303f">资源 Resource</text>
+  <text x="570" y="188" text-anchor="middle" font-size="10" fill="#4a6130">订单 / 图片 / 文件</text>
+  <rect x="490" y="220" width="160" height="65" rx="5" fill="#ffffff" stroke="#8aa15c"/>
+  <text x="570" y="244" text-anchor="middle" font-size="12" font-weight="bold" fill="#22303f">资源状态</text>
+  <text x="570" y="264" text-anchor="middle" font-size="10" fill="#4a6130">由服务端保存</text>
+  <text x="570" y="280" text-anchor="middle" font-size="10" fill="#4a6130">HTTP 方法引起转移</text>
+  <rect x="285" y="125" width="150" height="50" rx="5" fill="#fdf0e6" stroke="#c05621"/>
+  <text x="360" y="146" text-anchor="middle" font-size="11" font-weight="bold" fill="#c05621">HTTP 方法</text>
+  <text x="360" y="164" text-anchor="middle" font-size="10" fill="#22303f">GET / POST / DELETE</text>
+  <line x1="260" y1="150" x2="277" y2="150" stroke="#c05621" stroke-width="1.5" fill="none"/>
+  <polygon points="282,150 274,145.5 274,154.5" fill="#c05621"/>
+  <line x1="435" y1="150" x2="452" y2="150" stroke="#c05621" stroke-width="1.5" fill="none"/>
+  <polygon points="457,150 449,145.5 449,154.5" fill="#c05621"/>
+  <rect x="285" y="235" width="150" height="50" rx="5" fill="#f4f6f8" stroke="#6b7a8a"/>
+  <text x="360" y="256" text-anchor="middle" font-size="11" font-weight="bold" fill="#22303f">资源表述</text>
+  <text x="360" y="274" text-anchor="middle" font-size="10" fill="#6b7a8a">JSON / XML / HTML</text>
+  <line x1="460" y1="260" x2="446" y2="260" stroke="#6b7a8a" stroke-width="1.5" fill="none"/>
+  <polygon points="438,260 446,255.5 446,264.5" fill="#6b7a8a"/>
+  <line x1="285" y1="260" x2="271" y2="260" stroke="#6b7a8a" stroke-width="1.5" fill="none"/>
+  <polygon points="263,260 271,255.5 271,264.5" fill="#6b7a8a"/>
+  <rect x="85" y="345" width="550" height="34" rx="6" fill="#f3f6ee" stroke="#8aa15c"/>
+  <text x="360" y="367" text-anchor="middle" font-size="11" fill="#4a6130">传输的是资源某时刻的表述；REST 是架构设计风格，不是具体协议</text>
+</svg>

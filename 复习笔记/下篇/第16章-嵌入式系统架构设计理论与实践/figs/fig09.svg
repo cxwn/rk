@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 430" font-family="Microsoft YaHei, 微软雅黑, sans-serif">
+  <rect width="720" height="430" fill="#ffffff"/>
+  <text x="360" y="29" text-anchor="middle" font-size="20" font-weight="bold" fill="#1f4e79">嵌入式数据库三类架构</text>
+  <g text-anchor="middle">
+    <text x="125" y="62" font-size="17" font-weight="bold" fill="#1f4e79">内存型 MMDB</text>
+    <rect x="25" y="80" width="200" height="245" rx="10" fill="#fbfdff" stroke="#1f4e79" stroke-width="1.5"/>
+    <text x="125" y="105" font-size="12" fill="#6b7a8a">同一应用进程</text>
+    <rect x="55" y="120" width="140" height="42" rx="5" fill="#1f4e79"/><text x="125" y="147" font-size="14" fill="#ffffff">数据库应用</text>
+    <rect x="55" y="188" width="140" height="42" rx="5" fill="#eaf1f8" stroke="#1f4e79"/><text x="125" y="215" font-size="14" fill="#22303f">数据库内核</text>
+    <rect x="55" y="256" width="140" height="42" rx="5" fill="#f3f6ee" stroke="#8aa15c"/><text x="125" y="283" font-size="14" fill="#4a6130">主拷贝常驻 RAM</text>
+    <text x="125" y="354" font-size="13" fill="#1f4e79">无磁盘 I/O，时间易预测</text>
+    <text x="360" y="62" font-size="17" font-weight="bold" fill="#c05621">文件型 FDB</text>
+    <rect x="260" y="80" width="200" height="245" rx="10" fill="#fffdfa" stroke="#c05621" stroke-width="1.5"/>
+    <text x="360" y="105" font-size="12" fill="#6b7a8a">库文件链接进应用</text>
+    <rect x="290" y="120" width="140" height="42" rx="5" fill="#c05621"/><text x="360" y="147" font-size="14" fill="#ffffff">应用程序</text>
+    <rect x="290" y="188" width="140" height="42" rx="5" fill="#fdf0e6" stroke="#c05621"/><text x="360" y="215" font-size="14" fill="#22303f">SQLite 等引擎</text>
+    <rect x="290" y="256" width="140" height="42" rx="5" fill="#fdf0e6" stroke="#c05621"/><text x="360" y="283" font-size="14" fill="#c05621">本地数据库文件</text>
+    <text x="360" y="354" font-size="13" fill="#c05621">轻量、随应用部署</text>
+    <text x="595" y="62" font-size="17" font-weight="bold" fill="#4a6130">网络型 NDB</text>
+    <rect x="495" y="80" width="200" height="245" rx="10" fill="#fdfffb" stroke="#8aa15c" stroke-width="1.5"/>
+    <rect x="520" y="112" width="150" height="42" rx="5" fill="#4a6130"/><text x="595" y="139" font-size="14" fill="#ffffff">嵌入式客户端</text>
+    <rect x="520" y="188" width="150" height="42" rx="5" fill="#f3f6ee" stroke="#8aa15c"/><text x="595" y="215" font-size="14" fill="#4a6130">通信 / 同步服务</text>
+    <rect x="520" y="264" width="150" height="42" rx="5" fill="#f3f6ee" stroke="#8aa15c"/><text x="595" y="291" font-size="14" fill="#4a6130">远程数据库服务</text>
+    <text x="595" y="354" font-size="13" fill="#4a6130">集中管理，依赖网络同步</text>
+  </g>
+  <g stroke="#6b7a8a" stroke-width="1.5" fill="none">
+    <line x1="125" y1="162" x2="125" y2="180"/><line x1="125" y1="230" x2="125" y2="248"/>
+    <line x1="360" y1="162" x2="360" y2="180"/><line x1="360" y1="230" x2="360" y2="248"/>
+    <line x1="595" y1="154" x2="595" y2="180"/><line x1="595" y1="230" x2="595" y2="256"/>
+  </g>
+  <g fill="#6b7a8a">
+    <polygon points="125,185 120.5,177 129.5,177"/><polygon points="125,253 120.5,245 129.5,245"/>
+    <polygon points="360,185 355.5,177 364.5,177"/><polygon points="360,253 355.5,245 364.5,245"/>
+    <polygon points="595,185 590.5,177 599.5,177"/><polygon points="595,261 590.5,253 599.5,253"/>
+  </g>
+  <rect x="110" y="385" width="500" height="30" rx="15" fill="#eaf1f8"/>
+  <text x="360" y="406" text-anchor="middle" font-size="13" fill="#1f4e79">共同目标：高效存储、实时事务、安全控制与故障恢复</text>
+</svg>

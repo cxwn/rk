@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 365" font-family="Microsoft YaHei, 微软雅黑, sans-serif">
+  <rect width="720" height="365" fill="#ffffff"/>
+  <text x="360" y="30" text-anchor="middle" font-size="20" font-weight="bold" fill="#1f4e79">需求管理的四项主要活动</text>
+  <rect x="25" y="50" width="670" height="285" rx="10" fill="#f7fafc" stroke="#1f4e79" stroke-width="1.5"/>
+  <text x="360" y="80" text-anchor="middle" font-size="16" font-weight="bold" fill="#1f4e79">围绕需求基线控制变化，并保持需求与工作成果可追踪</text>
+  <g text-anchor="middle">
+    <rect x="55" y="100" width="280" height="88" rx="7" fill="#fdf0e6" stroke="#c05621" stroke-width="1.5"/>
+    <text x="195" y="127" font-size="18" font-weight="bold" fill="#c05621">变更控制</text>
+    <text x="195" y="151" font-size="13" fill="#22303f">建议变更 · 分析影响 · 做出决策</text>
+    <text x="195" y="173" font-size="13" fill="#22303f">交流 · 合并 · 测量需求稳定性</text>
+    <rect x="385" y="100" width="280" height="88" rx="7" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.5"/>
+    <text x="525" y="127" font-size="18" font-weight="bold" fill="#1f4e79">版本控制</text>
+    <text x="525" y="151" font-size="13" fill="#22303f">确定需求文档版本</text>
+    <text x="525" y="173" font-size="13" fill="#22303f">确定单个需求的版本</text>
+    <rect x="55" y="216" width="280" height="88" rx="7" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.5"/>
+    <text x="195" y="243" font-size="18" font-weight="bold" fill="#1f4e79">需求跟踪</text>
+    <text x="195" y="267" font-size="13" fill="#22303f">定义需求之间的连接链</text>
+    <text x="195" y="289" font-size="13" fill="#22303f">定义需求与系统元素的连接链</text>
+    <rect x="385" y="216" width="280" height="88" rx="7" fill="#f3f6ee" stroke="#4a6130" stroke-width="1.5"/>
+    <text x="525" y="243" font-size="18" font-weight="bold" fill="#4a6130">需求状态跟踪</text>
+    <text x="525" y="267" font-size="13" fill="#22303f">定义需求状态</text>
+    <text x="525" y="289" font-size="13" fill="#22303f">跟踪每个需求的状态变化</text>
+  </g>
+  <text x="360" y="355" text-anchor="middle" font-size="13" fill="#6b7a8a">基线是经评审批准的需求约定，后续变更必须受控</text>
+</svg>

@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 290" font-family="Microsoft YaHei, 微软雅黑, sans-serif">
+  <text x="360" y="28" text-anchor="middle" font-size="16" font-weight="bold" fill="#1f4e79">基于公钥的数字签名</text>
+  <text x="30" y="58" font-size="12" font-weight="bold" fill="#1f4e79">发送方 A</text>
+  <rect x="40" y="70" width="70" height="36" rx="4" fill="#ffffff" stroke="#1f4e79" stroke-width="1.2"/>
+  <text x="75" y="93" text-anchor="middle" font-size="12" fill="#22303f">明文 P</text>
+  <rect x="140" y="70" width="110" height="36" rx="4" fill="#fdf0e6" stroke="#c05621" stroke-width="1.2"/>
+  <text x="195" y="93" text-anchor="middle" font-size="11.5" fill="#c05621">A 私钥 D_A 签名</text>
+  <rect x="280" y="70" width="100" height="36" rx="4" fill="#ffffff" stroke="#1f4e79" stroke-width="1.2"/>
+  <text x="330" y="93" text-anchor="middle" font-size="11.5" fill="#22303f">签名 D_A(P)</text>
+  <rect x="410" y="70" width="110" height="36" rx="4" fill="#ffffff" stroke="#1f4e79" stroke-width="1.2"/>
+  <text x="465" y="93" text-anchor="middle" font-size="11.5" fill="#22303f">B 公钥 E_B 加密</text>
+  <rect x="550" y="70" width="120" height="36" rx="4" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.2"/>
+  <text x="610" y="93" text-anchor="middle" font-size="11.5" fill="#22303f">E_B(D_A(P))</text>
+  <line x1="110" y1="88" x2="129" y2="88" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="137,88 129,83.5 129,92.5" fill="#1f4e79"/>
+  <line x1="250" y1="88" x2="269" y2="88" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="277,88 269,83.5 269,92.5" fill="#1f4e79"/>
+  <line x1="380" y1="88" x2="399" y2="88" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="407,88 399,83.5 399,92.5" fill="#1f4e79"/>
+  <line x1="520" y1="88" x2="539" y2="88" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="547,88 539,83.5 539,92.5" fill="#1f4e79"/>
+  <line x1="610" y1="106" x2="610" y2="169" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="610,177 605.5,169 614.5,169" fill="#1f4e79"/>
+  <text x="30" y="168" font-size="12" font-weight="bold" fill="#1f4e79">接收方 B</text>
+  <rect x="550" y="180" width="120" height="36" rx="4" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.2"/>
+  <text x="610" y="203" text-anchor="middle" font-size="12" fill="#22303f">密文</text>
+  <rect x="410" y="180" width="110" height="36" rx="4" fill="#ffffff" stroke="#1f4e79" stroke-width="1.2"/>
+  <text x="465" y="203" text-anchor="middle" font-size="11.5" fill="#22303f">B 私钥 D_B 解密</text>
+  <rect x="280" y="180" width="100" height="36" rx="4" fill="#ffffff" stroke="#1f4e79" stroke-width="1.2"/>
+  <text x="330" y="203" text-anchor="middle" font-size="11.5" fill="#22303f">D_A(P)</text>
+  <rect x="140" y="180" width="110" height="36" rx="4" fill="#fdf0e6" stroke="#c05621" stroke-width="1.2"/>
+  <text x="195" y="203" text-anchor="middle" font-size="11.5" fill="#c05621">A 公钥 E_A 验证</text>
+  <rect x="40" y="180" width="70" height="36" rx="4" fill="#ffffff" stroke="#1f4e79" stroke-width="1.2"/>
+  <text x="75" y="203" text-anchor="middle" font-size="12" fill="#22303f">明文 P</text>
+  <line x1="550" y1="198" x2="531" y2="198" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="523,198 531,193.5 531,202.5" fill="#1f4e79"/>
+  <line x1="410" y1="198" x2="391" y2="198" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="383,198 391,193.5 391,202.5" fill="#1f4e79"/>
+  <line x1="280" y1="198" x2="261" y2="198" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="253,198 261,193.5 261,202.5" fill="#1f4e79"/>
+  <line x1="140" y1="198" x2="121" y2="198" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="113,198 121,193.5 121,202.5" fill="#1f4e79"/>
+  <text x="360" y="248" text-anchor="middle" font-size="11.5" fill="#6b7a8a">A 私钥签名＝来源认证＋不可抵赖，B 公钥加密＝传输保密</text>
+  <text x="360" y="270" text-anchor="middle" font-size="11.5" fill="#6b7a8a">实际对长文件只对单向 Hash 摘要签名，提高效率、减少存储</text>
+</svg>

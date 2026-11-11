@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 500" width="720" height="500">
+  <rect width="720" height="500" fill="#ffffff"/>
+  <text x="360" y="34" text-anchor="middle" font-family="Microsoft YaHei, 微软雅黑, sans-serif" font-size="22" font-weight="bold" fill="#22303f">基于XML的界面管理（重绘图13-6）</text>
+  <rect x="42" y="66" width="180" height="64" rx="8" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.5"/>
+  <text x="132" y="94" text-anchor="middle" font-family="Microsoft YaHei, 微软雅黑, sans-serif" font-size="17" font-weight="bold" fill="#1f4e79">界面配置模块</text>
+  <text x="132" y="117" text-anchor="middle" font-family="Microsoft YaHei, 微软雅黑, sans-serif" font-size="13" fill="#22303f">运行前静态定义</text>
+  <rect x="42" y="176" width="180" height="64" rx="8" fill="#fdf0e6" stroke="#c05621" stroke-width="1.5"/>
+  <text x="132" y="204" text-anchor="middle" font-family="Microsoft YaHei, 微软雅黑, sans-serif" font-size="17" font-weight="bold" fill="#c05621">界面定制模块</text>
+  <text x="132" y="227" text-anchor="middle" font-family="Microsoft YaHei, 微软雅黑, sans-serif" font-size="13" fill="#22303f">运行中修改并保存</text>
+  <rect x="300" y="116" width="150" height="70" rx="8" fill="#f3f6ee" stroke="#8aa15c" stroke-width="1.5"/>
+  <text x="375" y="146" text-anchor="middle" font-family="Microsoft YaHei, 微软雅黑, sans-serif" font-size="17" font-weight="bold" fill="#4a6130">XML配置文件</text>
+  <text x="375" y="170" text-anchor="middle" font-family="Microsoft YaHei, 微软雅黑, sans-serif" font-size="13" fill="#22303f">控件树与属性元数据</text>
+  <line x1="222" y1="98" x2="288" y2="129" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="296,133 287,131 289,124" fill="#1f4e79"/>
+  <line x1="222" y1="208" x2="288" y2="169" stroke="#c05621" stroke-width="1.5" fill="none"/>
+  <polygon points="296,165 288,164 289,172" fill="#c05621"/>
+  <rect x="526" y="66" width="154" height="58" rx="8" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.5"/>
+  <text x="603" y="102" text-anchor="middle" font-family="Microsoft YaHei, 微软雅黑, sans-serif" font-size="17" font-weight="bold" fill="#1f4e79">DOM API</text>
+  <line x1="450" y1="132" x2="514" y2="105" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="522,101 514,101 516,108" fill="#1f4e79"/>
+  <rect x="526" y="176" width="154" height="58" rx="8" fill="#f3f6ee" stroke="#8aa15c" stroke-width="1.5"/>
+  <text x="603" y="201" text-anchor="middle" font-family="Microsoft YaHei, 微软雅黑, sans-serif" font-size="16" font-weight="bold" fill="#4a6130">数据存取类</text>
+  <text x="603" y="222" text-anchor="middle" font-family="Microsoft YaHei, 微软雅黑, sans-serif" font-size="13" fill="#22303f">读取数据库</text>
+  <rect x="280" y="292" width="160" height="70" rx="8" fill="#fdf0e6" stroke="#c05621" stroke-width="2"/>
+  <text x="360" y="321" text-anchor="middle" font-family="Microsoft YaHei, 微软雅黑, sans-serif" font-size="17" font-weight="bold" fill="#c05621">界面动态生成模块</text>
+  <text x="360" y="346" text-anchor="middle" font-family="Microsoft YaHei, 微软雅黑, sans-serif" font-size="13" fill="#22303f">运行时组装界面元素</text>
+  <line x1="526" y1="95" x2="480" y2="95" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <line x1="480" y1="95" x2="480" y2="270" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <line x1="480" y1="270" x2="400" y2="270" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <line x1="400" y1="270" x2="400" y2="281" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="400,289 395.5,281 404.5,281" fill="#1f4e79"/>
+  <line x1="526" y1="205" x2="500" y2="205" stroke="#8aa15c" stroke-width="1.5" fill="none"/>
+  <line x1="500" y1="205" x2="500" y2="327" stroke="#8aa15c" stroke-width="1.5" fill="none"/>
+  <line x1="500" y1="327" x2="452" y2="327" stroke="#8aa15c" stroke-width="1.5" fill="none"/>
+  <polygon points="444,327 452,322.5 452,331.5" fill="#8aa15c"/>
+  <rect x="280" y="410" width="160" height="56" rx="8" fill="#eaf1f8" stroke="#1f4e79" stroke-width="2"/>
+  <text x="360" y="445" text-anchor="middle" font-family="Microsoft YaHei, 微软雅黑, sans-serif" font-size="17" font-weight="bold" fill="#1f4e79">可执行文件 / GUI</text>
+  <line x1="360" y1="362" x2="360" y2="398" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="360,406 355.5,398 364.5,398" fill="#1f4e79"/>
+  <text x="54" y="300" font-family="Microsoft YaHei, 微软雅黑, sans-serif" font-size="14" fill="#22303f">一套XML描述</text>
+  <text x="54" y="328" font-family="Microsoft YaHei, 微软雅黑, sans-serif" font-size="14" fill="#22303f">多种解析器转换</text>
+  <text x="54" y="356" font-family="Microsoft YaHei, 微软雅黑, sans-serif" font-size="14" fill="#c05621">体现策略模式</text>
+</svg>

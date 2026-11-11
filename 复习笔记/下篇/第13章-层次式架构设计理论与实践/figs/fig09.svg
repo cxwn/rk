@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 480" width="720" height="480">
+  <rect width="720" height="480" fill="#ffffff"/>
+  <text x="360" y="34" text-anchor="middle" font-family="Microsoft YaHei, 微软雅黑, sans-serif" font-size="22" font-weight="bold" fill="#22303f">Hibernate对象关系映射架构（重绘图13-14）</text>
+  <rect x="252" y="62" width="216" height="58" rx="8" fill="#eaf1f8" stroke="#1f4e79" stroke-width="2"/>
+  <text x="360" y="99" text-anchor="middle" font-family="Microsoft YaHei, 微软雅黑, sans-serif" font-size="19" font-weight="bold" fill="#1f4e79">应用程序</text>
+  <line x1="360" y1="120" x2="360" y2="143" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="360,151 355.5,143 364.5,143" fill="#1f4e79"/>
+  <rect x="252" y="154" width="216" height="58" rx="8" fill="#f3f6ee" stroke="#8aa15c" stroke-width="2"/>
+  <text x="360" y="191" text-anchor="middle" font-family="Microsoft YaHei, 微软雅黑, sans-serif" font-size="19" font-weight="bold" fill="#4a6130">持久对象</text>
+  <line x1="360" y1="212" x2="360" y2="235" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="360,243 355.5,235 364.5,235" fill="#1f4e79"/>
+  <rect x="208" y="246" width="304" height="82" rx="10" fill="#fdf0e6" stroke="#c05621" stroke-width="2"/>
+  <text x="360" y="279" text-anchor="middle" font-family="Microsoft YaHei, 微软雅黑, sans-serif" font-size="21" font-weight="bold" fill="#c05621">Hibernate</text>
+  <text x="360" y="307" text-anchor="middle" font-family="Microsoft YaHei, 微软雅黑, sans-serif" font-size="14" fill="#22303f">轻量级封装JDBC · 查询与恢复 · 持久化服务</text>
+  <rect x="34" y="162" width="142" height="66" rx="8" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.5"/>
+  <text x="105" y="190" text-anchor="middle" font-family="Microsoft YaHei, 微软雅黑, sans-serif" font-size="16" font-weight="bold" fill="#1f4e79">Hibernate属性</text>
+  <text x="105" y="214" text-anchor="middle" font-family="Microsoft YaHei, 微软雅黑, sans-serif" font-size="13" fill="#22303f">连接等配置</text>
+  <rect x="544" y="162" width="142" height="66" rx="8" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.5"/>
+  <text x="615" y="190" text-anchor="middle" font-family="Microsoft YaHei, 微软雅黑, sans-serif" font-size="16" font-weight="bold" fill="#1f4e79">XML映射</text>
+  <text x="615" y="214" text-anchor="middle" font-family="Microsoft YaHei, 微软雅黑, sans-serif" font-size="13" fill="#22303f">Java类与数据表映射</text>
+  <line x1="176" y1="195" x2="196" y2="252" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="200,260 192,254 200,250" fill="#1f4e79"/>
+  <line x1="544" y1="195" x2="524" y2="252" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="520,260 520,250 528,254" fill="#1f4e79"/>
+  <line x1="360" y1="328" x2="360" y2="351" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="360,359 355.5,351 364.5,351" fill="#1f4e79"/>
+  <rect x="252" y="362" width="216" height="64" rx="8" fill="#f3f6ee" stroke="#8aa15c" stroke-width="2"/>
+  <text x="360" y="402" text-anchor="middle" font-family="Microsoft YaHei, 微软雅黑, sans-serif" font-size="20" font-weight="bold" fill="#4a6130">关系数据库</text>
+  <text x="360" y="456" text-anchor="middle" font-family="Microsoft YaHei, 微软雅黑, sans-serif" font-size="14" fill="#6b7a8a">轻型体系：应用提供JDBC连接并管理事务；全面体系：Hibernate屏蔽JDBC/JTA细节</text>
+</svg>

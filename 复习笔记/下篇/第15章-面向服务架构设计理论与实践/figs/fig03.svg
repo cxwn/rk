@@ -1,0 +1,46 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 390" font-family="Microsoft YaHei, 微软雅黑, sans-serif">
+  <text x="360" y="30" text-anchor="middle" font-size="17" font-weight="bold" fill="#1f4e79">典型企业服务总线：标准化接入与中介转换</text>
+  <rect x="150" y="55" width="100" height="42" rx="5" fill="#eaf1f8" stroke="#1f4e79"/>
+  <rect x="310" y="55" width="100" height="42" rx="5" fill="#eaf1f8" stroke="#1f4e79"/>
+  <rect x="470" y="55" width="100" height="42" rx="5" fill="#eaf1f8" stroke="#1f4e79"/>
+  <text x="200" y="81" text-anchor="middle" font-size="12" fill="#22303f">服务请求者</text>
+  <text x="360" y="81" text-anchor="middle" font-size="12" fill="#22303f">服务请求者</text>
+  <text x="520" y="81" text-anchor="middle" font-size="12" fill="#22303f">服务请求者</text>
+  <rect x="110" y="155" width="500" height="105" rx="8" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.8"/>
+  <text x="360" y="177" text-anchor="middle" font-size="14" font-weight="bold" fill="#1f4e79">企业服务总线 ESB（架构模式）</text>
+  <rect x="140" y="192" width="120" height="44" rx="5" fill="#ffffff" stroke="#1f4e79"/>
+  <rect x="300" y="192" width="120" height="44" rx="5" fill="#ffffff" stroke="#1f4e79"/>
+  <rect x="460" y="192" width="120" height="44" rx="5" fill="#ffffff" stroke="#1f4e79"/>
+  <text x="200" y="211" text-anchor="middle" font-size="12" font-weight="bold" fill="#22303f">Transport</text>
+  <text x="200" y="228" text-anchor="middle" font-size="10" fill="#6b7a8a">传输 / 协议转换</text>
+  <text x="360" y="211" text-anchor="middle" font-size="12" font-weight="bold" fill="#22303f">Transform</text>
+  <text x="360" y="228" text-anchor="middle" font-size="10" fill="#6b7a8a">数据格式转换</text>
+  <text x="520" y="211" text-anchor="middle" font-size="12" font-weight="bold" fill="#22303f">Route</text>
+  <text x="520" y="228" text-anchor="middle" font-size="10" fill="#6b7a8a">发现 / 路由 / 选择</text>
+  <rect x="15" y="165" width="75" height="85" rx="5" fill="#fdf0e6" stroke="#c05621"/>
+  <text x="52" y="184" text-anchor="middle" font-size="10" font-weight="bold" fill="#c05621">标准协议</text>
+  <text x="52" y="201" text-anchor="middle" font-size="9" fill="#22303f">SOAP / WSDL</text>
+  <text x="52" y="217" text-anchor="middle" font-size="9" fill="#22303f">HTTP(S) / JMS</text>
+  <text x="52" y="233" text-anchor="middle" font-size="9" fill="#22303f">FTP / SMTP</text>
+  <line x1="90" y1="208" x2="102" y2="208" stroke="#c05621" stroke-width="1.5" fill="none"/>
+  <polygon points="107,208 99,203.5 99,212.5" fill="#c05621"/>
+  <line x1="200" y1="97" x2="200" y2="147" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="200,152 195.5,144 204.5,144" fill="#1f4e79"/>
+  <line x1="360" y1="97" x2="360" y2="147" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="360,152 355.5,144 364.5,144" fill="#1f4e79"/>
+  <line x1="520" y1="97" x2="520" y2="147" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="520,152 515.5,144 524.5,144" fill="#1f4e79"/>
+  <rect x="150" y="305" width="100" height="42" rx="5" fill="#f3f6ee" stroke="#8aa15c"/>
+  <rect x="310" y="305" width="100" height="42" rx="5" fill="#f3f6ee" stroke="#8aa15c"/>
+  <rect x="470" y="305" width="100" height="42" rx="5" fill="#f3f6ee" stroke="#8aa15c"/>
+  <text x="200" y="331" text-anchor="middle" font-size="12" fill="#22303f">服务提供者</text>
+  <text x="360" y="331" text-anchor="middle" font-size="12" fill="#22303f">服务提供者</text>
+  <text x="520" y="331" text-anchor="middle" font-size="12" fill="#22303f">服务提供者</text>
+  <line x1="200" y1="260" x2="200" y2="297" stroke="#8aa15c" stroke-width="1.5" fill="none"/>
+  <polygon points="200,302 195.5,294 204.5,294" fill="#8aa15c"/>
+  <line x1="360" y1="260" x2="360" y2="297" stroke="#8aa15c" stroke-width="1.5" fill="none"/>
+  <polygon points="360,302 355.5,294 364.5,294" fill="#8aa15c"/>
+  <line x1="520" y1="260" x2="520" y2="297" stroke="#8aa15c" stroke-width="1.5" fill="none"/>
+  <polygon points="520,302 515.5,294 524.5,294" fill="#8aa15c"/>
+  <text x="360" y="374" text-anchor="middle" font-size="11" fill="#6b7a8a">请求者无需关心提供者位置与实现技术，实现位置透明、协议透明</text>
+</svg>

@@ -1,0 +1,588 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>第8章 系统质量属性与架构评估</title>
+<style>
+  :root{ --ink:#22303f; --main:#1f4e79; --main-light:#eaf1f8; --accent:#c05621;
+    --accent-light:#fdf0e6; --line:#d5dde5; --muted:#6b7a8a; }
+  *{ box-sizing:border-box; print-color-adjust:exact; -webkit-print-color-adjust:exact; }
+  html,body{ margin:0; padding:0; }
+  body{ font-family:"Microsoft YaHei","微软雅黑","PingFang SC","Noto Sans CJK SC",sans-serif;
+    color:var(--ink); background:#e9edf1; font-size:10.5pt; line-height:1.75; }
+  .sheet{ max-width:190mm; margin:8mm auto; background:#fff; padding:10mm 11mm;
+    box-shadow:0 2px 14px rgba(0,0,0,.12); }
+  h1{ font-size:21pt; color:var(--main); margin:0 0 2mm; border-bottom:3px solid var(--main); padding-bottom:3mm; }
+  h2{ font-size:14pt; color:var(--main); margin:8mm 0 3mm; padding:1.2mm 0 1.2mm 3mm;
+    border-left:5px solid var(--main); background:linear-gradient(to right,var(--main-light),#fff); break-after:avoid; }
+  h3{ font-size:11.5pt; color:var(--main); margin:5mm 0 2mm; break-after:avoid; }
+  p{ margin:1.5mm 0; }
+  code{ background:#f0f3f6; border-radius:1mm; padding:0 1mm; font-size:9.5pt; }
+  .def,.example,.mnemonic{ border-radius:2mm; padding:2.5mm 3.5mm; margin:2.5mm 0; break-inside:avoid; }
+  .def{ border:1.5px solid var(--main); background:#fbfdff; }
+  .example{ background:var(--accent-light); border-left:4px solid var(--accent); }
+  .mnemonic{ background:#f3f6ee; border:1px dashed #8aa15c; color:#4a6130; }
+  table{ border-collapse:collapse; width:100%; margin:2.5mm 0; font-size:9.5pt; table-layout:fixed; }
+  th,td{ border:1px solid var(--line); padding:1.6mm 2mm; text-align:left; vertical-align:top; overflow-wrap:break-word; }
+  th{ background:var(--main); color:#fff; text-align:center; }
+  thead{ display:table-header-group; }
+  tr{ break-inside:avoid; }
+  td.tc{ text-align:center; }
+  tr:nth-child(even) td{ background:#f6f9fc; }
+  .fig{ margin:3mm 0; padding:2.5mm; border:1px solid var(--line); border-radius:2mm;
+    background:#fdfefe; break-inside:avoid; }
+  .fig .cap{ text-align:center; color:var(--muted); font-size:9pt; margin-top:1mm; }
+  svg{ display:block; width:100%; height:auto; }
+  svg text{ font-family:inherit; }
+  ul,ol{ margin:1.5mm 0 1.5mm 5mm; padding-left:4mm; }
+  li{ margin:0.8mm 0; }
+  .footer{ margin-top:8mm; padding-top:2mm; border-top:1px solid var(--line);
+    color:var(--muted); font-size:8.5pt; text-align:center; }
+  @page{ size:A4; margin:12mm; }
+  @media print{ body{ background:#fff; font-size:10pt; }
+    .sheet{ max-width:none; margin:0; padding:0; box-shadow:none; } h2{ margin-top:6mm; } }
+</style>
+</head>
+<body>
+<div class="sheet">
+<h1>第8章 系统质量属性与架构评估</h1>
+<ul><li>教材位置：02.系统架构设计师第二版-教材.pdf PDF 第 281～314 页（书页 271～304）</li><li>复习状态：已完成</li><li>复习日期：2026-11-06</li><li>本章地位：质量属性场景是把模糊需求变成可测试目标的通用方法，是综合知识常考点；ATAM 的效用树、敏感点、权衡点与风险分析则是案例题高频素材。</li></ul>
+<h2>一、大纲考点</h2>
+<p>大纲科目 1 第 7 部分对应教材本章，编号不同但内容一致。</p>
+<table><colgroup><col style="width:18.6%"><col style="width:37.1%"><col style="width:17.5%"><col style="width:26.8%"></colgroup><thead><tr><th>大纲条目</th><th>大纲要求</th><th>教材对应</th><th>复习抓手</th></tr></thead><tbody><tr><td>7.1.1 质量属性概念</td><td>软件质量定义、范围、内涵及主要影响因素</td><td>8.1.1</td><td>GB/T 16260.1 六特性；开发期与运行期分类</td></tr><tr><td>7.1.1 GB/T 16260.1</td><td>理解标准中的质量模型</td><td>8.1.1</td><td>六特性及各自子特性，避免与架构评估八属性混淆</td></tr><tr><td>7.1.2 面向架构评估的质量属性</td><td>性能、可靠性、可用性、安全性、可修改性、功能性、可变性、互操作性</td><td>8.1.2</td><td>八属性的定义、度量与边界</td></tr><tr><td>7.1.3 质量属性场景描述</td><td>场景定义、组成及重点关注的六类属性场景</td><td>8.1.3、表8-1～表8-6</td><td>六要素；六类场景的刺激、响应与度量</td></tr><tr><td>7.2.1 评估重要概念</td><td>敏感点、权衡点、风险承担者、场景；评估方法分类</td><td>8.2 引言、8.2.1</td><td>问卷/检查表、场景、度量三类方法</td></tr><tr><td>7.2.2 系统架构评估方法</td><td>SAAM、ATAM、CBAM 及其他方法</td><td>8.2.2</td><td>三种主方法的目标与步骤；其他方法识别关键词</td></tr><tr><td>7.3 ATAM 架构评估实践</td><td>演示、调查和分析、测试、报告四阶段</td><td>8.3.1～8.3.4、图8-5～图8-7</td><td>八步骤、效用树、头脑风暴、风险与权衡点</td></tr></tbody></table>
+<h2>二、知识点笔记</h2>
+<h3>8.1.1 质量属性概念</h3>
+<div class="def">教材原文：软件系统质量属性是一个系统的可测量或者可测试的属性，用来描述系统满足利益相关者需求的程度。</div>
+<p>通俗地说，功能属性回答“系统能做什么”，质量属性回答“做得怎样”。架构不能只列功能模块，还要说明响应多快、故障后多久恢复、修改要花多大代价。</p>
+<p>⭐【重点】GB/T 16260.1 从管理角度把软件质量分为六个维度：</p>
+<table><colgroup><col style="width:15.1%"><col style="width:45.3%"><col style="width:39.6%"></colgroup><thead><tr><th>六特性</th><th>子特性</th><th>一句话理解</th></tr></thead><tbody><tr><td class="tc">功能性</td><td>适合性、准确性、互操作性、依从性、安全性</td><td>提供的功能是否正确、合规并能协作</td></tr><tr><td class="tc">可靠性</td><td>容错性、易恢复性、成熟性</td><td>在规定条件和时间内持续完成规定功能</td></tr><tr><td class="tc">易用性</td><td>易学性、易理解性、易操作性</td><td>用户是否容易学会、看懂和操作</td></tr><tr><td class="tc">效率</td><td>资源特性、时间特性</td><td>用多少资源、花多少时间完成工作</td></tr><tr><td class="tc">维护性</td><td>可测试性、可修改性、稳定性、易分析性</td><td>出问题后是否容易定位、修改和验证</td></tr><tr><td class="tc">可移植性</td><td>适应性、易安装性、一致性、可替换性</td><td>是否能迁移、安装并替代其他软件</td></tr></tbody></table>
+<p>按生命周期还可分为开发期质量属性与运行期质量属性：</p>
+<table><colgroup><col style="width:14.1%"><col style="width:48.9%"><col style="width:37.0%"></colgroup><thead><tr><th>分类</th><th>属性</th><th>记忆重点</th></tr></thead><tbody><tr><td class="tc">开发期 6 项</td><td>易理解性、可扩展性、可重用性、可测试性、可维护性、可移植性</td><td>主要影响设计、编码、测试、修改和迁移</td></tr><tr><td class="tc">运行期 7 项</td><td>性能、安全性、可伸缩性、互操作性、可靠性、可用性、鲁棒性</td><td>主要在系统运行、交互、故障和负载变化时体现</td></tr></tbody></table>
+<div class="example">举例：给网店增加“优惠券”功能，代码是否容易看懂、改动和测试，属于开发期质量；促销时能否撑住十倍请求、故障后能否快速恢复，属于运行期质量。</div>
+<div class="fig"><div><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 500" width="720" height="500" font-family="Microsoft YaHei, 微软雅黑, sans-serif">
+  <rect width="720" height="500" fill="#ffffff"/>
+  <text x="360" y="32" text-anchor="middle" font-size="22" font-weight="bold" fill="#1f4e79">质量属性分类全景</text>
+  <rect x="30" y="55" width="660" height="115" rx="10" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.5"/>
+  <text x="50" y="84" font-size="16" font-weight="bold" fill="#1f4e79">GB/T 16260.1：六个质量维度</text>
+  <g font-size="14" text-anchor="middle">
+    <rect x="45" y="103" width="100" height="42" rx="6" fill="#ffffff"/><text x="95" y="129">功能性</text>
+    <rect x="155" y="103" width="100" height="42" rx="6" fill="#ffffff"/><text x="205" y="129">可靠性</text>
+    <rect x="265" y="103" width="100" height="42" rx="6" fill="#ffffff"/><text x="315" y="129">易用性</text>
+    <rect x="375" y="103" width="100" height="42" rx="6" fill="#ffffff"/><text x="425" y="129">效率</text>
+    <rect x="485" y="103" width="100" height="42" rx="6" fill="#ffffff"/><text x="535" y="129">维护性</text>
+    <rect x="595" y="103" width="80" height="42" rx="6" fill="#ffffff"/><text x="635" y="129">可移植性</text>
+  </g>
+  <rect x="30" y="190" width="315" height="265" rx="10" fill="#fdf0e6" stroke="#c05621" stroke-width="1.5"/>
+  <rect x="375" y="190" width="315" height="265" rx="10" fill="#f3f6ee" stroke="#8aa15c" stroke-width="1.5"/>
+  <text x="187" y="222" text-anchor="middle" font-size="18" font-weight="bold" fill="#c05621">开发期质量属性（6项）</text>
+  <text x="532" y="222" text-anchor="middle" font-size="18" font-weight="bold" fill="#4a6130">运行期质量属性（7项）</text>
+  <g font-size="15">
+    <text x="65" y="257">1. 易理解性：设计容易被理解</text>
+    <text x="65" y="288">2. 可扩展性：容易增加新功能</text>
+    <text x="65" y="319">3. 可重用性：容易复用系统或构件</text>
+    <text x="65" y="350">4. 可测试性：容易证明满足需求</text>
+    <text x="65" y="381">5. 可维护性：容易定位并实施修改</text>
+    <text x="65" y="412">6. 可移植性：容易迁移运行环境</text>
+    <text x="410" y="253">1. 性能：响应速度、吞吐量、容量</text>
+    <text x="410" y="281">2. 安全性：服务合法并阻止非法</text>
+    <text x="410" y="309">3. 可伸缩性：负载增长仍保质量</text>
+    <text x="410" y="337">4. 互操作性：交换数据、调用服务</text>
+    <text x="410" y="365">5. 可靠性：持续无故障运行能力</text>
+    <text x="410" y="393">6. 可用性：正常工作的时间比例</text>
+    <text x="410" y="421">7. 鲁棒性：非正常情况保持定义行为</text>
+  </g>
+  <text x="187" y="441" text-anchor="middle" font-size="12" fill="#6b7a8a">关注理解、修改、测试与迁移</text>
+  <text x="532" y="441" text-anchor="middle" font-size="12" fill="#6b7a8a">关注运行、交互、故障与负载</text>
+  <text x="360" y="482" text-anchor="middle" font-size="13" fill="#6b7a8a">三套分类用于不同语境，答题时先辨认题目所问的分类体系</text>
+</svg></div><div class="cap">质量属性分类全景：GB/T 六特性、开发期六项与运行期七项</div></div>
+<p>⭐【易错】几组相近概念：</p>
+<ul><li><b>可扩展性</b>偏向增加新功能；<b>可伸缩性</b>偏向用户量、数据量增长后仍维持服务质量，常通过增加服务器实现。</li><li><b>可靠性</b>关注规定条件、规定时间内无故障完成规定功能；<b>可用性</b>关注正常工作的时间比例以及故障后的恢复速度。</li><li><b>安全性</b>同时包含“向合法用户提供服务”和“阻止非授权使用”，不能只记成保密。</li><li><b>鲁棒性</b>又称健壮性或容错性，强调非法操作、软硬件故障等非正常情况下的行为。</li></ul>
+<h3>8.1.2 面向架构评估的质量属性</h3>
+<p>⭐【高频考点】架构评估普遍关注八类质量属性：</p>
+<table><colgroup><col style="width:11.8%"><col style="width:41.2%"><col style="width:47.1%"></colgroup><thead><tr><th>属性</th><th>核心含义与常见度量</th><th>架构理解要点</th></tr></thead><tbody><tr><td class="tc">性能</td><td>响应能力；响应时间、单位时间事务数、吞吐量、容量</td><td>关注事件到达后多快响应、单位时间处理多少事件</td></tr><tr><td class="tc">可靠性</td><td>规定条件和时间内完成规定功能；MTTF、MTBF</td><td>包含容错与健壮性；失效率恒定且修复时间很短时二者近似相等</td></tr><tr><td class="tc">可用性</td><td>系统正常运行的时间比例</td><td>可由故障间隔和故障恢复速度刻画</td></tr><tr><td class="tc">安全性</td><td>服务合法用户并阻止非授权使用或拒绝服务</td><td>机密性、完整性、不可否认性、可控性</td></tr><tr><td class="tc">可修改性</td><td>快速且高性价比地变更系统</td><td>包含可维护性、可扩展性、结构重组、可移植性</td></tr><tr><td class="tc">功能性</td><td>完成期望工作的能力</td><td>通常需要许多构件协作，不等于“质量属性都不重要”</td></tr><tr><td class="tc">可变性</td><td>架构按预定义规则扩充或变更为新架构的能力</td><td>对软件产品线尤其重要</td></tr><tr><td class="tc">互操作性</td><td>与其他系统或环境交换数据、调用服务的难易程度</td><td>需要精心设计外部可视功能、数据结构和软件入口</td></tr></tbody></table>
+<p>可靠性的两个方面必须区分：</p>
+<table><colgroup><col style="width:12.7%"><col style="width:47.3%"><col style="width:40.0%"></colgroup><thead><tr><th>方面</th><th>出错后的目标</th><th>是否要求继续运行</th></tr></thead><tbody><tr><td class="tc">容错</td><td>确保系统行为正确，并进行内部“修复”</td><td>通常要求恢复或重复操作，继续提供服务</td></tr><tr><td class="tc">健壮性</td><td>抵御错误使用和错误输入，使系统进入预定义状态</td><td>不一定继续运行，可按预定义方式终止</td></tr></tbody></table>
+<div class="example">举例：支付节点宕机后自动切换备用节点并继续收款，体现容错；收到格式错误的请求后拒绝处理、记录日志并安全返回初始状态，体现健壮性。</div>
+<div class="mnemonic">助记：评估八性——“性、靠、用、安；改、功、变、互”，即性能、可靠性、可用性、安全性、可修改性、功能性、可变性、互操作性。</div>
+<h3>8.1.3 质量属性场景描述</h3>
+<div class="def">教材原文：质量属性场景是一个具体的质量属性需求，是利益相关者与系统的交互的简短陈述。</div>
+<p>⭐【重点】【高频考点】一个完整场景由六部分组成，缺一不可度量：</p>
+<table><colgroup><col style="width:25.7%"><col style="width:31.2%"><col style="width:43.1%"></colgroup><thead><tr><th>要素</th><th>回答的问题</th><th>支付系统示例</th></tr></thead><tbody><tr><td>刺激源 Source</td><td>谁或什么产生刺激</td><td>支付节点内部进程</td></tr><tr><td>刺激 Stimulus</td><td>发生了什么条件或事件</td><td>节点进程崩溃</td></tr><tr><td>环境 Environment</td><td>事件发生时系统处于何种状态</td><td>系统正常运行、正在处理在线支付</td></tr><tr><td>制品 Artifact</td><td>哪个系统或系统部分受到影响</td><td>支付服务及其所在节点</td></tr><tr><td>响应 Response</td><td>系统采取什么行动</td><td>检测并记录故障，通知运维，切换备用节点</td></tr><tr><td>响应度量 Measurement</td><td>如何判断响应是否达标</td><td>30 秒内恢复支付服务，期间不产生重复扣款</td></tr></tbody></table>
+<div class="fig"><div><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 340" width="720" height="340" font-family="Microsoft YaHei, 微软雅黑, sans-serif">
+  <rect width="720" height="340" fill="#ffffff"/>
+  <text x="360" y="32" text-anchor="middle" font-size="22" font-weight="bold" fill="#1f4e79">质量属性场景：六要素形成可测试需求</text>
+  <g text-anchor="middle">
+    <rect x="25" y="75" width="95" height="70" rx="8" fill="#eaf1f8" stroke="#1f4e79"/>
+    <rect x="140" y="75" width="95" height="70" rx="8" fill="#eaf1f8" stroke="#1f4e79"/>
+    <rect x="255" y="75" width="95" height="70" rx="8" fill="#eaf1f8" stroke="#1f4e79"/>
+    <rect x="370" y="75" width="95" height="70" rx="8" fill="#eaf1f8" stroke="#1f4e79"/>
+    <rect x="485" y="75" width="95" height="70" rx="8" fill="#eaf1f8" stroke="#1f4e79"/>
+    <rect x="600" y="75" width="95" height="70" rx="8" fill="#fdf0e6" stroke="#c05621" stroke-width="1.5"/>
+    <g font-size="16" font-weight="bold" fill="#1f4e79">
+      <text x="72" y="105">刺激源</text><text x="187" y="105">刺激</text><text x="302" y="105">环境</text>
+      <text x="417" y="105">制品</text><text x="532" y="105">响应</text><text x="647" y="105" fill="#c05621">响应度量</text>
+    </g>
+    <g font-size="11" fill="#6b7a8a">
+      <text x="72" y="131">谁产生</text><text x="187" y="131">发生什么</text><text x="302" y="131">何时何态</text>
+      <text x="417" y="131">影响谁</text><text x="532" y="131">怎么处理</text><text x="647" y="131">怎样算达标</text>
+    </g>
+  </g>
+  <g stroke="#1f4e79" stroke-width="1.5" fill="none">
+    <line x1="120" y1="110" x2="129" y2="110"/><line x1="235" y1="110" x2="244" y2="110"/>
+    <line x1="350" y1="110" x2="359" y2="110"/><line x1="465" y1="110" x2="474" y2="110"/>
+    <line x1="580" y1="110" x2="589" y2="110"/>
+  </g>
+  <g fill="#1f4e79">
+    <polygon points="137,110 129,105.5 129,114.5"/><polygon points="252,110 244,105.5 244,114.5"/>
+    <polygon points="367,110 359,105.5 359,114.5"/><polygon points="482,110 474,105.5 474,114.5"/>
+    <polygon points="597,110 589,105.5 589,114.5"/>
+  </g>
+  <text x="360" y="178" text-anchor="middle" font-size="14" fill="#4a6130">助记：源—激—环—制品，响应之后必度量</text>
+  <rect x="30" y="205" width="660" height="110" rx="10" fill="#fdf0e6" stroke="#c05621" stroke-width="1.5"/>
+  <text x="50" y="232" font-size="16" font-weight="bold" fill="#c05621">举例：支付节点故障的可用性场景</text>
+  <text x="50" y="259" font-size="14">刺激源/刺激：支付节点内部进程崩溃；环境：系统正常处理在线支付。</text>
+  <text x="50" y="284" font-size="14">制品/响应：支付服务检测、记录并通知运维，随后切换备用节点。</text>
+  <text x="50" y="307" font-size="14" font-weight="bold">响应度量：30 秒内恢复服务，且不产生重复扣款。</text>
+</svg></div><div class="cap">质量属性场景六要素及支付故障示例</div></div>
+<div class="mnemonic">助记：源—激—环—制品，响应之后必度量。</div>
+<p>六类质量属性场景的侧重点如下。⭐【易错】教材此处六类是“可用性、可修改性、性能、可测试性、易用性、安全性”，<b>不含可靠性</b>。</p>
+<table><colgroup><col style="width:7.6%"><col style="width:35.2%"><col style="width:25.7%"><col style="width:31.4%"></colgroup><thead><tr><th>场景类型</th><th>典型刺激与环境</th><th>典型响应</th><th>响应度量关键词</th></tr></thead><tbody><tr><td class="tc">可用性</td><td>内外部的疏忽、错误、崩溃；正常或降级模式</td><td>检测、记录、通知、禁止故障源、降级或恢复</td><td>可用时间、修复时间、不可用区间、降级运行时间</td></tr><tr><td class="tc">可修改性</td><td>用户、开发者或管理员要求增删改功能、质量或容量；设计至运行时</td><td>定位修改点、修改、测试、部署，控制连带影响</td><td>成本、工作量、资金、受影响元素数量、副作用</td></tr><tr><td class="tc">性能</td><td>周期、随机或偶发事件；正常或超载模式</td><td>处理刺激、调整服务级别</td><td>等待时间、期限、吞吐量、抖动、缺失率、数据丢失率</td></tr><tr><td class="tc">可测试性</td><td>分析、设计、代码、集成或交付完成；设计至部署时</td><td>访问状态和计算值、准备测试环境、执行测试</td><td>语句覆盖率、故障概率、测试时间、依赖链长度、环境准备时间</td></tr><tr><td class="tc">易用性</td><td>最终用户想学习、高效使用、减少错误、适配或获得满意体验</td><td>帮助、导航、撤销、纠错、定制、国际化、状态反馈</td><td>任务时间、错误数、成功率、满意度、知识获得、损失时间或数据</td></tr><tr><td class="tc">安全性</td><td>已识别或未知、授权或未授权主体试图读写数据、调用服务或发起拒绝服务</td><td>认证、授权、阻止、审计、加密、限流、通知与恢复</td><td>攻击成功概率、检测率、突破成本、服务保持率、恢复与受损范围</td></tr></tbody></table>
+<div class="example">举例：把“系统要快”改成性能场景——“正常负载下，外部用户提交订单，订单服务在 2 秒内返回结果，95% 请求满足该时限”。这样才可以测试和验收。</div>
+<h3>8.2 系统架构评估概述</h3>
+<p>架构评估利用数学或逻辑分析，对一致性、正确性、质量属性和规划结果给出描述性、预测性、指令性结论，为架构策略决策服务。</p>
+<table><colgroup><col style="width:16.3%"><col style="width:47.6%"><col style="width:36.1%"></colgroup><thead><tr><th>方法类别</th><th>核心做法</th><th>优势与局限</th></tr></thead><tbody><tr><td class="tc">调查问卷或检查表</td><td>设计问题清单，利用相关人员经验审查架构</td><td>简单直接，但较大程度依赖评估者主观判断</td></tr><tr><td class="tc">基于场景</td><td>分析架构对使用或修改场景的支持程度</td><td>把抽象质量需求落到具体交互；SAAM、ATAM 是代表</td></tr><tr><td class="tc">基于度量</td><td>建立质量属性与度量的映射，从架构文档取度量信息，再推导质量属性</td><td>强调可量化证据，关键是映射原则和度量数据</td></tr></tbody></table>
+<div class="fig"><div><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 390" width="720" height="390" font-family="Microsoft YaHei, 微软雅黑, sans-serif">
+  <rect width="720" height="390" fill="#ffffff"/>
+  <text x="360" y="34" text-anchor="middle" font-size="22" font-weight="bold" fill="#1f4e79">系统架构评估的三类方法</text>
+  <rect x="35" y="70" width="200" height="240" rx="10" fill="#fdf0e6" stroke="#c05621" stroke-width="1.5"/>
+  <rect x="260" y="70" width="200" height="240" rx="10" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.5"/>
+  <rect x="485" y="70" width="200" height="240" rx="10" fill="#f3f6ee" stroke="#8aa15c" stroke-width="1.5"/>
+  <text x="135" y="105" text-anchor="middle" font-size="18" font-weight="bold" fill="#c05621">问卷 / 检查表</text>
+  <text x="360" y="105" text-anchor="middle" font-size="18" font-weight="bold" fill="#1f4e79">基于场景</text>
+  <text x="585" y="105" text-anchor="middle" font-size="18" font-weight="bold" fill="#4a6130">基于度量</text>
+  <g font-size="14">
+    <text x="55" y="145">• 设计问题与检查项</text><text x="55" y="176">• 汇集相关人员经验</text><text x="55" y="207">• 实施简单、直观</text>
+    <text x="55" y="253" fill="#c05621">局限：较依赖主观推断</text>
+    <text x="280" y="145">• 描述使用或修改活动</text><text x="280" y="176">• 分析架构支持程度</text><text x="280" y="207">• 判断质量需求满足度</text>
+    <text x="280" y="253" fill="#1f4e79">代表：SAAM、ATAM</text>
+    <text x="505" y="138">1. 建质量属性—度量映射</text><text x="505" y="176">2. 从架构文档取度量</text><text x="505" y="214">3. 映射推导质量属性</text>
+    <text x="505" y="253" fill="#4a6130">关键：映射原则与数据</text>
+  </g>
+  <rect x="35" y="335" width="650" height="35" rx="6" fill="#eaf1f8"/>
+  <text x="360" y="358" text-anchor="middle" font-size="14" fill="#1f4e79">评估目的：为架构策略选择提供描述性、预测性和指令性依据</text>
+</svg></div><div class="cap">三类架构评估方法对比</div></div>
+<h3>8.2.1 评估中的重要概念</h3>
+<table><colgroup><col style="width:13.0%"><col style="width:46.4%"><col style="width:40.6%"></colgroup><thead><tr><th>概念</th><th>必须掌握的定义</th><th>例子</th></tr></thead><tbody><tr><td class="tc">敏感点</td><td>一个或多个构件或其关系的特性，对实现某个质量属性至关重要</td><td>缓存容量对吞吐量很敏感</td></tr><tr><td class="tc">权衡点</td><td>影响多个质量属性的特性，是多个质量属性的敏感点</td><td>提高加密级别增强安全性，却增加处理时延、影响性能</td></tr><tr><td class="tc">风险</td><td>架构中可能妨碍高优先级质量属性目标实现的问题点</td><td>应用信息散落在框架各处，导致修改代价高</td></tr><tr><td class="tc">非风险</td><td>支持特定优先质量属性的架构优势</td><td>框架与应用分离，便于替换应用</td></tr><tr><td class="tc">风险承担者</td><td>对架构施加影响并有自身关切的人，也称利益相关人</td><td>架构师、开发、维护、测试、项目经理、客户、用户等</td></tr><tr><td class="tc">场景</td><td>从风险承担者角度描述其与系统交互的简短陈述</td><td>用户在高峰时提交订单并要求及时响应</td></tr></tbody></table>
+<p>⭐【易错】8.2.1 的评估场景常简写为<b>刺激、环境、响应</b>三方面；8.1.3 的完整质量属性场景则是<b>六要素</b>。题目问法不同，答案数量不同。</p>
+<div class="fig"><div><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 420" width="720" height="420" font-family="Microsoft YaHei, 微软雅黑, sans-serif">
+  <rect width="720" height="420" fill="#ffffff"/>
+  <text x="360" y="32" text-anchor="middle" font-size="22" font-weight="bold" fill="#1f4e79">从架构特性到敏感点、权衡点与风险结论</text>
+  <rect x="270" y="60" width="180" height="55" rx="8" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.5"/>
+  <text x="360" y="94" text-anchor="middle" font-size="18" font-weight="bold" fill="#1f4e79">关键架构决策 / 特性</text>
+  <rect x="55" y="180" width="220" height="72" rx="8" fill="#f3f6ee" stroke="#8aa15c" stroke-width="1.5"/>
+  <rect x="445" y="180" width="220" height="72" rx="8" fill="#fdf0e6" stroke="#c05621" stroke-width="1.5"/>
+  <text x="165" y="209" text-anchor="middle" font-size="18" font-weight="bold" fill="#4a6130">敏感点</text>
+  <text x="165" y="235" text-anchor="middle" font-size="13">对实现某项质量属性至关重要</text>
+  <text x="555" y="209" text-anchor="middle" font-size="18" font-weight="bold" fill="#c05621">权衡点</text>
+  <text x="555" y="235" text-anchor="middle" font-size="13">同时是多个质量属性的敏感点</text>
+  <g stroke="#1f4e79" stroke-width="1.5" fill="none">
+    <polyline points="310,115 310,145 165,145 165,169"/>
+    <polyline points="410,115 410,145 555,145 555,169"/>
+  </g>
+  <g fill="#1f4e79">
+    <polygon points="165,177 160.5,169 169.5,169"/>
+    <polygon points="555,177 550.5,169 559.5,169"/>
+  </g>
+  <rect x="55" y="290" width="295" height="85" rx="8" fill="#fdf0e6" stroke="#c05621"/>
+  <rect x="370" y="290" width="295" height="85" rx="8" fill="#f3f6ee" stroke="#8aa15c"/>
+  <text x="202" y="319" text-anchor="middle" font-size="17" font-weight="bold" fill="#c05621">风险：可能妨碍高优先级目标</text>
+  <text x="202" y="349" text-anchor="middle" font-size="13">例：应用信息散落导致修改代价高</text>
+  <text x="517" y="319" text-anchor="middle" font-size="17" font-weight="bold" fill="#4a6130">非风险：支持高优先级目标</text>
+  <text x="517" y="349" text-anchor="middle" font-size="13">例：框架与应用分离便于替换</text>
+  <text x="360" y="403" text-anchor="middle" font-size="14" fill="#1f4e79">权衡示例：提高加密级别 → 安全性增强，同时处理时延增加</text>
+</svg></div><div class="cap">敏感点、权衡点、风险与非风险的关系</div></div>
+<h3>8.2.2 SAAM 方法</h3>
+<p>SAAM 是早期形成文档并广泛使用的架构分析方法，以场景为评估技术，最初主要用于分析<b>可修改性</b>，后来扩展到可移植性、可扩展性等，也可比较多个架构。</p>
+<ul><li>主要输入：问题描述、需求声明、架构描述。</li><li>使用时机：用于架构最后版本，但早于详细设计；描述应让所有参与者理解。</li><li>架构描述三方面：功能、结构和分配。</li><li>目标：验证基本架构假设和原则，发现固有风险、需求冲突和单一视角造成的不完整设计。</li><li>知识库：教材明确说 SAAM <b>不考虑已有知识库的可重用性</b>。</li></ul>
+<p>⭐【重点】SAAM 五步：</p>
+<table><colgroup><col style="width:29.7%"><col style="width:70.3%"></colgroup><thead><tr><th>步骤</th><th>做什么</th></tr></thead><tbody><tr><td class="tc">1 场景开发</td><td>各风险承担者协商，形成反映系统活动的任务场景</td></tr><tr><td class="tc">2 架构描述</td><td>描述计算构件、数据构件及数据与控制关系</td></tr><tr><td class="tc">3 单个场景评估</td><td>对直接、间接场景逐一分析架构支持程度</td></tr><tr><td class="tc">4 场景交互评估</td><td>分析多个场景对相同构件的共同影响</td></tr><tr><td class="tc">5 总体评估</td><td>权衡场景及其交互，形成单架构结论或多架构比较</td></tr></tbody></table>
+<div class="fig"><div><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 400" width="720" height="400" font-family="Microsoft YaHei, 微软雅黑, sans-serif">
+  <rect width="720" height="400" fill="#ffffff"/>
+  <text x="360" y="30" text-anchor="middle" font-size="22" font-weight="bold" fill="#1f4e79">SAAM：输入与五步评估过程（据图8-1重绘）</text>
+  <rect x="30" y="50" width="660" height="80" rx="10" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.5"/>
+  <text x="55" y="77" font-size="14" font-weight="bold" fill="#1f4e79">主要输入</text>
+  <g font-size="14" text-anchor="middle">
+    <rect x="145" y="64" width="150" height="45" rx="6" fill="#ffffff"/><text x="220" y="92">问题描述</text>
+    <rect x="315" y="64" width="150" height="45" rx="6" fill="#ffffff"/><text x="390" y="92">需求声明</text>
+    <rect x="485" y="64" width="150" height="45" rx="6" fill="#ffffff"/><text x="560" y="92">架构描述</text>
+  </g>
+  <line x1="360" y1="130" x2="360" y2="159" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="360,167 355.5,159 364.5,159" fill="#1f4e79"/>
+  <rect x="10" y="170" width="700" height="155" rx="10" fill="#f7fafc" stroke="#6b7a8a"/>
+  <text x="360" y="194" text-anchor="middle" font-size="14" font-weight="bold" fill="#1f4e79">场景驱动，逐步从单个场景走向总体权衡</text>
+  <g text-anchor="middle">
+    <g fill="#eaf1f8" stroke="#1f4e79">
+      <rect x="20" y="210" width="128" height="72" rx="7"/><rect x="158" y="210" width="128" height="72" rx="7"/>
+      <rect x="296" y="210" width="128" height="72" rx="7"/><rect x="434" y="210" width="128" height="72" rx="7"/>
+      <rect x="572" y="210" width="128" height="72" rx="7"/>
+    </g>
+    <g font-size="14" font-weight="bold" fill="#1f4e79">
+      <text x="84" y="239">1 场景开发</text><text x="222" y="239">2 架构描述</text><text x="360" y="239">3 单个场景评估</text>
+      <text x="498" y="239">4 场景交互评估</text><text x="636" y="239">5 总体评估</text>
+    </g>
+    <g font-size="11" fill="#6b7a8a">
+      <text x="84" y="263">干系人协商</text><text x="222" y="263">功能·结构·分配</text><text x="360" y="263">直接 / 间接场景</text>
+      <text x="498" y="263">共同影响的构件</text><text x="636" y="263">单架构或多架构比较</text>
+    </g>
+  </g>
+  <g stroke="#1f4e79" stroke-width="1.4" fill="none">
+    <line x1="148" y1="246" x2="150" y2="246"/><line x1="286" y1="246" x2="288" y2="246"/>
+    <line x1="424" y1="246" x2="426" y2="246"/><line x1="562" y1="246" x2="564" y2="246"/>
+  </g>
+  <g fill="#1f4e79">
+    <polygon points="155,246 150,242.5 150,249.5"/><polygon points="293,246 288,242.5 288,249.5"/>
+    <polygon points="431,246 426,242.5 426,249.5"/><polygon points="569,246 564,242.5 564,249.5"/>
+  </g>
+  <rect x="60" y="340" width="600" height="38" rx="6" fill="#fdf0e6"/>
+  <text x="360" y="364" text-anchor="middle" font-size="13" fill="#c05621">评估逻辑：单场景逐项分析（AND）；场景交互与总体权衡（OR / 比较）</text>
+</svg></div><div class="cap">据图8-1重绘：SAAM 输入与五步评估过程</div></div>
+<h3>8.2.2 ATAM 方法</h3>
+<p>⭐【重点】【高频考点】ATAM 在 SAAM 基础上发展，关注多个相互影响、相互竞争的质量属性，初始重点是<b>性能、安全性、可修改性、可用性</b>。其核心不是给架构打一个总分，而是在开发前揭示质量属性之间的折中、敏感点和风险。</p>
+<p>ATAM 的三类场景：</p>
+<table><colgroup><col style="width:22.3%"><col style="width:35.0%"><col style="width:42.7%"></colgroup><thead><tr><th>场景</th><th>关注内容</th><th>直观例子</th></tr></thead><tbody><tr><td class="tc">用例场景</td><td>系统典型使用，引出信息</td><td>用户提交订单并查询状态</td></tr><tr><td class="tc">增长场景</td><td>对系统的一般修改和演进</td><td>增加一种支付方式</td></tr><tr><td class="tc">探测/探索性场景</td><td>可能造成过载的极端修改或增长</td><td>同时接入多个应用、命令行改为窗口界面</td></tr></tbody></table>
+<p>ATAM 的四个活动领域及七步如下，注意它与 8.3 的“四阶段八步骤”不是同一套划分。</p>
+<div class="fig"><div><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 430" width="720" height="430" font-family="Microsoft YaHei, 微软雅黑, sans-serif">
+  <rect width="720" height="430" fill="#ffffff"/>
+  <text x="360" y="30" text-anchor="middle" font-size="22" font-weight="bold" fill="#1f4e79">ATAM：四个活动领域与七步（据图8-2重绘）</text>
+  <g text-anchor="middle" font-size="15" font-weight="bold">
+    <rect x="25" y="60" width="155" height="48" rx="7" fill="#1f4e79"/><text x="102" y="82" fill="#ffffff">阶段1 场景和需求</text><text x="102" y="100" fill="#ffffff">收集</text>
+    <rect x="200" y="60" width="155" height="48" rx="7" fill="#1f4e79"/><text x="277" y="82" fill="#ffffff">阶段2 架构视图</text><text x="277" y="100" fill="#ffffff">和场景实现</text>
+    <rect x="375" y="60" width="155" height="48" rx="7" fill="#1f4e79"/><text x="452" y="82" fill="#ffffff">阶段3 属性模型</text><text x="452" y="100" fill="#ffffff">构造和分析</text>
+    <rect x="550" y="60" width="155" height="48" rx="7" fill="#c05621"/><text x="627" y="90" fill="#ffffff">阶段4 折中</text>
+  </g>
+  <g stroke="#1f4e79" stroke-width="1.5" fill="none">
+    <line x1="180" y1="84" x2="189" y2="84"/><line x1="355" y1="84" x2="364" y2="84"/><line x1="530" y1="84" x2="539" y2="84"/>
+  </g>
+  <g fill="#1f4e79">
+    <polygon points="197,84 189,79.5 189,88.5"/><polygon points="372,84 364,79.5 364,88.5"/><polygon points="547,84 539,79.5 539,88.5"/>
+  </g>
+  <rect x="25" y="125" width="155" height="235" rx="8" fill="#eaf1f8"/>
+  <rect x="200" y="125" width="155" height="235" rx="8" fill="#eaf1f8"/>
+  <rect x="375" y="125" width="155" height="235" rx="8" fill="#f3f6ee"/>
+  <rect x="550" y="125" width="155" height="235" rx="8" fill="#fdf0e6"/>
+  <g text-anchor="middle">
+    <g fill="#ffffff" stroke="#6b7a8a">
+      <rect x="40" y="150" width="125" height="65" rx="6"/><rect x="40" y="245" width="125" height="80" rx="6"/>
+      <rect x="215" y="150" width="125" height="65" rx="6"/><rect x="215" y="245" width="125" height="80" rx="6"/>
+      <rect x="390" y="150" width="125" height="105" rx="6"/>
+      <rect x="565" y="150" width="125" height="65" rx="6"/><rect x="565" y="245" width="125" height="65" rx="6"/>
+    </g>
+    <g font-size="14" font-weight="bold" fill="#22303f">
+      <text x="102" y="177">1 收集场景</text><text x="102" y="198" font-size="11" font-weight="normal">用例·增长·探测</text>
+      <text x="102" y="270">2 收集需求 / 约束</text><text x="102" y="294">/ 环境</text>
+      <text x="277" y="177">3 描述架构视图</text><text x="277" y="198" font-size="11" font-weight="normal">视图及适当映射</text>
+      <text x="277" y="272">4 实现场景</text><text x="277" y="296" font-size="11" font-weight="normal">消息顺序图注解</text>
+      <text x="452" y="183">5 特定属性分析</text><text x="452" y="211" font-size="11" font-weight="normal">属性专家独立建模</text><text x="452" y="233" font-size="11" font-weight="normal">交换信息、检查假设</text>
+      <text x="627" y="183">6 标志敏感度</text><text x="627" y="276">7 标志折中</text>
+    </g>
+  </g>
+  <rect x="70" y="382" width="580" height="30" rx="6" fill="#f3f6ee"/>
+  <text x="360" y="402" text-anchor="middle" font-size="13" fill="#4a6130">属性分析相互依赖，结果与需求比较后可迭代改进架构</text>
+</svg></div><div class="cap">据图8-2重绘：ATAM 四活动领域与七步</div></div>
+<p>⭐【重点】效用树：</p>
+<ul><li>结构：<b>树根（效用）→质量属性→属性分类/具体说明→质量属性场景（叶子）</b>。</li><li>作用：把笼统的“系统要好”分解为可讨论、可排序的具体场景。</li><li>修剪：保留重要场景，教材建议通常不超过 50 个。</li><li>两个维度：先评场景对系统成功的重要性，再评架构实现难易度，均用 H/M/L。</li><li>优先级对：<b>(H,L)</b> 表示“重要且易实现”，不是“高风险、低风险”。</li></ul>
+<div class="fig"><div><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 500" width="720" height="500" font-family="Microsoft YaHei, 微软雅黑, sans-serif">
+  <rect width="720" height="500" fill="#ffffff"/>
+  <text x="360" y="30" text-anchor="middle" font-size="22" font-weight="bold" fill="#1f4e79">ATAM 效用树：从整体效用落到可排序场景</text>
+  <rect x="280" y="50" width="160" height="45" rx="8" fill="#1f4e79"/>
+  <text x="360" y="79" text-anchor="middle" font-size="18" font-weight="bold" fill="#ffffff">树根：效用</text>
+  <line x1="360" y1="95" x2="360" y2="114" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="360,122 355.5,114 364.5,114" fill="#1f4e79"/>
+  <rect x="140" y="125" width="440" height="70" rx="8" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.5"/>
+  <text x="360" y="151" text-anchor="middle" font-size="15" font-weight="bold" fill="#1f4e79">第二层：质量属性</text>
+  <text x="360" y="179" text-anchor="middle" font-size="16">性能　　安全性　　可修改性　　可用性</text>
+  <line x1="360" y1="195" x2="360" y2="219" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="360,227 355.5,219 364.5,219" fill="#1f4e79"/>
+  <rect x="140" y="230" width="440" height="60" rx="8" fill="#f3f6ee" stroke="#8aa15c" stroke-width="1.5"/>
+  <text x="360" y="255" text-anchor="middle" font-size="15" font-weight="bold" fill="#4a6130">第三层：属性分类 / 具体说明</text>
+  <text x="360" y="278" text-anchor="middle" font-size="13">例如：性能 → 响应时间；安全性 → 数据机密性</text>
+  <line x1="360" y1="290" x2="360" y2="319" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="360,327 355.5,319 364.5,319" fill="#1f4e79"/>
+  <rect x="60" y="330" width="600" height="90" rx="8" fill="#fdf0e6" stroke="#c05621" stroke-width="1.5"/>
+  <text x="360" y="355" text-anchor="middle" font-size="15" font-weight="bold" fill="#c05621">叶子：质量属性场景</text>
+  <rect x="85" y="370" width="260" height="32" rx="5" fill="#ffffff"/>
+  <rect x="375" y="370" width="260" height="32" rx="5" fill="#ffffff"/>
+  <text x="215" y="391" text-anchor="middle" font-size="12">95% 订单请求 2 秒内返回</text>
+  <text x="505" y="391" text-anchor="middle" font-size="12">未授权用户不能读取订单数据</text>
+  <rect x="60" y="440" width="600" height="40" rx="6" fill="#eaf1f8"/>
+  <text x="360" y="465" text-anchor="middle" font-size="14" fill="#1f4e79">修剪后逐叶标注（重要性，实现难易度）：(H,L) = 重要且易实现</text>
+</svg></div><div class="cap">ATAM 效用树结构与场景优先级对</div></div>
+<div class="example">举例：“正常高峰下 95% 订单请求 2 秒内返回”可挂在“性能→响应时间”分支；其重要性为 H、实现难度为 M，则记为 <b>(H,M)</b>。</div>
+<h3>8.2.2 CBAM 方法</h3>
+<p>CBAM 在 ATAM 之后开始，复用 ATAM 的场景与评估结果，从经济角度对架构决策的成本和收益建模，帮助风险承担者按投资回报 ROI 选择策略。</p>
+<p>⭐【重点】CBAM 八步：</p>
+<table><colgroup><col style="width:31.2%"><col style="width:68.8%"></colgroup><thead><tr><th>步骤</th><th>核心动作</th></tr></thead><tbody><tr><td>1 整理场景</td><td>按商业目标排序，选取优先级最高的约 1/3 场景</td></tr><tr><td>2 场景求精</td><td>给出最坏、当前、期望、最好四种质量属性响应级别</td></tr><tr><td>3 确定优先级</td><td>干系人基于“期望响应”投票，结合票权得到场景权值</td></tr><tr><td>4 分配效用</td><td>为四种响应级别建立效用表</td></tr><tr><td>5 建立策略关系</td><td>明确架构策略影响哪些场景、属性和响应级别</td></tr><tr><td>6 内插求效用</td><td>根据效用表和对应关系，求期望响应下各策略的效用</td></tr><tr><td>7 计算总收益</td><td>用场景权值与策略效用计算策略总收益</td></tr><tr><td>8 计算 ROI 并选择</td><td>估算成本，结合收益求 ROI，按成本约束和 ROI 排序</td></tr></tbody></table>
+<div class="mnemonic">助记：CBAM——“整、精、投、效；关、插、益、投（ROI）”：整理、求精、投票、效用，建关系、内插、收益、投资回报。</div>
+<div class="fig"><div><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 450" width="720" height="450" font-family="Microsoft YaHei, 微软雅黑, sans-serif">
+  <rect width="720" height="450" fill="#ffffff"/>
+  <text x="360" y="30" text-anchor="middle" font-size="22" font-weight="bold" fill="#1f4e79">CBAM 八步：从 ATAM 场景走向 ROI 决策</text>
+  <g text-anchor="middle">
+    <g stroke="#1f4e79" fill="#eaf1f8">
+      <rect x="20" y="65" width="155" height="105" rx="8"/><rect x="195" y="65" width="155" height="105" rx="8"/>
+      <rect x="370" y="65" width="155" height="105" rx="8"/><rect x="545" y="65" width="155" height="105" rx="8"/>
+    </g>
+    <g stroke="#8aa15c" fill="#f3f6ee">
+      <rect x="545" y="245" width="155" height="105" rx="8"/><rect x="370" y="245" width="155" height="105" rx="8"/>
+      <rect x="195" y="245" width="155" height="105" rx="8"/><rect x="20" y="245" width="155" height="105" rx="8" fill="#fdf0e6" stroke="#c05621"/>
+    </g>
+    <g font-size="14" font-weight="bold" fill="#22303f">
+      <text x="97" y="94">1 整理场景</text><text x="97" y="122" font-size="12" font-weight="normal">按商业目标排序</text><text x="97" y="145" font-size="12" font-weight="normal">选最高约 1/3</text>
+      <text x="272" y="94">2 场景求精</text><text x="272" y="122" font-size="12" font-weight="normal">最坏·当前</text><text x="272" y="145" font-size="12" font-weight="normal">期望·最好</text>
+      <text x="447" y="94">3 确定优先级</text><text x="447" y="122" font-size="12" font-weight="normal">按期望响应投票</text><text x="447" y="145" font-size="12" font-weight="normal">得到场景权值</text>
+      <text x="622" y="94">4 分配效用</text><text x="622" y="122" font-size="12" font-weight="normal">为四种响应级别</text><text x="622" y="145" font-size="12" font-weight="normal">建立效用表</text>
+      <text x="622" y="274">5 建立策略关系</text><text x="622" y="302" font-size="12" font-weight="normal">策略—场景</text><text x="622" y="325" font-size="12" font-weight="normal">—响应级别</text>
+      <text x="447" y="274">6 内插求效用</text><text x="447" y="302" font-size="12" font-weight="normal">求期望响应下</text><text x="447" y="325" font-size="12" font-weight="normal">各策略效用</text>
+      <text x="272" y="274">7 计算总收益</text><text x="272" y="302" font-size="12" font-weight="normal">场景权值 × 效用</text><text x="272" y="325" font-size="12" font-weight="normal">汇总策略收益</text>
+      <text x="97" y="274" fill="#c05621">8 ROI 选择</text><text x="97" y="302" font-size="12" font-weight="normal">估算成本与收益</text><text x="97" y="325" font-size="12" font-weight="normal">按 ROI 排序</text>
+    </g>
+  </g>
+  <g stroke="#1f4e79" stroke-width="1.5" fill="none">
+    <line x1="175" y1="117" x2="184" y2="117"/><line x1="350" y1="117" x2="359" y2="117"/><line x1="525" y1="117" x2="534" y2="117"/>
+    <line x1="622" y1="170" x2="622" y2="234"/>
+    <line x1="545" y1="297" x2="536" y2="297"/><line x1="370" y1="297" x2="361" y2="297"/><line x1="195" y1="297" x2="186" y2="297"/>
+  </g>
+  <g fill="#1f4e79">
+    <polygon points="192,117 184,112.5 184,121.5"/><polygon points="367,117 359,112.5 359,121.5"/><polygon points="542,117 534,112.5 534,121.5"/>
+    <polygon points="622,242 617.5,234 626.5,234"/>
+    <polygon points="528,297 536,292.5 536,301.5"/><polygon points="353,297 361,292.5 361,301.5"/><polygon points="178,297 186,292.5 186,301.5"/>
+  </g>
+  <rect x="90" y="385" width="540" height="40" rx="6" fill="#fdf0e6"/>
+  <text x="360" y="410" text-anchor="middle" font-size="14" fill="#c05621">CBAM 在 ATAM 结束后开始，复用其场景与评估结果</text>
+</svg></div><div class="cap">CBAM 八步：从 ATAM 场景到 ROI 决策</div></div>
+<p>其他评估方法以“名称—识别关键词”掌握即可：</p>
+<table><colgroup><col style="width:17.5%"><col style="width:82.5%"></colgroup><thead><tr><th>方法</th><th>一句话识别</th></tr></thead><tbody><tr><td class="tc">SAEM</td><td>区分用户定义的外部质量属性与开发者决定的内部质量属性，建立度量准则并评估</td></tr><tr><td class="tc">SAABNet</td><td>用贝叶斯信念网络 BBN 表达不确定、不完整的定性知识，辅助诊断和预测</td></tr><tr><td class="tc">SACMM</td><td>用图内核、子结构相似度和架构距离度量架构修改</td></tr><tr><td class="tc">SASAM</td><td>映射并比较预期架构与源代码中的实际架构，属于静态评估</td></tr><tr><td class="tc">ALRRA</td><td>用动态复杂度、动态耦合度与 FMEA 评估架构可靠性风险</td></tr><tr><td class="tc">AHP</td><td>建立递阶结构、构造两两比较判断矩阵、求权重并总排序，辅助多准则决策</td></tr><tr><td class="tc">COSMIC+UML</td><td>把复杂度、耦合度、内聚度等面向对象度量与 COSMIC、UML 组件图关联，评估可维护性</td></tr></tbody></table>
+<h3>8.3 ATAM 方法架构评估实践</h3>
+<p>⭐【高频考点】实践过程是四阶段八步骤：</p>
+<table><colgroup><col style="width:18.5%"><col style="width:25.9%"><col style="width:55.6%"></colgroup><thead><tr><th>阶段</th><th>步骤</th><th>主要产出或活动</th></tr></thead><tbody><tr><td class="tc">1 演示</td><td>1 介绍 ATAM</td><td>说明过程、分析技术、预期结果，解答疑虑</td></tr><tr><td class="tc">1 演示</td><td>2 介绍业务驱动因素</td><td>说明主要功能、利益相关者、业务目标和约束</td></tr><tr><td class="tc">1 演示</td><td>3 介绍要评估的架构</td><td>描述架构、质量需求、技术约束、外部交互和架构方法</td></tr><tr><td class="tc">2 调查和分析</td><td>4 确定架构方法</td><td>解释控制流程及关键质量目标如何实现</td></tr><tr><td class="tc">2 调查和分析</td><td>5 生成质量属性效用树</td><td>收集场景，具体化并排序质量目标</td></tr><tr><td class="tc">2 调查和分析</td><td>6 分析架构方法</td><td>分析高优先级场景，识别风险、非风险、敏感点和权衡点</td></tr><tr><td class="tc">3 测试</td><td>7 头脑风暴和优先场景</td><td>扩大干系人参与，合并同类场景、投票、补充效用树</td></tr><tr><td class="tc">3 测试</td><td>8 分析架构方法</td><td>针对投票高优先级场景再次分析，发现新增风险与权衡</td></tr><tr><td class="tc">4 报告</td><td>汇总并提交结果</td><td>提交效用树、场景集、分析问题、风险与非风险、架构方法</td></tr></tbody></table>
+<div class="fig"><div><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 480" width="720" height="480" font-family="Microsoft YaHei, 微软雅黑, sans-serif">
+  <rect width="720" height="480" fill="#ffffff"/>
+  <text x="360" y="30" text-anchor="middle" font-size="22" font-weight="bold" fill="#1f4e79">ATAM 实践：四阶段八步骤（据图8-5重绘）</text>
+  <rect x="30" y="55" width="660" height="85" rx="9" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.5"/>
+  <text x="55" y="86" font-size="17" font-weight="bold" fill="#1f4e79">阶段1 演示</text>
+  <text x="55" y="114" font-size="12" fill="#6b7a8a">统一目标与认知</text>
+  <g text-anchor="middle" font-size="13">
+    <rect x="180" y="75" width="150" height="45" rx="6" fill="#ffffff"/><text x="255" y="103">1 介绍 ATAM</text>
+    <rect x="350" y="75" width="150" height="45" rx="6" fill="#ffffff"/><text x="425" y="103">2 介绍业务驱动</text>
+    <rect x="520" y="75" width="150" height="45" rx="6" fill="#ffffff"/><text x="595" y="103">3 介绍待评架构</text>
+  </g>
+  <line x1="360" y1="140" x2="360" y2="152" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="360,157 355.5,152 364.5,152" fill="#1f4e79"/>
+  <rect x="30" y="160" width="660" height="85" rx="9" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.5"/>
+  <text x="55" y="191" font-size="17" font-weight="bold" fill="#1f4e79">阶段2 调查和分析</text>
+  <text x="55" y="219" font-size="12" fill="#6b7a8a">架构师视角优先场景</text>
+  <g text-anchor="middle" font-size="13">
+    <rect x="210" y="180" width="140" height="45" rx="6" fill="#ffffff"/><text x="280" y="208">4 确定架构方法</text>
+    <rect x="370" y="180" width="140" height="45" rx="6" fill="#ffffff"/><text x="440" y="208">5 生成效用树</text>
+    <rect x="530" y="180" width="140" height="45" rx="6" fill="#ffffff"/><text x="600" y="208">6 分析架构方法</text>
+  </g>
+  <line x1="360" y1="245" x2="360" y2="257" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="360,262 355.5,257 364.5,257" fill="#1f4e79"/>
+  <rect x="30" y="265" width="660" height="85" rx="9" fill="#f3f6ee" stroke="#8aa15c" stroke-width="1.5"/>
+  <text x="55" y="296" font-size="17" font-weight="bold" fill="#4a6130">阶段3 测试</text>
+  <text x="55" y="324" font-size="12" fill="#6b7a8a">扩大干系人参与</text>
+  <g text-anchor="middle" font-size="13">
+    <rect x="225" y="285" width="205" height="45" rx="6" fill="#ffffff"/><text x="327" y="306">7 头脑风暴和优先场景</text><text x="327" y="323" font-size="10" fill="#6b7a8a">每人票数≈场景数×30%</text>
+    <rect x="460" y="285" width="205" height="45" rx="6" fill="#ffffff"/><text x="562" y="313">8 再次分析架构方法</text>
+  </g>
+  <line x1="360" y1="350" x2="360" y2="362" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="360,367 355.5,362 364.5,362" fill="#1f4e79"/>
+  <rect x="30" y="370" width="660" height="75" rx="9" fill="#fdf0e6" stroke="#c05621" stroke-width="1.5"/>
+  <text x="55" y="402" font-size="17" font-weight="bold" fill="#c05621">阶段4 报告 ATAM</text>
+  <text x="275" y="400" font-size="14">提交结果：效用树、场景集、分析问题</text>
+  <text x="275" y="425" font-size="14">风险与非风险、敏感点与权衡点、架构方法</text>
+  <text x="360" y="468" text-anchor="middle" font-size="12" fill="#6b7a8a">第6步分析效用树高优先级场景；第8步分析头脑风暴投票高优先级场景</text>
+</svg></div><div class="cap">据图8-5重绘：ATAM 实践四阶段八步骤</div></div>
+<p>第 7 步的投票规则：每位风险承担者票数约为<b>场景总数 × 30%</b>，取最近整数。教材例中共有 16 个场景，因此每人 5 票。投票后按总票数排序，截取截止线以上场景，再与效用树优先场景比较和合并。</p>
+<p>教材用 Hoover 与 Banking 两种事件架构演示评估。二者都有事件、队列、事件管理器和处理程序，但框架封装与应用耦合方式不同。</p>
+<div class="fig"><div><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 500" width="720" height="500" font-family="Microsoft YaHei, 微软雅黑, sans-serif">
+  <rect width="720" height="500" fill="#ffffff"/>
+  <text x="360" y="30" text-anchor="middle" font-size="21" font-weight="bold" fill="#1f4e79">Hoover 事件架构：框架与应用分离（据图8-6简化）</text>
+  <rect x="25" y="60" width="440" height="390" rx="10" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.5"/>
+  <rect x="490" y="60" width="205" height="390" rx="10" fill="#fdf0e6" stroke="#c05621" stroke-width="1.5"/>
+  <text x="45" y="89" font-size="16" font-weight="bold" fill="#1f4e79">Event Framework（可复用框架）</text>
+  <text x="592" y="89" text-anchor="middle" font-size="16" font-weight="bold" fill="#c05621">Application</text>
+  <g text-anchor="middle">
+    <g fill="#ffffff" stroke="#1f4e79">
+      <rect x="50" y="110" width="160" height="60" rx="6"/><rect x="260" y="110" width="160" height="60" rx="6"/>
+      <rect x="50" y="220" width="160" height="60" rx="6"/><rect x="260" y="220" width="160" height="60" rx="6"/>
+      <rect x="50" y="335" width="75" height="50" rx="6"/><rect x="135" y="335" width="75" height="50" rx="6"/>
+      <rect x="260" y="335" width="160" height="50" rx="6"/>
+    </g>
+    <g fill="#ffffff" stroke="#c05621">
+      <rect x="520" y="110" width="145" height="60" rx="6"/><rect x="520" y="250" width="145" height="65" rx="6"/>
+    </g>
+    <g font-size="14" fill="#22303f">
+      <text x="130" y="136" font-weight="bold">Event Queue</text><text x="130" y="157" font-size="11">FIFO 事件队列</text>
+      <text x="340" y="136" font-weight="bold">Event Manager</text><text x="340" y="157" font-size="11">核心：动态绑定</text>
+      <text x="130" y="247" font-weight="bold">Handler</text><text x="130" y="268" font-size="11">处理程序基类</text>
+      <text x="340" y="242" font-weight="bold">Event Type Registry</text><text x="340" y="264" font-size="11">事件类型—处理程序</text>
+      <text x="87" y="365" font-size="12">STOP</text><text x="172" y="365" font-size="12">IDLE</text>
+      <text x="340" y="356" font-size="12" font-weight="bold">Event</text><text x="340" y="375" font-size="11">Type, Args</text>
+      <text x="592" y="136" font-weight="bold">Main</text><text x="592" y="157" font-size="11">控制主进程与状态</text>
+      <text x="592" y="278" font-weight="bold">Application Handler</text><text x="592" y="300" font-size="11">经明确钩子接入</text>
+    </g>
+  </g>
+  <g stroke="#1f4e79" stroke-width="1.4" fill="none">
+    <line x1="260" y1="140" x2="221" y2="140"/>
+    <line x1="340" y1="170" x2="340" y2="209"/>
+    <polyline points="260,155 232,155 232,250 221,250"/>
+    <line x1="87" y1="280" x2="87" y2="324"/><line x1="172" y1="280" x2="172" y2="324"/>
+  </g>
+  <g fill="#1f4e79">
+    <polygon points="213,140 221,135.5 221,144.5"/><polygon points="340,217 335.5,209 344.5,209"/>
+    <polygon points="213,250 221,245.5 221,254.5"/>
+    <polygon points="87,332 82.5,324 91.5,324"/><polygon points="172,332 167.5,324 176.5,324"/>
+  </g>
+  <g stroke="#c05621" stroke-width="1.4" fill="none">
+    <line x1="520" y1="140" x2="431" y2="140"/>
+    <polyline points="520,282 477,282 477,250 431,250"/>
+    <line x1="592" y1="170" x2="592" y2="239"/>
+  </g>
+  <g fill="#c05621">
+    <polygon points="423,140 431,135.5 431,144.5"/><polygon points="423,250 431,245.5 431,254.5"/>
+    <polygon points="592,247 587.5,239 596.5,239"/>
+  </g>
+  <text x="245" y="420" text-anchor="middle" font-size="12" fill="#4a6130">框架组件独立，应用仅在明确接口处挂接</text>
+  <text x="592" y="420" text-anchor="middle" font-size="12" fill="#4a6130">应用特定信息</text>
+  <rect x="90" y="462" width="540" height="25" rx="5" fill="#f3f6ee"/>
+  <text x="360" y="480" text-anchor="middle" font-size="12" fill="#4a6130">评估结论：可修改性、可变性、复用性和概念完整性较好</text>
+</svg></div><div class="cap">据图8-6简化重绘：Hoover 事件架构，框架与应用分离</div></div>
+<div class="fig"><div><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 500" width="720" height="500" font-family="Microsoft YaHei, 微软雅黑, sans-serif">
+  <rect width="720" height="500" fill="#ffffff"/>
+  <text x="360" y="30" text-anchor="middle" font-size="21" font-weight="bold" fill="#1f4e79">Banking 事件架构：封装不足与耦合（据图8-7简化）</text>
+  <rect x="25" y="60" width="410" height="390" rx="10" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.5"/>
+  <rect x="460" y="60" width="235" height="390" rx="10" fill="#fdf0e6" stroke="#c05621" stroke-width="1.5"/>
+  <text x="45" y="89" font-size="16" font-weight="bold" fill="#1f4e79">Framework（含应用特定信息）</text>
+  <text x="577" y="89" text-anchor="middle" font-size="16" font-weight="bold" fill="#c05621">框架外部 / 应用</text>
+  <g text-anchor="middle">
+    <g fill="#ffffff" stroke="#1f4e79">
+      <rect x="50" y="110" width="150" height="60" rx="6"/><rect x="245" y="110" width="150" height="60" rx="6"/>
+      <rect x="50" y="225" width="150" height="60" rx="6"/>
+      <rect x="50" y="340" width="90" height="45" rx="6"/><rect x="155" y="340" width="90" height="45" rx="6"/><rect x="260" y="340" width="90" height="45" rx="6"/>
+    </g>
+    <g fill="#ffffff" stroke="#c05621">
+      <rect x="490" y="110" width="170" height="60" rx="6"/><rect x="490" y="250" width="170" height="65" rx="6"/>
+    </g>
+    <g font-size="14" fill="#22303f">
+      <text x="125" y="136" font-weight="bold">Event Queue</text><text x="125" y="157" font-size="11">空队列产生 IDLE</text>
+      <text x="320" y="136" font-weight="bold">Main</text><text x="320" y="157" font-size="11">取事件并分派</text>
+      <text x="125" y="251" font-weight="bold">Handler</text><text x="125" y="272" font-size="11">基本处理程序</text>
+      <text x="95" y="368" font-size="12">START</text><text x="200" y="368" font-size="12">STOP</text><text x="305" y="368" font-size="12">IDLE</text>
+      <text x="575" y="136" font-weight="bold">Event Manager</text><text x="575" y="157" font-size="11">暴露给应用，含应用信息</text>
+      <text x="575" y="278" font-weight="bold">Application Handler</text><text x="575" y="300" font-size="11">由事件管理器调用</text>
+    </g>
+  </g>
+  <g stroke="#1f4e79" stroke-width="1.4" fill="none">
+    <line x1="245" y1="140" x2="211" y2="140"/>
+    <line x1="95" y1="285" x2="95" y2="329"/>
+    <polyline points="140,285 140,312 200,312 200,329"/>
+    <polyline points="185,285 185,320 305,320 305,329"/>
+  </g>
+  <g fill="#1f4e79">
+    <polygon points="203,140 211,135.5 211,144.5"/>
+    <polygon points="95,337 90.5,329 99.5,329"/><polygon points="200,337 195.5,329 204.5,329"/><polygon points="305,337 300.5,329 309.5,329"/>
+  </g>
+  <g stroke="#c05621" stroke-width="1.4" fill="none">
+    <line x1="395" y1="140" x2="479" y2="140"/>
+    <line x1="575" y1="170" x2="575" y2="239"/>
+  </g>
+  <g fill="#c05621">
+    <polygon points="487,140 479,135.5 479,144.5"/><polygon points="575,247 570.5,239 579.5,239"/>
+  </g>
+  <rect x="50" y="405" width="345" height="28" rx="5" fill="#fdf0e6"/>
+  <text x="222" y="424" text-anchor="middle" font-size="11" fill="#c05621">IDLE 在入队前验证输入，验证逻辑随应用变化</text>
+  <text x="577" y="420" text-anchor="middle" font-size="12" fill="#c05621">核心组件未被框架封装</text>
+  <rect x="70" y="462" width="580" height="25" rx="5" fill="#fdf0e6"/>
+  <text x="360" y="480" text-anchor="middle" font-size="12" fill="#c05621">评估结论：可修改性、复用性、概念完整性、安全与性能存在风险</text>
+</svg></div><div class="cap">据图8-7简化重绘：Banking 事件架构，事件管理器暴露且应用信息嵌入</div></div>
+<table><colgroup><col style="width:19.0%"><col style="width:38.1%"><col style="width:42.9%"></colgroup><thead><tr><th>比较维度</th><th>Hoover 架构</th><th>Banking 架构</th></tr></thead><tbody><tr><td class="tc">封装</td><td>框架组件与应用分离，通过明确钩子挂接</td><td>事件管理器暴露给应用，应用特定信息嵌入多个组件</td></tr><tr><td class="tc">可修改性、可变性</td><td>高；注册表动态绑定处理程序，修改影响面小</td><td>较差；更换应用或新增组件常需大范围修改</td></tr><tr><td class="tc">可重用性</td><td>组件较独立，易复用</td><td>组件相互依赖，复用往往需要重大修改</td></tr><tr><td class="tc">可靠性</td><td>有缺陷输入可在事件绑定时处理</td><td>入队前验证输入，但换应用时验证逻辑也要改变</td></tr><tr><td class="tc">概念完整性</td><td>事件处理机制统一，控制机制较少</td><td>控制转移链较长，一致性不足</td></tr><tr><td class="tc">功能性</td><td>组件协调，能完成预期任务</td><td>基本能完成预期任务，属于非风险</td></tr><tr><td class="tc">安全性</td><td>数据封装较好，注册表仅由事件管理器操作</td><td>应用信息分散，整体机密性较差</td></tr><tr><td class="tc">性能</td><td>处理任务涉及组件较少，推定响应较快</td><td>处理链较长、涉及组件较多，推定性能不足</td></tr></tbody></table>
+<p>⭐【易错】“某个架构完成预期功能”不代表它没有架构风险。Banking 的功能性、可靠性可视为非风险，同时其可修改性、概念完整性、安全性和性能仍可能是风险。</p>
+<div class="fig"><div><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 480" width="720" height="480" font-family="Microsoft YaHei, 微软雅黑, sans-serif">
+  <rect width="720" height="480" fill="#ffffff"/>
+  <text x="360" y="30" text-anchor="middle" font-size="22" font-weight="bold" fill="#1f4e79">Hoover 与 Banking：质量结论及权衡点</text>
+  <rect x="35" y="55" width="650" height="45" rx="7" fill="#1f4e79"/>
+  <text x="180" y="84" text-anchor="middle" font-size="17" font-weight="bold" fill="#ffffff">比较维度</text>
+  <text x="390" y="84" text-anchor="middle" font-size="17" font-weight="bold" fill="#ffffff">Hoover</text>
+  <text x="585" y="84" text-anchor="middle" font-size="17" font-weight="bold" fill="#ffffff">Banking</text>
+  <g font-size="13">
+    <rect x="35" y="100" width="650" height="48" fill="#f7fafc" stroke="#d7e0e8"/>
+    <rect x="35" y="148" width="650" height="48" fill="#ffffff" stroke="#d7e0e8"/>
+    <rect x="35" y="196" width="650" height="48" fill="#f7fafc" stroke="#d7e0e8"/>
+    <rect x="35" y="244" width="650" height="48" fill="#ffffff" stroke="#d7e0e8"/>
+    <rect x="35" y="292" width="650" height="48" fill="#f7fafc" stroke="#d7e0e8"/>
+    <line x1="295" y1="55" x2="295" y2="340" stroke="#d7e0e8"/>
+    <line x1="490" y1="55" x2="490" y2="340" stroke="#d7e0e8"/>
+    <text x="55" y="130" font-weight="bold">封装与耦合</text><text x="315" y="130" fill="#4a6130">框架与应用分离</text><text x="510" y="130" fill="#c05621">应用信息嵌入多处</text>
+    <text x="55" y="178" font-weight="bold">可修改 / 可变 / 复用</text><text x="315" y="178" fill="#4a6130">非风险：影响面小</text><text x="510" y="178" fill="#c05621">风险：修改代价高</text>
+    <text x="55" y="226" font-weight="bold">可靠性 / 功能性</text><text x="315" y="226" fill="#4a6130">能处理错误并协同</text><text x="510" y="226" fill="#4a6130">基本满足，属非风险</text>
+    <text x="55" y="274" font-weight="bold">概念完整性</text><text x="315" y="274" fill="#4a6130">机制统一、控制少</text><text x="510" y="274" fill="#c05621">控制链长、一致性弱</text>
+    <text x="55" y="322" font-weight="bold">安全性 / 性能</text><text x="315" y="322" fill="#4a6130">封装好、组件链短</text><text x="510" y="322" fill="#c05621">信息分散、组件链长</text>
+  </g>
+  <rect x="35" y="365" width="310" height="85" rx="8" fill="#eaf1f8" stroke="#1f4e79"/>
+  <rect x="375" y="365" width="310" height="85" rx="8" fill="#fdf0e6" stroke="#c05621"/>
+  <text x="190" y="392" text-anchor="middle" font-size="15" font-weight="bold" fill="#1f4e79">敏感点示例</text>
+  <text x="190" y="418" text-anchor="middle" font-size="12">平均处理速度对参与组件数量敏感</text>
+  <text x="190" y="438" text-anchor="middle" font-size="12">错误处理对已知事件类型数量敏感</text>
+  <text x="530" y="392" text-anchor="middle" font-size="15" font-weight="bold" fill="#c05621">权衡点示例</text>
+  <text x="530" y="418" text-anchor="middle" font-size="12">应用嵌入位置数量：影响变化、修改与安全</text>
+  <text x="530" y="438" text-anchor="middle" font-size="12">参与组件数量：影响性能及其他属性</text>
+  <text x="360" y="470" text-anchor="middle" font-size="12" fill="#6b7a8a">结论须针对高优先级质量目标，不能仅凭“功能可运行”判定架构无风险</text>
+</svg></div><div class="cap">Hoover 与 Banking 的质量结论及权衡点</div></div>
+<h2>三、重点与易错点</h2>
+<table><colgroup><col style="width:7.9%"><col style="width:15.8%"><col style="width:38.2%"><col style="width:38.2%"></colgroup><thead><tr><th>#</th><th>考点</th><th>必须记住的结论</th><th>易错提醒</th></tr></thead><tbody><tr><td class="tc">1</td><td class="tc">质量属性</td><td>必须可测量或可测试，描述满足利益相关者需求的程度</td><td>“用户体验好”“系统很快”不是完整场景</td></tr><tr><td class="tc">2</td><td class="tc">GB/T 六特性</td><td>功能、可靠、易用、效率、维护、可移植</td><td>不要与架构评估八属性、六类场景混背</td></tr><tr><td class="tc">3</td><td class="tc">开发期/运行期</td><td>开发期 6 项，运行期 7 项</td><td>可伸缩性属于运行期，可扩展性属于开发期</td></tr><tr><td class="tc">4</td><td class="tc">可靠性 vs 可用性</td><td>可靠性重无故障能力；可用性重正常时间比例与恢复速度</td><td>MTTF、MTBF 是可靠性指标，不要直接当作可用性定义</td></tr><tr><td class="tc">5</td><td class="tc">容错 vs 健壮性</td><td>容错求正确行为并修复；健壮性保证进入预定义状态</td><td>健壮性不保证出错后继续运行</td></tr><tr><td class="tc">6</td><td class="tc">可修改性</td><td>包含可维护、可扩展、结构重组、可移植</td><td>可移植性在此是可修改性的特例，不只属于 GB/T 六特性</td></tr><tr><td class="tc">7</td><td class="tc">场景六要素</td><td>刺激源、刺激、环境、制品、响应、响应度量</td><td>漏掉响应度量就无法客观测试</td></tr><tr><td class="tc">8</td><td class="tc">六类属性场景</td><td>可用、可修改、性能、可测试、易用、安全</td><td>此处不包含可靠性</td></tr><tr><td class="tc">9</td><td class="tc">评估场景三要素</td><td>8.2.1 常写刺激、环境、响应</td><td>与 8.1.3 六要素按题目出处区分</td></tr><tr><td class="tc">10</td><td class="tc">敏感点 vs 权衡点</td><td>权衡点同时影响多个质量属性，是多个属性的敏感点</td><td>不是任何“缺点”都叫权衡点</td></tr><tr><td class="tc">11</td><td class="tc">SAAM</td><td>场景技术，主抓可修改性；五步骤；可比较架构</td><td>不考虑已有知识库可重用性</td></tr><tr><td class="tc">12</td><td class="tc">ATAM 四属性</td><td>性能、安全、可修改、可用</td><td>不是只评估性能，也不是输出单一分数</td></tr><tr><td class="tc">13</td><td class="tc">ATAM 三类场景</td><td>用例、增长、探测/探索性</td><td>极端增长属于探测场景，不是一般用例</td></tr><tr><td class="tc">14</td><td class="tc">效用树</td><td>效用根→属性→分类→场景叶；(重要度,难易度)</td><td>(H,L) 是重要且易实现，不是风险等级</td></tr><tr><td class="tc">15</td><td class="tc">ATAM 两套划分</td><td>8.2.2 为四活动领域七步；8.3 为四阶段八步</td><td>“测试”是实践第三阶段，不等于软件测试</td></tr><tr><td class="tc">16</td><td class="tc">CBAM</td><td>接在 ATAM 后，引入成本、收益和 ROI</td><td>不是替代 ATAM，也不是先做成本再收场景</td></tr><tr><td class="tc">17</td><td class="tc">CBAM 数据</td><td>最高约 1/3 场景；最坏/当前/期望/最好；内插求效用</td><td>投票依据是期望响应，不是最坏响应</td></tr><tr><td class="tc">18</td><td class="tc">头脑风暴投票</td><td>每人票数约为场景总数 × 30%</td><td>16 个场景是每人 5 票，不是总共 5 票</td></tr><tr><td class="tc">19</td><td class="tc">风险 vs 非风险</td><td>看是否支持高优先级质量目标，而非功能能否运行</td><td>同一架构可同时存在风险和非风险</td></tr></tbody></table>
+<h2>四、练习与真题</h2>
+<p>以下为自编单选模拟题，答案与解析集中在全章最后。</p>
+<p><b>1.</b> 下列关于软件系统质量属性的说法，最准确的是哪一项？</p>
+<p>A. 只描述系统功能是否完整  B. 可测量或可测试并反映满足干系人需求的程度  C. 只在编码完成后才需要考虑  D. 与软件架构决策无关</p>
+<p><b>2.</b> 在 GB/T 16260.1 的六项质量特性中，“可测试性、可修改性、稳定性和易分析性”属于哪一项？</p>
+<p>A. 维护性  B. 可靠性  C. 可移植性  D. 效率</p>
+<p><b>3.</b> 某系统在单个节点故障后自动切换备用节点并继续处理业务，这最直接体现了可靠性的哪个方面？</p>
+<p>A. 可移植性  B. 容错  C. 可变性  D. 互操作性</p>
+<p><b>4.</b> “正常负载下，外部用户提交订单，订单服务在 2 秒内响应，95% 请求满足要求”中的“95% 请求在 2 秒内响应”属于哪个场景要素？</p>
+<p>A. 刺激  B. 环境  C. 响应度量  D. 刺激源</p>
+<p><b>5.</b> 下列哪一组全部属于教材重点介绍的六类质量属性场景？</p>
+<p>A. 可用性、可修改性、性能、可测试性、易用性、安全性  B. 可靠性、可修改性、性能、可测试性、易用性、安全性  C. 可用性、可伸缩性、性能、可测试性、易用性、安全性  D. 可用性、可修改性、功能性、可测试性、易用性、安全性</p>
+<p><b>6.</b> 某架构决策提高加密级别后安全性增强，但响应时间变长。该加密级别最可能被识别为什么？</p>
+<p>A. 非风险  B. 权衡点  C. 场景  D. 效用树根节点</p>
+<p><b>7.</b> 关于 SAAM，下列说法正确的是哪一项？</p>
+<p>A. 只用于评估性能  B. 主要输入不包括架构描述  C. 以场景为技术并重点分析可修改性  D. 必须计算每种策略的 ROI</p>
+<p><b>8.</b> ATAM 效用树中，某场景的优先级对为 (H,L)，它表示什么？</p>
+<p>A. 高安全性、低可靠性  B. 高重要性、低实现难度  C. 高风险、低成本  D. 高性能、低可用性</p>
+<p><b>9.</b> “未来同时将多个应用接入框架，以检验架构的极端扩展能力”最符合哪类 ATAM 场景？</p>
+<p>A. 用例场景  B. 增长场景  C. 探测/探索性场景  D. 检查表场景</p>
+<p><b>10.</b> CBAM 相对于 ATAM 最主要的新增内容是什么？</p>
+<p>A. 引入成本、收益和 ROI 以辅助策略选择  B. 取消质量属性场景  C. 只比较源代码行数  D. 用问卷代替干系人参与</p>
+<p><b>11.</b> ATAM 实践阶段进行头脑风暴投票，若共有 20 个场景，按教材规则每位干系人约有多少票？</p>
+<p>A. 3 票  B. 5 票  C. 6 票  D. 20 票</p>
+<p><b>12.</b> 在教材 Hoover 与 Banking 案例对比中，Banking 架构风险的重要根源是什么？</p>
+<p>A. 完全不能处理事件  B. 应用信息嵌入多个组件且事件管理器暴露  C. 没有事件队列  D. 没有任何处理程序</p>
+<h2>五、疑问与查漏补缺</h2>
+<ul><li><b>ATAM 五种基本结构未展开</b>：8.2.2 只说由 Kruchten 4+1 视图派生、逻辑视图分为功能结构和代码结构，没有逐项列出五种结构。答题宜掌握这一原文边界，并结合第7章视图知识复习，不自行编造固定名单。</li><li><b>SAAM 英文全称与年份的表述</b>：教材前文用 Software Architecture Analysis Method，后文用 Scenarios-based Architecture Analysis Method，并写“1983 年提出”；不同文献的名称、年份表述可能不同。校内复习按教材识别“SAAM、场景、可修改性”这一核心，不在案例题中纠结译名。</li><li><b>ATAM“实用性”疑为笔误</b>：8.2.2 开头曾写性能、实用性、安全性和可修改性，随后及效用树部分均明确为性能、安全性、可修改性和<b>可用性</b>，考试按后者掌握。</li><li><b>实践术语翻译不统一</b>：效用树又译实用程序树，场景又写情景，探测场景又写探索性场景，集成性又写概念完整性。读案例时按同义术语识别。</li><li><b>表8-10、表8-14 的版式容易误读</b>：风险与非风险应按后续文字结论理解，不能把 Banking 的功能性、可靠性也误判为风险，更不能把 Hoover 的安全、性能误判为风险。</li><li><b>CBAM 缺少完整数值例题</b>：教材给出四种响应级别、效用表、内插、总收益和 ROI 的步骤，但没有完整演算。复习重点是数据流和顺序，不自行推导未给出的效用值。</li><li><b>与其他章节衔接</b>：第7章的架构视图和风格是评估对象与架构描述基础；第9章将进一步展开可靠性建模、设计和评估，本章先分清可靠性、可用性、容错与健壮性即可。</li><li><b>SACMM 图8-3、图8-4</b>：两图展示某开源工具架构距离及 LOC 趋势，用于说明“代码规模增长不必然意味着架构剧烈变化”，不是 ATAM 实践图，考试识别 SACMM 的图内核与架构距离即可。</li></ul>
+<h2>六、参考答案</h2>
+<p><b>1.</b> <b>B</b>。质量属性必须可测量或可测试，用来描述系统满足利益相关者需求的程度。</p>
+<p><b>2.</b> <b>A</b>。可测试性、可修改性、稳定性和易分析性均是维护性的子特性。</p>
+<p><b>3.</b> <b>B</b>。容错强调错误发生时保持正确行为并通过内部修复继续提供服务。</p>
+<p><b>4.</b> <b>C</b>。“95% 请求在 2 秒内响应”给出了可测试的判定标准，属于响应度量。</p>
+<p><b>5.</b> <b>A</b>。六类为可用性、可修改性、性能、可测试性、易用性和安全性，不含可靠性。</p>
+<p><b>6.</b> <b>B</b>。同一架构特性同时影响安全性和性能，是多个质量属性的敏感点，即权衡点。</p>
+<p><b>7.</b> <b>C</b>。SAAM 使用场景技术，主要质量属性是可修改性，也可用于比较多个架构。</p>
+<p><b>8.</b> <b>B</b>。效用树优先级对的两个维度依次是重要性和实现难易度，H/L 分别为高/低。</p>
+<p><b>9.</b> <b>C</b>。探测/探索性场景用于覆盖极端修改或增长，检验系统边界与过载情况。</p>
+<p><b>10.</b> <b>A</b>。CBAM 复用 ATAM 结果，进一步建立成本、收益和 ROI 模型来选择架构策略。</p>
+<p><b>11.</b> <b>C</b>。每人票数约为场景总数的 30%，20×30%=6 票。</p>
+<p><b>12.</b> <b>B</b>。应用信息散落、组件耦合及事件管理器未封装，导致修改、复用、安全和性能等风险。</p>
+<div class="footer">第8章 系统质量属性与架构评估 · A4 打印版 · 由 README.md 统一生成</div>
+</div>
+</body>
+</html>

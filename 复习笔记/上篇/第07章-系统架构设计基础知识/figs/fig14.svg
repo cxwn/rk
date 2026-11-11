@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 345" font-family="Microsoft YaHei, 微软雅黑, sans-serif">
+  <rect x="0" y="0" width="720" height="345" fill="#ffffff"/>
+  <text x="360" y="26" text-anchor="middle" font-size="15" font-weight="bold" fill="#22303f">DSSA 三层次系统模型</text>
+  <rect x="60" y="46" width="600" height="80" rx="8" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.4"/>
+  <text x="360" y="76" text-anchor="middle" font-size="15" font-weight="bold" fill="#1f4e79">领域开发环境（领域架构师）</text>
+  <text x="360" y="102" text-anchor="middle" font-size="12" fill="#22303f">参考需求 · 领域模型 · 参考结构 · 开发工具</text>
+  <line x1="250" y1="126" x2="250" y2="155" stroke="#1f4e79" stroke-width="1.5"/>
+  <polygon points="250,163 245.5,155 254.5,155" fill="#1f4e79"/>
+  <line x1="470" y1="126" x2="470" y2="155" stroke="#1f4e79" stroke-width="1.5"/>
+  <polygon points="470,163 465.5,155 474.5,155" fill="#1f4e79"/>
+  <text x="485" y="150" font-size="11" fill="#6b7a8a">派生 / 实例化</text>
+  <rect x="60" y="166" width="600" height="70" rx="8" fill="#f3f6ee" stroke="#4a6130" stroke-width="1.4"/>
+  <text x="360" y="194" text-anchor="middle" font-size="15" font-weight="bold" fill="#4a6130">领域特定的应用开发环境（应用工程师）</text>
+  <text x="360" y="218" text-anchor="middle" font-size="12" fill="#22303f">实例化的体系结构</text>
+  <line x1="250" y1="236" x2="250" y2="265" stroke="#4a6130" stroke-width="1.5"/>
+  <polygon points="250,273 245.5,265 254.5,265" fill="#4a6130"/>
+  <line x1="470" y1="236" x2="470" y2="265" stroke="#4a6130" stroke-width="1.5"/>
+  <polygon points="470,273 465.5,265 474.5,265" fill="#4a6130"/>
+  <text x="485" y="260" font-size="11" fill="#6b7a8a">部署运行</text>
+  <rect x="60" y="276" width="600" height="56" rx="8" fill="#fdf0e6" stroke="#c05621" stroke-width="1.4"/>
+  <text x="360" y="300" text-anchor="middle" font-size="15" font-weight="bold" fill="#c05621">应用执行环境（操作员）</text>
+  <text x="360" y="322" text-anchor="middle" font-size="12" fill="#22303f">具体应用的运行</text>
+</svg>

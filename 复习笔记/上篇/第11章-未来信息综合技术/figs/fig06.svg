@@ -1,0 +1,70 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 460" font-family="Microsoft YaHei, 微软雅黑, sans-serif">
+  <text x="360" y="26" text-anchor="middle" font-size="16" font-weight="bold" fill="#1f4e79">机器人三代演进与机器人 4.0 五大核心技术</text>
+  <text x="360" y="50" text-anchor="middle" font-size="12" fill="#6b7a8a">三代演进：环境感知与自主决策能力逐步增强</text>
+  <rect x="30" y="66" width="200" height="112" rx="6" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.5"/>
+  <text x="130" y="90" text-anchor="middle" font-size="15" font-weight="bold" fill="#1f4e79">第一代</text>
+  <text x="130" y="111" text-anchor="middle" font-size="13" font-weight="bold" fill="#22303f">示教再现型</text>
+  <text x="130" y="135" text-anchor="middle" font-size="11" fill="#22303f">示教存储程序和信息</text>
+  <text x="130" y="154" text-anchor="middle" font-size="11" fill="#22303f">重复动作 · 无环境感知</text>
+  <text x="130" y="171" text-anchor="middle" font-size="10" fill="#6b7a8a">例：汽车点焊机器人</text>
+  <line x1="230" y1="122" x2="249" y2="122" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="257,122 249,117.5 249,126.5" fill="#1f4e79"/>
+  <rect x="260" y="66" width="200" height="112" rx="6" fill="#f3f6ee" stroke="#4a6130" stroke-width="1.5"/>
+  <text x="360" y="90" text-anchor="middle" font-size="15" font-weight="bold" fill="#4a6130">第二代</text>
+  <text x="360" y="111" text-anchor="middle" font-size="13" font-weight="bold" fill="#22303f">感觉型</text>
+  <text x="360" y="135" text-anchor="middle" font-size="11" fill="#22303f">力觉 · 触觉 · 视觉 · 听觉</text>
+  <text x="360" y="154" text-anchor="middle" font-size="11" fill="#22303f">能感受和识别工件</text>
+  <text x="360" y="171" text-anchor="middle" font-size="10" fill="#6b7a8a">20 世纪 70 年代后期起</text>
+  <line x1="460" y1="122" x2="479" y2="122" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="487,122 479,117.5 479,126.5" fill="#1f4e79"/>
+  <rect x="490" y="66" width="200" height="112" rx="6" fill="#fdf0e6" stroke="#c05621" stroke-width="1.5"/>
+  <text x="590" y="90" text-anchor="middle" font-size="15" font-weight="bold" fill="#c05621">第三代</text>
+  <text x="590" y="111" text-anchor="middle" font-size="13" font-weight="bold" fill="#22303f">智能型</text>
+  <text x="590" y="135" text-anchor="middle" font-size="11" fill="#22303f">多种传感器 · 复杂逻辑推理</text>
+  <text x="590" y="154" text-anchor="middle" font-size="11" fill="#22303f">自主判断、决策与行动</text>
+  <text x="590" y="171" text-anchor="middle" font-size="10" fill="#6b7a8a">20 世纪 90 年代以来</text>
+  <line x1="590" y1="178" x2="590" y2="195" stroke="#c05621" stroke-width="1.5" fill="none"/>
+  <polygon points="590,203 585.5,195 594.5,195" fill="#c05621"/>
+  <rect x="30" y="206" width="660" height="44" rx="6" fill="#1f4e79"/>
+  <text x="360" y="234" text-anchor="middle" font-size="13" font-weight="bold" fill="#ffffff">机器人 4.0：云端大脑分布部署 · 边缘计算赋能 · 理解决策 · 少量数据学习</text>
+  <line x1="84" y1="250" x2="84" y2="281" stroke="#6b7a8a" stroke-width="1.5" fill="none"/>
+  <polygon points="84,289 79.5,281 88.5,281" fill="#6b7a8a"/>
+  <line x1="222" y1="250" x2="222" y2="281" stroke="#6b7a8a" stroke-width="1.5" fill="none"/>
+  <polygon points="222,289 217.5,281 226.5,281" fill="#6b7a8a"/>
+  <line x1="360" y1="250" x2="360" y2="281" stroke="#6b7a8a" stroke-width="1.5" fill="none"/>
+  <polygon points="360,289 355.5,281 364.5,281" fill="#6b7a8a"/>
+  <line x1="498" y1="250" x2="498" y2="281" stroke="#6b7a8a" stroke-width="1.5" fill="none"/>
+  <polygon points="498,289 493.5,281 502.5,281" fill="#6b7a8a"/>
+  <line x1="636" y1="250" x2="636" y2="281" stroke="#6b7a8a" stroke-width="1.5" fill="none"/>
+  <polygon points="636,289 631.5,281 640.5,281" fill="#6b7a8a"/>
+  <rect x="20" y="292" width="128" height="136" rx="5" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.2"/>
+  <text x="84" y="316" text-anchor="middle" font-size="12" font-weight="bold" fill="#1f4e79">云-边-端</text>
+  <text x="84" y="336" text-anchor="middle" font-size="12" font-weight="bold" fill="#1f4e79">无缝协同计算</text>
+  <text x="84" y="362" text-anchor="middle" font-size="10" fill="#22303f">云侧计算与存储</text>
+  <text x="84" y="382" text-anchor="middle" font-size="10" fill="#22303f">边缘处理与共享</text>
+  <text x="84" y="402" text-anchor="middle" font-size="10" fill="#22303f">端侧实时操作</text>
+  <text x="84" y="419" text-anchor="middle" font-size="9" fill="#6b7a8a">动态任务迁移</text>
+  <rect x="158" y="292" width="128" height="136" rx="5" fill="#f3f6ee" stroke="#4a6130" stroke-width="1.2"/>
+  <text x="222" y="316" text-anchor="middle" font-size="12" font-weight="bold" fill="#4a6130">持续学习</text>
+  <text x="222" y="336" text-anchor="middle" font-size="12" font-weight="bold" fill="#4a6130">与协同学习</text>
+  <text x="222" y="362" text-anchor="middle" font-size="10" fill="#22303f">少量数据建识别</text>
+  <text x="222" y="382" text-anchor="middle" font-size="10" fill="#22303f">自主找数与标注</text>
+  <text x="222" y="402" text-anchor="middle" font-size="10" fill="#22303f">重训练持续提升</text>
+  <text x="222" y="419" text-anchor="middle" font-size="9" fill="#6b7a8a">云端共享数据</text>
+  <rect x="296" y="292" width="128" height="136" rx="5" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.2"/>
+  <text x="360" y="326" text-anchor="middle" font-size="13" font-weight="bold" fill="#1f4e79">知识图谱</text>
+  <text x="360" y="362" text-anchor="middle" font-size="10" fill="#22303f">动态、个性化知识</text>
+  <text x="360" y="382" text-anchor="middle" font-size="10" fill="#22303f">结合感知与决策</text>
+  <text x="360" y="402" text-anchor="middle" font-size="10" fill="#22303f">分布于云边端</text>
+  <rect x="434" y="292" width="128" height="136" rx="5" fill="#fdf0e6" stroke="#c05621" stroke-width="1.2"/>
+  <text x="498" y="326" text-anchor="middle" font-size="13" font-weight="bold" fill="#c05621">场景自适应</text>
+  <text x="498" y="362" text-anchor="middle" font-size="10" fill="#22303f">三维语义理解</text>
+  <text x="498" y="382" text-anchor="middle" font-size="10" fill="#22303f">预测场景事件</text>
+  <text x="498" y="402" text-anchor="middle" font-size="10" fill="#22303f">改变行为模式</text>
+  <rect x="572" y="292" width="128" height="136" rx="5" fill="#f3f6ee" stroke="#4a6130" stroke-width="1.2"/>
+  <text x="636" y="326" text-anchor="middle" font-size="13" font-weight="bold" fill="#4a6130">数据安全</text>
+  <text x="636" y="362" text-anchor="middle" font-size="10" fill="#22303f">端到端安全传输</text>
+  <text x="636" y="382" text-anchor="middle" font-size="10" fill="#22303f">服务器安全存储</text>
+  <text x="636" y="402" text-anchor="middle" font-size="10" fill="#22303f">云边端差异防护</text>
+  <text x="30" y="452" font-size="11" fill="#6b7a8a">记忆：示教再现无感知 → 感觉型能识别 → 智能型可决策；4.0 重协同、学习与安全。</text>
+</svg>

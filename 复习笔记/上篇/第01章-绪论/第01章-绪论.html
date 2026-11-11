@@ -1,0 +1,799 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>第1章 绪论</title>
+<style>
+  :root{ --ink:#22303f; --main:#1f4e79; --main-light:#eaf1f8; --accent:#c05621;
+    --accent-light:#fdf0e6; --line:#d5dde5; --muted:#6b7a8a; }
+  *{ box-sizing:border-box; print-color-adjust:exact; -webkit-print-color-adjust:exact; }
+  html,body{ margin:0; padding:0; }
+  body{ font-family:"Microsoft YaHei","微软雅黑","PingFang SC","Noto Sans CJK SC",sans-serif;
+    color:var(--ink); background:#e9edf1; font-size:10.5pt; line-height:1.75; }
+  .sheet{ max-width:190mm; margin:8mm auto; background:#fff; padding:10mm 11mm;
+    box-shadow:0 2px 14px rgba(0,0,0,.12); }
+  h1{ font-size:21pt; color:var(--main); margin:0 0 2mm; border-bottom:3px solid var(--main); padding-bottom:3mm; }
+  h2{ font-size:14pt; color:var(--main); margin:8mm 0 3mm; padding:1.2mm 0 1.2mm 3mm;
+    border-left:5px solid var(--main); background:linear-gradient(to right,var(--main-light),#fff); break-after:avoid; }
+  h3{ font-size:11.5pt; color:var(--main); margin:5mm 0 2mm; break-after:avoid; }
+  p{ margin:1.5mm 0; }
+  code{ background:#f0f3f6; border-radius:1mm; padding:0 1mm; font-size:9.5pt; }
+  .def,.example,.mnemonic{ border-radius:2mm; padding:2.5mm 3.5mm; margin:2.5mm 0; break-inside:avoid; }
+  .def{ border:1.5px solid var(--main); background:#fbfdff; }
+  .example{ background:var(--accent-light); border-left:4px solid var(--accent); }
+  .mnemonic{ background:#f3f6ee; border:1px dashed #8aa15c; color:#4a6130; }
+  table{ border-collapse:collapse; width:100%; margin:2.5mm 0; font-size:9.5pt; table-layout:fixed; }
+  th,td{ border:1px solid var(--line); padding:1.6mm 2mm; text-align:left; vertical-align:top; overflow-wrap:break-word; }
+  th{ background:var(--main); color:#fff; text-align:center; }
+  thead{ display:table-header-group; }
+  tr{ break-inside:avoid; }
+  td.tc{ text-align:center; }
+  tr:nth-child(even) td{ background:#f6f9fc; }
+  .fig{ margin:3mm 0; padding:2.5mm; border:1px solid var(--line); border-radius:2mm;
+    background:#fdfefe; break-inside:avoid; }
+  .fig .cap{ text-align:center; color:var(--muted); font-size:9pt; margin-top:1mm; }
+  svg{ display:block; width:100%; height:auto; }
+  svg text{ font-family:inherit; }
+  ul,ol{ margin:1.5mm 0 1.5mm 5mm; padding-left:4mm; }
+  li{ margin:0.8mm 0; }
+  .footer{ margin-top:8mm; padding-top:2mm; border-top:1px solid var(--line);
+    color:var(--muted); font-size:8.5pt; text-align:center; }
+  @page{ size:A4; margin:12mm; }
+  @media print{ body{ background:#fff; font-size:10pt; }
+    .sheet{ max-width:none; margin:0; padding:0; box-shadow:none; } h2{ margin-top:6mm; } }
+</style>
+</head>
+<body>
+<div class="sheet">
+<h1>第1章 绪论</h1>
+<ul><li>教材位置：02.系统架构设计师第二版-教材.pdf PDF 第 13～33 页（书页 3～23）</li><li>复习状态：已完成</li><li>复习日期：2026-11-05</li><li>本章地位：全书总纲。直接考选择题的分值不高，但<b>架构定义、五种典型架构、4+1 视角、架构设计师职责与成长路径</b>是后续各章和论文写作的概念根基。</li></ul>
+<h2>一、大纲考点</h2>
+<p>对照 01.系统架构第二版-大纲.pdf（2022 年审定通过），本章内容主要落在<b>考试说明</b>与<b>考试科目 1「系统架构设计综合知识」第 6 部分「系统架构设计基础知识」</b>（大纲书页 40～43，PDF 第 50～53 页）。</p>
+<p>考试目标（摘）：能够根据系统需求规格说明书，结合应用领域和技术发展的实际情况，考虑有关约束条件，<b>设计正确、合理的软件架构</b>，确保系统架构具有良好的特性；能够对项目的系统架构进行<b>描述、分析、设计与评估</b>；能够编写设计文档；具有高级工程师的实际工作能力和业务水平。</p>
+<table><colgroup><col style="width:20.6%"><col style="width:50.3%"><col style="width:29.1%"></colgroup><thead><tr><th>大纲条目</th><th>大纲要求（考点）</th><th>教材对应小节</th></tr></thead><tbody><tr><td>6.1.1 软件架构的定义</td><td>⭐软件架构的定义、发展历程以及作用；架构设计分类（数据设计和体系结构设计）</td><td>1.1.1</td></tr><tr><td>6.1.2 软件架构设计与生命周期</td><td>⭐Use Case 图、体系结构描述语言 ADL、<b>4+1 模型</b>和 UML 语言；<b>IEEE 1471—2000 标准</b>；软件架构生命周期六阶段</td><td>1.1.1、1.1.2（生命周期六阶段在第 7 章展开）</td></tr><tr><td>6.1.3 软件架构的重要性</td><td>架构在系统开发中的关键作用</td><td>1.1.1、1.1.3</td></tr><tr><td>考试说明·考试要求</td><td>掌握系统架构的开发、验证和评估过程及方法；掌握软件系统建模、系统架构设计、演化及其评估等基本技术</td><td>全书，本章建立概念</td></tr><tr><td>考试说明·岗位能力</td><td>系统架构设计师的定义、职责、任务与应具备的素质</td><td>1.2、1.3</td></tr></tbody></table>
+<p>补充说明：本章 1.1.2 的<b>五种典型架构模型</b>（分层、事件驱动、微核、微服务、云）与大纲 6.3「软件架构风格」相关，但大纲 6.3 的经典五类风格（数据流、调用/返回、以数据为中心、虚拟机、独立构件）及 ABSD、架构复用、DSSA 均在<b>第 7 章</b>系统展开，本章只需建立初步印象。</p>
+<h2>二、知识点笔记</h2>
+<h3>2.1 系统架构的定义及发展历程（1.1.1）</h3>
+<h3>1. 架构的定义 ⭐【重点】【高频考点】</h3>
+<div class="def">教材原文（IEEE 1471-2000《软件密集系统架构描述推荐实践》）：<b>架构是体现在组件中的一个系统的基本组织、它们彼此的关系与环境的关系及指导它的设计和发展的原则。</b></div>
+<p>定义中四个关键词必须记牢：<b>组件</b>（系统由哪些部分构成）、<b>组件之间的关系</b>（怎么连接协作）、<b>组件与环境的关系</b>（系统不是孤立的）、<b>指导设计和发展的原则</b>（架构不只管现在，还管演化）。</p>
+<p>与定义配套的三个术语：</p>
+<table><colgroup><col style="width:15.7%"><col style="width:62.9%"><col style="width:21.4%"></colgroup><thead><tr><th>术语</th><th>含义</th><th>通俗理解</th></tr></thead><tbody><tr><td class="tc">系统</td><td>组织起来完成某一特定功能或一组功能的<b>组件集</b>，可指应用、子系统、系统之系统、产品线乃至整个企业</td><td>要造的那个「整体」</td></tr><tr><td class="tc">环境（上下文）</td><td>决定对系统开发、运作、政策等造成影响的环境和设置</td><td>系统所处的「外部世界」</td></tr><tr><td class="tc">任务</td><td>一个或多个<b>利益相关者</b>通过系统达到某些目标的用途或操作</td><td>各方「用系统来干什么」</td></tr></tbody></table>
+<p>通俗地说，<b>系统架构（System Architecture）是系统的一种整体的高层次的结构表示，是系统的骨架和根基</b>，包括<b>组件、连接件、约束规范</b>以及指导这些内容<b>设计与演化的原理</b>，它决定了系统的健壮性和生命周期的长短。</p>
+<div class="example">举例：盖楼时，架构设计相当于主体结构设计——决定楼能盖多高、抗几级地震、以后能不能加层；具体编码相当于装修。装修再精美，主体结构错了整栋楼也不合格。这就是「架构决定系统的健壮性和生命周期」的含义。</div>
+<p>架构设计的位置与作用：架构设计通常作为<b>需求分析阶段之后、系统设计之前</b>的关键步骤，是连接用户需求和系统进一步设计与实现的<b>桥梁</b>，也是系统<b>早期阶段质量保证</b>的关键。架构设计的作用包括五点 ⭐：</p>
+<ol><li>解决相对复杂的<b>需求分析</b>问题；</li><li>解决<b>非功能属性</b>在系统占据重要位置的设计问题；</li><li>解决<b>生命周期长、扩展性需求高</b>的系统整体结构问题；</li><li>解决系统<b>基于组件需要的集成</b>问题；</li><li>解决<b>业务流程再造难</b>的问题。</li></ol>
+<div class="mnemonic">助记：架构设计五大作用——「复杂需求、非功能、长命扩展、组件集成、流程再造」。</div>
+<h3>2. 发展历程 ⭐【重点】</h3>
+<p><b>源头（与第 2 章呼应）</b>：1946 年第一台计算机 ENIAC 诞生；冯·诺伊曼提出 EDVAC，由<b>运算器、控制器、存储器、输入设备、输出设备</b>五部分组成，内部采用<b>二进制</b>，程序存放在存储器中（存储程序思想），当今计算机仍称冯·诺伊曼结构计算机。</p>
+<p><b>两次软件危机推动架构诞生</b>：</p>
+<table><colgroup><col style="width:14.4%"><col style="width:47.1%"><col style="width:38.5%"></colgroup><thead><tr><th>时间</th><th>事件</th><th>结果/启示</th></tr></thead><tbody><tr><td>20 世纪 60 年代中期</td><td>第一次软件危机：效率低、质量差，手工作坊式开发</td><td>1968、1969 年两次 <b>NATO 会议</b>提出「<b>软件工程</b>」概念</td></tr><tr><td>1995 年</td><td>Standish Group 调查 8000 个软件项目：<b>84%</b> 无法按时按需完成，超 <b>30%</b> 夭折，耗费超预算 <b>189%</b></td><td><b>软件重用与组件化</b>成为解困方案，软件架构应运而生</td></tr><tr><td>20 世纪 90 年代</td><td>基础研究：架构风格、架构描述语言、架构文档、形式化方法</td><td>Mary Shaw 与 David Garlan 提出架构是「<b>组件、连接件和风格的集合</b>」</td></tr></tbody></table>
+<p>软件架构概念演进的几个标志：1991 年 Royce 父子首次定义软件架构；1992 年 Perry 与 Wolf 提出 {elements, forms, rationale} 三要素；1996 年 Shaw 与 Garlan 的专著系统阐述概念内涵外延；<b>2000 年 IEEE 1471-2000 标准发布，第一次定义了软件架构的形式化标准</b>，标志理论体系基本建立。</p>
+<p>软件架构自概念诞生以来大致经历<b>四个发展阶段</b> ⭐【高频考点】：</p>
+<table><colgroup><col style="width:25.0%"><col style="width:13.9%"><col style="width:61.1%"></colgroup><thead><tr><th>阶段</th><th>时间</th><th>标志性内容</th></tr></thead><tbody><tr><td>① 基础研究阶段</td><td class="tc">1968—1994 年</td><td>1968 年 NATO 会议首提「软件架构」术语；模块化开发方法逐步采用，形成架构雏形</td></tr><tr><td>② 概念体系和核心技术形成阶段</td><td class="tc">1999—2000 年</td><td>概念体系成熟；<b>IEEE 1471-2000 发布</b>；最重要成果之一是<b>软件组件化技术</b></td></tr><tr><td>③ 理论体系完善与发展阶段</td><td class="tc">1996 年至今</td><td>架构描述与表示、分析设计测试、发现演化与重用、基于架构的开发方法、架构风格、动态架构等成为研究重点</td></tr><tr><td>④ 普及应用阶段</td><td class="tc">2000 年至今</td><td>1999 年第一届 IFIP 软件架构会议；Open Group 提出基于 XML 的 <b>ADML</b>；<b>软件产品线</b>成为重要分支</td></tr></tbody></table>
+<p>【易错】四个阶段的年份在教材中本就<b>相互交叉重叠</b>（如②为 1999—2000、③从 1996 年起），考试应记「阶段名称 + 标志事件」，不要死抠年份边界。</p>
+<div class="fig"><div><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 280" font-family="Microsoft YaHei, 微软雅黑, sans-serif">
+  <defs>
+    <marker id="arrow" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+      <path d="M0,0 L6,3 L0,6 Z" fill="#1f4e79"/>
+    </marker>
+  </defs>
+  <line x1="15" y1="24" x2="692.0" y2="24.0" stroke="#1f4e79" stroke-width="2"/>
+    <polygon points="700.0,24.0 692.0,28.5 692.0,19.5" fill="#1f4e79"/>
+  <g font-size="12" fill="#6b7a8a">
+    <text x="20" y="14">时间</text>
+  </g>
+  <!-- 四个阶段卡片 -->
+  <g>
+    <rect x="5" y="50" width="165" height="200" rx="6" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.2"/>
+    <text x="87" y="78" font-size="15" font-weight="bold" fill="#1f4e79" text-anchor="middle">① 基础研究阶段</text>
+    <text x="87" y="104" font-size="13" fill="#22303f" text-anchor="middle">1968—1994 年</text>
+    <text x="87" y="136" font-size="12" fill="#22303f" text-anchor="middle">1968 NATO 会议</text>
+    <text x="87" y="160" font-size="12" fill="#22303f" text-anchor="middle">首提「软件架构」</text>
+    <text x="87" y="184" font-size="12" fill="#22303f" text-anchor="middle">模块化开发方法</text>
+    <text x="87" y="208" font-size="12" fill="#22303f" text-anchor="middle">形成架构雏形</text>
+  </g>
+  <g>
+    <rect x="190" y="50" width="165" height="200" rx="6" fill="#fdf0e6" stroke="#c05621" stroke-width="1.2"/>
+    <text x="272" y="74" font-size="14" font-weight="bold" fill="#c05621" text-anchor="middle">② 概念体系和核心</text>
+    <text x="272" y="94" font-size="14" font-weight="bold" fill="#c05621" text-anchor="middle">技术形成阶段</text>
+    <text x="272" y="120" font-size="13" fill="#22303f" text-anchor="middle">1999—2000 年</text>
+    <text x="272" y="152" font-size="12" fill="#22303f" text-anchor="middle">IEEE 1471-2000</text>
+    <text x="272" y="176" font-size="12" fill="#22303f" text-anchor="middle">形式化标准发布</text>
+    <text x="272" y="200" font-size="12" fill="#22303f" text-anchor="middle">软件组件化技术</text>
+  </g>
+  <g>
+    <rect x="375" y="50" width="165" height="200" rx="6" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.2"/>
+    <text x="457" y="74" font-size="14" font-weight="bold" fill="#1f4e79" text-anchor="middle">③ 理论体系完善</text>
+    <text x="457" y="94" font-size="14" font-weight="bold" fill="#1f4e79" text-anchor="middle">与发展阶段</text>
+    <text x="457" y="120" font-size="13" fill="#22303f" text-anchor="middle">1996 年至今</text>
+    <text x="457" y="152" font-size="12" fill="#22303f" text-anchor="middle">描述 / 分析 / 测试</text>
+    <text x="457" y="176" font-size="12" fill="#22303f" text-anchor="middle">发现 / 演化 / 重用</text>
+    <text x="457" y="200" font-size="12" fill="#22303f" text-anchor="middle">架构风格、动态架构</text>
+  </g>
+  <g>
+    <rect x="550" y="50" width="165" height="200" rx="6" fill="#f3f6ee" stroke="#8aa15c" stroke-width="1.2"/>
+    <text x="632" y="78" font-size="15" font-weight="bold" fill="#4a6130" text-anchor="middle">④ 普及应用阶段</text>
+    <text x="632" y="104" font-size="13" fill="#22303f" text-anchor="middle">2000 年至今</text>
+    <text x="632" y="136" font-size="12" fill="#22303f" text-anchor="middle">1999 第一届 IFIP</text>
+    <text x="632" y="160" font-size="12" fill="#22303f" text-anchor="middle">软件架构会议</text>
+    <text x="632" y="184" font-size="12" fill="#22303f" text-anchor="middle">ADML（基于 XML）</text>
+    <text x="632" y="208" font-size="12" fill="#22303f" text-anchor="middle">软件产品线兴起</text>
+  </g>
+  <text x="360" y="272" font-size="11" fill="#6b7a8a" text-anchor="middle">注：各阶段年份在教材中相互交叉，应记「阶段名称 + 标志事件」</text>
+</svg></div><div class="cap">软件架构发展的四个阶段与关键事件</div></div>
+<p><b>模块化开发方法</b>：把软件分解成若干小而简单的部分，分而治之；每个模块可独立开发与测试，最后组装成完整软件。分解方法有数据结构设计法、功能分解法、数据流设计、面向对象设计等。将系统分解成模块时应遵循六条规则 ⭐：</p>
+<ol><li><b>最高模块内聚</b>：模块内部元素最大限度关联，只实现一种功能的模块是高内聚，具有三种以上功能的模块是低内聚；</li><li><b>最低耦合</b>：不同模块之间关系尽可能弱，利于升级和扩展；</li><li><b>模块大小适度</b>：过大则内部维护困难，过小则模块间耦合增加；</li><li>模块<b>调用链深度</b>（嵌套层次）不可过多；</li><li><b>接口简单、精炼</b>（扇入扇出数不宜太大），具有<b>信息隐蔽</b>能力；</li><li>尽可能地<b>复用已有模块</b>。</li></ol>
+<div class="mnemonic">助记：模块分解六规则——「高内聚、低耦合、大小适度、调用别太深、接口精简能隐蔽、旧模块多复用」。</div>
+<p><b>组件化、模块化、应用集成的区别</b> ⭐【易错】：</p>
+<table><colgroup><col style="width:8.8%"><col style="width:27.6%"><col style="width:28.7%"><col style="width:34.8%"></colgroup><thead><tr><th>对比项</th><th>模块化</th><th>组件化</th><th>应用集成</th></tr></thead><tbody><tr><td class="tc">实质</td><td>逻辑上切分，物理（代码）上通常<b>没有真正隔离</b></td><td>组件<b>可组装、可插拔</b>，运行仅依赖平台或容器</td><td>把不同平台/方案的应用集成为无缝、并列、易访问的单一系统</td></tr><tr><td class="tc">相互关系</td><td>模块间可存在较强耦合</td><td>组件间<b>不存在直接耦合</b>，但组装后可进行业务交互</td><td>各应用仍相对独立，强调整合访问</td></tr><tr><td class="tc">一句话</td><td>切得开</td><td>拔得下、插得上、组得起</td><td>连得拢</td></tr></tbody></table>
+<p>三者关系结论：<b>组件化比模块化更独立，但比应用集成结合得更加紧密</b>。</p>
+<p><b>软件架构影响软件生命周期的各个阶段</b>：需求阶段——保证需求规约与系统设计之间的<b>可追踪性和一致性</b>；设计阶段——架构描述、模型设计与分析、经验总结与复用（研究最早、最多）；实现阶段——用程序设计语言实现设计，满足架构与需求；维护阶段——通过规定<b>可扩展性、可替换性</b>等属性保证可维护性。</p>
+<p>教材图 1-1 给出了传统 MIS 系统的软件架构：各业务系统（CRM、MIS、资金管理、资产风险等）的业务流程调用<b>业务构件</b>，构件运行在<b>面向构件的 SOA 中间件（EOS）</b>之上，底层通过 <b>ESB</b>（服务路由目录库、传输/事件/中转服务）连接主机、网上银行、基金交易等既有系统。它体现了「<b>业务与数据处理分离的分层思想 + 基于 SOA 的构件复用与集成</b>」，是软件架构初步雏形的典型代表，理解其分层思想即可。</p>
+<div class="fig"><div><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 420" font-family="Microsoft YaHei, 微软雅黑, sans-serif">
+  <defs>
+    <marker id="arrow" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+      <path d="M0,0 L6,3 L0,6 Z" fill="#6b7a8a"/>
+    </marker>
+  </defs>
+  <!-- 业务系统层 -->
+  <g font-size="13" fill="#22303f">
+    <rect x="25" y="20" width="150" height="56" rx="5" fill="#eaf1f8" stroke="#1f4e79"/>
+    <text x="100" y="44" text-anchor="middle" font-weight="bold">CRM 系统</text>
+    <text x="100" y="64" text-anchor="middle" font-size="11">业务流程</text>
+    <rect x="200" y="20" width="150" height="56" rx="5" fill="#eaf1f8" stroke="#1f4e79"/>
+    <text x="275" y="44" text-anchor="middle" font-weight="bold">MIS 系统</text>
+    <text x="275" y="64" text-anchor="middle" font-size="11">业务流程</text>
+    <rect x="375" y="20" width="150" height="56" rx="5" fill="#eaf1f8" stroke="#1f4e79"/>
+    <text x="450" y="44" text-anchor="middle" font-weight="bold">资金管理系统</text>
+    <text x="450" y="64" text-anchor="middle" font-size="11">业务流程</text>
+    <rect x="550" y="20" width="150" height="56" rx="5" fill="#eaf1f8" stroke="#1f4e79"/>
+    <text x="625" y="44" text-anchor="middle" font-weight="bold">资产风险系统</text>
+    <text x="625" y="64" text-anchor="middle" font-size="11">业务流程</text>
+  </g>
+  <!-- 业务构件层 -->
+  <rect x="25" y="108" width="675" height="56" rx="5" fill="#fdf0e6" stroke="#c05621"/>
+  <text x="362" y="130" font-size="12" fill="#c05621" text-anchor="middle">业务构件层</text>
+  <g font-size="12" fill="#22303f">
+    <rect x="60" y="136" width="120" height="22" rx="3" fill="#ffffff" stroke="#c05621"/>
+    <text x="120" y="152" text-anchor="middle">业务构件</text>
+    <rect x="220" y="136" width="120" height="22" rx="3" fill="#ffffff" stroke="#c05621"/>
+    <text x="280" y="152" text-anchor="middle">业务构件</text>
+    <rect x="380" y="136" width="120" height="22" rx="3" fill="#ffffff" stroke="#c05621"/>
+    <text x="440" y="152" text-anchor="middle">业务构件</text>
+    <rect x="540" y="136" width="120" height="22" rx="3" fill="#ffffff" stroke="#c05621"/>
+    <text x="600" y="152" text-anchor="middle">业务构件</text>
+  </g>
+  <!-- SOA 中间件层 -->
+  <rect x="25" y="196" width="675" height="48" rx="5" fill="#eaf1f8" stroke="#1f4e79"/>
+  <text x="362" y="226" font-size="14" font-weight="bold" fill="#1f4e79" text-anchor="middle">面向构件的 SOA 中间件 EOS（J2EE Server / Websphere）</text>
+  <!-- ESB 层 -->
+  <rect x="25" y="276" width="675" height="56" rx="5" fill="#f3f6ee" stroke="#8aa15c"/>
+  <text x="362" y="300" font-size="14" font-weight="bold" fill="#4a6130" text-anchor="middle">ESB 企业服务总线（WebSphere Message Broker）</text>
+  <text x="362" y="322" font-size="12" fill="#22303f" text-anchor="middle">传输服务 / 事件服务 / 中转服务 / 服务路由目录库</text>
+  <!-- 既有系统层 -->
+  <g font-size="13" fill="#22303f">
+    <rect x="25" y="364" width="150" height="40" rx="5" fill="#ffffff" stroke="#6b7a8a"/>
+    <text x="100" y="389" text-anchor="middle">主机系统</text>
+    <rect x="200" y="364" width="150" height="40" rx="5" fill="#ffffff" stroke="#6b7a8a"/>
+    <text x="275" y="389" text-anchor="middle">网上银行系统</text>
+    <rect x="375" y="364" width="150" height="40" rx="5" fill="#ffffff" stroke="#6b7a8a"/>
+    <text x="450" y="389" text-anchor="middle">基金交易系统</text>
+    <rect x="550" y="364" width="150" height="40" rx="5" fill="#ffffff" stroke="#6b7a8a"/>
+    <text x="625" y="389" text-anchor="middle">外汇交易系统</text>
+  </g>
+  <!-- 层间连接（两条独立竖向箭头链，互不汇聚） -->
+  <g stroke="#6b7a8a" stroke-width="1.4">
+    <line x1="100" y1="79" x2="100.0" y2="94.0"/>
+    <polygon points="100.0,102.0 95.5,94.0 104.5,94.0" fill="#6b7a8a"/>
+    <line x1="100" y1="167" x2="100.0" y2="182.0"/>
+    <polygon points="100.0,190.0 95.5,182.0 104.5,182.0" fill="#6b7a8a"/>
+    <line x1="100" y1="247" x2="100.0" y2="262.0"/>
+    <polygon points="100.0,270.0 95.5,262.0 104.5,262.0" fill="#6b7a8a"/>
+    <line x1="100" y1="335" x2="100.0" y2="350.0"/>
+    <polygon points="100.0,358.0 95.5,350.0 104.5,350.0" fill="#6b7a8a"/>
+    <line x1="450" y1="79" x2="450.0" y2="94.0"/>
+    <polygon points="450.0,102.0 445.5,94.0 454.5,94.0" fill="#6b7a8a"/>
+    <line x1="450" y1="167" x2="450.0" y2="182.0"/>
+    <polygon points="450.0,190.0 445.5,182.0 454.5,182.0" fill="#6b7a8a"/>
+    <line x1="450" y1="247" x2="450.0" y2="262.0"/>
+    <polygon points="450.0,270.0 445.5,262.0 454.5,262.0" fill="#6b7a8a"/>
+    <line x1="450" y1="335" x2="450.0" y2="350.0"/>
+    <polygon points="450.0,358.0 445.5,350.0 454.5,350.0" fill="#6b7a8a"/>
+  </g>
+</svg></div><div class="cap">传统 MIS 系统软件架构（据教材图 1-1 简化重绘）</div></div>
+<h3>2.2 软件架构的常用分类——五种典型架构模型（1.1.2）⭐【重点】【高频考点】</h3>
+<p>教材给出的典型架构模型包括<b>分层架构、事件驱动架构、微核架构、微服务架构和云架构</b>五类；C/S、B/S、管道-过滤器、PAC 等架构也被广泛使用。</p>
+<h3>1. 分层架构（Layered Architecture）</h3>
+<p><b>最常见的软件架构，也是事实上的标准架构</b>。将软件分成若干水平层，每层都有清晰的角色和分工，<b>不需要知道其他层的细节</b>，层与层之间通过<b>接口</b>通信。最常见的是<b>四层结构</b> ⭐：</p>
+<table><colgroup><col style="width:14.5%"><col style="width:23.6%"><col style="width:34.5%"><col style="width:27.3%"></colgroup><thead><tr><th>层次</th><th>英文</th><th>职责</th><th>餐厅类比</th></tr></thead><tbody><tr><td class="tc">表现层</td><td>Presentation Layer</td><td>用户界面，负责视觉和用户互动</td><td>服务员：接待点菜、上菜</td></tr><tr><td class="tc">业务层</td><td>Business Layer</td><td>实现业务逻辑</td><td>厨师：按菜谱烹饪</td></tr><tr><td class="tc">持久层</td><td>Persistence Layer</td><td>提供数据，<b>SQL 语句就放在这一层</b></td><td>配菜员：按单备料</td></tr><tr><td class="tc">数据库层</td><td>Database Layer</td><td>保存数据</td><td>食材仓库</td></tr></tbody></table>
+<p>两个细节常考：有的项目在业务层和持久层之间加<b>服务层（Service）</b>，提供不同业务逻辑需要的通用接口；<b>用户请求依次通过各层处理，不能跳过其中任何一层</b>。</p>
+<div class="fig"><div><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 400" font-family="Microsoft YaHei, 微软雅黑, sans-serif">
+  <defs>
+    <marker id="arrow" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+      <path d="M0,0 L6,3 L0,6 Z" fill="#1f4e79"/>
+    </marker>
+  </defs>
+  <!-- 表现层 -->
+  <rect x="60" y="24" width="600" height="64" rx="6" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.2"/>
+  <text x="150" y="62" font-size="16" font-weight="bold" fill="#1f4e79" text-anchor="middle">表现层</text>
+  <g font-size="12" fill="#22303f">
+    <rect x="270" y="42" width="100" height="28" rx="4" fill="#ffffff" stroke="#1f4e79"/>
+    <text x="320" y="61" text-anchor="middle">组件</text>
+    <rect x="400" y="42" width="100" height="28" rx="4" fill="#ffffff" stroke="#1f4e79"/>
+    <text x="450" y="61" text-anchor="middle">组件</text>
+    <rect x="530" y="42" width="100" height="28" rx="4" fill="#ffffff" stroke="#1f4e79"/>
+    <text x="580" y="61" text-anchor="middle">组件</text>
+  </g>
+  <text x="150" y="82" font-size="11" fill="#6b7a8a" text-anchor="middle">用户界面与互动</text>
+  <!-- 业务层 -->
+  <rect x="60" y="112" width="600" height="64" rx="6" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.2"/>
+  <text x="150" y="150" font-size="16" font-weight="bold" fill="#1f4e79" text-anchor="middle">业务层</text>
+  <g font-size="12" fill="#22303f">
+    <rect x="270" y="130" width="100" height="28" rx="4" fill="#ffffff" stroke="#1f4e79"/>
+    <text x="320" y="149" text-anchor="middle">组件</text>
+    <rect x="400" y="130" width="100" height="28" rx="4" fill="#ffffff" stroke="#1f4e79"/>
+    <text x="450" y="149" text-anchor="middle">组件</text>
+    <rect x="530" y="130" width="100" height="28" rx="4" fill="#ffffff" stroke="#1f4e79"/>
+    <text x="580" y="149" text-anchor="middle">组件</text>
+  </g>
+  <text x="150" y="170" font-size="11" fill="#6b7a8a" text-anchor="middle">实现业务逻辑</text>
+  <!-- 持久层 -->
+  <rect x="60" y="200" width="600" height="64" rx="6" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.2"/>
+  <text x="150" y="238" font-size="16" font-weight="bold" fill="#1f4e79" text-anchor="middle">持久层</text>
+  <g font-size="12" fill="#22303f">
+    <rect x="270" y="218" width="100" height="28" rx="4" fill="#ffffff" stroke="#1f4e79"/>
+    <text x="320" y="237" text-anchor="middle">组件</text>
+    <rect x="400" y="218" width="100" height="28" rx="4" fill="#ffffff" stroke="#1f4e79"/>
+    <text x="450" y="237" text-anchor="middle">组件</text>
+    <rect x="530" y="218" width="100" height="28" rx="4" fill="#ffffff" stroke="#1f4e79"/>
+    <text x="580" y="237" text-anchor="middle">组件</text>
+  </g>
+  <text x="150" y="258" font-size="11" fill="#6b7a8a" text-anchor="middle">提供数据（SQL）</text>
+  <!-- 数据库层 -->
+  <rect x="60" y="288" width="600" height="64" rx="6" fill="#f3f6ee" stroke="#8aa15c" stroke-width="1.2"/>
+  <text x="150" y="326" font-size="16" font-weight="bold" fill="#4a6130" text-anchor="middle">数据库</text>
+  <text x="450" y="326" font-size="13" fill="#22303f" text-anchor="middle">保存数据</text>
+  <!-- 层间箭头：逐层调用，独立三段 -->
+  <g stroke="#1f4e79" stroke-width="1.6">
+    <line x1="360" y1="91" x2="360.0" y2="98.0"/>
+    <polygon points="360.0,106.0 355.5,98.0 364.5,98.0" fill="#1f4e79"/>
+    <line x1="360" y1="179" x2="360.0" y2="186.0"/>
+    <polygon points="360.0,194.0 355.5,186.0 364.5,186.0" fill="#1f4e79"/>
+    <line x1="360" y1="267" x2="360.0" y2="274.0"/>
+    <polygon points="360.0,282.0 355.5,274.0 364.5,274.0" fill="#1f4e79"/>
+  </g>
+  <!-- 底部说明 -->
+  <text x="360" y="382" font-size="12" fill="#c05621" text-anchor="middle">用户请求依次通过各层处理，不能跳过其中任何一层（层间通过接口通信）</text>
+</svg></div><div class="cap">分层架构（据教材图 1-2 重绘）</div></div>
+<h3>2. 事件驱动架构（Event-driven Architecture）</h3>
+<p><b>事件（Event）是状态发生变化时软件发出的通知</b>。事件驱动架构是通过事件进行通信的软件架构，分成四个部分 ⭐：</p>
+<table><colgroup><col style="width:18.2%"><col style="width:23.2%"><col style="width:58.6%"></colgroup><thead><tr><th>组成</th><th>英文</th><th>职责</th></tr></thead><tbody><tr><td class="tc">事件队列</td><td class="tc">Event Queue</td><td><b>接收事件的入口</b></td></tr><tr><td class="tc">分发器</td><td class="tc">Event Mediator</td><td>将不同的事件<b>分发到不同的业务逻辑单元</b></td></tr><tr><td class="tc">事件通道</td><td class="tc">Event Channel</td><td>分发器与处理器之间的<b>联系渠道</b></td></tr><tr><td class="tc">事件处理器</td><td class="tc">Event Processor</td><td><b>实现业务逻辑</b>，处理完成后会<b>发出事件，触发下一步操作</b></td></tr></tbody></table>
+<p>对于简单的项目，事件队列、分发器和事件通道可以合为一体，整个软件就分成<b>事件代理</b>和<b>事件处理器</b>两部分。</p>
+<div class="example">举例：快递分拣中心。包裹（事件）先送到收件口（事件队列），分拣员（分发器）按目的地把包裹放上传送带（事件通道），各区工人（事件处理器）完成本区处理后贴上下一站单据（发出新事件，触发下一步）。</div>
+<div class="fig"><div><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 330" font-family="Microsoft YaHei, 微软雅黑, sans-serif">
+  <defs>
+    <marker id="arrow" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+      <path d="M0,0 L6,3 L0,6 Z" fill="#1f4e79"/>
+    </marker>
+  </defs>
+  <!-- 事件 -->
+  <ellipse cx="55" cy="150" rx="40" ry="26" fill="#fdf0e6" stroke="#c05621" stroke-width="1.2"/>
+  <text x="55" y="156" font-size="14" font-weight="bold" fill="#c05621" text-anchor="middle">事件</text>
+  <!-- 事件队列 -->
+  <rect x="130" y="118" width="110" height="64" rx="6" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.2"/>
+  <text x="185" y="146" font-size="14" font-weight="bold" fill="#1f4e79" text-anchor="middle">事件队列</text>
+  <text x="185" y="166" font-size="11" fill="#6b7a8a" text-anchor="middle">接收事件的入口</text>
+  <!-- 分发器 -->
+  <rect x="290" y="118" width="110" height="64" rx="6" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.2"/>
+  <text x="345" y="146" font-size="14" font-weight="bold" fill="#1f4e79" text-anchor="middle">分发器</text>
+  <text x="345" y="166" font-size="11" fill="#6b7a8a" text-anchor="middle">分发到业务单元</text>
+  <!-- 三条事件通道 -->
+  <g font-size="13" fill="#22303f">
+    <rect x="470" y="30" width="100" height="46" rx="6" fill="#f3f6ee" stroke="#8aa15c" stroke-width="1.2"/>
+    <text x="520" y="58" text-anchor="middle">事件通道</text>
+    <rect x="470" y="127" width="100" height="46" rx="6" fill="#f3f6ee" stroke="#8aa15c" stroke-width="1.2"/>
+    <text x="520" y="155" text-anchor="middle">事件通道</text>
+    <rect x="470" y="224" width="100" height="46" rx="6" fill="#f3f6ee" stroke="#8aa15c" stroke-width="1.2"/>
+    <text x="520" y="252" text-anchor="middle">事件通道</text>
+  </g>
+  <!-- 三个事件处理器 -->
+  <g font-size="13" fill="#22303f">
+    <rect x="610" y="30" width="100" height="46" rx="6" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.2"/>
+    <text x="660" y="51" text-anchor="middle" font-size="12">事件处理器</text>
+    <text x="660" y="68" text-anchor="middle" font-size="10" fill="#6b7a8a">业务模块</text>
+    <rect x="610" y="127" width="100" height="46" rx="6" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.2"/>
+    <text x="660" y="148" text-anchor="middle" font-size="12">事件处理器</text>
+    <text x="660" y="165" text-anchor="middle" font-size="10" fill="#6b7a8a">业务模块</text>
+    <rect x="610" y="224" width="100" height="46" rx="6" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.2"/>
+    <text x="660" y="245" text-anchor="middle" font-size="12">事件处理器</text>
+    <text x="660" y="262" text-anchor="middle" font-size="10" fill="#6b7a8a">业务模块</text>
+  </g>
+  <!-- 事件 -> 队列 -> 分发器 -->
+  <g stroke="#1f4e79" stroke-width="1.5" fill="none">
+    <line x1="98" y1="150" x2="116.0" y2="150.0"/>
+    <polygon points="124.0,150.0 116.0,154.5 116.0,145.5" fill="#1f4e79"/>
+    <line x1="243" y1="150" x2="276.0" y2="150.0"/>
+    <polygon points="284.0,150.0 276.0,154.5 276.0,145.5" fill="#1f4e79"/>
+  </g>
+  <!-- 分发器右缘三个独立连接点 -> 三条通道（直角折线） -->
+  <g stroke="#1f4e79" stroke-width="1.5" fill="none">
+    <polyline points="400.0,132.0 432.0,132.0 432.0,53.0 456.0,53.0"/>
+    <polygon points="464.0,53.0 456.0,57.5 456.0,48.5" fill="#1f4e79"/>
+    <line x1="400" y1="150" x2="456.0" y2="150.0"/>
+    <polygon points="464.0,150.0 456.0,154.5 456.0,145.5" fill="#1f4e79"/>
+    <polyline points="400.0,168.0 432.0,168.0 432.0,247.0 456.0,247.0"/>
+    <polygon points="464.0,247.0 456.0,251.5 456.0,242.5" fill="#1f4e79"/>
+  </g>
+  <!-- 通道 -> 处理器 -->
+  <g stroke="#1f4e79" stroke-width="1.5" fill="none">
+    <line x1="573" y1="53" x2="596.0" y2="53.0"/>
+    <polygon points="604.0,53.0 596.0,57.5 596.0,48.5" fill="#1f4e79"/>
+    <line x1="573" y1="150" x2="596.0" y2="150.0"/>
+    <polygon points="604.0,150.0 596.0,154.5 596.0,145.5" fill="#1f4e79"/>
+    <line x1="573" y1="247" x2="596.0" y2="247.0"/>
+    <polygon points="604.0,247.0 596.0,251.5 596.0,242.5" fill="#1f4e79"/>
+  </g>
+  <text x="360" y="308" font-size="12" fill="#6b7a8a" text-anchor="middle">事件处理器完成业务逻辑后发出新事件，触发下一步操作；简单项目可合并为「事件代理 + 事件处理器」</text>
+</svg></div><div class="cap">事件驱动架构（据教材图 1-3 重绘）</div></div>
+<h3>3. 微核架构（Microkernel Architecture）</h3>
+<p>又称<b>插件架构（Plug-in Architecture）</b>：软件的<b>内核相对较小，主要功能和业务逻辑都通过插件实现</b>。内核（Core）通常只包含<b>系统运行的最小功能</b>；<b>插件互相独立</b>，插件之间的通信应减少到最低，避免互相依赖。</p>
+<div class="example">举例：VS Code 编辑器核心只提供文本编辑、界面框架等最小功能；Python 调试、Git 集成、主题皮肤都做成扩展插件，装不装某个插件互不影响，也不会因卸掉一个插件导致编辑器崩溃。</div>
+<div class="fig"><div><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 400" font-family="Microsoft YaHei, 微软雅黑, sans-serif">
+  <defs>
+    <marker id="arrow" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+      <path d="M0,0 L6,3 L0,6 Z" fill="#1f4e79"/>
+    </marker>
+  </defs>
+  <!-- 上排插件 -->
+  <g font-size="13" fill="#22303f">
+    <rect x="80" y="30" width="150" height="50" rx="6" fill="#fdf0e6" stroke="#c05621" stroke-width="1.2"/>
+    <text x="155" y="60" text-anchor="middle">即插组件（插件）</text>
+    <rect x="285" y="30" width="150" height="50" rx="6" fill="#fdf0e6" stroke="#c05621" stroke-width="1.2"/>
+    <text x="360" y="60" text-anchor="middle">即插组件（插件）</text>
+    <rect x="490" y="30" width="150" height="50" rx="6" fill="#fdf0e6" stroke="#c05621" stroke-width="1.2"/>
+    <text x="565" y="60" text-anchor="middle">即插组件（插件）</text>
+  </g>
+  <!-- 内核 -->
+  <rect x="240" y="150" width="240" height="100" rx="10" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.6"/>
+  <text x="360" y="192" font-size="17" font-weight="bold" fill="#1f4e79" text-anchor="middle">内核系统 Core</text>
+  <text x="360" y="218" font-size="12" fill="#6b7a8a" text-anchor="middle">只包含系统运行的最小功能</text>
+  <!-- 下排插件 -->
+  <g font-size="13" fill="#22303f">
+    <rect x="80" y="320" width="150" height="50" rx="6" fill="#fdf0e6" stroke="#c05621" stroke-width="1.2"/>
+    <text x="155" y="350" text-anchor="middle">即插组件（插件）</text>
+    <rect x="285" y="320" width="150" height="50" rx="6" fill="#fdf0e6" stroke="#c05621" stroke-width="1.2"/>
+    <text x="360" y="350" text-anchor="middle">即插组件（插件）</text>
+    <rect x="490" y="320" width="150" height="50" rx="6" fill="#fdf0e6" stroke="#c05621" stroke-width="1.2"/>
+    <text x="565" y="350" text-anchor="middle">即插组件（插件）</text>
+  </g>
+  <!-- 上排插件 -> 内核顶缘三个独立连接点（直角折线） -->
+  <g stroke="#1f4e79" stroke-width="1.5" fill="none">
+    <polyline points="155.0,83.0 155.0,110.0 300.0,110.0 300.0,136.0"/>
+    <polygon points="300.0,144.0 295.5,136.0 304.5,136.0" fill="#1f4e79"/>
+    <line x1="360" y1="83" x2="360.0" y2="136.0"/>
+    <polygon points="360.0,144.0 355.5,136.0 364.5,136.0" fill="#1f4e79"/>
+    <polyline points="565.0,83.0 565.0,110.0 420.0,110.0 420.0,136.0"/>
+    <polygon points="420.0,144.0 415.5,136.0 424.5,136.0" fill="#1f4e79"/>
+  </g>
+  <!-- 内核底缘三个独立连接点 -> 下排插件（直角折线） -->
+  <g stroke="#1f4e79" stroke-width="1.5" fill="none">
+    <polyline points="300.0,253.0 300.0,290.0 155.0,290.0 155.0,306.0"/>
+    <polygon points="155.0,314.0 150.5,306.0 159.5,306.0" fill="#1f4e79"/>
+    <line x1="360" y1="253" x2="360.0" y2="306.0"/>
+    <polygon points="360.0,314.0 355.5,306.0 364.5,306.0" fill="#1f4e79"/>
+    <polyline points="420.0,253.0 420.0,290.0 565.0,290.0 565.0,306.0"/>
+    <polygon points="565.0,314.0 560.5,306.0 569.5,306.0" fill="#1f4e79"/>
+  </g>
+  <text x="360" y="392" font-size="12" fill="#6b7a8a" text-anchor="middle">插件互相独立，插件之间的通信减少到最低，避免互相依赖</text>
+</svg></div><div class="cap">微核架构（据教材图 1-4 重绘）</div></div>
+<h3>4. 微服务架构（Microservices Architecture）</h3>
+<p>微服务架构是<b>服务导向架构（SOA）的升级</b>：<b>每一个服务就是一个独立的部署单元</b>（Separately Deployed Unit），这些单元都是<b>分布式的、互相解耦</b>的，通过<b>远程通信协议（如 REST、SOAP）</b>联系。三种实现模式 ⭐：</p>
+<table><colgroup><col style="width:16.0%"><col style="width:53.3%"><col style="width:30.7%"></colgroup><thead><tr><th>实现模式</th><th>要点</th><th>备注</th></tr></thead><tbody><tr><td class="tc">RESTful API 模式</td><td>服务通过 API 提供</td><td><b>云服务就属于这一类</b></td></tr><tr><td class="tc">RESTful 应用模式</td><td>服务通过传统网络协议或应用协议提供，背后通常是多功能应用程序</td><td>常见于<b>企业内部</b></td></tr><tr><td class="tc">集中消息模式</td><td>采用<b>消息代理（Message Broker）</b>实现消息队列、负载均衡、统一日志和异常处理</td><td>缺点是<b>单点失败</b>，消息代理可能要做成<b>集群</b></td></tr></tbody></table>
+<div class="fig"><div><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 380" font-family="Microsoft YaHei, 微软雅黑, sans-serif">
+  <defs>
+    <marker id="arrow" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+      <path d="M0,0 L6,3 L0,6 Z" fill="#1f4e79"/>
+    </marker>
+    <marker id="arrowGray" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+      <path d="M0,0 L6,3 L0,6 Z" fill="#6b7a8a"/>
+    </marker>
+  </defs>
+  <!-- 客户需求 -->
+  <g font-size="13" fill="#22303f">
+    <rect x="70" y="20" width="120" height="42" rx="6" fill="#fdf0e6" stroke="#c05621" stroke-width="1.2"/>
+    <text x="130" y="46" text-anchor="middle">客户需求</text>
+    <rect x="300" y="20" width="120" height="42" rx="6" fill="#fdf0e6" stroke="#c05621" stroke-width="1.2"/>
+    <text x="360" y="46" text-anchor="middle">客户需求</text>
+    <rect x="530" y="20" width="120" height="42" rx="6" fill="#fdf0e6" stroke="#c05621" stroke-width="1.2"/>
+    <text x="590" y="46" text-anchor="middle">客户需求</text>
+  </g>
+  <!-- 用户接口层 -->
+  <rect x="40" y="98" width="640" height="46" rx="6" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.4"/>
+  <text x="360" y="127" font-size="15" font-weight="bold" fill="#1f4e79" text-anchor="middle">用户接口层</text>
+  <!-- 服务组件 -->
+  <g>
+    <rect x="60" y="216" width="140" height="96" rx="6" fill="#f3f6ee" stroke="#8aa15c" stroke-width="1.2"/>
+    <text x="130" y="240" font-size="14" font-weight="bold" fill="#4a6130" text-anchor="middle">服务组件</text>
+    <rect x="80" y="252" width="100" height="22" rx="3" fill="#ffffff" stroke="#8aa15c"/>
+    <text x="130" y="268" font-size="11" fill="#22303f" text-anchor="middle">模块</text>
+    <rect x="80" y="280" width="100" height="22" rx="3" fill="#ffffff" stroke="#8aa15c"/>
+    <text x="130" y="296" font-size="11" fill="#22303f" text-anchor="middle">模块</text>
+    <rect x="290" y="216" width="140" height="96" rx="6" fill="#f3f6ee" stroke="#8aa15c" stroke-width="1.2"/>
+    <text x="360" y="240" font-size="14" font-weight="bold" fill="#4a6130" text-anchor="middle">服务组件</text>
+    <rect x="310" y="252" width="100" height="22" rx="3" fill="#ffffff" stroke="#8aa15c"/>
+    <text x="360" y="268" font-size="11" fill="#22303f" text-anchor="middle">模块</text>
+    <rect x="310" y="280" width="100" height="22" rx="3" fill="#ffffff" stroke="#8aa15c"/>
+    <text x="360" y="296" font-size="11" fill="#22303f" text-anchor="middle">模块</text>
+    <rect x="520" y="216" width="140" height="96" rx="6" fill="#f3f6ee" stroke="#8aa15c" stroke-width="1.2"/>
+    <text x="590" y="240" font-size="14" font-weight="bold" fill="#4a6130" text-anchor="middle">服务组件</text>
+    <rect x="540" y="252" width="100" height="22" rx="3" fill="#ffffff" stroke="#8aa15c"/>
+    <text x="590" y="268" font-size="11" fill="#22303f" text-anchor="middle">模块</text>
+    <rect x="540" y="280" width="100" height="22" rx="3" fill="#ffffff" stroke="#8aa15c"/>
+    <text x="590" y="296" font-size="11" fill="#22303f" text-anchor="middle">模块</text>
+  </g>
+  <!-- 需求 -> 用户接口层（顶缘三个独立连接点） -->
+  <g stroke="#1f4e79" stroke-width="1.5" fill="none">
+    <line x1="130" y1="65" x2="130.0" y2="84.0"/>
+    <polygon points="130.0,92.0 125.5,84.0 134.5,84.0" fill="#1f4e79"/>
+    <line x1="360" y1="65" x2="360.0" y2="84.0"/>
+    <polygon points="360.0,92.0 355.5,84.0 364.5,84.0" fill="#1f4e79"/>
+    <line x1="590" y1="65" x2="590.0" y2="84.0"/>
+    <polygon points="590.0,92.0 585.5,84.0 594.5,84.0" fill="#1f4e79"/>
+  </g>
+  <!-- 用户接口层 -> 服务组件（底缘三个独立连接点，直角折线） -->
+  <g stroke="#1f4e79" stroke-width="1.5" fill="none">
+    <line x1="130" y1="147" x2="130.0" y2="202.0"/>
+    <polygon points="130.0,210.0 125.5,202.0 134.5,202.0" fill="#1f4e79"/>
+    <line x1="360" y1="147" x2="360.0" y2="202.0"/>
+    <polygon points="360.0,210.0 355.5,202.0 364.5,202.0" fill="#1f4e79"/>
+    <line x1="590" y1="147" x2="590.0" y2="202.0"/>
+    <polygon points="590.0,210.0 585.5,202.0 594.5,202.0" fill="#1f4e79"/>
+  </g>
+  <!-- 服务组件之间的远程通信（虚线，止于组件边缘外侧） -->
+  <g stroke="#6b7a8a" stroke-width="1.4" stroke-dasharray="5,3" fill="none">
+    <line x1="203" y1="264" x2="276.0" y2="264.0"/>
+    <polygon points="284.0,264.0 276.0,268.5 276.0,259.5" fill="#6b7a8a"/>
+    <line x1="433" y1="264" x2="506.0" y2="264.0"/>
+    <polygon points="514.0,264.0 506.0,268.5 506.0,259.5" fill="#6b7a8a"/>
+  </g>
+  <text x="360" y="344" font-size="12" fill="#6b7a8a" text-anchor="middle">每个服务都是独立的部署单元，分布式、互相解耦，通过 REST / SOAP 等远程通信协议联系（SOA 的升级）</text>
+  <text x="360" y="366" font-size="12" fill="#6b7a8a" text-anchor="middle">实现模式：RESTful API（云服务）/ RESTful 应用（企业内部）/ 集中消息（消息代理需防单点失败）</text>
+</svg></div><div class="cap">微服务架构（据教材图 1-5 重绘）</div></div>
+<h3>5. 云架构（Cloud Architecture）</h3>
+<p>云架构<b>主要解决扩展性和并发的问题，是最容易扩展的架构</b>。其做法是：将数据都<b>复制到内存</b>中，变成可复制的内存数据单元，把业务处理能力封装成一个个<b>处理单元（Processing Unit）</b>；访问量增加就新建处理单元，减少就关闭处理单元。由于<b>没有中央数据库</b>，扩展性的最大瓶颈消失；但每个处理单元的数据都在内存里，<b>需要进行数据持久化</b>。云架构主要分成两部分 ⭐：</p>
+<table><colgroup><col style="width:39.3%"><col style="width:60.7%"></colgroup><thead><tr><th>组成</th><th>职责</th></tr></thead><tbody><tr><td>处理单元（Processing Unit）</td><td><b>实现业务逻辑</b></td></tr><tr><td>虚拟中间件（Virtualized Middleware）</td><td>负责通信、保持会话控制、数据复制、分布式处理和处理单元的部署</td></tr></tbody></table>
+<p>虚拟中间件又包含四个组件 ⭐【易错】：</p>
+<table><colgroup><col style="width:31.1%"><col style="width:68.9%"></colgroup><thead><tr><th>组件</th><th>职责</th></tr></thead><tbody><tr><td>消息中间件 Messaging Grid</td><td>管理用户请求和<b>会话控制</b>，决定请求分配给哪一个处理单元</td></tr><tr><td>数据中间件 Data Grid</td><td>将数据<b>复制（同步）到每一个处理单元</b>，保证各处理单元得到同样的数据</td></tr><tr><td>处理中间件 Processing Grid</td><td><b>可选</b>；一个请求涉及不同类型处理单元时负责<b>协调</b></td></tr><tr><td>部署中间件 Deployment Manager</td><td>负责处理单元的<b>启动和关闭</b>，监控负载和响应时间，负载增加就新启动、减少就关闭</td></tr></tbody></table>
+<div class="fig"><div><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 420" font-family="Microsoft YaHei, 微软雅黑, sans-serif">
+  <defs>
+    <marker id="arrow" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+      <path d="M0,0 L6,3 L0,6 Z" fill="#1f4e79"/>
+    </marker>
+  </defs>
+  <!-- 处理单元 -->
+  <g>
+    <rect x="60" y="24" width="150" height="66" rx="6" fill="#fdf0e6" stroke="#c05621" stroke-width="1.2"/>
+    <text x="135" y="50" font-size="13" font-weight="bold" fill="#c05621" text-anchor="middle">Processing Unit</text>
+    <text x="135" y="72" font-size="11" fill="#22303f" text-anchor="middle">处理单元（业务逻辑）</text>
+    <rect x="285" y="24" width="150" height="66" rx="6" fill="#fdf0e6" stroke="#c05621" stroke-width="1.2"/>
+    <text x="360" y="50" font-size="13" font-weight="bold" fill="#c05621" text-anchor="middle">Processing Unit</text>
+    <text x="360" y="72" font-size="11" fill="#22303f" text-anchor="middle">处理单元（业务逻辑）</text>
+    <rect x="510" y="24" width="150" height="66" rx="6" fill="#fdf0e6" stroke="#c05621" stroke-width="1.2"/>
+    <text x="585" y="50" font-size="13" font-weight="bold" fill="#c05621" text-anchor="middle">Processing Unit</text>
+    <text x="585" y="72" font-size="11" fill="#22303f" text-anchor="middle">处理单元（业务逻辑）</text>
+  </g>
+  <!-- 虚拟中间件容器 -->
+  <rect x="40" y="150" width="640" height="230" rx="8" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.6"/>
+  <text x="360" y="176" font-size="15" font-weight="bold" fill="#1f4e79" text-anchor="middle">虚拟中间件 Virtualized Middleware</text>
+  <!-- 四个组件 2×2 -->
+  <g>
+    <rect x="70" y="196" width="280" height="76" rx="5" fill="#ffffff" stroke="#1f4e79"/>
+    <text x="210" y="222" font-size="13" font-weight="bold" fill="#1f4e79" text-anchor="middle">消息中间件 Messaging Grid</text>
+    <text x="210" y="246" font-size="11" fill="#22303f" text-anchor="middle">请求分配、会话控制</text>
+    <rect x="370" y="196" width="280" height="76" rx="5" fill="#ffffff" stroke="#1f4e79"/>
+    <text x="510" y="222" font-size="13" font-weight="bold" fill="#1f4e79" text-anchor="middle">数据中间件 Data Grid</text>
+    <text x="510" y="246" font-size="11" fill="#22303f" text-anchor="middle">数据复制同步到各处理单元</text>
+    <rect x="70" y="288" width="280" height="76" rx="5" fill="#ffffff" stroke="#1f4e79"/>
+    <text x="210" y="314" font-size="13" font-weight="bold" fill="#1f4e79" text-anchor="middle">处理中间件 Processing Grid</text>
+    <text x="210" y="338" font-size="11" fill="#22303f" text-anchor="middle">可选：协调不同类型处理单元</text>
+    <rect x="370" y="288" width="280" height="76" rx="5" fill="#ffffff" stroke="#1f4e79"/>
+    <text x="510" y="314" font-size="13" font-weight="bold" fill="#1f4e79" text-anchor="middle">部署中间件 Deployment Manager</text>
+    <text x="510" y="338" font-size="11" fill="#22303f" text-anchor="middle">处理单元启停、负载与响应监控</text>
+  </g>
+  <!-- 处理单元 -> 虚拟中间件（顶缘三个独立连接点） -->
+  <g stroke="#1f4e79" stroke-width="1.5" fill="none">
+    <line x1="135" y1="93" x2="135.0" y2="136.0"/>
+    <polygon points="135.0,144.0 130.5,136.0 139.5,136.0" fill="#1f4e79"/>
+    <line x1="360" y1="93" x2="360.0" y2="136.0"/>
+    <polygon points="360.0,144.0 355.5,136.0 364.5,136.0" fill="#1f4e79"/>
+    <line x1="585" y1="93" x2="585.0" y2="136.0"/>
+    <polygon points="585.0,144.0 580.5,136.0 589.5,136.0" fill="#1f4e79"/>
+  </g>
+  <text x="360" y="406" font-size="12" fill="#6b7a8a" text-anchor="middle">数据复制到内存、无中央数据库：访问量增减时弹性启停处理单元，内存数据需持久化</text>
+</svg></div><div class="cap">云架构（据教材图 1-6 重绘）</div></div>
+<p>五种典型架构对比速记：</p>
+<table><colgroup><col style="width:22.2%"><col style="width:40.0%"><col style="width:37.8%"></colgroup><thead><tr><th>架构</th><th>一句话核心</th><th>突出特点</th></tr></thead><tbody><tr><td class="tc">分层架构</td><td>水平分层、接口通信、逐层调用</td><td>事实上的标准架构，结构清晰</td></tr><tr><td class="tc">事件驱动架构</td><td>用事件通知串起处理流程</td><td>松耦合、异步触发</td></tr><tr><td class="tc">微核架构</td><td>小内核 + 独立插件</td><td>可插拔、易扩展功能</td></tr><tr><td class="tc">微服务架构</td><td>服务即独立部署单元</td><td>SOA 升级，分布式解耦</td></tr><tr><td class="tc">云架构</td><td>内存数据 + 弹性处理单元</td><td>最易扩展，解决并发</td></tr></tbody></table>
+<div class="mnemonic">助记：五种典型架构——「分、事、核、微、云」：分层稳、事件松、微核插、微服拆、云弹扩。</div>
+<h3>2.3 系统架构的常用建模方法（1.1.2）⭐【重点】</h3>
+<p>根据建模侧重点不同，软件架构模型分成 <b>4 种</b>：</p>
+<table><colgroup><col style="width:11.8%"><col style="width:23.5%"><col style="width:64.7%"></colgroup><thead><tr><th>模型</th><th>建模侧重点</th><th>要点</th></tr></thead><tbody><tr><td class="tc">结构模型</td><td>以<b>构件、连接件</b>等刻画结构</td><td>最直观、最普遍；反映配置、约束、隐含假设、风格和性质；<b>研究核心是架构描述语言（ADL）</b></td></tr><tr><td class="tc">框架模型</td><td>侧重<b>整体结构</b>而非细节</td><td>以特殊问题为目标，建立只针对和适应问题的结构</td></tr><tr><td class="tc">动态模型</td><td>系统的「<b>大颗粒</b>」行为</td><td>描述重新配置或演化，如建立/拆除通信或计算的过程，常是激励型的</td></tr><tr><td class="tc">过程模型</td><td>构造系统的<b>步骤和过程</b></td><td>结构是遵循某些过程脚本的结果</td></tr></tbody></table>
+<p>四种模型并不完全独立，<b>有机结合</b>才能形成完整模型，准确、全面地反映软件架构。</p>
+<p><b>「4+1」视角模型</b> ⭐【高频考点】：Philippe Kruchten 于 <b>1995 年</b>提出，从 5 个不同视角描述软件架构，每个视角只关心系统的一个侧面，5 个视角结合才能反映软件架构的全部内容。</p>
+<table><colgroup><col style="width:29.8%"><col style="width:70.2%"></colgroup><thead><tr><th>视角</th><th>关注的问题（通俗解释）</th></tr></thead><tbody><tr><td>逻辑（Logical）视角</td><td>系统提供哪些功能、由哪些对象/模块构成，即「系统是什么结构」</td></tr><tr><td>过程（Process）视角</td><td>系统运行时有哪些进程/线程、如何并发与同步，即「跑起来怎么协同」</td></tr><tr><td>物理（Physical）视角</td><td>软件部署到哪些硬件/节点上、如何联网，即「装在哪里」</td></tr><tr><td>开发（Development）视角</td><td>代码如何分包、分模块、由谁开发，即「怎么组织开发」</td></tr><tr><td>场景（Scenarios）视角</td><td>用典型用例/场景把前四个视角<b>串联验证</b>，即「拿真实使用故事检验设计」</td></tr></tbody></table>
+<div class="example">举例：把系统想象成一栋住宅——逻辑视角看户型与功能分区，开发视角看施工图纸怎么分包给各班组，过程视角看入住后水电暖各系统如何并行运转，物理视角看房子落在哪个地块、怎么接市政管网，场景视角则用几个典型家庭的入住故事，把前面所有图纸串起来检验是否好住。</div>
+<div class="fig"><div><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 420" font-family="Microsoft YaHei, 微软雅黑, sans-serif">
+  <defs>
+    <marker id="arrow" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+      <path d="M0,0 L6,3 L0,6 Z" fill="#1f4e79"/>
+    </marker>
+  </defs>
+  <!-- 四角视角 -->
+  <g>
+    <rect x="60" y="40" width="190" height="76" rx="6" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.2"/>
+    <text x="155" y="70" font-size="15" font-weight="bold" fill="#1f4e79" text-anchor="middle">逻辑视角 Logical</text>
+    <text x="155" y="94" font-size="11" fill="#22303f" text-anchor="middle">功能需求与结构</text>
+    <rect x="470" y="40" width="190" height="76" rx="6" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.2"/>
+    <text x="565" y="70" font-size="15" font-weight="bold" fill="#1f4e79" text-anchor="middle">开发视角 Development</text>
+    <text x="565" y="94" font-size="11" fill="#22303f" text-anchor="middle">代码分包与开发组织</text>
+    <rect x="60" y="300" width="190" height="76" rx="6" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.2"/>
+    <text x="155" y="330" font-size="15" font-weight="bold" fill="#1f4e79" text-anchor="middle">过程视角 Process</text>
+    <text x="155" y="354" font-size="11" fill="#22303f" text-anchor="middle">进程线程、并发同步</text>
+    <rect x="470" y="300" width="190" height="76" rx="6" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.2"/>
+    <text x="565" y="330" font-size="15" font-weight="bold" fill="#1f4e79" text-anchor="middle">物理视角 Physical</text>
+    <text x="565" y="354" font-size="11" fill="#22303f" text-anchor="middle">部署节点与网络</text>
+  </g>
+  <!-- 中心场景 -->
+  <ellipse cx="360" cy="208" rx="88" ry="52" fill="#fdf0e6" stroke="#c05621" stroke-width="1.6"/>
+  <text x="360" y="202" font-size="16" font-weight="bold" fill="#c05621" text-anchor="middle">场景 Scenarios</text>
+  <text x="360" y="226" font-size="11" fill="#22303f" text-anchor="middle">用例串联验证</text>
+  <!-- 四角 -> 中心（各自独立直线，止于椭圆外侧） -->
+  <g stroke="#1f4e79" stroke-width="1.5" fill="none">
+    <line x1="253" y1="81" x2="296.0" y2="156.1"/>
+    <polygon points="300.0,163.0 292.1,158.3 299.9,153.8" fill="#1f4e79"/>
+    <line x1="467" y1="81" x2="424.0" y2="156.1"/>
+    <polygon points="420.0,163.0 420.1,153.8 427.9,158.3" fill="#1f4e79"/>
+    <line x1="253" y1="335" x2="296.0" y2="259.9"/>
+    <polygon points="300.0,253.0 299.9,262.2 292.1,257.7" fill="#1f4e79"/>
+    <line x1="467" y1="335" x2="424.0" y2="259.9"/>
+    <polygon points="420.0,253.0 427.9,257.7 420.1,262.2" fill="#1f4e79"/>
+  </g>
+  <text x="360" y="406" font-size="12" fill="#6b7a8a" text-anchor="middle">Kruchten（1995）：每个视角只关心系统的一个侧面，场景视角把其余四个视角串联起来</text>
+</svg></div><div class="cap">「4+1」视角模型</div></div>
+<h3>2.4 软件架构的应用场景与未来发展（1.1.3、1.1.4）</h3>
+<p>不同架构风格各有优缺点和适用场景 ⭐（常考「风格—场景」配对）：</p>
+<table><colgroup><col style="width:36.5%"><col style="width:63.5%"></colgroup><thead><tr><th>架构风格</th><th>适用场景</th></tr></thead><tbody><tr><td>管道-过滤器</td><td>将系统分成若干<b>独立的步骤</b></td></tr><tr><td>主程序/子系统、面向对象</td><td>对<b>组件内部</b>进行设计</td></tr><tr><td>虚拟机风格</td><td>构造<b>解释器或专家系统</b></td></tr><tr><td>C/S、B/S</td><td>数据和处理分布在一定范围，通过<b>网络连接</b>构成系统</td></tr><tr><td>平台/插件</td><td>具有<b>插件扩展</b>功能的应用程序</td></tr><tr><td>MVC</td><td><b>用户交互</b>程序的设计</td></tr><tr><td>SOA</td><td><b>企业集成</b></td></tr><tr><td>C2</td><td><b>GUI 软件</b>开发，构建灵活可扩展的应用系统</td></tr></tbody></table>
+<p>现代大型软件<b>很少使用单一架构风格</b>，而是混合多种风格，从不同视角描述系统，保证可靠性、可扩展性、可维护性等非功能属性的正确描述。</p>
+<p>未来发展：架构发展主线可归纳为<b>模块化编程/面向对象编程 → 构件技术 → 面向服务开发技术 → 云技术</b>；同时架构描述、建模和验证技术始终扮演重要角色。微服务架构、数据驱动架构、智能架构等新技术新思想不断融入，教材图 1-7 的技术发展路线记住这条主线即可。</p>
+<div class="fig"><div><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 240" font-family="Microsoft YaHei, 微软雅黑, sans-serif">
+  <defs>
+    <marker id="arrow" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+      <path d="M0,0 L6,3 L0,6 Z" fill="#1f4e79"/>
+    </marker>
+  </defs>
+  <!-- 四个主线阶段 -->
+  <g>
+    <rect x="15" y="50" width="150" height="80" rx="6" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.2"/>
+    <text x="90" y="80" font-size="14" font-weight="bold" fill="#1f4e79" text-anchor="middle">模块化 / 面向对象</text>
+    <text x="90" y="102" font-size="11" fill="#22303f" text-anchor="middle">模块化编程、OOP</text>
+    <text x="90" y="120" font-size="11" fill="#6b7a8a" text-anchor="middle">UML、RUP</text>
+    <rect x="200" y="50" width="150" height="80" rx="6" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.2"/>
+    <text x="275" y="80" font-size="14" font-weight="bold" fill="#1f4e79" text-anchor="middle">构件技术</text>
+    <text x="275" y="102" font-size="11" fill="#22303f" text-anchor="middle">可组装、可插拔</text>
+    <text x="275" y="120" font-size="11" fill="#6b7a8a" text-anchor="middle">CORBA、COM、EJB</text>
+    <rect x="385" y="50" width="150" height="80" rx="6" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.2"/>
+    <text x="460" y="80" font-size="14" font-weight="bold" fill="#1f4e79" text-anchor="middle">面向服务开发</text>
+    <text x="460" y="102" font-size="11" fill="#22303f" text-anchor="middle">服务复用与集成</text>
+    <text x="460" y="120" font-size="11" fill="#6b7a8a" text-anchor="middle">SOA、Web Service</text>
+    <rect x="570" y="50" width="150" height="80" rx="6" fill="#f3f6ee" stroke="#8aa15c" stroke-width="1.2"/>
+    <text x="645" y="80" font-size="14" font-weight="bold" fill="#4a6130" text-anchor="middle">云技术</text>
+    <text x="645" y="102" font-size="11" fill="#22303f" text-anchor="middle">弹性扩展、云原生</text>
+    <text x="645" y="120" font-size="11" fill="#6b7a8a" text-anchor="middle">Cloud、容器、微服务</text>
+  </g>
+  <!-- 阶段间箭头 -->
+  <g stroke="#1f4e79" stroke-width="1.6" fill="none">
+    <line x1="168" y1="90" x2="186.0" y2="90.0"/>
+    <polygon points="194.0,90.0 186.0,94.5 186.0,85.5" fill="#1f4e79"/>
+    <line x1="353" y1="90" x2="371.0" y2="90.0"/>
+    <polygon points="379.0,90.0 371.0,94.5 371.0,85.5" fill="#1f4e79"/>
+    <line x1="538" y1="90" x2="556.0" y2="90.0"/>
+    <polygon points="564.0,90.0 556.0,94.5 556.0,85.5" fill="#1f4e79"/>
+  </g>
+  <text x="360" y="172" font-size="12" fill="#22303f" text-anchor="middle">架构描述、建模与验证技术贯穿发展始终</text>
+  <text x="360" y="198" font-size="12" fill="#6b7a8a" text-anchor="middle">微服务架构、数据驱动架构、智能架构等新技术与新思想不断融入</text>
+  <text x="360" y="224" font-size="11" fill="#6b7a8a" text-anchor="middle">（据教材图 1-7《软件架构技术发展路线概览》提炼主线）</text>
+</svg></div><div class="cap">软件架构技术发展主线（据教材图 1-7 简化重绘）</div></div>
+<h3>2.5 系统架构设计师概述（1.2）⭐【重点】</h3>
+<h3>1. 定义与分类</h3>
+<p><b>架构设计师是负责系统架构的人、团队或组织（IEEE 1471-2000）</b>，是系统或产品线的<b>设计责任人</b>：负责理解、管理并最终<b>确认和评估非功能性系统需求</b>（如可维护性、性能、复用性、可靠性、有效性、可测试性等），给出开发规范，搭建系统实现的核心构架，对整个软件架构、关键构件和接口进行<b>总体设计</b>并澄清关键技术细节。</p>
+<p>架构设计师、架构设计、架构三者关系：<b>架构设计师执行架构设计，架构设计生成架构，架构设计师的成果是创建架构</b>。系统开发中，架构设计师是整个系统的核心。</p>
+<div class="fig"><div><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 280" font-family="Microsoft YaHei, 微软雅黑, sans-serif">
+  <defs>
+    <marker id="arrow" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+      <path d="M0,0 L6,3 L0,6 Z" fill="#1f4e79"/>
+    </marker>
+  </defs>
+  <!-- 三个角色框 -->
+  <rect x="40" y="70" width="160" height="84" rx="8" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.4"/>
+  <text x="120" y="118" font-size="17" font-weight="bold" fill="#1f4e79" text-anchor="middle">架构设计师</text>
+  <rect x="290" y="70" width="150" height="84" rx="8" fill="#fdf0e6" stroke="#c05621" stroke-width="1.4"/>
+  <text x="365" y="118" font-size="17" font-weight="bold" fill="#c05621" text-anchor="middle">架构设计</text>
+  <rect x="560" y="70" width="120" height="84" rx="8" fill="#f3f6ee" stroke="#8aa15c" stroke-width="1.4"/>
+  <text x="620" y="118" font-size="17" font-weight="bold" fill="#4a6130" text-anchor="middle">架构</text>
+  <!-- 执行：架构设计师 -> 架构设计 -->
+  <line x1="203" y1="112" x2="276.0" y2="112.0" stroke="#1f4e79" stroke-width="1.6" fill="none"/>
+    <polygon points="284.0,112.0 276.0,116.5 276.0,107.5" fill="#1f4e79"/>
+  <text x="245" y="98" font-size="13" fill="#22303f" text-anchor="middle">执行</text>
+  <!-- 生成：架构设计 -> 架构 -->
+  <line x1="443" y1="112" x2="546.0" y2="112.0" stroke="#1f4e79" stroke-width="1.6" fill="none"/>
+    <polygon points="554.0,112.0 546.0,116.5 546.0,107.5" fill="#1f4e79"/>
+  <text x="500" y="98" font-size="13" fill="#22303f" text-anchor="middle">生成</text>
+  <!-- 创建：架构设计师 -> 架构（底部直角折线） -->
+  <polyline points="120.0,157.0 120.0,224.0 620.0,224.0 620.0,168.0" stroke="#c05621" stroke-width="1.6" fill="none"/>
+    <polygon points="620.0,160.0 624.5,168.0 615.5,168.0" fill="#c05621"/>
+  <text x="370" y="248" font-size="13" fill="#c05621" text-anchor="middle">创建（架构设计师的成果是创建架构）</text>
+</svg></div><div class="cap">架构设计师、架构设计和架构的关系（据教材图 1-8 重绘）</div></div>
+<p>架构师的分类（注意区分两种划分口径）：</p>
+<table><colgroup><col style="width:32.5%"><col style="width:67.5%"></colgroup><thead><tr><th>划分口径</th><th>类别</th></tr></thead><tbody><tr><td>从组织上划分（5 类）</td><td><b>业务架构师、主题领域架构师、技术架构师、项目架构师、系统架构师</b></td></tr><tr><td>参考微软按关注领域划分（4 种）</td><td><b>企业架构师 EA、基础结构架构师 IA、特定技术架构师 TSA、解决方案架构师 SA</b></td></tr></tbody></table>
+<p>本书的培养对象重点围绕<b>系统架构师</b>的职责展开。</p>
+<h3>2. 职责与任务 ⭐【高频考点】</h3>
+<p>架构设计师的职责应该是<b>技术领导</b>：一方面在组织职位上拥有<b>技术决策的权威</b>（项目经理更关注<b>管理资源、进度和成本</b>，二者代表项目的公共角色）；另一方面在品质上为他人树立榜样、指导培养团队成员，并确保技术决策被<b>传达、理解并始终被执行</b>。</p>
+<p>架构设计师在项目中的主要任务（3 条）：</p>
+<ol><li><b>领导与协调</b>整个项目中的技术活动（分析、设计和实施等）；</li><li><b>推动主要的技术决策</b>并最终表达为系统架构；</li><li><b>确定系统架构</b>，并促使其架构设计的<b>文档化</b>（包括需求、设计、实施和部署等「视图」）。</li></ol>
+<p>从技术角度看，架构设计师的职责就是<b>抽象设计、非功能设计和关键技术设计</b>三大任务 ⭐。</p>
+<p>架构设计师角色可由一个人或一个团队履行；由团队履行时，<b>首席架构设计师</b>非常重要——他是架构团队的<b>单点协调人</b>，没有他，团队难以创造出内聚的架构或做出决策。最优秀的架构通常由团队而不是个人创建。</p>
+<h3>3. 应具备的专业素质（8 项）⭐</h3>
+<table><colgroup><col style="width:23.9%"><col style="width:76.1%"></colgroup><thead><tr><th>素质</th><th>关键要求</th></tr></thead><tbody><tr><td>掌握业务领域的知识</td><td>不懂业务只会做出满足自己熟悉内容、而非用户需求的方案；懂业务才能预见变化</td></tr><tr><td>掌握技术知识</td><td>关注技术的<b>重要因素而非细节</b>，不必是每个 API 的专家，但必须跟上技术发展</td></tr><tr><td>掌握设计技能</td><td>架构是<b>关键设计决策的具体化</b>，设计能力靠多年经验积累</td></tr><tr><td>具备编程技能</td><td>即使不必写代码也要跟上更新；有组织地参与开发、编写一定量代码</td></tr><tr><td>具备沟通能力</td><td>软技能中<b>沟通最重要</b>；有效的口头和书面表达，激励团队共享愿景</td></tr><tr><td>具备决策能力</td><td>在信息不明确、时间不足时也要果断决策，并学会纠正错误决策</td></tr><tr><td>知道组织策略</td><td>对政治敏感，与恰当的人沟通，确保项目获得支持</td></tr><tr><td>应是谈判专家</td><td>尽早降低风险，通过精炼/回退需求与利益相关者达成一致，说清各种折中方案的后果</td></tr></tbody></table>
+<div class="mnemonic">助记：八项素质——「业务技术会设计，能写代码善沟通；果断决策懂策略，谈判折中降风险」。</div>
+<h3>4. 知识结构（10 个方面）</h3>
+<p>战略规划能力；业务流程建模能力；信息数据架构能力；技术架构设计和实现能力；应用系统架构的解决和实现能力；基础 IT 知识及基础设施、资源调配能力；信息安全技术支持与管理保障能力；IT 审计、治理与基本需求的分析和获取能力；面向软件系统可靠性与系统生命周期的质量保障服务能力；对新技术与新概念的理解、掌握和分析能力。</p>
+<p>总要求：<b>多层次</b>（体系结构、软硬件与网络、系统工程、信息系统、嵌入式、安全可靠性等知识层面 + 架构方法、模式、流程与模型经验，广泛了解并<b>精通一种</b>特定技术）×<b>多方面</b>（业务领域及管理、商务、财务、法律等背景知识）。</p>
+<h3>2.6 如何成为一名好的系统架构设计师（1.3）</h3>
+<h3>1. 优秀架构设计师的 6 种角色特质 ⭐【高频考点】</h3>
+<p>Pat Kua（原 ThoughtWorks 咨询师）提出，技术全面的架构设计师必须具备 6 个角色特质：</p>
+<table><colgroup><col style="width:32.3%"><col style="width:67.7%"></colgroup><thead><tr><th>角色特质</th><th>核心要点</th></tr></thead><tbody><tr><td>作为<b>领导者</b></td><td>像导师而非发号施令者，用讲故事、影响力、引导冲突、构建信任把架构愿景变成现实</td></tr><tr><td>作为<b>开发者</b></td><td>多与开发人员待在一起、花时间在代码上，避免「<b>象牙塔式架构设计师</b>」；技术选型要与问题域匹配</td></tr><tr><td>聚焦系统（<b>系统综合者</b>）</td><td>不只看代码，还关注部署、自动化测试、性能、安全、可支持性；寻找满足<b>不同利益相关者</b>需求的方案，而非迎合某一参与者偏好</td></tr><tr><td>具备<b>企业家思维</b></td><td>从<b>成本和收益</b>两个角度评估技术选型，调查隐性成本（文档、社区、约束、长期风险），敢于承担风险、快速学习、接受失败</td></tr><tr><td><b>战略技术专家</b>（权衡战略与战术思维）</td><td>不盲目追新，在团队<b>敏捷度与一致性</b>之间求平衡；可用「<b>技术雷达</b>」练习战略思维</td></tr><tr><td>良好的<b>沟通</b></td><td>用<b>听众熟悉的术语</b>（风险回报、成本收益）而非技术黑话交流；内外部沟通同样重要；用架构决策日志、Wiki 留下可追溯记录</td></tr></tbody></table>
+<div class="fig"><div><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 400" font-family="Microsoft YaHei, 微软雅黑, sans-serif">
+  <defs>
+    <marker id="arrow" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+      <path d="M0,0 L6,3 L0,6 Z" fill="#1f4e79"/>
+    </marker>
+  </defs>
+  <!-- 中心 -->
+  <circle cx="360" cy="190" r="58" fill="#1f4e79"/>
+  <text x="360" y="184" font-size="15" font-weight="bold" fill="#ffffff" text-anchor="middle">系统架构</text>
+  <text x="360" y="206" font-size="15" font-weight="bold" fill="#ffffff" text-anchor="middle">设计师</text>
+  <!-- 六个角色节点 -->
+  <g font-size="14" font-weight="bold">
+    <rect x="290" y="24" width="140" height="48" rx="24" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.2"/>
+    <text x="360" y="54" fill="#1f4e79" text-anchor="middle">领导者</text>
+    <rect x="530" y="100" width="160" height="48" rx="24" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.2"/>
+    <text x="610" y="130" fill="#1f4e79" text-anchor="middle">战略技术专家</text>
+    <rect x="530" y="280" width="160" height="48" rx="24" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.2"/>
+    <text x="610" y="310" fill="#1f4e79" text-anchor="middle">沟通专家</text>
+    <rect x="290" y="332" width="140" height="48" rx="24" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.2"/>
+    <text x="360" y="362" fill="#1f4e79" text-anchor="middle">系统综合者</text>
+    <rect x="30" y="280" width="160" height="48" rx="24" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.2"/>
+    <text x="110" y="310" fill="#1f4e79" text-anchor="middle">企业家思维</text>
+    <rect x="30" y="100" width="160" height="48" rx="24" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.2"/>
+    <text x="110" y="130" fill="#1f4e79" text-anchor="middle">开发者</text>
+  </g>
+  <!-- 节点 -> 中心（直线，止于圆外） -->
+  <g stroke="#1f4e79" stroke-width="1.5" fill="none">
+    <line x1="360" y1="75" x2="360.0" y2="118.0"/>
+    <polygon points="360.0,126.0 355.5,118.0 364.5,118.0" fill="#1f4e79"/>
+    <line x1="527" y1="124" x2="425.5" y2="162.2"/>
+    <polygon points="418.0,165.0 423.9,158.0 427.1,166.4" fill="#1f4e79"/>
+    <line x1="527" y1="304" x2="417.6" y2="228.5"/>
+    <polygon points="411.0,224.0 420.1,224.8 415.0,232.2" fill="#1f4e79"/>
+    <line x1="360" y1="329" x2="360.0" y2="260.0"/>
+    <polygon points="360.0,252.0 364.5,260.0 355.5,260.0" fill="#1f4e79"/>
+    <line x1="193" y1="304" x2="302.4" y2="228.5"/>
+    <polygon points="309.0,224.0 305.0,232.2 299.9,224.8" fill="#1f4e79"/>
+    <line x1="193" y1="124" x2="294.5" y2="162.2"/>
+    <polygon points="302.0,165.0 292.9,166.4 296.1,158.0" fill="#1f4e79"/>
+  </g>
+  <text x="360" y="396" font-size="11" fill="#6b7a8a" text-anchor="middle">Pat Kua：技术全面的架构设计师应具备的 6 种角色特质</text>
+</svg></div><div class="cap">系统架构设计师的 6 种角色特质（据教材图 1-9 重绘）</div></div>
+<h3>2. 从工程师到系统架构设计师的演化 ⭐【重点】</h3>
+<p>系统架构设计师与建筑师的共同点都是<b>做好顶层设计、充当需求方和实施者的桥梁</b>；不同点是：<b>系统架构设计师一定是从工程师成长起来的</b>。</p>
+<p>工程师与架构设计师的本质区别：技术上，架构设计师首要工作是<b>抽象建模</b>，更重要的是<b>了解业务领域</b>；既要有广度（语言、算法、数据库到网络协议、分布式、中间件等），也要在关键技术模块有<b>深度和权威性</b>，是技术团队的对外接口人、外部团队技术问题的终结者。架构师要成为<b>业务和技术的桥梁</b>，掌握「中庸之道」——<b>架构的工作主题就是权衡</b>，要习惯于不完美和一定条件下的不精确，而工程师往往追求完美与精确。</p>
+<p>成为架构设计师的关键是培养<b>三力</b>：<b>判断力</b>（准确判断系统复杂度与脆弱点）、<b>执行力</b>（用合适方案解决复杂度问题）、<b>创新力</b>（创造新方案解决复杂度问题）；遵循<b>积累经验、拓宽视野、深度思考</b>的原则。</p>
+<p>成长六阶段 ⭐【易错：年限与特征常考匹配】：</p>
+<table><colgroup><col style="width:14.9%"><col style="width:10.0%"><col style="width:32.8%"><col style="width:42.3%"></colgroup><thead><tr><th>阶段</th><th>所需时间</th><th>典型特征</th><th>主要积累</th></tr></thead><tbody><tr><td>工程师</td><td class="tc">1～3 年</td><td><b>在别人的指导下完成开发</b></td><td>基础技能（语言、数据结构、环境、数据库、流程）</td></tr><tr><td>高级工程师</td><td class="tc">3～5 年</td><td><b>独立完成开发</b>（需求分析、方案设计、编码，多在已有架构下）</td><td>方案设计经验；从知道 How 到知道 <b>Why</b> + 理论（范式、设计模式、SOLID、缓存理论）</td></tr><tr><td>技术专家</td><td class="tc">4～8 年</td><td><b>某个领域的专家</b>，能修改、扩展和优化架构</td><td>拓展技术<b>宽度</b>（理解原理、优缺点、应用场景）</td></tr><tr><td>系统架构设计师（初级）</td><td class="tc">5～8 年</td><td><b>独立完成一个系统的架构设计</b>（0 到 1 或重构）</td><td>形成自己的<b>架构设计方法论</b>（与技术专家凭经验的本质区别）</td></tr><tr><td>系统架构设计师（中级）</td><td class="tc">8～10 年以上</td><td><b>完成复杂系统的架构设计</b>（高性能、高可用、可扩展、海量存储）</td><td>技术深度和技术理论的积累</td></tr><tr><td>系统架构设计师（高级）</td><td class="tc">10 年以上</td><td><b>创造新的架构模式</b>（如 MapReduce、Docker 开创潮流）</td><td><b>创造性</b></td></tr></tbody></table>
+<div class="mnemonic">助记：成长路径一句话——「跟做 → 独做 → 钻一域 → 设计一系统 → 设计复杂系统 → 开创新模式」；初级靠方法论，中级靠深度，高级靠创造。</div>
+<div class="fig"><div><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 420" font-family="Microsoft YaHei, 微软雅黑, sans-serif">
+  <defs>
+    <marker id="arrow" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+      <path d="M0,0 L6,3 L0,6 Z" fill="#1f4e79"/>
+    </marker>
+  </defs>
+  <!-- 六级阶梯卡片：从左下到右上 -->
+  <g>
+    <rect x="10" y="270" width="110" height="110" rx="5" fill="#eaf1f8" stroke="#1f4e79"/>
+    <text x="65" y="296" font-size="14" font-weight="bold" fill="#1f4e79" text-anchor="middle">工程师</text>
+    <text x="65" y="318" font-size="11" fill="#22303f" text-anchor="middle">1～3 年</text>
+    <text x="65" y="342" font-size="11" fill="#22303f" text-anchor="middle">在指导下</text>
+    <text x="65" y="360" font-size="11" fill="#22303f" text-anchor="middle">完成开发</text>
+    <rect x="130" y="228" width="110" height="110" rx="5" fill="#eaf1f8" stroke="#1f4e79"/>
+    <text x="185" y="254" font-size="14" font-weight="bold" fill="#1f4e79" text-anchor="middle">高级工程师</text>
+    <text x="185" y="276" font-size="11" fill="#22303f" text-anchor="middle">3～5 年</text>
+    <text x="185" y="300" font-size="11" fill="#22303f" text-anchor="middle">独立完成开发</text>
+    <text x="185" y="318" font-size="11" fill="#6b7a8a" text-anchor="middle">How → Why</text>
+    <rect x="250" y="186" width="110" height="110" rx="5" fill="#eaf1f8" stroke="#1f4e79"/>
+    <text x="305" y="212" font-size="14" font-weight="bold" fill="#1f4e79" text-anchor="middle">技术专家</text>
+    <text x="305" y="234" font-size="11" fill="#22303f" text-anchor="middle">4～8 年</text>
+    <text x="305" y="258" font-size="11" fill="#22303f" text-anchor="middle">某个领域专家</text>
+    <text x="305" y="276" font-size="11" fill="#6b7a8a" text-anchor="middle">拓展技术宽度</text>
+    <rect x="370" y="144" width="110" height="110" rx="5" fill="#fdf0e6" stroke="#c05621"/>
+    <text x="425" y="170" font-size="14" font-weight="bold" fill="#c05621" text-anchor="middle">初级架构师</text>
+    <text x="425" y="192" font-size="11" fill="#22303f" text-anchor="middle">5～8 年</text>
+    <text x="425" y="216" font-size="11" fill="#22303f" text-anchor="middle">独立设计系统</text>
+    <text x="425" y="234" font-size="11" fill="#6b7a8a" text-anchor="middle">形成方法论</text>
+    <rect x="490" y="102" width="110" height="110" rx="5" fill="#fdf0e6" stroke="#c05621"/>
+    <text x="545" y="128" font-size="14" font-weight="bold" fill="#c05621" text-anchor="middle">中级架构师</text>
+    <text x="545" y="150" font-size="11" fill="#22303f" text-anchor="middle">8～10 年以上</text>
+    <text x="545" y="174" font-size="11" fill="#22303f" text-anchor="middle">复杂系统设计</text>
+    <text x="545" y="192" font-size="11" fill="#6b7a8a" text-anchor="middle">深度与理论</text>
+    <rect x="610" y="60" width="104" height="110" rx="5" fill="#f3f6ee" stroke="#8aa15c"/>
+    <text x="662" y="86" font-size="14" font-weight="bold" fill="#4a6130" text-anchor="middle">高级架构师</text>
+    <text x="662" y="108" font-size="11" fill="#22303f" text-anchor="middle">10 年以上</text>
+    <text x="662" y="132" font-size="11" fill="#22303f" text-anchor="middle">创造新的</text>
+    <text x="662" y="150" font-size="11" fill="#22303f" text-anchor="middle">架构模式</text>
+  </g>
+  <!-- 阶梯间上升箭头（相邻卡片，独立短箭头） -->
+  <g stroke="#1f4e79" stroke-width="1.5" fill="none">
+    <line x1="123" y1="290" x2="127" y2="283"/>
+    <line x1="243" y1="248" x2="247" y2="241"/>
+    <line x1="363" y1="206" x2="367" y2="199"/>
+    <line x1="483" y1="164" x2="487" y2="157"/>
+    <line x1="603" y1="122" x2="607" y2="115"/>
+  </g>
+  <!-- 底部成长主线 -->
+  <line x1="30" y1="402" x2="682.0" y2="402.0" stroke="#1f4e79" stroke-width="1.6"/>
+    <polygon points="690.0,402.0 682.0,406.5 682.0,397.5" fill="#1f4e79"/>
+  <text x="360" y="394" font-size="12" fill="#1f4e79" text-anchor="middle">判断力 · 执行力 · 创新力（积累经验、拓宽视野、深度思考）</text>
+</svg></div><div class="cap">从工程师到系统架构设计师的成长阶梯</div></div>
+<p>最后，技术人员的成长基本遵循「<b>10000 小时定律</b>」：成为顶尖专业人才需要 10000 小时持续不断的练习；架构设计师的成长关键在于对技术的热情以及持续的学习、实践、思考和总结。</p>
+<h2>三、重点与易错点</h2>
+<table><colgroup><col style="width:5.9%"><col style="width:18.2%"><col style="width:43.3%"><col style="width:32.5%"></colgroup><thead><tr><th>#</th><th>考点</th><th>必须记住的结论</th><th>易错提醒</th></tr></thead><tbody><tr><td class="tc">1</td><td>IEEE 1471-2000 架构定义</td><td>组件的基本组织 + 组件间关系 + 与环境的关系 + 指导设计和发展的原则</td><td>不要只记「组件+连接件」，漏掉「环境」和「原则」</td></tr><tr><td class="tc">2</td><td>架构设计的位置</td><td><b>需求分析之后、系统设计之前</b>；桥梁 + 早期质量保证</td><td>不是详细设计之后，也不是编码阶段</td></tr><tr><td class="tc">3</td><td>发展四阶段</td><td>基础研究（1968—1994）→ 概念体系与核心技术形成（1999—2000）→ 理论体系完善与发展（1996 至今）→ 普及应用（2000 至今）</td><td>年份交叉属原文；IEEE 1471-2000 属于第②阶段成果</td></tr><tr><td class="tc">4</td><td>组件化 vs 模块化 vs 应用集成</td><td>模块化是逻辑切分无物理隔离；组件化可组装可插拔、不直接耦合；应用集成是整合不同应用</td><td>「组件化比模块化更独立，但比应用集成结合更紧密」方向别记反</td></tr><tr><td class="tc">5</td><td>五种典型架构 vs 经典五类风格</td><td>本章：分层/事件驱动/微核/微服务/云；Shaw 与 Garlan 经典五类：数据流、调用/返回、独立组件、虚拟机、仓库</td><td>两套分类别混淆，经典五类在第 7 章详考</td></tr><tr><td class="tc">6</td><td>分层架构</td><td>表现→业务→持久→数据库；SQL 在持久层；<b>不能跳层</b>；服务层是变体</td><td>「可以跨层调用以提高效率」是错误说法</td></tr><tr><td class="tc">7</td><td>事件驱动四部件</td><td>队列（入口）→ 分发器（分发）→ 通道（渠道）→ 处理器（业务逻辑，完成后发新事件）</td><td>简单项目可合并为事件代理 + 处理器两部分</td></tr><tr><td class="tc">8</td><td>微服务三模式</td><td>RESTful API（云服务）、RESTful 应用（企业内部）、集中消息（单点失败→集群）</td><td>集中消息模式的缺点是单点失败</td></tr><tr><td class="tc">9</td><td>云架构虚拟中间件四组件</td><td>消息（请求分配+会话）、数据（复制同步）、处理（可选，协调）、部署（启停+监控负载）</td><td>与事件驱动四部件是两套名词，最易张冠李戴</td></tr><tr><td class="tc">10</td><td>4+1 视角</td><td>逻辑、过程、物理、开发 + 场景；Kruchten，1995</td><td>「+1」是场景视角，场景用于串联其余四视角</td></tr><tr><td class="tc">11</td><td>架构师 vs 项目经理</td><td>架构师是<b>技术领导</b>，有技术决策权威；项目经理关注资源、进度、成本</td><td>架构师不是行政领导，也不替代项目经理</td></tr><tr><td class="tc">12</td><td>技术角度三大任务</td><td><b>抽象设计、非功能设计、关键技术设计</b></td><td>与「领导协调、推动决策、文档化」三条任务区分口径</td></tr><tr><td class="tc">13</td><td>6 角色 / 8 素质 / 10 知识结构</td><td>6 角色特质是 Pat Kua 提出；8 素质含沟通、决策、谈判等；10 知识结构是能力清单</td><td>出题常把「技术雷达」「企业家思维」等混入其他清单</td></tr><tr><td class="tc">14</td><td>成长六阶段</td><td>初级架构师=独立完成一个系统的架构设计+方法论；高级=创造新的架构模式</td><td>年限为大致参考，重点记「特征词」与「积累重点」</td></tr></tbody></table>
+<h2>四、练习与真题</h2>
+<p>以下为依据大纲与教材自编的模拟练习题（单选），用于自测本章考点。</p>
+<p><b>1.</b> 根据 IEEE 1471-2000 标准，架构的定义中<b>不包含</b>下列哪一项？</p>
+<p>A. 体现在组件中的系统基本组织  B. 组件彼此的关系及与环境的关系  C. 指导系统设计和发展的原则  D. 系统各模块的详细算法与数据结构</p>
+<p><b>2.</b> 在典型的四层分层架构中，SQL 语句通常位于（ ）。</p>
+<p>A. 表现层  B. 业务层  C. 持久层  D. 数据库层</p>
+<p><b>3.</b> 关于分层架构，下列说法<b>正确</b>的是（ ）。</p>
+<p>A. 各层必须了解其他层的实现细节  B. 为提高性能，用户请求可跳过持久层直接访问数据库  C. 层与层之间通过接口通信，请求依次通过各层，不能跳过任何一层  D. 分层架构强制规定系统必须恰好分为四层</p>
+<p><b>4.</b> 事件驱动架构中，负责「将不同的事件分发到不同的业务逻辑单元」的部件是（ ）。</p>
+<p>A. 事件队列  B. 分发器  C. 事件通道  D. 事件处理器</p>
+<p><b>5.</b> 某编辑器内核仅提供最小运行功能，语法高亮、调试支持等均以独立插件形式提供，插件间通信减到最低。该软件采用的架构是（ ）。</p>
+<p>A. 微服务架构  B. 微核架构（插件架构）  C. 事件驱动架构  D. 云架构</p>
+<p><b>6.</b> 云架构的虚拟中间件中，负责监控负载和响应时间、在负载增加时新启动处理单元的是（ ）。</p>
+<p>A. 消息中间件 Messaging Grid  B. 数据中间件 Data Grid  C. 处理中间件 Processing Grid  D. 部署中间件 Deployment Manager</p>
+<p><b>7.</b> Kruchten 提出的「4+1」视角模型中，「+1」指的是（ ）。</p>
+<p>A. 逻辑视角  B. 开发视角  C. 场景视角  D. 物理视角</p>
+<p><b>8.</b> 关于组件化与模块化的说法，<b>正确</b>的是（ ）。</p>
+<p>A. 模块化在物理（代码）上一定实现了真正隔离  B. 组件之间存在直接耦合关系  C. 组件化比模块化更独立，但比应用集成结合得更加紧密  D. 组件化就是应用集成</p>
+<p><b>9.</b> 从技术角度看，架构设计师的职责可概括为三大任务，下列<b>不属于</b>的是（ ）。</p>
+<p>A. 抽象设计  B. 非功能设计  C. 关键技术设计  D. 项目进度与成本控制</p>
+<p><b>10.</b> 根据教材所述成长路径，「能够独立完成一个系统的架构设计，并基于完善的架构设计方法论进行设计」是下列哪个阶段的典型特征？</p>
+<p>A. 高级工程师  B. 技术专家  C. 初级系统架构设计师  D. 高级系统架构设计师</p>
+<p>（参考答案集中放在全章最后的「六、参考答案」，请先独立完成再核对。）</p>
+<h2>五、疑问与查漏补缺</h2>
+<ul><li>大纲 6.1.2 还要求「软件架构生命周期六阶段（需求、设计、实现、构件组装、部署、后开发）」，本章未展开，<b>复习第 7 章时补齐</b>并回看此处。</li><li>大纲 6.3 的经典五类架构风格（数据流、调用/返回、以数据为中心、虚拟机、独立构件）与 ABSD（6.2）、架构复用（6.4）、DSSA（6.5）均在第 7 章，本章只需区分「两套分类不是一回事」。</li><li>架构分析方法 SAAM、ATAM、CBAM 等本章仅在发展历程中提及名称，详细内容见<b>第 8 章</b>系统质量属性与架构评估。</li><li>架构描述语言（C2SADL、Wright、ACME、UniCon、Rapide、Darwin、MetaH、Aesop 等）了解名称与「ADL 是结构模型研究核心」即可，不需逐一深入。</li><li>教材图 1-7《软件架构技术发展路线概览》信息量大，考试层面记住「模块化/面向对象 → 构件 → 面向服务 → 云」主线即可。</li><li>教材 1.1.2 原文「分层架构通常明确约定软件一定要分成多少层」与通行理解（不强制层数、最常见四层）及同段后文表述存在出入，笔记按「不强制层数」理解，标记存疑待对照其他资料。</li><li>教材四阶段年份交叉（②1999—2000 与③1996 至今重叠）为原文表述，按「阶段名称 + 标志事件」记忆。</li></ul>
+<h2>六、参考答案</h2>
+<p><b>1.</b> <b>D</b>。定义四要素：组件的基本组织、组件间关系、与环境的关系、指导设计和发展的原则；详细算法与数据结构属于详细设计范畴。</p>
+<p><b>2.</b> <b>C</b>。持久层提供数据，SQL 语句放在持久层；数据库层负责保存数据。</p>
+<p><b>3.</b> <b>C</b>。各层不需要知道其他层细节；请求不能跳层；层数并非强制四层（最常见四层，也可加服务层）。</p>
+<p><b>4.</b> <b>B</b>。队列是入口，通道是联系渠道，处理器实现业务逻辑。</p>
+<p><b>5.</b> <b>B</b>。小内核 + 独立插件是微核（插件）架构的典型特征。</p>
+<p><b>6.</b> <b>D</b>。部署中间件负责处理单元启停与负载监控；消息中间件负责请求分配与会话控制。</p>
+<p><b>7.</b> <b>C</b>。四个视角为逻辑、过程、物理、开发，「+1」为场景视角，用于串联验证其余视角。</p>
+<p><b>8.</b> <b>C</b>。模块化只是逻辑切分、通常无物理隔离；组件间无直接耦合但可组装交互；组件化不等于应用集成。</p>
+<p><b>9.</b> <b>D</b>。资源、进度、成本管理是项目经理的关注点；架构师三大技术任务为抽象设计、非功能设计、关键技术设计。</p>
+<p><b>10.</b> <b>C</b>。初级架构设计师的典型特征是独立完成一个系统的架构设计；其与技术专家的区别正在于依据方法论而非仅凭经验。</p>
+<div class="footer">第1章 绪论 · A4 打印版 · 由 README.md 统一生成</div>
+</div>
+</body>
+</html>

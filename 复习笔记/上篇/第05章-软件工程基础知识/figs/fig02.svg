@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 350" font-family="Microsoft YaHei, 微软雅黑, sans-serif">
+  <rect width="720" height="350" fill="#ffffff"/>
+  <text x="360" y="32" text-anchor="middle" font-size="20" font-weight="bold" fill="#1f4e79">原型模型：先用原型澄清需求，再开发目标系统</text>
+  <g text-anchor="middle">
+    <rect x="25" y="70" width="130" height="58" rx="8" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.5"/>
+    <text x="90" y="95" font-size="16" fill="#22303f">用户初步需求</text><text x="90" y="116" font-size="13" fill="#6b7a8a">模糊、不完整</text>
+    <rect x="205" y="70" width="130" height="58" rx="8" fill="#fdf0e6" stroke="#c05621" stroke-width="1.5"/>
+    <text x="270" y="95" font-size="16" fill="#c05621">快速构建原型</text><text x="270" y="116" font-size="13" fill="#6b7a8a">界面或关键功能</text>
+    <rect x="385" y="70" width="130" height="58" rx="8" fill="#fdf0e6" stroke="#c05621" stroke-width="1.5"/>
+    <text x="450" y="95" font-size="16" fill="#c05621">用户体验评价</text><text x="450" y="116" font-size="13" fill="#6b7a8a">反馈、修改</text>
+    <rect x="565" y="70" width="130" height="58" rx="8" fill="#f3f6ee" stroke="#4a6130" stroke-width="1.5"/>
+    <text x="630" y="95" font-size="16" fill="#4a6130">需求确认</text><text x="630" y="116" font-size="13" fill="#6b7a8a">双方达成一致</text>
+  </g>
+  <g stroke="#1f4e79" stroke-width="1.5" fill="none">
+    <line x1="155" y1="99" x2="194" y2="99"/><line x1="335" y1="99" x2="374" y2="99"/><line x1="515" y1="99" x2="554" y2="99"/>
+  </g>
+  <g fill="#1f4e79"><polygon points="202,99 194,94.5 194,103.5"/><polygon points="382,99 374,94.5 374,103.5"/><polygon points="562,99 554,94.5 554,103.5"/></g>
+  <path d="M450 128 V180 H270 V139" stroke="#c05621" stroke-width="1.5" fill="none"/>
+  <polygon points="270,131 265.5,139 274.5,139" fill="#c05621"/>
+  <rect x="322" y="151" width="96" height="24" fill="#ffffff"/>
+  <text x="370" y="168" text-anchor="middle" font-size="14" fill="#c05621">多轮反馈</text>
+  <path d="M630 128 V202 H360 V217" stroke="#4a6130" stroke-width="1.5" fill="none"/>
+  <polygon points="360,225 355.5,217 364.5,217" fill="#4a6130"/>
+  <rect x="265" y="228" width="190" height="58" rx="8" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.5"/>
+  <text x="360" y="253" text-anchor="middle" font-size="17" font-weight="bold" fill="#1f4e79">目标软件开发</text>
+  <text x="360" y="275" text-anchor="middle" font-size="14" fill="#22303f">设计 → 编码 → 测试 → 维护</text>
+  <rect x="25" y="228" width="190" height="58" rx="8" fill="#fdf0e6" stroke="#c05621"/>
+  <text x="120" y="252" text-anchor="middle" font-size="15" fill="#c05621">抛弃型原型</text><text x="120" y="274" text-anchor="middle" font-size="13" fill="#22303f">确认需求后废弃</text>
+  <rect x="505" y="228" width="190" height="58" rx="8" fill="#f3f6ee" stroke="#4a6130"/>
+  <text x="600" y="252" text-anchor="middle" font-size="15" fill="#4a6130">演化型原型</text><text x="600" y="274" text-anchor="middle" font-size="13" fill="#22303f">持续完善为产品</text>
+  <text x="360" y="324" text-anchor="middle" font-size="14" fill="#6b7a8a">关键：原型应逐步收敛到目标范围，避免无限修改</text>
+</svg>

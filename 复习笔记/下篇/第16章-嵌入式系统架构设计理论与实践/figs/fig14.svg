@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 460" font-family="Microsoft YaHei, 微软雅黑, sans-serif">
+  <rect width="720" height="460" fill="#ffffff"/>
+  <text x="360" y="28" text-anchor="middle" font-size="20" font-weight="bold" fill="#1f4e79">HarmonyOS 四层架构与分布式能力</text>
+  <rect x="35" y="50" width="500" height="65" rx="7" fill="#1f4e79"/>
+  <text x="60" y="77" font-size="16" font-weight="bold" fill="#ffffff">应用层</text>
+  <text x="60" y="100" font-size="13" fill="#eaf1f8">系统应用 / 第三方应用　FA 有 UI，PA 无 UI</text>
+  <rect x="35" y="130" width="500" height="65" rx="7" fill="#eaf1f8" stroke="#1f4e79"/>
+  <text x="60" y="157" font-size="16" font-weight="bold" fill="#1f4e79">框架层</text>
+  <text x="60" y="180" font-size="13" fill="#22303f">用户程序框架 · Ability 框架 · 多语言 API</text>
+  <rect x="35" y="210" width="500" height="92" rx="7" fill="#f3f6ee" stroke="#8aa15c"/>
+  <text x="60" y="237" font-size="16" font-weight="bold" fill="#4a6130">系统服务层</text>
+  <text x="60" y="260" font-size="13" fill="#22303f">系统基本能力 · 基础软件服务</text>
+  <text x="60" y="283" font-size="13" fill="#22303f">增强软件服务 · 硬件服务（可按需裁剪）</text>
+  <rect x="35" y="317" width="500" height="70" rx="7" fill="#fdf0e6" stroke="#c05621"/>
+  <text x="60" y="344" font-size="16" font-weight="bold" fill="#c05621">内核层</text>
+  <text x="60" y="368" font-size="13" fill="#22303f">多内核＋KAL 屏蔽差异；HDF 统一驱动框架</text>
+  <rect x="35" y="402" width="500" height="38" rx="6" fill="#6b7a8a"/>
+  <text x="285" y="427" text-anchor="middle" font-size="14" fill="#ffffff">多形态终端硬件</text>
+  <rect x="560" y="50" width="135" height="390" rx="10" fill="#fbfdff" stroke="#1f4e79"/>
+  <text x="627" y="80" text-anchor="middle" font-size="15" font-weight="bold" fill="#1f4e79">分布式四能力</text>
+  <g text-anchor="middle" font-size="13">
+    <rect x="577" y="102" width="100" height="58" rx="7" fill="#1f4e79"/><text x="627" y="128" fill="#ffffff">分布式</text><text x="627" y="149" fill="#ffffff">软总线</text>
+    <rect x="577" y="179" width="100" height="58" rx="7" fill="#eaf1f8"/><text x="627" y="205" fill="#1f4e79">设备</text><text x="627" y="226" fill="#1f4e79">虚拟化</text>
+    <rect x="577" y="256" width="100" height="58" rx="7" fill="#f3f6ee"/><text x="627" y="282" fill="#4a6130">分布式</text><text x="627" y="303" fill="#4a6130">数据管理</text>
+    <rect x="577" y="333" width="100" height="58" rx="7" fill="#fdf0e6"/><text x="627" y="359" fill="#c05621">分布式</text><text x="627" y="380" fill="#c05621">任务调度</text>
+  </g>
+  <text x="627" y="420" text-anchor="middle" font-size="11" fill="#6b7a8a">一次开发，多端部署</text>
+</svg>

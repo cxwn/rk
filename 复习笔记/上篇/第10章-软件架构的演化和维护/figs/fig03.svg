@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 390" font-family="Microsoft YaHei, 微软雅黑, sans-serif">
+  <text x="360" y="30" text-anchor="middle" font-size="20" font-weight="bold" fill="#1f4e79">复合片段与约束演化</text>
+  <text x="360" y="65" text-anchor="middle" font-size="15" font-weight="bold" fill="#6b7a8a">复合片段：交互控制流（ref / loop / break / alt / opt / par）</text>
+  <rect x="30" y="85" width="150" height="120" rx="7" fill="#eaf1f8" stroke="#1f4e79"/>
+  <text x="105" y="120" text-anchor="middle" font-size="20" font-weight="bold" fill="#1f4e79">AF</text>
+  <text x="105" y="150" text-anchor="middle" font-size="15" fill="#22303f">添加片段</text>
+  <text x="105" y="178" text-anchor="middle" font-size="13" fill="#6b7a8a">新增控制流</text>
+  <rect x="200" y="85" width="150" height="120" rx="7" fill="#eaf1f8" stroke="#1f4e79"/>
+  <text x="275" y="120" text-anchor="middle" font-size="20" font-weight="bold" fill="#1f4e79">DF</text>
+  <text x="275" y="150" text-anchor="middle" font-size="15" fill="#22303f">删除片段</text>
+  <text x="275" y="178" text-anchor="middle" font-size="13" fill="#6b7a8a">AF 的逆向演化</text>
+  <rect x="370" y="85" width="150" height="120" rx="7" fill="#fdf0e6" stroke="#c05621"/>
+  <text x="445" y="120" text-anchor="middle" font-size="20" font-weight="bold" fill="#c05621">FTC</text>
+  <text x="445" y="150" text-anchor="middle" font-size="15" fill="#22303f">改变类型</text>
+  <text x="445" y="178" text-anchor="middle" font-size="13" fill="#6b7a8a">删除＋添加组合</text>
+  <rect x="540" y="85" width="150" height="120" rx="7" fill="#fdf0e6" stroke="#c05621"/>
+  <text x="615" y="120" text-anchor="middle" font-size="20" font-weight="bold" fill="#c05621">FCC</text>
+  <text x="615" y="150" text-anchor="middle" font-size="15" fill="#22303f">改变条件</text>
+  <text x="615" y="178" text-anchor="middle" font-size="13" fill="#6b7a8a">同步改两条转移</text>
+  <rect x="55" y="245" width="260" height="95" rx="8" fill="#f3f6ee" stroke="#8aa15c" stroke-width="1.5"/>
+  <text x="185" y="278" text-anchor="middle" font-size="18" font-weight="bold" fill="#4a6130">AC：添加约束</text>
+  <text x="185" y="310" text-anchor="middle" font-size="14" fill="#22303f">必须检查设计是否满足新约束</text>
+  <rect x="405" y="245" width="260" height="95" rx="8" fill="#f3f6ee" stroke="#8aa15c" stroke-width="1.5"/>
+  <text x="535" y="278" text-anchor="middle" font-size="18" font-weight="bold" fill="#4a6130">DC：删除约束</text>
+  <text x="535" y="310" text-anchor="middle" font-size="14" fill="#22303f">去除不再需要的条件</text>
+  <text x="360" y="370" text-anchor="middle" font-size="14" font-weight="bold" fill="#c05621">修改约束 = 删除旧约束（DC）＋ 添加新约束（AC）</text>
+</svg>

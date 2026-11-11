@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 420" font-family="Microsoft YaHei, 微软雅黑, sans-serif">
+  <rect width="720" height="420" fill="#ffffff"/>
+  <text x="360" y="29" text-anchor="middle" font-size="20" font-weight="bold" fill="#1f4e79">实时调度：三个分类维度与三种算法</text>
+  <g text-anchor="middle">
+    <rect x="30" y="52" width="200" height="94" rx="8" fill="#eaf1f8" stroke="#1f4e79"/>
+    <text x="130" y="78" font-size="15" font-weight="bold" fill="#1f4e79">信息何时获得</text>
+    <text x="130" y="108" font-size="14" fill="#22303f">离线：运行前确定</text><text x="130" y="132" font-size="14" fill="#22303f">在线：运行中获得</text>
+    <rect x="260" y="52" width="200" height="94" rx="8" fill="#fdf0e6" stroke="#c05621"/>
+    <text x="360" y="78" font-size="15" font-weight="bold" fill="#c05621">运行能否打断</text>
+    <text x="360" y="108" font-size="14" fill="#22303f">抢占：可让出 CPU</text><text x="360" y="132" font-size="14" fill="#22303f">非抢占：主动放弃</text>
+    <rect x="490" y="52" width="200" height="94" rx="8" fill="#f3f6ee" stroke="#8aa15c"/>
+    <text x="590" y="78" font-size="15" font-weight="bold" fill="#4a6130">优先级何时确定</text>
+    <text x="590" y="108" font-size="14" fill="#22303f">静态：设计时固定</text><text x="590" y="132" font-size="14" fill="#22303f">动态：运行中变化</text>
+  </g>
+  <g text-anchor="middle">
+    <rect x="30" y="185" width="200" height="174" rx="9" fill="#1f4e79"/>
+    <text x="130" y="218" font-size="22" font-weight="bold" fill="#ffffff">EDF</text>
+    <text x="130" y="246" font-size="15" fill="#eaf1f8">最早截止时间优先</text>
+    <text x="130" y="281" font-size="17" font-weight="bold" fill="#ffffff">截止越早越优先</text>
+    <text x="130" y="313" font-size="13" fill="#eaf1f8">动态 · 在线</text><text x="130" y="339" font-size="13" fill="#eaf1f8">可抢占 / 非抢占</text>
+    <rect x="260" y="185" width="200" height="174" rx="9" fill="#c05621"/>
+    <text x="360" y="218" font-size="22" font-weight="bold" fill="#ffffff">LLF</text>
+    <text x="360" y="246" font-size="15" fill="#fdf0e6">最低松弛度优先</text>
+    <text x="360" y="278" font-size="16" font-weight="bold" fill="#ffffff">L = D − C′ − t</text>
+    <text x="360" y="307" font-size="14" fill="#ffffff">L 越小越紧急</text><text x="360" y="337" font-size="13" fill="#fdf0e6">动态 · 主要用于抢占</text>
+    <rect x="490" y="185" width="200" height="174" rx="9" fill="#4a6130"/>
+    <text x="590" y="218" font-size="22" font-weight="bold" fill="#ffffff">RMS</text>
+    <text x="590" y="246" font-size="15" fill="#f3f6ee">单调速率调度</text>
+    <text x="590" y="281" font-size="17" font-weight="bold" fill="#ffffff">周期越短越优先</text>
+    <text x="590" y="313" font-size="13" fill="#f3f6ee">静态 · 周期任务</text><text x="590" y="339" font-size="13" fill="#f3f6ee">最优仅限静态优先级</text>
+  </g>
+  <text x="360" y="392" text-anchor="middle" font-size="13" fill="#6b7a8a">分类维度可组合；算法选择后仍须验证所有截止期限</text>
+</svg>

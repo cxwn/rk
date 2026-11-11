@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 340" font-family="Microsoft YaHei, 微软雅黑, sans-serif">
+  <text x="360" y="24" text-anchor="middle" font-size="17" font-weight="bold" fill="#1f4e79">可观测架构三支柱</text>
+  <!-- 顶条 -->
+  <rect x="60" y="38" width="600" height="36" rx="6" fill="#1f4e79"/>
+  <text x="360" y="61" text-anchor="middle" font-size="13" font-weight="bold" fill="#ffffff">可观测能力：一次点击背后的多次服务调用全程可见、可下钻</text>
+  <!-- 三柱 -->
+  <rect x="60" y="110" width="180" height="130" rx="8" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.5"/>
+  <text x="150" y="136" text-anchor="middle" font-size="14" font-weight="bold" fill="#1f4e79">Logging 日志</text>
+  <text x="150" y="160" text-anchor="middle" font-size="11" fill="#22303f">多级别详细信息跟踪</text>
+  <text x="150" y="180" text-anchor="middle" font-size="10.5" fill="#6b7a8a">verbose/debug/warning</text>
+  <text x="150" y="198" text-anchor="middle" font-size="10.5" fill="#6b7a8a">error/fatal</text>
+  <text x="150" y="222" text-anchor="middle" font-size="11" fill="#22303f">由开发者主动提供</text>
+  <rect x="270" y="110" width="180" height="130" rx="8" fill="#f3f6ee" stroke="#8aa15c" stroke-width="1.5"/>
+  <text x="360" y="136" text-anchor="middle" font-size="14" font-weight="bold" fill="#4a6130">Tracing 链路跟踪</text>
+  <text x="360" y="160" text-anchor="middle" font-size="11" fill="#22303f">请求从前端到后端</text>
+  <text x="360" y="180" text-anchor="middle" font-size="11" fill="#22303f">完整调用链路跟踪</text>
+  <text x="360" y="202" text-anchor="middle" font-size="10.5" fill="#6b7a8a">分布式场景尤其有用</text>
+  <text x="360" y="222" text-anchor="middle" font-size="10.5" fill="#6b7a8a">spanid/traceid 关联分析</text>
+  <rect x="480" y="110" width="180" height="130" rx="8" fill="#fdf0e6" stroke="#c05621" stroke-width="1.5"/>
+  <text x="570" y="136" text-anchor="middle" font-size="14" font-weight="bold" fill="#c05621">Metrics 度量</text>
+  <text x="570" y="160" text-anchor="middle" font-size="11" fill="#22303f">系统量化的多维度度量</text>
+  <text x="570" y="182" text-anchor="middle" font-size="10.5" fill="#6b7a8a">并发度、耗时</text>
+  <text x="570" y="202" text-anchor="middle" font-size="10.5" fill="#6b7a8a">可用时长、容量等</text>
+  <text x="570" y="222" text-anchor="middle" font-size="11" fill="#22303f">数字化衡量健康度</text>
+  <!-- 顶条到三柱箭头 -->
+  <line x1="150" y1="78" x2="150" y2="99" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="150,107 145.5,99 154.5,99" fill="#1f4e79"/>
+  <line x1="360" y1="78" x2="360" y2="99" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="360,107 355.5,99 364.5,99" fill="#1f4e79"/>
+  <line x1="540" y1="78" x2="540" y2="99" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="540,107 535.5,99 544.5,99" fill="#1f4e79"/>
+  <!-- 三柱到底条箭头 -->
+  <line x1="150" y1="244" x2="150" y2="269" stroke="#8aa15c" stroke-width="1.5" fill="none"/>
+  <polygon points="150,277 145.5,269 154.5,269" fill="#8aa15c"/>
+  <line x1="360" y1="244" x2="360" y2="269" stroke="#8aa15c" stroke-width="1.5" fill="none"/>
+  <polygon points="360,277 355.5,269 364.5,269" fill="#8aa15c"/>
+  <line x1="540" y1="244" x2="540" y2="269" stroke="#8aa15c" stroke-width="1.5" fill="none"/>
+  <polygon points="540,277 535.5,269 544.5,269" fill="#8aa15c"/>
+  <!-- 底条 -->
+  <rect x="60" y="280" width="600" height="40" rx="6" fill="#f3f6ee" stroke="#8aa15c" stroke-width="1.2"/>
+  <text x="360" y="297" text-anchor="middle" font-size="12" fill="#4a6130">为各组件定义清晰 SLO（并发度、耗时、可用时长、容量）</text>
+  <text x="360" y="313" text-anchor="middle" font-size="12" fill="#4a6130">度量服务 SLO → 优化 SLA；可选 OpenTracing / OpenTelemetry 框架</text>
+</svg>

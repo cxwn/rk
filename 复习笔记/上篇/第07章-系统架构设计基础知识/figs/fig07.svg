@@ -1,0 +1,65 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 310" font-family="Microsoft YaHei, 微软雅黑, sans-serif">
+  <rect x="0" y="0" width="720" height="310" fill="#ffffff"/>
+  <text x="360" y="24" text-anchor="middle" font-size="14" font-weight="bold" fill="#22303f">批处理：数据完整、整体传递，前一步结束后下一步才开始</text>
+  <g font-size="13" font-weight="bold" fill="#1f4e79">
+    <rect x="20" y="50" width="104" height="44" rx="6" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.2"/>
+    <text x="72" y="77" text-anchor="middle">数据转换</text>
+    <rect x="158" y="50" width="104" height="44" rx="6" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.2"/>
+    <text x="210" y="77" text-anchor="middle">验证</text>
+    <rect x="296" y="50" width="104" height="44" rx="6" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.2"/>
+    <text x="348" y="77" text-anchor="middle">排序</text>
+    <rect x="434" y="50" width="104" height="44" rx="6" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.2"/>
+    <text x="486" y="77" text-anchor="middle">更新</text>
+    <rect x="572" y="50" width="104" height="44" rx="6" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.2"/>
+    <text x="624" y="77" text-anchor="middle">打印</text>
+  </g>
+  <g stroke="#1f4e79" stroke-width="1.5">
+    <line x1="124" y1="72" x2="147" y2="72"/>
+    <line x1="262" y1="72" x2="285" y2="72"/>
+    <line x1="400" y1="72" x2="423" y2="72"/>
+    <line x1="538" y1="72" x2="561" y2="72"/>
+  </g>
+  <g fill="#1f4e79">
+    <polygon points="155,72 147,67.5 147,76.5"/>
+    <polygon points="293,72 285,67.5 285,76.5"/>
+    <polygon points="431,72 423,67.5 423,76.5"/>
+    <polygon points="569,72 561,67.5 561,76.5"/>
+  </g>
+  <g font-size="10" fill="#6b7a8a" text-anchor="middle">
+    <text x="141" y="112">磁带</text>
+    <text x="279" y="112">磁带</text>
+    <text x="417" y="112">磁带</text>
+    <text x="555" y="112">磁带</text>
+  </g>
+  <line x1="40" y1="140" x2="680" y2="140" stroke="#6b7a8a" stroke-width="1" stroke-dasharray="4 3"/>
+  <text x="360" y="170" text-anchor="middle" font-size="14" font-weight="bold" fill="#22303f">管道-过滤器：数据流式传递，边产生边处理</text>
+  <ellipse cx="60" cy="236" rx="45" ry="22" fill="#f3f6ee" stroke="#4a6130" stroke-width="1.2"/>
+  <text x="60" y="241" text-anchor="middle" font-size="12" fill="#4a6130">输入流</text>
+  <g font-size="13" font-weight="bold" fill="#1f4e79">
+    <rect x="130" y="214" width="120" height="44" rx="6" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.2"/>
+    <text x="190" y="241" text-anchor="middle">过滤器 1</text>
+    <rect x="300" y="214" width="120" height="44" rx="6" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.2"/>
+    <text x="360" y="241" text-anchor="middle">过滤器 2</text>
+    <rect x="470" y="214" width="120" height="44" rx="6" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.2"/>
+    <text x="530" y="241" text-anchor="middle">过滤器 3</text>
+  </g>
+  <ellipse cx="655" cy="236" rx="45" ry="22" fill="#f3f6ee" stroke="#4a6130" stroke-width="1.2"/>
+  <text x="655" y="241" text-anchor="middle" font-size="12" fill="#4a6130">输出流</text>
+  <g stroke="#1f4e79" stroke-width="1.5">
+    <line x1="105" y1="236" x2="119" y2="236"/>
+    <line x1="250" y1="236" x2="289" y2="236"/>
+    <line x1="420" y1="236" x2="459" y2="236"/>
+    <line x1="590" y1="236" x2="599" y2="236"/>
+  </g>
+  <g fill="#1f4e79">
+    <polygon points="127,236 119,231.5 119,240.5"/>
+    <polygon points="297,236 289,231.5 289,240.5"/>
+    <polygon points="467,236 459,231.5 459,240.5"/>
+    <polygon points="607,236 599,231.5 599,240.5"/>
+  </g>
+  <g font-size="10" fill="#6b7a8a" text-anchor="middle">
+    <text x="275" y="222">管道</text>
+    <text x="445" y="222">管道</text>
+  </g>
+  <text x="360" y="292" text-anchor="middle" font-size="12" fill="#22303f">构件 = 过滤器，连接件 = 管道；一个过滤器的输出是下一个过滤器的输入</text>
+</svg>

@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 300" font-family="Microsoft YaHei, 微软雅黑, sans-serif">
+  <rect x="0" y="0" width="720" height="300" fill="#ffffff"/>
+  <text x="360" y="26" text-anchor="middle" font-size="15" font-weight="bold" fill="#22303f">软件架构贯穿生命周期的六个阶段</text>
+  <rect x="30" y="46" width="200" height="66" rx="6" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.2"/>
+  <text x="130" y="72" text-anchor="middle" font-size="14" font-weight="bold" fill="#1f4e79">① 需求分析</text>
+  <text x="130" y="94" text-anchor="middle" font-size="11" fill="#22303f">需求模型→SA 模型转换与追踪</text>
+  <rect x="260" y="46" width="200" height="66" rx="6" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.2"/>
+  <text x="360" y="72" text-anchor="middle" font-size="14" font-weight="bold" fill="#1f4e79">② 设计（研究最早最多）</text>
+  <text x="360" y="94" text-anchor="middle" font-size="11" fill="#22303f">基本概念、ADL、多视图</text>
+  <rect x="490" y="46" width="200" height="66" rx="6" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.2"/>
+  <text x="590" y="72" text-anchor="middle" font-size="14" font-weight="bold" fill="#1f4e79">③ 实现</text>
+  <text x="590" y="94" text-anchor="middle" font-size="11" fill="#22303f">模型映射、构件组装、中间件</text>
+  <line x1="230" y1="79" x2="249" y2="79" stroke="#1f4e79" stroke-width="1.5"/>
+  <polygon points="257,79 249,74.5 249,83.5" fill="#1f4e79"/>
+  <line x1="460" y1="79" x2="479" y2="79" stroke="#1f4e79" stroke-width="1.5"/>
+  <polygon points="487,79 479,74.5 479,83.5" fill="#1f4e79"/>
+  <line x1="590" y1="112" x2="590" y2="173" stroke="#1f4e79" stroke-width="1.5"/>
+  <polygon points="590,181 585.5,173 594.5,173" fill="#1f4e79"/>
+  <rect x="490" y="184" width="200" height="66" rx="6" fill="#f3f6ee" stroke="#4a6130" stroke-width="1.2"/>
+  <text x="590" y="210" text-anchor="middle" font-size="14" font-weight="bold" fill="#4a6130">④ 构件组装</text>
+  <text x="590" y="232" text-anchor="middle" font-size="11" fill="#22303f">连接子实现；检测消除架构失配</text>
+  <rect x="260" y="184" width="200" height="66" rx="6" fill="#f3f6ee" stroke="#4a6130" stroke-width="1.2"/>
+  <text x="360" y="210" text-anchor="middle" font-size="14" font-weight="bold" fill="#4a6130">⑤ 部署</text>
+  <text x="360" y="232" text-anchor="middle" font-size="11" fill="#22303f">软硬件模型；部署方案质量分析</text>
+  <rect x="30" y="184" width="200" height="66" rx="6" fill="#f3f6ee" stroke="#4a6130" stroke-width="1.2"/>
+  <text x="130" y="210" text-anchor="middle" font-size="14" font-weight="bold" fill="#4a6130">⑥ 后开发</text>
+  <text x="130" y="232" text-anchor="middle" font-size="11" fill="#22303f">动态架构；架构恢复与重建</text>
+  <line x1="490" y1="217" x2="471" y2="217" stroke="#4a6130" stroke-width="1.5"/>
+  <polygon points="463,217 471,212.5 471,221.5" fill="#4a6130"/>
+  <line x1="260" y1="217" x2="241" y2="217" stroke="#4a6130" stroke-width="1.5"/>
+  <polygon points="233,217 241,212.5 241,221.5" fill="#4a6130"/>
+  <text x="360" y="282" text-anchor="middle" font-size="12" fill="#6b7a8a">需求阶段面向问题空间，架构设计面向解空间，二者需保持可追踪性</text>
+</svg>

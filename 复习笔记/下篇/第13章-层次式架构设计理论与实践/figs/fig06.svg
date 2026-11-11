@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 520" width="720" height="520">
+  <rect width="720" height="520" fill="#ffffff"/>
+  <text x="360" y="34" text-anchor="middle" font-family="Microsoft YaHei, 微软雅黑, sans-serif" font-size="22" font-weight="bold" fill="#22303f">WfMC工作流参考模型（重绘图13-7）</text>
+  <rect x="245" y="176" width="230" height="150" rx="10" fill="#eaf1f8" stroke="#1f4e79" stroke-width="2"/>
+  <text x="360" y="219" text-anchor="middle" font-family="Microsoft YaHei, 微软雅黑, sans-serif" font-size="20" font-weight="bold" fill="#1f4e79">工作流设置服务器</text>
+  <rect x="285" y="242" width="150" height="54" rx="7" fill="#ffffff" stroke="#1f4e79" stroke-width="1.5"/>
+  <text x="360" y="276" text-anchor="middle" font-family="Microsoft YaHei, 微软雅黑, sans-serif" font-size="18" font-weight="bold" fill="#1f4e79">工作流引擎</text>
+  <rect x="40" y="66" width="180" height="64" rx="8" fill="#f3f6ee" stroke="#8aa15c" stroke-width="1.5"/>
+  <text x="130" y="95" text-anchor="middle" font-family="Microsoft YaHei, 微软雅黑, sans-serif" font-size="17" font-weight="bold" fill="#4a6130">过程定义工具</text>
+  <text x="130" y="118" text-anchor="middle" font-family="Microsoft YaHei, 微软雅黑, sans-serif" font-size="13" fill="#22303f">接口1：导入 / 导出</text>
+  <rect x="500" y="66" width="180" height="64" rx="8" fill="#fdf0e6" stroke="#c05621" stroke-width="1.5"/>
+  <text x="590" y="95" text-anchor="middle" font-family="Microsoft YaHei, 微软雅黑, sans-serif" font-size="17" font-weight="bold" fill="#c05621">管理与监视工具</text>
+  <text x="590" y="118" text-anchor="middle" font-family="Microsoft YaHei, 微软雅黑, sans-serif" font-size="13" fill="#22303f">接口5：用户、角色、审计</text>
+  <rect x="30" y="380" width="180" height="70" rx="8" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.5"/>
+  <text x="120" y="410" text-anchor="middle" font-family="Microsoft YaHei, 微软雅黑, sans-serif" font-size="17" font-weight="bold" fill="#1f4e79">工作流客户端应用</text>
+  <text x="120" y="435" text-anchor="middle" font-family="Microsoft YaHei, 微软雅黑, sans-serif" font-size="13" fill="#22303f">接口2：任务表处理</text>
+  <rect x="270" y="380" width="180" height="70" rx="8" fill="#f3f6ee" stroke="#8aa15c" stroke-width="1.5"/>
+  <text x="360" y="410" text-anchor="middle" font-family="Microsoft YaHei, 微软雅黑, sans-serif" font-size="17" font-weight="bold" fill="#4a6130">相关应用</text>
+  <text x="360" y="435" text-anchor="middle" font-family="Microsoft YaHei, 微软雅黑, sans-serif" font-size="13" fill="#22303f">接口3：直接调用应用</text>
+  <rect x="510" y="380" width="180" height="70" rx="8" fill="#fdf0e6" stroke="#c05621" stroke-width="1.5"/>
+  <text x="600" y="410" text-anchor="middle" font-family="Microsoft YaHei, 微软雅黑, sans-serif" font-size="17" font-weight="bold" fill="#c05621">其他工作流引擎</text>
+  <text x="600" y="435" text-anchor="middle" font-family="Microsoft YaHei, 微软雅黑, sans-serif" font-size="13" fill="#22303f">接口4：跨产品协作</text>
+  <line x1="220" y1="98" x2="284" y2="169" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="289,176 281,170 288,166" fill="#1f4e79"/>
+  <line x1="500" y1="98" x2="436" y2="169" stroke="#c05621" stroke-width="1.5" fill="none"/>
+  <polygon points="431,176 432,166 439,170" fill="#c05621"/>
+  <line x1="170" y1="380" x2="265" y2="331" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="273,327 264,328 267,335" fill="#1f4e79"/>
+  <line x1="360" y1="380" x2="360" y2="338" stroke="#8aa15c" stroke-width="1.5" fill="none"/>
+  <polygon points="360,330 355.5,338 364.5,338" fill="#8aa15c"/>
+  <line x1="550" y1="380" x2="455" y2="331" stroke="#c05621" stroke-width="1.5" fill="none"/>
+  <polygon points="447,327 453,335 456,328" fill="#c05621"/>
+  <rect x="222" y="472" width="276" height="32" rx="6" fill="#f3f6ee"/>
+  <text x="360" y="494" text-anchor="middle" font-family="Microsoft YaHei, 微软雅黑, sans-serif" font-size="14" fill="#4a6130">助记：一定、二客、三调、四协、五管</text>
+</svg>

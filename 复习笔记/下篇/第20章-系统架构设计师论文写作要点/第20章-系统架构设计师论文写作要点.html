@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>第20章 系统架构设计师论文写作要点</title>
+<style>
+  :root{ --ink:#22303f; --main:#1f4e79; --main-light:#eaf1f8; --accent:#c05621;
+    --accent-light:#fdf0e6; --line:#d5dde5; --muted:#6b7a8a; }
+  *{ box-sizing:border-box; print-color-adjust:exact; -webkit-print-color-adjust:exact; }
+  html,body{ margin:0; padding:0; }
+  body{ font-family:"Microsoft YaHei","微软雅黑","PingFang SC","Noto Sans CJK SC",sans-serif;
+    color:var(--ink); background:#e9edf1; font-size:10.5pt; line-height:1.75; }
+  .sheet{ max-width:190mm; margin:8mm auto; background:#fff; padding:10mm 11mm;
+    box-shadow:0 2px 14px rgba(0,0,0,.12); }
+  h1{ font-size:21pt; color:var(--main); margin:0 0 2mm; border-bottom:3px solid var(--main); padding-bottom:3mm; }
+  h2{ font-size:14pt; color:var(--main); margin:8mm 0 3mm; padding:1.2mm 0 1.2mm 3mm;
+    border-left:5px solid var(--main); background:linear-gradient(to right,var(--main-light),#fff); break-after:avoid; }
+  h3{ font-size:11.5pt; color:var(--main); margin:5mm 0 2mm; break-after:avoid; }
+  p{ margin:1.5mm 0; }
+  code{ background:#f0f3f6; border-radius:1mm; padding:0 1mm; font-size:9.5pt; }
+  .def,.example,.mnemonic{ border-radius:2mm; padding:2.5mm 3.5mm; margin:2.5mm 0; break-inside:avoid; }
+  .def{ border:1.5px solid var(--main); background:#fbfdff; }
+  .example{ background:var(--accent-light); border-left:4px solid var(--accent); }
+  .mnemonic{ background:#f3f6ee; border:1px dashed #8aa15c; color:#4a6130; }
+  table{ border-collapse:collapse; width:100%; margin:2.5mm 0; font-size:9.5pt; table-layout:fixed; }
+  th,td{ border:1px solid var(--line); padding:1.6mm 2mm; text-align:left; vertical-align:top; overflow-wrap:break-word; }
+  th{ background:var(--main); color:#fff; text-align:center; }
+  thead{ display:table-header-group; }
+  tr{ break-inside:avoid; }
+  td.tc{ text-align:center; }
+  tr:nth-child(even) td{ background:#f6f9fc; }
+  .fig{ margin:3mm 0; padding:2.5mm; border:1px solid var(--line); border-radius:2mm;
+    background:#fdfefe; break-inside:avoid; }
+  .fig .cap{ text-align:center; color:var(--muted); font-size:9pt; margin-top:1mm; }
+  svg{ display:block; width:100%; height:auto; }
+  svg text{ font-family:inherit; }
+  ul,ol{ margin:1.5mm 0 1.5mm 5mm; padding-left:4mm; }
+  li{ margin:0.8mm 0; }
+  .footer{ margin-top:8mm; padding-top:2mm; border-top:1px solid var(--line);
+    color:var(--muted); font-size:8.5pt; text-align:center; }
+  @page{ size:A4; margin:12mm; }
+  @media print{ body{ background:#fff; font-size:10pt; }
+    .sheet{ max-width:none; margin:0; padding:0; box-shadow:none; } h2{ margin-top:6mm; } }
+</style>
+</head>
+<body>
+<div class="sheet">
+<h1>第20章 系统架构设计师论文写作要点</h1>
+<ul><li>教材位置：02.系统架构设计师第二版-教材.pdf PDF 第 710～721 页（书页 702～712，第 721 页为封底）</li><li>复习状态：已完成</li><li>复习日期：2026-11-06</li><li>本章地位：本章是教材收官的实战章，直接服务考试科目 3「系统架构设计论文」。前 19 章解决「写什么」的知识储备，本章解决「怎样在 120 分钟内写完、写准、写出个人实践」的方法问题。</li></ul>
+<h2>一、大纲考点</h2>
+<p>大纲（书页 61～62）<b>考试科目 3「系统架构设计论文」</b>要求：根据给出的与系统架构设计有关的若干专题，选择一个专题，按规定要求撰写论文。大纲规定主题范围，教材本章补齐写作方法，对应如下：</p>
+<table><colgroup><col style="width:18.8%"><col style="width:47.3%"><col style="width:33.9%"></colgroup><thead><tr><th>大纲主题（科目 3）</th><th>大纲条目要点</th><th>教材对应位置</th></tr></thead><tbody><tr><td>1. 系统建模</td><td>定义问题与归结模型；结构化/面向对象建模；数据库、可靠性、系统评估建模</td><td>第 5～9 章；20.2.2 实例一「论软件系统建模方法及其应用」</td></tr><tr><td>2. 软件架构设计</td><td>架构风格与设计；特定领域架构；ABSD/ADD/DARTS；架构演化、质量评估、脆弱性分析</td><td>第 7、8、10 章；20.2.2 实例二「论软件架构风格」</td></tr><tr><td>3. 系统设计</td><td>总体框架、大数据流程、SOA/分布式、人机界面、嵌入式、数据库、文件/存储、网络、运行环境、性能、安全可靠性、中间件构件化</td><td>第 12～19 章各专业主题</td></tr><tr><td>4. 系统的可靠性分析与设计</td><td>故障与可靠性模型；提高可靠性措施；故障对策、备份恢复；分析、预计与评估</td><td>第 9 章</td></tr><tr><td>5. 系统的安全性和保密性设计</td><td>访问控制；数据完整性；数据与文件加密；抗攻击；通信安全；安全评估与认证</td><td>第 4、18 章</td></tr><tr><td>写作方法与应试要求</td><td>大纲样题（书页 64）为「论系统设计中对用户需求的把握」，要求依次回答三个问题</td><td>20.1～20.4：准备、格式、步骤、写作方法、常见问题</td></tr></tbody></table>
+<p><b>论文科目考试形式与评分相关要求</b>⭐【高频考点】：</p>
+<ul><li><b>考查形式（教材 20.1.2）</b>：下午考试，<b>120 分钟</b>，通常 <b>4 道备选题任选 1 题</b>；选最熟悉、把握最大的题，并在答题卷上画圈、填考号。</li><li><b>篇幅要求</b>：<b>摘要 300～400 字，正文 2000～3000 字</b>，分开写在指定区域；教材建议正文约 2500 字。</li><li><b>三问结构</b>：①项目概要与本人工作；②论题专业知识；③结合本项目说明应用、效果或选型原因。大纲样题和教材两个实例均体现这一结构。</li><li><b>评分规则（教材明确给出的部分）</b>：无摘要、摘要过简或无实质内容扣 <b>5～10 分</b>；摘要少于 <b>120 字</b>直接不及格。大纲未给出完整量化评分表，其余应按实践经验、独立分析解决问题能力、表达能力三项考查目标准备，不臆造分值权重。</li></ul>
+<h2>二、知识点笔记</h2>
+<h3>20.1 写作注意事项</h3>
+<h3>20.1.1 做好准备工作 ⭐【重点】</h3>
+<p>论文试题的 3 个考查目的：①是否具有架构设计<b>实践经验</b>；②分析与解决问题、特别是<b>独立工作</b>的能力；③<b>表达能力</b>——抓住要点、重点突出、用词准确、易读易理解。通俗地说，阅卷者想确认「你真做过架构、能独立扛事、还讲得清楚」。</p>
+<table><colgroup><col style="width:19.4%"><col style="width:19.4%"><col style="width:61.2%"></colgroup><thead><tr><th>考生类型</th><th>主要短板</th><th>备考重心</th></tr></thead><tbody><tr><td>经验丰富者</td><td>经验零散、未提炼</td><td>从技术、管理、经济多角度对项目<b>归纳、剖析、抽象、升华</b>，结合专业知识分类梳理</td></tr><tr><td>经验欠缺的在职人员</td><td>项目阅历不足</td><td>整理单位文档与案例，参考历届题，可<b>临摹范文</b>，培养架构师视角</td></tr><tr><td>学生</td><td>实践少、内容易空洞</td><td>阅读相关文章与范文，学习他人经验并<b>强化练习</b>，避免脱离实际</td></tr></tbody></table>
+<ul><li><b>平时积累</b>：高级资格靠考前突击行不通。盘点项目中的方法、技术、架构手段和经验教训；可把不同项目中与论题相关的真实经验组织到一个主题项目中，还要多读同行文章、多交流。</li><li><b>提高写作速度</b>：考前 <b>2～3 个月</b>起，按答题纸格式进行 <b>2 小时限时实战</b>，每周至少 1 次、最好 2 次。举例：平时打字很快的人，手写「缓存」「适配器」也可能停顿；卡壳有时不是不会设计，而是写不快、提笔忘字。</li><li><b>以不变应万变</b>⭐【高频考点】：「不变」是考前选定并总结好<b>近 3 年内、规模足以证明实力的代表性项目</b>及其概要、本人角色；「万变」是不同论题，靠全面积累应对。论文考共性、通用性问题，不是炫耀某个行业项目。</li></ul>
+<h3>20.1.2 论文写作格式 ⭐【高频考点】【易错】</h3>
+<div class="def">教材原文：「论文考试的时间为下午（120 分钟），且备选的论文题目通常包含 4 道题目……摘要需要 300～400 字，正文需要 2000～3000 字。」</div>
+<ul><li><b>答题纸（教材笔试场景）</b>：共 4 页方格纸，每行 25 格。第 1 页摘要 <b>16 行＝400 格</b>、正文 <b>12 行＝300 格</b>；第 2～4 页每页 <b>36 行＝900 格</b>，每 12 行标有 300/600/900 字数提示。一字（含标点）一格，英文字母不受格子限制。</li><li><b>用笔</b>：建议<b>黑色中性笔</b>，避免钢笔洇透纸背，影响速度与卷面。</li></ul>
+<div class="fig"><div><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 500" font-family="Microsoft YaHei, 微软雅黑, sans-serif">
+  <rect width="720" height="500" fill="#ffffff"/>
+  <text x="360" y="34" text-anchor="middle" font-size="22" font-weight="bold" fill="#1f4e79">论文答题纸：摘要与正文分区</text>
+  <text x="360" y="58" text-anchor="middle" font-size="13" fill="#6b7a8a">每行 25 格｜一字或一个标点占一格｜字数按格估算</text>
+
+  <rect x="40" y="78" width="300" height="370" rx="8" fill="#eaf1f8" stroke="#1f4e79" stroke-width="2"/>
+  <text x="190" y="106" text-anchor="middle" font-size="18" font-weight="bold" fill="#1f4e79">第 1 页</text>
+  <rect x="62" y="124" width="256" height="164" fill="#ffffff" stroke="#6b7a8a"/>
+  <text x="190" y="151" text-anchor="middle" font-size="17" font-weight="bold" fill="#1f4e79">摘要区</text>
+  <text x="190" y="177" text-anchor="middle" font-size="15" fill="#22303f">16 行 × 25 格＝400 格</text>
+  <g stroke="#d5dde5" stroke-width="1">
+    <line x1="76" y1="197" x2="304" y2="197"/><line x1="76" y1="215" x2="304" y2="215"/>
+    <line x1="76" y1="233" x2="304" y2="233"/><line x1="76" y1="251" x2="304" y2="251"/>
+    <line x1="76" y1="269" x2="304" y2="269"/>
+    <line x1="102" y1="190" x2="102" y2="276"/><line x1="128" y1="190" x2="128" y2="276"/>
+    <line x1="154" y1="190" x2="154" y2="276"/><line x1="180" y1="190" x2="180" y2="276"/>
+    <line x1="206" y1="190" x2="206" y2="276"/><line x1="232" y1="190" x2="232" y2="276"/>
+    <line x1="258" y1="190" x2="258" y2="276"/><line x1="284" y1="190" x2="284" y2="276"/>
+  </g>
+  <rect x="62" y="306" width="256" height="116" fill="#ffffff" stroke="#6b7a8a"/>
+  <text x="190" y="334" text-anchor="middle" font-size="17" font-weight="bold" fill="#c05621">正文起始区</text>
+  <text x="190" y="360" text-anchor="middle" font-size="15" fill="#22303f">12 行 × 25 格＝300 格</text>
+  <g stroke="#d5dde5" stroke-width="1">
+    <line x1="76" y1="380" x2="304" y2="380"/><line x1="76" y1="399" x2="304" y2="399"/>
+    <line x1="102" y1="372" x2="102" y2="410"/><line x1="128" y1="372" x2="128" y2="410"/>
+    <line x1="154" y1="372" x2="154" y2="410"/><line x1="180" y1="372" x2="180" y2="410"/>
+    <line x1="206" y1="372" x2="206" y2="410"/><line x1="232" y1="372" x2="232" y2="410"/>
+    <line x1="258" y1="372" x2="258" y2="410"/><line x1="284" y1="372" x2="284" y2="410"/>
+  </g>
+
+  <rect x="380" y="78" width="300" height="370" rx="8" fill="#f3f6ee" stroke="#8aa15c" stroke-width="2"/>
+  <text x="530" y="106" text-anchor="middle" font-size="18" font-weight="bold" fill="#4a6130">第 2～4 页（每页同式）</text>
+  <rect x="402" y="124" width="256" height="298" fill="#ffffff" stroke="#6b7a8a"/>
+  <text x="530" y="151" text-anchor="middle" font-size="17" font-weight="bold" fill="#4a6130">正文续写区</text>
+  <text x="530" y="177" text-anchor="middle" font-size="15" fill="#22303f">36 行 × 25 格＝900 格</text>
+  <g stroke="#d5dde5" stroke-width="1">
+    <line x1="416" y1="201" x2="644" y2="201"/><line x1="416" y1="223" x2="644" y2="223"/>
+    <line x1="416" y1="245" x2="644" y2="245"/><line x1="416" y1="267" x2="644" y2="267"/>
+    <line x1="416" y1="289" x2="644" y2="289"/><line x1="416" y1="311" x2="644" y2="311"/>
+    <line x1="416" y1="333" x2="644" y2="333"/><line x1="416" y1="355" x2="644" y2="355"/>
+    <line x1="416" y1="377" x2="644" y2="377"/><line x1="416" y1="399" x2="644" y2="399"/>
+  </g>
+  <g font-size="13" font-weight="bold" fill="#c05621">
+    <text x="530" y="238" text-anchor="middle">每 12 行提示：300</text>
+    <text x="530" y="304" text-anchor="middle">再 12 行提示：600</text>
+    <text x="530" y="370" text-anchor="middle">最后 12 行提示：900</text>
+  </g>
+  <rect x="118" y="462" width="484" height="26" rx="13" fill="#fdf0e6"/>
+  <text x="360" y="480" text-anchor="middle" font-size="13" fill="#c05621">教材图20-1、图20-2重绘示意（格线省略，格数与分区保留）</text>
+</svg></div><div class="cap">论文答题纸样式（重绘图20-1、图20-2）</div></div>
+<ul><li>字数本质是<b>按格子估算</b>，标点、图形都占格。举例：摘要写满 14～16 行约为 350～400 字，看行数即可快速判断篇幅，不必逐字计数。</li></ul>
+<h3>20.2 如何解答试题</h3>
+<h3>20.2.1 论文解答步骤 ⭐【重点】【高频考点】</h3>
+<table><colgroup><col style="width:15.2%"><col style="width:14.3%"><col style="width:70.5%"></colgroup><thead><tr><th>环节</th><th>时间</th><th>关键动作</th></tr></thead><tbody><tr><td class="tc">试题选择</td><td class="tc">3 分钟</td><td>选最熟悉、把握最大的题；<b>画圈标记所选题目并填考号</b></td></tr><tr><td class="tc">论文构思</td><td class="tc">12 分钟</td><td>定论点与下过功夫之处；项目结合论点；定摘要内容；列简草稿；分配字数</td></tr><tr><td class="tc">写摘要</td><td class="tc">15 分钟</td><td>用语简洁明快，阐明论点</td></tr><tr><td class="tc">正文撰写</td><td class="tc">80 分钟</td><td>按草稿追忆项目素材；控制篇幅；调整时避免前后矛盾</td></tr><tr><td class="tc">检查修改</td><td class="tc">10 分钟</td><td>查漏、查错字；卷面整洁、格式整齐；<b>力求写完，切忌有头无尾</b></td></tr></tbody></table>
+<div class="fig"><div><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 400" font-family="Microsoft YaHei, 微软雅黑, sans-serif">
+  <rect width="720" height="400" fill="#ffffff"/>
+  <text x="360" y="36" text-anchor="middle" font-size="22" font-weight="bold" fill="#1f4e79">论文 120 分钟时间分配</text>
+  <text x="360" y="60" text-anchor="middle" font-size="13" fill="#6b7a8a">先保完整，再求精彩；正文约占三分之二</text>
+
+  <g font-size="16" font-weight="bold" text-anchor="middle">
+    <rect x="35" y="85" width="110" height="120" rx="8" fill="#eaf1f8" stroke="#1f4e79"/>
+    <text x="90" y="116" fill="#1f4e79">① 试题选择</text>
+    <text x="90" y="157" font-size="25" fill="#1f4e79">3 分钟</text>
+    <text x="90" y="185" font-size="12" font-weight="normal" fill="#22303f">选题画圈填考号</text>
+    <rect x="170" y="85" width="110" height="120" rx="8" fill="#f3f6ee" stroke="#8aa15c"/>
+    <text x="225" y="116" fill="#4a6130">② 论文构思</text>
+    <text x="225" y="157" font-size="25" fill="#4a6130">12 分钟</text>
+    <text x="225" y="185" font-size="12" font-weight="normal" fill="#22303f">论点提纲配字数</text>
+    <rect x="305" y="85" width="110" height="120" rx="8" fill="#fdf0e6" stroke="#c05621"/>
+    <text x="360" y="116" fill="#c05621">③ 写摘要</text>
+    <text x="360" y="157" font-size="25" fill="#c05621">15 分钟</text>
+    <text x="360" y="185" font-size="12" font-weight="normal" fill="#22303f">四要素压缩全文</text>
+    <rect x="440" y="85" width="110" height="120" rx="8" fill="#1f4e79" stroke="#1f4e79"/>
+    <text x="495" y="116" fill="#ffffff">④ 正文撰写</text>
+    <text x="495" y="157" font-size="25" fill="#ffffff">80 分钟</text>
+    <text x="495" y="185" font-size="12" font-weight="normal" fill="#ffffff">项目理论应用</text>
+    <rect x="575" y="85" width="110" height="120" rx="8" fill="#eaf1f8" stroke="#6b7a8a"/>
+    <text x="630" y="116" fill="#1f4e79">⑤ 检查修改</text>
+    <text x="630" y="157" font-size="25" fill="#1f4e79">10 分钟</text>
+    <text x="630" y="185" font-size="12" font-weight="normal" fill="#22303f">查缺纠错保完整</text>
+  </g>
+  <g stroke="#1f4e79" stroke-width="1.5" fill="none">
+    <line x1="145" y1="145" x2="159" y2="145"/><line x1="280" y1="145" x2="294" y2="145"/>
+    <line x1="415" y1="145" x2="429" y2="145"/><line x1="550" y1="145" x2="564" y2="145"/>
+  </g>
+  <g fill="#1f4e79">
+    <polygon points="167,145 159,140.5 159,149.5"/><polygon points="302,145 294,140.5 294,149.5"/>
+    <polygon points="437,145 429,140.5 429,149.5"/><polygon points="572,145 564,140.5 564,149.5"/>
+  </g>
+
+  <text x="50" y="244" font-size="14" font-weight="bold" fill="#22303f">按比例看时间预算</text>
+  <rect x="50" y="260" width="15.5" height="58" fill="#6b7a8a"/>
+  <rect x="65.5" y="260" width="62" height="58" fill="#8aa15c"/>
+  <rect x="127.5" y="260" width="77.5" height="58" fill="#c05621"/>
+  <rect x="205" y="260" width="413.3" height="58" fill="#1f4e79"/>
+  <rect x="618.3" y="260" width="51.7" height="58" fill="#9aacbb"/>
+  <rect x="50" y="260" width="620" height="58" fill="none" stroke="#ffffff" stroke-width="1"/>
+  <text x="411.5" y="295" text-anchor="middle" font-size="18" font-weight="bold" fill="#ffffff">正文 80 分钟</text>
+  <text x="360" y="350" text-anchor="middle" font-size="18" font-weight="bold" fill="#1f4e79">3 ＋ 12 ＋ 15 ＋ 80 ＋ 10 ＝ 120 分钟</text>
+  <text x="360" y="378" text-anchor="middle" font-size="13" fill="#6b7a8a">时间方案是通用框架，可微调，但必须预留检查与收尾时间</text>
+</svg></div><div class="cap">论文120分钟时间分配</div></div>
+<div class="mnemonic">助记：「选三构十二，摘要一刻钟，正文八十攻，检查十分终」（3＋12＋15＋80＋10＝120）。</div>
+<div class="fig"><div><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 440" font-family="Microsoft YaHei, 微软雅黑, sans-serif">
+  <rect width="720" height="440" fill="#ffffff"/>
+  <text x="360" y="34" text-anchor="middle" font-size="22" font-weight="bold" fill="#1f4e79">论文解答五步流程</text>
+
+  <rect x="60" y="60" width="600" height="52" rx="7" fill="#eaf1f8" stroke="#1f4e79"/>
+  <text x="88" y="93" font-size="18" font-weight="bold" fill="#1f4e79">1</text>
+  <text x="132" y="93" font-size="17" font-weight="bold" fill="#1f4e79">选择题目</text>
+  <text x="286" y="93" font-size="15" fill="#22303f">最熟悉、把握最大｜画圈并填考号</text>
+
+  <rect x="60" y="130" width="600" height="52" rx="7" fill="#f3f6ee" stroke="#8aa15c"/>
+  <text x="88" y="163" font-size="18" font-weight="bold" fill="#4a6130">2</text>
+  <text x="132" y="163" font-size="17" font-weight="bold" fill="#4a6130">论文构思</text>
+  <text x="286" y="163" font-size="15" fill="#22303f">定论点｜配项目｜列简稿｜分字数</text>
+
+  <rect x="60" y="200" width="600" height="52" rx="7" fill="#fdf0e6" stroke="#c05621"/>
+  <text x="88" y="233" font-size="18" font-weight="bold" fill="#c05621">3</text>
+  <text x="132" y="233" font-size="17" font-weight="bold" fill="#c05621">写摘要</text>
+  <text x="286" y="233" font-size="15" fill="#22303f">简洁明快｜概括项目、角色、措施、效果</text>
+
+  <rect x="60" y="270" width="600" height="52" rx="7" fill="#1f4e79" stroke="#1f4e79"/>
+  <text x="88" y="303" font-size="18" font-weight="bold" fill="#ffffff">4</text>
+  <text x="132" y="303" font-size="17" font-weight="bold" fill="#ffffff">正文撰写</text>
+  <text x="286" y="303" font-size="15" fill="#ffffff">按稿展开｜控制篇幅｜避免前后矛盾</text>
+
+  <rect x="60" y="340" width="600" height="52" rx="7" fill="#eaf1f8" stroke="#6b7a8a"/>
+  <text x="88" y="373" font-size="18" font-weight="bold" fill="#1f4e79">5</text>
+  <text x="132" y="373" font-size="17" font-weight="bold" fill="#1f4e79">检查纠正</text>
+  <text x="286" y="373" font-size="15" fill="#22303f">查遗漏错字｜整洁工整｜务必写完</text>
+
+  <g stroke="#1f4e79" stroke-width="1.5" fill="none">
+    <line x1="360" y1="112" x2="360" y2="119"/><line x1="360" y1="182" x2="360" y2="189"/>
+    <line x1="360" y1="252" x2="360" y2="259"/><line x1="360" y1="322" x2="360" y2="329"/>
+  </g>
+  <g fill="#1f4e79">
+    <polygon points="360,127 355.5,119 364.5,119"/><polygon points="360,197 355.5,189 364.5,189"/>
+    <polygon points="360,267 355.5,259 364.5,259"/><polygon points="360,337 355.5,329 364.5,329"/>
+  </g>
+  <text x="360" y="421" text-anchor="middle" font-size="14" fill="#c05621">核心顺序：先审题定骨架，再填充真实实践，最后保完整与一致</text>
+</svg></div><div class="cap">论文解答五步流程</div></div>
+<ul><li>上述步骤是<b>通用框架而非死规矩</b>，可按题目与自身情况微调；若试题与准备内容出入大，仍选把握最大的论题，按平时节奏写，不临场慌乱。</li></ul>
+<h3>20.2.2 论文解答实例 ⭐【重点】</h3>
+<p>两个实例都展示「三问结构」，问题 1、2、3 分别对应「<b>项目—理论—应用</b>」：</p>
+<table><colgroup><col style="width:22.6%"><col style="width:19.1%"><col style="width:58.3%"></colgroup><thead><tr><th>问题</th><th>考查意图</th><th>作答要点</th></tr></thead><tbody><tr><td>问题 1：项目与工作</td><td class="tc">实践经验真实性</td><td>简述背景、功能、规模，明确<b>本人主要任务</b>；项目必须与论题相符</td></tr><tr><td>问题 2：专业知识</td><td class="tc">理论掌握程度</td><td>列出常用方法/风格，阐述特点、含义或适用范围，体现完整与准确</td></tr><tr><td>问题 3：项目应用</td><td class="tc">理论联系实际</td><td>说明实际采用的方法/风格、实施效果，以及为何这样选择</td></tr></tbody></table>
+<p>实例一「论软件系统建模方法及其应用」问题 2 的建模方法清单：</p>
+<table><colgroup><col style="width:26.8%"><col style="width:73.2%"></colgroup><thead><tr><th>建模方法</th><th>核心思想一句话</th></tr></thead><tbody><tr><td>功能分解法</td><td>以功能为中心分而治之，逐层拆分子功能并定义接口，再按功能需求设计数据结构</td></tr><tr><td>数据流法（结构化分析）</td><td>跟踪数据流动，把问题域映射为数据流、加工、数据存储，画数据流图并配数据字典</td></tr><tr><td>信息工程建模法</td><td>在实体关系图基础上识别实体及关系；发展后以对象为实体、关系属性归入关系对象</td></tr><tr><td>面向对象建模法</td><td>用对象完整映射问题域，以封装、继承、消息机制控制复杂性</td></tr></tbody></table>
+<p>实例二「论软件架构风格」问题 2 列出 9 种风格：<b>管道/过滤器、数据抽象和面向对象、基于事件的隐式调用、分层系统、仓库系统及知识库、C2、客户/服务器、三层 C/S、浏览器/服务器</b>。其中黑板三要素是<b>知识源、黑板数据结构、控制</b>；问题 3 要说明本项目采用的风格并<b>分析选择原因</b>，不能只报名称。</p>
+<h3>20.3 论文写作方法</h3>
+<h3>20.3.1 如何写好摘要 ⭐【重点】【高频考点】【易错】</h3>
+<ul><li><b>摘要四要素</b>：<b>项目背景与功能＋本人角色＋采用的技术/方法/措施（各用一两句概括）＋效果与不足/改进/趋势</b>。标准是「读者不看正文，就知道文章的全部内容」。</li><li><b>扣分红线</b>：没写摘要、摘要过简或无实质内容，扣 <b>5～10 分</b>；少于 <b>120 字</b>直接不及格。只谈大道理、不写具体内容，也是「无实质性内容」。</li></ul>
+<p>可直接套用的摘要模板：</p>
+<div class="def">教材原文（模板 3）：「……年……月，我参加了……项目的开发，担任……（作者的工作角色）。该项目……（项目背景、简单功能介绍）。本文结合作者的实践，以……项目为例，讨论……（论文主题），包括……（技术、方法、工具、措施、手段）。」</div>
+<ul><li><b>「戴帽子」规则</b>【易错】：一般不在开头堆砌「某某很重要」的空话；只有字数可能不足 300 字时，才可适当加约 50 字「帽子」。教材虽给出戴帽子模板，但正文建议少用。</li><li>举例：写「本文讨论架构，架构很重要」没有项目、角色和措施；改成「2025 年我担任某订单系统架构师，采用服务拆分与缓存降级……」才有实质信息。</li></ul>
+<div class="fig"><div><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 500" font-family="Microsoft YaHei, 微软雅黑, sans-serif">
+  <rect width="720" height="500" fill="#ffffff"/>
+  <text x="360" y="36" text-anchor="middle" font-size="22" font-weight="bold" fill="#1f4e79">摘要：四要素与两条扣分红线</text>
+  <text x="360" y="62" text-anchor="middle" font-size="14" fill="#6b7a8a">300～400 字｜不看正文，也能知道全文做了什么</text>
+
+  <g text-anchor="middle">
+    <rect x="35" y="88" width="140" height="120" rx="8" fill="#eaf1f8" stroke="#1f4e79"/>
+    <text x="105" y="125" font-size="18" font-weight="bold" fill="#1f4e79">项目背景</text>
+    <text x="105" y="157" font-size="15" fill="#22303f">时间、功能</text>
+    <text x="105" y="183" font-size="15" fill="#22303f">规模与意义</text>
+    <rect x="205" y="88" width="140" height="120" rx="8" fill="#f3f6ee" stroke="#8aa15c"/>
+    <text x="275" y="125" font-size="18" font-weight="bold" fill="#4a6130">本人角色</text>
+    <text x="275" y="157" font-size="15" fill="#22303f">担任架构师</text>
+    <text x="275" y="183" font-size="15" fill="#22303f">负责哪些工作</text>
+    <rect x="375" y="88" width="140" height="120" rx="8" fill="#fdf0e6" stroke="#c05621"/>
+    <text x="445" y="125" font-size="18" font-weight="bold" fill="#c05621">技术措施</text>
+    <text x="445" y="157" font-size="15" fill="#22303f">2～3 个重点</text>
+    <text x="445" y="183" font-size="15" fill="#22303f">各概括一两句</text>
+    <rect x="545" y="88" width="140" height="120" rx="8" fill="#eaf1f8" stroke="#1f4e79"/>
+    <text x="615" y="125" font-size="18" font-weight="bold" fill="#1f4e79">效果改进</text>
+    <text x="615" y="157" font-size="15" fill="#22303f">真实实施效果</text>
+    <text x="615" y="183" font-size="15" fill="#22303f">不足或趋势</text>
+  </g>
+  <g font-size="27" font-weight="bold" text-anchor="middle" fill="#6b7a8a">
+    <text x="190" y="157">＋</text><text x="360" y="157">＋</text><text x="530" y="157">＋</text>
+  </g>
+
+  <rect x="45" y="250" width="300" height="196" rx="9" fill="#f3f6ee" stroke="#8aa15c" stroke-width="1.5"/>
+  <text x="195" y="283" text-anchor="middle" font-size="19" font-weight="bold" fill="#4a6130">合格摘要这样写</text>
+  <text x="72" y="319" font-size="15" fill="#22303f">1　直接压缩正文重点</text>
+  <text x="72" y="351" font-size="15" fill="#22303f">2　项目与本人贡献具体</text>
+  <text x="72" y="383" font-size="15" fill="#22303f">3　措施与效果互相对应</text>
+  <text x="72" y="415" font-size="15" fill="#22303f">4　一般不加空泛“帽子”</text>
+
+  <rect x="375" y="250" width="300" height="196" rx="9" fill="#fdf0e6" stroke="#c05621" stroke-width="1.5"/>
+  <text x="525" y="283" text-anchor="middle" font-size="19" font-weight="bold" fill="#c05621">教材明确的扣分红线</text>
+  <text x="525" y="328" text-anchor="middle" font-size="17" font-weight="bold" fill="#22303f">无摘要／过简／无实质内容</text>
+  <text x="525" y="361" text-anchor="middle" font-size="21" font-weight="bold" fill="#c05621">扣 5～10 分</text>
+  <line x1="405" y1="381" x2="645" y2="381" stroke="#c05621"/>
+  <text x="525" y="414" text-anchor="middle" font-size="17" font-weight="bold" fill="#22303f">摘要少于 120 字：直接不及格</text>
+  <text x="360" y="477" text-anchor="middle" font-size="14" fill="#c05621">“戴帽子”只用于不足 300 字时补约 50 字，不能替代实质内容</text>
+</svg></div><div class="cap">摘要写作要点与扣分红线</div></div>
+<h3>20.3.2 如何写好正文 ⭐【重点】【高频考点】</h3>
+<ul><li><b>正文 2000～3000 字，最佳约 2500 字</b>：少于 2000 显得没内容，多于 3000 答题纸写不完。</li></ul>
+<table><colgroup><col style="width:9.5%"><col style="width:20.6%"><col style="width:69.8%"></colgroup><thead><tr><th>#</th><th>写作技巧</th><th>核心要求</th></tr></thead><tbody><tr><td class="tc">1</td><td>以自我为中心</td><td>写清「我」做事的由来、问题、方法与效果；写明体制、规模、任务和贡献，<b>不罗列课本、不炫耀项目</b></td></tr><tr><td class="tc">2</td><td>站在架构师角度</td><td>从全局把握架构优缺点、设计过程、层间接口，<b>不停留在代码细节</b></td></tr><tr><td class="tc">3</td><td>忠实于论点</td><td>仔细审题，按试题问题展开，<b>绝对服从论点、不节外生枝</b></td></tr><tr><td class="tc">4</td><td>条理清晰、开门见山</td><td>先列提纲；项目概述精炼；不追求覆盖全部内涵、不懂装懂</td></tr><tr><td class="tc">5</td><td>标新立异、有主见</td><td>不刻意猎奇，也不拘泥教科书，写出个人见识与体会</td></tr><tr><td class="tc">6</td><td>图文并茂</td><td>紧要处画简洁草图；图不过草、不过大，线条箭头整洁</td></tr><tr><td class="tc">7</td><td>首尾一致</td><td>开头结尾呼应，<b>忌中途变卦</b>；写完检查错字漏字</td></tr></tbody></table>
+<div class="mnemonic">助记：「我站论点上，条理新图尾」：我＝自我中心，站＝架构师角度，论点＝忠实论点，条理＝清晰，新＝有主见，图＝图文并茂，尾＝首尾一致。</div>
+<ul><li><b>正文措施段模板</b>：「在……阶段，我们遇到……（真实问题/约束）。我负责……，比较……后选择……；实施时先……再……，通过……验证，最终……（真实效果）。该措施仍受……限制，后续……。」每个措施都按「由来→问题→做法→效果」展开。</li><li><b>结尾模板</b>：「综上所述，……项目通过……解决了……。实践表明，……（回扣论点）。目前……仍有不足，后续将……。」结尾不引入新论点，与摘要和开头一致。</li><li><b>专业知识素材库</b>：经典架构风格及场景（面向对象、面向过程、SOA、微服务等）；质量属性及提升策略；架构评估过程、方法与技术；架构建模和描述方式。具体理论回看前面章节。</li></ul>
+<h3>20.3.3 摘要和正文的关系 ⭐【易错】</h3>
+<p>先写摘要还是先写正文<b>没有固定法则</b>：</p>
+<table><colgroup><col style="width:14.9%"><col style="width:17.9%"><col style="width:37.3%"><col style="width:29.9%"></colgroup><thead><tr><th>顺序</th><th>适合人群</th><th>优点</th><th>风险</th></tr></thead><tbody><tr><td class="tc">先正文后摘要</td><td class="tc">写作快、把握大</td><td>正文充分发挥，写完归纳摘要水到渠成</td><td>时间不够会缺摘要，可能直接不及格</td></tr><tr><td class="tc">先摘要后正文</td><td class="tc">写作慢、担心时间</td><td>时间不足可收束正文，避免正文完成而摘要缺失</td><td>可能限制正文，只在摘要圈子里扩写</td></tr></tbody></table>
+<ul><li><b>正文不是摘要的延伸，而是摘要的扩展；摘要不是正文的一部分，而是正文的抽象</b>。举例：摘要像楼盘一页总览，正文是完整沙盘与样板间；沙盘不是把广告词逐句拉长，而是把每个卖点展开成实景。</li></ul>
+<h3>20.4 常见问题及解决办法 ⭐【重点】【高频考点】</h3>
+<table><colgroup><col style="width:10.4%"><col style="width:24.3%"><col style="width:65.2%"></colgroup><thead><tr><th>#</th><th>常见问题</th><th>解决办法</th></tr></thead><tbody><tr><td class="tc">1</td><td>走题：只看标题就套写</td><td>认真读 <b>3 个问题</b>并逐一回应；同主题每次侧重点不同，背文不能硬套</td></tr><tr><td class="tc">2</td><td>字数不够</td><td>摘要 350 字以上、正文约 2500 字；含标点与图形，按格估算</td></tr><tr><td class="tc">3</td><td>字数偏多</td><td>严格 2 小时限时练习；正文超 3000、摘要超 350 即需警惕，最多不超 400</td></tr><tr><td class="tc">4</td><td>摘要归纳欠妥</td><td>直接压缩正文重点，少加帽子性语句</td></tr><tr><td class="tc">5</td><td>深度不够</td><td>只选<b>最有特色的 2～3 个措施</b>深入展开，不面面俱到</td></tr><tr><td class="tc">6</td><td>缺少特色、泛泛而谈</td><td>所有措施紧扣主题项目的具体内容，写经验而非理论罗列</td></tr><tr><td class="tc">7</td><td>口语化、满篇是「我」</td><td>用书面语言，以「我们」替代部分「我」；本人贡献仍要写清</td></tr><tr><td class="tc">8</td><td>文字表达差</td><td>平时多读文章、多写文档</td></tr><tr><td class="tc">9</td><td>缺乏主题项目</td><td>写明某年某月参加的具体项目、背景功能与本人角色</td></tr><tr><td class="tc">10</td><td>项目年代久远</td><td>主题项目应为<b>近 3 年内</b>完成</td></tr><tr><td class="tc">11</td><td>数字条目堆砌</td><td>可用数字标识顺序，但避免全文多级编号，保持自然段表达</td></tr><tr><td class="tc">12</td><td>结构不清、段落太长</td><td><b>每个自然段最好不超过 8 行</b>，必要时重排段落</td></tr></tbody></table>
+<div class="fig"><div><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 590" font-family="Microsoft YaHei, 微软雅黑, sans-serif">
+  <rect width="720" height="590" fill="#ffffff"/>
+  <text x="360" y="36" text-anchor="middle" font-size="22" font-weight="bold" fill="#1f4e79">论文常见 12 类问题分类自查</text>
+  <text x="360" y="60" text-anchor="middle" font-size="13" fill="#6b7a8a">写完按编号逐项打勾，先处理走题、缺摘要、缺项目等致命问题</text>
+
+  <g text-anchor="middle" font-size="17" font-weight="bold">
+    <rect x="25" y="82" width="145" height="48" rx="7" fill="#1f4e79"/>
+    <text x="97.5" y="112" fill="#ffffff">审题与篇幅</text>
+    <rect x="200" y="82" width="145" height="48" rx="7" fill="#c05621"/>
+    <text x="272.5" y="112" fill="#ffffff">摘要与深度</text>
+    <rect x="375" y="82" width="145" height="48" rx="7" fill="#8aa15c"/>
+    <text x="447.5" y="112" fill="#ffffff">表达与项目</text>
+    <rect x="550" y="82" width="145" height="48" rx="7" fill="#6b7a8a"/>
+    <text x="622.5" y="112" fill="#ffffff">项目与形式</text>
+  </g>
+
+  <g font-size="15" fill="#22303f">
+    <rect x="25" y="150" width="145" height="92" rx="7" fill="#eaf1f8" stroke="#1f4e79"/>
+    <text x="42" y="181" font-weight="bold" fill="#1f4e79">01 走题</text><text x="42" y="211">按三问组织</text><text x="42" y="232">不能只看标题</text>
+    <rect x="25" y="262" width="145" height="92" rx="7" fill="#eaf1f8" stroke="#1f4e79"/>
+    <text x="42" y="293" font-weight="bold" fill="#1f4e79">02 字数不够</text><text x="42" y="323">摘要约 350 字</text><text x="42" y="344">正文约 2500 字</text>
+    <rect x="25" y="374" width="145" height="92" rx="7" fill="#eaf1f8" stroke="#1f4e79"/>
+    <text x="42" y="405" font-weight="bold" fill="#1f4e79">03 字数偏多</text><text x="42" y="435">严格限时练习</text><text x="42" y="456">拒绝肆意发挥</text>
+
+    <rect x="200" y="150" width="145" height="92" rx="7" fill="#fdf0e6" stroke="#c05621"/>
+    <text x="217" y="181" font-weight="bold" fill="#c05621">04 摘要欠妥</text><text x="217" y="211">压缩正文重点</text><text x="217" y="232">少写空泛帽子</text>
+    <rect x="200" y="262" width="145" height="92" rx="7" fill="#fdf0e6" stroke="#c05621"/>
+    <text x="217" y="293" font-weight="bold" fill="#c05621">05 深度不够</text><text x="217" y="323">精选 2～3 个</text><text x="217" y="344">措施深入展开</text>
+    <rect x="200" y="374" width="145" height="92" rx="7" fill="#fdf0e6" stroke="#c05621"/>
+    <text x="217" y="405" font-weight="bold" fill="#c05621">06 缺少特色</text><text x="217" y="435">紧扣项目细节</text><text x="217" y="456">拒绝理论罗列</text>
+
+    <rect x="375" y="150" width="145" height="92" rx="7" fill="#f3f6ee" stroke="#8aa15c"/>
+    <text x="392" y="181" font-weight="bold" fill="#4a6130">07 口语化重</text><text x="392" y="211">书面语言表达</text><text x="392" y="232">多用“我们”</text>
+    <rect x="375" y="262" width="145" height="92" rx="7" fill="#f3f6ee" stroke="#8aa15c"/>
+    <text x="392" y="293" font-weight="bold" fill="#4a6130">08 表达较差</text><text x="392" y="323">平时多读多写</text><text x="392" y="344">训练准确表达</text>
+    <rect x="375" y="374" width="145" height="92" rx="7" fill="#f3f6ee" stroke="#8aa15c"/>
+    <text x="392" y="405" font-weight="bold" fill="#4a6130">09 缺主题项目</text><text x="392" y="435">时间背景功能</text><text x="392" y="456">本人角色齐全</text>
+
+    <rect x="550" y="150" width="145" height="92" rx="7" fill="#eaf1f8" stroke="#6b7a8a"/>
+    <text x="567" y="181" font-weight="bold" fill="#1f4e79">10 项目久远</text><text x="567" y="211">选近 3 年内</text><text x="567" y="232">代表性项目</text>
+    <rect x="550" y="262" width="145" height="92" rx="7" fill="#eaf1f8" stroke="#6b7a8a"/>
+    <text x="567" y="293" font-weight="bold" fill="#1f4e79">11 条目堆砌</text><text x="567" y="323">保留自然段</text><text x="567" y="344">避免多级编号</text>
+    <rect x="550" y="374" width="145" height="92" rx="7" fill="#eaf1f8" stroke="#6b7a8a"/>
+    <text x="567" y="405" font-weight="bold" fill="#1f4e79">12 结构不清</text><text x="567" y="435">重排过长段落</text><text x="567" y="456">每段不超 8 行</text>
+  </g>
+
+  <rect x="60" y="500" width="600" height="56" rx="9" fill="#fdf0e6" stroke="#c05621"/>
+  <text x="360" y="525" text-anchor="middle" font-size="15" font-weight="bold" fill="#c05621">优先级：审题完整 ＞ 摘要与项目真实 ＞ 措施深度 ＞ 文字与卷面</text>
+  <text x="360" y="547" text-anchor="middle" font-size="13" fill="#22303f">所有项目、措施和效果必须真实，模板只负责组织表达</text>
+</svg></div><div class="cap">论文常见12类问题分类自查</div></div>
+<h3>本章可直接套用的应试清单</h3>
+<div class="fig"><div><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 610" font-family="Microsoft YaHei, 微软雅黑, sans-serif">
+  <rect width="720" height="610" fill="#ffffff"/>
+  <text x="360" y="34" text-anchor="middle" font-size="22" font-weight="bold" fill="#1f4e79">论文整体结构与“三问”映射</text>
+  <text x="115" y="151" text-anchor="middle" font-size="16" font-weight="bold" fill="#6b7a8a">试题三问</text>
+  <text x="482" y="53" text-anchor="middle" font-size="16" font-weight="bold" fill="#6b7a8a">可套用的论文骨架</text>
+
+  <rect x="280" y="68" width="405" height="72" rx="8" fill="#fdf0e6" stroke="#c05621" stroke-width="1.5"/>
+  <text x="302" y="98" font-size="18" font-weight="bold" fill="#c05621">摘要｜300～400 字</text>
+  <text x="302" y="125" font-size="14" fill="#22303f">背景功能＋本人角色＋重点措施＋效果改进</text>
+
+  <rect x="35" y="175" width="160" height="80" rx="8" fill="#eaf1f8" stroke="#1f4e79"/>
+  <text x="115" y="207" text-anchor="middle" font-size="17" font-weight="bold" fill="#1f4e79">问题 1｜项目</text>
+  <text x="115" y="234" text-anchor="middle" font-size="14" fill="#22303f">概要与本人工作</text>
+  <rect x="280" y="175" width="405" height="80" rx="8" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.5"/>
+  <text x="302" y="207" font-size="18" font-weight="bold" fill="#1f4e79">正文① 项目概述</text>
+  <text x="302" y="234" font-size="14" fill="#22303f">背景、意义、规模、开发过程、本人任务</text>
+
+  <rect x="35" y="275" width="160" height="80" rx="8" fill="#f3f6ee" stroke="#8aa15c"/>
+  <text x="115" y="307" text-anchor="middle" font-size="17" font-weight="bold" fill="#4a6130">问题 2｜理论</text>
+  <text x="115" y="334" text-anchor="middle" font-size="14" fill="#22303f">分类特点与适用性</text>
+  <rect x="280" y="275" width="405" height="80" rx="8" fill="#f3f6ee" stroke="#8aa15c" stroke-width="1.5"/>
+  <text x="302" y="307" font-size="18" font-weight="bold" fill="#4a6130">正文② 理论铺垫</text>
+  <text x="302" y="334" font-size="14" fill="#22303f">准确回应专业知识，为项目选型建立依据</text>
+
+  <rect x="35" y="375" width="160" height="100" rx="8" fill="#fdf0e6" stroke="#c05621"/>
+  <text x="115" y="413" text-anchor="middle" font-size="17" font-weight="bold" fill="#c05621">问题 3｜应用</text>
+  <text x="115" y="442" text-anchor="middle" font-size="14" fill="#22303f">措施、效果</text>
+  <text x="115" y="463" text-anchor="middle" font-size="14" fill="#22303f">或选型原因</text>
+  <rect x="280" y="375" width="405" height="100" rx="8" fill="#fdf0e6" stroke="#c05621" stroke-width="1.5"/>
+  <text x="302" y="407" font-size="18" font-weight="bold" fill="#c05621">正文③ 实践主体｜2～3 个特色措施</text>
+  <text x="302" y="435" font-size="14" fill="#22303f">每项按“由来→问题→做法→效果”展开</text>
+  <text x="302" y="459" font-size="14" fill="#22303f">突出本人贡献，以真实项目细节和效果支撑</text>
+
+  <rect x="280" y="510" width="405" height="60" rx="8" fill="#eaf1f8" stroke="#6b7a8a" stroke-width="1.5"/>
+  <text x="302" y="537" font-size="17" font-weight="bold" fill="#1f4e79">结尾｜回扣论点＋不足与改进</text>
+  <text x="302" y="560" font-size="13" fill="#22303f">与摘要、开头一致，不引入新论点</text>
+
+  <g stroke="#1f4e79" stroke-width="1.5" fill="none">
+    <line x1="195" y1="215" x2="269" y2="215"/>
+    <line x1="195" y1="315" x2="269" y2="315"/>
+    <line x1="195" y1="425" x2="269" y2="425"/>
+    <line x1="482" y1="140" x2="482" y2="164"/>
+    <line x1="482" y1="475" x2="482" y2="499"/>
+  </g>
+  <g fill="#1f4e79">
+    <polygon points="277,215 269,210.5 269,219.5"/>
+    <polygon points="277,315 269,310.5 269,319.5"/>
+    <polygon points="277,425 269,420.5 269,429.5"/>
+    <polygon points="482,172 477.5,164 486.5,164"/>
+    <polygon points="482,507 477.5,499 486.5,499"/>
+  </g>
+  <text x="115" y="510" text-anchor="middle" font-size="14" font-weight="bold" fill="#4a6130">摘要统摄全文</text>
+  <text x="115" y="537" text-anchor="middle" font-size="13" fill="#6b7a8a">正文扩展摘要</text>
+  <text x="115" y="560" text-anchor="middle" font-size="13" fill="#6b7a8a">而非逐句拉长</text>
+  <text x="360" y="596" text-anchor="middle" font-size="14" fill="#c05621">审题后逐问映射，确保项目、理论、应用一个不缺</text>
+</svg></div><div class="cap">论文整体结构与三问映射</div></div>
+<ul><li><b>整体框架</b>：摘要四要素 → 项目概述（背景、意义、规模、过程、角色）→ 理论铺垫（回应问题 2）→ 实践主体（2～3 个特色措施，回应问题 3）→ 结尾（呼应、不足与改进）。</li><li><b>临场自查 6 问</b>：①选题画圈填考号了吗？②摘要够 300 字且有实质内容吗？③三个问题逐一回应了吗？④项目具体且近 3 年吗？⑤正文约 2500 字、段落不超 8 行吗？⑥首尾一致、无错字、写完了吗？</li></ul>
+<h2>三、重点与易错点</h2>
+<table><colgroup><col style="width:8.2%"><col style="width:15.1%"><col style="width:41.1%"><col style="width:35.6%"></colgroup><thead><tr><th>#</th><th>考点</th><th>必须记住的结论</th><th>易错提醒</th></tr></thead><tbody><tr><td class="tc">1</td><td class="tc">考试形式</td><td>下午 120 分钟，通常 4 题选 1</td><td>不是写 4 篇；选题后画圈并填考号</td></tr><tr><td class="tc">2</td><td class="tc">字数要求</td><td>摘要 300～400；正文 2000～3000、最佳约 2500</td><td>摘要宜 350 字左右；正文超 3000 反而写不完</td></tr><tr><td class="tc">3</td><td class="tc">摘要扣分红线</td><td>无摘要/过简/无实质内容扣 5～10 分；少于 120 字不及格</td><td>先正文后摘要者尤其要防没时间写摘要</td></tr><tr><td class="tc">4</td><td class="tc">时间分配</td><td>选题 3＋构思 12＋摘要 15＋正文 80＋检查 10＝120 分钟</td><td>正文独占 80 分钟，构思不能无限延长</td></tr><tr><td class="tc">5</td><td class="tc">三问结构</td><td>项目概要 → 理论知识 → 项目应用与效果/原因</td><td>问题 2 与问题 3 都要答，不可只写项目故事</td></tr><tr><td class="tc">6</td><td class="tc">走题</td><td>按试题 3 个问题组织内容，而非按标题套文</td><td>同主题不同次考试侧重点不同，硬套最高危</td></tr><tr><td class="tc">7</td><td class="tc">项目选取</td><td>近 3 年内、规模足以证明实力的代表性项目</td><td>「不变」的是项目概要与角色，不是同一篇范文</td></tr><tr><td class="tc">8</td><td class="tc">摘要与正文关系</td><td>正文是摘要的扩展；摘要是正文的抽象</td><td>不要把正文接着摘要逐句拉长</td></tr><tr><td class="tc">9</td><td class="tc">戴帽子</td><td>一般不加空话；不足 300 字时可加约 50 字</td><td>教材有帽子模板不等于推荐空谈重要性</td></tr><tr><td class="tc">10</td><td class="tc">深度与广度</td><td>选 2～3 个有特色措施深入展开</td><td>罗列七八个措施、每个蜻蜓点水是典型低分文</td></tr><tr><td class="tc">11</td><td class="tc">人称与语体</td><td>书面语言，用「我们」替代部分「我」</td><td>「以自我为中心」指突出本人贡献，不是满篇写我</td></tr><tr><td class="tc">12</td><td class="tc">段落与卷面</td><td>自然段不超 8 行；字迹工整、首尾一致</td><td>中途改论点会被疑造假；有头无尾是大忌</td></tr><tr><td class="tc">13</td><td class="tc">答题纸格数</td><td>每行 25 格；摘要 16 行 400 格；后续每页 36 行 900 格</td><td>字数按格估算，标点图形都占格</td></tr><tr><td class="tc">14</td><td class="tc">备考节奏</td><td>考前 2～3 个月起，每周 1～2 次 2 小时限时实战</td><td>高级资格靠突击行不通，功夫在平时</td></tr></tbody></table>
+<h2>四、练习与真题</h2>
+<p>以下 8 道为自编单选模拟题，覆盖本章高频考点。答案集中在本笔记最后「六、参考答案」。</p>
+<p><b>1.</b> 系统架构设计师论文科目的考试时长与选题方式，正确的是（ ）。</p>
+<p>A. 120 分钟，通常 4 题选 1  B. 150 分钟，通常 4 题选 2  C. 120 分钟，4 题全部作答  D. 90 分钟，随机分配 1 题</p>
+<p><b>2.</b> 关于论文摘要与正文的字数要求，下列说法正确的是（ ）。</p>
+<p>A. 摘要 200～300 字，正文 1500～2000 字  B. 摘要 300～400 字，正文 2000～3000 字  C. 摘要不少于 500 字，正文不少于 3000 字  D. 摘要与正文合计 2000～3000 字</p>
+<p><b>3.</b> 某考生正文内容优秀，但摘要仅写了约 100 字。按教材所述规则，最可能的处理结果是（ ）。</p>
+<p>A. 仅扣 1～2 分  B. 扣 5～10 分后照常评分  C. 给予不及格  D. 补写摘要后重新评分</p>
+<p><b>4.</b> 按教材推荐的时间分配方案，「正文撰写」环节应安排（ ）。</p>
+<p>A. 60 分钟  B. 70 分钟  C. 80 分钟  D. 100 分钟</p>
+<p><b>5.</b> 关于「以不变应万变」的备考策略，下列理解正确的是（ ）。</p>
+<p>A. 不变的是同一篇范文  B. 不变的是代表性项目概要与本人角色，万变的是论题  C. 不变的是摘要，正文随意换  D. 不变的是论题，项目随意换</p>
+<p><b>6.</b> 论文试题通常要求依次论述三个方面，其标准结构是（ ）。</p>
+<p>A. 行业趋势 → 研究现状 → 未来展望  B. 项目与本人工作 → 专业知识 → 项目应用与效果/原因  C. 摘要 → 关键词 → 参考文献  D. 问题定义 → 代码实现 → 测试报告</p>
+<p><b>7.</b> 关于摘要与正文的写作顺序及二者关系，下列说法正确的是（ ）。</p>
+<p>A. 必须先写摘要，否则无效  B. 正文是摘要的延伸，应逐句拉长  C. 写作慢者可先写摘要，正文是摘要的扩展  D. 先正文后摘要没有风险，适合所有人</p>
+<p><b>8.</b> 下列做法中，符合教材对论文正文写作要求的是（ ）。</p>
+<p>A. 将用过的 8 种技术各写一段简介  B. 通篇口语化并处处以「我」开头  C. 选 2～3 个特色措施深入展开，自然段不超 8 行  D. 全文用多级数字条目组织</p>
+<h2>五、疑问与查漏补缺</h2>
+<ul><li><b>大纲主题广，本章不重复专业知识</b>：科目 3 的 5 大主题须回看第 4～19 章笔记；为每个主题准备「项目＋2～3 个特色措施」的可复用素材，不能只背写作模板。</li><li><b>大纲未列完整量化评分表</b>：本章只把教材明确的摘要扣分规则当硬性结论，其他备考重心依据三项考查目标归纳；遇到网络流传的详细分值权重，应以当次官方说明为准。</li><li><b>教材按纸笔考试描述</b>：答题纸、黑色中性笔、练字等要求基于笔试场景；近年软考已推行计算机化考试，具体作答应以当次官方公告为准。机考可把「练字提速」转为「练打字与结构化表达」，时间、篇幅和内容要求仍须按当次规则核对。</li><li><b>教材易误读处</b>：①图 20-1「正方」为「正文」的排版笔误；②模板 4 戴帽子与「一般不要戴帽子」并存，以后者为原则、前者为凑字例外；③20.4「摘要超 350 字即偏多」与「300～400 字」并存，稳妥写约 350 字且不超 400；④「350 字以上」是建议值，「少于 120 字」才是不及格红线。</li><li><b>后续行动建议</b>：①选定 1 个近 3 年代表性项目，写好项目概要底稿；②按大纲 5 大主题各拟 1 份「三问」提纲；③每周至少 1 次 120 分钟全真限时写作，并按 12 类问题自查；④建立个人摘要、措施段与结尾模板，考场只做有真实素材支撑的组装；⑤每篇练习复盘字数、跑题、深度和完整性，不虚构项目或效果数据。</li></ul>
+<h2>六、参考答案</h2>
+<p><b>1.</b> A。教材 20.1.2：论文考试下午 120 分钟，备选通常 4 题、任选 1 题作答。</p>
+<p><b>2.</b> B。摘要 300～400 字、正文 2000～3000 字，教材建议正文最佳约 2500 字。</p>
+<p><b>3.</b> C。摘要少于 120 字论文「给予不及格」；无摘要、过简或无实质内容对应扣 5～10 分。</p>
+<p><b>4.</b> C。时间分配为选题 3、构思 12、摘要 15、正文 80、检查 10 分钟，合计 120 分钟。</p>
+<p><b>5.</b> B。「不变」是代表性项目概要与所任角色，「万变」是共性论题，项目应近 3 年内完成。</p>
+<p><b>6.</b> B。三问结构为「项目—理论—应用」，先概述项目与本人工作，再写专业知识，最后结合项目说明应用。</p>
+<p><b>7.</b> C。顺序无固定法则，慢者先摘要以保完整；正文是摘要的扩展而非延伸，先正文有缺摘要风险。</p>
+<p><b>8.</b> C。深度优先，选 2～3 个特色措施深入展开且段落不超 8 行；其余分别犯深度不够、口语化、条目堆砌问题。</p>
+<div class="footer">第20章 系统架构设计师论文写作要点 · A4 打印版 · 由 README.md 统一生成</div>
+</div>
+</body>
+</html>

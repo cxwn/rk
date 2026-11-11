@@ -1,0 +1,46 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 500" font-family="Microsoft YaHei, 微软雅黑, sans-serif">
+  <text x="360" y="26" text-anchor="middle" font-size="17" font-weight="bold" fill="#1f4e79">HL7 Web 服务发送 / 接收参考体系结构</text>
+  <rect x="30" y="48" width="255" height="348" rx="9" fill="#fbfdff" stroke="#c05621" stroke-width="1.5"/>
+  <text x="157" y="72" text-anchor="middle" font-size="14" font-weight="bold" fill="#c05621">发送者应用</text>
+  <rect x="435" y="48" width="255" height="348" rx="9" fill="#fbfdff" stroke="#1f4e79" stroke-width="1.5"/>
+  <text x="562" y="72" text-anchor="middle" font-size="14" font-weight="bold" fill="#1f4e79">接收者应用</text>
+  <rect x="58" y="92" width="200" height="66" rx="6" fill="#fdf0e6" stroke="#c05621" stroke-width="1.4"/>
+  <text x="158" y="119" text-anchor="middle" font-size="14" font-weight="bold" fill="#c05621">业务逻辑</text>
+  <text x="158" y="141" text-anchor="middle" font-size="11" fill="#22303f">创建 HL7 XML 消息</text>
+  <rect x="462" y="92" width="200" height="66" rx="6" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.4"/>
+  <text x="562" y="119" text-anchor="middle" font-size="14" font-weight="bold" fill="#1f4e79">业务逻辑</text>
+  <text x="562" y="141" text-anchor="middle" font-size="11" fill="#22303f">验证业务规则 · 应用确认</text>
+  <rect x="58" y="205" width="200" height="74" rx="6" fill="#f3f6ee" stroke="#4a6130" stroke-width="1.4"/>
+  <text x="158" y="232" text-anchor="middle" font-size="14" font-weight="bold" fill="#4a6130">Web 服务适配器</text>
+  <text x="158" y="253" text-anchor="middle" font-size="10" fill="#22303f">读取封装 · 配置并生成 SOAP</text>
+  <text x="158" y="269" text-anchor="middle" font-size="10" fill="#22303f">处理通信确认</text>
+  <rect x="462" y="205" width="200" height="74" rx="6" fill="#f3f6ee" stroke="#4a6130" stroke-width="1.4"/>
+  <text x="562" y="232" text-anchor="middle" font-size="14" font-weight="bold" fill="#4a6130">Web 服务适配器</text>
+  <text x="562" y="253" text-anchor="middle" font-size="10" fill="#22303f">验证 SOAP · 拆出并校验 HL7</text>
+  <text x="562" y="269" text-anchor="middle" font-size="10" fill="#22303f">处理通信确认</text>
+  <rect x="58" y="320" width="200" height="56" rx="6" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.4"/>
+  <text x="158" y="353" text-anchor="middle" font-size="14" fill="#1f4e79">Web 代理</text>
+  <rect x="462" y="320" width="200" height="56" rx="6" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.4"/>
+  <text x="562" y="353" text-anchor="middle" font-size="14" fill="#1f4e79">Web 服务</text>
+  <line x1="158" y1="158" x2="158" y2="194" stroke="#c05621" stroke-width="1.5" fill="none"/>
+  <polygon points="158,202 153.5,194 162.5,194" fill="#c05621"/>
+  <text x="173" y="184" font-size="10" fill="#6b7a8a">HL7 MSG</text>
+  <line x1="158" y1="279" x2="158" y2="309" stroke="#4a6130" stroke-width="1.5" fill="none"/>
+  <polygon points="158,317 153.5,309 162.5,309" fill="#4a6130"/>
+  <text x="173" y="302" font-size="10" fill="#6b7a8a">SOAP MSG</text>
+  <line x1="562" y1="320" x2="562" y2="290" stroke="#4a6130" stroke-width="1.5" fill="none"/>
+  <polygon points="562,282 557.5,290 566.5,290" fill="#4a6130"/>
+  <text x="577" y="306" font-size="10" fill="#6b7a8a">SOAP MSG</text>
+  <line x1="562" y1="205" x2="562" y2="169" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="562,161 557.5,169 566.5,169" fill="#1f4e79"/>
+  <text x="577" y="190" font-size="10" fill="#6b7a8a">HL7 MSG</text>
+  <line x1="258" y1="338" x2="451" y2="338" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="459,338 451,333.5 451,342.5" fill="#1f4e79"/>
+  <text x="360" y="328" text-anchor="middle" font-size="10" fill="#6b7a8a">SOAP 请求</text>
+  <line x1="462" y1="360" x2="269" y2="360" stroke="#4a6130" stroke-width="1.5" fill="none"/>
+  <polygon points="261,360 269,355.5 269,364.5" fill="#4a6130"/>
+  <text x="360" y="378" text-anchor="middle" font-size="10" fill="#6b7a8a">响应 / 通信确认</text>
+  <rect x="90" y="422" width="540" height="42" rx="6" fill="#1f4e79" stroke="#1f4e79"/>
+  <text x="360" y="448" text-anchor="middle" font-size="13" font-weight="bold" fill="#ffffff">Web 服务下层传输：HTTP / HTTPS / TCP …</text>
+  <text x="360" y="486" text-anchor="middle" font-size="11" fill="#6b7a8a">适配器负责消息分发和通信确认；业务逻辑负责 HL7 业务规则与应用层确认</text>
+</svg>

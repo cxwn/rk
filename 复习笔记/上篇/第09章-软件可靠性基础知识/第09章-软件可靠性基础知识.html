@@ -1,0 +1,740 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>第9章 软件可靠性基础知识</title>
+<style>
+  :root{ --ink:#22303f; --main:#1f4e79; --main-light:#eaf1f8; --accent:#c05621;
+    --accent-light:#fdf0e6; --line:#d5dde5; --muted:#6b7a8a; }
+  *{ box-sizing:border-box; print-color-adjust:exact; -webkit-print-color-adjust:exact; }
+  html,body{ margin:0; padding:0; }
+  body{ font-family:"Microsoft YaHei","微软雅黑","PingFang SC","Noto Sans CJK SC",sans-serif;
+    color:var(--ink); background:#e9edf1; font-size:10.5pt; line-height:1.75; }
+  .sheet{ max-width:190mm; margin:8mm auto; background:#fff; padding:10mm 11mm;
+    box-shadow:0 2px 14px rgba(0,0,0,.12); }
+  h1{ font-size:21pt; color:var(--main); margin:0 0 2mm; border-bottom:3px solid var(--main); padding-bottom:3mm; }
+  h2{ font-size:14pt; color:var(--main); margin:8mm 0 3mm; padding:1.2mm 0 1.2mm 3mm;
+    border-left:5px solid var(--main); background:linear-gradient(to right,var(--main-light),#fff); break-after:avoid; }
+  h3{ font-size:11.5pt; color:var(--main); margin:5mm 0 2mm; break-after:avoid; }
+  p{ margin:1.5mm 0; }
+  code{ background:#f0f3f6; border-radius:1mm; padding:0 1mm; font-size:9.5pt; }
+  .def,.example,.mnemonic{ border-radius:2mm; padding:2.5mm 3.5mm; margin:2.5mm 0; break-inside:avoid; }
+  .def{ border:1.5px solid var(--main); background:#fbfdff; }
+  .example{ background:var(--accent-light); border-left:4px solid var(--accent); }
+  .mnemonic{ background:#f3f6ee; border:1px dashed #8aa15c; color:#4a6130; }
+  table{ border-collapse:collapse; width:100%; margin:2.5mm 0; font-size:9.5pt; table-layout:fixed; }
+  th,td{ border:1px solid var(--line); padding:1.6mm 2mm; text-align:left; vertical-align:top; overflow-wrap:break-word; }
+  th{ background:var(--main); color:#fff; text-align:center; }
+  thead{ display:table-header-group; }
+  tr{ break-inside:avoid; }
+  td.tc{ text-align:center; }
+  tr:nth-child(even) td{ background:#f6f9fc; }
+  .fig{ margin:3mm 0; padding:2.5mm; border:1px solid var(--line); border-radius:2mm;
+    background:#fdfefe; break-inside:avoid; }
+  .fig .cap{ text-align:center; color:var(--muted); font-size:9pt; margin-top:1mm; }
+  svg{ display:block; width:100%; height:auto; }
+  svg text{ font-family:inherit; }
+  ul,ol{ margin:1.5mm 0 1.5mm 5mm; padding-left:4mm; }
+  li{ margin:0.8mm 0; }
+  .footer{ margin-top:8mm; padding-top:2mm; border-top:1px solid var(--line);
+    color:var(--muted); font-size:8.5pt; text-align:center; }
+  @page{ size:A4; margin:12mm; }
+  @media print{ body{ background:#fff; font-size:10pt; }
+    .sheet{ max-width:none; margin:0; padding:0; box-shadow:none; } h2{ margin-top:6mm; } }
+</style>
+</head>
+<body>
+<div class="sheet">
+<h1>第9章 软件可靠性基础知识</h1>
+<ul><li>教材位置：02.系统架构设计师第二版-教材.pdf PDF 第 315～339 页（书页 305～329）</li><li>复习状态：已完成</li><li>复习日期：2026-11-06</li><li>本章地位：可靠性定义与 MTTF/MTTR/MTBF 等度量、容错与检错设计、双机热备是综合知识高频考点；运行剖面、可靠性模型与评价流程是案例题和论文的常用素材。</li></ul>
+<h2>一、大纲考点</h2>
+<p>大纲科目 1 第 8 部分「软件可靠性技术」（书页 44～47）与教材本章一一对应。注意大纲 8.6 用「评估」，教材 9.6 标题用「评价」，含义相同。</p>
+<table><colgroup><col style="width:16.8%"><col style="width:43.6%"><col style="width:12.4%"><col style="width:27.2%"></colgroup><thead><tr><th>大纲条目</th><th>大纲要求</th><th>教材对应</th><th>复习抓手</th></tr></thead><tbody><tr><td>8.1.1 软件可靠性定义</td><td>定义、与硬件可靠性的区别；框架性定义；软件可靠性工程的阶段（分配、设计、分析、测试、评估）</td><td>9.1.1</td><td>三个「规定」；软硬件 4 点区别；定义 3 个特点</td></tr><tr><td>8.1.2 定量描述</td><td>度量方法与意义；失效概率、可靠度、失效强度、MTTF、MTTR、MTBF</td><td>9.1.2</td><td>三种时间；R(t)=1−F(t)；MTBF=MTTF+MTTR</td></tr><tr><td>8.1.3 可靠性目标</td><td>失效严重程度（按成本影响）的等级分类</td><td>9.1.3、表9-1～9-3</td><td>严重程度类；用可靠度、故障强度、MTTF 描述目标</td></tr><tr><td>8.1.4 可靠性测试的意义</td><td>测试的目的和意义、发展</td><td>9.1.4</td><td>失效可致灾难；系统失效约 80% 与软件有关</td></tr><tr><td>8.1.5 广义与狭义可靠性测试</td><td>两种测试的定义</td><td>9.1.5、图9-1</td><td>狭义＝软件可靠性试验；测试目的 3 方面</td></tr><tr><td>8.2.1 影响因素</td><td>技术层面：运行剖面、软件规模、内部结构、开发方法和开发环境、可靠性投入</td><td>9.2.1</td><td>缺陷引入—发现—清除主线＋5 因素</td></tr><tr><td>8.2.2 建模方法</td><td>模型基本组成、假设的局限性、重要特性</td><td>9.2.2</td><td>4 组成；3 共同假设；好模型 5 特性</td></tr><tr><td>8.2.3 模型分类</td><td>可靠性模型分类、十类常用模型的内涵</td><td>9.2.3</td><td>十类名称与代表模型（NHPP、G-O 等）</td></tr><tr><td>8.3 软件可靠性管理</td><td>目标、计划、进度、任务和修正措施；各阶段可靠性活动</td><td>9.3</td><td>六阶段关键活动与共同活动</td></tr><tr><td>8.4 软件可靠性设计</td><td>设计准则（简化、重用、健壮性）；容错、检错、降低复杂度、系统配置</td><td>9.4.1～9.4.4</td><td>恢复块/N版本/冗余；检错 4 要素；双机热备 3 模式</td></tr><tr><td>8.5 软件可靠性测试</td><td>测试概述；定义运行剖面；用例设计；测试实施与 4 类可靠性数据</td><td>9.5.1～9.5.4</td><td>马尔可夫链；用例 8 组成；受控测试同版本</td></tr><tr><td>8.6 软件可靠性评估</td><td>评价过程；模型选择；数据收集；评估和预测</td><td>9.6.1～9.6.4</td><td>评价 3 步；模型选择 4 方面；无失效≠可靠度 1</td></tr></tbody></table>
+<h2>二、知识点笔记</h2>
+<h3>9.1.1 软件可靠性定义</h3>
+<div class="def">教材原文：软件可靠性是软件产品在规定的条件下和规定的时间区间完成规定功能的能力。</div>
+<p>通俗地说，可靠性回答「软件在约定环境和时间内，不犯错地把该做的事做好的把握有多大」。IEEE 计算机学会 1983 年的定义（我国 GB/T-11457 于 1989 年采用）进一步强调：⭐【重点】在规定的条件下、规定的时间内，软件不引起系统失效的<b>概率</b>，该概率是系统输入和系统使用的函数，也是软件中存在缺陷的函数——系统输入决定是否会遇到已存在的缺陷。</p>
+<div class="fig"><div><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 500" width="720" height="500" font-family="Microsoft YaHei, 微软雅黑, sans-serif">
+  <rect width="720" height="500" fill="#ffffff"/>
+  <text x="360" y="32" text-anchor="middle" font-size="22" font-weight="bold" fill="#1f4e79">软件可靠性定义：三个“规定”缺一不可</text>
+  <rect x="60" y="55" width="600" height="50" rx="8" fill="#1f4e79"/>
+  <text x="360" y="87" text-anchor="middle" font-size="17" font-weight="bold" fill="#ffffff">规定条件下、规定时间区间内，完成规定功能的能力</text>
+  <g stroke="#1f4e79" stroke-width="1.5" fill="none">
+    <line x1="150" y1="105" x2="150" y2="139"/>
+    <line x1="360" y1="105" x2="360" y2="139"/>
+    <line x1="570" y1="105" x2="570" y2="139"/>
+  </g>
+  <g fill="#1f4e79">
+    <polygon points="150,147 145.5,139 154.5,139"/>
+    <polygon points="360,147 355.5,139 364.5,139"/>
+    <polygon points="570,147 565.5,139 574.5,139"/>
+  </g>
+  <rect x="45" y="150" width="210" height="110" rx="8" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.5"/>
+  <text x="150" y="180" text-anchor="middle" font-size="17" font-weight="bold" fill="#1f4e79">规定的时间</text>
+  <text x="150" y="208" text-anchor="middle" font-size="12.5" fill="#22303f">指实际运行时间区间</text>
+  <text x="150" y="230" text-anchor="middle" font-size="12.5" fill="#22303f">含工作与挂起的累计时间</text>
+  <text x="150" y="252" text-anchor="middle" font-size="12.5" fill="#22303f">失效是随机事件</text>
+  <rect x="255" y="150" width="210" height="110" rx="8" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.5"/>
+  <text x="360" y="180" text-anchor="middle" font-size="17" font-weight="bold" fill="#1f4e79">规定的条件</text>
+  <text x="360" y="208" text-anchor="middle" font-size="12.5" fill="#22303f">即软件运行环境</text>
+  <text x="360" y="230" text-anchor="middle" font-size="12.5" fill="#22303f">硬件、OS、数据库、中间件</text>
+  <text x="360" y="252" text-anchor="middle" font-size="12.5" fill="#22303f">及输入数据格式与范围</text>
+  <rect x="465" y="150" width="210" height="110" rx="8" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.5"/>
+  <text x="570" y="180" text-anchor="middle" font-size="17" font-weight="bold" fill="#1f4e79">所要求的功能</text>
+  <text x="570" y="208" text-anchor="middle" font-size="12.5" fill="#22303f">为提供服务必须具备的功能</text>
+  <text x="570" y="230" text-anchor="middle" font-size="12.5" fill="#22303f">任务不同，调用模块不同</text>
+  <text x="570" y="252" text-anchor="middle" font-size="12.5" fill="#22303f">可靠性也可能不同</text>
+  <text x="360" y="300" text-anchor="middle" font-size="17" font-weight="bold" fill="#1f4e79">软件与硬件可靠性的 4 点区别</text>
+  <g font-size="13" fill="#22303f">
+    <rect x="60" y="318" width="120" height="34" rx="6" fill="#fdf0e6" stroke="#c05621"/>
+    <text x="120" y="340" text-anchor="middle" font-size="14" font-weight="bold" fill="#c05621">复杂性</text>
+    <text x="200" y="340">软件逻辑复杂，设计错误是失效主因；硬件相对简单</text>
+    <rect x="60" y="360" width="120" height="34" rx="6" fill="#fdf0e6" stroke="#c05621"/>
+    <text x="120" y="382" text-anchor="middle" font-size="14" font-weight="bold" fill="#c05621">物理退化</text>
+    <text x="200" y="382">软件无物理退化，正确即始终可靠；硬件多因退化失效</text>
+    <rect x="60" y="402" width="120" height="34" rx="6" fill="#fdf0e6" stroke="#c05621"/>
+    <text x="120" y="424" text-anchor="middle" font-size="14" font-weight="bold" fill="#c05621">唯一性</text>
+    <text x="200" y="424">软件复制不改变本身；任何两个硬件不可能绝对相同</text>
+    <rect x="60" y="444" width="120" height="34" rx="6" fill="#fdf0e6" stroke="#c05621"/>
+    <text x="120" y="466" text-anchor="middle" font-size="14" font-weight="bold" fill="#c05621">版本更新</text>
+    <text x="200" y="466">软件版本更新快、评估难；硬件定型后一般不更改</text>
+  </g>
+</svg></div><div class="cap">软件可靠性定义三要素与软硬件四点区别</div></div>
+<p>框架性定义的三个要素与三个特点：</p>
+<table><colgroup><col style="width:14.3%"><col style="width:52.9%"><col style="width:32.9%"></colgroup><thead><tr><th>要素/特点</th><th>内容</th><th>一句话理解</th></tr></thead><tbody><tr><td class="tc">规定的时间</td><td>指运行时间，含工作与挂起（开启但空闲）的累计时间</td><td>失效是随机事件，运行时间是随机变量</td></tr><tr><td class="tc">规定的条件</td><td>运行环境：硬件平台、OS、数据库、中间件、输入数据格式范围与操作规程</td><td>环境不同可靠性不同，也用于划分失效责任</td></tr><tr><td class="tc">所要求的功能</td><td>任务不同则调用子模块、程序路径不同</td><td>先明确任务功能才能准确度量可靠性</td></tr><tr><td class="tc">特点①</td><td>用内在「缺陷」和外在「失效」的关系描述可靠性</td><td>缺陷是固有病根，失效是随机发病</td></tr><tr><td class="tc">特点②</td><td>使量化评估成为可能</td><td>可按不同目的建立数学模型分析</td></tr><tr><td class="tc">特点③</td><td>用概率描述可靠性比较科学</td><td>失效随机、缺陷无损耗，概率方法合理</td></tr></tbody></table>
+<div class="example">举例：同一订票软件，平时少量查询与春运集中抢票是两种「规定条件」，可靠性表现不同；只要求查询功能与要求支付功能，调用的模块不同，可靠性结论也不同。</div>
+<p>⭐【易错】软件<b>不存在物理退化</b>，软件正确性与可靠性密切相关，一个正确的软件任何时刻均可靠；硬件则主要由物理退化导致失效。软件的<b>唯一性</b>（复制不改变本身，任何两个硬件不可能绝对相同）正是概率方法在硬件可靠性领域大获成功、在软件领域却不令人满意的原因。</p>
+<h3>9.1.2 软件可靠性的定量描述</h3>
+<p>⭐【重点】「规定时间」有三种概念，用<b>执行时间</b>度量可靠性最准确：</p>
+<table><colgroup><col style="width:25.2%"><col style="width:34.2%"><col style="width:40.5%"></colgroup><thead><tr><th>时间概念</th><th>含义</th><th>财务软件一例（9:00 开机、17:00 退出）</th></tr></thead><tbody><tr><td>自然时间（日历时间）</td><td>年月周日等自然流逝的时间段</td><td>一天 24 小时</td></tr><tr><td>运行时间</td><td>软件从启动到运行结束的时间段</td><td>8 小时</td></tr><tr><td>执行时间</td><td>CPU 执行程序指令所用的时间总和</td><td>不足 2 小时，视业务频度与设计而定</td></tr></tbody></table>
+<div class="fig"><div><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 400" width="720" height="400" font-family="Microsoft YaHei, 微软雅黑, sans-serif">
+  <rect width="720" height="400" fill="#ffffff"/>
+  <text x="360" y="32" text-anchor="middle" font-size="22" font-weight="bold" fill="#1f4e79">“规定时间”的三种概念</text>
+  <text x="40" y="64" font-size="13.5" fill="#22303f">举例：财务软件 9:00 开机运行，17:00 下班退出，CPU 实际执行程序指令不足 2 小时</text>
+  <g font-size="11" fill="#6b7a8a" text-anchor="middle">
+    <text x="120" y="100">0 时</text>
+    <text x="187.5" y="100">3 时</text>
+    <text x="255" y="100">6 时</text>
+    <text x="322.5" y="100">9 时</text>
+    <text x="390" y="100">12 时</text>
+    <text x="457.5" y="100">15 时</text>
+    <text x="525" y="100">18 时</text>
+    <text x="592.5" y="100">21 时</text>
+    <text x="660" y="100">24 时</text>
+  </g>
+  <g stroke="#6b7a8a" stroke-width="1">
+    <line x1="120" y1="106" x2="120" y2="114"/>
+    <line x1="187.5" y1="106" x2="187.5" y2="114"/>
+    <line x1="255" y1="106" x2="255" y2="114"/>
+    <line x1="322.5" y1="106" x2="322.5" y2="114"/>
+    <line x1="390" y1="106" x2="390" y2="114"/>
+    <line x1="457.5" y1="106" x2="457.5" y2="114"/>
+    <line x1="525" y1="106" x2="525" y2="114"/>
+    <line x1="592.5" y1="106" x2="592.5" y2="114"/>
+    <line x1="660" y1="106" x2="660" y2="114"/>
+  </g>
+  <text x="40" y="152" font-size="15" font-weight="bold" fill="#1f4e79">自然时间</text>
+  <rect x="120" y="130" width="540" height="30" rx="4" fill="#eaf1f8" stroke="#1f4e79"/>
+  <text x="390" y="150" text-anchor="middle" font-size="13" fill="#1f4e79">日历时间：一整天 24 小时</text>
+  <text x="40" y="207" font-size="15" font-weight="bold" fill="#4a6130">运行时间</text>
+  <rect x="322.5" y="185" width="180" height="30" rx="4" fill="#f3f6ee" stroke="#8aa15c" stroke-width="1.5"/>
+  <text x="412.5" y="205" text-anchor="middle" font-size="13" fill="#4a6130">8 小时</text>
+  <text x="515" y="205" font-size="12.5" fill="#22303f">启动到退出：9:00～17:00</text>
+  <text x="40" y="262" font-size="15" font-weight="bold" fill="#c05621">执行时间</text>
+  <g fill="#fdf0e6" stroke="#c05621" stroke-width="1.5">
+    <rect x="333.75" y="240" width="22.5" height="30" rx="3"/>
+    <rect x="367.5" y="240" width="33.75" height="30" rx="3"/>
+    <rect x="435" y="240" width="45" height="30" rx="3"/>
+  </g>
+  <text x="515" y="260" font-size="12.5" fill="#22303f">CPU 执行指令累计 &lt; 2 小时</text>
+  <rect x="40" y="300" width="640" height="72" rx="8" fill="#eaf1f8" stroke="#1f4e79"/>
+  <text x="360" y="330" text-anchor="middle" font-size="14.5" font-weight="bold" fill="#1f4e79">用执行时间度量软件可靠性最准确、效果最好</text>
+  <text x="360" y="356" text-anchor="middle" font-size="12.5" fill="#22303f">软件处于相对稳定的工作状态时，可按经验换算比例在三种时间之间折算</text>
+</svg></div><div class="cap">三种时间概念的对比</div></div>
+<p>⭐【重点】【高频考点】六个定量指标必须记牢公式与方向：</p>
+<table><colgroup><col style="width:19.9%"><col style="width:43.8%"><col style="width:36.3%"></colgroup><thead><tr><th>指标</th><th>公式/定义</th><th>记忆要点</th></tr></thead><tbody><tr><td>失效概率 F(t)</td><td>运行开始到时刻 t 出现失效的概率</td><td>F(0)=0，单调递增，F(+∞)=1（任何软件都有缺陷）</td></tr><tr><td>可靠度 R(t)</td><td>R(t)=1−F(t)，规定条件下、规定时间内不失效的概率</td><td>R(0)=1，R(+∞)=0</td></tr><tr><td>失效强度 f(t)</td><td>f(t)=F′(t)，单位时间出现失效的概率</td><td>是 F(t) 的导数，不是 F(t) 本身</td></tr><tr><td>MTTF 平均失效前时间</td><td>MTTF=∫0^∞ R(t)dt，持续运行时间的期望</td><td>不可修复系统即平均寿命，不含老化失效</td></tr><tr><td>MTTR 平均恢复前时间</td><td>恢复时间的期望，含确认失效、记录任务、重新投入使用的时间</td><td>MTTR 越短，易恢复性越好</td></tr><tr><td>MTBF 平均故障间隔时间</td><td>失效或维护所需平均时间，含故障时间及检测维护时间</td><td>指数分布时 MTBF=MTTF+MTTR</td></tr></tbody></table>
+<div class="fig"><div><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 435" width="720" height="435" font-family="Microsoft YaHei, 微软雅黑, sans-serif">
+  <rect width="720" height="435" fill="#ffffff"/>
+  <text x="360" y="32" text-anchor="middle" font-size="22" font-weight="bold" fill="#1f4e79">可靠度、失效强度与 MTTF / MTTR / MTBF</text>
+  <rect x="40" y="55" width="305" height="64" rx="8" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.5"/>
+  <text x="192" y="83" text-anchor="middle" font-size="18" font-weight="bold" fill="#1f4e79">R(t) = 1 − F(t)</text>
+  <text x="192" y="106" text-anchor="middle" font-size="12" fill="#22303f">可靠度＝规定条件下、时间内不失效的概率</text>
+  <rect x="375" y="55" width="305" height="64" rx="8" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.5"/>
+  <text x="527" y="83" text-anchor="middle" font-size="18" font-weight="bold" fill="#1f4e79">f(t) = F′(t)</text>
+  <text x="527" y="106" text-anchor="middle" font-size="12" fill="#22303f">失效强度＝单位时间出现失效的概率</text>
+  <rect x="40" y="135" width="305" height="64" rx="8" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.5"/>
+  <text x="192" y="163" text-anchor="middle" font-size="18" font-weight="bold" fill="#1f4e79">MTTF = ∫0^∞ R(t) dt</text>
+  <text x="192" y="186" text-anchor="middle" font-size="12" fill="#22303f">平均失效前时间：持续运行时间的期望</text>
+  <rect x="375" y="135" width="305" height="64" rx="8" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.5"/>
+  <text x="527" y="163" text-anchor="middle" font-size="18" font-weight="bold" fill="#1f4e79">MTBF = MTTF + MTTR</text>
+  <text x="527" y="186" text-anchor="middle" font-size="12" fill="#22303f">平均故障间隔时间（指数分布时成立）</text>
+  <text x="360" y="240" text-anchor="middle" font-size="15" font-weight="bold" fill="#1f4e79">运行—失效—修复周期</text>
+  <text x="300" y="263" text-anchor="middle" font-size="12.5" fill="#22303f">MTBF：两次相邻失效之间</text>
+  <g stroke="#6b7a8a" stroke-width="1.2" fill="none">
+    <line x1="200" y1="272" x2="200" y2="280"/>
+    <line x1="200" y1="272" x2="400" y2="272"/>
+    <line x1="400" y1="272" x2="400" y2="280"/>
+  </g>
+  <rect x="60" y="292" width="140" height="16" fill="#8aa15c"/>
+  <rect x="200" y="292" width="50" height="16" fill="#c05621"/>
+  <rect x="250" y="292" width="150" height="16" fill="#8aa15c"/>
+  <rect x="400" y="292" width="50" height="16" fill="#c05621"/>
+  <rect x="450" y="292" width="190" height="16" fill="#8aa15c"/>
+  <line x1="640" y1="300" x2="662" y2="300" stroke="#1f4e79" stroke-width="1.5"/>
+  <polygon points="670,300 662,295.5 662,304.5" fill="#1f4e79"/>
+  <text x="200" y="286" text-anchor="middle" font-size="11" fill="#c05621">失效 1</text>
+  <text x="400" y="286" text-anchor="middle" font-size="11" fill="#c05621">失效 2</text>
+  <text x="250" y="325" text-anchor="middle" font-size="11" fill="#6b7a8a">恢复</text>
+  <text x="450" y="325" text-anchor="middle" font-size="11" fill="#6b7a8a">恢复</text>
+  <line x1="60" y1="335" x2="200" y2="335" stroke="#4a6130" stroke-width="1.2"/>
+  <text x="130" y="355" text-anchor="middle" font-size="12" fill="#4a6130">MTTF：平均失效前时间</text>
+  <text x="300" y="378" text-anchor="middle" font-size="12" fill="#c05621">MTTR：平均恢复前时间（检测＋修复，越短越好）</text>
+  <rect x="520" y="330" width="14" height="10" fill="#8aa15c"/>
+  <text x="540" y="339" font-size="11" fill="#22303f">运行</text>
+  <rect x="580" y="330" width="14" height="10" fill="#c05621"/>
+  <text x="600" y="339" font-size="11" fill="#22303f">修复</text>
+  <text x="360" y="415" text-anchor="middle" font-size="12.5" fill="#22303f">MTTF 对不可修复系统即平均寿命；MTTR 含确认失效、记录任务与重新投入使用的时间</text>
+</svg></div><div class="cap">定量指标与运行失效修复周期</div></div>
+<div class="mnemonic">助记：失效概率 F 单调升到 1，可靠度 R 等于 1−F；失效强度 f 是 F 的导数；故障间隔 MTBF＝失效前 MTTF＋恢复前 MTTR。</div>
+<p>两个补充概念：</p>
+<ul><li><b>软件回合（Run）</b>：软件在规定环境下的一个基本执行过程（给定输入到给出输出），是最小的、不可分的执行单位。在数据域上可把可靠度定义为「成功执行一个回合的概率」，属于静态（表态）度量；时间域上的可靠度则是动态度量。</li><li><b>软件运行剖面（Operational Profile）</b>：对系统使用条件的定义，输入值用按时间的分布或在可能输入范围内出现概率的分布来描述。它量化了定义中的「规定条件」，对应可靠性测试的测试环境与测试数据设计。</li></ul>
+<h3>9.1.3 可靠性目标</h3>
+<p><b>失效严重程度类</b>就是对用户具有相同程度影响的失效集合。分级常按对成本的影响或对系统能力的影响，通常用数量级划分等级。</p>
+<table><colgroup><col style="width:20.8%"><col style="width:61.1%"><col style="width:18.1%"></colgroup><thead><tr><th>划分标准</th><th>分级示例（教材表9-1/9-2）</th><th>适用系统</th></tr></thead><tbody><tr><td>按成本影响（5 级）</td><td>1 级＞100 万；2 级 10～100 万；3 级 1～10 万；4 级 0.1～1 万；5 级＜0.1 万</td><td>某电子商务运营系统</td></tr><tr><td>按系统能力影响（4 级）</td><td>1 级系统崩溃、重要数据不可恢复；2 级停止响应、重要数据可恢复；3 级重要操作无响应、可恢复；4 级部分操作无响应、可用其他方式替代</td><td>某电信实时计费系统</td></tr></tbody></table>
+<p>可靠性目标指客户对软件性能满意程度的期望，通常用<b>可靠度、故障强度、MTTF</b> 等指标描述。建立定量指标需在可靠性、交付时间和成本之间平衡，步骤为：确定系统运行模式 → 定义故障严重性等级 → 确定故障强度目标。</p>
+<p>⭐【易错】教材表 9-3 的趋势要记：<b>失效严重程度类越高，可靠性要求越高、允许的失效强度越低</b>——1 级要求 99.9999%（平均无失效时间约 114 年），2 级 99.99%（约 417 天），3 级 99%（约 4 天），4 级 90%（约 9 小时）。</p>
+<h3>9.1.4 可靠性测试的意义</h3>
+<ul><li>软件失效可能造成灾难性后果：教材举例——控制系统 Fortran 程序少了一个逗点，导致美国一次宇宙飞行失败。</li><li>⭐【高频考点】某研究机构统计，计算机系统的失效中约 <b>80% 与软件有关</b>；软件路径数庞大，很难用全路径覆盖测试排除所有缺陷。</li><li>软件可靠性技术不如硬件成熟：故障树分析（FTA）、失效模式与效应分析（FMEA）在硬件领域较成熟，在软件领域尚未定型。</li><li>软件费用持续增长，可靠性问题是主要原因之一；系统对软件的依赖性不断增强。</li></ul>
+<h3>9.1.5 广义的可靠性测试与狭义的可靠性测试</h3>
+<div class="def">教材原文：狭义的软件可靠性测试是指为了获取可靠性数据，按预先确定的测试用例，在软件的预期使用环境中，对软件实施的一种测试。</div>
+<p>狭义测试也叫「<b>软件可靠性试验</b>」，是面向缺陷的测试：以用户将要使用的方式测试软件，每次测试代表用户将完成的一组操作，是最终产品使用的预演，所得数据接近实际运行数据，可用于可靠性评价。广义测试则是为最终评价软件可靠性而运用<b>建模、统计、试验、分析和评价</b>等一系列手段实施的完整过程。</p>
+<div class="fig"><div><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 460" width="720" height="460" font-family="Microsoft YaHei, 微软雅黑, sans-serif">
+  <rect width="720" height="460" fill="#ffffff"/>
+  <text x="360" y="30" text-anchor="middle" font-size="22" font-weight="bold" fill="#1f4e79">广义与狭义的软件可靠性测试（教材图 9-1）</text>
+  <rect x="15" y="45" width="690" height="400" rx="10" fill="#fbfdfe" stroke="#1f4e79" stroke-width="1.5"/>
+  <text x="30" y="68" font-size="14" font-weight="bold" fill="#1f4e79">广义的软件可靠性测试</text>
+  <rect x="45" y="150" width="630" height="210" rx="8" fill="none" stroke="#6b7a8a" stroke-width="1.2" stroke-dasharray="6,4"/>
+  <rect x="290" y="80" width="140" height="44" rx="6" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.5"/>
+  <text x="360" y="107" text-anchor="middle" font-size="14" font-weight="bold" fill="#1f4e79">确定可靠性目标</text>
+  <rect x="70" y="180" width="120" height="44" rx="6" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.5"/>
+  <text x="130" y="207" text-anchor="middle" font-size="14" font-weight="bold" fill="#1f4e79">定义运行剖面</text>
+  <rect x="300" y="180" width="120" height="44" rx="6" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.5"/>
+  <text x="360" y="207" text-anchor="middle" font-size="14" font-weight="bold" fill="#1f4e79">设计测试用例</text>
+  <rect x="530" y="180" width="120" height="44" rx="6" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.5"/>
+  <text x="590" y="207" text-anchor="middle" font-size="14" font-weight="bold" fill="#1f4e79">实施测试</text>
+  <rect x="70" y="270" width="120" height="44" rx="6" fill="#fdf0e6" stroke="#c05621" stroke-width="1.5"/>
+  <text x="130" y="288" text-anchor="middle" font-size="14" font-weight="bold" fill="#c05621">排错</text>
+  <text x="130" y="306" text-anchor="middle" font-size="11" fill="#22303f">修改软件配置</text>
+  <rect x="300" y="270" width="120" height="44" rx="6" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.5"/>
+  <text x="360" y="288" text-anchor="middle" font-size="14" font-weight="bold" fill="#1f4e79">测试数据</text>
+  <text x="360" y="306" text-anchor="middle" font-size="11" fill="#22303f">测试问题集</text>
+  <text x="360" y="348" text-anchor="middle" font-size="12" fill="#6b7a8a">虚线框内＝狭义的软件可靠性测试（软件可靠性试验）</text>
+  <rect x="70" y="390" width="120" height="44" rx="6" fill="#f3f6ee" stroke="#8aa15c" stroke-width="1.5"/>
+  <text x="130" y="417" text-anchor="middle" font-size="14" font-weight="bold" fill="#4a6130">可靠性评价</text>
+  <rect x="300" y="390" width="120" height="44" rx="6" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.5"/>
+  <text x="360" y="417" text-anchor="middle" font-size="14" font-weight="bold" fill="#1f4e79">分析可靠性数据</text>
+  <rect x="530" y="390" width="120" height="44" rx="6" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.5"/>
+  <text x="590" y="408" text-anchor="middle" font-size="14" font-weight="bold" fill="#1f4e79">建模或选取模型</text>
+  <text x="590" y="426" text-anchor="middle" font-size="11" fill="#22303f">可靠性模型</text>
+  <g stroke="#1f4e79" stroke-width="1.5" fill="none">
+    <polyline points="290,102 130,102 130,169"/>
+    <line x1="190" y1="202" x2="289" y2="202"/>
+    <line x1="420" y1="202" x2="519" y2="202"/>
+    <polyline points="590,224 590,247 360,247 360,259"/>
+    <line x1="300" y1="292" x2="201" y2="292"/>
+    <line x1="360" y1="314" x2="360" y2="379"/>
+    <line x1="530" y1="412" x2="431" y2="412"/>
+    <line x1="300" y1="412" x2="201" y2="412"/>
+  </g>
+  <g fill="#1f4e79">
+    <polygon points="130,177 125.5,169 134.5,169"/>
+    <polygon points="297,202 289,197.5 289,206.5"/>
+    <polygon points="527,202 519,197.5 519,206.5"/>
+    <polygon points="360,267 355.5,259 364.5,259"/>
+    <polygon points="193,292 201,287.5 201,296.5"/>
+    <polygon points="360,387 355.5,379 364.5,379"/>
+    <polygon points="423,412 431,407.5 431,416.5"/>
+    <polygon points="193,412 201,407.5 201,416.5"/>
+  </g>
+</svg></div><div class="cap">广义与狭义的软件可靠性测试</div></div>
+<p>可靠性测试的目的可归纳为 3 方面：①发现软件在需求、设计、编码、测试和实施等方面的缺陷；②为软件使用和维护提供可靠性数据；③确认软件是否达到可靠性的定量要求。</p>
+<h3>9.2.1 影响软件可靠性的因素</h3>
+<p>软件可靠性模型是为预计或估算软件可靠性所建立的<b>可靠性框图和数学模型</b>，目的是把复杂系统的可靠性逐级分解为简单系统，以便定量预计、分配、估算和评价。建模先分析影响因素，主线是缺陷的引入、发现与清除。</p>
+<div class="fig"><div><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 420" width="720" height="420" font-family="Microsoft YaHei, 微软雅黑, sans-serif">
+  <rect width="720" height="420" fill="#ffffff"/>
+  <text x="360" y="32" text-anchor="middle" font-size="22" font-weight="bold" fill="#1f4e79">影响因素主线：缺陷的引入、发现与清除</text>
+  <rect x="40" y="60" width="200" height="120" rx="8" fill="#fdf0e6" stroke="#c05621" stroke-width="1.5"/>
+  <text x="140" y="88" text-anchor="middle" font-size="15" font-weight="bold" fill="#c05621">缺陷的引入</text>
+  <g font-size="12" fill="#22303f" text-anchor="middle">
+    <text x="140" y="115">取决于软件产品特性</text>
+    <text x="140" y="135">与开发过程特性</text>
+    <text x="140" y="155">（技术、工具、人员、</text>
+    <text x="140" y="175">需求变化频度等）</text>
+  </g>
+  <rect x="260" y="60" width="200" height="120" rx="8" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.5"/>
+  <text x="360" y="88" text-anchor="middle" font-size="15" font-weight="bold" fill="#1f4e79">缺陷的发现</text>
+  <g font-size="12" fill="#22303f" text-anchor="middle">
+    <text x="360" y="115">依靠用户对软件的</text>
+    <text x="360" y="135">操作方式、运行环境</text>
+    <text x="360" y="155">即运行剖面</text>
+  </g>
+  <rect x="480" y="60" width="200" height="120" rx="8" fill="#f3f6ee" stroke="#8aa15c" stroke-width="1.5"/>
+  <text x="580" y="88" text-anchor="middle" font-size="15" font-weight="bold" fill="#4a6130">缺陷的清除</text>
+  <g font-size="12" fill="#22303f" text-anchor="middle">
+    <text x="580" y="115">依赖失效的发现与</text>
+    <text x="580" y="135">修复活动，以及</text>
+    <text x="580" y="155">可靠性方面的投入</text>
+  </g>
+  <line x1="240" y1="120" x2="249" y2="120" stroke="#1f4e79" stroke-width="1.5"/>
+  <polygon points="257,120 249,115.5 249,124.5" fill="#1f4e79"/>
+  <line x1="440" y1="120" x2="469" y2="120" stroke="#1f4e79" stroke-width="1.5"/>
+  <polygon points="477,120 469,115.5 469,124.5" fill="#1f4e79"/>
+  <text x="360" y="225" text-anchor="middle" font-size="16" font-weight="bold" fill="#1f4e79">技术角度的五大影响因素</text>
+  <g>
+    <rect x="30" y="250" width="124" height="120" rx="8" fill="#eaf1f8" stroke="#1f4e79"/>
+    <text x="92" y="276" text-anchor="middle" font-size="13.5" font-weight="bold" fill="#1f4e79">运行剖面</text>
+    <g font-size="11" fill="#22303f" text-anchor="middle">
+      <text x="92" y="302">同一软件在不同</text>
+      <text x="92" y="320">运行剖面下，可</text>
+      <text x="92" y="338">靠性表现不同</text>
+    </g>
+    <rect x="164" y="250" width="124" height="120" rx="8" fill="#eaf1f8" stroke="#1f4e79"/>
+    <text x="226" y="276" text-anchor="middle" font-size="13.5" font-weight="bold" fill="#1f4e79">软件规模</text>
+    <g font-size="11" fill="#22303f" text-anchor="middle">
+      <text x="226" y="302">数十行与数万行</text>
+      <text x="226" y="320">代码的软件不可</text>
+      <text x="226" y="338">相提并论</text>
+    </g>
+    <rect x="298" y="250" width="124" height="120" rx="8" fill="#eaf1f8" stroke="#1f4e79"/>
+    <text x="360" y="276" text-anchor="middle" font-size="13.5" font-weight="bold" fill="#1f4e79">内部结构</text>
+    <g font-size="11" fill="#22303f" text-anchor="middle">
+      <text x="360" y="302">结构越复杂，所</text>
+      <text x="360" y="320">含缺陷数就可能</text>
+      <text x="360" y="338">越多</text>
+    </g>
+    <rect x="432" y="250" width="124" height="120" rx="8" fill="#eaf1f8" stroke="#1f4e79"/>
+    <text x="494" y="276" text-anchor="middle" font-size="13" font-weight="bold" fill="#1f4e79">开发方法与环境</text>
+    <g font-size="11" fill="#22303f" text-anchor="middle">
+      <text x="494" y="302">结构化方法比非</text>
+      <text x="494" y="320">结构方法明显减</text>
+      <text x="494" y="338">少缺陷数</text>
+    </g>
+    <rect x="566" y="250" width="124" height="120" rx="8" fill="#eaf1f8" stroke="#1f4e79"/>
+    <text x="628" y="276" text-anchor="middle" font-size="13.5" font-weight="bold" fill="#1f4e79">可靠性投入</text>
+    <g font-size="11" fill="#22303f" text-anchor="middle">
+      <text x="628" y="302">早期重视并采取</text>
+      <text x="628" y="320">措施，可靠性明</text>
+      <text x="628" y="338">显提高</text>
+    </g>
+  </g>
+  <text x="360" y="402" text-anchor="middle" font-size="12.5" fill="#22303f">缺陷引入→发现→清除构成主线索；许多因素与可靠性的定量关系至今难以确定</text>
+</svg></div><div class="cap">影响软件可靠性的因素</div></div>
+<h3>9.2.2 软件可靠性的建模方法</h3>
+<div class="fig"><div><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 445" width="720" height="445" font-family="Microsoft YaHei, 微软雅黑, sans-serif">
+  <rect width="720" height="445" fill="#ffffff"/>
+  <text x="360" y="32" text-anchor="middle" font-size="22" font-weight="bold" fill="#1f4e79">可靠性模型的 4 个组成部分与 3 个共同假设</text>
+  <text x="190" y="62" text-anchor="middle" font-size="14" font-weight="bold" fill="#6b7a8a">模型通常由 4 部分组成</text>
+  <text x="535" y="62" text-anchor="middle" font-size="14" font-weight="bold" fill="#6b7a8a">3 个共同假设（都有局限性）</text>
+  <rect x="40" y="80" width="300" height="64" rx="8" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.5"/>
+  <text x="190" y="105" text-anchor="middle" font-size="14" font-weight="bold" fill="#1f4e79">① 模型假设</text>
+  <text x="190" y="128" text-anchor="middle" font-size="12" fill="#22303f">对现实的简化或规范化，如失效独立发生</text>
+  <rect x="40" y="152" width="300" height="64" rx="8" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.5"/>
+  <text x="190" y="177" text-anchor="middle" font-size="14" font-weight="bold" fill="#1f4e79">② 性能度量</text>
+  <text x="190" y="200" text-anchor="middle" font-size="12" fill="#22303f">模型输出量，如失效强度、残留缺陷数</text>
+  <rect x="40" y="224" width="300" height="64" rx="8" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.5"/>
+  <text x="190" y="249" text-anchor="middle" font-size="14" font-weight="bold" fill="#1f4e79">③ 参数估计方法</text>
+  <text x="190" y="272" text-anchor="middle" font-size="12" fill="#22303f">间接估计无法直接实测的度量值</text>
+  <rect x="40" y="296" width="300" height="64" rx="8" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.5"/>
+  <text x="190" y="321" text-anchor="middle" font-size="14" font-weight="bold" fill="#1f4e79">④ 数据要求</text>
+  <text x="190" y="344" text-anchor="middle" font-size="12" fill="#22303f">模型运行所需的软件可靠性输入数据</text>
+  <rect x="390" y="80" width="290" height="100" rx="8" fill="#fdf0e6" stroke="#c05621" stroke-width="1.5"/>
+  <text x="535" y="108" text-anchor="middle" font-size="14" font-weight="bold" fill="#c05621">代表性假设</text>
+  <text x="535" y="136" text-anchor="middle" font-size="12" fill="#22303f">测试用例代表实际运行剖面</text>
+  <text x="535" y="158" text-anchor="middle" font-size="12" fill="#22303f">可用测试数据预测运行行为</text>
+  <rect x="390" y="188" width="290" height="100" rx="8" fill="#fdf0e6" stroke="#c05621" stroke-width="1.5"/>
+  <text x="535" y="216" text-anchor="middle" font-size="14" font-weight="bold" fill="#c05621">独立性假设</text>
+  <text x="535" y="244" text-anchor="middle" font-size="12" fill="#22303f">失效在不同时刻独立发生</text>
+  <text x="535" y="266" text-anchor="middle" font-size="12" fill="#22303f">一个失效不影响另一个失效</text>
+  <rect x="390" y="296" width="290" height="100" rx="8" fill="#fdf0e6" stroke="#c05621" stroke-width="1.5"/>
+  <text x="535" y="324" text-anchor="middle" font-size="14" font-weight="bold" fill="#c05621">相同性假设</text>
+  <text x="535" y="352" text-anchor="middle" font-size="12" fill="#22303f">所有失效的后果等级相同</text>
+  <text x="535" y="374" text-anchor="middle" font-size="12" fill="#22303f">只看发生时刻，不分严重等级</text>
+  <text x="360" y="428" text-anchor="middle" font-size="12.5" fill="#22303f">好模型的特性：假设可靠、简单、计算有用的量、能映射未来失效行为、可广泛应用</text>
+</svg></div><div class="cap">模型组成与三大共同假设</div></div>
+<p>⭐【易错】<b>估计</b>与<b>预测</b>的区别：估计是通过收集到的失效数据进行统计分析、归纳出模型参数；预测是使用软件产品自身属性和开发过程确定参数，可在开始执行程序前完成。预测未来失效行为时，若发现引入了新错误或修复使新故障不断发生，应<b>停止预测</b>，等足够多的故障出现后重新估计参数。模型一般以「固定运行环境中运行不变的程序」为估测实体，代码或运行剖面变化时应分段处理。</p>
+<h3>9.2.3 软件的可靠性模型分类</h3>
+<div class="fig"><div><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 490" width="720" height="490" font-family="Microsoft YaHei, 微软雅黑, sans-serif">
+  <rect width="720" height="490" fill="#ffffff"/>
+  <text x="360" y="32" text-anchor="middle" font-size="22" font-weight="bold" fill="#1f4e79">软件可靠性模型的十种类型</text>
+  <g>
+    <rect x="40" y="55" width="305" height="70" rx="8" fill="#eaf1f8" stroke="#1f4e79"/>
+    <text x="55" y="79" font-size="13.5" font-weight="bold" fill="#1f4e79">1. 种子法模型</text>
+    <text x="55" y="99" font-size="11.5" fill="#22303f">预先播种设定错误，按原始错误与诱导</text>
+    <text x="55" y="116" font-size="11.5" fill="#22303f">错误比例，估计程序中残留的错误数</text>
+    <rect x="375" y="55" width="305" height="70" rx="8" fill="#eaf1f8" stroke="#1f4e79"/>
+    <text x="390" y="79" font-size="13.5" font-weight="bold" fill="#1f4e79">2. 失效率类模型</text>
+    <text x="390" y="99" font-size="11.5" fill="#22303f">研究程序失效率，如 Jelinski-Moranda、</text>
+    <text x="390" y="116" font-size="11.5" fill="#22303f">Schick-Wolverton 等模型</text>
+    <rect x="40" y="135" width="305" height="70" rx="8" fill="#eaf1f8" stroke="#1f4e79"/>
+    <text x="55" y="159" font-size="13.5" font-weight="bold" fill="#1f4e79">3. 曲线拟合类模型</text>
+    <text x="55" y="179" font-size="11.5" fill="#22303f">用回归分析研究软件复杂性、缺陷数、</text>
+    <text x="55" y="196" font-size="11.5" fill="#22303f">失效率与失效间隔时间</text>
+    <rect x="375" y="135" width="305" height="70" rx="8" fill="#eaf1f8" stroke="#1f4e79"/>
+    <text x="390" y="159" font-size="13.5" font-weight="bold" fill="#1f4e79">4. 可靠性增长模型</text>
+    <text x="390" y="179" font-size="11.5" fill="#22303f">用增长函数描述检错过程中的可靠性改</text>
+    <text x="390" y="196" font-size="11.5" fill="#22303f">进，如 Duane、Weibull 模型</text>
+    <rect x="40" y="215" width="305" height="70" rx="8" fill="#eaf1f8" stroke="#1f4e79"/>
+    <text x="55" y="239" font-size="13.5" font-weight="bold" fill="#1f4e79">5. 程序结构分析模型</text>
+    <text x="55" y="259" font-size="11.5" fill="#22303f">按模块调用关系组成分析网络，合成整</text>
+    <text x="55" y="276" font-size="11.5" fill="#22303f">体可靠性，如 Cheung 模型</text>
+    <rect x="375" y="215" width="305" height="70" rx="8" fill="#eaf1f8" stroke="#1f4e79"/>
+    <text x="390" y="239" font-size="13.5" font-weight="bold" fill="#1f4e79">6. 输入域分类模型</text>
+    <text x="390" y="259" font-size="11.5" fill="#22303f">按输入域样本点的使用概率与测试结果</text>
+    <text x="390" y="276" font-size="11.5" fill="#22303f">推断使用可靠性，如 Nelson 模型</text>
+    <rect x="40" y="295" width="305" height="70" rx="8" fill="#eaf1f8" stroke="#1f4e79"/>
+    <text x="55" y="319" font-size="13.5" font-weight="bold" fill="#1f4e79">7. 执行路径分析方法模型</text>
+    <text x="55" y="339" font-size="11.5" fill="#22303f">先算各逻辑路径与错误路径的执行概率，</text>
+    <text x="55" y="356" font-size="11.5" fill="#22303f">再综合出软件的使用可靠性</text>
+    <rect x="375" y="295" width="305" height="70" rx="8" fill="#eaf1f8" stroke="#1f4e79"/>
+    <text x="390" y="319" font-size="13.5" font-weight="bold" fill="#1f4e79">8. 非齐次泊松过程模型（NHPP）</text>
+    <text x="390" y="339" font-size="11.5" fill="#22303f">以单位时间失效次数为独立泊松变量，</text>
+    <text x="390" y="356" font-size="11.5" fill="#22303f">预测累计失效数，如 G-O 模型</text>
+    <rect x="40" y="375" width="305" height="70" rx="8" fill="#eaf1f8" stroke="#1f4e79"/>
+    <text x="55" y="399" font-size="13.5" font-weight="bold" fill="#1f4e79">9. 马尔可夫过程模型</text>
+    <text x="55" y="419" font-size="11.5" fill="#22303f">如完全改错、不完全改错的线性死亡模</text>
+    <text x="55" y="436" font-size="11.5" fill="#22303f">型，以及非静态线性死亡模型</text>
+    <rect x="375" y="375" width="305" height="70" rx="8" fill="#eaf1f8" stroke="#1f4e79"/>
+    <text x="390" y="399" font-size="13.5" font-weight="bold" fill="#1f4e79">10. 贝叶斯分析模型</text>
+    <text x="390" y="419" font-size="11.5" fill="#22303f">利用失效率先验分布与当前测试失效信</text>
+    <text x="390" y="436" font-size="11.5" fill="#22303f">息评估可靠性，适合继承性好的软件</text>
+  </g>
+  <text x="360" y="472" text-anchor="middle" font-size="12.5" fill="#22303f">Musa 与 Okumoto 另按时间域、失效数类、失效数分布、有限/无限类对模型分类</text>
+</svg></div><div class="cap">软件可靠性模型十种类型</div></div>
+<div class="mnemonic">助记：十类模型——「种失曲增、结输入路、泊马贝」：种子法、失效率、曲线拟合、可靠性增长；程序结构、输入域、执行路径；非齐次泊松（NHPP）、马尔可夫、贝叶斯。</div>
+<h3>9.3 软件可靠性管理</h3>
+<p>软件可靠性管理是软件工程管理的一部分，以全面提高和保证软件可靠性为目标，把现代管理理论用于软件生命周期中的可靠性保障活动，内容包括各阶段可靠性活动的目标、计划、进度、任务和修正措施等。</p>
+<div class="fig"><div><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 415" width="720" height="415" font-family="Microsoft YaHei, 微软雅黑, sans-serif">
+  <rect width="720" height="415" fill="#ffffff"/>
+  <text x="360" y="32" text-anchor="middle" font-size="22" font-weight="bold" fill="#1f4e79">软件可靠性管理：贯穿软件开发全过程</text>
+  <g stroke="#1f4e79" stroke-width="1.5" fill="none">
+    <line x1="115" y1="96" x2="115" y2="103"/>
+    <line x1="115" y1="148" x2="115" y2="155"/>
+    <line x1="115" y1="200" x2="115" y2="207"/>
+    <line x1="115" y1="252" x2="115" y2="259"/>
+    <line x1="115" y1="304" x2="115" y2="311"/>
+  </g>
+  <g fill="#1f4e79">
+    <polygon points="115,109 110.5,103 119.5,103"/>
+    <polygon points="115,161 110.5,155 119.5,155"/>
+    <polygon points="115,213 110.5,207 119.5,207"/>
+    <polygon points="115,265 110.5,259 119.5,259"/>
+    <polygon points="115,317 110.5,311 119.5,311"/>
+  </g>
+  <g>
+    <rect x="60" y="60" width="110" height="36" rx="6" fill="#1f4e79"/>
+    <text x="115" y="84" text-anchor="middle" font-size="14" font-weight="bold" fill="#ffffff">需求分析</text>
+    <text x="200" y="84" font-size="12.5" fill="#22303f">确定可靠性目标与验收标准，制定管理框架、文档与数据收集规范</text>
+    <rect x="60" y="112" width="110" height="36" rx="6" fill="#1f4e79"/>
+    <text x="115" y="136" text-anchor="middle" font-size="14" font-weight="bold" fill="#ffffff">概要设计</text>
+    <text x="200" y="136" font-size="12.5" fill="#22303f">确定可靠性度量，制定详细验收方案，开展可靠性设计</text>
+    <rect x="60" y="164" width="110" height="36" rx="6" fill="#1f4e79"/>
+    <text x="115" y="188" text-anchor="middle" font-size="14" font-weight="bold" fill="#ffffff">详细设计</text>
+    <text x="200" y="188" font-size="12.5" fill="#22303f">可靠性设计与可靠性预测（确定可靠性度量估计值）</text>
+    <rect x="60" y="216" width="110" height="36" rx="6" fill="#1f4e79"/>
+    <text x="115" y="240" text-anchor="middle" font-size="14" font-weight="bold" fill="#ffffff">编码</text>
+    <text x="200" y="240" font-size="12.5" fill="#22303f">可靠性测试（含于单元测试）与排错</text>
+    <rect x="60" y="268" width="110" height="36" rx="6" fill="#1f4e79"/>
+    <text x="115" y="292" text-anchor="middle" font-size="14" font-weight="bold" fill="#ffffff">测试</text>
+    <text x="200" y="292" font-size="12.5" fill="#22303f">可靠性测试（含于集成、系统测试），可靠性建模与评价</text>
+    <rect x="60" y="320" width="110" height="36" rx="6" fill="#1f4e79"/>
+    <text x="115" y="344" text-anchor="middle" font-size="14" font-weight="bold" fill="#ffffff">实施</text>
+    <text x="200" y="344" font-size="12.5" fill="#22303f">可靠性测试（含于验收测试），调整模型并做可靠性评价</text>
+  </g>
+  <rect x="40" y="368" width="640" height="34" rx="6" fill="#f3f6ee" stroke="#8aa15c"/>
+  <text x="360" y="390" text-anchor="middle" font-size="12" fill="#4a6130">各阶段共同活动：调整活动计划、收集可靠性数据、明确后续详细计划、编制可靠性文档</text>
+</svg></div><div class="cap">各开发阶段的可靠性活动</div></div>
+<p>⭐【易错】各阶段活动并非每个软件系统的必须内容，也不是全部内容，应按软件差异与可靠性投入裁剪。目前可靠性管理仍停留在<b>定性描述</b>水平，很难用量化指标管理。</p>
+<h3>9.4 软件可靠性设计</h3>
+<p>⭐【重点】【高频考点】实践证明，保障软件可靠性<b>最有效、最经济、最重要的手段是在软件设计阶段采取措施进行可靠性控制</b>（章首与 9.4 两次强调）。测试排错只能有限改善可靠性，不能根本提高，且修改设计缺陷代价昂贵。</p>
+<p>可靠性设计三原则：①是软件设计的一部分，须在总体设计框架中使用、不与其他设计原则冲突；②在满足提高软件质量的前提下，以提高和保障可靠性为最终目标；③应确定可靠性目标、不能无限扩大化，并排在<b>功能度、用户需求和开发费用之后</b>考虑。</p>
+<h3>9.4.1 容错设计技术</h3>
+<p>适用于失效后果特别严重的场合（飞机飞控、空中交通管制、核反应堆安全控制）。常用三种方法：</p>
+<table><colgroup><col style="width:11.1%"><col style="width:44.4%"><col style="width:44.4%"></colgroup><thead><tr><th>方法</th><th>核心机制</th><th>关键点</th></tr></thead><tbody><tr><td class="tc">恢复块设计</td><td>恢复块含若干功能相同、设计差异的程序块文本，每一时刻一个文本运行，故障时用备份文本替换</td><td>属于「动态冗余」；被选择的块可以是模块、过程、子程序、程序段</td></tr><tr><td class="tc">N 版本程序设计</td><td>多个版本对相同初始条件和输入的操作结果实行多数表决，防止单一版本故障提供错误服务</td><td>需求说明完全精确（设计错误不相关的前提）；设计全过程不相关（不同算法、语言、工具、人员不交流）</td></tr><tr><td class="tc">冗余设计</td><td>在完整软件之外，用不同路径、不同算法或不同实现方法的模块/系统做备份，故障时替换</td><td>相同两套软件互备意义不大；增加存储、内存与运行时间，需折中</td></tr></tbody></table>
+<div class="fig"><div><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 450" width="720" height="450" font-family="Microsoft YaHei, 微软雅黑, sans-serif">
+  <rect width="720" height="450" fill="#ffffff"/>
+  <text x="360" y="32" text-anchor="middle" font-size="22" font-weight="bold" fill="#1f4e79">软件容错设计：恢复块与 N 版本程序设计</text>
+  <text x="190" y="62" text-anchor="middle" font-size="15" font-weight="bold" fill="#1f4e79">恢复块设计（动态冗余）</text>
+  <rect x="40" y="80" width="300" height="170" rx="8" fill="#fbfdfe" stroke="#1f4e79" stroke-width="1.5"/>
+  <rect x="60" y="105" width="200" height="34" rx="5" fill="#f3f6ee" stroke="#8aa15c" stroke-width="1.5"/>
+  <text x="160" y="127" text-anchor="middle" font-size="13" font-weight="bold" fill="#4a6130">主文本（运行中）</text>
+  <rect x="60" y="150" width="200" height="34" rx="5" fill="#eaf1f8" stroke="#1f4e79"/>
+  <text x="160" y="172" text-anchor="middle" font-size="13" fill="#1f4e79">备份文本 1</text>
+  <rect x="60" y="195" width="200" height="34" rx="5" fill="#eaf1f8" stroke="#1f4e79"/>
+  <text x="160" y="217" text-anchor="middle" font-size="13" fill="#1f4e79">备份文本 2</text>
+  <text x="272" y="163" font-size="12" fill="#c05621">故障时</text>
+  <text x="272" y="183" font-size="12" fill="#c05621">用备份替换</text>
+  <text x="190" y="285" text-anchor="middle" font-size="12" fill="#22303f">选择一组操作作为容错设计单元</text>
+  <text x="190" y="307" text-anchor="middle" font-size="12" fill="#22303f">每一时刻只有一个文本处于运行状态</text>
+  <text x="535" y="62" text-anchor="middle" font-size="15" font-weight="bold" fill="#1f4e79">N 版本程序设计（多数表决）</text>
+  <text x="535" y="88" text-anchor="middle" font-size="12" fill="#22303f">相同初始条件与输入，分别运行 N 个版本</text>
+  <rect x="420" y="105" width="90" height="34" rx="5" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.5"/>
+  <text x="465" y="127" text-anchor="middle" font-size="13" fill="#1f4e79">版本 1</text>
+  <rect x="420" y="150" width="90" height="34" rx="5" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.5"/>
+  <text x="465" y="172" text-anchor="middle" font-size="13" fill="#1f4e79">版本 2</text>
+  <rect x="420" y="195" width="90" height="34" rx="5" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.5"/>
+  <text x="465" y="217" text-anchor="middle" font-size="13" fill="#1f4e79">版本 3</text>
+  <rect x="590" y="135" width="90" height="60" rx="6" fill="#fdf0e6" stroke="#c05621" stroke-width="1.5"/>
+  <text x="635" y="170" text-anchor="middle" font-size="14" font-weight="bold" fill="#c05621">多数表决</text>
+  <rect x="580" y="230" width="110" height="34" rx="5" fill="#f3f6ee" stroke="#8aa15c" stroke-width="1.5"/>
+  <text x="635" y="252" text-anchor="middle" font-size="13" font-weight="bold" fill="#4a6130">输出正确结果</text>
+  <g stroke="#1f4e79" stroke-width="1.5" fill="none">
+    <polyline points="510,122 550,122 550,150 579,150"/>
+    <line x1="510" y1="167" x2="579" y2="167"/>
+    <polyline points="510,212 550,212 550,184 579,184"/>
+    <line x1="635" y1="195" x2="635" y2="219"/>
+  </g>
+  <g fill="#1f4e79">
+    <polygon points="587,150 579,145.5 579,154.5"/>
+    <polygon points="587,167 579,162.5 579,171.5"/>
+    <polygon points="587,184 579,179.5 579,188.5"/>
+    <polygon points="635,227 630.5,219 639.5,219"/>
+  </g>
+  <text x="535" y="290" text-anchor="middle" font-size="12" fill="#22303f">前提：需求说明完全精确；</text>
+  <text x="535" y="312" text-anchor="middle" font-size="12" fill="#22303f">各版本设计全过程不相关</text>
+  <rect x="40" y="335" width="640" height="95" rx="8" fill="#f3f6ee" stroke="#8aa15c" stroke-width="1.5"/>
+  <text x="60" y="360" font-size="14" font-weight="bold" fill="#4a6130">冗余设计</text>
+  <text x="60" y="382" font-size="12" fill="#22303f">在一套完整软件之外，用不同路径、不同算法或不同实现方法做备份，故障时替换以维持运行</text>
+  <text x="60" y="402" font-size="12" fill="#22303f">相同两套软件互备意义不大：相同运行环境下，一套出故障的地方另一套也会出故障</text>
+  <text x="60" y="422" font-size="12" fill="#22303f">代价：存储空间、内存消耗与运行时间增加，需与可靠性要求折中</text>
+</svg></div><div class="cap">恢复块与N版本程序设计</div></div>
+<div class="example">举例：N 版本像三位互不商量的司机各自独立规划路线，按多数一致的路线行驶——一位规划出错不会带偏整支队伍；但若三人照抄同一份错误地图（需求说明不精确），仍会一起走错。</div>
+<h3>9.4.2 检错技术</h3>
+<p>对无须在线容错或不能采用冗余设计、但可靠性要求较高的部分，用检错技术在故障后及时发现并报警，提醒维护人员处理。⭐【重点】检错实现代价一般<b>低于</b>容错和冗余，但<b>不能自动解决故障</b>，无人干预最终将导致系统不能正常运行。</p>
+<div class="fig"><div><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 390" width="720" height="390" font-family="Microsoft YaHei, 微软雅黑, sans-serif">
+  <rect width="720" height="390" fill="#ffffff"/>
+  <text x="360" y="32" text-anchor="middle" font-size="22" font-weight="bold" fill="#1f4e79">检错设计：四个重点考虑要素</text>
+  <g>
+    <rect x="30" y="60" width="150" height="180" rx="8" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.5"/>
+    <text x="105" y="88" text-anchor="middle" font-size="14" font-weight="bold" fill="#1f4e79">① 检测对象</text>
+    <g font-size="11.5" fill="#22303f" text-anchor="middle">
+      <text x="105" y="115">检测点：放在容易</text>
+      <text x="105" y="134">出错、出错影响大</text>
+      <text x="105" y="153">的地方</text>
+      <text x="105" y="172">检测内容：选有代</text>
+      <text x="105" y="191">表性、易判断的指</text>
+      <text x="105" y="210">标</text>
+    </g>
+    <rect x="200" y="60" width="150" height="180" rx="8" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.5"/>
+    <text x="275" y="88" text-anchor="middle" font-size="14" font-weight="bold" fill="#1f4e79">② 检测延时</text>
+    <g font-size="11.5" fill="#22303f" text-anchor="middle">
+      <text x="275" y="115">故障发生到被自</text>
+      <text x="275" y="134">检出来的延时</text>
+      <text x="275" y="153">延时长到影响及</text>
+      <text x="275" y="172">时报警时，需更换</text>
+      <text x="275" y="191">检测对象或方式</text>
+    </g>
+    <rect x="370" y="60" width="150" height="180" rx="8" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.5"/>
+    <text x="445" y="88" text-anchor="middle" font-size="14" font-weight="bold" fill="#1f4e79">③ 实现方式</text>
+    <g font-size="11.5" fill="#22303f" text-anchor="middle">
+      <text x="445" y="115">判断返回结果是</text>
+      <text x="445" y="134">否超出正常范围</text>
+      <text x="445" y="153">计算模块运行时间</text>
+      <text x="445" y="172">是否超过预期</text>
+      <text x="445" y="191">置状态标志位</text>
+    </g>
+    <rect x="540" y="60" width="150" height="180" rx="8" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.5"/>
+    <text x="615" y="88" text-anchor="middle" font-size="14" font-weight="bold" fill="#1f4e79">④ 处理方式</text>
+    <g font-size="11.5" fill="#22303f" text-anchor="middle">
+      <text x="615" y="115">多数采用：查出</text>
+      <text x="615" y="134">故障→停止运行</text>
+      <text x="615" y="153">→报警</text>
+      <text x="615" y="172">也可不停或部分</text>
+      <text x="615" y="191">停止，视故障是否</text>
+      <text x="615" y="210">需实时处理而定</text>
+    </g>
+  </g>
+  <rect x="60" y="280" width="160" height="44" rx="6" fill="#fdf0e6" stroke="#c05621" stroke-width="1.5"/>
+  <text x="140" y="307" text-anchor="middle" font-size="14" font-weight="bold" fill="#c05621">查出故障</text>
+  <rect x="280" y="280" width="160" height="44" rx="6" fill="#fdf0e6" stroke="#c05621" stroke-width="1.5"/>
+  <text x="360" y="307" text-anchor="middle" font-size="14" font-weight="bold" fill="#c05621">停止或降级运行</text>
+  <rect x="500" y="280" width="160" height="44" rx="6" fill="#fdf0e6" stroke="#c05621" stroke-width="1.5"/>
+  <text x="580" y="307" text-anchor="middle" font-size="14" font-weight="bold" fill="#c05621">报警并人工干预</text>
+  <line x1="220" y1="302" x2="269" y2="302" stroke="#1f4e79" stroke-width="1.5"/>
+  <polygon points="277,302 269,297.5 269,306.5" fill="#1f4e79"/>
+  <line x1="440" y1="302" x2="489" y2="302" stroke="#1f4e79" stroke-width="1.5"/>
+  <polygon points="497,302 489,297.5 489,306.5" fill="#1f4e79"/>
+  <text x="360" y="365" text-anchor="middle" font-size="12.5" fill="#22303f">检错代价低于容错与冗余，但不能自动解决故障，适用于无须在线容错或不能冗余的部分</text>
+</svg></div><div class="cap">检错设计四要素</div></div>
+<h3>9.4.3 降低复杂度设计</h3>
+<p>软件复杂性分为<b>模块复杂性</b>（模块内部数据流向和程序长度）与<b>结构复杂性</b>（不同模块之间的关联程度）。复杂度是产生软件缺陷的重要根源：⭐【易错】当复杂度超过一定界限时，缺陷数急剧上升、可靠性急剧下降。降低复杂度设计就是在保证功能的前提下，简化软件结构、缩短代码长度、优化数据流向。硬件领域成熟的 FTA、FMEA 也可尝试用于软件设计，但因软硬件性质差异巨大，应用效果和范围极其有限。</p>
+<h3>9.4.4 系统配置技术</h3>
+<p>双机热备由两台服务器、外接共享磁盘阵列柜和双机热备份软件组成：操作系统与应用程序装在各自本地系统盘，用户数据放在共享磁盘阵列中；主机故障时备机主动替代，保证服务不中断。「<b>心跳</b>」指主从系统按一定时间间隔互发通信信号表明各自运行状态，心跳表明主机故障或备机收不到心跳时，高可用管理软件立即把系统资源转移到备用系统。</p>
+<div class="fig"><div><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 430" width="720" height="430" font-family="Microsoft YaHei, 微软雅黑, sans-serif">
+  <rect width="720" height="430" fill="#ffffff"/>
+  <text x="360" y="32" text-anchor="middle" font-size="22" font-weight="bold" fill="#1f4e79">双机热备：组成、心跳与三种工作模式</text>
+  <rect x="50" y="80" width="120" height="54" rx="6" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.5"/>
+  <text x="110" y="103" text-anchor="middle" font-size="14" font-weight="bold" fill="#1f4e79">服务器 A</text>
+  <text x="110" y="122" text-anchor="middle" font-size="11" fill="#22303f">（主机 Active）</text>
+  <rect x="50" y="200" width="120" height="54" rx="6" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.5"/>
+  <text x="110" y="223" text-anchor="middle" font-size="14" font-weight="bold" fill="#1f4e79">服务器 B</text>
+  <text x="110" y="242" text-anchor="middle" font-size="11" fill="#22303f">（备机 Standby）</text>
+  <rect x="230" y="140" width="110" height="54" rx="6" fill="#f3f6ee" stroke="#8aa15c" stroke-width="1.5"/>
+  <text x="285" y="163" text-anchor="middle" font-size="13" font-weight="bold" fill="#4a6130">共享磁盘阵列</text>
+  <text x="285" y="183" text-anchor="middle" font-size="10.5" fill="#22303f">用户数据集中管理</text>
+  <g stroke="#c05621" stroke-width="1.5" fill="none">
+    <line x1="95" y1="134" x2="95" y2="189"/>
+    <line x1="125" y1="200" x2="125" y2="145"/>
+  </g>
+  <polygon points="95,197 90.5,189 99.5,189" fill="#c05621"/>
+  <polygon points="125,137 120.5,145 129.5,145" fill="#c05621"/>
+  <text x="140" y="170" font-size="12" fill="#c05621">心跳</text>
+  <g stroke="#1f4e79" stroke-width="1.5" fill="none">
+    <polyline points="170,107 200,107 200,160 219,160"/>
+    <polyline points="170,227 200,227 200,178 219,178"/>
+  </g>
+  <g fill="#1f4e79">
+    <polygon points="227,160 219,155.5 219,164.5"/>
+    <polygon points="227,178 219,173.5 219,182.5"/>
+  </g>
+  <text x="185" y="290" text-anchor="middle" font-size="11.5" fill="#22303f">心跳异常或中断即判定主机故障，</text>
+  <text x="185" y="310" text-anchor="middle" font-size="11.5" fill="#22303f">备机接管系统资源，保证服务不中断</text>
+  <rect x="380" y="60" width="310" height="90" rx="8" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.5"/>
+  <text x="395" y="85" font-size="13.5" font-weight="bold" fill="#1f4e79">双机热备模式（Active/Standby）</text>
+  <text x="395" y="109" font-size="11.5" fill="#22303f">主机工作、备机监控准备，数据同时写入多台</text>
+  <text x="395" y="128" font-size="11.5" fill="#22303f">保证同步；备机长期空闲，存在计算资源浪费</text>
+  <rect x="380" y="165" width="310" height="90" rx="8" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.5"/>
+  <text x="395" y="190" font-size="13.5" font-weight="bold" fill="#1f4e79">双机互备模式</text>
+  <text x="395" y="214" font-size="11.5" fill="#22303f">两台各运行相对独立的应用并互为备机，故障</text>
+  <text x="395" y="233" font-size="11.5" fill="#22303f">时相互接管应用；对服务器性能要求比较高</text>
+  <rect x="380" y="270" width="310" height="90" rx="8" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.5"/>
+  <text x="395" y="295" font-size="13.5" font-weight="bold" fill="#1f4e79">双机双工模式</text>
+  <text x="395" y="319" font-size="11.5" fill="#22303f">双活运行相同应用，负载均衡又互为备份，属</text>
+  <text x="395" y="338" font-size="11.5" fill="#22303f">集群的一种形式；Web、FTP 服务器用得较多</text>
+  <rect x="40" y="380" width="640" height="36" rx="6" fill="#f3f6ee" stroke="#8aa15c"/>
+  <text x="360" y="403" text-anchor="middle" font-size="12" fill="#4a6130">服务器集群：多台独立服务器组合为单一系统统一管理，故障结点的应用由其他结点自动接管</text>
+</svg></div><div class="cap">双机热备与三种工作模式</div></div>
+<div class="mnemonic">助记：热备一主一备（Active/Standby，有资源浪费）；互备各跑应用、互为主备（性能要求高）；双工双活同应用（负载均衡，Web/FTP 常用）。</div>
+<p>服务器集群是一组相互独立的服务器在网络中组合成单一系统并以单一系统模式管理，通常拥有共同名称；结点故障时其应用由其他结点自动接管，可透明加入构件。</p>
+<h3>9.5.1 软件可靠性测试概述</h3>
+<p>可靠性测试由<b>可靠性目标的确定、运行剖面的开发、测试用例的设计、测试实施、测试结果的分析</b>等主要活动组成。⭐【易错】划分测试、随机测试、覆盖测试等都是面向错误的测试，其结果数据<b>不能直接用于可靠性评价</b>，必须经过分析处理后才能使用可靠性模型进行评价。可靠性测试最好在受控的自动测试环境下由专业机构完成，并考虑对开发进度和成本的影响。</p>
+<h3>9.5.2 定义软件运行剖面</h3>
+<p>定义运行剖面首先为软件使用行为建模，可采用<b>马尔可夫链</b>：把输入域编码为代表用户观点的使用状态集，弧表示激励导致的状态转换，弧上分配转换概率，可用有向图或转换矩阵表示。随后开发使用模型，将输入域分层。</p>
+<div class="fig"><div><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 425" width="720" height="425" font-family="Microsoft YaHei, 微软雅黑, sans-serif">
+  <rect width="720" height="425" fill="#ffffff"/>
+  <text x="360" y="32" text-anchor="middle" font-size="22" font-weight="bold" fill="#1f4e79">定义运行剖面：马尔可夫链建模</text>
+  <text x="40" y="60" font-size="12.5" fill="#22303f">状态＝用户使用方式；弧＝激励导致的转换；弧上概率＝典型用户施加该激励的可能性</text>
+  <rect x="30" y="110" width="104" height="46" rx="23" fill="#fdf0e6" stroke="#c05621" stroke-width="1.5"/>
+  <text x="82" y="139" text-anchor="middle" font-size="13" font-weight="bold" fill="#c05621">起飞</text>
+  <rect x="170" y="110" width="104" height="46" rx="23" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.5"/>
+  <text x="222" y="139" text-anchor="middle" font-size="13" font-weight="bold" fill="#1f4e79">正常飞行</text>
+  <rect x="310" y="110" width="104" height="46" rx="23" fill="#fdf0e6" stroke="#c05621" stroke-width="1.5"/>
+  <text x="362" y="139" text-anchor="middle" font-size="13" font-weight="bold" fill="#c05621">降落</text>
+  <rect x="450" y="110" width="104" height="46" rx="23" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.5"/>
+  <text x="502" y="139" text-anchor="middle" font-size="13" font-weight="bold" fill="#1f4e79">地面运动</text>
+  <rect x="590" y="110" width="104" height="46" rx="23" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.5"/>
+  <text x="642" y="139" text-anchor="middle" font-size="13" font-weight="bold" fill="#1f4e79">地面等待</text>
+  <g stroke="#1f4e79" stroke-width="1.5" fill="none">
+    <line x1="134" y1="133" x2="159" y2="133"/>
+    <line x1="274" y1="133" x2="299" y2="133"/>
+    <line x1="414" y1="133" x2="439" y2="133"/>
+    <line x1="554" y1="133" x2="579" y2="133"/>
+  </g>
+  <g fill="#1f4e79">
+    <polygon points="167,133 159,128.5 159,137.5"/>
+    <polygon points="307,133 299,128.5 299,137.5"/>
+    <polygon points="447,133 439,128.5 439,137.5"/>
+    <polygon points="587,133 579,128.5 579,137.5"/>
+  </g>
+  <g font-size="11" fill="#6b7a8a" text-anchor="middle">
+    <text x="152" y="122">0.9</text>
+    <text x="292" y="122">0.8</text>
+    <text x="432" y="122">1.0</text>
+    <text x="572" y="122">0.7</text>
+  </g>
+  <text x="360" y="185" text-anchor="middle" font-size="12" fill="#c05621">起飞、降落：运行剖面占比小却故障占比大，高安全软件应单独构造运行剖面（概率仅示意）</text>
+  <rect x="40" y="215" width="310" height="95" rx="8" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.5"/>
+  <text x="195" y="241" text-anchor="middle" font-size="14" font-weight="bold" fill="#1f4e79">用户级分层</text>
+  <text x="195" y="267" text-anchor="middle" font-size="12" fill="#22303f">按“谁或什么能激励系统”分层</text>
+  <text x="195" y="289" text-anchor="middle" font-size="12" fill="#22303f">考虑各类用户及其使用方式</text>
+  <rect x="370" y="215" width="310" height="95" rx="8" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.5"/>
+  <text x="525" y="241" text-anchor="middle" font-size="14" font-weight="bold" fill="#1f4e79">用法级分层</text>
+  <text x="525" y="267" text-anchor="middle" font-size="12" fill="#22303f">按“测试状态下系统能做什么”分层</text>
+  <text x="525" y="289" text-anchor="middle" font-size="12" fill="#22303f">考虑系统能够提供的所有功能</text>
+  <rect x="40" y="335" width="640" height="70" rx="8" fill="#f3f6ee" stroke="#8aa15c" stroke-width="1.5"/>
+  <text x="360" y="359" text-anchor="middle" font-size="13" font-weight="bold" fill="#4a6130">弧上概率的估计来源（优先级从高到低）</text>
+  <text x="360" y="385" text-anchor="middle" font-size="12" fill="#22303f">① 实际用户数据（原型、上一版本）＞ ② 用户与专家预期数据 ＞ ③ 各弧等概率（最差）</text>
+</svg></div><div class="cap">马尔可夫链定义运行剖面</div></div>
+<p>⭐【易错】教材飞控例：正常飞行、起飞、降落、地面运动、地面等待 5 个状态中，起飞和降落在运行剖面上只占很小百分比，却占很大故障比例。因此对边界、跃迁情况和关键功能<b>不应只按简单运行剖面测试</b>，应构造专门的运行剖面、补充统计模型之外的测试用例；一个产品可为关键操作单独定义多个运行剖面。</p>
+<h3>9.5.3 可靠性测试用例设计</h3>
+<p>测试用例要反映实际使用情况、镜像运行剖面；为剖面中每个元素定量赋予发生概率值和关键因子，据此分配测试资源，<b>优先测试最重要或最频繁使用的功能</b>，尽早发现对可靠性影响最大的故障。用例选择既要一般情况，也要极限情况和最大最小边界值。</p>
+<p>典型测试用例的 8 个组成部分：①测试用例标识；②被测对象；③测试环境及条件；④测试输入；⑤操作步骤；⑥预期输出；⑦判断输出结果是否符合标准；⑧测试对象的特殊需求。</p>
+<p>除常规用例外，还要重点考虑与可靠性密切相关的特殊情况（可适当「强化输入」，即比正常输入更恶劣但合理程度内的输入）：</p>
+<table><colgroup><col style="width:10.9%"><col style="width:29.1%"><col style="width:60.0%"></colgroup><thead><tr><th>序号</th><th>测试目的</th><th>关注内容（教材表9-4）</th></tr></thead><tbody><tr><td class="tc">1</td><td>屏蔽用户操作错误</td><td>对常见误操作的提示和屏蔽情况</td></tr><tr><td class="tc">2</td><td>错误提示的准确性</td><td>对用户的错误提示是否准确描述</td></tr><tr><td class="tc">3</td><td>错误是否导致系统异常退出</td><td>有无操作错误引起系统异常退出</td></tr><tr><td class="tc">4</td><td>数据可靠性</td><td>输入数据有效性检查，冗余数据过滤、校验和清洗</td></tr><tr><td class="tc">5</td><td>异常情况的影响</td><td>硬件故障、网络故障、部分软件模块失效后的受损程度与补救工具</td></tr></tbody></table>
+<h3>9.5.4 可靠性测试的实施</h3>
+<p>⭐【重点】可靠性测试必须是<b>受控测试</b>：为保证统计数据有效，测试过程中每个测试用例必须用<b>相同的软件版本</b>，新的软件版本意味着新测试的开始。</p>
+<p>⭐【易错】需要补充非统计测试（如覆盖测试）时，最佳选择是两者都执行；非统计测试若在可靠性测试<b>之前</b>完成，统计数据仍然有效；若在<b>之后</b>执行，可能影响可靠性评估的准确性。</p>
+<p>实施难点是判断用例运行成功还是失败（可测试性问题）。对输出难以逐项验证的科学计算软件，可分两个阶段：第一阶段运行较少量用例并对照规范仔细检查；第二阶段运行大量用例，不再逐项人工检查，只找错误信息、断电、崩溃、死机等失效现象，或把输出记录到文件后用搜索、过滤方法处理。若计算正确性无法验证，则需形式化证明。</p>
+<p>⭐【重点】用时间定义的可靠性数据分 4 类，可互相转化：</p>
+<table><colgroup><col style="width:40.0%"><col style="width:60.0%"></colgroup><thead><tr><th>数据类型</th><th>记录内容</th></tr></thead><tbody><tr><td>失效时间数据</td><td>发生一次失效所累积经历的时间</td></tr><tr><td>失效间隔时间数据</td><td>本次失效与上一次失效之间的间隔时间</td></tr><tr><td>分组时间内的失效数</td><td>某个时间区间内发生了多少次失效</td></tr><tr><td>分组时间的累积失效数</td><td>到某个区间为止的累积失效数</td></tr></tbody></table>
+<p>每个测试记录必须包含：测试时间、含测试用例的测试说明或标识、所有测试结果（包括失效数据）、测试人员。为积累更多数据，应使用多台计算机同时运行软件以增加累计运行时间，并建立软件错误报告、分析与纠正措施系统。测试结束后编写《软件可靠性测试报告》（可参考 GJB 438A-97 剪裁），内容包括：软件产品标识、测试环境配置（软硬件）、测试依据、测试结果、测试问题、测试时间。</p>
+<h3>9.6 软件可靠性评价</h3>
+<p>评价过程包括 3 个方面：<b>选择可靠性模型 → 收集可靠性数据 → 可靠性评估和预测</b>。开发过程中用于估计当前可靠性、判断能否终止测试并发布、预计达标所需时间与工作量；对最终产品则结合可靠性验证测试，确定产品达到的可靠性水平。</p>
+<p>⭐【重点】选择可靠性模型需比较 4 个方面：</p>
+<table><colgroup><col style="width:25.9%"><col style="width:74.1%"></colgroup><thead><tr><th>方面</th><th>要点</th></tr></thead><tbody><tr><td>模型假设的适用性</td><td>逐条分析假设；如模型假定缺陷立即排除而实际低严重级缺陷不立即排错，则模型不适用</td></tr><tr><td>预测的能力与质量</td><td>难以事前评价，应尽量选用比较成熟、应用较广的模型</td></tr><tr><td>输出值能否满足评价需求</td><td>重点指标：当前可靠度、平均无失效时间、故障密度、达到目标的日期、达到目标的成本</td></tr><tr><td>模型使用的简便性</td><td>数据易收集且不超预算；简单易懂；便于使用、最好有工具支持数据输入</td></tr></tbody></table>
+<p>可靠性数据主要是软件失效数据，贯穿整个生命周期收集。收集存在 5 个问题：规范不统一、连续性不能保证、缺乏有效手段、完整性不能保证、质量和准确性不能保证。⭐【易错】使用不准确的可靠性数据进行评价，误差有可能比用模型预测产生的误差<b>大一个数量级</b>。可行办法：及早确定模型并统一数据规范；制定可实施的收集计划并指定专人负责；重视可靠性测试数据的整理分析；利用数据库存储与统计分析。</p>
+<p>⭐【易错】测试期间没有失效发生，<b>不能认为程序可靠度是 1.0</b>——除非进行了完全的测试（几乎不可能），否则无法做出估计。可简单假设测试基于二项式分布做保守估计，或凭经验按无故障运行的用例数量在一定置信度水平上估计可靠性等级。</p>
+<p>模型之外的辅助分析手段：①失效数据的图形分析法（累积失效个数图、单位时间段失效数图、失效间隔时间图）；②试探性数据分析技术（EDA），关注循环相关、短期内失效数急剧上升、失效数集中的时间段，可发现排错引入新缺陷、数据收集质量问题及时间域定义错误等。</p>
+<h2>三、重点与易错点</h2>
+<table><colgroup><col style="width:7.9%"><col style="width:15.8%"><col style="width:38.8%"><col style="width:37.5%"></colgroup><thead><tr><th>#</th><th>考点</th><th>必须记住的结论</th><th>易错提醒</th></tr></thead><tbody><tr><td class="tc">1</td><td class="tc">可靠性定义</td><td>规定条件＋规定时间＋规定功能，缺一不可</td><td>「规定时间」不是单指日历时间</td></tr><tr><td class="tc">2</td><td class="tc">三种时间</td><td>执行时间（CPU 时间）度量可靠性最准确</td><td>运行时间含挂起空闲，不等于执行时间</td></tr><tr><td class="tc">3</td><td class="tc">R(t)、F(t)、f(t)</td><td>R(t)=1−F(t)；F(0)=0、F(+∞)=1</td><td>失效强度 f(t)=F′(t)，不是 F(t)</td></tr><tr><td class="tc">4</td><td class="tc">MTBF</td><td>指数分布时 MTBF=MTTF+MTTR</td><td>不要记成相减；MTTR 越短易恢复性越好</td></tr><tr><td class="tc">5</td><td class="tc">软硬件区别</td><td>软件无物理退化，设计错误是失效主因</td><td>软件唯一性使概率方法不如硬件领域成功</td></tr><tr><td class="tc">6</td><td class="tc">失效严重程度类</td><td>对用户影响程度相同的失效集合，可按成本/系统能力分级</td><td>等级越高可靠性要求越高（99.9999% 对 114 年）</td></tr><tr><td class="tc">7</td><td class="tc">广义/狭义测试</td><td>狭义＝软件可靠性试验，面向缺陷获取数据</td><td>广义还包含建模、分析与可靠性评价</td></tr><tr><td class="tc">8</td><td class="tc">模型三假设</td><td>代表性、独立性、相同性</td><td>相同性＝不区分失效严重等级，勿与独立性混淆</td></tr><tr><td class="tc">9</td><td class="tc">模型十类</td><td>种子法、NHPP、马尔可夫、贝叶斯等及代表模型</td><td>种子法靠「播种错误」；贝叶斯靠先验＋测试信息</td></tr><tr><td class="tc">10</td><td class="tc">可靠性设计地位</td><td>设计阶段控制最有效、最经济、最重要</td><td>测试排错只能有限改善，不能根本提高</td></tr><tr><td class="tc">11</td><td class="tc">N 版本与冗余</td><td>多版本多数表决；冗余须不同路径/算法/实现</td><td>相同两套软件互备意义不大，不是有效冗余</td></tr><tr><td class="tc">12</td><td class="tc">检错技术</td><td>代价低于容错，但不能自动解决故障</td><td>四要素：检测对象、延时、实现方式、处理方式</td></tr><tr><td class="tc">13</td><td class="tc">双机热备</td><td>热备/互备/双工三模式；心跳定期互发信号</td><td>心跳中断即判主机故障；双工才是双活负载均衡</td></tr><tr><td class="tc">14</td><td class="tc">运行剖面</td><td>马尔可夫链：状态＋弧＋转换概率</td><td>起飞降落占比小故障多，关键操作须单独剖面</td></tr><tr><td class="tc">15</td><td class="tc">测试实施</td><td>同一版本受控测试，新版本＝新测试开始</td><td>非统计测试宜在可靠性测试前做，之后做或影响评估</td></tr><tr><td class="tc">16</td><td class="tc">可靠性评价</td><td>选模型→收数据→评估预测</td><td>无失效≠可靠度 1.0；数据不准误差或超模型一个数量级</td></tr></tbody></table>
+<h2>四、练习与真题</h2>
+<p>以下为按大纲与教材考点自编的模拟单选题，答案与解析集中放在全章最后。</p>
+<p><b>1.</b> 软件可靠性定义中的「规定时间」，用于度量软件可靠性最准确的是（ ）。</p>
+<p>A. 自然时间  B. 运行时间  C. 执行时间（CPU 时间）  D. 日历时间</p>
+<p><b>2.</b> 某财务软件上午 9:00 开机运行、下午 17:00 退出，期间 CPU 执行指令不足 2 小时，这里的「8 小时」属于（ ）。</p>
+<p>A. 自然时间  B. 运行时间  C. 执行时间  D. CPU 时间</p>
+<p><b>3.</b> 对可靠度服从指数分布的系统，MTBF、MTTF、MTTR 的关系是（ ）。</p>
+<p>A. MTBF=MTTF−MTTR  B. MTBF=MTTF+MTTR  C. MTBF=MTTF×MTTR  D. MTBF=MTTR−MTTF</p>
+<p><b>4.</b> 关于软件与硬件可靠性的区别，下列说法错误的是（ ）。</p>
+<p>A. 软件不存在物理退化现象  B. 设计错误是导致软件失效的主要原因  C. 软件复制会改变软件本身  D. 软件版本更新较快，可靠性评估难度大</p>
+<p><b>5.</b> 为获取可靠性数据，按预先确定的测试用例在软件预期使用环境中实施的测试，称为（ ）。</p>
+<p>A. 软件可靠性试验  B. 覆盖测试  C. 可靠性增长测试  D. 随机测试</p>
+<p><b>6.</b> 软件可靠性模型的三个共同假设不包括（ ）。</p>
+<p>A. 代表性假设  B. 独立性假设  C. 相同性假设  D. 完整性假设</p>
+<p><b>7.</b> 在程序中预先有意「播种」设定错误，再根据原始错误数与诱导错误数比例估计残留错误数的模型属于（ ）。</p>
+<p>A. 贝叶斯分析模型  B. 种子法模型  C. 输入域分类模型  D. 曲线拟合类模型</p>
+<p><b>8.</b> 保障软件可靠性最有效、最经济、最重要的手段是（ ）。</p>
+<p>A. 测试阶段加强排错  B. 设计阶段采取可靠性控制  C. 实施阶段严格验收  D. 运行阶段增加备份</p>
+<p><b>9.</b> 关于 N 版本程序设计，下列说法错误的是（ ）。</p>
+<p>A. 各版本对相同输入的操作结果实行多数表决  B. 需求说明的完全性和精确性是设计错误不相关的前提  C. 各版本设计全过程应保持不相关  D. 所有版本应使用同一算法和同一编程语言</p>
+<p><b>10.</b> 双机热备方案中的「心跳」是指（ ）。</p>
+<p>A. 磁盘阵列的数据同步机制  B. 主从系统按一定时间间隔互发通信信号以表明运行状态  C. 用户会话的保活机制  D. 数据库的事务日志</p>
+<p><b>11.</b> 关于软件可靠性测试的实施，下列说法正确的是（ ）。</p>
+<p>A. 测试过程中可随时更换软件版本  B. 非统计测试在可靠性测试之后执行不影响评估  C. 每个测试用例必须使用相同的软件版本  D. 多台计算机同时运行软件会降低数据有效性</p>
+<p><b>12.</b> 可靠性测试期间没有发生任何失效，正确的做法是（ ）。</p>
+<p>A. 认定软件可靠度为 1.0  B. 可假设测试基于二项式分布作保守估计  C. 认定软件不存在缺陷  D. 立即停止全部测试活动</p>
+<p><b>13.</b> 定义软件运行剖面时，将输入域编码为使用状态集、用弧表示激励转换并分配转换概率，常用的建模方法是（ ）。</p>
+<p>A. 故障树分析  B. 马尔可夫链  C. 决策表  D. 数据流图</p>
+<p><b>14.</b> 检错设计技术应着重考虑的要素不包括（ ）。</p>
+<p>A. 检测对象  B. 检测延时  C. 实现方式与处理方式  D. 多数表决</p>
+<h2>五、疑问与查漏补缺</h2>
+<ol><li><b>大纲有、教材略</b>：大纲 8.1.1 提到「软件可靠性工程的定义和阶段（分配、设计、分析、测试和评估）」，教材未单列该术语，可按本章「建模—设计—测试—评价」的流程对应理解并补记五阶段名称。</li><li><b>大纲有、教材略</b>：大纲 8.4 的「软件可靠性设计方法准则（简化设计、重用设计和健壮性设计）」与教材 9.4 的三条设计原则表述不同，教材未出现「重用设计」，需按大纲另行记忆。</li><li><b>大纲原文疑有笔误</b>：大纲 8.4.1 容错分类写为「信息容错、结构容错和信息容错」，两项重复，通常应为信息、结构、时间等维度；大纲提到的「日志和副本、指令复执和程序卷回」等容错方法教材未展开，答题时注意按题干语境选择。</li><li><b>大纲有、教材略</b>：大纲 8.4.2 检错设计方法（简单原理、同型原理、对称原理、层次原理和安全原理）教材未展开，仅需记住名称；大纲 8.5.1 的测试分类（可靠性增长测试、可靠性验证测试、可靠性摸底测试）教材也未明确分类，注意与广义/狭义之分区分。</li><li><b>教材文本层瑕疵</b>：教材表 9-3 的失效强度数值在 PDF 文本层中显示不全（10 的负指数丢失），复习时记住「严重程度类越高→可靠性要求越高→允许失效强度越低」的趋势即可，不必纠结具体指数。</li><li><b>与其他章节衔接</b>：第 8 章把可靠性、可用性列为质量属性，本章 MTBF=MTTF+MTTR 可直接支撑可用性指标计算；双机热备与集群在架构设计案例题中常与可用性、负载均衡一起出现；FTA/FMEA 与后续安全相关章节的故障分析互相印证。</li></ol>
+<h2>六、参考答案</h2>
+<p><b>1.</b> C。执行时间是 CPU 执行程序指令的时间总和，用它度量软件可靠性最准确、效果最好。</p>
+<p><b>2.</b> B。运行时间指软件从启动到运行结束的时间段；24 小时是自然时间，CPU 执行不足 2 小时是执行时间。</p>
+<p><b>3.</b> B。可靠度服从指数分布时 MTBF=MTTF+MTTR，即故障间隔＝失效前时间＋恢复前时间。</p>
+<p><b>4.</b> C。软件具有唯一性，复制不改变软件本身；其余三项均为教材所述软硬件可靠性区别。</p>
+<p><b>5.</b> A。狭义的软件可靠性测试也叫「软件可靠性试验」，面向缺陷、以用户使用方式测试以获取可靠性数据。</p>
+<p><b>6.</b> D。三个共同假设是代表性、独立性、相同性，至今尚未找到克服其局限性的有效方法。</p>
+<p><b>7.</b> B。种子法模型利用捕获—再捕获抽样技术，靠预设「种子」错误估计程序残留错误数。</p>
+<p><b>8.</b> B。教材两次强调：设计阶段采取可靠性控制最有效、最经济、最重要，测试排错只能有限改善。</p>
+<p><b>9.</b> D。N 版本要求设计全过程不相关，应使用不同算法、不同语言、不同工具，而非同一算法同一语言。</p>
+<p><b>10.</b> B。心跳是主从系统按时间间隔互发的状态信号，备机收不到心跳即判定主机故障并接管资源。</p>
+<p><b>11.</b> C。受控测试要求所有用例使用相同版本，新版本意味着新测试开始；非统计测试宜在可靠性测试前完成。</p>
+<p><b>12.</b> B。无失效不能认定可靠度为 1.0，可用二项式分布作保守估计，或按无故障用例数在置信度水平上估计等级。</p>
+<p><b>13.</b> B。运行剖面用马尔可夫链建模：状态集代表用户使用方式，弧表示激励转换并分配转换概率。</p>
+<p><b>14.</b> D。检错四要素为检测对象、检测延时、实现方式、处理方式；多数表决属于 N 版本程序设计。</p>
+<div class="footer">第9章 软件可靠性基础知识 · A4 打印版 · 由 README.md 统一生成</div>
+</div>
+</body>
+</html>

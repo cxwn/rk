@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 340" width="720" height="340" font-family="Microsoft YaHei, 微软雅黑, sans-serif">
+  <rect width="720" height="340" fill="#ffffff"/>
+  <text x="360" y="32" text-anchor="middle" font-size="22" font-weight="bold" fill="#1f4e79">质量属性场景：六要素形成可测试需求</text>
+  <g text-anchor="middle">
+    <rect x="25" y="75" width="95" height="70" rx="8" fill="#eaf1f8" stroke="#1f4e79"/>
+    <rect x="140" y="75" width="95" height="70" rx="8" fill="#eaf1f8" stroke="#1f4e79"/>
+    <rect x="255" y="75" width="95" height="70" rx="8" fill="#eaf1f8" stroke="#1f4e79"/>
+    <rect x="370" y="75" width="95" height="70" rx="8" fill="#eaf1f8" stroke="#1f4e79"/>
+    <rect x="485" y="75" width="95" height="70" rx="8" fill="#eaf1f8" stroke="#1f4e79"/>
+    <rect x="600" y="75" width="95" height="70" rx="8" fill="#fdf0e6" stroke="#c05621" stroke-width="1.5"/>
+    <g font-size="16" font-weight="bold" fill="#1f4e79">
+      <text x="72" y="105">刺激源</text><text x="187" y="105">刺激</text><text x="302" y="105">环境</text>
+      <text x="417" y="105">制品</text><text x="532" y="105">响应</text><text x="647" y="105" fill="#c05621">响应度量</text>
+    </g>
+    <g font-size="11" fill="#6b7a8a">
+      <text x="72" y="131">谁产生</text><text x="187" y="131">发生什么</text><text x="302" y="131">何时何态</text>
+      <text x="417" y="131">影响谁</text><text x="532" y="131">怎么处理</text><text x="647" y="131">怎样算达标</text>
+    </g>
+  </g>
+  <g stroke="#1f4e79" stroke-width="1.5" fill="none">
+    <line x1="120" y1="110" x2="129" y2="110"/><line x1="235" y1="110" x2="244" y2="110"/>
+    <line x1="350" y1="110" x2="359" y2="110"/><line x1="465" y1="110" x2="474" y2="110"/>
+    <line x1="580" y1="110" x2="589" y2="110"/>
+  </g>
+  <g fill="#1f4e79">
+    <polygon points="137,110 129,105.5 129,114.5"/><polygon points="252,110 244,105.5 244,114.5"/>
+    <polygon points="367,110 359,105.5 359,114.5"/><polygon points="482,110 474,105.5 474,114.5"/>
+    <polygon points="597,110 589,105.5 589,114.5"/>
+  </g>
+  <text x="360" y="178" text-anchor="middle" font-size="14" fill="#4a6130">助记：源—激—环—制品，响应之后必度量</text>
+  <rect x="30" y="205" width="660" height="110" rx="10" fill="#fdf0e6" stroke="#c05621" stroke-width="1.5"/>
+  <text x="50" y="232" font-size="16" font-weight="bold" fill="#c05621">举例：支付节点故障的可用性场景</text>
+  <text x="50" y="259" font-size="14">刺激源/刺激：支付节点内部进程崩溃；环境：系统正常处理在线支付。</text>
+  <text x="50" y="284" font-size="14">制品/响应：支付服务检测、记录并通知运维，随后切换备用节点。</text>
+  <text x="50" y="307" font-size="14" font-weight="bold">响应度量：30 秒内恢复服务，且不产生重复扣款。</text>
+</svg>

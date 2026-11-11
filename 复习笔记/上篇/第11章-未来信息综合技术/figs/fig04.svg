@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 400" font-family="Microsoft YaHei, 微软雅黑, sans-serif">
+  <text x="360" y="26" text-anchor="middle" font-size="16" font-weight="bold" fill="#1f4e79">人工智能发展历程时间线</text>
+  <line x1="110" y1="46" x2="110" y2="350" stroke="#6b7a8a" stroke-width="2" fill="none"/>
+  <circle cx="110" cy="58" r="4" fill="#1f4e79"/>
+  <text x="96" y="62" text-anchor="end" font-size="12" font-weight="bold" fill="#1f4e79">1950</text>
+  <rect x="140" y="45" width="540" height="26" rx="4" fill="#eaf1f8"/>
+  <text x="150" y="63" font-size="12" fill="#22303f">图灵发表《计算机与智能》，提出图灵测试</text>
+  <circle cx="110" cy="92" r="4" fill="#1f4e79"/>
+  <text x="96" y="96" text-anchor="end" font-size="12" font-weight="bold" fill="#1f4e79">1956</text>
+  <rect x="140" y="79" width="540" height="26" rx="4" fill="#fdf0e6"/>
+  <text x="150" y="97" font-size="12" fill="#22303f">达特茅斯夏季研讨会：正式使用「人工智能」，标志 AI 诞生</text>
+  <circle cx="110" cy="126" r="4" fill="#1f4e79"/>
+  <text x="96" y="130" text-anchor="end" font-size="12" font-weight="bold" fill="#1f4e79">1959</text>
+  <rect x="140" y="113" width="540" height="26" rx="4" fill="#eaf1f8"/>
+  <text x="150" y="131" font-size="12" fill="#22303f">塞缪尔提出机器学习，进入第一次繁荣期</text>
+  <circle cx="110" cy="160" r="4" fill="#1f4e79"/>
+  <text x="96" y="164" text-anchor="end" font-size="12" font-weight="bold" fill="#1f4e79">1968</text>
+  <rect x="140" y="147" width="540" height="26" rx="4" fill="#eaf1f8"/>
+  <text x="150" y="165" font-size="12" fill="#22303f">费根鲍姆提出首个专家系统 DENDRAL，走向实际应用</text>
+  <circle cx="110" cy="194" r="4" fill="#6b7a8a"/>
+  <text x="96" y="198" text-anchor="end" font-size="12" font-weight="bold" fill="#6b7a8a">1970s</text>
+  <rect x="140" y="181" width="540" height="26" rx="4" fill="#f3f6ee"/>
+  <text x="150" y="199" font-size="12" fill="#22303f">算力与数据不足，遭遇基础性障碍，AI 进入「寒冬」</text>
+  <circle cx="110" cy="228" r="4" fill="#6b7a8a"/>
+  <text x="96" y="232" text-anchor="end" font-size="12" font-weight="bold" fill="#6b7a8a">1980s</text>
+  <rect x="140" y="215" width="540" height="26" rx="4" fill="#f3f6ee"/>
+  <text x="150" y="233" font-size="12" fill="#22303f">专家系统商业成功带来第二次浪潮；1987 年后再度萧瑟</text>
+  <circle cx="110" cy="262" r="4" fill="#1f4e79"/>
+  <text x="96" y="266" text-anchor="end" font-size="12" font-weight="bold" fill="#1f4e79">1997</text>
+  <rect x="140" y="249" width="540" height="26" rx="4" fill="#eaf1f8"/>
+  <text x="150" y="267" font-size="12" fill="#22303f">IBM 深蓝战胜国际象棋世界冠军卡斯帕罗夫（基于规则的胜利）</text>
+  <circle cx="110" cy="296" r="4" fill="#1f4e79"/>
+  <text x="96" y="300" text-anchor="end" font-size="12" font-weight="bold" fill="#1f4e79">2006</text>
+  <rect x="140" y="283" width="540" height="26" rx="4" fill="#eaf1f8"/>
+  <text x="150" y="301" font-size="12" fill="#22303f">辛顿等推动深度学习，带来重大影响</text>
+  <circle cx="110" cy="330" r="4" fill="#c05621"/>
+  <text x="96" y="334" text-anchor="end" font-size="12" font-weight="bold" fill="#c05621">2016</text>
+  <rect x="140" y="317" width="540" height="26" rx="4" fill="#fdf0e6"/>
+  <text x="150" y="335" font-size="12" fill="#22303f">AlphaGo 战胜围棋世界冠军李世石（2010 年起爆炸式发展）</text>
+  <text x="140" y="378" font-size="11" fill="#6b7a8a">助记：50 图灵 56 诞生，59 学习 68 专家；97 深蓝 06 深度，16 阿尔法胜围棋。</text>
+</svg>

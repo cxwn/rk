@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 450" font-family="Microsoft YaHei, 微软雅黑, sans-serif">
+  <rect width="720" height="450" fill="#ffffff"/>
+  <text x="360" y="28" text-anchor="middle" font-size="20" font-weight="bold" fill="#1f4e79">FreeRTOS 可裁剪软件架构</text>
+  <rect x="90" y="48" width="540" height="42" rx="7" fill="#1f4e79"/>
+  <text x="360" y="76" text-anchor="middle" font-size="16" font-weight="bold" fill="#ffffff">嵌入式应用程序</text>
+  <rect x="55" y="108" width="610" height="70" rx="8" fill="#fdf0e6" stroke="#c05621"/>
+  <text x="75" y="132" font-size="13" font-weight="bold" fill="#c05621">定制服务组件（可选）</text>
+  <g text-anchor="middle" font-size="12" fill="#22303f"><rect x="80" y="141" width="100" height="27" rx="4" fill="#ffffff"/><text x="130" y="160">MQTT</text><rect x="195" y="141" width="100" height="27" rx="4" fill="#ffffff"/><text x="245" y="160">HTTPS</text><rect x="310" y="141" width="100" height="27" rx="4" fill="#ffffff"/><text x="360" y="160">OTA Updates</text><rect x="425" y="141" width="100" height="27" rx="4" fill="#ffffff"/><text x="475" y="160">PKCS#11</text><rect x="540" y="141" width="100" height="27" rx="4" fill="#ffffff"/><text x="590" y="160">安全服务</text></g>
+  <rect x="55" y="196" width="610" height="70" rx="8" fill="#eaf1f8" stroke="#1f4e79"/>
+  <text x="75" y="220" font-size="13" font-weight="bold" fill="#1f4e79">公共组件（可选）</text>
+  <g text-anchor="middle" font-size="12" fill="#22303f"><rect x="80" y="229" width="100" height="27" rx="4" fill="#ffffff"/><text x="130" y="248">TCP</text><rect x="195" y="229" width="100" height="27" rx="4" fill="#ffffff"/><text x="245" y="248">TLS</text><rect x="310" y="229" width="100" height="27" rx="4" fill="#ffffff"/><text x="360" y="248">Wi-Fi</text><rect x="425" y="229" width="100" height="27" rx="4" fill="#ffffff"/><text x="475" y="248">BLE</text><rect x="540" y="229" width="100" height="27" rx="4" fill="#ffffff"/><text x="590" y="248">POSIX</text></g>
+  <rect x="120" y="284" width="480" height="48" rx="7" fill="#4a6130"/>
+  <text x="360" y="314" text-anchor="middle" font-size="15" font-weight="bold" fill="#ffffff">FreeRTOS 内核：调度 · 内存 · 任务间通信</text>
+  <rect x="120" y="350" width="480" height="38" rx="7" fill="#f3f6ee" stroke="#8aa15c"/>
+  <text x="360" y="375" text-anchor="middle" font-size="14" fill="#4a6130">BSP / 供应商驱动程序</text>
+  <rect x="120" y="406" width="480" height="32" rx="7" fill="#6b7a8a"/>
+  <text x="360" y="428" text-anchor="middle" font-size="14" fill="#ffffff">硬件</text>
+  <g stroke="#6b7a8a" stroke-width="1.3" fill="none"><line x1="360" y1="90" x2="360" y2="100"/><line x1="360" y1="178" x2="360" y2="188"/><line x1="360" y1="266" x2="360" y2="276"/><line x1="360" y1="332" x2="360" y2="342"/><line x1="360" y1="388" x2="360" y2="398"/></g>
+  <g fill="#6b7a8a"><polygon points="360,105 355.5,97 364.5,97"/><polygon points="360,193 355.5,185 364.5,185"/><polygon points="360,281 355.5,273 364.5,273"/><polygon points="360,347 355.5,339 364.5,339"/><polygon points="360,403 355.5,395 364.5,395"/></g>
+</svg>

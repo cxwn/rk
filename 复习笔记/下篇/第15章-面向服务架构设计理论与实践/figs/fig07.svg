@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 410" font-family="Microsoft YaHei, 微软雅黑, sans-serif">
+  <text x="360" y="30" text-anchor="middle" font-size="17" font-weight="bold" fill="#1f4e79">SynchroESB 四层结构：分布式接入，集中式管理</text>
+  <rect x="40" y="55" width="170" height="65" rx="6" fill="#fdf0e6" stroke="#c05621" stroke-width="1.5"/>
+  <text x="125" y="82" text-anchor="middle" font-size="13" font-weight="bold" fill="#c05621">用户交互 /</text>
+  <text x="125" y="103" text-anchor="middle" font-size="13" font-weight="bold" fill="#c05621">应用工具层</text>
+  <rect x="230" y="55" width="450" height="65" rx="6" fill="#fdf0e6" stroke="#c05621" stroke-width="1.5"/>
+  <rect x="255" y="72" width="190" height="32" rx="4" fill="#ffffff" stroke="#c05621"/>
+  <rect x="465" y="72" width="190" height="32" rx="4" fill="#ffffff" stroke="#c05621"/>
+  <text x="350" y="93" text-anchor="middle" font-size="11" fill="#22303f">Process Orchestration 流程编排</text>
+  <text x="560" y="93" text-anchor="middle" font-size="11" fill="#22303f">ESB 集中管理</text>
+  <rect x="40" y="135" width="170" height="65" rx="6" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.5"/>
+  <text x="125" y="162" text-anchor="middle" font-size="13" font-weight="bold" fill="#1f4e79">流程整合 /</text>
+  <text x="125" y="183" text-anchor="middle" font-size="13" font-weight="bold" fill="#1f4e79">流程控制层</text>
+  <rect x="230" y="135" width="450" height="65" rx="6" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.5"/>
+  <text x="455" y="163" text-anchor="middle" font-size="13" font-weight="bold" fill="#22303f">连接应用系统 · 协同工作</text>
+  <text x="455" y="185" text-anchor="middle" font-size="11" fill="#6b7a8a">流程设计 · 流程监控 · 流程规划</text>
+  <rect x="40" y="215" width="170" height="65" rx="6" fill="#f3f6ee" stroke="#8aa15c" stroke-width="1.5"/>
+  <text x="125" y="242" text-anchor="middle" font-size="13" font-weight="bold" fill="#4a6130">数据转换与</text>
+  <text x="125" y="263" text-anchor="middle" font-size="13" font-weight="bold" fill="#4a6130">适配器层</text>
+  <rect x="230" y="215" width="450" height="65" rx="6" fill="#f3f6ee" stroke="#8aa15c" stroke-width="1.5"/>
+  <rect x="255" y="232" width="190" height="32" rx="4" fill="#ffffff" stroke="#8aa15c"/>
+  <rect x="465" y="232" width="190" height="32" rx="4" fill="#ffffff" stroke="#8aa15c"/>
+  <text x="350" y="253" text-anchor="middle" font-size="12" fill="#22303f">适配器 · 应用接入</text>
+  <text x="560" y="253" text-anchor="middle" font-size="12" fill="#22303f">数据转换 · 接口映射</text>
+  <rect x="40" y="295" width="170" height="65" rx="6" fill="#1f4e79" stroke="#1f4e79" stroke-width="1.5"/>
+  <text x="125" y="335" text-anchor="middle" font-size="14" font-weight="bold" fill="#ffffff">服务总线层</text>
+  <rect x="230" y="295" width="450" height="65" rx="6" fill="#1f4e79" stroke="#1f4e79" stroke-width="1.5"/>
+  <text x="455" y="323" text-anchor="middle" font-size="14" font-weight="bold" fill="#ffffff">ESB · JMS · 事件驱动消息</text>
+  <text x="455" y="346" text-anchor="middle" font-size="11" fill="#eaf1f8">为整个 EAI 应用环境提供底层支持</text>
+  <text x="360" y="392" text-anchor="middle" font-size="11" fill="#6b7a8a">自下而上：总线支撑 → 异构接入 → 流程协同 → 统一信息入口</text>
+</svg>

@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 450" font-family="Microsoft YaHei, 微软雅黑, sans-serif">
+  <rect width="720" height="450" fill="#ffffff"/>
+  <text x="360" y="28" text-anchor="middle" font-size="20" font-weight="bold" fill="#1f4e79">RMS 与抢占式 EDF 时序对比</text>
+  <text x="360" y="52" text-anchor="middle" font-size="13" fill="#6b7a8a">A：周期20ms、执行10ms；B：周期50ms、执行25ms；截止期限等于各自周期</text>
+  <text x="35" y="88" font-size="16" font-weight="bold" fill="#1f4e79">RMS：A 固定高优先级</text>
+  <g stroke="#22303f" stroke-width="1">
+    <rect x="80" y="105" width="85" height="48" fill="#1f4e79"/><rect x="165" y="105" width="85" height="48" fill="#fdf0e6"/>
+    <rect x="250" y="105" width="85" height="48" fill="#1f4e79"/><rect x="335" y="105" width="85" height="48" fill="#fdf0e6"/>
+    <rect x="420" y="105" width="85" height="48" fill="#1f4e79"/><rect x="505" y="105" width="85" height="48" fill="#1f4e79"/>
+  </g>
+  <g text-anchor="middle" font-size="14" font-weight="bold">
+    <text x="122" y="135" fill="#ffffff">A1</text><text x="207" y="135" fill="#c05621">B：10ms</text>
+    <text x="292" y="135" fill="#ffffff">A2</text><text x="377" y="135" fill="#c05621">B：10ms</text>
+    <text x="462" y="135" fill="#ffffff">A3</text><text x="547" y="135" fill="#ffffff">A4</text>
+  </g>
+  <line x1="505" y1="94" x2="505" y2="168" stroke="#c05621" stroke-width="1.5" stroke-dasharray="4 3"/>
+  <text x="505" y="184" text-anchor="middle" font-size="13" fill="#c05621">50ms：B 尚缺5ms，超期</text>
+  <g font-size="11" fill="#6b7a8a" text-anchor="middle">
+    <text x="80" y="171">0</text><text x="165" y="171">10</text><text x="250" y="171">20</text><text x="335" y="171">30</text><text x="420" y="171">40</text><text x="590" y="171">60</text>
+  </g>
+  <text x="35" y="228" font-size="16" font-weight="bold" fill="#1f4e79">EDF：比较当前动态截止期限</text>
+  <g stroke="#22303f" stroke-width="1">
+    <rect x="80" y="245" width="85" height="48" fill="#1f4e79"/><rect x="165" y="245" width="85" height="48" fill="#fdf0e6"/>
+    <rect x="250" y="245" width="85" height="48" fill="#1f4e79"/><rect x="335" y="245" width="127.5" height="48" fill="#fdf0e6"/>
+    <rect x="462.5" y="245" width="85" height="48" fill="#1f4e79"/><rect x="547.5" y="245" width="42.5" height="48" fill="#1f4e79"/>
+  </g>
+  <g text-anchor="middle" font-size="14" font-weight="bold">
+    <text x="122" y="275" fill="#ffffff">A1</text><text x="207" y="275" fill="#c05621">B：10ms</text>
+    <text x="292" y="275" fill="#ffffff">A2</text><text x="399" y="275" fill="#c05621">B：15ms</text>
+    <text x="505" y="275" fill="#ffffff">A3</text><text x="569" y="275" fill="#ffffff" font-size="11">A4</text>
+  </g>
+  <line x1="462.5" y1="234" x2="462.5" y2="309" stroke="#4a6130" stroke-width="1.5" stroke-dasharray="4 3"/>
+  <text x="462.5" y="326" text-anchor="middle" font-size="13" fill="#4a6130">45ms：B 完成，满足50ms期限</text>
+  <g font-size="11" fill="#6b7a8a" text-anchor="middle">
+    <text x="80" y="311">0</text><text x="165" y="311">10</text><text x="250" y="311">20</text><text x="335" y="311">30</text><text x="420" y="311">40</text><text x="590" y="311">60</text>
+  </g>
+  <rect x="60" y="354" width="600" height="66" rx="8" fill="#eaf1f8"/>
+  <text x="360" y="380" text-anchor="middle" font-size="14" fill="#1f4e79">40ms 时：B 的期限50ms早于 A3 的60ms</text>
+  <text x="360" y="404" text-anchor="middle" font-size="14" fill="#22303f">所以 EDF 让 B 再运行5ms，而固定优先级 RMS 会执行 A3</text>
+</svg>

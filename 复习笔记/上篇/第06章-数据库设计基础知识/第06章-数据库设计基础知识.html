@@ -1,0 +1,728 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>第6章 数据库设计基础知识</title>
+<style>
+  :root{ --ink:#22303f; --main:#1f4e79; --main-light:#eaf1f8; --accent:#c05621;
+    --accent-light:#fdf0e6; --line:#d5dde5; --muted:#6b7a8a; }
+  *{ box-sizing:border-box; print-color-adjust:exact; -webkit-print-color-adjust:exact; }
+  html,body{ margin:0; padding:0; }
+  body{ font-family:"Microsoft YaHei","微软雅黑","PingFang SC","Noto Sans CJK SC",sans-serif;
+    color:var(--ink); background:#e9edf1; font-size:10.5pt; line-height:1.75; }
+  .sheet{ max-width:190mm; margin:8mm auto; background:#fff; padding:10mm 11mm;
+    box-shadow:0 2px 14px rgba(0,0,0,.12); }
+  h1{ font-size:21pt; color:var(--main); margin:0 0 2mm; border-bottom:3px solid var(--main); padding-bottom:3mm; }
+  h2{ font-size:14pt; color:var(--main); margin:8mm 0 3mm; padding:1.2mm 0 1.2mm 3mm;
+    border-left:5px solid var(--main); background:linear-gradient(to right,var(--main-light),#fff); break-after:avoid; }
+  h3{ font-size:11.5pt; color:var(--main); margin:5mm 0 2mm; break-after:avoid; }
+  p{ margin:1.5mm 0; }
+  code{ background:#f0f3f6; border-radius:1mm; padding:0 1mm; font-size:9.5pt; }
+  .def,.example,.mnemonic{ border-radius:2mm; padding:2.5mm 3.5mm; margin:2.5mm 0; break-inside:avoid; }
+  .def{ border:1.5px solid var(--main); background:#fbfdff; }
+  .example{ background:var(--accent-light); border-left:4px solid var(--accent); }
+  .mnemonic{ background:#f3f6ee; border:1px dashed #8aa15c; color:#4a6130; }
+  table{ border-collapse:collapse; width:100%; margin:2.5mm 0; font-size:9.5pt; table-layout:fixed; }
+  th,td{ border:1px solid var(--line); padding:1.6mm 2mm; text-align:left; vertical-align:top; overflow-wrap:break-word; }
+  th{ background:var(--main); color:#fff; text-align:center; }
+  thead{ display:table-header-group; }
+  tr{ break-inside:avoid; }
+  td.tc{ text-align:center; }
+  tr:nth-child(even) td{ background:#f6f9fc; }
+  .fig{ margin:3mm 0; padding:2.5mm; border:1px solid var(--line); border-radius:2mm;
+    background:#fdfefe; break-inside:avoid; }
+  .fig .cap{ text-align:center; color:var(--muted); font-size:9pt; margin-top:1mm; }
+  svg{ display:block; width:100%; height:auto; }
+  svg text{ font-family:inherit; }
+  ul,ol{ margin:1.5mm 0 1.5mm 5mm; padding-left:4mm; }
+  li{ margin:0.8mm 0; }
+  .footer{ margin-top:8mm; padding-top:2mm; border-top:1px solid var(--line);
+    color:var(--muted); font-size:8.5pt; text-align:center; }
+  @page{ size:A4; margin:12mm; }
+  @media print{ body{ background:#fff; font-size:10pt; }
+    .sheet{ max-width:none; margin:0; padding:0; box-shadow:none; } h2{ margin-top:6mm; } }
+</style>
+</head>
+<body>
+<div class="sheet">
+<h1>第6章 数据库设计基础知识</h1>
+<ul><li>教材位置：02.系统架构设计师第二版-教材.pdf PDF 第 228～257 页（书页 218～247）</li><li>复习状态：已完成</li><li>复习日期：2026-11-06</li><li>本章地位：本章是数据架构与后续大数据架构的理论基础。选择题重点集中在三级模式、关系运算、函数依赖与规范化、E-R 转换、数据库设计阶段及 NoSQL 分类。</li></ul>
+<h2>一、大纲考点</h2>
+<p>大纲科目 1 第 5 部分对应书页 36～40（大纲 PDF 第 46～50 页）。下表将大纲条目映射到教材小节；大纲有而教材未展开的内容在第五板块补齐。</p>
+<table><colgroup><col style="width:26.7%"><col style="width:50.0%"><col style="width:23.3%"></colgroup><thead><tr><th>大纲条目</th><th>大纲要求概括</th><th>教材对应</th></tr></thead><tbody><tr><td>5.1.1 数据库技术发展及分类</td><td>数据库定义、发展阶段；DB、DBS、DBMS；分布式、并行、数据仓库与挖掘</td><td>6.1、6.1.1；分类见第五板块</td></tr><tr><td>5.1.2 数据模型</td><td>层次、网状、关系及第三代数据库系统</td><td>6.1.2</td></tr><tr><td>5.1.3 数据库管理系统</td><td>DBMS 定义、范围、功能及特点</td><td>6.1、6.1.3</td></tr><tr><td>5.1.4 数据库三级模式</td><td>物理/逻辑/视图层；外/概念/内模式；体系结构</td><td>6.1.4，图 6-1</td></tr><tr><td>5.2.1 关系数据库基本概念</td><td>属性、域、度、候选码等；关系模式；三类完整性</td><td>6.2.1</td></tr><tr><td>5.2.2 关系运算</td><td>集合、专门关系、比较及逻辑运算符</td><td>6.2.2</td></tr><tr><td>5.2.3 设计基本理论</td><td>函数依赖、多值依赖、规范化</td><td>6.2.3</td></tr><tr><td>5.3.1～5.3.2 设计步骤与需求分析</td><td>六阶段；需求任务、参与者、SA 方法</td><td>6.3.1～6.3.2</td></tr><tr><td>5.3.3 概念结构设计</td><td>E-R 方法；局部应用到全局 E-R 图</td><td>6.3.3</td></tr><tr><td>5.3.4 逻辑结构设计</td><td>E-R 转关系、规范化、约束、视图、反规范化</td><td>6.3.4</td></tr><tr><td>5.3.5 物理设计</td><td>数据分布、存储结构、访问方式</td><td>6.3.5</td></tr><tr><td>5.3.6～5.3.7 实施与运行维护</td><td>DDL、加载、试运行；监测、备份、重组和重构</td><td>6.3.6～6.3.7</td></tr><tr><td>5.4.1～5.4.4 标准访问接口</td><td>OCI、嵌入式 SQL、ODBC、ORM</td><td>6.4.1～6.4.4</td></tr><tr><td>5.5.1 NoSQL 分类与特点</td><td>定义、用途；列式、键值、文档、图数据库</td><td>6.5、6.5.1</td></tr><tr><td>5.5.2 NoSQL 体系框架</td><td>四层框架与适用场景</td><td>6.5.2</td></tr></tbody></table>
+<h2>二、知识点笔记</h2>
+<h3>6.1 数据库基本概念</h3>
+<p><b>1. 数据、数据库与数据库系统</b> ⭐【重点】</p>
+<p>数据是描述事物的符号记录，信息是具有特定释义和意义的数据；简单说，<b>数据是载体，信息是数据表达的含义</b>。</p>
+<div class="def">教材原文：数据库是统一管理的、长期储存在计算机内的，有组织的相关数据的集合。</div>
+<table><colgroup><col style="width:24.6%"><col style="width:39.3%"><col style="width:36.1%"></colgroup><thead><tr><th>概念</th><th>一句话区分</th><th>举例</th></tr></thead><tbody><tr><td>DB（数据库）</td><td>长期存储、统一管理的相关数据集合</td><td>图书管理系统中的读者、图书、借阅数据</td></tr><tr><td>DBMS（数据库管理系统）</td><td>组织、存储、管理和访问 DB 的核心系统软件</td><td>MySQL、Oracle 等软件</td></tr><tr><td>DBS（数据库系统）</td><td>采用数据库技术的完整计算机系统，范围最大</td><td>DB＋DBMS＋应用程序＋硬件＋人员等</td></tr></tbody></table>
+<div class="fig"><div><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 380" font-family="Microsoft YaHei, 微软雅黑, sans-serif">
+  <rect width="720" height="380" fill="#ffffff"/>
+  <text x="360" y="30" text-anchor="middle" font-size="20" font-weight="bold" fill="#1f4e79">数据库系统组成与数据管理三阶段</text>
+  <rect x="40" y="50" width="640" height="145" rx="10" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.5"/>
+  <text x="60" y="76" font-size="16" font-weight="bold" fill="#1f4e79">数据库系统 DBS（完整系统）</text>
+  <rect x="75" y="98" width="160" height="65" rx="7" fill="#ffffff" stroke="#1f4e79"/>
+  <text x="155" y="124" text-anchor="middle" font-size="16" font-weight="bold" fill="#22303f">DB</text>
+  <text x="155" y="148" text-anchor="middle" font-size="13" fill="#6b7a8a">有组织的相关数据</text>
+  <rect x="280" y="98" width="160" height="65" rx="7" fill="#fdf0e6" stroke="#c05621"/>
+  <text x="360" y="124" text-anchor="middle" font-size="16" font-weight="bold" fill="#c05621">DBMS</text>
+  <text x="360" y="148" text-anchor="middle" font-size="13" fill="#22303f">核心系统软件</text>
+  <rect x="485" y="98" width="160" height="65" rx="7" fill="#ffffff" stroke="#6b7a8a"/>
+  <text x="565" y="122" text-anchor="middle" font-size="14" font-weight="bold" fill="#22303f">应用、硬件、人员</text>
+  <text x="565" y="148" text-anchor="middle" font-size="13" fill="#6b7a8a">共同组成运行环境</text>
+  <rect x="30" y="240" width="195" height="105" rx="8" fill="#f6f9fc" stroke="#6b7a8a"/>
+  <text x="127" y="270" text-anchor="middle" font-size="17" font-weight="bold" fill="#22303f">人工管理</text>
+  <text x="127" y="298" text-anchor="middle" font-size="13" fill="#6b7a8a">数据面向单个程序</text>
+  <text x="127" y="323" text-anchor="middle" font-size="13" fill="#6b7a8a">不长期保存、独立性差</text>
+  <line x1="225" y1="292" x2="254" y2="292" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="262,292 254,287.5 254,296.5" fill="#1f4e79"/>
+  <rect x="265" y="240" width="195" height="105" rx="8" fill="#eaf1f8" stroke="#1f4e79"/>
+  <text x="362" y="270" text-anchor="middle" font-size="17" font-weight="bold" fill="#1f4e79">文件系统</text>
+  <text x="362" y="298" text-anchor="middle" font-size="13" fill="#22303f">按文件名长期存取</text>
+  <text x="362" y="323" text-anchor="middle" font-size="13" fill="#6b7a8a">文件孤立、冗余、不一致</text>
+  <line x1="460" y1="292" x2="489" y2="292" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="497,292 489,287.5 489,296.5" fill="#1f4e79"/>
+  <rect x="500" y="240" width="190" height="105" rx="8" fill="#f3f6ee" stroke="#8aa15c"/>
+  <text x="595" y="270" text-anchor="middle" font-size="17" font-weight="bold" fill="#4a6130">数据库系统</text>
+  <text x="595" y="298" text-anchor="middle" font-size="13" fill="#22303f">结构化、共享、独立</text>
+  <text x="595" y="323" text-anchor="middle" font-size="13" fill="#4a6130">DBMS 统一控制</text>
+</svg></div><div class="cap">数据库系统组成与数据管理三阶段</div></div>
+<p>数据管理经历<b>人工管理 → 文件系统 → 数据库系统</b>。数据库系统相对文件系统的核心进步是：数据面向整个应用系统、充分共享、冗余减少、独立性提高，并由 DBMS 统一保证完整性、一致性和安全性。</p>
+<table><colgroup><col style="width:15.5%"><col style="width:41.4%"><col style="width:43.1%"></colgroup><thead><tr><th>阶段</th><th>数据保存与共享</th><th>主要短板</th></tr></thead><tbody><tr><td class="tc">人工管理</td><td>数据通常不长期保存，一组数据对应一个程序</td><td>程序与数据不独立，重复数据多</td></tr><tr><td class="tc">文件系统</td><td>可长期保存、按文件名访问，有一定共享</td><td>文件孤立、冗余大、易不一致，联系靠程序维护</td></tr><tr><td class="tc">数据库系统</td><td>数据结构化、共享、交叉访问，集中控制</td><td>需要 DBMS 与专业设计、运维支持</td></tr></tbody></table>
+<p><b>2. 数据模型</b> ⭐【重点】【高频考点】</p>
+<div class="def">教材原文：数据模型的三要素是数据结构、数据操作和数据的约束条件。</div>
+<table><colgroup><col style="width:17.0%"><col style="width:53.2%"><col style="width:29.8%"></colgroup><thead><tr><th>要素</th><th>描述什么</th><th>记忆抓手</th></tr></thead><tbody><tr><td class="tc">数据结构</td><td>对象类型及其联系，描述系统静态特性</td><td>数据“长什么样”</td></tr><tr><td class="tc">数据操作</td><td>检索、插入、删除、修改及规则，描述动态特性</td><td>能对数据“做什么”</td></tr><tr><td class="tc">约束条件</td><td>完整性规则，保证数据正确、有效、相容</td><td>数据“必须守什么规矩”</td></tr></tbody></table>
+<div class="fig"><div><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 430" font-family="Microsoft YaHei, 微软雅黑, sans-serif">
+  <rect width="720" height="430" fill="#ffffff"/>
+  <text x="360" y="30" text-anchor="middle" font-size="20" font-weight="bold" fill="#1f4e79">数据模型三要素与典型数据模型</text>
+  <rect x="30" y="50" width="200" height="100" rx="8" fill="#eaf1f8" stroke="#1f4e79"/>
+  <text x="130" y="83" text-anchor="middle" font-size="17" font-weight="bold" fill="#1f4e79">数据结构</text>
+  <text x="130" y="110" text-anchor="middle" font-size="14" fill="#22303f">对象类型及联系</text>
+  <text x="130" y="133" text-anchor="middle" font-size="13" fill="#6b7a8a">静态特性</text>
+  <rect x="260" y="50" width="200" height="100" rx="8" fill="#fdf0e6" stroke="#c05621"/>
+  <text x="360" y="83" text-anchor="middle" font-size="17" font-weight="bold" fill="#c05621">数据操作</text>
+  <text x="360" y="110" text-anchor="middle" font-size="14" fill="#22303f">增删改查及规则</text>
+  <text x="360" y="133" text-anchor="middle" font-size="13" fill="#6b7a8a">动态特性</text>
+  <rect x="490" y="50" width="200" height="100" rx="8" fill="#f3f6ee" stroke="#8aa15c"/>
+  <text x="590" y="83" text-anchor="middle" font-size="17" font-weight="bold" fill="#4a6130">约束条件</text>
+  <text x="590" y="110" text-anchor="middle" font-size="14" fill="#22303f">完整性规则集合</text>
+  <text x="590" y="133" text-anchor="middle" font-size="13" fill="#6b7a8a">正确、有效、相容</text>
+  <rect x="30" y="185" width="200" height="215" rx="8" fill="#fbfdff" stroke="#1f4e79"/>
+  <text x="130" y="213" text-anchor="middle" font-size="16" font-weight="bold" fill="#1f4e79">层次模型：树</text>
+  <rect x="85" y="232" width="90" height="34" rx="4" fill="#eaf1f8" stroke="#1f4e79"/>
+  <text x="130" y="254" text-anchor="middle" font-size="13" fill="#22303f">根结点</text>
+  <line x1="130" y1="266" x2="130" y2="290" stroke="#6b7a8a" stroke-width="1.4"/>
+  <line x1="80" y1="290" x2="180" y2="290" stroke="#6b7a8a" stroke-width="1.4"/>
+  <line x1="80" y1="290" x2="80" y2="307" stroke="#6b7a8a" stroke-width="1.4"/>
+  <line x1="180" y1="290" x2="180" y2="307" stroke="#6b7a8a" stroke-width="1.4"/>
+  <rect x="45" y="307" width="70" height="34" rx="4" fill="#ffffff" stroke="#6b7a8a"/>
+  <rect x="145" y="307" width="70" height="34" rx="4" fill="#ffffff" stroke="#6b7a8a"/>
+  <text x="80" y="329" text-anchor="middle" font-size="12" fill="#22303f">子结点</text>
+  <text x="180" y="329" text-anchor="middle" font-size="12" fill="#22303f">子结点</text>
+  <text x="130" y="374" text-anchor="middle" font-size="13" fill="#6b7a8a">非根结点仅一个双亲</text>
+  <rect x="260" y="185" width="200" height="215" rx="8" fill="#fbfdff" stroke="#1f4e79"/>
+  <text x="360" y="213" text-anchor="middle" font-size="16" font-weight="bold" fill="#1f4e79">网状模型：图</text>
+  <line x1="340" y1="266" x2="305" y2="307" stroke="#6b7a8a" stroke-width="1.4"/>
+  <line x1="380" y1="266" x2="415" y2="307" stroke="#6b7a8a" stroke-width="1.4"/>
+  <line x1="345" y1="324" x2="375" y2="324" stroke="#6b7a8a" stroke-width="1.4"/>
+  <rect x="320" y="232" width="80" height="34" rx="4" fill="#eaf1f8" stroke="#1f4e79"/>
+  <text x="360" y="254" text-anchor="middle" font-size="13" fill="#22303f">结点 A</text>
+  <rect x="270" y="307" width="75" height="34" rx="4" fill="#ffffff" stroke="#6b7a8a"/>
+  <text x="307" y="329" text-anchor="middle" font-size="13" fill="#22303f">结点 B</text>
+  <rect x="375" y="307" width="75" height="34" rx="4" fill="#ffffff" stroke="#6b7a8a"/>
+  <text x="412" y="329" text-anchor="middle" font-size="13" fill="#22303f">结点 C</text>
+  <text x="360" y="374" text-anchor="middle" font-size="13" fill="#6b7a8a">允许多个双亲</text>
+  <rect x="490" y="185" width="200" height="215" rx="8" fill="#fbfdff" stroke="#1f4e79"/>
+  <text x="590" y="213" text-anchor="middle" font-size="16" font-weight="bold" fill="#1f4e79">关系模型：二维表</text>
+  <rect x="515" y="235" width="150" height="105" fill="#ffffff" stroke="#1f4e79"/>
+  <rect x="515" y="235" width="150" height="35" fill="#1f4e79"/>
+  <line x1="590" y1="235" x2="590" y2="340" stroke="#1f4e79"/>
+  <line x1="515" y1="270" x2="665" y2="270" stroke="#1f4e79"/>
+  <line x1="515" y1="305" x2="665" y2="305" stroke="#1f4e79"/>
+  <text x="552" y="258" text-anchor="middle" font-size="12" fill="#ffffff">学号</text>
+  <text x="627" y="258" text-anchor="middle" font-size="12" fill="#ffffff">姓名</text>
+  <text x="552" y="293" text-anchor="middle" font-size="12" fill="#22303f">S1</text>
+  <text x="627" y="293" text-anchor="middle" font-size="12" fill="#22303f">小林</text>
+  <text x="552" y="328" text-anchor="middle" font-size="12" fill="#22303f">S2</text>
+  <text x="627" y="328" text-anchor="middle" font-size="12" fill="#22303f">小周</text>
+  <text x="590" y="374" text-anchor="middle" font-size="13" fill="#6b7a8a">实体与联系都用关系表示</text>
+</svg></div><div class="cap">数据模型三要素与层次、网状、关系模型</div></div>
+<p>层次模型用树表示联系，除根结点外每个结点<b>有且仅有一个双亲</b>；网状模型允许多个无双亲结点、一个结点有多个双亲，是更一般的结构。二者都用存取路径表示联系，采用导航式数据操纵。网状模型表达多对多时也要引入联结记录。</p>
+<p><b>3. DBMS 的功能与数据控制</b> ⭐【重点】</p>
+<table><colgroup><col style="width:21.1%"><col style="width:78.9%"></colgroup><thead><tr><th>功能</th><th>关键内容</th></tr></thead><tbody><tr><td class="tc">数据定义</td><td>用 DDL 定义外模式、模式、内模式、完整性与安全权限，定义存入数据字典</td></tr><tr><td class="tc">数据库操作</td><td>用 DML 完成检索、插入、修改、删除</td></tr><tr><td class="tc">运行管理</td><td>并发控制、安全与完整性检查、日志、事务管理、自动恢复</td></tr><tr><td class="tc">组织存储管理</td><td>管理数据字典、用户数据和存取路径，提高空间利用率与存取效率</td></tr><tr><td class="tc">建立与维护</td><td>初始建立、数据转换、转储恢复、重组重构、性能监测分析</td></tr></tbody></table>
+<p>DBMS 的四项数据控制可记为：<b>安全性防非法使用，完整性防不合语义的数据，并发控制防相互干扰，故障恢复把数据库带回一致状态</b>。恢复的基础是建立冗余数据。</p>
+<div class="mnemonic">助记：DBMS 控制“四件事”——安、完、并、恢；安全管权限，完整管正确，并发管协调，恢复管兜底。</div>
+<p><b>4. 三级模式与两级映像</b> ⭐【重点】【高频考点】【易错】</p>
+<div class="fig"><div><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 535" font-family="Microsoft YaHei, 微软雅黑, sans-serif">
+  <rect width="720" height="535" fill="#ffffff"/>
+  <text x="360" y="28" text-anchor="middle" font-size="20" font-weight="bold" fill="#1f4e79">数据库三级模式、两级映像（重绘图 6-1）</text>
+  <text x="26" y="132" font-size="14" font-weight="bold" fill="#6b7a8a">视图层</text>
+  <text x="26" y="300" font-size="14" font-weight="bold" fill="#6b7a8a">逻辑层</text>
+  <text x="26" y="425" font-size="14" font-weight="bold" fill="#6b7a8a">物理层</text>
+  <rect x="120" y="45" width="160" height="38" rx="6" fill="#f6f9fc" stroke="#6b7a8a"/>
+  <text x="200" y="70" text-anchor="middle" font-size="14" fill="#22303f">用户组 A</text>
+  <rect x="440" y="45" width="160" height="38" rx="6" fill="#f6f9fc" stroke="#6b7a8a"/>
+  <text x="520" y="70" text-anchor="middle" font-size="14" fill="#22303f">用户组 B</text>
+  <line x1="200" y1="83" x2="200" y2="89" stroke="#1f4e79" stroke-width="1.5"/>
+  <polygon points="200,97 195.5,89 204.5,89" fill="#1f4e79"/>
+  <line x1="520" y1="83" x2="520" y2="89" stroke="#1f4e79" stroke-width="1.5"/>
+  <polygon points="520,97 515.5,89 524.5,89" fill="#1f4e79"/>
+  <rect x="100" y="100" width="200" height="60" rx="7" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.5"/>
+  <text x="200" y="126" text-anchor="middle" font-size="16" font-weight="bold" fill="#1f4e79">外模式 A</text>
+  <text x="200" y="149" text-anchor="middle" font-size="13" fill="#6b7a8a">外部视图：用户的局部数据</text>
+  <rect x="420" y="100" width="200" height="60" rx="7" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.5"/>
+  <text x="520" y="126" text-anchor="middle" font-size="16" font-weight="bold" fill="#1f4e79">外模式 B</text>
+  <text x="520" y="149" text-anchor="middle" font-size="13" fill="#6b7a8a">外模式可以有多个</text>
+  <line x1="200" y1="160" x2="200" y2="225" stroke="#c05621" stroke-width="1.5"/>
+  <line x1="200" y1="225" x2="250" y2="225" stroke="#c05621" stroke-width="1.5"/>
+  <line x1="250" y1="225" x2="250" y2="249" stroke="#c05621" stroke-width="1.5"/>
+  <polygon points="250,257 245.5,249 254.5,249" fill="#c05621"/>
+  <text x="188" y="203" text-anchor="end" font-size="12" fill="#c05621">外/概映像 A</text>
+  <line x1="520" y1="160" x2="520" y2="225" stroke="#c05621" stroke-width="1.5"/>
+  <line x1="520" y1="225" x2="470" y2="225" stroke="#c05621" stroke-width="1.5"/>
+  <line x1="470" y1="225" x2="470" y2="249" stroke="#c05621" stroke-width="1.5"/>
+  <polygon points="470,257 465.5,249 474.5,249" fill="#c05621"/>
+  <text x="532" y="203" font-size="12" fill="#c05621">外/概映像 B</text>
+  <rect x="170" y="260" width="380" height="70" rx="7" fill="#fdf0e6" stroke="#c05621" stroke-width="1.7"/>
+  <text x="360" y="289" text-anchor="middle" font-size="18" font-weight="bold" fill="#c05621">概念模式（模式）</text>
+  <text x="360" y="315" text-anchor="middle" font-size="13" fill="#22303f">全部数据的逻辑结构、联系与约束</text>
+  <line x1="360" y1="330" x2="360" y2="379" stroke="#8aa15c" stroke-width="1.6"/>
+  <polygon points="360,387 355.5,379 364.5,379" fill="#8aa15c"/>
+  <text x="375" y="360" font-size="12" fill="#4a6130">概念/内模式映像 → 物理数据独立性</text>
+  <rect x="220" y="390" width="280" height="60" rx="7" fill="#f3f6ee" stroke="#8aa15c" stroke-width="1.7"/>
+  <text x="360" y="416" text-anchor="middle" font-size="17" font-weight="bold" fill="#4a6130">内模式（存储模式）</text>
+  <text x="360" y="439" text-anchor="middle" font-size="13" fill="#22303f">记录、索引与文件组织方式</text>
+  <line x1="360" y1="450" x2="360" y2="469" stroke="#1f4e79" stroke-width="1.5"/>
+  <polygon points="360,477 355.5,469 364.5,469" fill="#1f4e79"/>
+  <rect x="260" y="480" width="200" height="38" rx="6" fill="#1f4e79"/>
+  <text x="360" y="505" text-anchor="middle" font-size="15" font-weight="bold" fill="#ffffff">数据库（内部视图）</text>
+  <rect x="300" y="182" width="120" height="34" rx="5" fill="#fdf0e6"/>
+  <text x="360" y="204" text-anchor="middle" font-size="12" fill="#c05621">逻辑数据独立性</text>
+</svg></div><div class="cap">数据库三级模式、两级映像与数据独立性（重绘图6-1）</div></div>
+<table><colgroup><col style="width:13.0%"><col style="width:31.5%"><col style="width:55.6%"></colgroup><thead><tr><th>抽象层</th><th>对应模式</th><th>核心含义</th></tr></thead><tbody><tr><td class="tc">视图层</td><td>外模式（用户模式、子模式）</td><td>用户所见的数据库局部逻辑结构；可有多个</td></tr><tr><td class="tc">逻辑层</td><td>概念模式（模式）</td><td>全体数据的逻辑结构、联系及约束；通常一个，只描述“型”</td></tr><tr><td class="tc">物理层</td><td>内模式（存储模式）</td><td>记录、索引、文件组织等物理存储方式；通常一个</td></tr></tbody></table>
+<table><colgroup><col style="width:25.7%"><col style="width:21.0%"><col style="width:53.3%"></colgroup><thead><tr><th>两级映像</th><th>保证的独立性</th><th>判断方法</th></tr></thead><tbody><tr><td>外模式/概念模式映像</td><td class="tc">逻辑数据独立性</td><td>概念模式改变时，调整映像，外模式与应用程序可不变</td></tr><tr><td>概念模式/内模式映像</td><td class="tc">物理数据独立性</td><td>内模式或存储结构改变时，调整映像，概念模式可不变</td></tr></tbody></table>
+<div class="mnemonic">助记：“外概保逻辑，概内保物理”——看谁变了仍不影响上层，就落到哪条映像上。</div>
+<h3>6.2 关系数据库</h3>
+<p><b>1. 基本术语、关系模式与完整性</b> ⭐【重点】【高频考点】</p>
+<p>关系模型用二维表同时表示实体及实体间联系。关系模式是相对稳定的“型”，关系实例是某一时刻的“值”；形式化定义为 R(U,D,dom,F)，常简写为 R(U)。</p>
+<table><colgroup><col style="width:25.6%"><col style="width:74.4%"></colgroup><thead><tr><th>术语</th><th>必须掌握的含义</th></tr></thead><tbody><tr><td class="tc">属性、域</td><td>属性是列；域是该列允许取值的集合，关系模型要求域值原子化</td></tr><tr><td class="tc">元组、目（度）</td><td>元组是行；目或度是属性列数，不是行数</td></tr><tr><td class="tc">候选码</td><td>能唯一标识一个元组的极小属性或属性组，可有多个</td></tr><tr><td class="tc">主码</td><td>从候选码中选定的一个；主码属性唯一且非空</td></tr><tr><td class="tc">主属性</td><td>出现在<b>任一候选码</b>中的属性；其余为非主属性</td></tr><tr><td class="tc">外码</td><td>本关系中的属性参照另一关系（也可自参照）的候选码/主码</td></tr><tr><td class="tc">全码</td><td>全部属性合起来才构成候选码</td></tr></tbody></table>
+<div class="example">举例：SC(学号,课程号,成绩) 中，(学号,课程号) 是候选码，学号与课程号都是主属性；学号参照学生关系、课程号参照课程关系，因此二者又分别是外码。</div>
+<div class="fig"><div><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 400" font-family="Microsoft YaHei, 微软雅黑, sans-serif">
+  <rect width="720" height="400" fill="#ffffff"/>
+  <text x="360" y="30" text-anchor="middle" font-size="20" font-weight="bold" fill="#1f4e79">关系基本术语与三类完整性约束</text>
+  <text x="50" y="57" font-size="14" font-weight="bold" fill="#1f4e79">学生关系 S（关系实例）</text>
+  <rect x="50" y="70" width="620" height="140" fill="#ffffff" stroke="#1f4e79" stroke-width="1.4"/>
+  <rect x="50" y="70" width="620" height="42" fill="#1f4e79"/>
+  <line x1="205" y1="70" x2="205" y2="210" stroke="#1f4e79"/>
+  <line x1="360" y1="70" x2="360" y2="210" stroke="#1f4e79"/>
+  <line x1="515" y1="70" x2="515" y2="210" stroke="#1f4e79"/>
+  <line x1="50" y1="112" x2="670" y2="112" stroke="#1f4e79"/>
+  <line x1="50" y1="161" x2="670" y2="161" stroke="#d5dde5"/>
+  <text x="127" y="97" text-anchor="middle" font-size="14" font-weight="bold" fill="#ffffff">学号（主码）</text>
+  <text x="282" y="97" text-anchor="middle" font-size="14" font-weight="bold" fill="#ffffff">姓名</text>
+  <text x="437" y="97" text-anchor="middle" font-size="14" font-weight="bold" fill="#ffffff">系别</text>
+  <text x="592" y="97" text-anchor="middle" font-size="14" font-weight="bold" fill="#ffffff">年龄</text>
+  <text x="127" y="141" text-anchor="middle" font-size="14" fill="#22303f">S01</text>
+  <text x="282" y="141" text-anchor="middle" font-size="14" fill="#22303f">小林</text>
+  <text x="437" y="141" text-anchor="middle" font-size="14" fill="#22303f">计算机</text>
+  <text x="592" y="141" text-anchor="middle" font-size="14" fill="#22303f">20</text>
+  <text x="127" y="190" text-anchor="middle" font-size="14" fill="#22303f">S02</text>
+  <text x="282" y="190" text-anchor="middle" font-size="14" fill="#22303f">小周</text>
+  <text x="437" y="190" text-anchor="middle" font-size="14" fill="#22303f">数学</text>
+  <text x="592" y="190" text-anchor="middle" font-size="14" fill="#22303f">19</text>
+  <text x="360" y="231" text-anchor="middle" font-size="13" fill="#6b7a8a">每一列是属性；每一行是元组；属性个数是度；每列取值范围是域</text>
+  <rect x="25" y="255" width="205" height="120" rx="8" fill="#eaf1f8" stroke="#1f4e79"/>
+  <text x="127" y="284" text-anchor="middle" font-size="16" font-weight="bold" fill="#1f4e79">实体完整性</text>
+  <text x="127" y="313" text-anchor="middle" font-size="14" fill="#22303f">主码唯一且非空</text>
+  <text x="127" y="342" text-anchor="middle" font-size="13" fill="#6b7a8a">每个实体可唯一识别</text>
+  <rect x="258" y="255" width="205" height="120" rx="8" fill="#fdf0e6" stroke="#c05621"/>
+  <text x="360" y="284" text-anchor="middle" font-size="16" font-weight="bold" fill="#c05621">参照完整性</text>
+  <text x="360" y="313" text-anchor="middle" font-size="14" fill="#22303f">外码为空或指向已有码</text>
+  <text x="360" y="342" text-anchor="middle" font-size="13" fill="#6b7a8a">引用不能“悬空”</text>
+  <rect x="490" y="255" width="205" height="120" rx="8" fill="#f3f6ee" stroke="#8aa15c"/>
+  <text x="592" y="284" text-anchor="middle" font-size="16" font-weight="bold" fill="#4a6130">用户定义完整性</text>
+  <text x="592" y="313" text-anchor="middle" font-size="14" fill="#22303f">满足具体业务语义</text>
+  <text x="592" y="342" text-anchor="middle" font-size="13" fill="#6b7a8a">如年龄、库存取值范围</text>
+</svg></div><div class="cap">关系基本术语与三类完整性约束</div></div>
+<table><colgroup><col style="width:19.0%"><col style="width:44.8%"><col style="width:36.2%"></colgroup><thead><tr><th>完整性</th><th>规则</th><th>生活化例子</th></tr></thead><tbody><tr><td class="tc">实体完整性</td><td>主码唯一且所有主码属性非空</td><td>每张借书证必须有唯一证号，不能空着</td></tr><tr><td class="tc">参照完整性</td><td>外码取空（允许时）或等于被参照关系中已有码值</td><td>借阅记录不能指向不存在的读者</td></tr><tr><td class="tc">用户定义完整性</td><td>满足具体业务语义，如范围、格式、检查约束</td><td>图书库存量不得小于 0</td></tr></tbody></table>
+<p><b>2. 关系运算</b> ⭐【重点】【高频考点】【易错】</p>
+<div class="def">教材原文：关系操作的特点是操作对象和操作结果都是集合。</div>
+<p><b>五种基本关系代数运算是并、差、广义笛卡儿积、选择、投影</b>；交、连接、除等可由基本运算导出。并、交、差要求参与关系具有相容结构（同目且对应属性域相同）。</p>
+<table><colgroup><col style="width:16.4%"><col style="width:37.7%"><col style="width:45.9%"></colgroup><thead><tr><th>运算</th><th>记法与结果</th><th>识别要点</th></tr></thead><tbody><tr><td class="tc">并、交、差</td><td>R∪S、R∩S、R−S</td><td>分别取“属于任一”“同时属于”“只属于 R”</td></tr><tr><td class="tc">广义笛卡儿积</td><td>R×S</td><td>列数相加、元组数相乘，是无条件拼接</td></tr><tr><td class="tc">选择</td><td>σF(R)</td><td>按条件选<b>行</b>，水平方向</td></tr><tr><td class="tc">投影</td><td>πA(R)</td><td>选<b>列</b>并去掉重复元组，垂直方向</td></tr><tr><td class="tc">θ/等值连接</td><td>从 R×S 中选取满足条件的元组</td><td>θ 为 = 时是等值连接，通常保留重复列</td></tr><tr><td class="tc">自然连接</td><td>同名同域属性等值连接，并删除重复属性列</td><td>同时做行、列方向处理；无公共属性时退化为笛卡儿积</td></tr><tr><td class="tc">除</td><td>R÷S</td><td>找 R 中与 S 的<b>全部</b>目标值都关联的对象</td></tr><tr><td class="tc">外连接</td><td>左、右、全外连接</td><td>保留不匹配元组，缺失侧补 NULL</td></tr><tr><td class="tc">广义投影</td><td>投影列表允许算术表达式</td><td>可直接生成计算列</td></tr><tr><td class="tc">聚集</td><td>sum/avg/count/min/max</td><td>输入值的集合，返回单一值；distinct 可先去重</td></tr></tbody></table>
+<div class="fig"><div><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 500" font-family="Microsoft YaHei, 微软雅黑, sans-serif">
+  <rect width="720" height="500" fill="#ffffff"/>
+  <text x="360" y="30" text-anchor="middle" font-size="20" font-weight="bold" fill="#1f4e79">选择、投影、自然连接与除运算</text>
+  <rect x="20" y="50" width="330" height="190" rx="8" fill="#fbfdff" stroke="#d5dde5"/>
+  <text x="185" y="78" text-anchor="middle" font-size="16" font-weight="bold" fill="#1f4e79">选择 σ：按条件筛行</text>
+  <rect x="40" y="98" width="125" height="95" fill="#ffffff" stroke="#6b7a8a"/>
+  <rect x="40" y="98" width="125" height="30" fill="#eaf1f8"/>
+  <line x1="40" y1="128" x2="165" y2="128" stroke="#6b7a8a"/>
+  <line x1="40" y1="150" x2="165" y2="150" stroke="#d5dde5"/>
+  <line x1="40" y1="172" x2="165" y2="172" stroke="#d5dde5"/>
+  <text x="102" y="119" text-anchor="middle" font-size="12" fill="#1f4e79">学号　成绩</text>
+  <text x="102" y="143" text-anchor="middle" font-size="12" fill="#22303f">S1　　80</text>
+  <text x="102" y="165" text-anchor="middle" font-size="12" fill="#22303f">S2　　55</text>
+  <text x="102" y="187" text-anchor="middle" font-size="12" fill="#22303f">S3　　90</text>
+  <line x1="165" y1="145" x2="224" y2="145" stroke="#1f4e79" stroke-width="1.5"/>
+  <polygon points="232,145 224,140.5 224,149.5" fill="#1f4e79"/>
+  <rect x="235" y="112" width="90" height="68" fill="#f3f6ee" stroke="#8aa15c"/>
+  <text x="280" y="138" text-anchor="middle" font-size="12" fill="#22303f">S1　80</text>
+  <text x="280" y="164" text-anchor="middle" font-size="12" fill="#22303f">S3　90</text>
+  <text x="185" y="218" text-anchor="middle" font-size="13" fill="#6b7a8a">条件：成绩 ≥ 60；列不变，行减少</text>
+  <rect x="370" y="50" width="330" height="190" rx="8" fill="#fbfdff" stroke="#d5dde5"/>
+  <text x="535" y="78" text-anchor="middle" font-size="16" font-weight="bold" fill="#1f4e79">投影 π：取列并去重</text>
+  <rect x="390" y="98" width="130" height="95" fill="#ffffff" stroke="#6b7a8a"/>
+  <rect x="390" y="98" width="130" height="30" fill="#eaf1f8"/>
+  <line x1="455" y1="98" x2="455" y2="193" stroke="#6b7a8a"/>
+  <line x1="390" y1="128" x2="520" y2="128" stroke="#6b7a8a"/>
+  <line x1="390" y1="150" x2="520" y2="150" stroke="#d5dde5"/>
+  <line x1="390" y1="172" x2="520" y2="172" stroke="#d5dde5"/>
+  <text x="422" y="119" text-anchor="middle" font-size="12" fill="#1f4e79">学号</text>
+  <text x="487" y="119" text-anchor="middle" font-size="12" fill="#1f4e79">姓名</text>
+  <text x="422" y="143" text-anchor="middle" font-size="12" fill="#22303f">S1</text>
+  <text x="487" y="143" text-anchor="middle" font-size="12" fill="#22303f">小林</text>
+  <text x="422" y="165" text-anchor="middle" font-size="12" fill="#22303f">S2</text>
+  <text x="487" y="165" text-anchor="middle" font-size="12" fill="#22303f">小周</text>
+  <line x1="520" y1="145" x2="569" y2="145" stroke="#1f4e79" stroke-width="1.5"/>
+  <polygon points="577,145 569,140.5 569,149.5" fill="#1f4e79"/>
+  <rect x="580" y="105" width="90" height="82" fill="#f3f6ee" stroke="#8aa15c"/>
+  <text x="625" y="130" text-anchor="middle" font-size="12" fill="#4a6130">姓名</text>
+  <text x="625" y="153" text-anchor="middle" font-size="12" fill="#22303f">小林</text>
+  <text x="625" y="176" text-anchor="middle" font-size="12" fill="#22303f">小周</text>
+  <text x="535" y="218" text-anchor="middle" font-size="13" fill="#6b7a8a">垂直取列；重复元组要消除</text>
+  <rect x="20" y="265" width="330" height="215" rx="8" fill="#fbfdff" stroke="#d5dde5"/>
+  <text x="185" y="293" text-anchor="middle" font-size="16" font-weight="bold" fill="#1f4e79">自然连接</text>
+  <rect x="35" y="320" width="75" height="65" fill="#eaf1f8" stroke="#1f4e79"/>
+  <text x="72" y="345" text-anchor="middle" font-size="13" font-weight="bold" fill="#1f4e79">R</text>
+  <text x="72" y="370" text-anchor="middle" font-size="12" fill="#22303f">学号,姓名</text>
+  <text x="123" y="357" text-anchor="middle" font-size="12" fill="#c05621">连接</text>
+  <rect x="140" y="320" width="80" height="65" fill="#fdf0e6" stroke="#c05621"/>
+  <text x="180" y="345" text-anchor="middle" font-size="13" font-weight="bold" fill="#c05621">S</text>
+  <text x="180" y="370" text-anchor="middle" font-size="12" fill="#22303f">学号,成绩</text>
+  <line x1="220" y1="352" x2="239" y2="352" stroke="#1f4e79" stroke-width="1.5"/>
+  <polygon points="247,352 239,347.5 239,356.5" fill="#1f4e79"/>
+  <rect x="250" y="310" width="85" height="85" fill="#f3f6ee" stroke="#8aa15c"/>
+  <text x="292" y="338" text-anchor="middle" font-size="12" fill="#4a6130">学号</text>
+  <text x="292" y="360" text-anchor="middle" font-size="12" fill="#22303f">姓名</text>
+  <text x="292" y="382" text-anchor="middle" font-size="12" fill="#22303f">成绩</text>
+  <text x="185" y="424" text-anchor="middle" font-size="13" fill="#22303f">同名学号等值匹配</text>
+  <text x="185" y="450" text-anchor="middle" font-size="13" fill="#6b7a8a">结果只保留一个“学号”列</text>
+  <rect x="370" y="265" width="330" height="215" rx="8" fill="#fbfdff" stroke="#d5dde5"/>
+  <text x="535" y="293" text-anchor="middle" font-size="16" font-weight="bold" fill="#1f4e79">除运算 ÷：关键词“全部”</text>
+  <rect x="392" y="318" width="125" height="65" rx="5" fill="#eaf1f8" stroke="#1f4e79"/>
+  <text x="454" y="344" text-anchor="middle" font-size="13" fill="#1f4e79">R（学生，课程）</text>
+  <text x="454" y="369" text-anchor="middle" font-size="12" fill="#22303f">记录实际选课</text>
+  <text x="531" y="357" text-anchor="middle" font-size="22" fill="#c05621">÷</text>
+  <rect x="550" y="318" width="125" height="65" rx="5" fill="#fdf0e6" stroke="#c05621"/>
+  <text x="612" y="344" text-anchor="middle" font-size="13" fill="#c05621">S（课程）</text>
+  <text x="612" y="369" text-anchor="middle" font-size="12" fill="#22303f">指定全部课程</text>
+  <rect x="420" y="410" width="230" height="45" rx="6" fill="#f3f6ee" stroke="#8aa15c"/>
+  <text x="535" y="438" text-anchor="middle" font-size="14" font-weight="bold" fill="#4a6130">结果：选修全部指定课程的学生</text>
+</svg></div><div class="cap">选择、投影、自然连接与除运算的直观含义</div></div>
+<div class="example">举例：要查“选修了全部指定课程的学生”，关键词是“全部”，应想到除法；若只查“选修过其中某一门”，不能用除法。</div>
+<p><b>3. 函数依赖与多值依赖</b> ⭐【重点】【高频考点】</p>
+<p>X→Y 表示：任意两个元组只要在 X 上相同，就必须在 Y 上相同。函数依赖由<b>业务语义</b>决定，不能根据某张表当前恰好没有反例就下结论。</p>
+<table><colgroup><col style="width:17.4%"><col style="width:40.9%"><col style="width:41.7%"></colgroup><thead><tr><th>类型</th><th>判定</th><th>典型例子</th></tr></thead><tbody><tr><td class="tc">平凡依赖</td><td>Y⊆X</td><td>(学号,姓名)→姓名</td></tr><tr><td class="tc">完全函数依赖</td><td>X 决定 Y，且 X 的任何真子集都不能决定 Y</td><td>(学号,课程号)→成绩</td></tr><tr><td class="tc">部分函数依赖</td><td>X 决定 Y，但 X 的某个真子集也能决定 Y</td><td>(学号,课程号)→姓名，因为学号已能决定姓名</td></tr><tr><td class="tc">传递依赖</td><td>X→Y、Y→Z，且 Y 不决定 X，Z 不直接属于 X</td><td>学号→状态→城市</td></tr></tbody></table>
+<div class="fig"><div><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 360" font-family="Microsoft YaHei, 微软雅黑, sans-serif">
+  <rect width="720" height="360" fill="#ffffff"/>
+  <text x="360" y="30" text-anchor="middle" font-size="20" font-weight="bold" fill="#1f4e79">完全、部分与传递函数依赖</text>
+  <rect x="20" y="55" width="210" height="260" rx="8" fill="#f3f6ee" stroke="#8aa15c"/>
+  <text x="125" y="84" text-anchor="middle" font-size="17" font-weight="bold" fill="#4a6130">完全函数依赖</text>
+  <rect x="45" y="105" width="160" height="42" rx="5" fill="#ffffff" stroke="#8aa15c"/>
+  <text x="125" y="132" text-anchor="middle" font-size="14" fill="#22303f">（学号，课程号）</text>
+  <line x1="125" y1="147" x2="125" y2="209" stroke="#4a6130" stroke-width="1.6"/>
+  <polygon points="125,217 120.5,209 129.5,209" fill="#4a6130"/>
+  <rect x="85" y="220" width="80" height="40" rx="5" fill="#ffffff" stroke="#8aa15c"/>
+  <text x="125" y="246" text-anchor="middle" font-size="15" fill="#22303f">成绩</text>
+  <text x="125" y="287" text-anchor="middle" font-size="13" fill="#4a6130">去掉任一属性都不能决定</text>
+  <rect x="255" y="55" width="210" height="260" rx="8" fill="#fdf0e6" stroke="#c05621"/>
+  <text x="360" y="84" text-anchor="middle" font-size="17" font-weight="bold" fill="#c05621">部分函数依赖</text>
+  <rect x="280" y="105" width="160" height="42" rx="5" fill="#ffffff" stroke="#c05621"/>
+  <text x="360" y="132" text-anchor="middle" font-size="14" fill="#22303f">（学号，课程号）</text>
+  <line x1="360" y1="147" x2="360" y2="209" stroke="#c05621" stroke-width="1.6"/>
+  <polygon points="360,217 355.5,209 364.5,209" fill="#c05621"/>
+  <rect x="320" y="220" width="80" height="40" rx="5" fill="#ffffff" stroke="#c05621"/>
+  <text x="360" y="246" text-anchor="middle" font-size="15" fill="#22303f">姓名</text>
+  <text x="360" y="287" text-anchor="middle" font-size="13" fill="#c05621">学号单独即可决定姓名</text>
+  <rect x="490" y="55" width="210" height="260" rx="8" fill="#eaf1f8" stroke="#1f4e79"/>
+  <text x="595" y="79" text-anchor="middle" font-size="17" font-weight="bold" fill="#1f4e79">传递依赖</text>
+  <rect x="555" y="91" width="80" height="35" rx="5" fill="#ffffff" stroke="#1f4e79"/>
+  <text x="595" y="114" text-anchor="middle" font-size="14" fill="#22303f">学号 X</text>
+  <line x1="595" y1="126" x2="595" y2="144" stroke="#1f4e79" stroke-width="1.5"/>
+  <polygon points="595,152 590.5,144 599.5,144" fill="#1f4e79"/>
+  <rect x="555" y="155" width="80" height="35" rx="5" fill="#ffffff" stroke="#1f4e79"/>
+  <text x="595" y="178" text-anchor="middle" font-size="14" fill="#22303f">状态 Y</text>
+  <line x1="595" y1="190" x2="595" y2="208" stroke="#1f4e79" stroke-width="1.5"/>
+  <polygon points="595,216 590.5,208 599.5,208" fill="#1f4e79"/>
+  <rect x="555" y="219" width="80" height="35" rx="5" fill="#ffffff" stroke="#1f4e79"/>
+  <text x="595" y="242" text-anchor="middle" font-size="14" fill="#22303f">城市 Z</text>
+  <text x="595" y="285" text-anchor="middle" font-size="13" fill="#1f4e79">X→Y，Y→Z</text>
+  <text x="360" y="342" text-anchor="middle" font-size="14" font-weight="bold" fill="#c05621">判断依赖看业务语义，不能只看某一时刻的数据</text>
+</svg></div><div class="cap">完全、部分与传递函数依赖</div></div>
+<p>多值依赖 X→→Y 表示：给定 X 后，Y 的一组取值只由 X 决定，并与剩余属性 Z 无关。它具有对称性；函数依赖可看作多值依赖的特例。</p>
+<p><b>4. 规范化</b> ⭐【重点】【高频考点】【易错】</p>
+<p>规范化的目的，是通过模式分解减少冗余以及插入、删除、修改异常。低级范式集合包含高级范式集合，即满足 4NF 必满足 BCNF、3NF、2NF、1NF。</p>
+<table><colgroup><col style="width:10.1%"><col style="width:49.6%"><col style="width:40.3%"></colgroup><thead><tr><th>范式</th><th>核心判定</th><th>主要消除的问题</th></tr></thead><tbody><tr><td class="tc">1NF</td><td>每个属性值都不可再分，保持原子性</td><td>非原子字段</td></tr><tr><td class="tc">2NF</td><td>在 1NF 上，每个非主属性都完全依赖于每个候选码</td><td>非主属性对码的部分依赖</td></tr><tr><td class="tc">3NF</td><td>在 2NF 上，不存在非主属性对码的传递依赖</td><td>非主属性对码的传递依赖</td></tr><tr><td class="tc">BCNF</td><td>每个非平凡函数依赖的决定因素 X 都含有码（即为超码）</td><td>主属性相关的部分、传递依赖及非码决定因素</td></tr><tr><td class="tc">4NF</td><td>每个非平凡多值依赖的决定因素 X 都含有码</td><td>非平凡且非函数依赖的多值依赖</td></tr></tbody></table>
+<div class="fig"><div><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 470" font-family="Microsoft YaHei, 微软雅黑, sans-serif">
+  <rect width="720" height="470" fill="#ffffff"/>
+  <text x="360" y="28" text-anchor="middle" font-size="20" font-weight="bold" fill="#1f4e79">规范化阶梯与供应关系分解</text>
+  <rect x="20" y="55" width="120" height="140" rx="7" fill="#f6f9fc" stroke="#6b7a8a"/>
+  <text x="80" y="86" text-anchor="middle" font-size="19" font-weight="bold" fill="#22303f">1NF</text>
+  <text x="80" y="120" text-anchor="middle" font-size="14" fill="#22303f">属性值原子</text>
+  <text x="80" y="150" text-anchor="middle" font-size="12" fill="#6b7a8a">每项不可再分</text>
+  <line x1="140" y1="125" x2="149" y2="125" stroke="#1f4e79" stroke-width="1.5"/>
+  <polygon points="157,125 149,120.5 149,129.5" fill="#1f4e79"/>
+  <rect x="160" y="55" width="120" height="140" rx="7" fill="#eaf1f8" stroke="#1f4e79"/>
+  <text x="220" y="86" text-anchor="middle" font-size="19" font-weight="bold" fill="#1f4e79">2NF</text>
+  <text x="220" y="116" text-anchor="middle" font-size="13" fill="#22303f">非主属性</text>
+  <text x="220" y="140" text-anchor="middle" font-size="13" fill="#22303f">完全依赖于码</text>
+  <text x="220" y="169" text-anchor="middle" font-size="12" fill="#6b7a8a">去掉部分依赖</text>
+  <line x1="280" y1="125" x2="289" y2="125" stroke="#1f4e79" stroke-width="1.5"/>
+  <polygon points="297,125 289,120.5 289,129.5" fill="#1f4e79"/>
+  <rect x="300" y="55" width="120" height="140" rx="7" fill="#eaf1f8" stroke="#1f4e79"/>
+  <text x="360" y="86" text-anchor="middle" font-size="19" font-weight="bold" fill="#1f4e79">3NF</text>
+  <text x="360" y="116" text-anchor="middle" font-size="13" fill="#22303f">非主属性</text>
+  <text x="360" y="140" text-anchor="middle" font-size="13" fill="#22303f">不传递依赖于码</text>
+  <text x="360" y="169" text-anchor="middle" font-size="12" fill="#6b7a8a">去掉传递依赖</text>
+  <line x1="420" y1="125" x2="429" y2="125" stroke="#1f4e79" stroke-width="1.5"/>
+  <polygon points="437,125 429,120.5 429,129.5" fill="#1f4e79"/>
+  <rect x="440" y="55" width="120" height="140" rx="7" fill="#fdf0e6" stroke="#c05621"/>
+  <text x="500" y="86" text-anchor="middle" font-size="19" font-weight="bold" fill="#c05621">BCNF</text>
+  <text x="500" y="116" text-anchor="middle" font-size="13" fill="#22303f">每个决定因素</text>
+  <text x="500" y="140" text-anchor="middle" font-size="13" fill="#22303f">都含有码</text>
+  <text x="500" y="169" text-anchor="middle" font-size="12" fill="#6b7a8a">管函数依赖</text>
+  <line x1="560" y1="125" x2="569" y2="125" stroke="#1f4e79" stroke-width="1.5"/>
+  <polygon points="577,125 569,120.5 569,129.5" fill="#1f4e79"/>
+  <rect x="580" y="55" width="120" height="140" rx="7" fill="#f3f6ee" stroke="#8aa15c"/>
+  <text x="640" y="86" text-anchor="middle" font-size="19" font-weight="bold" fill="#4a6130">4NF</text>
+  <text x="640" y="116" text-anchor="middle" font-size="13" fill="#22303f">非平凡多值依赖</text>
+  <text x="640" y="140" text-anchor="middle" font-size="13" fill="#22303f">决定因素含码</text>
+  <text x="640" y="169" text-anchor="middle" font-size="12" fill="#6b7a8a">管多值依赖</text>
+  <text x="35" y="230" font-size="15" font-weight="bold" fill="#1f4e79">供应关系 FIRST 的分解结果</text>
+  <rect x="45" y="290" width="170" height="90" rx="7" fill="#fdf0e6" stroke="#c05621"/>
+  <text x="130" y="318" text-anchor="middle" font-size="14" font-weight="bold" fill="#c05621">FIRST（1NF）</text>
+  <text x="130" y="344" text-anchor="middle" font-size="12" fill="#22303f">供应者＋零件＋数量</text>
+  <text x="130" y="366" text-anchor="middle" font-size="12" fill="#6b7a8a">冗余与增删改异常</text>
+  <line x1="215" y1="307" x2="300" y2="307" stroke="#1f4e79" stroke-width="1.4"/>
+  <line x1="300" y1="255" x2="300" y2="307" stroke="#1f4e79" stroke-width="1.4"/>
+  <line x1="300" y1="255" x2="389" y2="255" stroke="#1f4e79" stroke-width="1.4"/>
+  <polygon points="397,255 389,250.5 389,259.5" fill="#1f4e79"/>
+  <line x1="215" y1="335" x2="389" y2="335" stroke="#1f4e79" stroke-width="1.4"/>
+  <polygon points="397,335 389,330.5 389,339.5" fill="#1f4e79"/>
+  <line x1="215" y1="363" x2="320" y2="363" stroke="#1f4e79" stroke-width="1.4"/>
+  <line x1="320" y1="363" x2="320" y2="415" stroke="#1f4e79" stroke-width="1.4"/>
+  <line x1="320" y1="415" x2="389" y2="415" stroke="#1f4e79" stroke-width="1.4"/>
+  <polygon points="397,415 389,410.5 389,419.5" fill="#1f4e79"/>
+  <rect x="400" y="230" width="285" height="50" rx="6" fill="#f3f6ee" stroke="#8aa15c"/>
+  <text x="542" y="260" text-anchor="middle" font-size="13" fill="#22303f">供应者（Sno，名称，状态）→ 3NF</text>
+  <rect x="400" y="310" width="285" height="50" rx="6" fill="#f3f6ee" stroke="#8aa15c"/>
+  <text x="542" y="340" text-anchor="middle" font-size="13" fill="#22303f">状态城市（状态，城市）→ 3NF</text>
+  <rect x="400" y="390" width="285" height="50" rx="6" fill="#f3f6ee" stroke="#8aa15c"/>
+  <text x="542" y="420" text-anchor="middle" font-size="13" fill="#22303f">供应（Sno，Pno，数量）→ 3NF</text>
+  <text x="35" y="449" font-size="12" fill="#6b7a8a">分解同时消除非主属性的部分依赖与传递依赖，降低冗余和增删改异常。</text>
+</svg></div><div class="cap">从1NF到4NF的规范化阶梯与供应关系分解</div></div>
+<div class="mnemonic">助记：“一原子，二去部分，三去传递，BC 看决定因素，四管多值”；3NF 只看非主属性的部分与传递，BCNF 对所有非平凡函数依赖统一要求决定因素含码。</div>
+<h3>6.3 数据库设计</h3>
+<p><b>1. 六个阶段与需求分析</b> ⭐【重点】【高频考点】</p>
+<div class="fig"><div><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 280" font-family="Microsoft YaHei, 微软雅黑, sans-serif">
+  <rect width="720" height="280" fill="#ffffff"/>
+  <text x="360" y="30" text-anchor="middle" font-size="20" font-weight="bold" fill="#1f4e79">数据库设计六阶段及主要产物</text>
+  <rect x="20" y="70" width="95" height="95" rx="7" fill="#eaf1f8" stroke="#1f4e79"/>
+  <text x="67" y="99" text-anchor="middle" font-size="14" font-weight="bold" fill="#1f4e79">① 用户需求</text>
+  <text x="67" y="125" text-anchor="middle" font-size="14" font-weight="bold" fill="#1f4e79">分析</text>
+  <text x="67" y="150" text-anchor="middle" font-size="12" fill="#6b7a8a">调查业务</text>
+  <line x1="115" y1="117" x2="126" y2="117" stroke="#1f4e79" stroke-width="1.5"/>
+  <polygon points="134,117 126,112.5 126,121.5" fill="#1f4e79"/>
+  <rect x="137" y="70" width="95" height="95" rx="7" fill="#eaf1f8" stroke="#1f4e79"/>
+  <text x="184" y="99" text-anchor="middle" font-size="14" font-weight="bold" fill="#1f4e79">② 概念结构</text>
+  <text x="184" y="125" text-anchor="middle" font-size="14" font-weight="bold" fill="#1f4e79">设计</text>
+  <text x="184" y="150" text-anchor="middle" font-size="12" fill="#6b7a8a">抽象信息</text>
+  <line x1="232" y1="117" x2="243" y2="117" stroke="#1f4e79" stroke-width="1.5"/>
+  <polygon points="251,117 243,112.5 243,121.5" fill="#1f4e79"/>
+  <rect x="254" y="70" width="95" height="95" rx="7" fill="#fdf0e6" stroke="#c05621"/>
+  <text x="301" y="99" text-anchor="middle" font-size="14" font-weight="bold" fill="#c05621">③ 逻辑结构</text>
+  <text x="301" y="125" text-anchor="middle" font-size="14" font-weight="bold" fill="#c05621">设计</text>
+  <text x="301" y="150" text-anchor="middle" font-size="12" fill="#6b7a8a">关系模式</text>
+  <line x1="349" y1="117" x2="360" y2="117" stroke="#1f4e79" stroke-width="1.5"/>
+  <polygon points="368,117 360,112.5 360,121.5" fill="#1f4e79"/>
+  <rect x="371" y="70" width="95" height="95" rx="7" fill="#fdf0e6" stroke="#c05621"/>
+  <text x="418" y="99" text-anchor="middle" font-size="14" font-weight="bold" fill="#c05621">④ 物理结构</text>
+  <text x="418" y="125" text-anchor="middle" font-size="14" font-weight="bold" fill="#c05621">设计</text>
+  <text x="418" y="150" text-anchor="middle" font-size="12" fill="#6b7a8a">存储访问</text>
+  <line x1="466" y1="117" x2="477" y2="117" stroke="#1f4e79" stroke-width="1.5"/>
+  <polygon points="485,117 477,112.5 477,121.5" fill="#1f4e79"/>
+  <rect x="488" y="70" width="95" height="95" rx="7" fill="#f3f6ee" stroke="#8aa15c"/>
+  <text x="535" y="99" text-anchor="middle" font-size="14" font-weight="bold" fill="#4a6130">⑤ 数据库</text>
+  <text x="535" y="125" text-anchor="middle" font-size="14" font-weight="bold" fill="#4a6130">实施</text>
+  <text x="535" y="150" text-anchor="middle" font-size="12" fill="#6b7a8a">建库试运行</text>
+  <line x1="583" y1="117" x2="594" y2="117" stroke="#1f4e79" stroke-width="1.5"/>
+  <polygon points="602,117 594,112.5 594,121.5" fill="#1f4e79"/>
+  <rect x="605" y="70" width="95" height="95" rx="7" fill="#f3f6ee" stroke="#8aa15c"/>
+  <text x="652" y="99" text-anchor="middle" font-size="14" font-weight="bold" fill="#4a6130">⑥ 运行</text>
+  <text x="652" y="125" text-anchor="middle" font-size="14" font-weight="bold" fill="#4a6130">和维护</text>
+  <text x="652" y="150" text-anchor="middle" font-size="12" fill="#6b7a8a">监测调整</text>
+  <rect x="20" y="195" width="95" height="55" rx="5" fill="#f6f9fc"/>
+  <text x="67" y="218" text-anchor="middle" font-size="12" fill="#22303f">数据流图</text>
+  <text x="67" y="239" text-anchor="middle" font-size="12" fill="#22303f">数据字典</text>
+  <rect x="137" y="195" width="95" height="55" rx="5" fill="#f6f9fc"/>
+  <text x="184" y="229" text-anchor="middle" font-size="12" fill="#22303f">全局 E-R 图</text>
+  <rect x="254" y="195" width="95" height="55" rx="5" fill="#f6f9fc"/>
+  <text x="301" y="218" text-anchor="middle" font-size="12" fill="#22303f">规范模式</text>
+  <text x="301" y="239" text-anchor="middle" font-size="12" fill="#22303f">约束与视图</text>
+  <rect x="371" y="195" width="95" height="55" rx="5" fill="#f6f9fc"/>
+  <text x="418" y="218" text-anchor="middle" font-size="12" fill="#22303f">分布、索引</text>
+  <text x="418" y="239" text-anchor="middle" font-size="12" fill="#22303f">存取路径</text>
+  <rect x="488" y="195" width="95" height="55" rx="5" fill="#f6f9fc"/>
+  <text x="535" y="218" text-anchor="middle" font-size="12" fill="#22303f">DDL、加载</text>
+  <text x="535" y="239" text-anchor="middle" font-size="12" fill="#22303f">调试评价</text>
+  <rect x="605" y="195" width="95" height="55" rx="5" fill="#f6f9fc"/>
+  <text x="652" y="218" text-anchor="middle" font-size="12" fill="#22303f">备份恢复</text>
+  <text x="652" y="239" text-anchor="middle" font-size="12" fill="#22303f">重组重构</text>
+</svg></div><div class="cap">数据库设计六阶段及主要产物</div></div>
+<table><colgroup><col style="width:25.0%"><col style="width:75.0%"></colgroup><thead><tr><th>阶段</th><th>核心任务与产物</th></tr></thead><tbody><tr><td class="tc">用户需求分析</td><td>调查业务与数据，形成数据流图、数据字典及需求说明</td></tr><tr><td class="tc">概念结构设计</td><td>建立独立于 DBMS 和硬件的概念模型，常用 E-R 图</td></tr><tr><td class="tc">逻辑结构设计</td><td>转成所选 DBMS 支持的数据模型，规范化并确定约束、视图</td></tr><tr><td class="tc">物理结构设计</td><td>确定数据分布、存储结构和访问方式</td></tr><tr><td class="tc">数据库实施</td><td>DDL 建库、数据加载、应用调试、试运行与评价</td></tr><tr><td class="tc">运行和维护</td><td>性能监测改善、备份恢复、重组与重构</td></tr></tbody></table>
+<p>需求分析由分析人员和用户共同参与，常采用自顶向下的结构化分析（SA），逐层分解并用数据流图和数据字典表达。需求包括：<b>信息要求</b>（存什么及完整性）、<b>处理要求</b>（做什么及频度、响应时间）、<b>系统要求</b>（安全、使用方式、可扩充性）。</p>
+<p><b>2. 概念结构设计：E-R 方法</b> ⭐【重点】</p>
+<p>概念结构设计通过<b>分类、聚集、概括</b>抽象现实事物。分类把共同特征归为一类；聚集定义某类型的组成属性；概括由超类定义子类，如“研究生是学生”。</p>
+<p>设计步骤为<b>选择局部应用 → 逐一设计分 E-R 图 → 合并为全局 E-R 图</b>。合并时统一冲突并消除冗余：</p>
+<table><colgroup><col style="width:20.5%"><col style="width:79.5%"></colgroup><thead><tr><th>冲突</th><th>典型表现</th></tr></thead><tbody><tr><td class="tc">属性冲突</td><td>同一属性的类型、取值范围或单位不一致</td></tr><tr><td class="tc">命名冲突</td><td>同名异义或异名同义</td></tr><tr><td class="tc">结构冲突</td><td>同一对象一处抽象为实体，另一处抽象为属性；或属性集不同</td></tr></tbody></table>
+<p><b>3. 逻辑结构设计与反规范化</b> ⭐【重点】【高频考点】【易错】</p>
+<p>实体通常直接转为关系模式，实体标识符成为关系的码；联系按下表转换：</p>
+<table><colgroup><col style="width:11.5%"><col style="width:57.7%"><col style="width:30.8%"></colgroup><thead><tr><th>联系</th><th>常用转换方法</th><th>码如何处理</th></tr></thead><tbody><tr><td class="tc">1:1</td><td>通常不单独建表，可并入任一方，加入另一方码及联系属性</td><td>接收方原有码不变</td></tr><tr><td class="tc">1:N</td><td>通常并入 <b>N 方</b>，加入一方码及联系属性</td><td>N 方原有码不变</td></tr><tr><td class="tc">M:N</td><td>必须单独转为关系模式，含双方码及联系属性</td><td>通常由双方码共同组成主码</td></tr></tbody></table>
+<div class="fig"><div><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 500" font-family="Microsoft YaHei, 微软雅黑, sans-serif">
+  <rect width="720" height="500" fill="#ffffff"/>
+  <text x="360" y="30" text-anchor="middle" font-size="20" font-weight="bold" fill="#1f4e79">E-R 图转换为关系模式：学生选课示例</text>
+  <rect x="30" y="50" width="660" height="200" rx="9" fill="#fbfdff" stroke="#d5dde5"/>
+  <text x="48" y="73" font-size="13" fill="#6b7a8a">概念模型：矩形＝实体，菱形＝联系，椭圆＝联系属性</text>
+  <rect x="55" y="90" width="145" height="55" rx="5" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.5"/>
+  <text x="127" y="124" text-anchor="middle" font-size="17" font-weight="bold" fill="#1f4e79">学生</text>
+  <line x1="200" y1="117" x2="235" y2="117" stroke="#1f4e79" stroke-width="1.5"/>
+  <text x="214" y="103" text-anchor="middle" font-size="14" font-weight="bold" fill="#c05621">m</text>
+  <polygon points="305,82 375,117 305,152 235,117" fill="#fdf0e6" stroke="#c05621" stroke-width="1.5"/>
+  <text x="305" y="124" text-anchor="middle" font-size="17" font-weight="bold" fill="#c05621">选课</text>
+  <line x1="375" y1="117" x2="455" y2="117" stroke="#1f4e79" stroke-width="1.5"/>
+  <text x="414" y="103" text-anchor="middle" font-size="14" font-weight="bold" fill="#c05621">n</text>
+  <rect x="455" y="90" width="145" height="55" rx="5" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.5"/>
+  <text x="527" y="124" text-anchor="middle" font-size="17" font-weight="bold" fill="#1f4e79">课程</text>
+  <line x1="305" y1="152" x2="305" y2="183" stroke="#c05621" stroke-width="1.5"/>
+  <ellipse cx="305" cy="213" rx="58" ry="30" fill="#f3f6ee" stroke="#8aa15c" stroke-width="1.4"/>
+  <text x="305" y="220" text-anchor="middle" font-size="15" fill="#4a6130">成绩</text>
+  <line x1="360" y1="250" x2="360" y2="289" stroke="#1f4e79" stroke-width="1.6"/>
+  <polygon points="360,297 355.5,289 364.5,289" fill="#1f4e79"/>
+  <text x="377" y="276" font-size="13" fill="#6b7a8a">转换</text>
+  <rect x="35" y="300" width="180" height="130" rx="7" fill="#eaf1f8" stroke="#1f4e79"/>
+  <rect x="35" y="300" width="180" height="38" rx="7" fill="#1f4e79"/>
+  <text x="125" y="325" text-anchor="middle" font-size="15" font-weight="bold" fill="#ffffff">学生关系</text>
+  <text x="125" y="364" text-anchor="middle" font-size="14" fill="#22303f">学生（学号，姓名）</text>
+  <text x="125" y="397" text-anchor="middle" font-size="13" fill="#6b7a8a">主码：学号</text>
+  <rect x="265" y="300" width="190" height="160" rx="7" fill="#fdf0e6" stroke="#c05621"/>
+  <rect x="265" y="300" width="190" height="38" rx="7" fill="#c05621"/>
+  <text x="360" y="325" text-anchor="middle" font-size="15" font-weight="bold" fill="#ffffff">选课关系（M:N）</text>
+  <text x="360" y="360" text-anchor="middle" font-size="13" fill="#22303f">选课（学号，课程号，成绩）</text>
+  <text x="360" y="390" text-anchor="middle" font-size="12" fill="#6b7a8a">主码：学号＋课程号</text>
+  <text x="360" y="418" text-anchor="middle" font-size="12" fill="#6b7a8a">学号、课程号分别是外码</text>
+  <text x="360" y="445" text-anchor="middle" font-size="12" fill="#c05621">联系属性“成绩”一并保留</text>
+  <rect x="505" y="300" width="180" height="130" rx="7" fill="#eaf1f8" stroke="#1f4e79"/>
+  <rect x="505" y="300" width="180" height="38" rx="7" fill="#1f4e79"/>
+  <text x="595" y="325" text-anchor="middle" font-size="15" font-weight="bold" fill="#ffffff">课程关系</text>
+  <text x="595" y="364" text-anchor="middle" font-size="14" fill="#22303f">课程（课程号，课程名）</text>
+  <text x="595" y="397" text-anchor="middle" font-size="13" fill="#6b7a8a">主码：课程号</text>
+  <text x="360" y="485" text-anchor="middle" font-size="13" fill="#6b7a8a">1:1 可并入任一方；1:N 通常并入 N 方；M:N 必须独立成关系</text>
+</svg></div><div class="cap">E-R图转换为关系模式：学生选课示例</div></div>
+<p>初始关系模式还要依次确定数据依赖、判断范式、必要时分解、评价修正，并确定数据项/表级/表间约束与用户视图。视图既简化跨表处理，也可按用户类别限制数据范围。</p>
+<p><b>反规范化不是从不规范化</b>，而是在规范化之后为加速读操作，有选择地增加冗余。常见手段有冗余列、派生列、表重组、水平/垂直分割；代价是设计复杂、更新异常，需要应用程序、批处理或触发器同步。</p>
+<p><b>4. 物理设计、实施与维护</b> ⭐【重点】</p>
+<table><colgroup><col style="width:15.4%"><col style="width:84.6%"></colgroup><thead><tr><th>工作</th><th>考试抓手</th></tr></thead><tbody><tr><td class="tc">数据分布</td><td>按应用、处理频度和响应要求分配；分布变化可能反过来调整逻辑设计</td></tr><tr><td class="tc">存储结构</td><td>可选顺序、哈希、堆、B 树等；结合处理要求与变更频度</td></tr><tr><td class="tc">访问方式</td><td>设计记录格式、物理布局和存取路径；索引是常用加速手段</td></tr><tr><td class="tc">聚簇</td><td>适合聚簇码稳定、按该码查询/连接为主的表；维护代价大，对无关查询无益</td></tr><tr><td class="tc">索引取舍</td><td>主外码、只读或查询为主、范围/排序/聚集查询宜考虑；小表、频繁更新、低基数、过长或很少查询的属性不宜</td></tr></tbody></table>
+<p>实施阶段以 DDL 建立实际结构，数据加载前必须整理、校验，可手工录入或用转换工具；试运行同时测试功能与效率，且应有非设计人员参与。</p>
+<p>运行维护中，<b>重组不改变逻辑和物理结构</b>，主要清理废弃空间、碎片和指针链；<b>重构会修改结构</b>，如列、约束、表或视图的增删改。备份恢复方案应在设计阶段制定，而不是故障后才补。</p>
+<p><b>5. 应用程序与数据库交互</b> ⭐【重点】【高频考点】</p>
+<table><colgroup><col style="width:15.7%"><col style="width:59.8%"><col style="width:24.4%"></colgroup><thead><tr><th>方式</th><th>原理与特点</th><th>关键词</th></tr></thead><tbody><tr><td class="tc">库函数接口</td><td>调用厂商提供的底层 API，如 Oracle OCI；灵活但依赖具体 DBMS</td><td>连接、SQL、事务函数库</td></tr><tr><td class="tc">嵌入式 SQL</td><td>SQL 直接写入 C 等宿主语言；先由预编译器转换为纯宿主语言函数调用</td><td>预编译、宿主变量、游标</td></tr><tr><td class="tc">通用接口标准</td><td>ODBC 以统一 API 访问异构数据源，具体操作由对应驱动完成，先注册数据源</td><td>数据源名、驱动程序</td></tr><tr><td class="tc">ORM</td><td>用映射元数据把对象与关系表相互映射，封装持久化细节</td><td>Hibernate、MyBatis、JPA</td></tr></tbody></table>
+<div class="fig"><div><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 405" font-family="Microsoft YaHei, 微软雅黑, sans-serif">
+  <rect width="720" height="405" fill="#ffffff"/>
+  <text x="360" y="30" text-anchor="middle" font-size="20" font-weight="bold" fill="#1f4e79">应用程序访问数据库的四种方式</text>
+  <rect x="30" y="55" width="110" height="52" rx="6" fill="#eaf1f8" stroke="#1f4e79"/>
+  <text x="85" y="87" text-anchor="middle" font-size="14" fill="#22303f">C 等应用程序</text>
+  <line x1="140" y1="81" x2="259" y2="81" stroke="#1f4e79" stroke-width="1.5"/>
+  <polygon points="267,81 259,76.5 259,85.5" fill="#1f4e79"/>
+  <rect x="270" y="55" width="180" height="52" rx="6" fill="#fdf0e6" stroke="#c05621"/>
+  <text x="360" y="77" text-anchor="middle" font-size="14" font-weight="bold" fill="#c05621">库函数接口：OCI</text>
+  <text x="360" y="98" text-anchor="middle" font-size="12" fill="#6b7a8a">厂商 API，依赖具体 DBMS</text>
+  <line x1="450" y1="81" x2="549" y2="81" stroke="#1f4e79" stroke-width="1.5"/>
+  <polygon points="557,81 549,76.5 549,85.5" fill="#1f4e79"/>
+  <rect x="560" y="55" width="125" height="52" rx="6" fill="#f3f6ee" stroke="#8aa15c"/>
+  <text x="622" y="87" text-anchor="middle" font-size="14" fill="#4a6130">Oracle 等 DBMS</text>
+  <rect x="30" y="140" width="110" height="52" rx="6" fill="#eaf1f8" stroke="#1f4e79"/>
+  <text x="85" y="172" text-anchor="middle" font-size="14" fill="#22303f">宿主语言源码</text>
+  <line x1="140" y1="166" x2="259" y2="166" stroke="#1f4e79" stroke-width="1.5"/>
+  <polygon points="267,166 259,161.5 259,170.5" fill="#1f4e79"/>
+  <rect x="270" y="140" width="180" height="52" rx="6" fill="#fdf0e6" stroke="#c05621"/>
+  <text x="360" y="162" text-anchor="middle" font-size="14" font-weight="bold" fill="#c05621">嵌入式 SQL</text>
+  <text x="360" y="183" text-anchor="middle" font-size="12" fill="#6b7a8a">预编译为宿主语言调用</text>
+  <line x1="450" y1="166" x2="549" y2="166" stroke="#1f4e79" stroke-width="1.5"/>
+  <polygon points="557,166 549,161.5 549,170.5" fill="#1f4e79"/>
+  <rect x="560" y="140" width="125" height="52" rx="6" fill="#f3f6ee" stroke="#8aa15c"/>
+  <text x="622" y="172" text-anchor="middle" font-size="14" fill="#4a6130">函数库＋DBMS</text>
+  <rect x="30" y="225" width="110" height="52" rx="6" fill="#eaf1f8" stroke="#1f4e79"/>
+  <text x="85" y="257" text-anchor="middle" font-size="14" fill="#22303f">统一应用程序</text>
+  <line x1="140" y1="251" x2="259" y2="251" stroke="#1f4e79" stroke-width="1.5"/>
+  <polygon points="267,251 259,246.5 259,255.5" fill="#1f4e79"/>
+  <rect x="270" y="225" width="180" height="52" rx="6" fill="#fdf0e6" stroke="#c05621"/>
+  <text x="360" y="247" text-anchor="middle" font-size="14" font-weight="bold" fill="#c05621">ODBC 通用接口</text>
+  <text x="360" y="268" text-anchor="middle" font-size="12" fill="#6b7a8a">数据源名＋对应驱动程序</text>
+  <line x1="450" y1="251" x2="549" y2="251" stroke="#1f4e79" stroke-width="1.5"/>
+  <polygon points="557,251 549,246.5 549,255.5" fill="#1f4e79"/>
+  <rect x="560" y="225" width="125" height="52" rx="6" fill="#f3f6ee" stroke="#8aa15c"/>
+  <text x="622" y="257" text-anchor="middle" font-size="14" fill="#4a6130">异构数据源</text>
+  <rect x="30" y="310" width="110" height="52" rx="6" fill="#eaf1f8" stroke="#1f4e79"/>
+  <text x="85" y="342" text-anchor="middle" font-size="14" fill="#22303f">面向对象程序</text>
+  <line x1="140" y1="336" x2="259" y2="336" stroke="#1f4e79" stroke-width="1.5"/>
+  <polygon points="267,336 259,331.5 259,340.5" fill="#1f4e79"/>
+  <rect x="270" y="310" width="180" height="52" rx="6" fill="#fdf0e6" stroke="#c05621"/>
+  <text x="360" y="332" text-anchor="middle" font-size="14" font-weight="bold" fill="#c05621">ORM 对象关系映射</text>
+  <text x="360" y="353" text-anchor="middle" font-size="12" fill="#6b7a8a">映射元数据封装持久化</text>
+  <line x1="450" y1="336" x2="549" y2="336" stroke="#1f4e79" stroke-width="1.5"/>
+  <polygon points="557,336 549,331.5 549,340.5" fill="#1f4e79"/>
+  <rect x="560" y="310" width="125" height="52" rx="6" fill="#f3f6ee" stroke="#8aa15c"/>
+  <text x="622" y="342" text-anchor="middle" font-size="14" fill="#4a6130">关系数据库表</text>
+  <text x="360" y="390" text-anchor="middle" font-size="13" fill="#6b7a8a">识别关键词：OCI 函数库｜嵌入式 SQL 预编译｜ODBC 驱动｜ORM 对象—关系映射</text>
+</svg></div><div class="cap">应用程序访问数据库的四种方式</div></div>
+<p>ODBC 应用程序不直接操作具体 DBMS，而由 ODBC 驱动完成；JDBC 是 Java 访问数据库的统一 API。Hibernate 偏全自动，MyBatis 偏半自动，JPA 是 Java 持久化规范，具体功能由实现框架提供。</p>
+<h3>6.5 NoSQL 数据库</h3>
+<p><b>1. 四种类型与共同特点</b> ⭐【重点】【高频考点】</p>
+<p>NoSQL 常解释为 <b>Not Only SQL</b>，泛指非关系型数据库，不是简单“反对 SQL”。它面向海量、多类型、高并发数据，通常以灵活模型和分布式扩展能力满足业务需求。</p>
+<table><colgroup><col style="width:13.4%"><col style="width:57.1%"><col style="width:29.4%"></colgroup><thead><tr><th>类型</th><th>数据组织与适用场景</th><th>代表产品</th></tr></thead><tbody><tr><td class="tc">列式存储</td><td>按列/列族组织，适合分布式海量数据与分析</td><td>Cassandra、HBase、Riak</td></tr><tr><td class="tc">键值存储</td><td>通过键和哈希表定位值，简单易部署；只查值的一小部分时效率较差</td><td>Redis、Oracle BDB</td></tr><tr><td class="tc">文档型</td><td>存储 JSON 等半结构化、可嵌套文档，可看作键值模型升级</td><td>MongoDB、CouchDB、SequoiaDB</td></tr><tr><td class="tc">图数据库</td><td>以结点和边表达关系，适合社交、交通、生物网络</td><td>Neo4j、InfoGrid</td></tr></tbody></table>
+<div class="fig"><div><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 400" font-family="Microsoft YaHei, 微软雅黑, sans-serif">
+  <rect width="720" height="400" fill="#ffffff"/>
+  <text x="360" y="30" text-anchor="middle" font-size="20" font-weight="bold" fill="#1f4e79">四类 NoSQL 数据库的数据组织方式</text>
+  <rect x="20" y="60" width="155" height="300" rx="8" fill="#eaf1f8" stroke="#1f4e79"/>
+  <text x="97" y="91" text-anchor="middle" font-size="16" font-weight="bold" fill="#1f4e79">列式存储</text>
+  <rect x="42" y="115" width="110" height="105" fill="#ffffff" stroke="#6b7a8a"/>
+  <rect x="42" y="115" width="110" height="28" fill="#1f4e79"/>
+  <rect x="79" y="143" width="37" height="77" fill="#fdf0e6"/>
+  <line x1="79" y1="115" x2="79" y2="220" stroke="#6b7a8a"/>
+  <line x1="116" y1="115" x2="116" y2="220" stroke="#6b7a8a"/>
+  <line x1="42" y1="143" x2="152" y2="143" stroke="#6b7a8a"/>
+  <line x1="42" y1="169" x2="152" y2="169" stroke="#d5dde5"/>
+  <line x1="42" y1="195" x2="152" y2="195" stroke="#d5dde5"/>
+  <text x="97" y="248" text-anchor="middle" font-size="13" fill="#22303f">按列／列族组织</text>
+  <text x="97" y="275" text-anchor="middle" font-size="12" fill="#6b7a8a">海量数据与分析</text>
+  <text x="97" y="314" text-anchor="middle" font-size="12" fill="#1f4e79">Cassandra</text>
+  <text x="97" y="339" text-anchor="middle" font-size="12" fill="#1f4e79">HBase、Riak</text>
+  <rect x="195" y="60" width="155" height="300" rx="8" fill="#fdf0e6" stroke="#c05621"/>
+  <text x="272" y="91" text-anchor="middle" font-size="16" font-weight="bold" fill="#c05621">键值存储</text>
+  <rect x="208" y="135" width="52" height="42" rx="5" fill="#ffffff" stroke="#c05621"/>
+  <text x="234" y="162" text-anchor="middle" font-size="13" fill="#22303f">Key</text>
+  <line x1="260" y1="156" x2="279" y2="156" stroke="#c05621" stroke-width="1.5"/>
+  <polygon points="287,156 279,151.5 279,160.5" fill="#c05621"/>
+  <rect x="290" y="135" width="48" height="42" rx="5" fill="#ffffff" stroke="#c05621"/>
+  <text x="314" y="162" text-anchor="middle" font-size="13" fill="#22303f">Value</text>
+  <text x="272" y="205" text-anchor="middle" font-size="12" fill="#6b7a8a">哈希定位，简单易部署</text>
+  <text x="272" y="248" text-anchor="middle" font-size="13" fill="#22303f">按键快速读写整个值</text>
+  <text x="272" y="275" text-anchor="middle" font-size="12" fill="#6b7a8a">局部查值效率较低</text>
+  <text x="272" y="327" text-anchor="middle" font-size="12" fill="#c05621">Redis、Oracle BDB</text>
+  <rect x="370" y="60" width="155" height="300" rx="8" fill="#f3f6ee" stroke="#8aa15c"/>
+  <text x="447" y="91" text-anchor="middle" font-size="16" font-weight="bold" fill="#4a6130">文档型</text>
+  <rect x="393" y="115" width="108" height="110" rx="5" fill="#ffffff" stroke="#8aa15c"/>
+  <text x="406" y="141" font-size="13" fill="#4a6130">{</text>
+  <text x="414" y="164" font-size="12" fill="#22303f">"name": "林"</text>
+  <text x="414" y="187" font-size="12" fill="#22303f">"tags": [...]</text>
+  <text x="406" y="213" font-size="13" fill="#4a6130">}</text>
+  <text x="447" y="251" text-anchor="middle" font-size="13" fill="#22303f">JSON 等半结构化文档</text>
+  <text x="447" y="278" text-anchor="middle" font-size="12" fill="#6b7a8a">支持嵌套键值</text>
+  <text x="447" y="314" text-anchor="middle" font-size="12" fill="#4a6130">MongoDB、CouchDB</text>
+  <text x="447" y="339" text-anchor="middle" font-size="12" fill="#4a6130">SequoiaDB</text>
+  <rect x="545" y="60" width="155" height="300" rx="8" fill="#f6f9fc" stroke="#6b7a8a"/>
+  <text x="622" y="91" text-anchor="middle" font-size="16" font-weight="bold" fill="#1f4e79">图数据库</text>
+  <line x1="598" y1="145" x2="637" y2="142" stroke="#6b7a8a" stroke-width="1.5"/>
+  <line x1="643" y1="154" x2="614" y2="188" stroke="#6b7a8a" stroke-width="1.5"/>
+  <line x1="595" y1="185" x2="589" y2="164" stroke="#6b7a8a" stroke-width="1.5"/>
+  <circle cx="580" cy="147" r="18" fill="#eaf1f8" stroke="#1f4e79"/>
+  <circle cx="655" cy="140" r="18" fill="#fdf0e6" stroke="#c05621"/>
+  <circle cx="602" cy="202" r="18" fill="#f3f6ee" stroke="#8aa15c"/>
+  <text x="622" y="250" text-anchor="middle" font-size="13" fill="#22303f">结点＋边表达关系</text>
+  <text x="622" y="277" text-anchor="middle" font-size="12" fill="#6b7a8a">社交、交通网络</text>
+  <text x="622" y="327" text-anchor="middle" font-size="12" fill="#1f4e79">Neo4j、InfoGrid</text>
+  <text x="360" y="385" text-anchor="middle" font-size="13" fill="#6b7a8a">共同特点：易扩展｜大数据量高性能｜模型灵活｜高可用</text>
+</svg></div><div class="cap">四类NoSQL数据库的数据组织方式</div></div>
+<p>共同特点是<b>易扩展、大数据量下高性能、数据模型灵活、高可用</b>。不能把它们误记成“所有 NoSQL 都绝对不支持事务或 SQL”；本章强调的是不保证传统关系数据库那样的 ACID 与固定关系模式。</p>
+<p><b>2. 四层体系框架与适用场景</b> ⭐【重点】</p>
+<div class="fig"><div><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 400" font-family="Microsoft YaHei, 微软雅黑, sans-serif">
+  <rect width="720" height="400" fill="#ffffff"/>
+  <text x="360" y="30" text-anchor="middle" font-size="20" font-weight="bold" fill="#1f4e79">NoSQL 四层体系框架（由下至上）</text>
+  <rect x="25" y="60" width="85" height="55" rx="6" fill="#f6f9fc" stroke="#6b7a8a"/>
+  <text x="67" y="93" text-anchor="middle" font-size="14" fill="#22303f">上层应用</text>
+  <line x1="110" y1="87" x2="119" y2="87" stroke="#1f4e79" stroke-width="1.5"/>
+  <polygon points="127,87 119,82.5 119,91.5" fill="#1f4e79"/>
+  <rect x="130" y="60" width="460" height="55" rx="7" fill="#1f4e79" stroke="#1f4e79"/>
+  <text x="185" y="94" font-size="16" font-weight="bold" fill="#ffffff">④ 接口层</text>
+  <text x="310" y="82" font-size="11.5" fill="#ffffff">REST｜Thrift｜Map/Reduce</text>
+  <text x="310" y="103" font-size="11.5" fill="#ffffff">Get/Put｜特定语言 API</text>
+  <rect x="130" y="130" width="460" height="55" rx="7" fill="#eaf1f8" stroke="#1f4e79"/>
+  <text x="185" y="164" font-size="16" font-weight="bold" fill="#1f4e79">③ 数据逻辑模型层</text>
+  <text x="365" y="164" font-size="13" fill="#22303f">数据的逻辑表现形式</text>
+  <rect x="130" y="200" width="460" height="55" rx="7" fill="#fdf0e6" stroke="#c05621"/>
+  <text x="185" y="234" font-size="16" font-weight="bold" fill="#c05621">② 数据分布层</text>
+  <text x="335" y="234" font-size="13" fill="#22303f">CAP 支持｜多数据中心｜动态部署</text>
+  <rect x="130" y="270" width="460" height="55" rx="7" fill="#f3f6ee" stroke="#8aa15c"/>
+  <text x="185" y="304" font-size="16" font-weight="bold" fill="#4a6130">① 数据持久层</text>
+  <text x="335" y="304" font-size="13" fill="#22303f">内存｜硬盘｜内存＋硬盘｜可插拔</text>
+  <text x="625" y="220" font-size="12" fill="#6b7a8a" transform="rotate(-90 625 220)">逐层支撑</text>
+  <rect x="70" y="345" width="580" height="38" rx="6" fill="#f3f6ee"/>
+  <text x="360" y="370" text-anchor="middle" font-size="13" fill="#4a6130">适用：模型较简单｜需灵活扩展｜高性能｜一致性要求不苛刻｜Key 易映射复杂值</text>
+</svg></div><div class="cap">NoSQL四层体系框架</div></div>
+<table><colgroup><col style="width:30.4%"><col style="width:69.6%"></colgroup><thead><tr><th>层次（由下至上）</th><th>主要内容</th></tr></thead><tbody><tr><td class="tc">数据持久层</td><td>内存、硬盘、内存＋硬盘、定制可插拔</td></tr><tr><td class="tc">数据分布层</td><td>CAP 支持、多数据中心、动态部署与水平扩展</td></tr><tr><td class="tc">数据逻辑模型层</td><td>数据的逻辑表现形式</td></tr><tr><td class="tc">接口层</td><td>REST、Thrift、Map/Reduce、Get/Put、特定语言 API</td></tr></tbody></table>
+<p>适用信号：数据模型较简单、需要灵活 IT 系统、性能要求高、不要求高度一致性、给定 key 易映射复杂值。若业务高度依赖复杂关联、强一致事务，则不能只凭“数据量大”就改用 NoSQL。</p>
+<div class="mnemonic">助记：NoSQL 四层自下而上“持—分—逻—接”：先落盘，再分布，再定模型，最后给接口。</div>
+<h2>三、重点与易错点</h2>
+<table><colgroup><col style="width:8.3%"><col style="width:17.9%"><col style="width:40.7%"><col style="width:33.1%"></colgroup><thead><tr><th>#</th><th>考点</th><th>必须记住的结论</th><th>易错提醒</th></tr></thead><tbody><tr><td class="tc">1</td><td>DB、DBMS、DBS</td><td>DBMS 是 DBS 的核心软件，DB 是数据集合，DBS 范围最大</td><td>不要把 DBMS 等同于整个 DBS</td></tr><tr><td class="tc">2</td><td>数据模型三要素</td><td>数据结构、数据操作、约束条件</td><td>数据模型不包括“数据字典”这一独立第四要素</td></tr><tr><td class="tc">3</td><td>三级模式数量</td><td>外模式可多个，概念模式和内模式通常各一个</td><td>视图层不等于只有一张视图</td></tr><tr><td class="tc">4</td><td>两级映像</td><td>外/概映像保逻辑独立，概/内映像保物理独立</td><td>改内模式对应物理独立，不是逻辑独立</td></tr><tr><td class="tc">5</td><td>主属性</td><td>出现在任一候选码中的属性都是主属性</td><td>不是只有主码中的属性才叫主属性</td></tr><tr><td class="tc">6</td><td>实体与参照完整性</td><td>主码唯一非空；外码为空或指向已有码值</td><td>外码不是任何时候都绝对禁止为空</td></tr><tr><td class="tc">7</td><td>五种基本运算</td><td>并、差、笛卡儿积、选择、投影</td><td>交、连接、除是导出运算</td></tr><tr><td class="tc">8</td><td>选择与投影</td><td>选择筛行，投影取列并去重</td><td>投影不是复制整行</td></tr><tr><td class="tc">9</td><td>自然连接</td><td>同名属性等值连接并删除重复列</td><td>等值连接通常保留重复列</td></tr><tr><td class="tc">10</td><td>除法</td><td>处理“与全部目标值都相关”的查询</td><td>“至少一个”不能用除法表达</td></tr><tr><td class="tc">11</td><td>函数依赖</td><td>由语义决定，对任何可能实例都成立</td><td>当前数据碰巧唯一不能证明依赖成立</td></tr><tr><td class="tc">12</td><td>2NF 与 3NF</td><td>2NF 去非主属性部分依赖，3NF 再去传递依赖</td><td>都强调“非主属性”</td></tr><tr><td class="tc">13</td><td>BCNF 与 4NF</td><td>BCNF 管函数依赖，4NF 管多值依赖，决定因素均须含码</td><td>只考虑函数依赖时最高到 BCNF</td></tr><tr><td class="tc">14</td><td>E-R 联系转换</td><td>1:1 任一方，1:N 并入 N 方，M:N 独立成关系</td><td>M:N 不能只把外码塞进其中一方</td></tr><tr><td class="tc">15</td><td>反规范化</td><td>规范化后为读性能有控制地增加冗余</td><td>不等于放弃设计，也会引入同步成本</td></tr><tr><td class="tc">16</td><td>重组与重构</td><td>重组不改结构，重构修改表、约束或视图等结构</td><td>二者不要只凭“运行维护”就混为一谈</td></tr><tr><td class="tc">17</td><td>嵌入式 SQL 与 ODBC</td><td>前者靠预编译，后者靠数据源与驱动屏蔽异构</td><td>ODBC 应用不直接调用具体 DBMS 内部接口</td></tr><tr><td class="tc">18</td><td>NoSQL</td><td>四类为列式、键值、文档、图；四层为持、分、逻、接</td><td>NoSQL 不等于“不要 SQL”或“绝不支持事务”</td></tr></tbody></table>
+<h2>四、练习与真题</h2>
+<p>以下为自编单选模拟题，每题只有一个最符合题意的选项。</p>
+<p><b>1.</b> 某系统由数据库、数据库管理系统、应用程序、硬件及数据库管理员共同组成，该整体最准确的称谓是：</p>
+<p>A. DB  B. DBMS  C. DBS  D. DDL</p>
+<p><b>2.</b> 在不改变外模式和应用程序的情况下调整数据库的索引与文件组织，主要体现了：</p>
+<p>A. 物理数据独立性  B. 逻辑数据独立性  C. 实体完整性  D. 参照完整性</p>
+<p><b>3.</b> 关于关系数据库术语，下列说法正确的是：</p>
+<p>A. 关系的度是元组个数  B. 主属性只能出现在主码中  C. 候选码可以有多个  D. 外码必须同时是本关系主码</p>
+<p><b>4.</b> 等值连接与自然连接的主要区别是自然连接：</p>
+<p>A. 不允许比较属性相等  B. 必须使用不等号  C. 会保留全部重复属性列  D. 比较同名属性并删除重复属性列</p>
+<p><b>5.</b> 选课关系 SC(学号,课程号,姓名,成绩) 的码为 (学号,课程号)，且存在 学号→姓名。该关系不满足 2NF 的直接原因是：</p>
+<p>A. 属性值不原子  B. 非主属性对码部分依赖  C. 非主属性对码传递依赖  D. 存在非平凡多值依赖</p>
+<p><b>6.</b> 某关系已达到 3NF，但存在一个非平凡函数依赖 X→Y，其中 X 不含任何候选码。由此可判定它：</p>
+<p>A. 必不属于 BCNF  B. 必不属于 1NF  C. 必满足 4NF  D. 一定不存在冗余</p>
+<p><b>7.</b> 将学生与课程之间的 M:N 选课联系转换为关系模式，通常应：</p>
+<p>A. 只在学生表加课程号  B. 只在课程表加学号  C. 独立建选课关系并包含双方码  D. 删除该联系</p>
+<p><b>8.</b> 合并分 E-R 图时，同一“身高”属性在一个局部图中以厘米为单位，在另一个局部图中以米为单位，这属于：</p>
+<p>A. 属性冲突  B. 命名冲突  C. 结构冲突  D. 参照冲突</p>
+<p><b>9.</b> 关于反规范化，下列说法正确的是：</p>
+<p>A. 它等同于从未进行规范化  B. 它只降低查询性能  C. 它在规范化后有选择地增加冗余  D. 它不会带来数据同步问题</p>
+<p><b>10.</b> 嵌入式 SQL 的宿主语言编译器不能直接识别 SQL，数据库厂商通常首先提供：</p>
+<p>A. 预编译器  B. 图数据库  C. 聚簇索引  D. 数据仓库</p>
+<p><b>11.</b> 需要直接存储结构灵活、可嵌套的 JSON 文档时，最匹配的 NoSQL 类型是：</p>
+<p>A. 列式存储数据库  B. 文档型数据库  C. 图数据库  D. 层次数据库</p>
+<p><b>12.</b> NoSQL 四层体系框架由下至上的正确顺序是：</p>
+<p>A. 接口层→逻辑模型层→分布层→持久层  B. 持久层→逻辑模型层→接口层→分布层  C. 分布层→持久层→接口层→逻辑模型层  D. 持久层→分布层→逻辑模型层→接口层</p>
+<p>答案与解析集中放在全章最后的“六、参考答案”。</p>
+<h2>五、疑问与查漏补缺</h2>
+<p><b>1. 大纲列出、但本章教材未展开的数据库分类。</b> 复习时需另外建立最小概念边界：</p>
+<table><colgroup><col style="width:24.5%"><col style="width:75.5%"></colgroup><thead><tr><th>大纲补充项</th><th>最小掌握定义</th></tr></thead><tbody><tr><td class="tc">分布式数据库系统</td><td>数据逻辑上相关、物理上分布在多个场地，由分布式 DBMS 统一管理</td></tr><tr><td class="tc">并行数据库系统</td><td>利用多处理器、多磁盘等并行执行查询与事务，目标是提高吞吐和响应速度</td></tr><tr><td class="tc">数据仓库</td><td>面向主题、集成、相对稳定、反映历史变化的数据集合，主要支持分析决策</td></tr><tr><td class="tc">数据挖掘</td><td>从大量数据中发现潜在、有用模式或知识，不等同于普通查询</td></tr></tbody></table>
+<p><b>2. 教材 6.2.2 的表述易误读。</b> 一处把选择、投影也列入“扩展的关系运算”，但同节又明确五种基本运算包含选择、投影。考试应按“并、差、笛卡儿积、选择、投影是基本运算”掌握。</p>
+<p><b>3. 教材术语与现代用法有差异。</b> BCNF 是 Boyce-Codd Normal Form，教材“巴克斯范式”的译名不规范，按 BCNF 及其判定条件作答即可；JPA 更准确地说是一套持久化规范，Hibernate 等可作为其实现，MyBatis 通常不归为完整 JPA 实现。</p>
+<p><b>4. 易误读的范式条件。</b> 3NF 的教材定义较形式化，答题时先找候选码，再区分主属性/非主属性；不能因为“所有属性都是主属性，所以满足 3NF”就进一步推断一定满足 BCNF。</p>
+<p><b>5. 与其他章节衔接。</b> 需求分析的数据流图、数据字典承接第 5 章结构化分析；数据分布、接口选择会影响第 7 章体系结构设计；NoSQL 的 CAP 与分布式话题将在第 19 章大数据架构中继续深化。</p>
+<h2>六、参考答案</h2>
+<p><b>1.</b> C。DBS 是包含 DB、DBMS、应用、硬件和人员等的完整系统。</p>
+<p><b>2.</b> A。内模式或存储结构改变而概念模式、外模式及应用可保持稳定，属于物理数据独立性。</p>
+<p><b>3.</b> C。候选码可有多个；度是属性数，主属性可出现在任一候选码中，外码不必是本关系主码。</p>
+<p><b>4.</b> D。自然连接按同名属性等值匹配，并在结果中去掉重复属性列。</p>
+<p><b>5.</b> B。码的一部分“学号”就能决定非主属性“姓名”，构成部分函数依赖。</p>
+<p><b>6.</b> A。BCNF 要求每个非平凡函数依赖的决定因素都含码，题设直接违反该条件。</p>
+<p><b>7.</b> C。M:N 联系通常独立成关系，以双方码及联系属性描述，双方码共同构成主码。</p>
+<p><b>8.</b> A。同一属性的数据单位不一致属于属性冲突。</p>
+<p><b>9.</b> C。反规范化是在规范化基础上为读性能主动增加受控冗余，并需处理同步成本。</p>
+<p><b>10.</b> A。预编译器把嵌入式 SQL 转成宿主语言可处理的函数调用等代码。</p>
+<p><b>11.</b> B。文档型数据库以 JSON 等格式保存半结构化、可嵌套文档。</p>
+<p><b>12.</b> D。四层自下而上是数据持久层、数据分布层、数据逻辑模型层、接口层。</p>
+<div class="footer">第6章 数据库设计基础知识 · A4 打印版 · 由 README.md 统一生成</div>
+</div>
+</body>
+</html>

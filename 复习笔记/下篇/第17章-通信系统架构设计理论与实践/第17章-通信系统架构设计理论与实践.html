@@ -1,0 +1,885 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>第17章 通信系统架构设计理论与实践</title>
+<style>
+  :root{ --ink:#22303f; --main:#1f4e79; --main-light:#eaf1f8; --accent:#c05621;
+    --accent-light:#fdf0e6; --line:#d5dde5; --muted:#6b7a8a; }
+  *{ box-sizing:border-box; print-color-adjust:exact; -webkit-print-color-adjust:exact; }
+  html,body{ margin:0; padding:0; }
+  body{ font-family:"Microsoft YaHei","微软雅黑","PingFang SC","Noto Sans CJK SC",sans-serif;
+    color:var(--ink); background:#e9edf1; font-size:10.5pt; line-height:1.75; }
+  .sheet{ max-width:190mm; margin:8mm auto; background:#fff; padding:10mm 11mm;
+    box-shadow:0 2px 14px rgba(0,0,0,.12); }
+  h1{ font-size:21pt; color:var(--main); margin:0 0 2mm; border-bottom:3px solid var(--main); padding-bottom:3mm; }
+  h2{ font-size:14pt; color:var(--main); margin:8mm 0 3mm; padding:1.2mm 0 1.2mm 3mm;
+    border-left:5px solid var(--main); background:linear-gradient(to right,var(--main-light),#fff); break-after:avoid; }
+  h3{ font-size:11.5pt; color:var(--main); margin:5mm 0 2mm; break-after:avoid; }
+  p{ margin:1.5mm 0; }
+  code{ background:#f0f3f6; border-radius:1mm; padding:0 1mm; font-size:9.5pt; }
+  .def,.example,.mnemonic{ border-radius:2mm; padding:2.5mm 3.5mm; margin:2.5mm 0; break-inside:avoid; }
+  .def{ border:1.5px solid var(--main); background:#fbfdff; }
+  .example{ background:var(--accent-light); border-left:4px solid var(--accent); }
+  .mnemonic{ background:#f3f6ee; border:1px dashed #8aa15c; color:#4a6130; }
+  table{ border-collapse:collapse; width:100%; margin:2.5mm 0; font-size:9.5pt; table-layout:fixed; }
+  th,td{ border:1px solid var(--line); padding:1.6mm 2mm; text-align:left; vertical-align:top; overflow-wrap:break-word; }
+  th{ background:var(--main); color:#fff; text-align:center; }
+  thead{ display:table-header-group; }
+  tr{ break-inside:avoid; }
+  td.tc{ text-align:center; }
+  tr:nth-child(even) td{ background:#f6f9fc; }
+  .fig{ margin:3mm 0; padding:2.5mm; border:1px solid var(--line); border-radius:2mm;
+    background:#fdfefe; break-inside:avoid; }
+  .fig .cap{ text-align:center; color:var(--muted); font-size:9pt; margin-top:1mm; }
+  svg{ display:block; width:100%; height:auto; }
+  svg text{ font-family:inherit; }
+  ul,ol{ margin:1.5mm 0 1.5mm 5mm; padding-left:4mm; }
+  li{ margin:0.8mm 0; }
+  .footer{ margin-top:8mm; padding-top:2mm; border-top:1px solid var(--line);
+    color:var(--muted); font-size:8.5pt; text-align:center; }
+  @page{ size:A4; margin:12mm; }
+  @media print{ body{ background:#fff; font-size:10pt; }
+    .sheet{ max-width:none; margin:0; padding:0; box-shadow:none; } h2{ margin-top:6mm; } }
+</style>
+</head>
+<body>
+<div class="sheet">
+<h1>第17章 通信系统架构设计理论与实践</h1>
+<ul><li>教材位置：02.系统架构设计师第二版-教材.pdf PDF 第 607～640 页（书页 599～632）</li><li>复习状态：已完成</li><li>复习日期：2026-11-06</li><li>本章地位：通信系统是下午案例分析的重要主题，常以「园区网/广域网组网、高可用改造、IPv4 向 IPv6 演进」场景考查架构选型、协议部署与可用性计算；上午题则高频考查存储架构、SDN 接口、过渡技术等概念辨析。</li></ul>
+<h2>一、大纲考点</h2>
+<p>大纲（书页 57～58）科目 2「系统架构设计案例分析」主题 7「通信系统架构的设计理论与实践」条目与教材小节对应如下：</p>
+<table><colgroup><col style="width:19.4%"><col style="width:50.3%"><col style="width:30.3%"></colgroup><thead><tr><th>大纲条目</th><th>大纲要求</th><th>教材对应小节</th></tr></thead><tbody><tr><td>7.1 通信系统的架构</td><td>局域网架构（单核心、双核心、环型、层次）</td><td>17.2.1（图 17-1～17-4）</td></tr><tr><td>7.1 通信系统的架构</td><td>局域网协议应用：主备 VRRP/HSRP/GLBP；二层 STP/LACP；三层 OSPF/RIP/BGP</td><td>17.2.1 之「网络协议的应用」</td></tr><tr><td>7.1 通信系统的架构</td><td>广域网架构（单核心、双核心、环型、半冗余、对等子域、层次子域）</td><td>17.2.2（图 17-5～17-10）</td></tr><tr><td>7.1 通信系统的架构</td><td>移动通信网架构（5GS 与 DN 互连、5G 边缘计算等）</td><td>17.2.3（N6、透明/非透明、MEC、SSC）</td></tr><tr><td>7.1 通信系统的架构</td><td>存储网络架构（DAS、NAS、SAN）</td><td>17.2.4</td></tr><tr><td>7.1 通信系统的架构</td><td>软件定义网络架构（SDN）</td><td>17.2.5</td></tr><tr><td>7.2 网络构建的关键技术</td><td>网络高可用设计（定义、架构和协议配置）</td><td>17.3.1（A 公式、五种互连拓扑）</td></tr><tr><td>7.2 网络构建的关键技术</td><td>IPv4 与 IPv6 融合组网（双协议栈、隧道、地址翻译）</td><td>17.3.2</td></tr><tr><td>7.2 网络构建的关键技术</td><td>SDN 技术</td><td>17.3.3（控制/数据平面、一致性更新）</td></tr><tr><td>7.3 网络构建和设计方法</td><td>网络需求分析步骤（业务、用户、计算机平台、网络需求）</td><td>17.4.1（教材另含「应用需求」，共 5 项）</td></tr><tr><td>7.3 网络构建和设计方法</td><td>网络技术遴选（局域、广域、地址规划、路由协议、层次化模型、高可用设计）</td><td>17.4.2</td></tr><tr><td>7.3 网络构建和设计方法</td><td>绿色网络设计方法（目的、作用和设计原则）</td><td>17.4.4</td></tr><tr><td>7.4 网络安全相关技术</td><td>防火墙布设、VPN、访问控制、安全隔离、安全协议（SSL/SET/HTTPS）</td><td>17.4.3</td></tr><tr><td>7.5 案例分析</td><td>高可用网络构建分析、园区网双栈构建分析、5G 网络应用</td><td>17.5.1～17.5.3</td></tr></tbody></table>
+<p><b>下午案例题考查形式</b>：给出某单位组网场景（如园区网改造、两地三中心互连、IPv6 升级），设置若干小问题，典型问法：①为场景选择合适的网络架构（单/双核心、环型、层次、半冗余等）并说明理由；②指出方案单点故障并给出高可用改进（冗余拓扑、VRRP/STP/LACP/OSPF 部署位置）；③计算某种互连方式的可用性或比较可靠性/可用性；④选择 IPv4→IPv6 过渡技术（双栈/隧道/翻译）并说明适用条件；⑤NAS 与 SAN、SDN 南北向接口等概念辨析填空。答题套路是「架构/协议名称 + 一句话特征 + 结合场景的收益或代价」。</p>
+<h2>二、知识点笔记</h2>
+<h3>17.1 通信系统概述</h3>
+<ul><li><b>通信系统（通信网络）</b>：利用通信线路把地理上分散、独立功能的计算机系统和通信设备连接起来，依靠网络软件及通信协议实现<b>资源共享和信息传递</b>的系统。演进趋势（了解）：接入侧从拨号到光纤/无线/5G，核心接口从 GE/10GE 到 40GE/100GE/400GE，结构异构多层次化，移动网元走向<b>虚拟化、服务化</b>。</li></ul>
+<h3>17.2 通信系统网络架构</h3>
+<h3>17.2.1 局域网网络架构 ⭐【重点】</h3>
+<ul><li><b>局域网特点</b>：覆盖范围小（通常 2.5km 内）、速率高（10Mb/s 以上，典型 1G/10G）、误码率低可靠性高、单一机构所有；拓扑有总线型、环型、星型、树型；由计算机、交换机、路由器等组成，从二层交换发展到「二层交换+三层路由」。现代局域网多用于园区网构建，某种意义上<b>局域网也称园区网</b>。</li></ul>
+<p>四种典型架构对比（⭐【高频考点】，案例题常要求按场景选型）：</p>
+<table><colgroup><col style="width:8.5%"><col style="width:23.1%"><col style="width:34.2%"><col style="width:34.2%"></colgroup><thead><tr><th>架构</th><th>结构要点</th><th>优点</th><th>不足</th></tr></thead><tbody><tr><td class="tc">单核心</td><td>一台核心（二层/三层）+ 若干接入交换机</td><td>结构简单、省投资、部门接入方便</td><td>核心<b>单点故障</b>；地理范围受限；扩展有限；核心端口密度要求高</td></tr><tr><td class="tc">双核心</td><td>两台核心互连，接入双归属，服务器同时接两台核心</td><td>网关保护/负载均衡、业务路由热切换、多路径可靠性高</td><td>投资比单核心高；端口密度要求高</td></tr><tr><td class="tc">环型</td><td>多台核心构成<b>双 RPR 弹性分组环</b></td><td>MAC 层 <b>50ms 自愈</b>；双向双光纤省资源；空间重用带宽利用率高；多等级 QoS</td><td>投资高；冗余设计难、易成环；<b>多环之间只能经业务接口互通</b>，不能直接网络互通</td></tr><tr><td class="tc">层次（多层）</td><td>核心层 + 汇聚层 + 接入层 + 用户设备</td><td>核心高速转发、汇聚互访控制并减轻核心压力、接入用户；易扩展、故障分级排查</td><td>层次多会带来时延，需控制层数</td></tr></tbody></table>
+<div class="fig"><div><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 500" font-family="Microsoft YaHei, 微软雅黑, sans-serif">
+  <text x="360" y="26" text-anchor="middle" font-size="16" font-weight="bold" fill="#1f4e79">局域网四种典型架构对比（教材图 17-1～17-4 重绘）</text>
+  <!-- 格1 单核心 -->
+  <rect x="20" y="40" width="330" height="205" rx="8" fill="#f7fafc" stroke="#6b7a8a" stroke-width="1"/>
+  <text x="185" y="62" text-anchor="middle" font-size="13" font-weight="bold" fill="#1f4e79">① 单核心架构</text>
+  <rect x="125" y="74" width="120" height="28" rx="5" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.2"/>
+  <text x="185" y="92" text-anchor="middle" font-size="11" fill="#1f4e79">核心交换设备</text>
+  <line x1="185" y1="102" x2="185" y2="120" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <line x1="110" y1="120" x2="260" y2="120" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <line x1="110" y1="120" x2="110" y2="129" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="110,137 105.5,129 114.5,129" fill="#1f4e79"/>
+  <line x1="260" y1="120" x2="260" y2="129" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="260,137 255.5,129 264.5,129" fill="#1f4e79"/>
+  <rect x="55" y="140" width="110" height="26" rx="4" fill="#ffffff" stroke="#1f4e79" stroke-width="1"/>
+  <text x="110" y="157" text-anchor="middle" font-size="10" fill="#22303f">接入交换设备</text>
+  <rect x="205" y="140" width="110" height="26" rx="4" fill="#ffffff" stroke="#1f4e79" stroke-width="1"/>
+  <text x="260" y="157" text-anchor="middle" font-size="10" fill="#22303f">接入交换设备</text>
+  <line x1="110" y1="166" x2="110" y2="172" stroke="#6b7a8a" stroke-width="1.5" fill="none"/>
+  <polygon points="110,177 105.5,172 114.5,172" fill="#6b7a8a"/>
+  <line x1="260" y1="166" x2="260" y2="172" stroke="#6b7a8a" stroke-width="1.5" fill="none"/>
+  <polygon points="260,177 255.5,172 264.5,172" fill="#6b7a8a"/>
+  <rect x="70" y="180" width="80" height="22" rx="4" fill="#f3f6ee" stroke="#8aa15c" stroke-width="1"/>
+  <text x="110" y="195" text-anchor="middle" font-size="10" fill="#4a6130">用户设备</text>
+  <rect x="220" y="180" width="80" height="22" rx="4" fill="#f3f6ee" stroke="#8aa15c" stroke-width="1"/>
+  <text x="260" y="195" text-anchor="middle" font-size="10" fill="#4a6130">用户设备</text>
+  <text x="185" y="222" text-anchor="middle" font-size="11" fill="#22303f">结构简单、省投资、接入方便</text>
+  <text x="185" y="238" text-anchor="middle" font-size="11" fill="#c05621">核心单点故障；扩展与端口密度受限</text>
+  <!-- 格2 双核心 -->
+  <rect x="370" y="40" width="330" height="205" rx="8" fill="#f7fafc" stroke="#6b7a8a" stroke-width="1"/>
+  <text x="535" y="62" text-anchor="middle" font-size="13" font-weight="bold" fill="#1f4e79">② 双核心架构</text>
+  <rect x="415" y="74" width="105" height="28" rx="5" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.2"/>
+  <text x="467" y="92" text-anchor="middle" font-size="10" fill="#1f4e79">核心交换设备</text>
+  <rect x="550" y="74" width="105" height="28" rx="5" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.2"/>
+  <text x="602" y="92" text-anchor="middle" font-size="10" fill="#1f4e79">核心交换设备</text>
+  <line x1="520" y1="88" x2="550" y2="88" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <line x1="467" y1="102" x2="467" y2="120" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <line x1="602" y1="102" x2="602" y2="120" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <line x1="460" y1="120" x2="610" y2="120" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <line x1="460" y1="120" x2="460" y2="129" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="460,137 455.5,129 464.5,129" fill="#1f4e79"/>
+  <line x1="610" y1="120" x2="610" y2="129" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="610,137 605.5,129 614.5,129" fill="#1f4e79"/>
+  <rect x="405" y="140" width="110" height="26" rx="4" fill="#ffffff" stroke="#1f4e79" stroke-width="1"/>
+  <text x="460" y="157" text-anchor="middle" font-size="10" fill="#22303f">接入交换设备</text>
+  <rect x="555" y="140" width="110" height="26" rx="4" fill="#ffffff" stroke="#1f4e79" stroke-width="1"/>
+  <text x="610" y="157" text-anchor="middle" font-size="10" fill="#22303f">接入交换设备</text>
+  <line x1="460" y1="166" x2="460" y2="172" stroke="#6b7a8a" stroke-width="1.5" fill="none"/>
+  <polygon points="460,177 455.5,172 464.5,172" fill="#6b7a8a"/>
+  <line x1="610" y1="166" x2="610" y2="172" stroke="#6b7a8a" stroke-width="1.5" fill="none"/>
+  <polygon points="610,177 605.5,172 614.5,172" fill="#6b7a8a"/>
+  <rect x="420" y="180" width="80" height="22" rx="4" fill="#f3f6ee" stroke="#8aa15c" stroke-width="1"/>
+  <text x="460" y="195" text-anchor="middle" font-size="10" fill="#4a6130">用户设备</text>
+  <rect x="570" y="180" width="80" height="22" rx="4" fill="#f3f6ee" stroke="#8aa15c" stroke-width="1"/>
+  <text x="610" y="195" text-anchor="middle" font-size="10" fill="#4a6130">用户设备</text>
+  <text x="535" y="222" text-anchor="middle" font-size="11" fill="#22303f">网关保护/负载均衡，业务路由热切换</text>
+  <text x="535" y="238" text-anchor="middle" font-size="11" fill="#4a6130">可靠性高；投资较大、端口密度要求高</text>
+  <!-- 格3 环型 -->
+  <rect x="20" y="265" width="330" height="205" rx="8" fill="#f7fafc" stroke="#6b7a8a" stroke-width="1"/>
+  <text x="185" y="287" text-anchor="middle" font-size="13" font-weight="bold" fill="#1f4e79">③ 环型架构（RPR 双环）</text>
+  <text x="185" y="306" text-anchor="middle" font-size="10" fill="#6b7a8a">两根反向光纤组成环，双向可达</text>
+  <line x1="67" y1="330" x2="67" y2="314" stroke="#c05621" stroke-width="1.5" fill="none"/>
+  <line x1="143" y1="330" x2="143" y2="314" stroke="#c05621" stroke-width="1.5" fill="none"/>
+  <line x1="219" y1="330" x2="219" y2="314" stroke="#c05621" stroke-width="1.5" fill="none"/>
+  <line x1="295" y1="330" x2="295" y2="314" stroke="#c05621" stroke-width="1.5" fill="none"/>
+  <line x1="67" y1="314" x2="295" y2="314" stroke="#c05621" stroke-width="1.5" fill="none"/>
+  <rect x="35" y="330" width="64" height="26" rx="4" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.2"/>
+  <text x="67" y="347" text-anchor="middle" font-size="10" fill="#1f4e79">核心</text>
+  <rect x="111" y="330" width="64" height="26" rx="4" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.2"/>
+  <text x="143" y="347" text-anchor="middle" font-size="10" fill="#1f4e79">核心</text>
+  <rect x="187" y="330" width="64" height="26" rx="4" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.2"/>
+  <text x="219" y="347" text-anchor="middle" font-size="10" fill="#1f4e79">核心</text>
+  <rect x="263" y="330" width="64" height="26" rx="4" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.2"/>
+  <text x="295" y="347" text-anchor="middle" font-size="10" fill="#1f4e79">核心</text>
+  <line x1="67" y1="356" x2="67" y2="372" stroke="#c05621" stroke-width="1.5" fill="none"/>
+  <line x1="143" y1="356" x2="143" y2="372" stroke="#c05621" stroke-width="1.5" fill="none"/>
+  <line x1="219" y1="356" x2="219" y2="372" stroke="#c05621" stroke-width="1.5" fill="none"/>
+  <line x1="295" y1="356" x2="295" y2="372" stroke="#c05621" stroke-width="1.5" fill="none"/>
+  <line x1="67" y1="372" x2="295" y2="372" stroke="#c05621" stroke-width="1.5" fill="none"/>
+  <line x1="185" y1="372" x2="185" y2="391" stroke="#6b7a8a" stroke-width="1.5" fill="none"/>
+  <polygon points="185,399 180.5,391 189.5,391" fill="#6b7a8a"/>
+  <rect x="135" y="402" width="100" height="24" rx="4" fill="#ffffff" stroke="#1f4e79" stroke-width="1"/>
+  <text x="185" y="418" text-anchor="middle" font-size="10" fill="#22303f">接入交换设备</text>
+  <text x="185" y="446" text-anchor="middle" font-size="11" fill="#22303f">MAC 层 50ms 自愈、空间重用省光纤</text>
+  <text x="185" y="463" text-anchor="middle" font-size="11" fill="#c05621">投资较高；多环间只能经业务接口互通</text>
+  <!-- 格4 层次 -->
+  <rect x="370" y="265" width="330" height="205" rx="8" fill="#f7fafc" stroke="#6b7a8a" stroke-width="1"/>
+  <text x="535" y="287" text-anchor="middle" font-size="13" font-weight="bold" fill="#1f4e79">④ 层次局域网架构</text>
+  <text x="382" y="316" font-size="10" fill="#6b7a8a">核心层</text>
+  <text x="382" y="368" font-size="10" fill="#6b7a8a">汇聚层</text>
+  <text x="382" y="420" font-size="10" fill="#6b7a8a">接入层</text>
+  <rect x="430" y="299" width="90" height="26" rx="4" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.2"/>
+  <text x="475" y="316" text-anchor="middle" font-size="10" fill="#1f4e79">核心交换</text>
+  <rect x="550" y="299" width="90" height="26" rx="4" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.2"/>
+  <text x="595" y="316" text-anchor="middle" font-size="10" fill="#1f4e79">核心交换</text>
+  <line x1="520" y1="312" x2="550" y2="312" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <line x1="475" y1="325" x2="475" y2="340" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="475,348 470.5,340 479.5,340" fill="#1f4e79"/>
+  <line x1="595" y1="325" x2="595" y2="340" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="595,348 590.5,340 599.5,340" fill="#1f4e79"/>
+  <rect x="430" y="351" width="90" height="26" rx="4" fill="#fdf0e6" stroke="#c05621" stroke-width="1.2"/>
+  <text x="475" y="368" text-anchor="middle" font-size="10" fill="#c05621">汇聚交换</text>
+  <rect x="550" y="351" width="90" height="26" rx="4" fill="#fdf0e6" stroke="#c05621" stroke-width="1.2"/>
+  <text x="595" y="368" text-anchor="middle" font-size="10" fill="#c05621">汇聚交换</text>
+  <line x1="520" y1="364" x2="550" y2="364" stroke="#c05621" stroke-width="1.5" fill="none"/>
+  <line x1="475" y1="377" x2="475" y2="392" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="475,400 470.5,392 479.5,392" fill="#1f4e79"/>
+  <line x1="595" y1="377" x2="595" y2="392" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="595,400 590.5,392 599.5,392" fill="#1f4e79"/>
+  <rect x="430" y="403" width="90" height="26" rx="4" fill="#f3f6ee" stroke="#8aa15c" stroke-width="1.2"/>
+  <text x="475" y="420" text-anchor="middle" font-size="10" fill="#4a6130">接入交换</text>
+  <rect x="550" y="403" width="90" height="26" rx="4" fill="#f3f6ee" stroke="#8aa15c" stroke-width="1.2"/>
+  <text x="595" y="420" text-anchor="middle" font-size="10" fill="#4a6130">接入交换</text>
+  <text x="535" y="446" text-anchor="middle" font-size="11" fill="#22303f">核心高速转发、汇聚互访控制、接入用户</text>
+  <text x="535" y="463" text-anchor="middle" font-size="11" fill="#4a6130">易扩展、故障分级排查，园区网经典模型</text>
+  <text x="360" y="492" text-anchor="middle" font-size="11" fill="#22303f">VLAN 内二层转发、VLAN 间三层路由；小规模单核心可变通为用户设备直连核心</text>
+</svg></div><div class="cap">局域网四种典型架构对比</div></div>
+<ul><li>VLAN 规则：核心用三层及以上交换机时可划分 VLAN，<b>VLAN 内二层转发、VLAN 间三层路由</b>；接入设备用二层交换机仅做二层转发；小规模单核心网可让用户设备直连核心省成本。局域网经边界路由器/防火墙接入广域网，实现跨网业务访问。</li></ul>
+<p><b>网络协议的应用</b>⭐【高频考点】（按「用在哪一层、解决什么问题」记）：</p>
+<table><colgroup><col style="width:29.2%"><col style="width:20.0%"><col style="width:50.8%"></colgroup><thead><tr><th>应用位置</th><th>协议</th><th>作用</th></tr></thead><tbody><tr><td>互为主备的交换/路由设备之间</td><td class="tc">VRRP、HSRP、GLBP</td><td>网关冗余保护（HSRP/GLBP 为思科私有，GLBP 兼负载均衡）</td></tr><tr><td>二层网络多链路保护/带宽扩展</td><td class="tc">STP、LACP</td><td>STP 防环路；LACP 链路聚合扩带宽</td></tr><tr><td>三层设备动态路由</td><td class="tc">OSPF、RIP、BGP</td><td>OSPF 链路状态（域内主流）；RIP 距离矢量；BGP 域间</td></tr></tbody></table>
+<div class="mnemonic">助记：「主备 V 哈 G（VRRP/HSRP/GLBP），二层 S 加 L（STP/LACP），三层 O  R  B（OSPF/RIP/BGP）」。</div>
+<h3>17.2.2 广域网网络架构 ⭐【重点】</h3>
+<ul><li><b>组成</b>：广域网 = 通信子网 + 资源子网，通信子网可用公用分组交换网、卫星通信网、无线分组交换网构建。<b>多级结构</b>：通常由<b>骨干网、分布网、接入网</b>三级组成，规模较小时可仅骨干网+接入网。举例：省银行广域网——骨干网提供全行高速可靠通信，分布网负责数据中心与分行/支行数据交换和长途复用，接入网负责网点终端接入。</li></ul>
+<p>六种构建模型（能根据描述识别架构名称）：</p>
+<table><colgroup><col style="width:8.3%"><col style="width:45.8%"><col style="width:45.8%"></colgroup><thead><tr><th>架构</th><th>识别要点</th><th>主要优缺点</th></tr></thead><tbody><tr><td class="tc">单核心</td><td>一台核心路由设备 + 各局域网，局域网间访问必经核心</td><td>简单省投资、互访效率高；核心单点故障、扩展差</td></tr><tr><td class="tc">双核心</td><td>两台核心互连，局域网间访问经两台核心</td><td>多路径、热切换、可靠性高；投资高、易成路由环路</td></tr><tr><td class="tc">环型</td><td><b>三台以上</b>核心路由器构成路由环路</td><td>多路径、无缝热切换；占端口多、投资比双核心高</td></tr><tr><td class="tc">半冗余</td><td>多台核心网状互连，<b>任意核心至少两条以上链路</b>到其他设备；任意两核心均互连则为其特例<b>全冗余</b></td><td>结构灵活、多路径、适合部署 OSPF；结构零散、不便管理排障</td></tr><tr><td class="tc">对等子域</td><td>路由设备划分为<b>两个独立子域</b>，域内半冗余、域间一条或多条链路互连</td><td>域间路由汇总/明细匹配控制灵活；<b>域间链路带宽应高于域内</b>；适合可明显划分为两个区域且内部访问独立的场景</td></tr><tr><td class="tc">层次子域</td><td>多个子域存在<b>层次关系</b>，高层次子域连接多个低层次子域</td><td>扩展性好；<b>低层子域互访须经高层子域</b>；域边界路由性能要求高</td></tr></tbody></table>
+<div class="fig"><div><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 460" font-family="Microsoft YaHei, 微软雅黑, sans-serif">
+  <text x="360" y="26" text-anchor="middle" font-size="16" font-weight="bold" fill="#1f4e79">广域网六种架构（蓝点＝核心路由设备，绿点＝局域网）</text>
+  <!-- 格1 单核心 -->
+  <rect x="20" y="40" width="220" height="200" rx="8" fill="#f7fafc" stroke="#6b7a8a" stroke-width="1"/>
+  <text x="130" y="62" text-anchor="middle" font-size="13" font-weight="bold" fill="#1f4e79">① 单核心</text>
+  <line x1="130" y1="118" x2="130" y2="140" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <line x1="60" y1="140" x2="200" y2="140" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <line x1="60" y1="140" x2="60" y2="158" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <line x1="130" y1="140" x2="130" y2="158" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <line x1="200" y1="140" x2="200" y2="158" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <circle cx="130" cy="110" r="8" fill="#1f4e79"/>
+  <circle cx="60" cy="165" r="7" fill="#8aa15c"/>
+  <circle cx="130" cy="165" r="7" fill="#8aa15c"/>
+  <circle cx="200" cy="165" r="7" fill="#8aa15c"/>
+  <text x="130" y="204" text-anchor="middle" font-size="11" fill="#22303f">结构简单、访问效率高、接入方便</text>
+  <text x="130" y="222" text-anchor="middle" font-size="11" fill="#c05621">核心单点故障、扩展能力欠佳</text>
+  <!-- 格2 双核心 -->
+  <rect x="250" y="40" width="220" height="200" rx="8" fill="#f7fafc" stroke="#6b7a8a" stroke-width="1"/>
+  <text x="360" y="62" text-anchor="middle" font-size="13" font-weight="bold" fill="#1f4e79">② 双核心</text>
+  <line x1="328" y1="110" x2="392" y2="110" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <line x1="320" y1="118" x2="320" y2="140" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <line x1="400" y1="118" x2="400" y2="140" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <line x1="290" y1="140" x2="430" y2="140" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <line x1="290" y1="140" x2="290" y2="158" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <line x1="360" y1="140" x2="360" y2="158" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <line x1="430" y1="140" x2="430" y2="158" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <circle cx="320" cy="110" r="8" fill="#1f4e79"/>
+  <circle cx="400" cy="110" r="8" fill="#1f4e79"/>
+  <circle cx="290" cy="165" r="7" fill="#8aa15c"/>
+  <circle cx="360" cy="165" r="7" fill="#8aa15c"/>
+  <circle cx="430" cy="165" r="7" fill="#8aa15c"/>
+  <text x="360" y="204" text-anchor="middle" font-size="11" fill="#22303f">多路径、路由热切换、可靠性高</text>
+  <text x="360" y="222" text-anchor="middle" font-size="11" fill="#c05621">投资高、冗余设计难、易成环路</text>
+  <!-- 格3 环型 -->
+  <rect x="480" y="40" width="220" height="200" rx="8" fill="#f7fafc" stroke="#6b7a8a" stroke-width="1"/>
+  <text x="590" y="62" text-anchor="middle" font-size="13" font-weight="bold" fill="#1f4e79">③ 环型</text>
+  <line x1="538" y1="95" x2="642" y2="95" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <line x1="538" y1="145" x2="642" y2="145" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <line x1="530" y1="103" x2="530" y2="137" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <line x1="650" y1="103" x2="650" y2="137" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <line x1="590" y1="145" x2="590" y2="178" stroke="#8aa15c" stroke-width="1.5" fill="none"/>
+  <circle cx="530" cy="95" r="8" fill="#1f4e79"/>
+  <circle cx="650" cy="95" r="8" fill="#1f4e79"/>
+  <circle cx="530" cy="145" r="8" fill="#1f4e79"/>
+  <circle cx="650" cy="145" r="8" fill="#1f4e79"/>
+  <circle cx="590" cy="185" r="7" fill="#8aa15c"/>
+  <text x="590" y="204" text-anchor="middle" font-size="11" fill="#22303f">多路径、无缝热切换、环路控制</text>
+  <text x="590" y="222" text-anchor="middle" font-size="11" fill="#c05621">占用端口多、投资高于双核心</text>
+  <!-- 格4 半冗余 -->
+  <rect x="20" y="250" width="220" height="200" rx="8" fill="#f7fafc" stroke="#6b7a8a" stroke-width="1"/>
+  <text x="130" y="272" text-anchor="middle" font-size="13" font-weight="bold" fill="#1f4e79">④ 半冗余</text>
+  <line x1="78" y1="312" x2="182" y2="312" stroke="#1f4e79" stroke-width="1.2" fill="none"/>
+  <line x1="77" y1="316" x2="123" y2="348" stroke="#1f4e79" stroke-width="1.2" fill="none"/>
+  <line x1="183" y1="316" x2="137" y2="348" stroke="#1f4e79" stroke-width="1.2" fill="none"/>
+  <line x1="70" y1="320" x2="70" y2="384" stroke="#1f4e79" stroke-width="1.2" fill="none"/>
+  <line x1="190" y1="320" x2="190" y2="384" stroke="#1f4e79" stroke-width="1.2" fill="none"/>
+  <line x1="123" y1="356" x2="77" y2="388" stroke="#1f4e79" stroke-width="1.2" fill="none"/>
+  <line x1="137" y1="356" x2="183" y2="388" stroke="#1f4e79" stroke-width="1.2" fill="none"/>
+  <line x1="78" y1="392" x2="182" y2="392" stroke="#1f4e79" stroke-width="1.2" fill="none"/>
+  <circle cx="70" cy="312" r="8" fill="#1f4e79"/>
+  <circle cx="190" cy="312" r="8" fill="#1f4e79"/>
+  <circle cx="130" cy="352" r="8" fill="#1f4e79"/>
+  <circle cx="70" cy="392" r="8" fill="#1f4e79"/>
+  <circle cx="190" cy="392" r="8" fill="#1f4e79"/>
+  <text x="130" y="414" text-anchor="middle" font-size="11" fill="#22303f">任意节点≥2 条链路；全互连即全冗余</text>
+  <text x="130" y="432" text-anchor="middle" font-size="11" fill="#c05621">灵活、适合 OSPF；结构零散难排障</text>
+  <!-- 格5 对等子域 -->
+  <rect x="250" y="250" width="220" height="200" rx="8" fill="#f7fafc" stroke="#6b7a8a" stroke-width="1"/>
+  <text x="360" y="272" text-anchor="middle" font-size="13" font-weight="bold" fill="#1f4e79">⑤ 对等子域</text>
+  <rect x="270" y="292" width="110" height="100" rx="8" fill="none" stroke="#6b7a8a" stroke-width="1" stroke-dasharray="4,3"/>
+  <rect x="390" y="292" width="110" height="100" rx="8" fill="none" stroke="#6b7a8a" stroke-width="1" stroke-dasharray="4,3"/>
+  <text x="325" y="306" text-anchor="middle" font-size="10" fill="#6b7a8a">子域 A</text>
+  <text x="445" y="306" text-anchor="middle" font-size="10" fill="#6b7a8a">子域 B</text>
+  <line x1="302" y1="320" x2="358" y2="320" stroke="#1f4e79" stroke-width="1.2" fill="none"/>
+  <line x1="300" y1="326" x2="325" y2="354" stroke="#1f4e79" stroke-width="1.2" fill="none"/>
+  <line x1="360" y1="326" x2="335" y2="354" stroke="#1f4e79" stroke-width="1.2" fill="none"/>
+  <line x1="422" y1="320" x2="468" y2="320" stroke="#1f4e79" stroke-width="1.2" fill="none"/>
+  <line x1="420" y1="326" x2="440" y2="354" stroke="#1f4e79" stroke-width="1.2" fill="none"/>
+  <line x1="470" y1="326" x2="450" y2="354" stroke="#1f4e79" stroke-width="1.2" fill="none"/>
+  <line x1="373" y1="320" x2="407" y2="320" stroke="#c05621" stroke-width="2" fill="none"/>
+  <circle cx="295" cy="320" r="8" fill="#1f4e79"/>
+  <circle cx="365" cy="320" r="8" fill="#1f4e79"/>
+  <circle cx="330" cy="360" r="8" fill="#1f4e79"/>
+  <circle cx="415" cy="320" r="8" fill="#1f4e79"/>
+  <circle cx="475" cy="320" r="8" fill="#1f4e79"/>
+  <circle cx="445" cy="360" r="8" fill="#1f4e79"/>
+  <text x="360" y="414" text-anchor="middle" font-size="11" fill="#22303f">两子域内各半冗余，域间链路互联</text>
+  <text x="360" y="432" text-anchor="middle" font-size="11" fill="#c05621">域间带宽应高于域内；边界性能要求高</text>
+  <!-- 格6 层次子域 -->
+  <rect x="480" y="250" width="220" height="200" rx="8" fill="#f7fafc" stroke="#6b7a8a" stroke-width="1"/>
+  <text x="590" y="272" text-anchor="middle" font-size="13" font-weight="bold" fill="#1f4e79">⑥ 层次子域</text>
+  <rect x="510" y="290" width="160" height="54" rx="8" fill="none" stroke="#6b7a8a" stroke-width="1" stroke-dasharray="4,3"/>
+  <text x="590" y="304" text-anchor="middle" font-size="10" fill="#6b7a8a">高层子域</text>
+  <line x1="558" y1="317" x2="622" y2="317" stroke="#1f4e79" stroke-width="1.2" fill="none"/>
+  <circle cx="550" cy="317" r="8" fill="#1f4e79"/>
+  <circle cx="630" cy="317" r="8" fill="#1f4e79"/>
+  <line x1="550" y1="325" x2="550" y2="364" stroke="#c05621" stroke-width="1.5" fill="none"/>
+  <polygon points="550,372 545.5,364 554.5,364" fill="#c05621"/>
+  <line x1="630" y1="325" x2="630" y2="364" stroke="#c05621" stroke-width="1.5" fill="none"/>
+  <polygon points="630,372 625.5,364 634.5,364" fill="#c05621"/>
+  <rect x="495" y="375" width="105" height="55" rx="8" fill="none" stroke="#6b7a8a" stroke-width="1" stroke-dasharray="4,3"/>
+  <text x="547" y="390" text-anchor="middle" font-size="10" fill="#6b7a8a">低层子域</text>
+  <line x1="528" y1="405" x2="562" y2="405" stroke="#1f4e79" stroke-width="1.2" fill="none"/>
+  <circle cx="520" cy="405" r="8" fill="#1f4e79"/>
+  <circle cx="570" cy="405" r="8" fill="#1f4e79"/>
+  <rect x="600" y="375" width="105" height="55" rx="8" fill="none" stroke="#6b7a8a" stroke-width="1" stroke-dasharray="4,3"/>
+  <text x="652" y="390" text-anchor="middle" font-size="10" fill="#6b7a8a">低层子域</text>
+  <line x1="633" y1="405" x2="667" y2="405" stroke="#1f4e79" stroke-width="1.2" fill="none"/>
+  <circle cx="625" cy="405" r="8" fill="#1f4e79"/>
+  <circle cx="675" cy="405" r="8" fill="#1f4e79"/>
+  <text x="590" y="446" text-anchor="middle" font-size="11" fill="#c05621">低层互访须经高层；扩展性好</text>
+</svg></div><div class="cap">广域网六种架构</div></div>
+<div class="mnemonic">助记：「单双环半对层」——单核心、双核心、环型、半冗余、对等子域、层次子域；「对等两域平起平坐，层次低域必经高域」。</div>
+<h3>17.2.3 移动通信网网络架构 ⭐【重点】</h3>
+<p><b>1. 5GS 与 DN 互连</b></p>
+<ul><li>5GS（5G System）为 UE 提供服务时通常要与 DN（Data Network，如 Internet、IMS、专网）互连；<b>UPF（用户面功能）网元是 DN 的接入点，5GS 与 DN 之间通过 N6 接口互连</b>⭐【高频考点】。</li><li>从 DN 看 UPF 是普通路由器，5GS 与 DN 之间是<b>路由关系</b>：UL（上行）＝UE→DN，经 UPF 上配置的路由转发；DL（下行）＝DN→UE，经与 UPF 邻近路由器上的路由转发至 UPF。5G 网络功能实体还有 AMF/SMF/PCF/NRF/NSSF 等。</li></ul>
+<div class="fig"><div><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 290" font-family="Microsoft YaHei, 微软雅黑, sans-serif">
+  <text x="360" y="26" text-anchor="middle" font-size="16" font-weight="bold" fill="#1f4e79">5GS 与 DN 互连（教材图 17-11 重绘）</text>
+  <rect x="110" y="60" width="360" height="150" rx="10" fill="#f7fafc" stroke="#1f4e79" stroke-width="1.5"/>
+  <text x="290" y="82" text-anchor="middle" font-size="13" font-weight="bold" fill="#1f4e79">5G Network（5G 系统）</text>
+  <rect x="20" y="110" width="70" height="40" rx="6" fill="#f3f6ee" stroke="#8aa15c" stroke-width="1.2"/>
+  <text x="55" y="132" text-anchor="middle" font-size="12" font-weight="bold" fill="#4a6130">UE</text>
+  <text x="55" y="146" text-anchor="middle" font-size="10" fill="#4a6130">用户设备</text>
+  <rect x="140" y="110" width="90" height="40" rx="6" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.2"/>
+  <text x="185" y="133" text-anchor="middle" font-size="12" font-weight="bold" fill="#1f4e79">5G-AN</text>
+  <text x="185" y="148" text-anchor="middle" font-size="10" fill="#1f4e79">接入网</text>
+  <rect x="300" y="110" width="90" height="40" rx="6" fill="#fdf0e6" stroke="#c05621" stroke-width="1.5"/>
+  <text x="345" y="133" text-anchor="middle" font-size="12" font-weight="bold" fill="#c05621">UPF</text>
+  <text x="345" y="148" text-anchor="middle" font-size="10" fill="#c05621">用户面功能</text>
+  <rect x="140" y="165" width="120" height="30" rx="5" fill="#ffffff" stroke="#6b7a8a" stroke-width="1"/>
+  <text x="200" y="184" text-anchor="middle" font-size="10" fill="#22303f">SMF（会话管理）</text>
+  <text x="405" y="184" text-anchor="middle" font-size="10" fill="#6b7a8a">AMF/PCF/NRF 等</text>
+  <rect x="540" y="100" width="140" height="60" rx="8" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.5"/>
+  <text x="610" y="126" text-anchor="middle" font-size="12" font-weight="bold" fill="#1f4e79">DN 数据网络</text>
+  <text x="610" y="146" text-anchor="middle" font-size="10" fill="#22303f">Internet/IMS/专网</text>
+  <line x1="90" y1="130" x2="129" y2="130" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="137,130 129,125.5 129,134.5" fill="#1f4e79"/>
+  <line x1="230" y1="130" x2="289" y2="130" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="297,130 289,125.5 289,134.5" fill="#1f4e79"/>
+  <line x1="390" y1="130" x2="529" y2="130" stroke="#c05621" stroke-width="1.5" fill="none"/>
+  <polygon points="537,130 529,125.5 529,134.5" fill="#c05621"/>
+  <text x="460" y="118" text-anchor="middle" font-size="11" font-weight="bold" fill="#c05621">N6 接口</text>
+  <line x1="260" y1="180" x2="345" y2="180" stroke="#6b7a8a" stroke-width="1.2" stroke-dasharray="4,3" fill="none"/>
+  <line x1="345" y1="180" x2="345" y2="161" stroke="#6b7a8a" stroke-width="1.2" stroke-dasharray="4,3" fill="none"/>
+  <polygon points="345,153 340.5,161 349.5,161" fill="#6b7a8a"/>
+  <text x="360" y="240" text-anchor="middle" font-size="11" fill="#22303f">UPF 是 DN 的接入点，5GS 与 DN 之间是路由关系；UL＝UE→DN 上行，DL＝DN→UE 下行</text>
+  <text x="360" y="262" text-anchor="middle" font-size="11" fill="#22303f">透明模式：UE 用运营商地址、不触发 DN-AAA；非透明模式：UE 用 Intranet/ISP 地址、SMF 触发认证</text>
+</svg></div><div class="cap">5GS与DN互连</div></div>
+<p>UE 接入 DN 的两种模式⭐【高频考点】【易错】：</p>
+<table><colgroup><col style="width:9.4%"><col style="width:38.8%"><col style="width:51.8%"></colgroup><thead><tr><th>对比项</th><th>透明模式</th><th>非透明模式</th></tr></thead><tbody><tr><td class="tc">接入路径</td><td>UPF 经 N6 直连运营商特定 IP 网络，再经防火墙/代理到外部 DN</td><td>直接接入 Intranet/ISP，或经 Internet 等其他 IP 网络间接接入（UPF 与 Intranet/ISP 间建专用隧道）</td></tr><tr><td class="tc">UE 地址</td><td><b>运营商规划的地址空间</b></td><td><b>Intranet/ISP 地址空间</b>，用于业务在 UPF、Intranet/ISP 中转发</td></tr><tr><td class="tc">认证</td><td>通常<b>不触发</b>外部 DN-AAA 认证</td><td>SMF 通常向外部 <b>DN-AAA</b>（Radius/Diameter）发起认证，成功后才完成会话建立</td></tr><tr><td class="tc">服务要求</td><td>5GS 只须提供基本隧道 QoS 流服务，UE 级配置对 5GS 透明</td><td>安全协议由运营商与 Intranet/ISP 提供商协商，即使经过不安全的 Internet 也无妨</td></tr></tbody></table>
+<p><b>2. 5G 网络边缘计算（MEC）</b></p>
+<ul><li>5G 倡导以用户为中心、注重 QoE（体验质量）；MEC 在<b>靠近 UE 的移动网络边缘部署 UPF</b>，并结合边缘计算平台 MEP，为垂直行业提供<b>时间敏感、高带宽业务的就近分流</b>，既提升体验又降低后端压力。</li><li>策略生成链：运营商/第三方 <b>AF → NEF（能力开放）→ PCF（策略控制）→ SMF</b>；SMF 根据用户位置变化<b>动态插入/移除边缘 UPF</b> 并配置分流规则⭐。</li><li><b>SSC（会话与服务连续性）三种模式</b>【易错】：模式 1＝移动中会话 IP 接入点<b>始终不变</b>；模式 2＝<b>先释放旧会话、立即再建新会话</b>（先断后建）；模式 3＝<b>先建新会话、再释放旧会话</b>（先建后断）。</li></ul>
+<div class="fig"><div><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 360" font-family="Microsoft YaHei, 微软雅黑, sans-serif">
+  <text x="360" y="26" text-anchor="middle" font-size="16" font-weight="bold" fill="#1f4e79">5G 网络边缘计算（MEC）架构（教材图 17-14 简化重绘）</text>
+  <!-- 左 移动边缘云 -->
+  <rect x="40" y="50" width="290" height="170" rx="10" fill="#f3f6ee" stroke="#8aa15c" stroke-width="1.5"/>
+  <text x="185" y="72" text-anchor="middle" font-size="13" font-weight="bold" fill="#4a6130">移动边缘云</text>
+  <rect x="60" y="85" width="120" height="34" rx="5" fill="#ffffff" stroke="#8aa15c" stroke-width="1.2"/>
+  <text x="120" y="106" text-anchor="middle" font-size="11" fill="#4a6130">MEP 边缘平台</text>
+  <rect x="200" y="85" width="110" height="34" rx="5" fill="#ffffff" stroke="#8aa15c" stroke-width="1.2"/>
+  <text x="255" y="106" text-anchor="middle" font-size="11" fill="#4a6130">边缘应用</text>
+  <rect x="120" y="160" width="120" height="36" rx="5" fill="#fdf0e6" stroke="#c05621" stroke-width="1.5"/>
+  <text x="180" y="183" text-anchor="middle" font-size="11" font-weight="bold" fill="#c05621">UPF（边缘下沉）</text>
+  <!-- 中间控制面 -->
+  <rect x="345" y="60" width="90" height="30" rx="5" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.2"/>
+  <text x="390" y="79" text-anchor="middle" font-size="11" fill="#1f4e79">AF / NEF</text>
+  <line x1="390" y1="90" x2="390" y2="99" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="390,107 385.5,99 394.5,99" fill="#1f4e79"/>
+  <rect x="345" y="110" width="90" height="30" rx="5" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.2"/>
+  <text x="390" y="129" text-anchor="middle" font-size="11" fill="#1f4e79">PCF 策略</text>
+  <line x1="390" y1="140" x2="390" y2="149" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="390,157 385.5,149 394.5,149" fill="#1f4e79"/>
+  <rect x="345" y="160" width="90" height="36" rx="5" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.2"/>
+  <text x="390" y="182" text-anchor="middle" font-size="11" fill="#1f4e79">SMF 会话</text>
+  <line x1="345" y1="178" x2="251" y2="178" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="243,178 251,173.5 251,182.5" fill="#1f4e79"/>
+  <!-- 右 移动中心云 -->
+  <rect x="450" y="50" width="240" height="170" rx="10" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.5"/>
+  <text x="570" y="72" text-anchor="middle" font-size="13" font-weight="bold" fill="#1f4e79">移动中心云</text>
+  <rect x="490" y="85" width="140" height="36" rx="5" fill="#fdf0e6" stroke="#c05621" stroke-width="1.5"/>
+  <text x="560" y="108" text-anchor="middle" font-size="11" font-weight="bold" fill="#c05621">UPF（中心）</text>
+  <line x1="560" y1="121" x2="560" y2="149" stroke="#c05621" stroke-width="1.5" fill="none"/>
+  <polygon points="560,157 555.5,149 564.5,149" fill="#c05621"/>
+  <rect x="490" y="160" width="140" height="36" rx="5" fill="#ffffff" stroke="#1f4e79" stroke-width="1.2"/>
+  <text x="560" y="183" text-anchor="middle" font-size="11" fill="#22303f">中心 DN / 应用</text>
+  <!-- 底部接入 -->
+  <rect x="40" y="280" width="70" height="36" rx="6" fill="#f3f6ee" stroke="#8aa15c" stroke-width="1.2"/>
+  <text x="75" y="302" text-anchor="middle" font-size="12" font-weight="bold" fill="#4a6130">UE</text>
+  <line x1="110" y1="298" x2="149" y2="298" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="157,298 149,293.5 149,302.5" fill="#1f4e79"/>
+  <rect x="160" y="280" width="100" height="36" rx="6" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.2"/>
+  <text x="210" y="302" text-anchor="middle" font-size="12" font-weight="bold" fill="#1f4e79">5G-AN</text>
+  <!-- 绿线 本地分流 -->
+  <line x1="210" y1="280" x2="210" y2="250" stroke="#4a6130" stroke-width="1.5" fill="none"/>
+  <line x1="210" y1="250" x2="180" y2="250" stroke="#4a6130" stroke-width="1.5" fill="none"/>
+  <line x1="180" y1="250" x2="180" y2="207" stroke="#4a6130" stroke-width="1.5" fill="none"/>
+  <polygon points="180,199 175.5,207 184.5,207" fill="#4a6130"/>
+  <text x="150" y="240" text-anchor="middle" font-size="10" fill="#4a6130">本地分流</text>
+  <!-- 灰线 到中心 -->
+  <line x1="240" y1="280" x2="240" y2="250" stroke="#6b7a8a" stroke-width="1.5" fill="none"/>
+  <line x1="240" y1="250" x2="560" y2="250" stroke="#6b7a8a" stroke-width="1.5" fill="none"/>
+  <line x1="560" y1="250" x2="560" y2="231" stroke="#6b7a8a" stroke-width="1.5" fill="none"/>
+  <polygon points="560,223 555.5,231 564.5,231" fill="#6b7a8a"/>
+  <text x="400" y="242" text-anchor="middle" font-size="10" fill="#6b7a8a">业务流（到中心应用）</text>
+  <text x="360" y="342" text-anchor="middle" font-size="11" fill="#22303f">UPF 下沉边缘 + MEP 平台：就近分流、降时延、减后端压力；SSC 模式 1/2/3 保障移动中业务连续性</text>
+</svg></div><div class="cap">5G网络边缘计算架构</div></div>
+<div class="example">举例：MEC 就像把「快递分拣站」建到小区门口——包裹（数据）不用先运回市中心总站（中心云）再折返，楼下就能分发，所以快且省运力；SSC 模式 3 则像搬家「先入住新房再退旧房」，业务不中断。</div>
+<h3>17.2.4 存储网络架构 ⭐【重点】【高频考点】</h3>
+<p>计算机访问磁盘存储的 3 种方式：</p>
+<table><colgroup><col style="width:8.5%"><col style="width:19.6%"><col style="width:32.8%"><col style="width:39.2%"></colgroup><thead><tr><th>对比项</th><th>DAS 直连式存储</th><th>NAS 网络连接存储</th><th>SAN 存储区域网络</th></tr></thead><tbody><tr><td class="tc">访问方式</td><td>通过 I/O 端口直接访问存储设备</td><td>通过<b>分布式文件系统</b>访问</td><td>通过构建的<b>独立存储网络</b>访问</td></tr><tr><td class="tc">粒度</td><td>块级（逻辑数据块读写）</td><td><b>文件级</b></td><td><b>块级</b>（LDU 逻辑磁盘单元，服务器分区格式化后像本地盘使用）</td></tr><tr><td class="tc">连接</td><td>I/O 总线（IDE/ATA 等）</td><td>以太网（LAN/WAN/5G），RPC 远程过程调用（TCP/UDP）</td><td>专用高速网络，<b>用存储协议而非网络协议</b>连接</td></tr><tr><td class="tc">协议</td><td>总线 I/O 指令</td><td><b>CIFS/SMB（Windows）、NFS（UNIX/Linux）</b></td><td>FCP、iSCSI、FCoE、FC-NVMe</td></tr><tr><td class="tc">特点</td><td>简单直连，共享扩展差</td><td>注重<b>易用、易管理、可扩展、低 TCO</b>，访问效率性能相对较差</td><td>注重<b>高性能、低延迟</b>；消除单点故障、高可用；适合高吞吐业务关键型应用</td></tr></tbody></table>
+<div class="fig"><div><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 330" font-family="Microsoft YaHei, 微软雅黑, sans-serif">
+  <text x="360" y="26" text-anchor="middle" font-size="16" font-weight="bold" fill="#1f4e79">三种存储访问方式对比（教材图 17-15、17-16 重绘）</text>
+  <text x="130" y="56" text-anchor="middle" font-size="13" font-weight="bold" fill="#1f4e79">DAS 直连式存储</text>
+  <text x="360" y="56" text-anchor="middle" font-size="13" font-weight="bold" fill="#1f4e79">NAS 网络连接存储</text>
+  <text x="590" y="56" text-anchor="middle" font-size="13" font-weight="bold" fill="#1f4e79">SAN 存储区域网络</text>
+  <!-- DAS -->
+  <rect x="60" y="80" width="140" height="40" rx="6" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.2"/>
+  <text x="130" y="104" text-anchor="middle" font-size="12" fill="#22303f">服务器 / 主机</text>
+  <line x1="130" y1="120" x2="130" y2="159" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="130,167 125.5,159 134.5,159" fill="#1f4e79"/>
+  <text x="140" y="148" font-size="10" fill="#6b7a8a">I/O 总线（IDE/ATA）</text>
+  <rect x="60" y="170" width="140" height="40" rx="6" fill="#f3f6ee" stroke="#8aa15c" stroke-width="1.2"/>
+  <text x="130" y="192" text-anchor="middle" font-size="12" fill="#4a6130">存储设备</text>
+  <text x="130" y="206" text-anchor="middle" font-size="9" fill="#4a6130">硬盘/RAID/磁带</text>
+  <text x="130" y="290" text-anchor="middle" font-size="11" fill="#22303f">直连块级 I/O；扩展共享性差</text>
+  <!-- NAS -->
+  <rect x="290" y="80" width="140" height="40" rx="6" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.2"/>
+  <text x="360" y="104" text-anchor="middle" font-size="12" fill="#22303f">客户机</text>
+  <line x1="360" y1="120" x2="360" y2="139" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="360,147 355.5,139 364.5,139" fill="#1f4e79"/>
+  <rect x="290" y="150" width="140" height="34" rx="6" fill="#f4f6f8" stroke="#6b7a8a" stroke-width="1.2"/>
+  <text x="360" y="171" text-anchor="middle" font-size="11" fill="#22303f">LAN/WAN/5G 网络</text>
+  <line x1="360" y1="184" x2="360" y2="209" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="360,217 355.5,209 364.5,209" fill="#1f4e79"/>
+  <text x="370" y="206" font-size="10" fill="#6b7a8a">CIFS/SMB · NFS</text>
+  <rect x="290" y="220" width="140" height="40" rx="6" fill="#f3f6ee" stroke="#8aa15c" stroke-width="1.2"/>
+  <text x="360" y="242" text-anchor="middle" font-size="12" fill="#4a6130">NAS 存储单元</text>
+  <text x="360" y="256" text-anchor="middle" font-size="10" fill="#4a6130">文件级 · RPC</text>
+  <text x="360" y="290" text-anchor="middle" font-size="11" fill="#22303f">以太网文件共享；易用低成本、性能较弱</text>
+  <!-- SAN -->
+  <rect x="520" y="80" width="140" height="40" rx="6" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.2"/>
+  <text x="590" y="104" text-anchor="middle" font-size="12" fill="#22303f">服务器</text>
+  <line x1="590" y1="120" x2="590" y2="139" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="590,147 585.5,139 594.5,139" fill="#1f4e79"/>
+  <rect x="520" y="150" width="140" height="34" rx="6" fill="#fdf0e6" stroke="#c05621" stroke-width="1.2"/>
+  <text x="590" y="171" text-anchor="middle" font-size="11" fill="#c05621">SAN 专用网络</text>
+  <line x1="590" y1="184" x2="590" y2="209" stroke="#c05621" stroke-width="1.5" fill="none"/>
+  <polygon points="590,217 585.5,209 594.5,209" fill="#c05621"/>
+  <text x="600" y="206" font-size="10" fill="#6b7a8a">FC / IP（iSCSI）</text>
+  <rect x="520" y="220" width="140" height="40" rx="6" fill="#f3f6ee" stroke="#8aa15c" stroke-width="1.2"/>
+  <text x="590" y="242" text-anchor="middle" font-size="12" fill="#4a6130">存储设施 LDU</text>
+  <text x="590" y="256" text-anchor="middle" font-size="10" fill="#4a6130">块级 · SCSI</text>
+  <text x="590" y="290" text-anchor="middle" font-size="11" fill="#22303f">专用网络块级；高性能低时延、高可用</text>
+  <text x="360" y="316" text-anchor="middle" font-size="11" fill="#22303f">SAN 协议：FCP 应用最广泛、iSCSI 第二、FCoE 较少、FC-NVMe 面向闪存</text>
+</svg></div><div class="cap">三种存储访问方式对比</div></div>
+<ul><li><b>FC-SAN</b> 通过光纤通道协议转发 SCSI，<b>IP-SAN</b> 通过 TCP 协议转发 SCSI【易错】。SAN 四种协议：①<b>FCP（光纤通道协议）应用最广泛</b>，嵌入式 SCSI 命令；②<b>iSCSI 第二大</b>，SCSI 命令封装在以太网帧内经 IP 传输；③FCoE 应用较少，FC 帧封装在以太网数据报中经 IP 传输；④FC-NVMe 通过 PCIe 总线访问闪存，支持多并行队列与并发命令。</li><li>共同点：NAS 与 SAN 都可集中管理存储、供多主机共享；SAN 典型应用于 ISP、银行等存储量大的场景，5G 网元「业务处理与数据存储分离」架构中用 SAN 避免故障切换后业务数据丢失。</li></ul>
+<div class="mnemonic">助记：「NAS 文件级走以太（NFS/CIFS），SAN 块级走专网（FC/iSCSI），DAS 直连总线最省事」。</div>
+<h3>17.2.5 软件定义网络架构 ⭐【重点】【高频考点】</h3>
+<div class="def">教材原文：软件定义网络（SDN）的核心思想是通过对网络设备的控制面与数据面进行分离，控制面集中化管控，同时对外提供开放的可编程接口；而数据面则通用化、轻量化，高效转发，以提升网络的整体运行效能。</div>
+<ul><li>由斯坦福大学 Clean State 课题组提出；控制层掌握全局信息、方便配置网络部署新协议；数据层是<b>哑交换机</b>，只按规则快速转发；两层间用开放统一接口（如 OpenFlow）交互，控制器下发标准转发规则。价值：降低转发设备复杂度与运营成本、打破传统设备封闭性。</li></ul>
+<p>三平面与接口（方向题高频）：</p>
+<table><colgroup><col style="width:15.5%"><col style="width:23.3%"><col style="width:61.2%"></colgroup><thead><tr><th>平面/接口</th><th>位置</th><th>职责</th></tr></thead><tbody><tr><td class="tc">应用平面</td><td>最上</td><td>各种 SDN 网络应用，无须关心底层细节即可编程部署</td></tr><tr><td class="tc"><b>北向接口 NBI</b></td><td>应用平面与控制平面之间</td><td>对应用开放，允许定制开发网络管理应用，调用网络资源快速配置部署</td></tr><tr><td class="tc">控制平面</td><td>中间</td><td>逻辑上集中的 SDN 控制器，掌握全局信息、下发转发规则</td></tr><tr><td class="tc"><b>南向接口 SBI</b></td><td>控制平面与数据平面之间</td><td>统一通信标准，把控制器转发规则下发至转发设备；<b>OpenFlow 是最主流南向协议</b></td></tr><tr><td class="tc">数据平面</td><td>最下</td><td>通用硬件转发设备，设备间由不同规则形成 SDN 数据通路</td></tr><tr><td class="tc"><b>东西向接口</b></td><td>多控制器之间</td><td>使控制器可扩展，支撑负载均衡与性能提升</td></tr></tbody></table>
+<div class="fig"><div><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 385" font-family="Microsoft YaHei, 微软雅黑, sans-serif">
+  <text x="360" y="24" text-anchor="middle" font-size="16" font-weight="bold" fill="#1f4e79">SDN 网络架构：三平面与三类接口（教材图 17-17 重绘）</text>
+  <!-- 应用平面 -->
+  <rect x="100" y="40" width="520" height="56" rx="8" fill="#fdf0e6" stroke="#c05621" stroke-width="1.5"/>
+  <text x="360" y="64" text-anchor="middle" font-size="13" font-weight="bold" fill="#c05621">应用平面</text>
+  <text x="360" y="84" text-anchor="middle" font-size="10" fill="#22303f">SDN 网络应用：无须关心底层细节即可编程、部署新应用</text>
+  <!-- 北向接口 -->
+  <line x1="360" y1="107" x2="360" y2="139" stroke="#c05621" stroke-width="1.5" fill="none"/>
+  <polygon points="360,99 355.5,107 364.5,107" fill="#c05621"/>
+  <polygon points="360,147 355.5,139 364.5,139" fill="#c05621"/>
+  <text x="375" y="126" font-size="11" fill="#c05621">北向接口 NBI（对应用开放，定制网络管理应用）</text>
+  <!-- 控制平面 -->
+  <rect x="100" y="150" width="520" height="56" rx="8" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.5"/>
+  <text x="360" y="174" text-anchor="middle" font-size="13" font-weight="bold" fill="#1f4e79">控制平面：SDN 控制器</text>
+  <text x="360" y="194" text-anchor="middle" font-size="10" fill="#22303f">逻辑集中、掌握网络全局信息、负责转发规则下发</text>
+  <!-- 东西向接口 -->
+  <text x="672" y="146" text-anchor="middle" font-size="10" fill="#6b7a8a">东西向接口</text>
+  <line x1="620" y1="178" x2="633" y2="178" stroke="#6b7a8a" stroke-width="1.5" fill="none"/>
+  <rect x="636" y="158" width="72" height="40" rx="6" fill="#f4f6f8" stroke="#6b7a8a" stroke-width="1.2"/>
+  <text x="672" y="182" text-anchor="middle" font-size="10" fill="#22303f">其他控制器</text>
+  <!-- 南向接口 -->
+  <line x1="360" y1="206" x2="360" y2="245" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="360,253 355.5,245 364.5,245" fill="#1f4e79"/>
+  <text x="375" y="232" font-size="11" fill="#1f4e79">南向接口 SBI（OpenFlow 最主流，流表规则下发）</text>
+  <!-- 数据平面 -->
+  <rect x="100" y="256" width="520" height="90" rx="8" fill="#f3f6ee" stroke="#8aa15c" stroke-width="1.5"/>
+  <text x="360" y="278" text-anchor="middle" font-size="12" font-weight="bold" fill="#4a6130">数据平面（通用硬件转发设备 / 哑交换机）</text>
+  <line x1="230" y1="313" x2="250" y2="313" stroke="#8aa15c" stroke-width="1.5" fill="none"/>
+  <line x1="360" y1="313" x2="380" y2="313" stroke="#8aa15c" stroke-width="1.5" fill="none"/>
+  <line x1="490" y1="313" x2="510" y2="313" stroke="#8aa15c" stroke-width="1.5" fill="none"/>
+  <rect x="120" y="296" width="110" height="34" rx="5" fill="#ffffff" stroke="#8aa15c" stroke-width="1.2"/>
+  <text x="175" y="317" text-anchor="middle" font-size="11" fill="#4a6130">转发设备</text>
+  <rect x="250" y="296" width="110" height="34" rx="5" fill="#ffffff" stroke="#8aa15c" stroke-width="1.2"/>
+  <text x="305" y="317" text-anchor="middle" font-size="11" fill="#4a6130">转发设备</text>
+  <rect x="380" y="296" width="110" height="34" rx="5" fill="#ffffff" stroke="#8aa15c" stroke-width="1.2"/>
+  <text x="435" y="317" text-anchor="middle" font-size="11" fill="#4a6130">转发设备</text>
+  <rect x="510" y="296" width="110" height="34" rx="5" fill="#ffffff" stroke="#8aa15c" stroke-width="1.2"/>
+  <text x="565" y="317" text-anchor="middle" font-size="11" fill="#4a6130">转发设备</text>
+  <text x="360" y="370" text-anchor="middle" font-size="11" fill="#22303f">OpenFlow 基于流（Flow）匹配：流表由控制器建立、维护并下发，转发设备按表执行动作</text>
+</svg></div><div class="cap">SDN网络架构</div></div>
+<ul><li><b>OpenFlow 最基本特点是基于流（Flow）匹配转发规则</b>：每个转发设备维护<b>流表</b>，按流表转发；<b>流表的建立、维护和下发都由控制器完成</b>⭐。</li></ul>
+<div class="example">举例：SDN 像「导航打车」——司机（哑交换机）不再自己认路，只按平台（控制器）下发的路线（流表）开车；平台统一掌握全城路况（全局信息），第三方还能通过开放接口（北向）开发新的用车应用。</div>
+<h3>17.3 网络构建关键技术</h3>
+<h3>17.3.1 网络高可用设计 ⭐【重点】【高频考点】</h3>
+<ul><li>衡量高可用的两个指标：<b>故障次数少 + 故障恢复时间短</b>。可用性公式：</li></ul>
+<div class="def">教材原文：A = MTBF / (MTBF + MTTR)。MTBF 为平均无故障时间，MTTR 为平均故障修复时间。</div>
+<ul><li>MTBF 取决于设备软硬件质量，提升总有限度，不能一味靠提高 MTBF；<b>减少 MTTR 也是有效途径</b>：一是快速发现故障，二是快速从故障恢复。</li><li>高可用是系统级概念，从三方面入手：</li></ul>
+<ol><li><b>网络部件</b>：硬件高可用（主控 1+1 主备冗余、业务结点热插拔、电源风扇冗余）；软件高可用（热补丁、异常保护、数据冗余备份）。</li><li><b>网络连接模型</b>：五种互连拓扑可用性（设 NE1、NE2 在线率分别为 R1、R2）。</li><li><b>网络协议及配置</b>：基本路由 OSPF/BGP + 链路检测 <b>BFD/NQA</b> 缩短故障发现时间；另有 802.3ad（链路聚合）、VRRP、路由多下一跳等。</li></ol>
+<p>五种互连拓扑可用性公式⭐【高频考点】【易错】：</p>
+<table><colgroup><col style="width:15.1%"><col style="width:15.1%"><col style="width:34.0%"><col style="width:35.8%"></colgroup><thead><tr><th>拓扑</th><th>别名</th><th>可用性公式</th><th>理解</th></tr></thead><tbody><tr><td class="tc">一对一</td><td class="tc">单点单归</td><td>A1 = R1×R2</td><td>串联：两者都正常才行</td></tr><tr><td class="tc">一对二</td><td class="tc">单点双归</td><td>A2 = R2×[1-(1-R1)²]</td><td>单个 NE2 直接乘，两个 NE1 并联</td></tr><tr><td class="tc">二对一</td><td class="tc">双点单归</td><td>A3 = R1×[1-(1-R2)²]</td><td>单个 NE1 直接乘，两个 NE2 并联</td></tr><tr><td class="tc">双一对一</td><td class="tc">双点双归</td><td>A4 = 1-(1-R1×R2)²</td><td>两条「R1×R2 链路」并联</td></tr><tr><td class="tc">双一对二</td><td class="tc">双归属</td><td>A5 = [1-(1-R1)²]×[1-(1-R2)²]</td><td>两侧各自冗余后串联</td></tr></tbody></table>
+<div class="fig"><div><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 330" font-family="Microsoft YaHei, 微软雅黑, sans-serif">
+  <text x="360" y="24" text-anchor="middle" font-size="16" font-weight="bold" fill="#1f4e79">两类设备五种互连拓扑与可用性（教材图 17-18 重绘）</text>
+  <text x="80" y="46" text-anchor="middle" font-size="10" fill="#6b7a8a">①一对一·单点单归</text>
+  <text x="220" y="46" text-anchor="middle" font-size="10" fill="#6b7a8a">②一对二·单点双归</text>
+  <text x="360" y="46" text-anchor="middle" font-size="10" fill="#6b7a8a">③二对一·双点单归</text>
+  <text x="500" y="46" text-anchor="middle" font-size="10" fill="#6b7a8a">④双一对一·双点双归</text>
+  <text x="640" y="46" text-anchor="middle" font-size="10" fill="#6b7a8a">⑤双一对二·双归属</text>
+  <!-- (a) -->
+  <line x1="80" y1="80" x2="80" y2="120" stroke="#6b7a8a" stroke-width="1.5" fill="none"/>
+  <rect x="63" y="60" width="34" height="20" rx="3" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1"/>
+  <text x="80" y="74" text-anchor="middle" font-size="9" fill="#1f4e79">NE1</text>
+  <rect x="63" y="120" width="34" height="20" rx="3" fill="#f3f6ee" stroke="#8aa15c" stroke-width="1"/>
+  <text x="80" y="134" text-anchor="middle" font-size="9" fill="#4a6130">NE2</text>
+  <text x="80" y="168" text-anchor="middle" font-size="10" fill="#22303f">A1=R1×R2</text>
+  <!-- (b) 2 NE1 + 1 NE2 -->
+  <line x1="197" y1="80" x2="197" y2="100" stroke="#6b7a8a" stroke-width="1.5" fill="none"/>
+  <line x1="243" y1="80" x2="243" y2="100" stroke="#6b7a8a" stroke-width="1.5" fill="none"/>
+  <line x1="197" y1="100" x2="243" y2="100" stroke="#6b7a8a" stroke-width="1.5" fill="none"/>
+  <line x1="220" y1="100" x2="220" y2="120" stroke="#6b7a8a" stroke-width="1.5" fill="none"/>
+  <rect x="180" y="60" width="34" height="20" rx="3" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1"/>
+  <text x="197" y="74" text-anchor="middle" font-size="9" fill="#1f4e79">NE1</text>
+  <rect x="226" y="60" width="34" height="20" rx="3" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1"/>
+  <text x="243" y="74" text-anchor="middle" font-size="9" fill="#1f4e79">NE1</text>
+  <rect x="203" y="120" width="34" height="20" rx="3" fill="#f3f6ee" stroke="#8aa15c" stroke-width="1"/>
+  <text x="220" y="134" text-anchor="middle" font-size="9" fill="#4a6130">NE2</text>
+  <text x="220" y="168" text-anchor="middle" font-size="10" fill="#22303f">A2=R2×[1-(1-R1)²]</text>
+  <!-- (c) 1 NE1 + 2 NE2 -->
+  <line x1="360" y1="80" x2="360" y2="100" stroke="#6b7a8a" stroke-width="1.5" fill="none"/>
+  <line x1="337" y1="100" x2="383" y2="100" stroke="#6b7a8a" stroke-width="1.5" fill="none"/>
+  <line x1="337" y1="100" x2="337" y2="120" stroke="#6b7a8a" stroke-width="1.5" fill="none"/>
+  <line x1="383" y1="100" x2="383" y2="120" stroke="#6b7a8a" stroke-width="1.5" fill="none"/>
+  <rect x="343" y="60" width="34" height="20" rx="3" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1"/>
+  <text x="360" y="74" text-anchor="middle" font-size="9" fill="#1f4e79">NE1</text>
+  <rect x="320" y="120" width="34" height="20" rx="3" fill="#f3f6ee" stroke="#8aa15c" stroke-width="1"/>
+  <text x="337" y="134" text-anchor="middle" font-size="9" fill="#4a6130">NE2</text>
+  <rect x="366" y="120" width="34" height="20" rx="3" fill="#f3f6ee" stroke="#8aa15c" stroke-width="1"/>
+  <text x="383" y="134" text-anchor="middle" font-size="9" fill="#4a6130">NE2</text>
+  <text x="360" y="168" text-anchor="middle" font-size="10" fill="#22303f">A3=R1×[1-(1-R2)²]</text>
+  <!-- (d) -->
+  <line x1="477" y1="80" x2="477" y2="120" stroke="#6b7a8a" stroke-width="1.5" fill="none"/>
+  <line x1="523" y1="80" x2="523" y2="120" stroke="#6b7a8a" stroke-width="1.5" fill="none"/>
+  <rect x="460" y="60" width="34" height="20" rx="3" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1"/>
+  <text x="477" y="74" text-anchor="middle" font-size="9" fill="#1f4e79">NE1</text>
+  <rect x="506" y="60" width="34" height="20" rx="3" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1"/>
+  <text x="523" y="74" text-anchor="middle" font-size="9" fill="#1f4e79">NE1</text>
+  <rect x="460" y="120" width="34" height="20" rx="3" fill="#f3f6ee" stroke="#8aa15c" stroke-width="1"/>
+  <text x="477" y="134" text-anchor="middle" font-size="9" fill="#4a6130">NE2</text>
+  <rect x="506" y="120" width="34" height="20" rx="3" fill="#f3f6ee" stroke="#8aa15c" stroke-width="1"/>
+  <text x="523" y="134" text-anchor="middle" font-size="9" fill="#4a6130">NE2</text>
+  <text x="500" y="168" text-anchor="middle" font-size="10" fill="#22303f">A4=1-(1-R1×R2)²</text>
+  <!-- (e) 全连接 -->
+  <line x1="617" y1="80" x2="617" y2="120" stroke="#6b7a8a" stroke-width="1.5" fill="none"/>
+  <line x1="663" y1="80" x2="663" y2="120" stroke="#6b7a8a" stroke-width="1.5" fill="none"/>
+  <line x1="617" y1="80" x2="663" y2="120" stroke="#6b7a8a" stroke-width="1.5" fill="none"/>
+  <line x1="663" y1="80" x2="617" y2="120" stroke="#6b7a8a" stroke-width="1.5" fill="none"/>
+  <rect x="600" y="60" width="34" height="20" rx="3" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1"/>
+  <text x="617" y="74" text-anchor="middle" font-size="9" fill="#1f4e79">NE1</text>
+  <rect x="646" y="60" width="34" height="20" rx="3" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1"/>
+  <text x="663" y="74" text-anchor="middle" font-size="9" fill="#1f4e79">NE1</text>
+  <rect x="600" y="120" width="34" height="20" rx="3" fill="#f3f6ee" stroke="#8aa15c" stroke-width="1"/>
+  <text x="617" y="134" text-anchor="middle" font-size="9" fill="#4a6130">NE2</text>
+  <rect x="646" y="120" width="34" height="20" rx="3" fill="#f3f6ee" stroke="#8aa15c" stroke-width="1"/>
+  <text x="663" y="134" text-anchor="middle" font-size="9" fill="#4a6130">NE2</text>
+  <text x="640" y="168" text-anchor="middle" font-size="10" fill="#22303f">A5=[1-(1-R1)²]×[1-(1-R2)²]</text>
+  <!-- 可用性公式与途径 -->
+  <text x="360" y="214" text-anchor="middle" font-size="14" font-weight="bold" fill="#1f4e79">可用性 A = MTBF / (MTBF + MTTR)</text>
+  <text x="360" y="238" text-anchor="middle" font-size="11" fill="#22303f">MTBF：平均无故障时间（可靠性）；MTTR：平均故障修复时间（可维护性）</text>
+  <text x="360" y="262" text-anchor="middle" font-size="11" fill="#22303f">途径① 提高 MTBF：少出故障，软件 Bug 是可靠性主因，提升软件质量更具成本优势</text>
+  <text x="360" y="284" text-anchor="middle" font-size="11" fill="#22303f">途径② 缩短 MTTR：快速发现（BFD/NQA 链路检测）+ 快速恢复（VRRP/802.3ad 等）</text>
+  <text x="360" y="312" text-anchor="middle" font-size="11" fill="#4a6130">助记：串联相乘求「同时正常」；并联用 1-(1-R)ⁿ 求「至少一个正常」；双点双归先算单链再并联</text>
+</svg></div><div class="cap">两类设备五种互连拓扑与可用性</div></div>
+<div class="mnemonic">助记：「串联相乘、并联 1 减（1-R）ⁿ；哪类设备只有一个，就把它的 R 单独乘」。</div>
+<h3>17.3.2 IPv4 与 IPv6 融合组网技术 ⭐【重点】【高频考点】</h3>
+<ul><li>背景：IANA 于 2016 年建议新标准只支持 IPv6；我国 2017 年印发《推进 IPv6 规模部署行动计划》。IPv4 投资巨大、应用众多，存在较长<b>过渡期/共存期</b>，形成三种过渡技术：<b>双协议栈、隧道技术、地址翻译机制</b>。</li></ul>
+<table><colgroup><col style="width:11.1%"><col style="width:40.0%"><col style="width:48.9%"></colgroup><thead><tr><th>技术</th><th>原理一句话</th><th>关键点/适用</th></tr></thead><tbody><tr><td class="tc">双协议栈</td><td>节点同时具有 IPv4 和 IPv6 两个协议栈，同一物理平台、共承 TCP/UDP</td><td>既能与 v4 节点也能与 v6 节点通信；园区网双栈改造主流</td></tr><tr><td class="tc">ISATAP 隧道</td><td>IPv6 报文封装在 IPv4 中传送，把 IPv4 网当作 NBMA 数据链路层</td><td><b>主机间</b>自动隧道：IPv4 地址嵌入 IPv6 地址，通信时自动抽取建隧；无需特殊网络设备，IPv4 可达即可</td></tr><tr><td class="tc">6to4 隧道</td><td><b>站点间</b> IPv6 通信，站点出口部署 6to4 路由器</td><td>地址前缀 <b>2002:</b>，路由器 IPv4 地址嵌入 IPv6 前缀；需<b>全局合法 IPv4 地址</b>，不能缓解 v4 地址短缺，但无需申请 v6 地址即可快速升级</td></tr><tr><td class="tc">6over4 隧道</td><td>双栈节点在<b>组播使能的 IPv4 网络</b>中传 IPv6 分组</td><td>在承载网建立虚拟数据链路层（虚拟以太网）</td></tr><tr><td class="tc">4over6 隧道</td><td>通信节点用 IPv4 业务交互，实际<b>承载在 IPv6 网络</b>上</td><td>面向纯 IPv6 主干过渡，最大程度继承 v4 应用</td></tr><tr><td class="tc">地址翻译 NAT</td><td>维护 IPv4 与 IPv6 地址映射表，内/外部地址互相转换</td><td>涉及 <b>NAT-PT（RFC2766）、SIIT（RFC2765）</b></td></tr></tbody></table>
+<div class="fig"><div><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 345" font-family="Microsoft YaHei, 微软雅黑, sans-serif">
+  <text x="360" y="26" text-anchor="middle" font-size="16" font-weight="bold" fill="#1f4e79">IPv4 与 IPv6 融合组网三大过渡技术</text>
+  <!-- 左 双栈协议栈 -->
+  <text x="160" y="54" text-anchor="middle" font-size="12" font-weight="bold" fill="#22303f">双栈 IP 协议栈（图 17-19）</text>
+  <rect x="60" y="70" width="200" height="32" rx="4" fill="#f4f6f8" stroke="#6b7a8a" stroke-width="1"/>
+  <text x="160" y="90" text-anchor="middle" font-size="11" fill="#22303f">应用层协议</text>
+  <rect x="60" y="110" width="200" height="32" rx="4" fill="#f4f6f8" stroke="#6b7a8a" stroke-width="1"/>
+  <text x="160" y="130" text-anchor="middle" font-size="11" fill="#22303f">TCP / UDP</text>
+  <rect x="60" y="150" width="95" height="32" rx="4" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.2"/>
+  <text x="107" y="170" text-anchor="middle" font-size="11" font-weight="bold" fill="#1f4e79">IPv4</text>
+  <rect x="165" y="150" width="95" height="32" rx="4" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.2"/>
+  <text x="212" y="170" text-anchor="middle" font-size="11" font-weight="bold" fill="#1f4e79">IPv6</text>
+  <rect x="60" y="190" width="200" height="32" rx="4" fill="#f4f6f8" stroke="#6b7a8a" stroke-width="1"/>
+  <text x="160" y="210" text-anchor="middle" font-size="11" fill="#22303f">链路层及物理层</text>
+  <text x="160" y="246" text-anchor="middle" font-size="10" fill="#6b7a8a">同一物理平台，双栈并存</text>
+  <text x="160" y="264" text-anchor="middle" font-size="10" fill="#6b7a8a">既能通 v4 节点也能通 v6 节点</text>
+  <!-- 右 三卡片 -->
+  <rect x="300" y="50" width="390" height="52" rx="6" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.2"/>
+  <text x="315" y="72" font-size="12" font-weight="bold" fill="#1f4e79">① 双协议栈</text>
+  <text x="315" y="92" font-size="10" fill="#22303f">节点同时运行 IPv4 + IPv6 两个协议栈，各自独立通信</text>
+  <rect x="300" y="112" width="390" height="128" rx="6" fill="#fdf0e6" stroke="#c05621" stroke-width="1.2"/>
+  <text x="315" y="134" font-size="12" font-weight="bold" fill="#c05621">② 隧道技术：封装穿越</text>
+  <text x="315" y="154" font-size="10" fill="#22303f">ISATAP：主机间自动隧道，从 IPv6 地址中抽出 IPv4 建隧</text>
+  <text x="315" y="174" font-size="10" fill="#22303f">6to4：站点间，前缀 2002::/16，需全局合法 IPv4 地址</text>
+  <text x="315" y="194" font-size="10" fill="#22303f">6over4：组播使能的 IPv4 网络上传 IPv6（虚拟以太网）</text>
+  <text x="315" y="214" font-size="10" fill="#22303f">4over6：IPv4 业务承载在 IPv6 网上（向纯 v6 主干过渡）</text>
+  <rect x="300" y="250" width="390" height="52" rx="6" fill="#f3f6ee" stroke="#8aa15c" stroke-width="1.2"/>
+  <text x="315" y="272" font-size="12" font-weight="bold" fill="#4a6130">③ 网络地址翻译 NAT</text>
+  <text x="315" y="292" font-size="10" fill="#22303f">NAT-PT / SIIT：维护 IPv4 与 IPv6 地址映射表，实现互访</text>
+  <text x="360" y="330" text-anchor="middle" font-size="11" fill="#4a6130">助记：双栈「共存」、隧道「封装」、翻译「转换」；6to4 记前缀 2002，4over6＝v4 跑在 v6 上</text>
+</svg></div><div class="cap">IPv4与IPv6融合组网三大过渡技术</div></div>
+<div class="mnemonic">助记：「I 主机、6to4 站点、6over4 靠组播、4over6 反着跑」——ISATAP 用于主机间；6to4 用于站点间且记前缀 2002；6over4 依赖 IPv4 组播；4over6 是 v4 业务跑在 v6 上。</div>
+<h3>17.3.3 SDN 技术</h3>
+<ul><li><b>控制平面技术</b>：单一控制器性能扩展——NOX-MT（多线程）、Maestro（并行处理架构，发挥多核能力）；多控制器扩展两种模型——<b>扁平控制模型、层次控制模型</b>。</li><li><b>数据平面技术</b>：①硬件处理速度快但灵活性差，灵活化技术有 <b>RMT（可重配置匹配表，支持任意宽度深度流表）</b>、FlowAdapter（交换机分层实现多表流水线）；②软件处理慢但灵活，用交换机 CPU 或 NP 处理规则，<b>NP（网络处理器）专门处理网络任务，性能优于 CPU</b>。</li><li><b>转发规则一致性更新</b>：不同设备规则更新可能不一致，一般采用「<b>两段提交</b>」——先询问各交换机旧规则的流是否处理完，确认后统一更新，全部完成才算成功，否则撤销；缺点是需等旧流处理完、规则空间被占用。<b>增量式一致性更新算法</b>把更新分多轮、每轮对子集做两段提交，折中节省规则空间与更新时间。</li></ul>
+<h3>17.4 网络构建和设计方法</h3>
+<h3>17.4.1 网络需求分析 ⭐【重点】</h3>
+<ul><li>需求分析是网络构建的<b>起始环节</b>，作用：更准确评价现有网络、客观做出建网决策、功能更贴近用户、便于功能移植、合理使用用户资源。</li><li>围绕<b>五个方面</b>开展（教材 5 项，大纲列 4 项，考试以教材为准）：</li></ul>
+<table><colgroup><col style="width:16.2%"><col style="width:64.7%"><col style="width:19.1%"></colgroup><thead><tr><th>需求</th><th>主要工作</th><th>输出物</th></tr></thead><tbody><tr><td class="tc">业务需求</td><td>确定干系人、关键时间点、投资规模；明确业务活动、预测增长率；确定可靠性/可用性/安全性/远程访问指标</td><td>业务需求清单</td></tr><tr><td class="tc">用户需求</td><td>观察、问卷调查、集中访谈、采访关键干系人；从碎片化模糊描述中提取真实需要；需求归档</td><td>用户服务表</td></tr><tr><td class="tc">应用需求</td><td>应用类型和地点、使用方法、需求增长性、可靠性可用性、响应时间；量化指标</td><td>应用需求表</td></tr><tr><td class="tc">计算机平台需求</td><td>明晰接入设备类型：PC、工作站、小型机、中型机、大型机</td><td>设备类型需求表</td></tr><tr><td class="tc">网络需求</td><td>考虑<b>网络管理员需求</b>：局域网功能、拓扑、性能、网络管理、安全、城域/广域连接方案</td><td>网络需求分项需求表</td></tr></tbody></table>
+<div class="fig"><div><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 300" font-family="Microsoft YaHei, 微软雅黑, sans-serif">
+  <text x="360" y="26" text-anchor="middle" font-size="16" font-weight="bold" fill="#1f4e79">网络需求分析：五个方面与输出物</text>
+  <!-- 卡1 业务需求 -->
+  <rect x="20" y="40" width="128" height="150" rx="8" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.2"/>
+  <text x="84" y="64" text-anchor="middle" font-size="12" font-weight="bold" fill="#1f4e79">业务需求</text>
+  <text x="84" y="88" text-anchor="middle" font-size="10" fill="#22303f">干系人/时间点</text>
+  <text x="84" y="106" text-anchor="middle" font-size="10" fill="#22303f">投资与增长率</text>
+  <text x="84" y="124" text-anchor="middle" font-size="10" fill="#22303f">可靠性/安全指标</text>
+  <text x="84" y="170" text-anchor="middle" font-size="10" fill="#c05621">输出：业务需求清单</text>
+  <!-- 卡2 用户需求 -->
+  <rect x="158" y="40" width="128" height="150" rx="8" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.2"/>
+  <text x="222" y="64" text-anchor="middle" font-size="12" font-weight="bold" fill="#1f4e79">用户需求</text>
+  <text x="222" y="88" text-anchor="middle" font-size="10" fill="#22303f">观察/问卷/访谈</text>
+  <text x="222" y="106" text-anchor="middle" font-size="10" fill="#22303f">提取真实需要</text>
+  <text x="222" y="124" text-anchor="middle" font-size="10" fill="#22303f">需求归档</text>
+  <text x="222" y="170" text-anchor="middle" font-size="10" fill="#c05621">输出：用户服务表</text>
+  <!-- 卡3 应用需求 -->
+  <rect x="296" y="40" width="128" height="150" rx="8" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.2"/>
+  <text x="360" y="64" text-anchor="middle" font-size="12" font-weight="bold" fill="#1f4e79">应用需求</text>
+  <text x="360" y="88" text-anchor="middle" font-size="10" fill="#22303f">应用类型/地点</text>
+  <text x="360" y="106" text-anchor="middle" font-size="10" fill="#22303f">使用方法/增长性</text>
+  <text x="360" y="124" text-anchor="middle" font-size="10" fill="#22303f">响应时间要求</text>
+  <text x="360" y="170" text-anchor="middle" font-size="10" fill="#c05621">输出：应用需求表</text>
+  <!-- 卡4 计算机平台需求 -->
+  <rect x="434" y="40" width="128" height="150" rx="8" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.2"/>
+  <text x="498" y="64" text-anchor="middle" font-size="12" font-weight="bold" fill="#1f4e79">计算机平台需求</text>
+  <text x="498" y="88" text-anchor="middle" font-size="10" fill="#22303f">PC / 工作站</text>
+  <text x="498" y="106" text-anchor="middle" font-size="10" fill="#22303f">小型机/大型机</text>
+  <text x="498" y="124" text-anchor="middle" font-size="10" fill="#22303f">设备类型统计</text>
+  <text x="498" y="170" text-anchor="middle" font-size="10" fill="#c05621">输出：设备类型需求表</text>
+  <!-- 卡5 网络需求 -->
+  <rect x="572" y="40" width="128" height="150" rx="8" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.2"/>
+  <text x="636" y="64" text-anchor="middle" font-size="12" font-weight="bold" fill="#1f4e79">网络需求</text>
+  <text x="636" y="88" text-anchor="middle" font-size="10" fill="#22303f">拓扑/性能</text>
+  <text x="636" y="106" text-anchor="middle" font-size="10" fill="#22303f">管理/安全</text>
+  <text x="636" y="124" text-anchor="middle" font-size="10" fill="#22303f">WAN 连接方案</text>
+  <text x="636" y="170" text-anchor="middle" font-size="10" fill="#c05621">输出：分项需求表</text>
+  <!-- 汇聚线 -->
+  <line x1="84" y1="190" x2="84" y2="212" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <line x1="222" y1="190" x2="222" y2="212" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <line x1="360" y1="190" x2="360" y2="212" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <line x1="498" y1="190" x2="498" y2="212" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <line x1="636" y1="190" x2="636" y2="212" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <line x1="84" y1="212" x2="636" y2="212" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <line x1="360" y1="212" x2="360" y2="219" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="360,227 355.5,219 364.5,219" fill="#1f4e79"/>
+  <rect x="210" y="230" width="300" height="34" rx="6" fill="#fdf0e6" stroke="#c05621" stroke-width="1.5"/>
+  <text x="360" y="251" text-anchor="middle" font-size="13" font-weight="bold" fill="#c05621">网络需求规格说明书</text>
+  <text x="360" y="286" text-anchor="middle" font-size="11" fill="#4a6130">助记：业务→用户→应用→平台→网络；先明确「为谁建、用来干什么」，再落到技术与设备</text>
+</svg></div><div class="cap">网络需求分析五个方面与输出物</div></div>
+<ul><li>五项分析最终形成<b>网络需求规格说明书</b>，约束后续网络设计。</li></ul>
+<h3>17.4.2 网络技术遴选及设计 ⭐【重点】</h3>
+<p><b>1. 局域网技术遴选</b></p>
+<ul><li><b>STP</b>：冗余/可扩展结构易成环路，二层交换机上用 STP 防环，IEEE 802 系列有 .1d/.1w/.1s 等版本。<b>VLAN</b>：把一个物理网络划分为若干相互隔离的逻辑网络，形成不同<b>广播域</b>，实现部门/用途间访问隔离。</li><li><b>无线局域网设计四要点</b>：①定位 AP 实现最大覆盖率；②无线虚拟网规划（尽量所有无线接入设备划入同一虚拟网）；③冗余 AP 布放（一区多 AP 覆盖，故障接替）；④<b>同一园区所有 AP 设置同一 SSID</b>。</li><li><b>线路冗余两种方式</b>【易错】：<b>备份方式</b>用 STP 防环，提升可用性但冗余链路闲置、浪费资源；<b>负荷分担方式</b>设置均衡策略让业务分担到不同链路，避免闲置。</li><li>交换设备特殊功能：链路聚合、冗余网关、以太网供电（PoE）、多业务模块等。</li><li><b>服务器冗余/负载均衡四种方式</b>⭐：</li></ul>
+<table><colgroup><col style="width:19.4%"><col style="width:80.6%"></colgroup><thead><tr><th>方式</th><th>原理一句话</th></tr></thead><tbody><tr><td class="tc">负载均衡器</td><td>前置负载均衡设备把服务请求均衡分发到各业务服务器</td></tr><tr><td class="tc">网络地址转换</td><td>负载均衡 NAT 网关把外部请求地址转换为多个内部服务器地址</td></tr><tr><td class="tc">DNS 服务器</td><td>一组服务器（不同 IP）映射同一域名，DNS <b>循环返回</b>地址实现均衡</td></tr><tr><td class="tc">高可用技术</td><td>双机热备（高可用集群）：<b>单活 Active-Standby（一主一备）/ 双活 Active-Active</b></td></tr></tbody></table>
+<p><b>2. 广域网技术遴选</b></p>
+<ul><li>远程接入技术：PSTN、ISDN、电缆调制解调器、DSL、PON（无源光网络）、无线宽带、小区宽带、PLC（电力通信）等，按现有网络、业务需求、费用取舍。广域网互连技术：<b>DDN（数字数据网）、SDH（同步数字体系）、MSTP（多业务传送平台）、VPN</b>；性能优化可用预留带宽、数据压缩、链路聚合、优先级排序、基于协议带宽预留等。</li></ul>
+<p><b>3. 地址规划模型（5 原则）</b>：①结构化（层次化）编址；②中心授权机构统一管理全局编址模型；③编址授权下发给分支机构；④移动终端用户指派<b>动态地址</b>；⑤合理使用<b>私有地址</b>（内部互访安全，访问外网需 NAT 并规划地址池）。合理地址规划便于网络管理，也有利于<b>路由协议收敛</b>。</p>
+<p><b>4. 路由协议选择</b>：类型（距离矢量/链路状态）、度量值设置、协议顺序、层次化与非层次化、内部与外部、分类与无类、静态路由指定。</p>
+<p><b>5. 层次化网络模型设计</b>⭐【高频考点】</p>
+<ul><li>优点：各层只考虑自身功能、成本最低；利用成熟模块化设备、利于稳定；需求变化时更易演化。层次局域网、层次子域广域网即其在局域网/广域网的应用，是园区网经典模型。</li></ul>
+<div class="fig"><div><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 325" font-family="Microsoft YaHei, 微软雅黑, sans-serif">
+  <text x="360" y="26" text-anchor="middle" font-size="16" font-weight="bold" fill="#1f4e79">三层层次化网络模型：各层职责与设计要点</text>
+  <!-- 核心层 -->
+  <rect x="60" y="50" width="600" height="64" rx="8" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.5"/>
+  <text x="110" y="86" text-anchor="middle" font-size="14" font-weight="bold" fill="#1f4e79">核心层</text>
+  <text x="170" y="74" font-size="11" fill="#22303f">高速转发、最优路径；冗余保高可用，覆盖范围不宜过大</text>
+  <text x="170" y="96" font-size="11" fill="#22303f">避免包过滤/策略路由等高开销功能；选高端路由/交换机</text>
+  <line x1="360" y1="114" x2="360" y2="129" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="360,137 355.5,129 364.5,129" fill="#1f4e79"/>
+  <!-- 汇聚层 -->
+  <rect x="60" y="140" width="600" height="64" rx="8" fill="#fdf0e6" stroke="#c05621" stroke-width="1.5"/>
+  <text x="110" y="176" text-anchor="middle" font-size="14" font-weight="bold" fill="#c05621">汇聚层</text>
+  <text x="170" y="164" font-size="11" fill="#22303f">执行安全、流量负载、路由策略；部署防火墙/负载均衡</text>
+  <text x="170" y="186" font-size="11" fill="#22303f">对核心屏蔽接入细节（路由汇总），对接入仅宣告默认路由</text>
+  <line x1="360" y1="204" x2="360" y2="219" stroke="#c05621" stroke-width="1.5" fill="none"/>
+  <polygon points="360,227 355.5,219 364.5,219" fill="#c05621"/>
+  <!-- 接入层 -->
+  <rect x="60" y="230" width="600" height="64" rx="8" fill="#f3f6ee" stroke="#8aa15c" stroke-width="1.5"/>
+  <text x="110" y="266" text-anchor="middle" font-size="14" font-weight="bold" fill="#4a6130">接入层</text>
+  <text x="170" y="254" font-size="11" fill="#22303f">用户接入与带宽保障；地址认证、用户认证、计费管理</text>
+  <text x="170" y="276" font-size="11" fill="#22303f">收集用户 IP/MAC、访问日志；选低端交换机连接用户</text>
+  <text x="360" y="314" text-anchor="middle" font-size="11" fill="#4a6130">助记：先从接入层设计→逐层向上做容量规划；控制层次、模块化、禁止跨层私接</text>
+</svg></div><div class="cap">三层层次化网络模型</div></div>
+<ul><li>设计原则：①控制网络层次，避免性能下降、时延增加；②<b>首先从接入层设计</b>，据流量负荷行为逐层向上做容量规划；③模块化实现各层功能、边界清晰；④接入层严格控制网络结构，防止用户绕道获取非法带宽；⑤严格控制层次结构，<b>避免跨层加入额外连接</b>导致非法访问或异常。</li></ul>
+<p><b>6. 网络高可用设计方法</b>⭐【易错】</p>
+<ul><li><b>可靠性</b>：连续无故障运行时间长短；<b>可用性</b>：较长时间里可用时间的长短。</li><li>教材极端例子：可靠性很高（稳定运行 10 年）但故障后恢复要 1 年 → 可用性仅 <b>90%</b>；可靠性差（平均 10 秒异常一次）但 1ms 恢复 → 可用性 <b>99.99%</b>。可见<b>高可靠 ≠ 高可用</b>。</li><li>两条途径：提高可靠性（<b>软件 Bug 是影响可靠性最主要因素</b>，提高软件质量比换更可靠硬件更具成本优势）；缩短恢复时间（秒级甚至毫秒级恢复）。核心思想：合理组网+冗余备份、自动检测、快速恢复并权衡成本，<b>不是简单叠加和无限制冗余</b>；网络层次越高影响面越广、可靠性可用性要求越高，分层解决不同级别问题。</li></ul>
+<h3>17.4.3 网络安全</h3>
+<table><colgroup><col style="width:18.5%"><col style="width:81.5%"></colgroup><thead><tr><th>技术</th><th>要点</th></tr></thead><tbody><tr><td class="tc">恶意代码</td><td>共性：<b>目的恶意、形态为计算机程序、通过执行发生作用</b>；种类含病毒、蠕虫、木马、后门、DDoS 程序、僵尸进程、Rootkit、间谍/广告软件等</td></tr><tr><td class="tc">防火墙布设</td><td>网络间安全屏障，允许/拒绝/重定向数据流并审计；技术分<b>包过滤型、应用层网关、代理服务型</b>；体系结构分<b>双重宿主机、被屏蔽主机、被屏蔽子网</b></td></tr><tr><td class="tc">VPN</td><td>利用公共网络建立私有专用网络，数据经<b>安全加密通道</b>传送；省成本、便远程、易扩展；主要技术 <b>IPSec、GRE、MPLS VPN、VPDN</b></td></tr><tr><td class="tc">访问控制</td><td>主体依据策略/权限对客体授权访问；涉及<b>认证、控制策略实现、审计</b>三环节；实现有访问控制矩阵/表、能力表；模型有自主型、强制型、基于角色/任务/对象</td></tr><tr><td class="tc">网络安全隔离</td><td>把攻击隔离在可信网络之外且防信息外泄；分<b>子网隔离、VLAN 隔离、逻辑隔离、物理隔离</b></td></tr><tr><td class="tc">安全协议</td><td><b>SSL</b>：网景提出，位于应用层与 TCP/IP 之间，提供加密/认证/完整性，含<b>记录、告警、握手</b>三协议；<b>SET</b>：VISA/MasterCard 等推出，解决信用卡支付交易安全；<b>HTTPS</b>：基于 SSL/TLS 的 HTTP，需电子证书完成双向身份认证</td></tr><tr><td class="tc">安全审计</td><td>测试评估分析网络脆弱性；功能含自动响应、数据生成、分析、浏览、事件存储与选择</td></tr></tbody></table>
+<h3>17.4.4 绿色网络设计方法</h3>
+<ul><li>思路：不仅设备节能，更要<b>方案级架构优化</b>，可能带来节能环保质的飞跃；设备侧遵循全生命周期「精简、重用、回收」设计。</li><li><b>四大设计原则</b>⭐【高频考点】：<b>标准化</b>（减少异构转换设备与能耗、兼容已有资源）、<b>集成化</b>（大容量高密度端口、减少层级与设备数量、集成板卡、扁平化）、<b>虚拟化</b>（设备虚拟化 + 端到端方案级虚拟化、IT 资源化）、<b>智能化</b>（统一管理、故障诊断网络自愈、减少人力与资源占用）。四原则外还需兼顾<b>安全性、可靠性</b>两指标；方案级效率优化对绿色的意义往往比设备级降耗更大。</li></ul>
+<div class="mnemonic">助记：「标集虚智，安全可靠」——标准化、集成化、虚拟化、智能化，外加安全性、可靠性。</div>
+<h3>17.5 通信网络构建案例分析</h3>
+<h3>17.5.1 高可用网络构建分析 ⭐【重点】【高频考点】</h3>
+<ul><li>可靠性靠各部件稳定连续服务（提升每个部件稳定性即可）；<b>可用性需各部件协同、冗余备份</b>，依赖复杂网络连接保证。典型高可用组网：核心层双设备、汇聚层双设备（FW/LB 等）、接入层双设备 + 服务器 NIC Teaming 集群/刀片服务器 +Switch。</li><li><b>接入层高可用特征</b>：冗余引擎/电源；与汇聚双归属获默认网关冗余、快速切换；链路汇聚提带宽；802.1x、动态 ARP 检查、IP 源地址保护增安全。</li><li><b>接入—汇聚四种组网模型</b>（表 17-1 对比，案例题常让选模型并说明理由）：</li></ul>
+<table><colgroup><col style="width:8.7%"><col style="width:25.6%"><col style="width:28.8%"><col style="width:37.0%"></colgroup><thead><tr><th>模型</th><th>二层链路特征</th><th>优点</th><th>缺点</th></tr></thead><tbody><tr><td class="tc">一：倒 U 形</td><td>汇聚间二层链路，接入单上联</td><td>无环路不启用 STP、管理简单；VLAN 可跨汇聚、二层扩展灵活</td><td>汇聚故障→同侧接入用户不可达，无法高可用接入</td></tr><tr><td class="tc">二：U 形</td><td>接入间二层链路（传 VRRP 心跳），接入单上联</td><td>无环路不启用 STP；接入与汇聚间有冗余链路保护</td><td>VLAN 不能跨汇聚、部署不灵活；接入间链路故障→VRRP 心跳无法传递、网络不稳定</td></tr><tr><td class="tc">三：矩形</td><td>接入间、接入汇聚间、汇聚间均二层互联（矩形环路）</td><td>接入汇聚冗余链路保护；VLAN 可跨汇聚</td><td>有环路启用 STP；接入上行故障时流量全走另一侧，收敛比变小、易拥塞</td></tr><tr><td class="tc">四：三角形</td><td>汇聚间链路 + 接入双上联</td><td>冗余链路+冗余路径保护；VLAN 可跨汇聚、部署灵活</td><td>有环路启用 STP，生成树计算较矩形复杂</td></tr></tbody></table>
+<div class="fig"><div><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 455" font-family="Microsoft YaHei, 微软雅黑, sans-serif">
+  <text x="360" y="26" text-anchor="middle" font-size="16" font-weight="bold" fill="#1f4e79">接入—汇聚层间四种高可用组网模型（教材图 17-21 重绘）</text>
+  <!-- 格1 倒U -->
+  <rect x="20" y="40" width="330" height="180" rx="8" fill="#f7fafc" stroke="#6b7a8a" stroke-width="1"/>
+  <text x="185" y="62" text-anchor="middle" font-size="13" font-weight="bold" fill="#1f4e79">模型一：倒 U 形</text>
+  <line x1="175" y1="88" x2="195" y2="88" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <line x1="140" y1="100" x2="140" y2="140" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <line x1="230" y1="100" x2="230" y2="140" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <rect x="105" y="76" width="70" height="24" rx="4" fill="#fdf0e6" stroke="#c05621" stroke-width="1.2"/>
+  <text x="140" y="92" text-anchor="middle" font-size="10" fill="#c05621">汇聚</text>
+  <rect x="195" y="76" width="70" height="24" rx="4" fill="#fdf0e6" stroke="#c05621" stroke-width="1.2"/>
+  <text x="230" y="92" text-anchor="middle" font-size="10" fill="#c05621">汇聚</text>
+  <rect x="105" y="140" width="70" height="24" rx="4" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.2"/>
+  <text x="140" y="156" text-anchor="middle" font-size="10" fill="#1f4e79">接入</text>
+  <rect x="195" y="140" width="70" height="24" rx="4" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.2"/>
+  <text x="230" y="156" text-anchor="middle" font-size="10" fill="#1f4e79">接入</text>
+  <text x="185" y="182" text-anchor="middle" font-size="10" fill="#22303f">汇聚间二层链路；无环路、不启用 STP；VLAN 可跨汇聚</text>
+  <text x="185" y="200" text-anchor="middle" font-size="10" fill="#c05621">缺点：汇聚故障→同侧接入用户不可达</text>
+  <!-- 格2 U形 -->
+  <rect x="370" y="40" width="330" height="180" rx="8" fill="#f7fafc" stroke="#6b7a8a" stroke-width="1"/>
+  <text x="535" y="62" text-anchor="middle" font-size="13" font-weight="bold" fill="#1f4e79">模型二：U 形</text>
+  <line x1="490" y1="100" x2="490" y2="140" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <line x1="580" y1="100" x2="580" y2="140" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <line x1="525" y1="152" x2="545" y2="152" stroke="#c05621" stroke-width="1.5" fill="none"/>
+  <rect x="455" y="76" width="70" height="24" rx="4" fill="#fdf0e6" stroke="#c05621" stroke-width="1.2"/>
+  <text x="490" y="92" text-anchor="middle" font-size="10" fill="#c05621">汇聚</text>
+  <rect x="545" y="76" width="70" height="24" rx="4" fill="#fdf0e6" stroke="#c05621" stroke-width="1.2"/>
+  <text x="580" y="92" text-anchor="middle" font-size="10" fill="#c05621">汇聚</text>
+  <rect x="455" y="140" width="70" height="24" rx="4" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.2"/>
+  <text x="490" y="156" text-anchor="middle" font-size="10" fill="#1f4e79">接入</text>
+  <rect x="545" y="140" width="70" height="24" rx="4" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.2"/>
+  <text x="580" y="156" text-anchor="middle" font-size="10" fill="#1f4e79">接入</text>
+  <text x="535" y="182" text-anchor="middle" font-size="10" fill="#22303f">接入间二层链路（传 VRRP 心跳）；无环路、不启用 STP</text>
+  <text x="535" y="200" text-anchor="middle" font-size="10" fill="#c05621">VLAN 不跨汇聚；接入间断→VRRP 心跳异常、网络不稳</text>
+  <!-- 格3 矩形 -->
+  <rect x="20" y="240" width="330" height="180" rx="8" fill="#f7fafc" stroke="#6b7a8a" stroke-width="1"/>
+  <text x="185" y="262" text-anchor="middle" font-size="13" font-weight="bold" fill="#1f4e79">模型三：矩形</text>
+  <line x1="175" y1="288" x2="195" y2="288" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <line x1="140" y1="300" x2="140" y2="340" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <line x1="230" y1="300" x2="230" y2="340" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <line x1="165" y1="340" x2="205" y2="300" stroke="#6b7a8a" stroke-width="1.2" fill="none"/>
+  <line x1="205" y1="340" x2="165" y2="300" stroke="#6b7a8a" stroke-width="1.2" fill="none"/>
+  <line x1="175" y1="352" x2="195" y2="352" stroke="#c05621" stroke-width="1.5" fill="none"/>
+  <rect x="105" y="276" width="70" height="24" rx="4" fill="#fdf0e6" stroke="#c05621" stroke-width="1.2"/>
+  <text x="140" y="292" text-anchor="middle" font-size="10" fill="#c05621">汇聚</text>
+  <rect x="195" y="276" width="70" height="24" rx="4" fill="#fdf0e6" stroke="#c05621" stroke-width="1.2"/>
+  <text x="230" y="292" text-anchor="middle" font-size="10" fill="#c05621">汇聚</text>
+  <rect x="105" y="340" width="70" height="24" rx="4" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.2"/>
+  <text x="140" y="356" text-anchor="middle" font-size="10" fill="#1f4e79">接入</text>
+  <rect x="195" y="340" width="70" height="24" rx="4" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.2"/>
+  <text x="230" y="356" text-anchor="middle" font-size="10" fill="#1f4e79">接入</text>
+  <text x="185" y="382" text-anchor="middle" font-size="10" fill="#22303f">接入间/汇聚间/双上联全二层互联；VLAN 可跨汇聚</text>
+  <text x="185" y="400" text-anchor="middle" font-size="10" fill="#c05621">有环路启用 STP；上行故障时收敛比变小、易拥塞</text>
+  <!-- 格4 三角形 -->
+  <rect x="370" y="240" width="330" height="180" rx="8" fill="#f7fafc" stroke="#6b7a8a" stroke-width="1"/>
+  <text x="535" y="262" text-anchor="middle" font-size="13" font-weight="bold" fill="#1f4e79">模型四：三角形（推荐）</text>
+  <line x1="525" y1="288" x2="545" y2="288" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <line x1="490" y1="300" x2="490" y2="340" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <line x1="580" y1="300" x2="580" y2="340" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <line x1="515" y1="340" x2="555" y2="300" stroke="#6b7a8a" stroke-width="1.2" fill="none"/>
+  <line x1="555" y1="340" x2="515" y2="300" stroke="#6b7a8a" stroke-width="1.2" fill="none"/>
+  <rect x="455" y="276" width="70" height="24" rx="4" fill="#fdf0e6" stroke="#c05621" stroke-width="1.2"/>
+  <text x="490" y="292" text-anchor="middle" font-size="10" fill="#c05621">汇聚</text>
+  <rect x="545" y="276" width="70" height="24" rx="4" fill="#fdf0e6" stroke="#c05621" stroke-width="1.2"/>
+  <text x="580" y="292" text-anchor="middle" font-size="10" fill="#c05621">汇聚</text>
+  <rect x="455" y="340" width="70" height="24" rx="4" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.2"/>
+  <text x="490" y="356" text-anchor="middle" font-size="10" fill="#1f4e79">接入</text>
+  <rect x="545" y="340" width="70" height="24" rx="4" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.2"/>
+  <text x="580" y="356" text-anchor="middle" font-size="10" fill="#1f4e79">接入</text>
+  <text x="535" y="382" text-anchor="middle" font-size="10" fill="#22303f">汇聚间链路+接入双上联；冗余链路与路径、VLAN 跨汇聚</text>
+  <text x="535" y="400" text-anchor="middle" font-size="10" fill="#c05621">有环路，生成树计算较矩形复杂；高要求接入推荐</text>
+  <text x="360" y="442" text-anchor="middle" font-size="11" fill="#4a6130">三角形组网需使能 MSTP 防环；汇聚部署 VRRP，以 VRRP 组虚拟 IP 作为用户设备网关</text>
+</svg></div><div class="cap">接入—汇聚四种高可用组网模型</div></div>
+<ul><li><b>高要求设备接入推荐模型四（三角形）</b>：需使能 <b>MSTP（多生成树）</b> 防环；汇聚（或其 L4/L7 设备）部署 <b>VRRP</b>，以 VRRP 组虚拟 IP 作为用户网关。</li><li><b>汇聚—核心</b>：运行 OSPF 等动态路由保障路由层高可用；三角形连接（全冗余链路）故障收敛时间小但占端口多、成本高；矩形连接为非全冗余，靠路由协议重算路径。汇聚层部署 FW（三层路由模式做用户网关、攻击防御）与 LB（<b>单臂旁挂</b>，负载均衡 + 源目的地址变换），FW/LB 双机各跑 VRRP，汇聚交换机间配 Trunk 放通相关 VLAN。</li><li><b>核心层</b>：双核心/多核心主备或负荷分担；主控电源冗余、分布式转发；尽量<b>冗余点到点层 3 互连</b>，层 3 优于层 2（收敛更快、邻接关系更少、可用 ECMP 提高带宽利用率）。</li><li><b>高可用主要性能指标</b>⭐【高频考点】【易错】（记数字）：</li></ul>
+<table><colgroup><col style="width:75.9%"><col style="width:24.1%"></colgroup><thead><tr><th>指标</th><th>要求</th></tr></thead><tbody><tr><td>核心层设备故障恢复时间</td><td class="tc"><b>&lt;500ms</b></td></tr><tr><td>汇聚层设备故障恢复时间</td><td class="tc"><b>&lt;1s</b></td></tr><tr><td>核心、汇聚设备双主控切换时间</td><td class="tc"><b>&lt;200ms</b></td></tr><tr><td>核心-汇聚、接入-汇聚链路故障恢复时间</td><td class="tc"><b>&lt;500ms</b></td></tr><tr><td>链路聚合故障恢复时间</td><td class="tc"><b>&lt;1s</b></td></tr></tbody></table>
+<div class="mnemonic">助记：「核 500、汇 1 秒、主控 200、链路 500、聚合 1 秒」。</div>
+<h3>17.5.2 园区网双栈构建分析</h3>
+<ul><li><b>升级流程 5 步</b>：①制订网络设备升级计划；②评估现网设备对 IPv6 支持情况；③评估需升级至双栈的网络服务；④制定 IPv6 地址分配方案；⑤制定详细 IPv6 网络升级方案。双栈构建后逐步演进到纯 IPv6。</li><li><b>骨干网构建思路</b>：分层建网，重点关注核心/汇聚层 IPv6 部署——核心汇聚用<b>双栈交换机</b>；接入层沿用现有二层交换机或把不支持 IPv6 的三层交换机<b>降为二层使用</b>以保护投资。<b>IPv4/IPv6 网关均布设在汇聚三层交换机</b>上，同时运行两族路由协议；汇聚-核心、接入-汇聚均双归链路上联；汇聚跑 VRRP 做网关冗余，核心双活。</li><li><b>隧道选用</b>：预算/技术受限无法双栈时，可部署用户端到出口路由器的自动隧道（如 <b>ISATAP</b>）接入纯 IPv6 用户；大量 IPv6 用户时可<b>增加隧道端节点路由器数量</b>解决性能瓶颈。隧道部署保护投资、原拓扑路由几乎无需调整。</li><li><b>IP 地址规划 3 原则</b>：①地址资源全网统一分配；②分层划分（每个物理区域尽量连续地址空间），简化路由表；③考虑演进预留量、提高地址利用率。</li></ul>
+<h3>17.5.3 5G 网络应用</h3>
+<ul><li>5G 特点：<b>高带宽、大连接、低时延、高可靠</b>，支撑物联网、远程控制、VR、工厂闭环控制、移动医疗、多媒体优先服务（MPS）等。智能电网架构：电源侧（新能源/传统电源智能感知）、电网侧（输变电/配用电）、用户侧（电表/电动汽车/储能）海量设备经 <b>5G 网络</b>接入 <b>IoT 平台</b>（数据采集、AI 训练推理、电网监控、边缘计算），支撑输电/配电/综合能源管理等高级应用决策。</li></ul>
+<div class="fig"><div><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 405" font-family="Microsoft YaHei, 微软雅黑, sans-serif">
+  <text x="360" y="26" text-anchor="middle" font-size="16" font-weight="bold" fill="#1f4e79">基于 5G 网络的智能电网架构（教材图 17-24 重绘）</text>
+  <!-- 应用层 -->
+  <rect x="70" y="50" width="180" height="34" rx="6" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.2"/>
+  <text x="160" y="71" text-anchor="middle" font-size="12" fill="#1f4e79">输电业务</text>
+  <rect x="270" y="50" width="180" height="34" rx="6" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.2"/>
+  <text x="360" y="71" text-anchor="middle" font-size="12" fill="#1f4e79">配电业务</text>
+  <rect x="470" y="50" width="180" height="34" rx="6" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.2"/>
+  <text x="560" y="71" text-anchor="middle" font-size="12" fill="#1f4e79">综合能源管理</text>
+  <!-- IoT 平台 -->
+  <rect x="40" y="112" width="640" height="74" rx="8" fill="#f3f6ee" stroke="#8aa15c" stroke-width="1.5"/>
+  <text x="360" y="130" text-anchor="middle" font-size="11" font-weight="bold" fill="#4a6130">物联网（IoT）平台</text>
+  <rect x="60" y="140" width="140" height="32" rx="5" fill="#ffffff" stroke="#8aa15c" stroke-width="1"/>
+  <text x="130" y="160" text-anchor="middle" font-size="11" fill="#4a6130">数据采集</text>
+  <rect x="220" y="140" width="140" height="32" rx="5" fill="#ffffff" stroke="#8aa15c" stroke-width="1"/>
+  <text x="290" y="160" text-anchor="middle" font-size="11" fill="#4a6130">AI 训练/推理</text>
+  <rect x="380" y="140" width="140" height="32" rx="5" fill="#ffffff" stroke="#8aa15c" stroke-width="1"/>
+  <text x="450" y="160" text-anchor="middle" font-size="11" fill="#4a6130">电网监控</text>
+  <rect x="540" y="140" width="120" height="32" rx="5" fill="#ffffff" stroke="#8aa15c" stroke-width="1"/>
+  <text x="600" y="160" text-anchor="middle" font-size="11" fill="#4a6130">边缘计算</text>
+  <!-- 5G 网络 -->
+  <rect x="40" y="225" width="640" height="36" rx="6" fill="#1f4e79" stroke="#1f4e79" stroke-width="1.5"/>
+  <text x="360" y="248" text-anchor="middle" font-size="13" font-weight="bold" fill="#ffffff">5G 网络（高带宽 · 大连接 · 低时延 · 高可靠）</text>
+  <!-- 底层三域 -->
+  <rect x="40" y="300" width="200" height="60" rx="8" fill="#fdf0e6" stroke="#c05621" stroke-width="1.2"/>
+  <text x="140" y="322" text-anchor="middle" font-size="12" font-weight="bold" fill="#c05621">电源侧</text>
+  <text x="140" y="342" text-anchor="middle" font-size="10" fill="#22303f">智能感知：新能源/传统电源</text>
+  <rect x="260" y="300" width="200" height="60" rx="8" fill="#fdf0e6" stroke="#c05621" stroke-width="1.2"/>
+  <text x="360" y="322" text-anchor="middle" font-size="12" font-weight="bold" fill="#c05621">电网侧</text>
+  <text x="360" y="342" text-anchor="middle" font-size="10" fill="#22303f">输变电 / 配用电设备</text>
+  <rect x="480" y="300" width="200" height="60" rx="8" fill="#fdf0e6" stroke="#c05621" stroke-width="1.2"/>
+  <text x="580" y="322" text-anchor="middle" font-size="12" font-weight="bold" fill="#c05621">用户侧</text>
+  <text x="580" y="342" text-anchor="middle" font-size="10" fill="#22303f">电表/电动汽车/储能</text>
+  <!-- 连接线 -->
+  <line x1="140" y1="300" x2="140" y2="272" stroke="#c05621" stroke-width="1.5" fill="none"/>
+  <polygon points="140,264 135.5,272 144.5,272" fill="#c05621"/>
+  <line x1="360" y1="300" x2="360" y2="272" stroke="#c05621" stroke-width="1.5" fill="none"/>
+  <polygon points="360,264 355.5,272 364.5,272" fill="#c05621"/>
+  <line x1="580" y1="300" x2="580" y2="272" stroke="#c05621" stroke-width="1.5" fill="none"/>
+  <polygon points="580,264 575.5,272 584.5,272" fill="#c05621"/>
+  <line x1="360" y1="225" x2="360" y2="197" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="360,189 355.5,197 364.5,197" fill="#1f4e79"/>
+  <line x1="160" y1="112" x2="160" y2="95" stroke="#8aa15c" stroke-width="1.5" fill="none"/>
+  <polygon points="160,87 155.5,95 164.5,95" fill="#8aa15c"/>
+  <line x1="360" y1="112" x2="360" y2="95" stroke="#8aa15c" stroke-width="1.5" fill="none"/>
+  <polygon points="360,87 355.5,95 364.5,95" fill="#8aa15c"/>
+  <line x1="560" y1="112" x2="560" y2="95" stroke="#8aa15c" stroke-width="1.5" fill="none"/>
+  <polygon points="560,87 555.5,95 564.5,95" fill="#8aa15c"/>
+  <text x="360" y="390" text-anchor="middle" font-size="11" fill="#22303f">跳闸事件传输时延要求 &lt;8ms：采用 MEC 边缘计算 + uRLLC 切片满足；IoT 平台支撑采集与智能分析</text>
+</svg></div><div class="cap">基于5G网络的智能电网架构</div></div>
+<ul><li>苛刻时延需求：任何两个通信点之间<b>跳闸事件传输时延应小于 8ms</b>⭐，采用 <b>MEC 边缘计算 + uRLLC 切片</b>技术满足。</li></ul>
+<h2>三、重点与易错点</h2>
+<table><colgroup><col style="width:5.6%"><col style="width:13.0%"><col style="width:40.7%"><col style="width:40.7%"></colgroup><thead><tr><th>#</th><th>考点</th><th>必须记住的结论</th><th>易错提醒</th></tr></thead><tbody><tr><td class="tc">1</td><td>局域网四架构</td><td>单核心省投资有单点故障；双核心热切换；环型 RPR <b>50ms 自愈</b>；层次易扩展</td><td>双核心是「VLAN 间访问经两台核心」，接入仅二层转发；RPR <b>多环间只能经业务接口互通</b></td></tr><tr><td class="tc">2</td><td>局域网协议</td><td>主备 VRRP/HSRP/GLBP；二层 STP/LACP；三层 OSPF/RIP/BGP</td><td>LACP 是链路聚合不是防环；防环靠 STP</td></tr><tr><td class="tc">3</td><td>广域网六架构</td><td>半冗余＝任意核心≥2 条链路；全冗余是其特例</td><td>对等子域两域平等；层次子域<b>低层互访必经高层</b>，勿混淆</td></tr><tr><td class="tc">4</td><td>5GS 与 DN</td><td><b>UPF 是 DN 接入点，N6 接口互连</b>，二者为路由关系</td><td>UL＝UE→DN；DL＝DN→UE，方向别记反</td></tr><tr><td class="tc">5</td><td>透明/非透明接入</td><td>透明用运营商地址、不触发 DN-AAA；非透明用 Intranet/ISP 地址、SMF 触发 DN-AAA 认证</td><td>「透明」指对 5GS 透明，不是对 DN 透明</td></tr><tr><td class="tc">6</td><td>MEC 与 SSC</td><td>AF→NEF→PCF→SMF 动态插入/移除边缘 UPF；MEC=UPF 下沉+MEP</td><td>SSC 模式 2 先断后建、模式 3 <b>先建后断</b>、模式 1 接入点不变</td></tr><tr><td class="tc">7</td><td>DAS/NAS/SAN</td><td>NAS 文件级走以太网（NFS/CIFS）；SAN 块级走专网传 SCSI；<b>FCP 最广泛、iSCSI 第二</b></td><td>NAS 重易用低 TCO，SAN 重高性能低延迟；FC-SAN 光纤通道转 SCSI、IP-SAN 走 TCP 转 SCSI</td></tr><tr><td class="tc">8</td><td>SDN 三接口</td><td>南向 SBI 下发规则（OpenFlow 最主流）；北向 NBI 对应用开放；东西向多控制器互联</td><td>「南北以控制器为参照」：下南上北；流表由控制器建立维护下发</td></tr><tr><td class="tc">9</td><td>可用性公式</td><td>A=MTBF/(MTBF+MTTR)；提高 MTBF、缩短 MTTR 两途径</td><td><b>软件 Bug 是可靠性最主要因素</b>；高可靠≠高可用（10 年修 1 年仅 90%）</td></tr><tr><td class="tc">10</td><td>五拓扑可用性</td><td>串联相乘、并联 1-(1-R)ⁿ；双点双归 A4=1-(1-R1R2)²</td><td>A2/A3 易混：<b>只有一台的那类设备，其 R 单独相乘</b></td></tr><tr><td class="tc">11</td><td>四种隧道</td><td>ISATAP 主机间自动抽取；6to4 站点间前缀 2002；6over4 需组播；4over6 v4 承载于 v6</td><td>6to4 需全局合法 IPv4，<b>不能缓解 v4 地址短缺</b></td></tr><tr><td class="tc">12</td><td>需求分析</td><td>业务/用户/应用/计算机平台/网络 5 项 → 网络需求规格说明书</td><td>大纲只列 4 项（无应用需求），<b>考试以教材 5 项为准</b>；网络需求是最后一项</td></tr><tr><td class="tc">13</td><td>层次化模型</td><td>核心高速转发忌高开销功能；汇聚路由汇总+策略；接入认证计费；<b>从接入层开始设计</b></td><td>核心层不是功能越多越好；禁止跨层私接</td></tr><tr><td class="tc">14</td><td>四种组网模型</td><td>高要求推荐<b>三角形</b>（冗余链路+路径、VLAN 跨汇聚），MSTP+VRRP 配套</td><td>倒 U/U 无环不用 STP；矩形/三角有环用 STP；U 形 VLAN 不跨汇聚</td></tr><tr><td class="tc">15</td><td>高可用指标与绿色网络</td><td>核心&lt;500ms、汇聚&lt;1s、双主控&lt;200ms、链路&lt;500ms、聚合&lt;1s；绿色四原则「标集虚智」</td><td>双主控切换最快（200ms）；绿色是「方案级」四原则+安全可靠，不只是设备节能</td></tr></tbody></table>
+<h2>四、练习与真题</h2>
+<p><b>1.</b> 关于双核心局域网架构，下列说法<b>不正确</b>的是（ ）。</p>
+<p>A. 核心交换设备之间互连，可实现网关保护或负载均衡  B. 接入设备仅提供二层数据链路转发  C. 各 VLAN 之间访问只需通过其中一台核心交换设备即可完成  D. 业务服务器同时连接两台核心交换设备，通过网关保护协议保护</p>
+<p><b>2.</b> 某广域网由多台核心路由设备网状互连，任意核心路由设备至少存在两条以上连接至其他路由设备的链路，该架构属于（ ）。</p>
+<p>A. 双核心广域网  B. 环型广域网  C. 半冗余广域网  D. 对等子域广域网</p>
+<p><b>3.</b> 5GS 与 DN（数据网络）之间互连的接口及 DN 的接入点网元分别是（ ）。</p>
+<p>A. N6 接口、UPF  B. N6 接口、SMF  C. N3 接口、UPF  D. N4 接口、AMF</p>
+<p><b>4.</b> UE 通过 5GS 以非透明模式访问 Intranet/ISP 时，下列说法正确的是（ ）。</p>
+<p>A. UE 分配运营商规划地址空间的 IP 地址  B. 5GS 通常不触发外部 DN-AAA 认证  C. SMF 通常向外部 DN-AAA 服务器发起对 UE 的认证，成功后方可建立会话  D. 5GS 只须提供基本隧道 QoS 流服务即可</p>
+<p><b>5.</b> 关于 NAS 与 SAN，下列说法<b>不正确</b>的是（ ）。</p>
+<p>A. NAS 基于分布式文件系统提供文件级访问，常用 CIFS/SMB 与 NFS 协议  B. SAN 是基于块的存储，将 LDU 以逻辑磁盘形式呈现给服务器  C. iSCSI 将 SCSI 命令封装在以太网帧内经 IP 网络传输，是应用最广泛的 SAN 协议  D. SAN 注重高性能低延迟，NAS 注重易用易管理与低 TCO</p>
+<p><b>6.</b> 在 SDN 架构中，负责将控制器转发规则下发至转发设备的接口及其最主流协议是（ ）。</p>
+<p>A. 北向接口、REST  B. 南向接口、OpenFlow  C. 东西向接口、BGP  D. 南向接口、OSPF</p>
+<p><b>7.</b> 某网络设备 MTBF 为 9990 小时，MTTR 为 10 小时，其可用性约为（ ）。</p>
+<p>A. 90%  B. 99%  C. 99.9%  D. 99.99%</p>
+<p><b>8.</b> 网络设备 NE1、NE2 在线率分别为 R1、R2，采用双一对一（双点双归）连接时，网络可用性为（ ）。</p>
+<p>A. R1×R2  B. R1×[1-(1-R2)²]  C. 1-(1-R1×R2)²  D. [1-(1-R1)²]×[1-(1-R2)²]</p>
+<p><b>9.</b> 关于 IPv4 向 IPv6 过渡技术，下列对应关系<b>不正确</b>的是（ ）。</p>
+<p>A. ISATAP——主机间自动隧道，从 IPv6 地址中抽出 IPv4 地址建隧  B. 6to4——站点间隧道，地址前缀为 2002:  C. 4over6——IPv6 分组承载在 IPv4 组播网络上  D. 双协议栈——节点同时支持 IPv4 与 IPv6 协议处理</p>
+<p><b>10.</b> 网络需求分析的最终输出物是（ ）。</p>
+<p>A. 业务需求清单  B. 用户服务表  C. 网络需求规格说明书  D. 应用需求表</p>
+<p><b>11.</b> 在层次化网络设计中，关于各层设计思路，下列说法<b>不正确</b>的是（ ）。</p>
+<p>A. 核心层应避免使用数据包过滤、策略路由等处理开销大的特性  B. 汇聚层向核心层路由通告时可仅上报汇聚后的大子网信息  C. 接入层负责地址认证、用户认证、计费管理及收集用户信息  D. 设计时应首先从核心层开始，再依次设计汇聚层与接入层</p>
+<p><b>12.</b> 接入—汇聚层间四种高可用组网模型中，教材建议对高要求设备接入采用的模型及其配套协议是（ ）。</p>
+<p>A. 倒 U 形 + VRRP  B. U 形 + LACP  C. 矩形 + OSPF  D. 三角形 + MSTP/VRRP</p>
+<p>（答案见全章最后「六、参考答案」。）</p>
+<h2>五、疑问与查漏补缺</h2>
+<ol><li><b>大纲与教材的需求分析项数不一致</b>：大纲 7.3 只列「业务、用户、计算机平台、网络」4 项，教材 17.4.1 为 5 项（多「应用需求」）。复习按教材 5 项掌握，若题目严格出自大纲表述也不应判错，注意题干出处。</li><li><b>五种拓扑公式的「一对二/二对一」命名视角易误读</b>：教材图 17-18 中（b）一对二（单点双归）实际为 2 个 NE1 + 1 个 NE2，（c）二对一（双点单归）为 1 个 NE1 + 2 个 NE2，公式 A2=R2×[1-(1-R1)²]、A3=R1×[1-(1-R2)²] 与图一致。不要按中文直觉把「一对二」理解成 1 个 NE1 + 2 个 NE2，抓住「单台设备乘 R、冗余两台用 1-(1-R)²」即可。</li><li><b>U 形组网的两条结论需一起理解</b>：接入间二层链路既带来「接入与汇聚间冗余保护」（可绕行对侧），又因只承载 VRRP 心跳而导致「VLAN 不能跨汇聚」「链路断则心跳异常」。答题时优点缺点都要能说出。</li><li><b>与其他章节衔接</b>：本章 SSL/SET/HTTPS、访问控制模型与第 4 章「信息安全技术基础知识」呼应，防火墙体系结构与 VPN 可结合第 18 章「安全架构设计理论与实践」深化；MEC、uRLLC、5G 网元服务化可对照第 11 章「未来信息综合技术」；可用性 A 公式与第 9 章「软件可靠性基础知识」的可靠性指标相互印证；SDN 控制/数据分离思想可与第 14 章云原生「控制面/数据面」类比记忆。</li><li><b>教材未展开但大纲提及处</b>：HSRP/GLBP 只列名称（思科私有网关冗余协议，GLBP 额外支持负载均衡）；STP 的 .1d/.1w/.1s 版本差异教材让「参考相关资料」，复习记住 .1d＝STP、.1w＝RSTP（快速）、.1s＝MSTP（多生成树）即可；NAT-PT/SIIT 仅给出 RFC 编号，掌握「地址映射互访」原理即可。</li></ol>
+<h2>六、参考答案</h2>
+<p><b>1.</b> C。双核心网络中各 VLAN 之间访问需通过<b>两台</b>核心交换设备完成，C 错；A/B/D 均为教材原文特征。</p>
+<p><b>2.</b> C。半冗余定义即「任意核心至少两条以上链路」；任意两核心均互连则为其特例全冗余。</p>
+<p><b>3.</b> A。UPF 是 DN 的接入点，5GS 与 DN 通过 <b>N6</b> 接口互连，二者为路由关系。</p>
+<p><b>4.</b> C。非透明模式下 UE 用 Intranet/ISP 地址，SMF 向外部 DN-AAA（Radius/Diameter）认证成功后才建立会话；A/B/D 均为透明模式特征。</p>
+<p><b>5.</b> C。<b>FCP（光纤通道协议）才是应用最广泛的 SAN 协议</b>，iSCSI 居第二，C 表述颠倒。</p>
+<p><b>6.</b> B。南向接口 SBI 负责向数据平面下发转发规则，<b>OpenFlow 是最主流南向协议</b>，基于流表匹配转发。</p>
+<p><b>7.</b> C。A=MTBF/(MTBF+MTTR)=9990/(9990+10)=0.999，即 <b>99.9%</b>。</p>
+<p><b>8.</b> C。双点双归把每条「NE1×NE2」链路看作整体 R1×R2，两条链路并联：A4=1-(1-R1×R2)²。</p>
+<p><b>9.</b> C。4over6 是 <b>IPv4 业务承载在 IPv6 网络上</b>；「IPv6 分组承载在 IPv4 组播网络」描述的是 6over4，C 张冠李戴。</p>
+<p><b>10.</b> C。五项需求分析（业务/用户/应用/平台/网络）最终形成<b>网络需求规格说明书</b>，约束后续设计；A/B/D 为各分项输出。</p>
+<p><b>11.</b> D。层次化设计应<b>首先从接入层开始</b>，据流量负荷与行为逐层向上做容量规划，D 顺序颠倒。</p>
+<p><b>12.</b> D。三角形模型提供冗余链路+冗余路径、VLAN 可跨汇聚，推荐高要求接入；需使能 <b>MSTP</b> 防环并在汇聚部署 <b>VRRP</b> 提供网关冗余。</p>
+<div class="footer">第17章 通信系统架构设计理论与实践 · A4 打印版 · 由 README.md 统一生成</div>
+</div>
+</body>
+</html>

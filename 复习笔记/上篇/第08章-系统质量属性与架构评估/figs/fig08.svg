@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 450" width="720" height="450" font-family="Microsoft YaHei, 微软雅黑, sans-serif">
+  <rect width="720" height="450" fill="#ffffff"/>
+  <text x="360" y="30" text-anchor="middle" font-size="22" font-weight="bold" fill="#1f4e79">CBAM 八步：从 ATAM 场景走向 ROI 决策</text>
+  <g text-anchor="middle">
+    <g stroke="#1f4e79" fill="#eaf1f8">
+      <rect x="20" y="65" width="155" height="105" rx="8"/><rect x="195" y="65" width="155" height="105" rx="8"/>
+      <rect x="370" y="65" width="155" height="105" rx="8"/><rect x="545" y="65" width="155" height="105" rx="8"/>
+    </g>
+    <g stroke="#8aa15c" fill="#f3f6ee">
+      <rect x="545" y="245" width="155" height="105" rx="8"/><rect x="370" y="245" width="155" height="105" rx="8"/>
+      <rect x="195" y="245" width="155" height="105" rx="8"/><rect x="20" y="245" width="155" height="105" rx="8" fill="#fdf0e6" stroke="#c05621"/>
+    </g>
+    <g font-size="14" font-weight="bold" fill="#22303f">
+      <text x="97" y="94">1 整理场景</text><text x="97" y="122" font-size="12" font-weight="normal">按商业目标排序</text><text x="97" y="145" font-size="12" font-weight="normal">选最高约 1/3</text>
+      <text x="272" y="94">2 场景求精</text><text x="272" y="122" font-size="12" font-weight="normal">最坏·当前</text><text x="272" y="145" font-size="12" font-weight="normal">期望·最好</text>
+      <text x="447" y="94">3 确定优先级</text><text x="447" y="122" font-size="12" font-weight="normal">按期望响应投票</text><text x="447" y="145" font-size="12" font-weight="normal">得到场景权值</text>
+      <text x="622" y="94">4 分配效用</text><text x="622" y="122" font-size="12" font-weight="normal">为四种响应级别</text><text x="622" y="145" font-size="12" font-weight="normal">建立效用表</text>
+      <text x="622" y="274">5 建立策略关系</text><text x="622" y="302" font-size="12" font-weight="normal">策略—场景</text><text x="622" y="325" font-size="12" font-weight="normal">—响应级别</text>
+      <text x="447" y="274">6 内插求效用</text><text x="447" y="302" font-size="12" font-weight="normal">求期望响应下</text><text x="447" y="325" font-size="12" font-weight="normal">各策略效用</text>
+      <text x="272" y="274">7 计算总收益</text><text x="272" y="302" font-size="12" font-weight="normal">场景权值 × 效用</text><text x="272" y="325" font-size="12" font-weight="normal">汇总策略收益</text>
+      <text x="97" y="274" fill="#c05621">8 ROI 选择</text><text x="97" y="302" font-size="12" font-weight="normal">估算成本与收益</text><text x="97" y="325" font-size="12" font-weight="normal">按 ROI 排序</text>
+    </g>
+  </g>
+  <g stroke="#1f4e79" stroke-width="1.5" fill="none">
+    <line x1="175" y1="117" x2="184" y2="117"/><line x1="350" y1="117" x2="359" y2="117"/><line x1="525" y1="117" x2="534" y2="117"/>
+    <line x1="622" y1="170" x2="622" y2="234"/>
+    <line x1="545" y1="297" x2="536" y2="297"/><line x1="370" y1="297" x2="361" y2="297"/><line x1="195" y1="297" x2="186" y2="297"/>
+  </g>
+  <g fill="#1f4e79">
+    <polygon points="192,117 184,112.5 184,121.5"/><polygon points="367,117 359,112.5 359,121.5"/><polygon points="542,117 534,112.5 534,121.5"/>
+    <polygon points="622,242 617.5,234 626.5,234"/>
+    <polygon points="528,297 536,292.5 536,301.5"/><polygon points="353,297 361,292.5 361,301.5"/><polygon points="178,297 186,292.5 186,301.5"/>
+  </g>
+  <rect x="90" y="385" width="540" height="40" rx="6" fill="#fdf0e6"/>
+  <text x="360" y="410" text-anchor="middle" font-size="14" fill="#c05621">CBAM 在 ATAM 结束后开始，复用其场景与评估结果</text>
+</svg>

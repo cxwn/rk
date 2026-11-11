@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 386" font-family="Microsoft YaHei, 微软雅黑, sans-serif">
+  <ellipse cx="360" cy="190" rx="110" ry="64" fill="#f3f6ee" stroke="#8aa15c" stroke-width="1.5"/>
+  <text x="360" y="162" text-anchor="middle" font-size="13" fill="#4a6130" font-weight="bold">3 大要素</text>
+  <text x="360" y="186" text-anchor="middle" font-size="12" fill="#22303f">人员—核心</text>
+  <text x="360" y="208" text-anchor="middle" font-size="12" fill="#22303f">策略—桥梁</text>
+  <text x="360" y="230" text-anchor="middle" font-size="12" fill="#22303f">技术—保证</text>
+  <rect x="110" y="30" width="130" height="44" rx="4" fill="#fdf0e6" stroke="#c05621" stroke-width="1.2"/>
+  <text x="175" y="57" text-anchor="middle" font-size="14" fill="#c05621" font-weight="bold">W 预警</text>
+  <rect x="480" y="30" width="130" height="44" rx="4" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.2"/>
+  <text x="545" y="57" text-anchor="middle" font-size="14" fill="#1f4e79" font-weight="bold">P 保护</text>
+  <rect x="540" y="160" width="130" height="44" rx="4" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.2"/>
+  <text x="605" y="187" text-anchor="middle" font-size="14" fill="#1f4e79" font-weight="bold">D 检测</text>
+  <rect x="480" y="290" width="130" height="44" rx="4" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.2"/>
+  <text x="545" y="317" text-anchor="middle" font-size="14" fill="#1f4e79" font-weight="bold">R 响应</text>
+  <rect x="110" y="290" width="130" height="44" rx="4" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.2"/>
+  <text x="175" y="317" text-anchor="middle" font-size="14" fill="#1f4e79" font-weight="bold">R 恢复</text>
+  <rect x="40" y="160" width="130" height="44" rx="4" fill="#fdf0e6" stroke="#c05621" stroke-width="1.2"/>
+  <text x="105" y="187" text-anchor="middle" font-size="14" fill="#c05621" font-weight="bold">C 反击</text>
+  <line x1="240" y1="52" x2="469" y2="52" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="477,52 469,47.5 469,56.5" fill="#1f4e79"/>
+  <polyline points="545,74 545,110 605,110 605,149" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="605,157 600.5,149 609.5,149" fill="#1f4e79"/>
+  <polyline points="605,204 605,250 545,250 545,279" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="545,287 540.5,279 549.5,279" fill="#1f4e79"/>
+  <line x1="480" y1="312" x2="251" y2="312" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="243,312 251,307.5 251,316.5" fill="#1f4e79"/>
+  <polyline points="175,290 175,250 105,250 105,215" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="105,207 100.5,215 109.5,215" fill="#1f4e79"/>
+  <polyline points="105,160 105,110 175,110 175,85" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="175,77 170.5,85 179.5,85" fill="#1f4e79"/>
+  <text x="360" y="368" text-anchor="middle" font-size="12" fill="#6b7a8a">6 环节：预警→保护→检测→响应→恢复→反击（时序性、动态性），3 大要素落实于各环节</text>
+</svg>

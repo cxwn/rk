@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 320" font-family="Microsoft YaHei, 微软雅黑, sans-serif">
+  <text x="360" y="28" text-anchor="middle" font-size="16" font-weight="bold" fill="#1f4e79">ARP 欺骗</text>
+  <rect x="60" y="60" width="150" height="70" rx="5" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.5"/>
+  <text x="135" y="90" text-anchor="middle" font-size="12.5" font-weight="bold" fill="#1f4e79">主机 A</text>
+  <text x="135" y="114" text-anchor="middle" font-size="11" fill="#22303f">IP Ia / MAC AA:AA</text>
+  <rect x="510" y="60" width="150" height="70" rx="5" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.5"/>
+  <text x="585" y="90" text-anchor="middle" font-size="12.5" font-weight="bold" fill="#1f4e79">主机 C</text>
+  <text x="585" y="114" text-anchor="middle" font-size="11" fill="#22303f">IP Ic / MAC CC:CC</text>
+  <rect x="285" y="195" width="150" height="70" rx="5" fill="#fdf0e6" stroke="#c05621" stroke-width="1.5"/>
+  <text x="360" y="225" text-anchor="middle" font-size="12.5" font-weight="bold" fill="#c05621">攻击者 B</text>
+  <text x="360" y="249" text-anchor="middle" font-size="11" fill="#c05621">MAC: BB:BB</text>
+  <text x="358" y="52" text-anchor="middle" font-size="11" fill="#6b7a8a">A 原以为：按 IP 发给 C</text>
+  <line x1="210" y1="75" x2="499" y2="75" stroke="#6b7a8a" stroke-width="1.2" fill="none"/>
+  <polygon points="507,75 499,70.5 499,79.5" fill="#6b7a8a"/>
+  <polyline points="435,210 585,210 585,141" stroke="#c05621" stroke-width="1.5" fill="none"/>
+  <polygon points="585,133 580.5,141 589.5,141" fill="#c05621"/>
+  <text x="597" y="200" font-size="11" fill="#c05621">① 使 C 瘫痪</text>
+  <polyline points="285,225 135,225 135,141" stroke="#c05621" stroke-width="1.5" fill="none"/>
+  <polygon points="135,133 130.5,141 139.5,141" fill="#c05621"/>
+  <text x="210" y="210" text-anchor="middle" font-size="11" fill="#c05621">② 伪造 ARP 应答</text>
+  <text x="210" y="248" text-anchor="middle" font-size="11" fill="#c05621">IP=Ic，MAC=BB:BB</text>
+  <polyline points="210,115 250,115 250,160 360,160 360,184" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="360,192 355.5,184 364.5,184" fill="#1f4e79"/>
+  <text x="310" y="150" text-anchor="middle" font-size="11" fill="#1f4e79">③ 数据实际流向 B</text>
+  <text x="360" y="298" text-anchor="middle" font-size="11.5" fill="#6b7a8a">ARP 收到应答即更新缓存（无需先请求）；防范：静态绑定 IP-MAC、双向绑定、ARP 服务器</text>
+</svg>

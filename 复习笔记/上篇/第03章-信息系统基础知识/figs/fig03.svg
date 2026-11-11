@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 350" font-family="Microsoft YaHei, 微软雅黑, sans-serif">
+  <rect width="720" height="350" fill="#ffffff"/>
+  <text x="360" y="30" text-anchor="middle" font-size="20" font-weight="bold" fill="#22303f">TPS 数据处理周期的五个阶段</text>
+  <text x="360" y="60" text-anchor="middle" font-size="13" fill="#6b7a8a">围绕日常事务，完成数据输入、处理、维护、输出与查询</text>
+  <g text-anchor="middle">
+    <rect x="25" y="115" width="115" height="105" rx="8" fill="#eaf1f8" stroke="#1f4e79"/>
+    <text x="82.5" y="145" font-size="16" font-weight="bold" fill="#1f4e79">1 数据输入</text>
+    <text x="82.5" y="174" font-size="12" fill="#22303f">人工 / 自动</text><text x="82.5" y="196" font-size="12" fill="#22303f">准确迅速录入</text>
+    <rect x="165" y="115" width="115" height="105" rx="8" fill="#fdf0e6" stroke="#c05621"/>
+    <text x="222.5" y="145" font-size="16" font-weight="bold" fill="#c05621">2 数据处理</text>
+    <text x="222.5" y="174" font-size="12" fill="#22303f">批处理</text><text x="222.5" y="196" font-size="12" fill="#22303f">联机事务处理</text>
+    <rect x="305" y="115" width="115" height="105" rx="8" fill="#f3f6ee" stroke="#8aa15c"/>
+    <text x="362.5" y="145" font-size="15" font-weight="bold" fill="#4a6130">3 数据库维护</text>
+    <text x="362.5" y="174" font-size="12" fill="#22303f">检索 / 修改</text><text x="362.5" y="196" font-size="12" fill="#22303f">存入 / 删除</text>
+    <rect x="445" y="115" width="115" height="105" rx="8" fill="#eaf1f8" stroke="#1f4e79"/>
+    <text x="502.5" y="143" font-size="14" font-weight="bold" fill="#1f4e79">4 文件报表生成</text>
+    <text x="502.5" y="174" font-size="12" fill="#22303f">行动 / 信息</text><text x="502.5" y="196" font-size="12" fill="#22303f">周转文件</text>
+    <rect x="585" y="115" width="110" height="105" rx="8" fill="#f3f6ee" stroke="#8aa15c"/>
+    <text x="640" y="145" font-size="16" font-weight="bold" fill="#4a6130">5 查询处理</text>
+    <text x="640" y="174" font-size="12" fill="#22303f">批次 / 实时</text><text x="640" y="196" font-size="12" fill="#22303f">按权限检索</text>
+  </g>
+  <g stroke="#1f4e79" stroke-width="1.5" fill="none">
+    <line x1="140" y1="167" x2="154" y2="167"/><line x1="280" y1="167" x2="294" y2="167"/>
+    <line x1="420" y1="167" x2="434" y2="167"/><line x1="560" y1="167" x2="574" y2="167"/>
+  </g>
+  <g fill="#1f4e79">
+    <polygon points="162,167 154,162.5 154,171.5"/><polygon points="302,167 294,162.5 294,171.5"/>
+    <polygon points="442,167 434,162.5 434,171.5"/><polygon points="582,167 574,162.5 574,171.5"/>
+  </g>
+  <rect x="60" y="265" width="600" height="48" rx="8" fill="#f8fafc" stroke="#6b7a8a"/>
+  <text x="360" y="286" text-anchor="middle" font-size="14" font-weight="bold" fill="#1f4e79">TPS 的价值：作业层的信息产生器、企业与外部环境的桥梁</text>
+  <text x="360" y="305" text-anchor="middle" font-size="12" fill="#6b7a8a">输出多为分类汇总，复杂分析与管理决策还需 MIS / DSS</text>
+</svg>

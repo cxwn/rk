@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 520" font-family="Microsoft YaHei, 微软雅黑, sans-serif">
+  <rect width="720" height="520" fill="#ffffff"/>
+  <text x="360" y="30" text-anchor="middle" font-size="20" font-weight="bold" fill="#22303f">ERP 计划层级与模块协同</text>
+  <text x="170" y="57" text-anchor="middle" font-size="15" font-weight="bold" fill="#1f4e79">计划主线：从战略到执行</text>
+  <g text-anchor="middle" font-size="14">
+    <rect x="40" y="72" width="260" height="42" rx="6" fill="#eaf1f8" stroke="#1f4e79"/><text x="170" y="99">经营计划</text>
+    <rect x="40" y="134" width="260" height="42" rx="6" fill="#eaf1f8" stroke="#1f4e79"/><text x="170" y="161">生产计划大纲（PP）</text>
+    <rect x="40" y="196" width="260" height="42" rx="6" fill="#fdf0e6" stroke="#c05621"/><text x="170" y="223">主生产计划（MPS）</text>
+    <rect x="40" y="258" width="260" height="42" rx="6" fill="#fdf0e6" stroke="#c05621"/><text x="170" y="285">物料需求计划（MRP）</text>
+    <rect x="40" y="320" width="260" height="42" rx="6" fill="#f3f6ee" stroke="#8aa15c"/><text x="170" y="347">能力需求计划（CRP）</text>
+    <rect x="40" y="382" width="260" height="42" rx="6" fill="#f3f6ee" stroke="#8aa15c"/><text x="170" y="409">车间作业计划（PAC）</text>
+  </g>
+  <g stroke="#1f4e79" stroke-width="1.5" fill="none">
+    <line x1="170" y1="114" x2="170" y2="123"/><line x1="170" y1="176" x2="170" y2="185"/>
+    <line x1="170" y1="238" x2="170" y2="247"/><line x1="170" y1="300" x2="170" y2="309"/>
+    <line x1="170" y1="362" x2="170" y2="371"/>
+  </g>
+  <g fill="#1f4e79">
+    <polygon points="170,131 165.5,123 174.5,123"/><polygon points="170,193 165.5,185 174.5,185"/>
+    <polygon points="170,255 165.5,247 174.5,247"/><polygon points="170,317 165.5,309 174.5,309"/>
+    <polygon points="170,379 165.5,371 174.5,371"/>
+  </g>
+  <rect x="340" y="55" width="340" height="390" rx="10" fill="#f8fafc" stroke="#6b7a8a"/>
+  <text x="510" y="84" text-anchor="middle" font-size="15" font-weight="bold" fill="#1f4e79">协同的基本与扩展模块</text>
+  <g text-anchor="middle" font-size="13" fill="#22303f">
+    <rect x="365" y="110" width="135" height="48" rx="6" fill="#eaf1f8" stroke="#1f4e79"/><text x="432.5" y="140">生产预测</text>
+    <rect x="520" y="110" width="135" height="48" rx="6" fill="#eaf1f8" stroke="#1f4e79"/><text x="587.5" y="140">销售管理</text>
+    <rect x="365" y="180" width="135" height="48" rx="6" fill="#f3f6ee" stroke="#8aa15c"/><text x="432.5" y="210">采购与库存</text>
+    <rect x="520" y="180" width="135" height="48" rx="6" fill="#f3f6ee" stroke="#8aa15c"/><text x="587.5" y="210">质量与设备</text>
+    <rect x="365" y="250" width="290" height="48" rx="6" fill="#fdf0e6" stroke="#c05621"/><text x="510" y="280">财务管理：贯穿资金运动与成本控制</text>
+    <rect x="365" y="320" width="290" height="70" rx="6" fill="#ffffff" stroke="#6b7a8a"/>
+    <text x="510" y="348">扩展应用</text><text x="510" y="374">CRM／SCM／PDM／电子商务</text>
+  </g>
+  <rect x="40" y="458" width="640" height="42" rx="7" fill="#fdf0e6" stroke="#c05621"/>
+  <text x="360" y="484" text-anchor="middle" font-size="14" font-weight="bold" fill="#c05621">MPS 定产品 → MRP 算物料 → CRP 核能力 → PAC 下达到车间执行</text>
+</svg>

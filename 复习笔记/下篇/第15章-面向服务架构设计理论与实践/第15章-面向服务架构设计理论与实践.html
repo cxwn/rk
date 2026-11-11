@@ -1,0 +1,714 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>第15章 面向服务架构设计理论与实践</title>
+<style>
+  :root{ --ink:#22303f; --main:#1f4e79; --main-light:#eaf1f8; --accent:#c05621;
+    --accent-light:#fdf0e6; --line:#d5dde5; --muted:#6b7a8a; }
+  *{ box-sizing:border-box; print-color-adjust:exact; -webkit-print-color-adjust:exact; }
+  html,body{ margin:0; padding:0; }
+  body{ font-family:"Microsoft YaHei","微软雅黑","PingFang SC","Noto Sans CJK SC",sans-serif;
+    color:var(--ink); background:#e9edf1; font-size:10.5pt; line-height:1.75; }
+  .sheet{ max-width:190mm; margin:8mm auto; background:#fff; padding:10mm 11mm;
+    box-shadow:0 2px 14px rgba(0,0,0,.12); }
+  h1{ font-size:21pt; color:var(--main); margin:0 0 2mm; border-bottom:3px solid var(--main); padding-bottom:3mm; }
+  h2{ font-size:14pt; color:var(--main); margin:8mm 0 3mm; padding:1.2mm 0 1.2mm 3mm;
+    border-left:5px solid var(--main); background:linear-gradient(to right,var(--main-light),#fff); break-after:avoid; }
+  h3{ font-size:11.5pt; color:var(--main); margin:5mm 0 2mm; break-after:avoid; }
+  p{ margin:1.5mm 0; }
+  code{ background:#f0f3f6; border-radius:1mm; padding:0 1mm; font-size:9.5pt; }
+  .def,.example,.mnemonic{ border-radius:2mm; padding:2.5mm 3.5mm; margin:2.5mm 0; break-inside:avoid; }
+  .def{ border:1.5px solid var(--main); background:#fbfdff; }
+  .example{ background:var(--accent-light); border-left:4px solid var(--accent); }
+  .mnemonic{ background:#f3f6ee; border:1px dashed #8aa15c; color:#4a6130; }
+  table{ border-collapse:collapse; width:100%; margin:2.5mm 0; font-size:9.5pt; table-layout:fixed; }
+  th,td{ border:1px solid var(--line); padding:1.6mm 2mm; text-align:left; vertical-align:top; overflow-wrap:break-word; }
+  th{ background:var(--main); color:#fff; text-align:center; }
+  thead{ display:table-header-group; }
+  tr{ break-inside:avoid; }
+  td.tc{ text-align:center; }
+  tr:nth-child(even) td{ background:#f6f9fc; }
+  .fig{ margin:3mm 0; padding:2.5mm; border:1px solid var(--line); border-radius:2mm;
+    background:#fdfefe; break-inside:avoid; }
+  .fig .cap{ text-align:center; color:var(--muted); font-size:9pt; margin-top:1mm; }
+  svg{ display:block; width:100%; height:auto; }
+  svg text{ font-family:inherit; }
+  ul,ol{ margin:1.5mm 0 1.5mm 5mm; padding-left:4mm; }
+  li{ margin:0.8mm 0; }
+  .footer{ margin-top:8mm; padding-top:2mm; border-top:1px solid var(--line);
+    color:var(--muted); font-size:8.5pt; text-align:center; }
+  @page{ size:A4; margin:12mm; }
+  @media print{ body{ background:#fff; font-size:10pt; }
+    .sheet{ max-width:none; margin:0; padding:0; box-shadow:none; } h2{ margin-top:6mm; } }
+</style>
+</head>
+<body>
+<div class="sheet">
+<h1>第15章 面向服务架构设计理论与实践</h1>
+<ul><li>教材位置：02.系统架构设计师第二版-教材.pdf PDF 第 520～548 页（书页 512～540）</li><li>复习状态：已完成</li><li>复习日期：2026-11-06</li><li>本章地位：SOA 是下午案例分析的重要主题，常以「遗留系统集成、企业服务化或微服务改造」为背景，考查 ESB、Web 服务协议、服务设计原则与实施方法；也是理解云原生微服务架构的基础。</li></ul>
+<h2>一、大纲考点</h2>
+<p>大纲（书页 54～55）「5. 面向服务的架构设计理论与实践」条目与教材小节对应如下：</p>
+<table><colgroup><col style="width:26.6%"><col style="width:40.6%"><col style="width:32.8%"></colgroup><thead><tr><th>大纲条目</th><th>大纲要求</th><th>教材对应小节</th></tr></thead><tbody><tr><td>5.1 面向服务的架构概述</td><td>SOA 的定义和发展现状</td><td>15.1.1、15.2.1～15.2.3</td></tr><tr><td>5.1 面向服务的架构概述</td><td>面向 Web 服务的业务流程执行语言（BPEL）</td><td>15.1.2、15.9.2</td></tr><tr><td>5.1 面向服务的架构概述</td><td>SOA 参考架构：IBM WebSphere 业务集成参考架构</td><td>15.3（六类服务）</td></tr><tr><td>5.1 面向服务的架构概述</td><td>主要协议和规范：UDDI、WSDL、SOAP、REST</td><td>15.4.1～15.4.4</td></tr><tr><td>5.1 面向服务的架构概述</td><td>SOA 的作用</td><td>15.6（消除信息孤岛、保护投资）</td></tr><tr><td>5.2 面向服务的架构设计</td><td>SOA 的设计原则</td><td>15.7（八项原则）、15.5（标准要求）</td></tr><tr><td>5.2 面向服务的架构设计</td><td>设计模式：服务注册表、企业服务总线、微服务</td><td>15.8.1、15.8.2、15.8.4</td></tr><tr><td>5.2 面向服务的架构设计</td><td>设计 SOA 架构应注意的问题</td><td>15.9.1～15.9.2</td></tr><tr><td>5.3 面向服务的架构实施过程</td><td>选择 SOA 解决方案</td><td>15.10.1</td></tr><tr><td>5.3 面向服务的架构实施过程</td><td>业务流程分析：建立服务模型和建立业务流程</td><td>15.10.2</td></tr></tbody></table>
+<p><b>下午案例题考查形式</b>：科目 2 通常给出企业多系统异构、点对点集成复杂或单体应用改造的场景，再分问：①识别信息孤岛、耦合或扩展性问题；②选择 SOA/ESB/微服务及具体微服务模式并说明理由；③匹配 UDDI、WSDL、SOAP、REST、BPEL 的职责；④说明粗粒度、无状态、松耦合等设计要求；⑤给出服务候选者发现方法、数据一致性与运维挑战的应对措施。答题宜采用「<b>场景问题 → 架构机制 → 直接收益 → 必要约束</b>」四步，不要只罗列缩写。大纲书页 61 还将「SOA 及分布式系统总体设计」列入科目 3 论文的系统设计主题，可复用本章案例素材。</p>
+<h2>二、知识点笔记</h2>
+<h3>15.1 SOA 的相关概念</h3>
+<h3>15.1.1 SOA 的定义 ⭐【重点】</h3>
+<ul><li><b>服务</b>：由服务提供者提供、满足使用者请求的业务单元；在 SOA 中泛指系统对外提供的功能集，如财务系统开放「记账、结算」接口。</li><li><b>应用角度</b>：SOA 是应用框架，把日常业务划分为独立业务功能和流程，使服务可构建、部署、整合，且<b>不依赖具体应用程序及运行平台</b>，目标是业务灵活、资产重用、降低成本。</li><li><b>软件原理角度</b>：SOA 是组件模型，不同功能单元（服务）通过<b>定义良好的接口和契约</b>联系；接口以中立方式定义，独立于硬件平台、操作系统和编程语言。架构师更应掌握这一定义。</li></ul>
+<div class="def">教材原文：接口是采用中立的方式进行定义的，它应该独立于实现服务的硬件平台、操作系统和编程语言。</div>
+<div class="example">举例：财务、库存、人事系统像不同岗位的服务窗口；办事的人只按统一表单申请，不必知道窗口内部使用什么设备和语言，这就是「面向契约、隐藏实现」。</div>
+<h3>15.1.2 业务流程与 BPEL ⭐【高频考点】</h3>
+<p><b>BPEL</b>（Business Process Execution Language for Web Services）是使用 Web 服务定义和执行业务流程的语言，通过<b>组合、编排、协调</b>多个 Web 服务，自顶向下形成新的复合服务；对外界而言，复合服务仍像单个服务。</p>
+<ul><li><b>业务流程</b>：为实现业务目的而执行的一系列动作；BPEL 把流程变成可执行的服务编排描述。</li><li><b>不要混淆</b>：WSDL 描述单个服务「能做什么、怎样访问、在哪里」，BPEL 描述多个服务「按什么顺序协作」。</li></ul>
+<div class="example">举例：「提交订单」复合服务依次调用库存检查、支付、物流服务，BPEL 就像流程指挥谱，负责各服务先后与协作，而不是代替某个服务完成具体业务。</div>
+<h3>15.2 SOA 的发展历史</h3>
+<h3>15.2.1 三个发展阶段 ⭐【高频考点】</h3>
+<table><colgroup><col style="width:13.3%"><col style="width:28.0%"><col style="width:58.7%"></colgroup><thead><tr><th>阶段</th><th>时期与标志</th><th>必须掌握的技术及作用</th></tr></thead><tbody><tr><td class="tc">萌芽阶段</td><td>20 世纪 90 年代末至 21 世纪初，XML</td><td>XML 统一数据描述与交换；XSD 保证消息数据完整性和有效性；XSLT 做不同数据表达间的映射转换</td></tr><tr><td class="tc">标准化阶段</td><td>2000 年以后，Web 服务兴起</td><td>SOAP 负责消息通信，WSDL 负责服务描述，UDDI 负责服务发布、发现与集成，合称「Web 服务三剑客」</td></tr><tr><td class="tc">成熟应用阶段</td><td>2005 年以后，关注完整 SOA 治理</td><td>SCA/SDO 构成编程模型基础，WS-Policy 规范组件间策略与安全交互；关注点扩展到安全、流程和事务</td></tr></tbody></table>
+<div class="mnemonic">助记：「先数据，后通信，再治理」——XML 打基础，SOAP/WSDL/UDDI 建标准，SCA/SDO/WS-Policy 促成熟。</div>
+<div class="fig"><div><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 320" font-family="Microsoft YaHei, 微软雅黑, sans-serif">
+  <text x="360" y="30" text-anchor="middle" font-size="17" font-weight="bold" fill="#1f4e79">SOA 发展三阶段：先数据，后通信，再治理</text>
+  <rect x="30" y="65" width="210" height="185" rx="8" fill="#f4f6f8" stroke="#6b7a8a" stroke-width="1.5"/>
+  <text x="135" y="94" text-anchor="middle" font-size="15" font-weight="bold" fill="#22303f">① 萌芽阶段</text>
+  <text x="135" y="119" text-anchor="middle" font-size="11" fill="#6b7a8a">20 世纪 90 年代末起</text>
+  <rect x="55" y="137" width="160" height="38" rx="5" fill="#ffffff" stroke="#6b7a8a"/>
+  <text x="135" y="161" text-anchor="middle" font-size="14" font-weight="bold" fill="#1f4e79">XML</text>
+  <text x="135" y="197" text-anchor="middle" font-size="11" fill="#22303f">XSD：完整性与有效性</text>
+  <text x="135" y="219" text-anchor="middle" font-size="11" fill="#22303f">XSLT：数据表达转换</text>
+  <text x="135" y="239" text-anchor="middle" font-size="10" fill="#6b7a8a">统一数据描述与交换</text>
+  <rect x="255" y="65" width="210" height="185" rx="8" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.5"/>
+  <text x="360" y="94" text-anchor="middle" font-size="15" font-weight="bold" fill="#1f4e79">② 标准化阶段</text>
+  <text x="360" y="119" text-anchor="middle" font-size="11" fill="#6b7a8a">2000 年以后</text>
+  <rect x="275" y="137" width="170" height="38" rx="5" fill="#ffffff" stroke="#1f4e79"/>
+  <text x="360" y="161" text-anchor="middle" font-size="12" font-weight="bold" fill="#1f4e79">SOAP · WSDL · UDDI</text>
+  <text x="360" y="197" text-anchor="middle" font-size="11" fill="#22303f">通信 · 描述 · 注册发现</text>
+  <text x="360" y="219" text-anchor="middle" font-size="11" fill="#22303f">Web 服务「三剑客」</text>
+  <text x="360" y="239" text-anchor="middle" font-size="10" fill="#6b7a8a">异构系统标准化交互</text>
+  <rect x="480" y="65" width="210" height="185" rx="8" fill="#f3f6ee" stroke="#8aa15c" stroke-width="1.5"/>
+  <text x="585" y="94" text-anchor="middle" font-size="15" font-weight="bold" fill="#4a6130">③ 成熟应用阶段</text>
+  <text x="585" y="119" text-anchor="middle" font-size="11" fill="#6b7a8a">2005 年以后</text>
+  <rect x="495" y="137" width="180" height="38" rx="5" fill="#ffffff" stroke="#8aa15c"/>
+  <text x="585" y="161" text-anchor="middle" font-size="11" font-weight="bold" fill="#4a6130">SCA · SDO · WS-Policy</text>
+  <text x="585" y="197" text-anchor="middle" font-size="11" fill="#22303f">编程模型 · 策略交互</text>
+  <text x="585" y="219" text-anchor="middle" font-size="11" fill="#22303f">安全 · 流程 · 事务</text>
+  <text x="585" y="239" text-anchor="middle" font-size="10" fill="#4a6130">从服务走向完整治理</text>
+  <line x1="240" y1="157" x2="247" y2="157" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="252,157 244,152.5 244,161.5" fill="#1f4e79"/>
+  <line x1="465" y1="157" x2="472" y2="157" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="477,157 469,152.5 469,161.5" fill="#1f4e79"/>
+  <rect x="95" y="275" width="530" height="30" rx="6" fill="#fdf0e6" stroke="#c05621"/>
+  <text x="360" y="295" text-anchor="middle" font-size="12" fill="#c05621">记忆主线：数据能交换 → 服务能互调 → 企业能治理</text>
+</svg></div><div class="cap">SOA发展三阶段与关键规范</div></div>
+<h3>15.2.2 国内外发展差异</h3>
+<ul><li><b>美国</b>：历史应用积累多，关键任务是从已有系统<b>提取、包装功能</b>形成标准服务。</li><li><b>中国</b>：许多服务型系统尚需建设，主要任务是<b>新构造服务</b>，同时兼顾遗留系统切割封装、统一标准、ESB 注册管理与软件治理。</li><li>案例启示：不能照搬「全部包装遗留系统」或「全部重建」；应先盘点资产，再决定复用、封装、改造或新建。</li></ul>
+<h3>15.2.3 SOA 的微服务化发展 ⭐【重点】</h3>
+<p>微服务是 SOA 思想的扩展和优化，更强调<b>服务个体独立、拆分粒度更小、接口通用、去中心化部署</b>。</p>
+<table><colgroup><col style="width:16.2%"><col style="width:35.3%"><col style="width:48.5%"></colgroup><thead><tr><th>对比维度</th><th>传统 SOA</th><th>微服务架构</th></tr></thead><tbody><tr><td class="tc">服务粒度与进程</td><td>相对较粗，服务间仍可能相互依赖</td><td>更细，通常以独立进程存在，独立开发、部署和扩展</td></tr><tr><td class="tc">集成方式</td><td>常以 ESB 连接各子系统，偏集中式</td><td>不强调重型 ESB，采用轻量通信，偏去中心化</td></tr><tr><td class="tc">接口</td><td>常见 SOAP/WSDL 等企业服务接口</td><td>常见 HTTP RESTful，终端与语言限制更少</td></tr><tr><td class="tc">数据</td><td>可共享企业数据资源</td><td>倾向每服务独立数据库、数据源唯一</td></tr><tr><td class="tc">主要代价</td><td>总线复杂、远程通信影响响应、部署协调较多</td><td>分布式调用、服务发现、链路追踪、最终一致性和运维复杂度上升</td></tr></tbody></table>
+<div class="fig"><div><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 350" font-family="Microsoft YaHei, 微软雅黑, sans-serif">
+  <text x="360" y="30" text-anchor="middle" font-size="17" font-weight="bold" fill="#1f4e79">SOA 与微服务：集中总线集成 vs 去中心化独立服务</text>
+  <rect x="35" y="50" width="300" height="275" rx="10" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.5"/>
+  <text x="185" y="72" text-anchor="middle" font-size="15" font-weight="bold" fill="#1f4e79">传统 SOA 架构</text>
+  <rect x="120" y="84" width="130" height="32" rx="5" fill="#ffffff" stroke="#6b7a8a"/>
+  <text x="185" y="105" text-anchor="middle" font-size="12" fill="#22303f">用户</text>
+  <rect x="120" y="130" width="130" height="32" rx="5" fill="#ffffff" stroke="#6b7a8a"/>
+  <text x="185" y="151" text-anchor="middle" font-size="12" fill="#22303f">UI</text>
+  <line x1="185" y1="116" x2="185" y2="122" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="185,127 180.5,119 189.5,119" fill="#1f4e79"/>
+  <rect x="60" y="180" width="250" height="38" rx="5" fill="#1f4e79" stroke="#1f4e79"/>
+  <text x="185" y="204" text-anchor="middle" font-size="13" font-weight="bold" fill="#ffffff">企业服务总线 ESB</text>
+  <line x1="185" y1="162" x2="185" y2="172" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="185,177 180.5,169 189.5,169" fill="#1f4e79"/>
+  <rect x="60" y="245" width="76" height="42" rx="5" fill="#ffffff" stroke="#1f4e79"/>
+  <rect x="147" y="245" width="76" height="42" rx="5" fill="#ffffff" stroke="#1f4e79"/>
+  <rect x="234" y="245" width="76" height="42" rx="5" fill="#ffffff" stroke="#1f4e79"/>
+  <text x="98" y="270" text-anchor="middle" font-size="12" fill="#22303f">服务 A</text>
+  <text x="185" y="270" text-anchor="middle" font-size="12" fill="#22303f">服务 B</text>
+  <text x="272" y="270" text-anchor="middle" font-size="12" fill="#22303f">服务 C</text>
+  <line x1="98" y1="218" x2="98" y2="237" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="98,242 93.5,234 102.5,234" fill="#1f4e79"/>
+  <line x1="185" y1="218" x2="185" y2="237" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="185,242 180.5,234 189.5,234" fill="#1f4e79"/>
+  <line x1="272" y1="218" x2="272" y2="237" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="272,242 267.5,234 276.5,234" fill="#1f4e79"/>
+  <text x="185" y="309" text-anchor="middle" font-size="11" fill="#6b7a8a">统一接入 · 路由转换 · 集中治理</text>
+  <rect x="385" y="50" width="300" height="275" rx="10" fill="#f3f6ee" stroke="#8aa15c" stroke-width="1.5"/>
+  <text x="535" y="72" text-anchor="middle" font-size="15" font-weight="bold" fill="#4a6130">微服务架构</text>
+  <rect x="470" y="84" width="130" height="32" rx="5" fill="#ffffff" stroke="#6b7a8a"/>
+  <text x="535" y="105" text-anchor="middle" font-size="12" fill="#22303f">用户 / UI</text>
+  <rect x="410" y="160" width="76" height="55" rx="5" fill="#ffffff" stroke="#8aa15c"/>
+  <rect x="497" y="160" width="76" height="55" rx="5" fill="#ffffff" stroke="#8aa15c"/>
+  <rect x="584" y="160" width="76" height="55" rx="5" fill="#ffffff" stroke="#8aa15c"/>
+  <text x="448" y="183" text-anchor="middle" font-size="11" fill="#22303f">微服务 A</text>
+  <text x="535" y="183" text-anchor="middle" font-size="11" fill="#22303f">微服务 B</text>
+  <text x="622" y="183" text-anchor="middle" font-size="11" fill="#22303f">微服务 C</text>
+  <text x="448" y="201" text-anchor="middle" font-size="10" fill="#4a6130">独立进程</text>
+  <text x="535" y="201" text-anchor="middle" font-size="10" fill="#4a6130">独立进程</text>
+  <text x="622" y="201" text-anchor="middle" font-size="10" fill="#4a6130">独立进程</text>
+  <line x1="490" y1="116" x2="490" y2="136" stroke="#8aa15c" stroke-width="1.5" fill="none"/>
+  <line x1="490" y1="136" x2="448" y2="136" stroke="#8aa15c" stroke-width="1.5" fill="none"/>
+  <line x1="448" y1="136" x2="448" y2="152" stroke="#8aa15c" stroke-width="1.5" fill="none"/>
+  <polygon points="448,157 443.5,149 452.5,149" fill="#8aa15c"/>
+  <line x1="535" y1="116" x2="535" y2="152" stroke="#8aa15c" stroke-width="1.5" fill="none"/>
+  <polygon points="535,157 530.5,149 539.5,149" fill="#8aa15c"/>
+  <line x1="580" y1="116" x2="580" y2="136" stroke="#8aa15c" stroke-width="1.5" fill="none"/>
+  <line x1="580" y1="136" x2="622" y2="136" stroke="#8aa15c" stroke-width="1.5" fill="none"/>
+  <line x1="622" y1="136" x2="622" y2="152" stroke="#8aa15c" stroke-width="1.5" fill="none"/>
+  <polygon points="622,157 617.5,149 626.5,149" fill="#8aa15c"/>
+  <rect x="410" y="250" width="76" height="35" rx="5" fill="#ffffff" stroke="#8aa15c"/>
+  <rect x="497" y="250" width="76" height="35" rx="5" fill="#ffffff" stroke="#8aa15c"/>
+  <rect x="584" y="250" width="76" height="35" rx="5" fill="#ffffff" stroke="#8aa15c"/>
+  <text x="448" y="272" text-anchor="middle" font-size="11" fill="#22303f">数据库 A</text>
+  <text x="535" y="272" text-anchor="middle" font-size="11" fill="#22303f">数据库 B</text>
+  <text x="622" y="272" text-anchor="middle" font-size="11" fill="#22303f">数据库 C</text>
+  <line x1="448" y1="215" x2="448" y2="242" stroke="#8aa15c" stroke-width="1.5" fill="none"/>
+  <polygon points="448,247 443.5,239 452.5,239" fill="#8aa15c"/>
+  <line x1="535" y1="215" x2="535" y2="242" stroke="#8aa15c" stroke-width="1.5" fill="none"/>
+  <polygon points="535,247 530.5,239 539.5,239" fill="#8aa15c"/>
+  <line x1="622" y1="215" x2="622" y2="242" stroke="#8aa15c" stroke-width="1.5" fill="none"/>
+  <polygon points="622,247 617.5,239 626.5,239" fill="#8aa15c"/>
+  <text x="535" y="309" text-anchor="middle" font-size="11" fill="#4a6130">轻量接口 · 独立部署 · 独立数据</text>
+</svg></div><div class="cap">SOA架构与微服务架构对比（教材图15-1重绘）</div></div>
+<h3>15.3 SOA 的参考架构 ⭐【重点】</h3>
+<p>IBM WebSphere 业务集成参考架构以<b>关注点分离</b>规划企业集成：既关注每类元素提供什么服务，也关注服务如何组合完成集成。六类服务如下：</p>
+<table><colgroup><col style="width:23.6%"><col style="width:34.5%"><col style="width:41.8%"></colgroup><thead><tr><th>类别</th><th>核心职责</th><th>典型成员/关键词</th></tr></thead><tbody><tr><td>业务逻辑服务</td><td>实现或复用业务逻辑</td><td>业务应用服务、伙伴服务、应用和信息资产</td></tr><tr><td>控制服务</td><td>实现人、流程和信息的集成</td><td>交互服务、流程服务、信息服务</td></tr><tr><td>连接服务</td><td>为分布式服务提供连接</td><td>企业服务总线 ESB</td></tr><tr><td>业务创新和优化服务</td><td>监控业务性能并持续优化</td><td>公共事件框架、采集、监控、KPI</td></tr><tr><td>开发服务</td><td>支持整个软件开发生命周期</td><td>建模、设计、实现、测试</td></tr><tr><td>IT 服务管理</td><td>提供安全、高效、健康的运行环境</td><td>安全与目录、系统管理、资源虚拟化</td></tr></tbody></table>
+<div class="mnemonic">助记：「业务要控制，连接促优化；开发做支撑，IT 管运行」——对应六类参考架构服务。</div>
+<div class="fig"><div><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 480" font-family="Microsoft YaHei, 微软雅黑, sans-serif">
+  <text x="360" y="30" text-anchor="middle" font-size="17" font-weight="bold" fill="#1f4e79">IBM WebSphere 业务集成参考架构：六类服务</text>
+  <rect x="60" y="50" width="600" height="42" rx="6" fill="#fdf0e6" stroke="#c05621" stroke-width="1.5"/>
+  <text x="360" y="76" text-anchor="middle" font-size="14" font-weight="bold" fill="#c05621">开发服务 Development Services</text>
+  <rect x="60" y="104" width="600" height="42" rx="6" fill="#fdf0e6" stroke="#c05621" stroke-width="1.5"/>
+  <text x="360" y="130" text-anchor="middle" font-size="14" font-weight="bold" fill="#c05621">业务创新和优化服务 · 事件采集 · KPI 监控</text>
+  <rect x="60" y="158" width="600" height="90" rx="6" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.5"/>
+  <text x="360" y="179" text-anchor="middle" font-size="13" font-weight="bold" fill="#1f4e79">控制服务 Control Services</text>
+  <rect x="85" y="190" width="165" height="40" rx="5" fill="#ffffff" stroke="#1f4e79"/>
+  <rect x="278" y="190" width="165" height="40" rx="5" fill="#ffffff" stroke="#1f4e79"/>
+  <rect x="470" y="190" width="165" height="40" rx="5" fill="#ffffff" stroke="#1f4e79"/>
+  <text x="167" y="215" text-anchor="middle" font-size="12" fill="#22303f">交互服务 · 人</text>
+  <text x="360" y="215" text-anchor="middle" font-size="12" fill="#22303f">流程服务 · 流程</text>
+  <text x="552" y="215" text-anchor="middle" font-size="12" fill="#22303f">信息服务 · 信息</text>
+  <rect x="60" y="260" width="600" height="46" rx="6" fill="#1f4e79" stroke="#1f4e79" stroke-width="1.5"/>
+  <text x="360" y="288" text-anchor="middle" font-size="14" font-weight="bold" fill="#ffffff">连接服务 Connectivity Services · 企业服务总线 ESB</text>
+  <rect x="60" y="318" width="600" height="90" rx="6" fill="#f3f6ee" stroke="#8aa15c" stroke-width="1.5"/>
+  <text x="360" y="339" text-anchor="middle" font-size="13" font-weight="bold" fill="#4a6130">业务逻辑服务 Business Logic Services</text>
+  <rect x="78" y="350" width="175" height="40" rx="5" fill="#ffffff" stroke="#8aa15c"/>
+  <rect x="273" y="350" width="175" height="40" rx="5" fill="#ffffff" stroke="#8aa15c"/>
+  <rect x="468" y="350" width="175" height="40" rx="5" fill="#ffffff" stroke="#8aa15c"/>
+  <text x="165" y="375" text-anchor="middle" font-size="12" fill="#22303f">伙伴服务</text>
+  <text x="360" y="375" text-anchor="middle" font-size="12" fill="#22303f">业务应用服务</text>
+  <text x="555" y="375" text-anchor="middle" font-size="12" fill="#22303f">应用和信息资产</text>
+  <rect x="60" y="420" width="600" height="42" rx="6" fill="#f4f6f8" stroke="#6b7a8a" stroke-width="1.5"/>
+  <text x="360" y="446" text-anchor="middle" font-size="14" font-weight="bold" fill="#22303f">IT 服务管理 · 安全目录 · 系统管理 · 资源虚拟化</text>
+</svg></div><div class="cap">IBM WebSphere业务集成参考架构（教材图15-2重绘）</div></div>
+<h3>1. 连接服务——企业服务总线（ESB）⭐【高频考点】</h3>
+<p>ESB 是消息中间件的发展，以「总线」模式简化集成拓扑，基于开放标准支持应用在<b>消息、事件和服务</b>级别动态互联互通。它是<b>架构模式，不等同于某个产品</b>。</p>
+<ul><li><b>基本能力</b>：服务元数据与注册管理；数据传递和转换；同步/异步交互；发现、路由、匹配和选择。</li><li><b>高级能力</b>：安全、QoS、可管理性、负载均衡。</li><li><b>解耦原理</b>：中介自动完成服务查找、消息路由、数据转换和协议转换，请求者无需知道提供者位置与实现技术，接口不变时双方可独立演进。</li></ul>
+<div class="fig"><div><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 390" font-family="Microsoft YaHei, 微软雅黑, sans-serif">
+  <text x="360" y="30" text-anchor="middle" font-size="17" font-weight="bold" fill="#1f4e79">典型企业服务总线：标准化接入与中介转换</text>
+  <rect x="150" y="55" width="100" height="42" rx="5" fill="#eaf1f8" stroke="#1f4e79"/>
+  <rect x="310" y="55" width="100" height="42" rx="5" fill="#eaf1f8" stroke="#1f4e79"/>
+  <rect x="470" y="55" width="100" height="42" rx="5" fill="#eaf1f8" stroke="#1f4e79"/>
+  <text x="200" y="81" text-anchor="middle" font-size="12" fill="#22303f">服务请求者</text>
+  <text x="360" y="81" text-anchor="middle" font-size="12" fill="#22303f">服务请求者</text>
+  <text x="520" y="81" text-anchor="middle" font-size="12" fill="#22303f">服务请求者</text>
+  <rect x="110" y="155" width="500" height="105" rx="8" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.8"/>
+  <text x="360" y="177" text-anchor="middle" font-size="14" font-weight="bold" fill="#1f4e79">企业服务总线 ESB（架构模式）</text>
+  <rect x="140" y="192" width="120" height="44" rx="5" fill="#ffffff" stroke="#1f4e79"/>
+  <rect x="300" y="192" width="120" height="44" rx="5" fill="#ffffff" stroke="#1f4e79"/>
+  <rect x="460" y="192" width="120" height="44" rx="5" fill="#ffffff" stroke="#1f4e79"/>
+  <text x="200" y="211" text-anchor="middle" font-size="12" font-weight="bold" fill="#22303f">Transport</text>
+  <text x="200" y="228" text-anchor="middle" font-size="10" fill="#6b7a8a">传输 / 协议转换</text>
+  <text x="360" y="211" text-anchor="middle" font-size="12" font-weight="bold" fill="#22303f">Transform</text>
+  <text x="360" y="228" text-anchor="middle" font-size="10" fill="#6b7a8a">数据格式转换</text>
+  <text x="520" y="211" text-anchor="middle" font-size="12" font-weight="bold" fill="#22303f">Route</text>
+  <text x="520" y="228" text-anchor="middle" font-size="10" fill="#6b7a8a">发现 / 路由 / 选择</text>
+  <rect x="15" y="165" width="75" height="85" rx="5" fill="#fdf0e6" stroke="#c05621"/>
+  <text x="52" y="184" text-anchor="middle" font-size="10" font-weight="bold" fill="#c05621">标准协议</text>
+  <text x="52" y="201" text-anchor="middle" font-size="9" fill="#22303f">SOAP / WSDL</text>
+  <text x="52" y="217" text-anchor="middle" font-size="9" fill="#22303f">HTTP(S) / JMS</text>
+  <text x="52" y="233" text-anchor="middle" font-size="9" fill="#22303f">FTP / SMTP</text>
+  <line x1="90" y1="208" x2="102" y2="208" stroke="#c05621" stroke-width="1.5" fill="none"/>
+  <polygon points="107,208 99,203.5 99,212.5" fill="#c05621"/>
+  <line x1="200" y1="97" x2="200" y2="147" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="200,152 195.5,144 204.5,144" fill="#1f4e79"/>
+  <line x1="360" y1="97" x2="360" y2="147" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="360,152 355.5,144 364.5,144" fill="#1f4e79"/>
+  <line x1="520" y1="97" x2="520" y2="147" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="520,152 515.5,144 524.5,144" fill="#1f4e79"/>
+  <rect x="150" y="305" width="100" height="42" rx="5" fill="#f3f6ee" stroke="#8aa15c"/>
+  <rect x="310" y="305" width="100" height="42" rx="5" fill="#f3f6ee" stroke="#8aa15c"/>
+  <rect x="470" y="305" width="100" height="42" rx="5" fill="#f3f6ee" stroke="#8aa15c"/>
+  <text x="200" y="331" text-anchor="middle" font-size="12" fill="#22303f">服务提供者</text>
+  <text x="360" y="331" text-anchor="middle" font-size="12" fill="#22303f">服务提供者</text>
+  <text x="520" y="331" text-anchor="middle" font-size="12" fill="#22303f">服务提供者</text>
+  <line x1="200" y1="260" x2="200" y2="297" stroke="#8aa15c" stroke-width="1.5" fill="none"/>
+  <polygon points="200,302 195.5,294 204.5,294" fill="#8aa15c"/>
+  <line x1="360" y1="260" x2="360" y2="297" stroke="#8aa15c" stroke-width="1.5" fill="none"/>
+  <polygon points="360,302 355.5,294 364.5,294" fill="#8aa15c"/>
+  <line x1="520" y1="260" x2="520" y2="297" stroke="#8aa15c" stroke-width="1.5" fill="none"/>
+  <polygon points="520,302 515.5,294 524.5,294" fill="#8aa15c"/>
+  <text x="360" y="374" text-anchor="middle" font-size="11" fill="#6b7a8a">请求者无需关心提供者位置与实现技术，实现位置透明、协议透明</text>
+</svg></div><div class="cap">典型企业服务总线（教材图15-3重绘）</div></div>
+<h3>2. 业务逻辑服务与控制服务</h3>
+<table><colgroup><col style="width:16.7%"><col style="width:24.2%"><col style="width:59.1%"></colgroup><thead><tr><th>服务组</th><th>子类</th><th>一句话职责</th></tr></thead><tbody><tr><td class="tc">应用和信息访问</td><td>可接入服务、事件发现服务</td><td>包装遗留逻辑与数据供 ESB 访问；把数据或应用变化以事件发布</td></tr><tr><td class="tc">业务应用</td><td>组件、核心、接口服务</td><td>管理可复用组件运行；提供内存、实例、负载等运行时能力；连接其他企业系统</td></tr><tr><td class="tc">伙伴</td><td>社区、文档、协议服务</td><td>管理贸易伙伴；支持 EDI 等文档交换；提供认证、路由和传输</td></tr><tr><td class="tc">信息</td><td>联邦、复制、转换、搜索</td><td>聚合异构数据、保留本地副本、转换格式、检索结构化与非结构化数据</td></tr><tr><td class="tc">流程</td><td>编排、事务、人工服务</td><td>控制活动并恢复错误；短流程用两阶段提交、长流程用补偿；接入人工任务</td></tr><tr><td class="tc">交互</td><td>交付、体验、资源服务</td><td>多端交付；个性化、协作、单点登录；管理界面与安全配置</td></tr></tbody></table>
+<p>【易错】<b>联邦</b>强调数据仍按原方式管理，<b>复制</b>则在本地维护数据源副本；<b>流程编排</b>控制业务活动，<b>事务服务</b>保证 ACID，长流程通常采用补偿而不是长期锁定资源。</p>
+<h3>3. 开发、优化与 IT 管理</h3>
+<ul><li><b>开发服务</b>：建模 → 设计 → 实现 → 测试；相关方法/模型包括 SOMA、WSDL、BPEL、SCA、SDO。</li><li><b>业务创新和优化</b>：公共事件框架截获事件 → 采集服务按策略过滤与关联 → 监控服务结合上下文计算 KPI → 用指标重构或优化流程，形成闭环。</li><li><b>IT 服务管理</b>：安全和目录服务（用户、认证、授权、SSO）+ 系统管理和虚拟化服务（服务器、存储、网络等）。</li></ul>
+<h3>15.4 SOA 主要协议和规范 ⭐【高频考点】</h3>
+<table><colgroup><col style="width:11.0%"><col style="width:32.3%"><col style="width:56.8%"></colgroup><thead><tr><th>协议/规范</th><th>核心定位</th><th>必记细节</th></tr></thead><tbody><tr><td class="tc">UDDI</td><td>服务描述、发布、发现与集成的注册框架</td><td>帮消费者找到合适服务；基于 XML、HTTP、DNS、SOAP 等标准</td></tr><tr><td class="tc">WSDL</td><td>描述 Web 服务及通信方式的 XML 接口定义语言</td><td>三属性：做什么、如何访问、位于何处；文档分服务接口与服务实现</td></tr><tr><td class="tc">SOAP</td><td>分布式环境中基于 XML 交换信息的协议</td><td>信封、编码规则、RPC 表示、绑定四部分；目标是简单性和可扩展性</td></tr><tr><td class="tc">REST</td><td>以资源为中心的架构设计风格</td><td>URI 标识资源，以 JSON/XML 等表述资源，通过 HTTP 方法引起状态转移，超链接驱动后续操作</td></tr></tbody></table>
+<div class="fig"><div><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 380" font-family="Microsoft YaHei, 微软雅黑, sans-serif">
+  <text x="360" y="30" text-anchor="middle" font-size="17" font-weight="bold" fill="#1f4e79">基本 Web 服务协议：发布、发现、调用</text>
+  <rect x="260" y="50" width="200" height="55" rx="7" fill="#fdf0e6" stroke="#c05621" stroke-width="1.5"/>
+  <text x="360" y="73" text-anchor="middle" font-size="14" font-weight="bold" fill="#c05621">服务注册中心</text>
+  <text x="360" y="93" text-anchor="middle" font-size="11" fill="#22303f">UDDI · 服务目录</text>
+  <rect x="50" y="250" width="180" height="60" rx="7" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.5"/>
+  <text x="140" y="276" text-anchor="middle" font-size="14" font-weight="bold" fill="#1f4e79">服务请求者</text>
+  <text x="140" y="297" text-anchor="middle" font-size="11" fill="#22303f">发现并按契约调用</text>
+  <rect x="490" y="250" width="180" height="60" rx="7" fill="#f3f6ee" stroke="#8aa15c" stroke-width="1.5"/>
+  <text x="580" y="276" text-anchor="middle" font-size="14" font-weight="bold" fill="#4a6130">服务提供者</text>
+  <text x="580" y="297" text-anchor="middle" font-size="11" fill="#22303f">发布服务与 WSDL</text>
+  <line x1="580" y1="250" x2="580" y2="90" stroke="#8aa15c" stroke-width="1.5" fill="none"/>
+  <line x1="580" y1="90" x2="468" y2="90" stroke="#8aa15c" stroke-width="1.5" fill="none"/>
+  <polygon points="463,90 471,85.5 471,94.5" fill="#8aa15c"/>
+  <text x="568" y="177" text-anchor="end" font-size="12" fill="#4a6130">发布 WSDL</text>
+  <line x1="140" y1="250" x2="140" y2="90" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <line x1="140" y1="90" x2="252" y2="90" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="257,90 249,85.5 249,94.5" fill="#1f4e79"/>
+  <text x="152" y="177" font-size="12" fill="#1f4e79">查询 / 发现 WSDL</text>
+  <line x1="230" y1="280" x2="482" y2="280" stroke="#c05621" stroke-width="1.8" fill="none"/>
+  <polygon points="487,280 479,275.5 479,284.5" fill="#c05621"/>
+  <rect x="290" y="255" width="140" height="28" rx="4" fill="#ffffff"/>
+  <text x="360" y="274" text-anchor="middle" font-size="12" font-weight="bold" fill="#c05621">SOAP 调用 / 响应</text>
+  <rect x="95" y="333" width="530" height="30" rx="6" fill="#f4f6f8" stroke="#6b7a8a"/>
+  <text x="360" y="353" text-anchor="middle" font-size="11" fill="#22303f">UDDI 找服务 · WSDL 描述接口与地址 · SOAP 传输 XML 消息</text>
+</svg></div><div class="cap">基本Web服务协议协作关系（教材图15-4重绘）</div></div>
+<div class="mnemonic">助记：「UDDI 找，WSDL 描，SOAP 传，REST 以资源为中心」。</div>
+<h3>15.4.2 WSDL 文档结构</h3>
+<p>WSDL 文档以<b>端口集合</b>描述服务：抽象定义操作和消息，再把它们绑定到具体协议与网络端点。</p>
+<table><colgroup><col style="width:20.2%"><col style="width:58.3%"><col style="width:21.4%"></colgroup><thead><tr><th>元素</th><th>作用</th><th>记忆抓手</th></tr></thead><tbody><tr><td class="tc">types</td><td>定义消息使用的数据类型，通常用 XML Schema</td><td class="tc">数据类型</td></tr><tr><td class="tc">message</td><td>抽象、类型化地定义通信消息结构</td><td class="tc">消息内容</td></tr><tr><td class="tc">operation</td><td>描述一个操作，常见为请求/响应消息对</td><td class="tc">一个动作</td></tr><tr><td class="tc">portType</td><td>某个访问入口类型支持的操作集合</td><td class="tc">抽象接口</td></tr><tr><td class="tc">binding</td><td>把 portType 绑定到具体数据格式和协议</td><td class="tc">如何通信</td></tr><tr><td class="tc">port</td><td>binding 与具体 Web 地址组合成单个访问点</td><td class="tc">在哪里访问</td></tr><tr><td class="tc">service</td><td>相关端口的集合</td><td class="tc">服务总入口</td></tr></tbody></table>
+<div class="fig"><div><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 620" font-family="Microsoft YaHei, 微软雅黑, sans-serif">
+  <text x="360" y="30" text-anchor="middle" font-size="17" font-weight="bold" fill="#1f4e79">WSDL 文档基本结构：从服务访问点到抽象数据类型</text>
+  <rect x="40" y="55" width="170" height="200" rx="8" fill="#fdf0e6" stroke="#c05621"/>
+  <text x="125" y="135" text-anchor="middle" font-size="14" font-weight="bold" fill="#c05621">服务实现</text>
+  <text x="125" y="160" text-anchor="middle" font-size="12" fill="#22303f">具体访问点</text>
+  <text x="125" y="182" text-anchor="middle" font-size="12" fill="#22303f">协议与地址</text>
+  <rect x="40" y="295" width="170" height="265" rx="8" fill="#eaf1f8" stroke="#1f4e79"/>
+  <text x="125" y="400" text-anchor="middle" font-size="14" font-weight="bold" fill="#1f4e79">服务接口</text>
+  <text x="125" y="425" text-anchor="middle" font-size="12" fill="#22303f">抽象操作</text>
+  <text x="125" y="447" text-anchor="middle" font-size="12" fill="#22303f">消息与类型</text>
+  <rect x="250" y="55" width="300" height="48" rx="6" fill="#fdf0e6" stroke="#c05621" stroke-width="1.5"/>
+  <text x="400" y="85" text-anchor="middle" font-size="13" font-weight="bold" fill="#22303f">service 服务 · 端口集合</text>
+  <rect x="250" y="125" width="300" height="48" rx="6" fill="#fdf0e6" stroke="#c05621" stroke-width="1.5"/>
+  <text x="400" y="155" text-anchor="middle" font-size="13" font-weight="bold" fill="#22303f">port 端口 · binding + 访问地址</text>
+  <rect x="250" y="195" width="300" height="48" rx="6" fill="#fdf0e6" stroke="#c05621" stroke-width="1.5"/>
+  <text x="400" y="225" text-anchor="middle" font-size="13" font-weight="bold" fill="#22303f">binding 绑定 · 协议 + 数据格式</text>
+  <rect x="250" y="285" width="300" height="48" rx="6" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.5"/>
+  <text x="400" y="315" text-anchor="middle" font-size="13" font-weight="bold" fill="#22303f">portType 接口类型 · 操作集合</text>
+  <rect x="250" y="355" width="300" height="48" rx="6" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.5"/>
+  <text x="400" y="385" text-anchor="middle" font-size="13" font-weight="bold" fill="#22303f">operation 操作 · 请求 / 响应</text>
+  <rect x="250" y="425" width="300" height="48" rx="6" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.5"/>
+  <text x="400" y="455" text-anchor="middle" font-size="13" font-weight="bold" fill="#22303f">message 消息 · 数据结构</text>
+  <rect x="250" y="495" width="300" height="48" rx="6" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.5"/>
+  <text x="400" y="525" text-anchor="middle" font-size="13" font-weight="bold" fill="#22303f">types 类型 · XML Schema</text>
+  <line x1="400" y1="103" x2="400" y2="117" stroke="#6b7a8a" stroke-width="1.5" fill="none"/>
+  <polygon points="400,122 395.5,114 404.5,114" fill="#6b7a8a"/>
+  <line x1="400" y1="173" x2="400" y2="187" stroke="#6b7a8a" stroke-width="1.5" fill="none"/>
+  <polygon points="400,192 395.5,184 404.5,184" fill="#6b7a8a"/>
+  <line x1="400" y1="243" x2="400" y2="277" stroke="#6b7a8a" stroke-width="1.5" fill="none"/>
+  <polygon points="400,282 395.5,274 404.5,274" fill="#6b7a8a"/>
+  <line x1="400" y1="333" x2="400" y2="347" stroke="#6b7a8a" stroke-width="1.5" fill="none"/>
+  <polygon points="400,352 395.5,344 404.5,344" fill="#6b7a8a"/>
+  <line x1="400" y1="403" x2="400" y2="417" stroke="#6b7a8a" stroke-width="1.5" fill="none"/>
+  <polygon points="400,422 395.5,414 404.5,414" fill="#6b7a8a"/>
+  <line x1="400" y1="473" x2="400" y2="487" stroke="#6b7a8a" stroke-width="1.5" fill="none"/>
+  <polygon points="400,492 395.5,484 404.5,484" fill="#6b7a8a"/>
+  <text x="585" y="150" font-size="11" fill="#6b7a8a">在哪里</text>
+  <text x="585" y="220" font-size="11" fill="#6b7a8a">如何访问</text>
+  <text x="585" y="310" font-size="11" fill="#6b7a8a">做什么</text>
+  <rect x="245" y="570" width="310" height="30" rx="5" fill="#f3f6ee" stroke="#8aa15c"/>
+  <text x="400" y="590" text-anchor="middle" font-size="11" fill="#4a6130">抽象定义复用，具体绑定决定通信与访问端点</text>
+</svg></div><div class="cap">WSDL文档基本结构（教材图15-5重绘）</div></div>
+<h3>15.4.3 SOAP 四部分</h3>
+<ul><li><b>Envelope（信封）</b>：说明消息内容、发送者、接收处理者及处理框架。</li><li><b>Encoding Rules（编码规则）</b>：表示应用数据类型实例。</li><li><b>RPC Representation</b>：约定远程过程调用与应答。</li><li><b>Binding</b>：约定如何用底层协议交换信息；四部分功能相交但彼此独立，信封与编码规则位于不同 XML 命名空间。</li></ul>
+<h3>15.4.4 REST 的四个核心概念 ⭐【易错】</h3>
+<ol><li><b>资源（Resource）</b>：订单、图片等暴露给客户端的事物；URI 标识资源。一个资源可有多个 URI，但一个 URI 只对应一种资源。</li><li><b>表述（Representation）</b>：资源在某一时刻状态的表现，如 HTML、JSON、XML、纯文本；传输的是「资源表述」，不是把服务端对象原样搬走。</li><li><b>状态转移（State Transfer）</b>：<b>应用状态保存在客户端</b>，<b>资源状态保存在服务端</b>；借助 GET、POST、DELETE 等 HTTP 方法操作资源。</li><li><b>超链接</b>：表述中附带相关资源 URI，客户端据此发现后续可执行操作，驱动应用状态转移。</li></ol>
+<div class="example">举例：把订单看作「资源」，JSON 是它此刻的「照片」；客户端拿到照片和「支付、取消」链接后选择下一步，服务端只保存订单本身的状态，不必记住每个客户端看到了哪一步。</div>
+<div class="fig"><div><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 400" font-family="Microsoft YaHei, 微软雅黑, sans-serif">
+  <text x="360" y="30" text-anchor="middle" font-size="17" font-weight="bold" fill="#1f4e79">REST：资源、表述、状态转移与超链接</text>
+  <rect x="300" y="45" width="120" height="40" rx="6" fill="#fdf0e6" stroke="#c05621"/>
+  <text x="360" y="62" text-anchor="middle" font-size="12" font-weight="bold" fill="#c05621">URI 标识资源</text>
+  <text x="360" y="78" text-anchor="middle" font-size="9" fill="#22303f">一个 URI 一种资源</text>
+  <rect x="40" y="100" width="220" height="220" rx="9" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.5"/>
+  <text x="150" y="126" text-anchor="middle" font-size="15" font-weight="bold" fill="#1f4e79">客户端</text>
+  <rect x="70" y="145" width="160" height="55" rx="5" fill="#ffffff" stroke="#1f4e79"/>
+  <text x="150" y="168" text-anchor="middle" font-size="12" font-weight="bold" fill="#22303f">应用状态</text>
+  <text x="150" y="188" text-anchor="middle" font-size="10" fill="#6b7a8a">由客户端维护</text>
+  <rect x="70" y="220" width="160" height="65" rx="5" fill="#ffffff" stroke="#1f4e79"/>
+  <text x="150" y="244" text-anchor="middle" font-size="12" font-weight="bold" fill="#22303f">超链接</text>
+  <text x="150" y="264" text-anchor="middle" font-size="10" fill="#6b7a8a">发现相关资源 URI</text>
+  <text x="150" y="280" text-anchor="middle" font-size="10" fill="#6b7a8a">驱动下一步操作</text>
+  <rect x="460" y="100" width="220" height="220" rx="9" fill="#f3f6ee" stroke="#8aa15c" stroke-width="1.5"/>
+  <text x="570" y="126" text-anchor="middle" font-size="15" font-weight="bold" fill="#4a6130">服务端</text>
+  <rect x="490" y="145" width="160" height="55" rx="5" fill="#ffffff" stroke="#8aa15c"/>
+  <text x="570" y="168" text-anchor="middle" font-size="12" font-weight="bold" fill="#22303f">资源 Resource</text>
+  <text x="570" y="188" text-anchor="middle" font-size="10" fill="#4a6130">订单 / 图片 / 文件</text>
+  <rect x="490" y="220" width="160" height="65" rx="5" fill="#ffffff" stroke="#8aa15c"/>
+  <text x="570" y="244" text-anchor="middle" font-size="12" font-weight="bold" fill="#22303f">资源状态</text>
+  <text x="570" y="264" text-anchor="middle" font-size="10" fill="#4a6130">由服务端保存</text>
+  <text x="570" y="280" text-anchor="middle" font-size="10" fill="#4a6130">HTTP 方法引起转移</text>
+  <rect x="285" y="125" width="150" height="50" rx="5" fill="#fdf0e6" stroke="#c05621"/>
+  <text x="360" y="146" text-anchor="middle" font-size="11" font-weight="bold" fill="#c05621">HTTP 方法</text>
+  <text x="360" y="164" text-anchor="middle" font-size="10" fill="#22303f">GET / POST / DELETE</text>
+  <line x1="260" y1="150" x2="277" y2="150" stroke="#c05621" stroke-width="1.5" fill="none"/>
+  <polygon points="282,150 274,145.5 274,154.5" fill="#c05621"/>
+  <line x1="435" y1="150" x2="452" y2="150" stroke="#c05621" stroke-width="1.5" fill="none"/>
+  <polygon points="457,150 449,145.5 449,154.5" fill="#c05621"/>
+  <rect x="285" y="235" width="150" height="50" rx="5" fill="#f4f6f8" stroke="#6b7a8a"/>
+  <text x="360" y="256" text-anchor="middle" font-size="11" font-weight="bold" fill="#22303f">资源表述</text>
+  <text x="360" y="274" text-anchor="middle" font-size="10" fill="#6b7a8a">JSON / XML / HTML</text>
+  <line x1="460" y1="260" x2="446" y2="260" stroke="#6b7a8a" stroke-width="1.5" fill="none"/>
+  <polygon points="438,260 446,255.5 446,264.5" fill="#6b7a8a"/>
+  <line x1="285" y1="260" x2="271" y2="260" stroke="#6b7a8a" stroke-width="1.5" fill="none"/>
+  <polygon points="263,260 271,255.5 271,264.5" fill="#6b7a8a"/>
+  <rect x="85" y="345" width="550" height="34" rx="6" fill="#f3f6ee" stroke="#8aa15c"/>
+  <text x="360" y="367" text-anchor="middle" font-size="11" fill="#4a6130">传输的是资源某时刻的表述；REST 是架构设计风格，不是具体协议</text>
+</svg></div><div class="cap">REST资源、表述与状态转移</div></div>
+<h3>15.5 SOA 设计的标准要求</h3>
+<ul><li><b>文档标准化</b>：服务用平台独立、自描述的 XML 文档表达，WSDL 是标准描述语言。</li><li><b>通信协议标准</b>：服务以消息通信，消息通常用 XML Schema（XSD）定义。</li><li><b>统一登记与集成</b>：通过 Registry 维护服务目录，应用查找并调用服务，UDDI 是登记标准。</li><li><b>服务质量（QoS）</b>：基础三协议不足以覆盖企业级安全、可靠、事务等高级需求，需要 WS-* 规范补充。</li></ul>
+<table><colgroup><col style="width:15.8%"><col style="width:45.6%"><col style="width:38.6%"></colgroup><thead><tr><th>QoS 方面</th><th>关键要求</th><th>对应规范/技术</th></tr></thead><tbody><tr><td class="tc">可靠性</td><td>保证传送、仅一次/最多一次、重复消息过滤</td><td>WS-Reliability、WS-ReliableMessaging</td></tr><tr><td class="tc">安全性</td><td>认证交换、消息完整性、消息保密</td><td>Web 服务安全规范，可结合 SAML</td></tr><tr><td class="tc">策略</td><td>以策略断言表达调用要求，一项策略可含多个断言</td><td>WS-Policy</td></tr><tr><td class="tc">控制</td><td>编排离散服务，规范异步、并行、转换与校正</td><td>BPEL4WS/WSBPEL</td></tr><tr><td class="tc">管理</td><td>跨环境统一管理不断增长的服务与流程</td><td>WSDM</td></tr><tr><td class="tc">协调与事务</td><td>合作方协调、多服务事务</td><td>WS-Coordination、WS-Transaction</td></tr></tbody></table>
+<h3>15.6 SOA 的作用</h3>
+<p>⭐【重点】SOA 的核心价值是<b>消除信息孤岛、复用既有资产、让 IT 与业务同步</b>，不是简单把技术换成 Web Service。</p>
+<ul><li><b>点对点 EAI 的困境</b>：每两个应用都要适配，连接数量按 n(n-1)/2 增长；应用越多，「翻译」越多，维护和复用困难。</li><li><b>SOA 两步法</b>：①把应用和资源转换成服务；②把服务标准化，形成资源共享。</li><li><b>业务收益</b>：以模块化方式新增或更新服务，多渠道提供能力，保护已有 IT 投资，快速响应业务变化。</li></ul>
+<div class="example">举例：零售商更换制造商时，只要双方仍遵循相同 WSDL 接口和服务级协定，就可保留内部系统，只调整外部合作伙伴连接，无需整体重构。</div>
+<h3>15.7 SOA 的设计原则 ⭐【重点】【高频考点】</h3>
+<table><colgroup><col style="width:20.5%"><col style="width:49.3%"><col style="width:30.1%"></colgroup><thead><tr><th>原则</th><th>必须理解的含义</th><th>设计提醒</th></tr></thead><tbody><tr><td>无状态</td><td>请求不依赖提供者保存的前次调用状态</td><td>请求消息带齐本次处理所需信息</td></tr><tr><td>单一实例</td><td>同一功能避免重复建设</td><td>不是限制系统只能部署一个运行副本</td></tr><tr><td>明确定义的接口</td><td>WSDL 划清公共接口与私有实现，Schema 定义消息，WS-Policy 描述规约</td><td>接口发布后应长期稳定，不暴露私有数据</td></tr><tr><td>自包含和模块化</td><td>服务独立部署、版本控制、自我管理和恢复</td><td>封装稳定、重复出现的业务活动</td></tr><tr><td>粗粒度</td><td>一次消息完成较完整业务，交互频次较低</td><td>不是绝对越粗越好，要控制边界与数量</td></tr><tr><td>松耦合</td><td>位置、实现技术、当前状态和私有数据对调用者透明</td><td>依赖契约而非内部实现</td></tr><tr><td>重用能力</td><td>服务可被多个流程和消费者复用</td><td>复用要靠通用边界与标准契约</td></tr><tr><td>互操作、兼容和策略声明</td><td>明确安全、费用、服务级别等技术与业务语义</td><td>用 WS-Policy 声明期望、约束和行为</td></tr></tbody></table>
+<div class="mnemonic">助记：「无单明自粗，松重互策略」——无状态、单一实例、明确接口、自包含、粗粒度、松耦合、重用、互操作与策略。</div>
+<h3>15.8 SOA 的设计模式</h3>
+<h3>15.8.1 服务注册表模式</h3>
+<p>服务注册表管理服务合同、策略和元数据，是服务注册与发现的主控制点/策略执行点（PEP）；UDDI 是一种主要注册环境，但不是唯一实现。</p>
+<ul><li><b>服务注册</b>：提供者发布身份、位置、方法、绑定、配置、方案和策略，并控制谁发布、谁审批。</li><li><b>服务位置</b>：消费者检索合同，注册表控制访问者和可见属性。</li><li><b>服务绑定</b>：消费者依据合同开发调用代码，绑定相应协议与接口。</li><li><b>配置文件管理</b>：为开发、质量保证、生产等生命周期阶段维护不同机器和参数，服务晋级时切换配置文件并执行审查。</li></ul>
+<h3>15.8.2 企业服务总线模式 ⭐【重点】</h3>
+<p>典型过程：请求者产生并标准化消息 → ESB 按服务名或接口名查找目的组件 → 路由消息并转换数据/协议 → 目的服务处理 → 结果逆向返回。交互由直接点对点转为<b>事件驱动的消息交互</b>，实现位置透明与协议透明。</p>
+<table><colgroup><col style="width:46.4%"><col style="width:53.6%"></colgroup><thead><tr><th>ESB 核心功能</th><th>记忆要点</th></tr></thead><tbody><tr><td>消息路由和寻址</td><td>提供位置透明性</td></tr><tr><td>服务注册和命名管理</td><td>知道服务是谁、在哪里</td></tr><tr><td>多种消息传递范型</td><td>请求/响应、发布/订阅等</td></tr><tr><td>多种传输协议</td><td>屏蔽异构通信方式</td></tr><tr><td>多数据格式及转换</td><td>让不同数据表达互相理解</td></tr><tr><td>日志和监控</td><td>支撑可管理与问题追踪</td></tr></tbody></table>
+<div class="fig"><div><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 390" font-family="Microsoft YaHei, 微软雅黑, sans-serif">
+  <text x="360" y="30" text-anchor="middle" font-size="17" font-weight="bold" fill="#1f4e79">ESB：以服务单元连接企业应用与数据</text>
+  <rect x="20" y="55" width="120" height="70" rx="6" fill="#eaf1f8" stroke="#1f4e79"/>
+  <rect x="158" y="55" width="120" height="70" rx="6" fill="#eaf1f8" stroke="#1f4e79"/>
+  <rect x="296" y="55" width="120" height="70" rx="6" fill="#eaf1f8" stroke="#1f4e79"/>
+  <rect x="434" y="55" width="120" height="70" rx="6" fill="#eaf1f8" stroke="#1f4e79"/>
+  <rect x="572" y="55" width="120" height="70" rx="6" fill="#eaf1f8" stroke="#1f4e79"/>
+  <text x="80" y="82" text-anchor="middle" font-size="11" font-weight="bold" fill="#22303f">User Interaction</text>
+  <text x="80" y="103" text-anchor="middle" font-size="11" fill="#22303f">用户交互服务</text>
+  <text x="218" y="82" text-anchor="middle" font-size="11" font-weight="bold" fill="#22303f">Application</text>
+  <text x="218" y="103" text-anchor="middle" font-size="11" fill="#22303f">应用服务</text>
+  <text x="356" y="82" text-anchor="middle" font-size="11" font-weight="bold" fill="#22303f">Information</text>
+  <text x="356" y="103" text-anchor="middle" font-size="11" fill="#22303f">信息服务</text>
+  <text x="494" y="82" text-anchor="middle" font-size="11" font-weight="bold" fill="#22303f">Process</text>
+  <text x="494" y="103" text-anchor="middle" font-size="11" fill="#22303f">流程服务</text>
+  <text x="632" y="78" text-anchor="middle" font-size="10" font-weight="bold" fill="#22303f">Community</text>
+  <text x="632" y="94" text-anchor="middle" font-size="10" font-weight="bold" fill="#22303f">Integration</text>
+  <text x="632" y="113" text-anchor="middle" font-size="10" fill="#22303f">伙伴集成服务</text>
+  <rect x="60" y="190" width="600" height="50" rx="7" fill="#1f4e79" stroke="#1f4e79"/>
+  <text x="360" y="220" text-anchor="middle" font-size="15" font-weight="bold" fill="#ffffff">Enterprise Service Bus · 标准消息 · 路由寻址 · 数据与协议转换</text>
+  <line x1="80" y1="125" x2="80" y2="182" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="80,187 75.5,179 84.5,179" fill="#1f4e79"/>
+  <line x1="218" y1="125" x2="218" y2="182" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="218,187 213.5,179 222.5,179" fill="#1f4e79"/>
+  <line x1="356" y1="125" x2="356" y2="182" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="356,187 351.5,179 360.5,179" fill="#1f4e79"/>
+  <line x1="494" y1="125" x2="494" y2="182" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="494,187 489.5,179 498.5,179" fill="#1f4e79"/>
+  <line x1="632" y1="125" x2="632" y2="182" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="632,187 627.5,179 636.5,179" fill="#1f4e79"/>
+  <rect x="160" y="300" width="170" height="50" rx="6" fill="#f3f6ee" stroke="#8aa15c" stroke-width="1.5"/>
+  <rect x="390" y="300" width="170" height="50" rx="6" fill="#f3f6ee" stroke="#8aa15c" stroke-width="1.5"/>
+  <text x="245" y="330" text-anchor="middle" font-size="13" font-weight="bold" fill="#4a6130">Enterprise Application</text>
+  <text x="475" y="330" text-anchor="middle" font-size="13" font-weight="bold" fill="#4a6130">Enterprise Data</text>
+  <line x1="245" y1="240" x2="245" y2="292" stroke="#8aa15c" stroke-width="1.5" fill="none"/>
+  <polygon points="245,297 240.5,289 249.5,289" fill="#8aa15c"/>
+  <line x1="475" y1="240" x2="475" y2="292" stroke="#8aa15c" stroke-width="1.5" fill="none"/>
+  <polygon points="475,297 470.5,289 479.5,289" fill="#8aa15c"/>
+  <text x="360" y="377" text-anchor="middle" font-size="11" fill="#6b7a8a">组件只面向总线发送标准消息，无需了解其他组件的位置与交互协议</text>
+</svg></div><div class="cap">ESB连接各类服务与企业资产（教材图15-6重绘）</div></div>
+<h3>15.8.3 SynchroESB 案例</h3>
+<p>SynchroESB 以 ESB 为底层，采用<b>分布式架构、集中式管理、事件驱动</b>，支持粗粒度可复用组件和可视化流程构建。自下而上为：服务总线层 → 数据转换与适配器层 → 流程整合层 → 用户交互层。</p>
+<div class="fig"><div><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 410" font-family="Microsoft YaHei, 微软雅黑, sans-serif">
+  <text x="360" y="30" text-anchor="middle" font-size="17" font-weight="bold" fill="#1f4e79">SynchroESB 四层结构：分布式接入，集中式管理</text>
+  <rect x="40" y="55" width="170" height="65" rx="6" fill="#fdf0e6" stroke="#c05621" stroke-width="1.5"/>
+  <text x="125" y="82" text-anchor="middle" font-size="13" font-weight="bold" fill="#c05621">用户交互 /</text>
+  <text x="125" y="103" text-anchor="middle" font-size="13" font-weight="bold" fill="#c05621">应用工具层</text>
+  <rect x="230" y="55" width="450" height="65" rx="6" fill="#fdf0e6" stroke="#c05621" stroke-width="1.5"/>
+  <rect x="255" y="72" width="190" height="32" rx="4" fill="#ffffff" stroke="#c05621"/>
+  <rect x="465" y="72" width="190" height="32" rx="4" fill="#ffffff" stroke="#c05621"/>
+  <text x="350" y="93" text-anchor="middle" font-size="11" fill="#22303f">Process Orchestration 流程编排</text>
+  <text x="560" y="93" text-anchor="middle" font-size="11" fill="#22303f">ESB 集中管理</text>
+  <rect x="40" y="135" width="170" height="65" rx="6" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.5"/>
+  <text x="125" y="162" text-anchor="middle" font-size="13" font-weight="bold" fill="#1f4e79">流程整合 /</text>
+  <text x="125" y="183" text-anchor="middle" font-size="13" font-weight="bold" fill="#1f4e79">流程控制层</text>
+  <rect x="230" y="135" width="450" height="65" rx="6" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.5"/>
+  <text x="455" y="163" text-anchor="middle" font-size="13" font-weight="bold" fill="#22303f">连接应用系统 · 协同工作</text>
+  <text x="455" y="185" text-anchor="middle" font-size="11" fill="#6b7a8a">流程设计 · 流程监控 · 流程规划</text>
+  <rect x="40" y="215" width="170" height="65" rx="6" fill="#f3f6ee" stroke="#8aa15c" stroke-width="1.5"/>
+  <text x="125" y="242" text-anchor="middle" font-size="13" font-weight="bold" fill="#4a6130">数据转换与</text>
+  <text x="125" y="263" text-anchor="middle" font-size="13" font-weight="bold" fill="#4a6130">适配器层</text>
+  <rect x="230" y="215" width="450" height="65" rx="6" fill="#f3f6ee" stroke="#8aa15c" stroke-width="1.5"/>
+  <rect x="255" y="232" width="190" height="32" rx="4" fill="#ffffff" stroke="#8aa15c"/>
+  <rect x="465" y="232" width="190" height="32" rx="4" fill="#ffffff" stroke="#8aa15c"/>
+  <text x="350" y="253" text-anchor="middle" font-size="12" fill="#22303f">适配器 · 应用接入</text>
+  <text x="560" y="253" text-anchor="middle" font-size="12" fill="#22303f">数据转换 · 接口映射</text>
+  <rect x="40" y="295" width="170" height="65" rx="6" fill="#1f4e79" stroke="#1f4e79" stroke-width="1.5"/>
+  <text x="125" y="335" text-anchor="middle" font-size="14" font-weight="bold" fill="#ffffff">服务总线层</text>
+  <rect x="230" y="295" width="450" height="65" rx="6" fill="#1f4e79" stroke="#1f4e79" stroke-width="1.5"/>
+  <text x="455" y="323" text-anchor="middle" font-size="14" font-weight="bold" fill="#ffffff">ESB · JMS · 事件驱动消息</text>
+  <text x="455" y="346" text-anchor="middle" font-size="11" fill="#eaf1f8">为整个 EAI 应用环境提供底层支持</text>
+  <text x="360" y="392" text-anchor="middle" font-size="11" fill="#6b7a8a">自下而上：总线支撑 → 异构接入 → 流程协同 → 统一信息入口</text>
+</svg></div><div class="cap">SynchroESB层次结构（教材图15-7重绘）</div></div>
+<h3>15.8.4 微服务模式 ⭐【高频考点】</h3>
+<p>微服务围绕业务领域拆分应用，每个服务独立开发、测试、部署、管理和迭代，主要收益有：复杂应用解耦、独立发布、技术选型灵活、故障隔离与容错、按需独立扩展。</p>
+<div class="fig"><div><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 390" font-family="Microsoft YaHei, 微软雅黑, sans-serif">
+  <text x="360" y="30" text-anchor="middle" font-size="17" font-weight="bold" fill="#1f4e79">单体架构与微服务架构：整体部署 vs 独立部署</text>
+  <rect x="35" y="55" width="280" height="285" rx="9" fill="#fdf0e6" stroke="#c05621" stroke-width="1.5"/>
+  <text x="175" y="79" text-anchor="middle" font-size="15" font-weight="bold" fill="#c05621">单体应用架构</text>
+  <rect x="95" y="94" width="160" height="35" rx="5" fill="#ffffff" stroke="#c05621"/>
+  <text x="175" y="117" text-anchor="middle" font-size="12" fill="#22303f">统一展示层</text>
+  <rect x="95" y="145" width="160" height="35" rx="5" fill="#ffffff" stroke="#c05621"/>
+  <rect x="95" y="190" width="160" height="35" rx="5" fill="#ffffff" stroke="#c05621"/>
+  <rect x="95" y="235" width="160" height="35" rx="5" fill="#ffffff" stroke="#c05621"/>
+  <text x="175" y="168" text-anchor="middle" font-size="12" fill="#22303f">服务 A（同一应用）</text>
+  <text x="175" y="213" text-anchor="middle" font-size="12" fill="#22303f">服务 B（同一应用）</text>
+  <text x="175" y="258" text-anchor="middle" font-size="12" fill="#22303f">服务 C（同一应用）</text>
+  <rect x="95" y="288" width="160" height="35" rx="5" fill="#ffffff" stroke="#c05621"/>
+  <text x="175" y="311" text-anchor="middle" font-size="12" fill="#22303f">共享数据库</text>
+  <rect x="355" y="55" width="330" height="285" rx="9" fill="#f3f6ee" stroke="#8aa15c" stroke-width="1.5"/>
+  <text x="520" y="79" text-anchor="middle" font-size="15" font-weight="bold" fill="#4a6130">微服务架构</text>
+  <rect x="375" y="95" width="60" height="35" rx="4" fill="#ffffff" stroke="#8aa15c"/>
+  <rect x="455" y="95" width="60" height="35" rx="4" fill="#ffffff" stroke="#8aa15c"/>
+  <rect x="535" y="95" width="60" height="35" rx="4" fill="#ffffff" stroke="#8aa15c"/>
+  <rect x="615" y="95" width="60" height="35" rx="4" fill="#ffffff" stroke="#8aa15c"/>
+  <text x="405" y="117" text-anchor="middle" font-size="11" fill="#22303f">展示层</text>
+  <text x="485" y="117" text-anchor="middle" font-size="11" fill="#22303f">展示层</text>
+  <text x="565" y="117" text-anchor="middle" font-size="11" fill="#22303f">展示层</text>
+  <text x="645" y="117" text-anchor="middle" font-size="11" fill="#22303f">展示层</text>
+  <rect x="375" y="160" width="60" height="55" rx="4" fill="#ffffff" stroke="#8aa15c"/>
+  <rect x="455" y="160" width="60" height="55" rx="4" fill="#ffffff" stroke="#8aa15c"/>
+  <rect x="535" y="160" width="60" height="55" rx="4" fill="#ffffff" stroke="#8aa15c"/>
+  <rect x="615" y="160" width="60" height="55" rx="4" fill="#ffffff" stroke="#8aa15c"/>
+  <text x="405" y="184" text-anchor="middle" font-size="12" font-weight="bold" fill="#22303f">服务 A</text>
+  <text x="485" y="184" text-anchor="middle" font-size="12" font-weight="bold" fill="#22303f">服务 B</text>
+  <text x="565" y="184" text-anchor="middle" font-size="12" font-weight="bold" fill="#22303f">服务 C</text>
+  <text x="645" y="184" text-anchor="middle" font-size="12" font-weight="bold" fill="#22303f">服务 D</text>
+  <text x="405" y="202" text-anchor="middle" font-size="9" fill="#4a6130">独立进程</text>
+  <text x="485" y="202" text-anchor="middle" font-size="9" fill="#4a6130">独立进程</text>
+  <text x="565" y="202" text-anchor="middle" font-size="9" fill="#4a6130">独立进程</text>
+  <text x="645" y="202" text-anchor="middle" font-size="9" fill="#4a6130">独立进程</text>
+  <rect x="375" y="255" width="60" height="40" rx="4" fill="#ffffff" stroke="#8aa15c"/>
+  <rect x="455" y="255" width="60" height="40" rx="4" fill="#ffffff" stroke="#8aa15c"/>
+  <rect x="535" y="255" width="60" height="40" rx="4" fill="#ffffff" stroke="#8aa15c"/>
+  <rect x="615" y="255" width="60" height="40" rx="4" fill="#ffffff" stroke="#8aa15c"/>
+  <text x="405" y="279" text-anchor="middle" font-size="10" fill="#22303f">数据库 A</text>
+  <text x="485" y="279" text-anchor="middle" font-size="10" fill="#22303f">数据库 B</text>
+  <text x="565" y="279" text-anchor="middle" font-size="10" fill="#22303f">数据库 C</text>
+  <text x="645" y="279" text-anchor="middle" font-size="10" fill="#22303f">数据库 D</text>
+  <line x1="405" y1="130" x2="405" y2="152" stroke="#8aa15c" stroke-width="1.5" fill="none"/>
+  <polygon points="405,157 400.5,149 409.5,149" fill="#8aa15c"/>
+  <line x1="485" y1="130" x2="485" y2="152" stroke="#8aa15c" stroke-width="1.5" fill="none"/>
+  <polygon points="485,157 480.5,149 489.5,149" fill="#8aa15c"/>
+  <line x1="565" y1="130" x2="565" y2="152" stroke="#8aa15c" stroke-width="1.5" fill="none"/>
+  <polygon points="565,157 560.5,149 569.5,149" fill="#8aa15c"/>
+  <line x1="645" y1="130" x2="645" y2="152" stroke="#8aa15c" stroke-width="1.5" fill="none"/>
+  <polygon points="645,157 640.5,149 649.5,149" fill="#8aa15c"/>
+  <line x1="405" y1="215" x2="405" y2="247" stroke="#8aa15c" stroke-width="1.5" fill="none"/>
+  <polygon points="405,252 400.5,244 409.5,244" fill="#8aa15c"/>
+  <line x1="485" y1="215" x2="485" y2="247" stroke="#8aa15c" stroke-width="1.5" fill="none"/>
+  <polygon points="485,252 480.5,244 489.5,244" fill="#8aa15c"/>
+  <line x1="565" y1="215" x2="565" y2="247" stroke="#8aa15c" stroke-width="1.5" fill="none"/>
+  <polygon points="565,252 560.5,244 569.5,244" fill="#8aa15c"/>
+  <line x1="645" y1="215" x2="645" y2="247" stroke="#8aa15c" stroke-width="1.5" fill="none"/>
+  <polygon points="645,252 640.5,244 649.5,244" fill="#8aa15c"/>
+  <text x="175" y="366" text-anchor="middle" font-size="11" fill="#c05621">整体编译发布 · 整体扩展 · 故障易扩散</text>
+  <text x="520" y="366" text-anchor="middle" font-size="11" fill="#4a6130">独立开发部署 · 按需扩展 · 故障隔离</text>
+</svg></div><div class="cap">单体架构与微服务架构（教材图15-8重绘）</div></div>
+<table><colgroup><col style="width:14.5%"><col style="width:49.3%"><col style="width:36.2%"></colgroup><thead><tr><th>设计模式</th><th>调用方式与用途</th><th>关键限制/辨析</th></tr></thead><tbody><tr><td class="tc">聚合器</td><td>调用多个服务，聚合数据后直接展示，或加工后发布为高层组合服务</td><td>聚合器可有独立缓存和数据库</td></tr><tr><td class="tc">代理</td><td>按业务选择并委派给不同服务，只做请求委派和数据转换</td><td>是聚合器变种，不在客户端聚合业务数据</td></tr><tr><td class="tc">链式</td><td>A 调 B、B 调 C，逐级合并结果返回</td><td>同步调用会阻塞，调用链不宜过长</td></tr><tr><td class="tc">分支</td><td>同时调用两条相互独立的服务链</td><td>聚合器的扩展，两条链互不影响</td></tr><tr><td class="tc">数据共享</td><td>过渡阶段允许多个强耦合服务共享缓存或数据库</td><td>违背完全自治，只宜作为单体迁移的过渡方案</td></tr><tr><td class="tc">异步消息传递</td><td>用消息队列代替不必要的同步 REST 请求</td><td>提升响应速度，但增加复杂性并可能影响可用性</td></tr></tbody></table>
+<div class="fig"><div><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 520" font-family="Microsoft YaHei, 微软雅黑, sans-serif">
+  <text x="360" y="30" text-anchor="middle" font-size="17" font-weight="bold" fill="#1f4e79">典型微服务调用模式：聚合、链式、分支、异步</text>
+  <rect x="30" y="55" width="310" height="190" rx="8" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.5"/>
+  <text x="185" y="78" text-anchor="middle" font-size="14" font-weight="bold" fill="#1f4e79">聚合器模式</text>
+  <rect x="45" y="91" width="75" height="34" rx="4" fill="#ffffff" stroke="#1f4e79"/>
+  <rect x="155" y="91" width="150" height="34" rx="4" fill="#ffffff" stroke="#1f4e79"/>
+  <text x="82" y="113" text-anchor="middle" font-size="11" fill="#22303f">客户端</text>
+  <text x="230" y="113" text-anchor="middle" font-size="11" fill="#22303f">聚合器 / 组合服务</text>
+  <line x1="120" y1="108" x2="147" y2="108" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="152,108 144,103.5 144,112.5" fill="#1f4e79"/>
+  <rect x="45" y="165" width="80" height="38" rx="4" fill="#ffffff" stroke="#1f4e79"/>
+  <rect x="145" y="165" width="80" height="38" rx="4" fill="#ffffff" stroke="#1f4e79"/>
+  <rect x="245" y="165" width="80" height="38" rx="4" fill="#ffffff" stroke="#1f4e79"/>
+  <text x="85" y="189" text-anchor="middle" font-size="11" fill="#22303f">服务 A</text>
+  <text x="185" y="189" text-anchor="middle" font-size="11" fill="#22303f">服务 B</text>
+  <text x="285" y="189" text-anchor="middle" font-size="11" fill="#22303f">服务 C</text>
+  <line x1="180" y1="125" x2="180" y2="140" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <line x1="180" y1="140" x2="85" y2="140" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <line x1="85" y1="140" x2="85" y2="157" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="85,162 80.5,154 89.5,154" fill="#1f4e79"/>
+  <line x1="230" y1="125" x2="230" y2="140" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <line x1="230" y1="140" x2="185" y2="140" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <line x1="185" y1="140" x2="185" y2="157" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="185,162 180.5,154 189.5,154" fill="#1f4e79"/>
+  <line x1="280" y1="125" x2="280" y2="140" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <line x1="280" y1="140" x2="285" y2="140" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <line x1="285" y1="140" x2="285" y2="157" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="285,162 280.5,154 289.5,154" fill="#1f4e79"/>
+  <text x="185" y="228" text-anchor="middle" font-size="10" fill="#6b7a8a">调用多个服务并合并结果，可再发布为高层服务</text>
+  <rect x="380" y="55" width="310" height="190" rx="8" fill="#fdf0e6" stroke="#c05621" stroke-width="1.5"/>
+  <text x="535" y="78" text-anchor="middle" font-size="14" font-weight="bold" fill="#c05621">链式模式</text>
+  <rect x="392" y="105" width="62" height="45" rx="4" fill="#ffffff" stroke="#c05621"/>
+  <rect x="474" y="105" width="62" height="45" rx="4" fill="#ffffff" stroke="#c05621"/>
+  <rect x="556" y="105" width="52" height="45" rx="4" fill="#ffffff" stroke="#c05621"/>
+  <rect x="628" y="105" width="52" height="45" rx="4" fill="#ffffff" stroke="#c05621"/>
+  <text x="423" y="132" text-anchor="middle" font-size="10" fill="#22303f">客户端</text>
+  <text x="505" y="132" text-anchor="middle" font-size="11" fill="#22303f">服务 A</text>
+  <text x="582" y="132" text-anchor="middle" font-size="11" fill="#22303f">服务 B</text>
+  <text x="654" y="132" text-anchor="middle" font-size="11" fill="#22303f">服务 C</text>
+  <line x1="454" y1="127" x2="466" y2="127" stroke="#c05621" stroke-width="1.5" fill="none"/>
+  <polygon points="471,127 463,122.5 463,131.5" fill="#c05621"/>
+  <line x1="536" y1="127" x2="548" y2="127" stroke="#c05621" stroke-width="1.5" fill="none"/>
+  <polygon points="553,127 545,122.5 545,131.5" fill="#c05621"/>
+  <line x1="608" y1="127" x2="620" y2="127" stroke="#c05621" stroke-width="1.5" fill="none"/>
+  <polygon points="625,127 617,122.5 617,131.5" fill="#c05621"/>
+  <text x="535" y="181" text-anchor="middle" font-size="11" fill="#c05621">同步调用 · 逐级合并响应</text>
+  <text x="535" y="204" text-anchor="middle" font-size="10" fill="#6b7a8a">调用完成前持续阻塞，链不宜过长</text>
+  <text x="535" y="226" text-anchor="middle" font-size="10" fill="#6b7a8a">响应逐级返回上游</text>
+  <rect x="30" y="275" width="310" height="210" rx="8" fill="#f3f6ee" stroke="#8aa15c" stroke-width="1.5"/>
+  <text x="185" y="299" text-anchor="middle" font-size="14" font-weight="bold" fill="#4a6130">分支模式</text>
+  <rect x="45" y="315" width="75" height="34" rx="4" fill="#ffffff" stroke="#8aa15c"/>
+  <rect x="155" y="315" width="150" height="34" rx="4" fill="#ffffff" stroke="#8aa15c"/>
+  <text x="82" y="337" text-anchor="middle" font-size="11" fill="#22303f">客户端</text>
+  <text x="230" y="337" text-anchor="middle" font-size="11" fill="#22303f">分支服务</text>
+  <line x1="120" y1="332" x2="147" y2="332" stroke="#8aa15c" stroke-width="1.5" fill="none"/>
+  <polygon points="152,332 144,327.5 144,336.5" fill="#8aa15c"/>
+  <rect x="55" y="395" width="100" height="42" rx="4" fill="#ffffff" stroke="#8aa15c"/>
+  <rect x="215" y="395" width="100" height="42" rx="4" fill="#ffffff" stroke="#8aa15c"/>
+  <text x="105" y="421" text-anchor="middle" font-size="11" fill="#22303f">服务链 A1 → A2</text>
+  <text x="265" y="421" text-anchor="middle" font-size="11" fill="#22303f">服务链 B1 → B2</text>
+  <line x1="195" y1="349" x2="195" y2="368" stroke="#8aa15c" stroke-width="1.5" fill="none"/>
+  <line x1="195" y1="368" x2="105" y2="368" stroke="#8aa15c" stroke-width="1.5" fill="none"/>
+  <line x1="105" y1="368" x2="105" y2="387" stroke="#8aa15c" stroke-width="1.5" fill="none"/>
+  <polygon points="105,392 100.5,384 109.5,384" fill="#8aa15c"/>
+  <line x1="265" y1="349" x2="265" y2="387" stroke="#8aa15c" stroke-width="1.5" fill="none"/>
+  <polygon points="265,392 260.5,384 269.5,384" fill="#8aa15c"/>
+  <text x="185" y="465" text-anchor="middle" font-size="10" fill="#4a6130">两条独立服务链可并行调用、互不影响</text>
+  <rect x="380" y="275" width="310" height="210" rx="8" fill="#f4f6f8" stroke="#6b7a8a" stroke-width="1.5"/>
+  <text x="535" y="299" text-anchor="middle" font-size="14" font-weight="bold" fill="#22303f">异步消息传递模式</text>
+  <rect x="400" y="320" width="80" height="38" rx="4" fill="#ffffff" stroke="#6b7a8a"/>
+  <rect x="510" y="315" width="150" height="48" rx="4" fill="#fdf0e6" stroke="#c05621"/>
+  <text x="440" y="344" text-anchor="middle" font-size="11" fill="#22303f">请求者</text>
+  <text x="585" y="336" text-anchor="middle" font-size="11" font-weight="bold" fill="#c05621">消息队列</text>
+  <text x="585" y="353" text-anchor="middle" font-size="9" fill="#6b7a8a">写入后立即响应</text>
+  <line x1="480" y1="339" x2="502" y2="339" stroke="#c05621" stroke-width="1.5" fill="none"/>
+  <polygon points="507,339 499,334.5 499,343.5" fill="#c05621"/>
+  <rect x="510" y="410" width="150" height="42" rx="4" fill="#ffffff" stroke="#6b7a8a"/>
+  <text x="585" y="436" text-anchor="middle" font-size="11" fill="#22303f">消费者异步处理</text>
+  <line x1="585" y1="363" x2="585" y2="402" stroke="#6b7a8a" stroke-width="1.5" fill="none"/>
+  <polygon points="585,407 580.5,399 589.5,399" fill="#6b7a8a"/>
+  <text x="535" y="474" text-anchor="middle" font-size="10" fill="#6b7a8a">削峰解耦、加快响应，但增加系统复杂性</text>
+</svg></div><div class="cap">典型微服务调用模式</div></div>
+<p><b>微服务挑战【易错】</b>：分布式通信使服务发现和调用链跟踪更困难；分区数据库受 CAP 约束，常以最终一致性替代强一致性；集成测试需准备依赖服务；监控、管理、分发、扩容成本上升。只有当架构扩展瓶颈、业务变化和组织能力匹配时，微服务收益才可能大于成本。</p>
+<h3>15.9 构建 SOA 架构时应注意的问题</h3>
+<h3>15.9.1 原有系统架构中的集成需求</h3>
+<ul><li>优先考虑<b>重用已有投资而不是替换遗留系统</b>，复用人员、语言、硬件、数据库和应用程序。</li><li>集成需求不能只看应用组件，还要全面分析：<b>应用程序集成、终端用户界面集成、流程集成、已有信息集成</b>。</li><li>能随企业演进的集成功能应由<b>服务</b>提供，而不是绑死在特定应用程序中。</li></ul>
+<h3>15.9.2 服务粒度与无状态 ⭐【高频考点】</h3>
+<table><colgroup><col style="width:13.7%"><col style="width:41.1%"><col style="width:45.2%"></colgroup><thead><tr><th>设计点</th><th>推荐做法</th><th>原因</th></tr></thead><tbody><tr><td class="tc">外部服务接口</td><td>粗粒度，如「提交购买表单」</td><td>对外提供一致、稳定、完整的业务操作，减少频繁交互和变化影响</td></tr><tr><td class="tc">内部服务接口</td><td>可相对细粒度，如创建记录、设置地址、更新数据库</td><td>便于内部实现与组合，但不宜直接暴露给外部消费者</td></tr><tr><td class="tc">细粒度组合</td><td>用 BPEL 把细粒度操作编排成粗粒度流程服务</td><td>对内灵活，对外稳定</td></tr><tr><td class="tc">无状态服务</td><td>每次请求独立、自包含，不依赖其他服务上下文和前次状态</td><td>易于复用、伸缩与负载均衡；有依赖时优先定义为业务流程</td></tr></tbody></table>
+<p>【易错】服务接口通常包含<b>多个语义相关操作</b>；大量服务都只有单一操作，或一个服务塞入大量不相关操作，都可能说明粒度不当。无状态不等于系统没有业务数据，而是服务实例不依赖前次调用上下文。</p>
+<h3>15.10 SOA 实施的过程</h3>
+<h3>15.10.1 选择 SOA 解决方案</h3>
+<ol><li><b>全局规划</b>：评估现有系统可复用、需改造和需新建部分，规划投入、工具和演进次序。</li><li><b>符合自身需求</b>：根据 IT 资产沉淀与目标层次安排进度和投资，认识共享服务带来的长期业务价值。</li><li><b>技术考察</b>：平台看开放性和标准支持；实施看业务战略和流程、基础架构、构建模块、项目应用、成本效益、规划管理六方面；供应商看产品案例与专业服务能力。</li></ol>
+<h3>15.10.2 业务流程分析 ⭐【重点】</h3>
+<p><b>第一步：建立服务模型——三种候选服务发现方法</b></p>
+<table><colgroup><col style="width:11.9%"><col style="width:40.5%"><col style="width:47.6%"></colgroup><thead><tr><th>方法</th><th>从哪里出发</th><th>产出与价值</th></tr></thead><tbody><tr><td class="tc">自顶向下分解</td><td>业务组件模型和端到端流程，逐层分解到最小业务活动并做变化分析</td><td>活动树节点形成候选服务；按业务组件归为层次化服务目录；分离稳定与易变逻辑</td></tr><tr><td class="tc">业务目标分析</td><td>企业业务目标和 KPI，目标分解后分派给服务</td><td>形成目标服务树，叶子服务可回溯业务目标，验证并补齐候选服务</td></tr><tr><td class="tc">自底向上分析</td><td>已有系统、套装/定制应用、行业规范等资产</td><td>找重复与可复用功能，包装为服务；同时验证技术可行性</td></tr></tbody></table>
+<p><b>第二步：建立业务流程——业务对象、服务接口、流程模型</b></p>
+<table><colgroup><col style="width:19.6%"><col style="width:54.9%"><col style="width:25.5%"></colgroup><thead><tr><th>业务对象</th><th>表达内容</th><th>例子</th></tr></thead><tbody><tr><td class="tc">实体业务对象</td><td>人、地点、事物或概念，通常来自业务名词</td><td>客户、订单、物品</td></tr><tr><td class="tc">过程业务对象</td><td>处理过程或工作流任务，通常对应业务动词并依赖实体</td><td>审核订单、计算价格</td></tr><tr><td class="tc">事件业务对象</td><td>系统操作造成或产生的事件</td><td>支付完成、库存不足</td></tr></tbody></table>
+<ul><li><b>服务接口</b>：操作应语义相关，请求消息带齐处理信息；优先无状态接口，避免 setCustomerNumber() 后再靠内存状态调用 getCustomerInfo()。</li><li><b>流程模型</b>：把业务流程分解为子流程，明确组件、服务、输入输出、策略和测量；控制流连接活动与决策点，决策点按业务规则选择路线，正常与异常路径都要覆盖。</li><li><b>流程元素</b>：把任务、决策、数据引用、策略、角色及测试封装成可复用流程段，如「登录」「购物篮定价」。</li></ul>
+<div class="fig"><div><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 340" font-family="Microsoft YaHei, 微软雅黑, sans-serif">
+  <text x="360" y="30" text-anchor="middle" font-size="17" font-weight="bold" fill="#1f4e79">SOA 实施路线：方案选择 → 服务建模 → 流程建模 → 持续治理</text>
+  <rect x="20" y="65" width="155" height="200" rx="8" fill="#f4f6f8" stroke="#6b7a8a" stroke-width="1.5"/>
+  <text x="97" y="94" text-anchor="middle" font-size="14" font-weight="bold" fill="#22303f">① 选择方案</text>
+  <text x="97" y="132" text-anchor="middle" font-size="11" fill="#22303f">全局规划</text>
+  <text x="97" y="160" text-anchor="middle" font-size="11" fill="#22303f">符合自身需求</text>
+  <text x="97" y="188" text-anchor="middle" font-size="11" fill="#22303f">平台与标准</text>
+  <text x="97" y="216" text-anchor="middle" font-size="11" fill="#22303f">实施与供应商</text>
+  <text x="97" y="246" text-anchor="middle" font-size="10" fill="#6b7a8a">先盘点资产与投入</text>
+  <rect x="195" y="65" width="155" height="200" rx="8" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.5"/>
+  <text x="272" y="94" text-anchor="middle" font-size="14" font-weight="bold" fill="#1f4e79">② 建立服务模型</text>
+  <text x="272" y="132" text-anchor="middle" font-size="11" fill="#22303f">自顶向下：业务</text>
+  <text x="272" y="160" text-anchor="middle" font-size="11" fill="#22303f">目标分析：KPI</text>
+  <text x="272" y="188" text-anchor="middle" font-size="11" fill="#22303f">自底向上：资产</text>
+  <text x="272" y="216" text-anchor="middle" font-size="11" fill="#22303f">变化分析与归类</text>
+  <text x="272" y="246" text-anchor="middle" font-size="10" fill="#1f4e79">形成层次化服务目录</text>
+  <rect x="370" y="65" width="155" height="200" rx="8" fill="#f3f6ee" stroke="#8aa15c" stroke-width="1.5"/>
+  <text x="447" y="94" text-anchor="middle" font-size="14" font-weight="bold" fill="#4a6130">③ 建立业务流程</text>
+  <text x="447" y="132" text-anchor="middle" font-size="11" fill="#22303f">业务对象</text>
+  <text x="447" y="153" text-anchor="middle" font-size="10" fill="#6b7a8a">实体 / 过程 / 事件</text>
+  <text x="447" y="184" text-anchor="middle" font-size="11" fill="#22303f">语义相关服务接口</text>
+  <text x="447" y="212" text-anchor="middle" font-size="11" fill="#22303f">子流程与控制流</text>
+  <text x="447" y="246" text-anchor="middle" font-size="10" fill="#4a6130">复用流程元素</text>
+  <rect x="545" y="65" width="155" height="200" rx="8" fill="#fdf0e6" stroke="#c05621" stroke-width="1.5"/>
+  <text x="622" y="94" text-anchor="middle" font-size="14" font-weight="bold" fill="#c05621">④ 运行与优化</text>
+  <text x="622" y="132" text-anchor="middle" font-size="11" fill="#22303f">注册 · 绑定 · 部署</text>
+  <text x="622" y="160" text-anchor="middle" font-size="11" fill="#22303f">安全 · 可靠 · 事务</text>
+  <text x="622" y="188" text-anchor="middle" font-size="11" fill="#22303f">事件采集与 KPI</text>
+  <text x="622" y="216" text-anchor="middle" font-size="11" fill="#22303f">监控反馈重构流程</text>
+  <text x="622" y="246" text-anchor="middle" font-size="10" fill="#c05621">治理贯穿生命周期</text>
+  <line x1="175" y1="165" x2="187" y2="165" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="192,165 184,160.5 184,169.5" fill="#1f4e79"/>
+  <line x1="350" y1="165" x2="362" y2="165" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="367,165 359,160.5 359,169.5" fill="#1f4e79"/>
+  <line x1="525" y1="165" x2="537" y2="165" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="542,165 534,160.5 534,169.5" fill="#1f4e79"/>
+  <rect x="75" y="290" width="570" height="32" rx="6" fill="#eaf1f8" stroke="#1f4e79"/>
+  <text x="360" y="311" text-anchor="middle" font-size="11" fill="#1f4e79">三种服务发现方法互补使用；接口优先无状态，外部粗粒度、内部可细粒度</text>
+</svg></div><div class="cap">SOA实施与服务建模路线</div></div>
+<h2>三、重点与易错点</h2>
+<table><colgroup><col style="width:8.2%"><col style="width:15.0%"><col style="width:41.5%"><col style="width:35.4%"></colgroup><thead><tr><th>#</th><th>考点</th><th>必须记住的结论</th><th>易错提醒</th></tr></thead><tbody><tr><td class="tc">1</td><td class="tc">SOA 本质</td><td>服务通过中立接口和契约联系，接口独立于平台、OS、语言</td><td>SOA 是架构思想，不等于 Web Service 产品</td></tr><tr><td class="tc">2</td><td class="tc">BPEL</td><td>组合、编排、协调多个 Web 服务形成复合服务</td><td>WSDL 描述服务，BPEL 编排流程，职责不同</td></tr><tr><td class="tc">3</td><td class="tc">三阶段规范</td><td>XML/XSD/XSLT → SOAP/WSDL/UDDI → SCA/SDO/WS-Policy</td><td>XML 是数据交换基石，不是消息通信协议</td></tr><tr><td class="tc">4</td><td class="tc">参考架构</td><td>业务逻辑、控制、连接、创新优化、开发、IT 服务管理六类</td><td>ESB 属于连接服务，不是全部参考架构</td></tr><tr><td class="tc">5</td><td class="tc">ESB 定位</td><td>总线式架构模式，提供中介、路由、转换、注册和 QoS</td><td>不能把 ESB 等同某个具体中间件产品</td></tr><tr><td class="tc">6</td><td class="tc">信息服务</td><td>联邦保留原数据管理方式，复制在本地维护副本</td><td>两者都用于异构数据集成，但数据存放方式不同</td></tr><tr><td class="tc">7</td><td class="tc">事务服务</td><td>短流程常用两阶段提交，长流程一般用补偿</td><td>长流程不宜靠长期资源锁定维持 ACID</td></tr><tr><td class="tc">8</td><td class="tc">Web 服务三剑客</td><td>UDDI 找服务、WSDL 描述服务、SOAP 传消息</td><td>REST 不属于这组传统三协议</td></tr><tr><td class="tc">9</td><td class="tc">WSDL 三属性</td><td>做什么、如何访问、位于何处</td><td>port=binding+地址，portType 才是抽象操作集合</td></tr><tr><td class="tc">10</td><td class="tc">SOAP 四部分</td><td>信封、编码规则、RPC 表示、绑定</td><td>SOAP 基于 XML，不等于 HTTP 本身</td></tr><tr><td class="tc">11</td><td class="tc">REST 状态</td><td>应用状态在客户端，资源状态在服务端</td><td>一个资源可多 URI，一个 URI 只对应一种资源</td></tr><tr><td class="tc">12</td><td class="tc">SOA 作用</td><td>应用资源服务化，再标准化共享，消除信息孤岛</td><td>点对点 EAI 连接数随应用数组合式增长</td></tr><tr><td class="tc">13</td><td class="tc">服务粒度</td><td>外部推荐粗粒度，内部可细粒度，用 BPEL 组合</td><td>不是越粗或越细越好，接口操作要语义相关</td></tr><tr><td class="tc">14</td><td class="tc">无状态</td><td>请求带齐处理信息，不依赖前次调用上下文</td><td>无状态不等于没有数据库或业务状态</td></tr><tr><td class="tc">15</td><td class="tc">注册表</td><td>注册、位置查询、绑定，并管理合同、策略和元数据</td><td>UDDI 是注册环境之一，不是唯一注册表产品</td></tr><tr><td class="tc">16</td><td class="tc">微服务模式</td><td>链式同步阻塞；分支并行两链；异步用消息队列</td><td>数据共享模式只是迁移过渡，不是自治目标</td></tr><tr><td class="tc">17</td><td class="tc">微服务代价</td><td>分布式跟踪、最终一致性、测试和运维更复杂</td><td>不应脱离团队能力和业务规模盲目拆微服务</td></tr><tr><td class="tc">18</td><td class="tc">服务建模</td><td>自顶向下看业务、目标分析看 KPI、自底向上看资产</td><td>三种方法互补，候选服务还要按业务组件归类</td></tr></tbody></table>
+<h2>四、练习与真题</h2>
+<p>以下为本章自编单选模拟题，答案集中放在全章最后。</p>
+<p><b>1.</b> 从软件基本原理看，SOA 实现异构服务统一交互的关键是（ ）。</p>
+<p>A. 所有服务使用相同编程语言  B. 服务通过中立、定义良好的接口和契约联系  C. 所有系统部署在同一操作系统  D. 服务之间直接访问私有数据</p>
+<p><b>2.</b> 某企业希望把库存、支付、物流三个 Web 服务按订单流程组合成一个新的复合服务，最适合使用（ ）。</p>
+<p>A. BPEL  B. UDDI  C. XSD  D. XSLT</p>
+<p><b>3.</b> SOA 标准化阶段的「Web 服务三剑客」是（ ）。</p>
+<p>A. XML、XSD、XSLT  B. SCA、SDO、WS-Policy  C. SOAP、WSDL、UDDI  D. REST、JSON、HTTP</p>
+<p><b>4.</b> 在 IBM WebSphere 业务集成参考架构中，负责提供服务间连接、路由、转换和动态选择的是（ ）。</p>
+<p>A. 业务逻辑服务  B. 连接服务  C. 开发服务  D. IT 服务管理</p>
+<p><b>5.</b> 关于 WSDL 元素的说法，正确的是（ ）。</p>
+<p>A. portType 定义具体网络地址  B. binding 把抽象接口绑定到具体协议和数据格式  C. types 定义服务部署位置  D. message 只描述人工流程</p>
+<p><b>6.</b> 关于 REST 的理解，正确的是（ ）。</p>
+<p>A. 应用状态由服务端统一保存  B. 一个 URI 可以同时对应多种资源  C. 资源状态保存在服务端，应用状态保存在客户端  D. REST 是一种具体消息传输协议</p>
+<p><b>7.</b> 某长周期业务流程涉及多个服务，教材建议保证事务性的常用方式是（ ）。</p>
+<p>A. 始终使用两阶段提交并长期锁定资源  B. 使用补偿方法  C. 禁用所有服务调用  D. 只使用 UDDI</p>
+<p><b>8.</b> 关于 SOA 服务设计，下列做法最合理的是（ ）。</p>
+<p>A. 对外暴露大量易变细粒度操作  B. 让每次调用依赖服务实例保存的上次请求状态  C. 对外提供粗粒度接口，内部细粒度操作可用 BPEL 组合  D. 公开服务私有数据以减少消息大小</p>
+<p><b>9.</b> 服务注册表模式的三项基本治理活动是（ ）。</p>
+<p>A. 服务注册、服务位置查询、服务绑定  B. 数据复制、数据联邦、数据搜索  C. 建模、设计、实现  D. 采集、监控、虚拟化</p>
+<p><b>10.</b> 服务 A 同步调用服务 B，服务 B 再同步调用服务 C，结果逐级合并返回，且调用完成前客户端一直等待。该模式是（ ）。</p>
+<p>A. 分支微服务  B. 链式微服务  C. 异步消息传递微服务  D. 数据共享微服务</p>
+<p><b>11.</b> 某团队通过盘点已有系统功能目录，找出多个系统重复实现且可复用的模块并包装成服务。这种服务建模方法是（ ）。</p>
+<p>A. 自顶向下分解法  B. 业务目标分析法  C. 自底向上分析法  D. 事件发现法</p>
+<p><b>12.</b> 关于微服务架构的收益与代价，下列说法正确的是（ ）。</p>
+<p>A. 微服务能消除分布式系统全部复杂性  B. 服务独立部署意味着不再需要集成测试  C. 分区数据库常需以最终一致性替代强一致性，并加强链路追踪与运维  D. 任何小型稳定系统都应立即拆成微服务</p>
+<h2>五、疑问与查漏补缺</h2>
+<ol><li><b>大纲要求但教材未充分展开</b>：①REST 只介绍资源、表述、状态转移和超链接，未系统展开统一接口、无缓存等完整约束，考试按教材四概念作答即可；②SCA/SDO、SAML、WSDM 等多为名称与定位，案例若要求落地细节需查对应标准；③微服务治理只提出挑战，限流、熔断、服务网格等可结合第 14 章补充。</li><li><b>教材笔误或易误读处</b>：①表 15-1 标题写成「可修改性质量属性场景描述」，实际内容是国内 SOA 实施现状，应按上下文理解；②图 15-7 的「应用工具层、流程控制层」与正文「用户交互层、流程整合层」命名不完全一致，复习掌握四层职责对应关系；③图 15-8 右图应为微服务架构，文本提取中左右标题重复，不能据此误判；④15.4.4 先说 REST 是架构风格，后说「不是架构」，应理解为<b>不是某个具体系统架构或协议，而是一组设计约束/风格</b>；⑤UDDI 全称在不同段落出现「定义/发现」差异，按通行表述记「统一描述、发现和集成」；⑥SOAP 的 Envelop 应为 Envelope，Protocal 应为 Protocol。</li><li><b>与其他章节衔接</b>：微服务原则、容器与服务网格对照第 14 章；短流程事务、CAP 和最终一致性对照第 6 章数据库及第 14 章分布式事务；SOA 安全、WS-Policy、SAML 与第 4、18 章安全机制衔接；服务候选者识别可复用第 7、8 章架构设计与质量属性评估方法。</li><li><b>案例答题补充</b>：若题干强调「统一接入异构遗留系统、集中路由转换」，优先答 SOA+ESB；若强调「独立交付、按服务扩缩容、团队自治」，优先答微服务，同时补充去中心化治理、可观测性和数据一致性成本，避免把两者写成绝对对立。</li></ol>
+<h2>六、参考答案</h2>
+<p><b>1.</b> <b>B</b>。SOA 依靠平台、操作系统和语言中立的服务接口与契约实现统一交互。</p>
+<p><b>2.</b> <b>A</b>。BPEL 用于组合、编排和协调多个 Web 服务，形成可执行的复合业务流程。</p>
+<p><b>3.</b> <b>C</b>。SOAP 管通信、WSDL 管描述、UDDI 管注册发现，是标准化阶段三项核心规范。</p>
+<p><b>4.</b> <b>B</b>。连接服务以 ESB 为核心，提供路由、转换、发现、匹配和选择等中介能力。</p>
+<p><b>5.</b> <b>B</b>。binding 规定 portType 如何映射到具体协议与数据格式，port 再叠加网络地址。</p>
+<p><b>6.</b> <b>C</b>。REST 中资源状态在服务端，应用状态在客户端；一个 URI 只对应一种资源。</p>
+<p><b>7.</b> <b>B</b>。短流程常用两阶段提交，长流程通常以补偿机制处理事务失败。</p>
+<p><b>8.</b> <b>C</b>。外部粗粒度接口更稳定，内部细粒度操作可由 BPEL 编排成完整业务服务。</p>
+<p><b>9.</b> <b>A</b>。提供者注册、消费者定位并依据合同绑定，是注册表治理的基本闭环。</p>
+<p><b>10.</b> <b>B</b>。链式模式逐级同步调用并合并响应，链过长会导致客户端长时间阻塞。</p>
+<p><b>11.</b> <b>C</b>。自底向上分析从遗留资产中发现重复、可复用功能并验证服务实现可行性。</p>
+<p><b>12.</b> <b>C</b>。微服务带来独立部署和扩展收益，也引入最终一致性、测试、追踪及运维挑战。</p>
+<div class="footer">第15章 面向服务架构设计理论与实践 · A4 打印版 · 由 README.md 统一生成</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 360" font-family="Microsoft YaHei, 微软雅黑, sans-serif">
+  <text x="360" y="32" text-anchor="middle" font-size="20" font-weight="bold" fill="#1f4e79">架构演化三要素与波及效应</text>
+  <rect x="35" y="70" width="190" height="120" rx="8" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.5"/>
+  <text x="130" y="103" text-anchor="middle" font-size="18" font-weight="bold" fill="#1f4e79">组件</text>
+  <text x="130" y="130" text-anchor="middle" font-size="14" fill="#22303f">计算、存储、模块</text>
+  <text x="130" y="157" text-anchor="middle" font-size="14" fill="#22303f">增 / 删 / 改模块</text>
+  <line x1="225" y1="130" x2="259" y2="130" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="267,130 259,125.5 259,134.5" fill="#1f4e79"/>
+  <rect x="270" y="70" width="180" height="120" rx="8" fill="#fdf0e6" stroke="#c05621" stroke-width="1.5"/>
+  <text x="360" y="103" text-anchor="middle" font-size="18" font-weight="bold" fill="#c05621">连接件</text>
+  <text x="360" y="130" text-anchor="middle" font-size="14" fill="#22303f">组件间交互关系</text>
+  <text x="360" y="157" text-anchor="middle" font-size="14" fill="#22303f">增 / 删 / 改消息</text>
+  <line x1="450" y1="130" x2="484" y2="130" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="492,130 484,125.5 484,134.5" fill="#1f4e79"/>
+  <rect x="495" y="70" width="190" height="120" rx="8" fill="#f3f6ee" stroke="#8aa15c" stroke-width="1.5"/>
+  <text x="590" y="103" text-anchor="middle" font-size="18" font-weight="bold" fill="#4a6130">约束</text>
+  <text x="590" y="130" text-anchor="middle" font-size="14" fill="#22303f">拓扑、配置、参数</text>
+  <text x="590" y="157" text-anchor="middle" font-size="14" fill="#22303f">增 / 删 / 改约束数据</text>
+  <text x="360" y="222" text-anchor="middle" font-size="15" font-weight="bold" fill="#6b7a8a">一次变更可能产生直接与间接影响</text>
+  <rect x="35" y="245" width="200" height="75" rx="7" fill="#fdf0e6" stroke="#c05621"/>
+  <text x="135" y="275" text-anchor="middle" font-size="15" font-weight="bold" fill="#c05621">直接受影响元素</text>
+  <text x="135" y="301" text-anchor="middle" font-size="13" fill="#22303f">被显式增删改</text>
+  <rect x="260" y="245" width="200" height="75" rx="7" fill="#fdf0e6" stroke="#c05621"/>
+  <text x="360" y="275" text-anchor="middle" font-size="15" font-weight="bold" fill="#c05621">受波及元素</text>
+  <text x="360" y="301" text-anchor="middle" font-size="13" fill="#22303f">依赖与交互间接受影响</text>
+  <rect x="485" y="245" width="200" height="75" rx="7" fill="#eaf1f8" stroke="#6b7a8a"/>
+  <text x="585" y="275" text-anchor="middle" font-size="15" font-weight="bold" fill="#1f4e79">未受影响元素</text>
+  <text x="585" y="301" text-anchor="middle" font-size="13" fill="#22303f">共同组成演化后架构</text>
+</svg>

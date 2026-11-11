@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 390" font-family="Microsoft YaHei, 微软雅黑, sans-serif">
+  <text x="360" y="26" text-anchor="middle" font-size="17" font-weight="bold" fill="#1f4e79">CSF、SST、BSP 三种总体规划方法</text>
+  <rect x="25" y="50" width="210" height="292" rx="8" fill="#fbfdff" stroke="#c05621" stroke-width="1.5"/>
+  <text x="130" y="80" text-anchor="middle" font-size="16" font-weight="bold" fill="#c05621">CSF 关键成功因素法</text>
+  <rect x="48" y="102" width="164" height="48" rx="5" fill="#fdf0e6" stroke="#c05621"/>
+  <text x="130" y="131" text-anchor="middle" font-size="12" fill="#22303f">组织目标</text>
+  <line x1="130" y1="150" x2="130" y2="177" stroke="#c05621" stroke-width="1.4" fill="none"/>
+  <polygon points="130,185 125.5,177 134.5,177" fill="#c05621"/>
+  <rect x="48" y="188" width="164" height="56" rx="5" fill="#fdf0e6" stroke="#c05621"/>
+  <text x="130" y="211" text-anchor="middle" font-size="12" fill="#22303f">识别关键因素</text>
+  <text x="130" y="230" text-anchor="middle" font-size="10" fill="#22303f">与性能指标</text>
+  <line x1="130" y1="244" x2="130" y2="271" stroke="#c05621" stroke-width="1.4" fill="none"/>
+  <polygon points="130,279 125.5,271 134.5,271" fill="#c05621"/>
+  <rect x="48" y="282" width="164" height="42" rx="5" fill="#c05621" stroke="#c05621"/>
+  <text x="130" y="307" text-anchor="middle" font-size="11" fill="#ffffff">关键信息 · 开发优先级</text>
+  <rect x="255" y="50" width="210" height="292" rx="8" fill="#fbfdff" stroke="#4a6130" stroke-width="1.5"/>
+  <text x="360" y="80" text-anchor="middle" font-size="16" font-weight="bold" fill="#4a6130">SST 战略目标集转化法</text>
+  <rect x="278" y="102" width="164" height="48" rx="5" fill="#f3f6ee" stroke="#4a6130"/>
+  <text x="360" y="123" text-anchor="middle" font-size="12" fill="#22303f">使命 · 目标 · 战略</text>
+  <text x="360" y="141" text-anchor="middle" font-size="10" fill="#22303f">战略信息集合</text>
+  <line x1="360" y1="150" x2="360" y2="177" stroke="#4a6130" stroke-width="1.4" fill="none"/>
+  <polygon points="360,185 355.5,177 364.5,177" fill="#4a6130"/>
+  <rect x="278" y="188" width="164" height="56" rx="5" fill="#f3f6ee" stroke="#4a6130"/>
+  <text x="360" y="211" text-anchor="middle" font-size="12" fill="#22303f">结构化转化</text>
+  <text x="360" y="230" text-anchor="middle" font-size="10" fill="#22303f">反映多方要求与分层</text>
+  <line x1="360" y1="244" x2="360" y2="271" stroke="#4a6130" stroke-width="1.4" fill="none"/>
+  <polygon points="360,279 355.5,271 364.5,271" fill="#4a6130"/>
+  <rect x="278" y="282" width="164" height="42" rx="5" fill="#4a6130" stroke="#4a6130"/>
+  <text x="360" y="307" text-anchor="middle" font-size="11" fill="#ffffff">MIS 战略目标</text>
+  <rect x="485" y="50" width="210" height="292" rx="8" fill="#fbfdff" stroke="#1f4e79" stroke-width="1.5"/>
+  <text x="590" y="80" text-anchor="middle" font-size="16" font-weight="bold" fill="#1f4e79">BSP 企业系统规划法</text>
+  <rect x="508" y="102" width="164" height="48" rx="5" fill="#eaf1f8" stroke="#1f4e79"/>
+  <text x="590" y="123" text-anchor="middle" font-size="12" fill="#22303f">自上而下识别</text>
+  <text x="590" y="141" text-anchor="middle" font-size="10" fill="#22303f">目标 · 企业过程 · 数据</text>
+  <line x1="590" y1="150" x2="590" y2="177" stroke="#1f4e79" stroke-width="1.4" fill="none"/>
+  <polygon points="590,185 585.5,177 594.5,177" fill="#1f4e79"/>
+  <rect x="508" y="188" width="164" height="56" rx="5" fill="#eaf1f8" stroke="#1f4e79"/>
+  <text x="590" y="211" text-anchor="middle" font-size="12" fill="#22303f">过程 / 数据类矩阵</text>
+  <text x="590" y="230" text-anchor="middle" font-size="10" fill="#22303f">分析并引出系统目标</text>
+  <line x1="590" y1="244" x2="590" y2="271" stroke="#1f4e79" stroke-width="1.4" fill="none"/>
+  <polygon points="590,279 585.5,271 594.5,271" fill="#1f4e79"/>
+  <rect x="508" y="282" width="164" height="42" rx="5" fill="#1f4e79" stroke="#1f4e79"/>
+  <text x="590" y="307" text-anchor="middle" font-size="11" fill="#ffffff">自下而上设计系统</text>
+  <text x="360" y="369" text-anchor="middle" font-size="11" fill="#6b7a8a">CSF 重点突出；SST 全面但重点较弱；BSP 以企业过程和一致性信息适应组织变动</text>
+</svg>

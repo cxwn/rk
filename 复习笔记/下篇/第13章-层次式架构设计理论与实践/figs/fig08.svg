@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 560" width="720" height="560">
+  <rect width="720" height="560" fill="#ffffff"/>
+  <text x="360" y="34" text-anchor="middle" font-family="Microsoft YaHei, 微软雅黑, sans-serif" font-size="22" font-weight="bold" fill="#22303f">五种数据访问模式的边界与职责（重绘图13-11～13-13并归纳）</text>
+  <rect x="40" y="66" width="200" height="108" rx="9" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.5"/>
+  <text x="140" y="96" text-anchor="middle" font-family="Microsoft YaHei, 微软雅黑, sans-serif" font-size="18" font-weight="bold" fill="#1f4e79">1 在线访问</text>
+  <text x="140" y="124" text-anchor="middle" font-family="Microsoft YaHei, 微软雅黑, sans-serif" font-size="14" fill="#22303f">占用数据库连接</text>
+  <text x="140" y="149" text-anchor="middle" font-family="Microsoft YaHei, 微软雅黑, sans-serif" font-size="14" fill="#22303f">操作持续访问数据源</text>
+  <rect x="260" y="66" width="200" height="108" rx="9" fill="#fdf0e6" stroke="#c05621" stroke-width="1.5"/>
+  <text x="360" y="96" text-anchor="middle" font-family="Microsoft YaHei, 微软雅黑, sans-serif" font-size="18" font-weight="bold" fill="#c05621">2 DAO</text>
+  <text x="360" y="124" text-anchor="middle" font-family="Microsoft YaHei, 微软雅黑, sans-serif" font-size="14" fill="#22303f">封装数据源访问逻辑</text>
+  <text x="360" y="149" text-anchor="middle" font-family="Microsoft YaHei, 微软雅黑, sans-serif" font-size="14" fill="#22303f">分离业务与持久化</text>
+  <rect x="480" y="66" width="200" height="108" rx="9" fill="#f3f6ee" stroke="#8aa15c" stroke-width="1.5"/>
+  <text x="580" y="96" text-anchor="middle" font-family="Microsoft YaHei, 微软雅黑, sans-serif" font-size="18" font-weight="bold" fill="#4a6130">3 DTO</text>
+  <text x="580" y="124" text-anchor="middle" font-family="Microsoft YaHei, 微软雅黑, sans-serif" font-size="14" fill="#22303f">跨进程 / 网络搬数据</text>
+  <text x="580" y="149" text-anchor="middle" font-family="Microsoft YaHei, 微软雅黑, sans-serif" font-size="14" fill="#22303f">不包含具体业务逻辑</text>
+  <rect x="150" y="230" width="200" height="108" rx="9" fill="#f3f6ee" stroke="#8aa15c" stroke-width="1.5"/>
+  <text x="250" y="260" text-anchor="middle" font-family="Microsoft YaHei, 微软雅黑, sans-serif" font-size="18" font-weight="bold" fill="#4a6130">4 离线数据模式</text>
+  <text x="250" y="288" text-anchor="middle" font-family="Microsoft YaHei, 微软雅黑, sans-serif" font-size="14" fill="#22303f">按预定义结构保存</text>
+  <text x="250" y="313" text-anchor="middle" font-family="Microsoft YaHei, 微软雅黑, sans-serif" font-size="14" fill="#22303f">操作独立于后台连接</text>
+  <rect x="370" y="230" width="200" height="108" rx="9" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.5"/>
+  <text x="470" y="260" text-anchor="middle" font-family="Microsoft YaHei, 微软雅黑, sans-serif" font-size="18" font-weight="bold" fill="#1f4e79">5 O/R Mapping</text>
+  <text x="470" y="288" text-anchor="middle" font-family="Microsoft YaHei, 微软雅黑, sans-serif" font-size="14" fill="#22303f">对象与关系记录互转</text>
+  <text x="470" y="313" text-anchor="middle" font-family="Microsoft YaHei, 微软雅黑, sans-serif" font-size="14" fill="#22303f">减少重复CRUD代码</text>
+  <rect x="52" y="390" width="616" height="132" rx="10" fill="#eaf1f8" stroke="#6b7a8a" stroke-width="1.2"/>
+  <text x="76" y="420" font-family="Microsoft YaHei, 微软雅黑, sans-serif" font-size="16" font-weight="bold" fill="#1f4e79">DAO典型四组件</text>
+  <rect x="78" y="442" width="126" height="46" rx="6" fill="#ffffff" stroke="#1f4e79"/>
+  <text x="141" y="471" text-anchor="middle" font-family="Microsoft YaHei, 微软雅黑, sans-serif" font-size="14" fill="#22303f">DAO工厂类</text>
+  <rect x="226" y="442" width="126" height="46" rx="6" fill="#ffffff" stroke="#1f4e79"/>
+  <text x="289" y="471" text-anchor="middle" font-family="Microsoft YaHei, 微软雅黑, sans-serif" font-size="14" fill="#22303f">DAO接口</text>
+  <rect x="374" y="442" width="126" height="46" rx="6" fill="#ffffff" stroke="#1f4e79"/>
+  <text x="437" y="471" text-anchor="middle" font-family="Microsoft YaHei, 微软雅黑, sans-serif" font-size="14" fill="#22303f">具体实现类</text>
+  <rect x="522" y="442" width="126" height="46" rx="6" fill="#ffffff" stroke="#1f4e79"/>
+  <text x="585" y="471" text-anchor="middle" font-family="Microsoft YaHei, 微软雅黑, sans-serif" font-size="14" fill="#22303f">数据传输对象</text>
+  <text x="360" y="546" text-anchor="middle" font-family="Microsoft YaHei, 微软雅黑, sans-serif" font-size="14" fill="#c05621">易错：DAO负责“怎么存取”，DTO负责“怎么搬运”，二者不能混为一谈</text>
+</svg>

@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 420" width="720" height="420" font-family="Microsoft YaHei, 微软雅黑, sans-serif">
+  <rect width="720" height="420" fill="#ffffff"/>
+  <text x="360" y="32" text-anchor="middle" font-size="22" font-weight="bold" fill="#1f4e79">从架构特性到敏感点、权衡点与风险结论</text>
+  <rect x="270" y="60" width="180" height="55" rx="8" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.5"/>
+  <text x="360" y="94" text-anchor="middle" font-size="18" font-weight="bold" fill="#1f4e79">关键架构决策 / 特性</text>
+  <rect x="55" y="180" width="220" height="72" rx="8" fill="#f3f6ee" stroke="#8aa15c" stroke-width="1.5"/>
+  <rect x="445" y="180" width="220" height="72" rx="8" fill="#fdf0e6" stroke="#c05621" stroke-width="1.5"/>
+  <text x="165" y="209" text-anchor="middle" font-size="18" font-weight="bold" fill="#4a6130">敏感点</text>
+  <text x="165" y="235" text-anchor="middle" font-size="13">对实现某项质量属性至关重要</text>
+  <text x="555" y="209" text-anchor="middle" font-size="18" font-weight="bold" fill="#c05621">权衡点</text>
+  <text x="555" y="235" text-anchor="middle" font-size="13">同时是多个质量属性的敏感点</text>
+  <g stroke="#1f4e79" stroke-width="1.5" fill="none">
+    <polyline points="310,115 310,145 165,145 165,169"/>
+    <polyline points="410,115 410,145 555,145 555,169"/>
+  </g>
+  <g fill="#1f4e79">
+    <polygon points="165,177 160.5,169 169.5,169"/>
+    <polygon points="555,177 550.5,169 559.5,169"/>
+  </g>
+  <rect x="55" y="290" width="295" height="85" rx="8" fill="#fdf0e6" stroke="#c05621"/>
+  <rect x="370" y="290" width="295" height="85" rx="8" fill="#f3f6ee" stroke="#8aa15c"/>
+  <text x="202" y="319" text-anchor="middle" font-size="17" font-weight="bold" fill="#c05621">风险：可能妨碍高优先级目标</text>
+  <text x="202" y="349" text-anchor="middle" font-size="13">例：应用信息散落导致修改代价高</text>
+  <text x="517" y="319" text-anchor="middle" font-size="17" font-weight="bold" fill="#4a6130">非风险：支持高优先级目标</text>
+  <text x="517" y="349" text-anchor="middle" font-size="13">例：框架与应用分离便于替换</text>
+  <text x="360" y="403" text-anchor="middle" font-size="14" fill="#1f4e79">权衡示例：提高加密级别 → 安全性增强，同时处理时延增加</text>
+</svg>

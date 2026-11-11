@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 500" font-family="Microsoft YaHei, 微软雅黑, sans-serif">
+  <text x="360" y="30" text-anchor="middle" font-size="20" font-weight="bold" fill="#1f4e79">动态重配置的四种模式</text>
+  <rect x="30" y="60" width="320" height="180" rx="9" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.5"/>
+  <text x="190" y="94" text-anchor="middle" font-size="18" font-weight="bold" fill="#1f4e79">1 主从模式</text>
+  <text x="190" y="119" text-anchor="middle" font-size="13" fill="#6b7a8a">Master-Slave</text>
+  <text x="55" y="153" font-size="14" fill="#22303f">• 主组件分派工作并汇总响应</text>
+  <text x="55" y="181" font-size="14" fill="#22303f">• 从组件空闲，接到任务再激活</text>
+  <text x="55" y="209" font-size="14" fill="#22303f">• 主操作与主重配置状态正交</text>
+  <rect x="370" y="60" width="320" height="180" rx="9" fill="#fdf0e6" stroke="#c05621" stroke-width="1.5"/>
+  <text x="530" y="94" text-anchor="middle" font-size="18" font-weight="bold" fill="#c05621">2 中央控制模式</text>
+  <text x="530" y="119" text-anchor="middle" font-size="13" fill="#6b7a8a">Centralized Control</text>
+  <text x="395" y="153" font-size="14" fill="#22303f">• 一个中央控制器管理多个组件</text>
+  <text x="395" y="181" font-size="14" fill="#22303f">• 状态图维持空闲 / 非空闲状态</text>
+  <text x="395" y="209" font-size="14" fill="#22303f">• 常用于实时系统</text>
+  <rect x="30" y="270" width="320" height="180" rx="9" fill="#f3f6ee" stroke="#8aa15c" stroke-width="1.5"/>
+  <text x="190" y="304" text-anchor="middle" font-size="18" font-weight="bold" fill="#4a6130">3 客户端 / 服务器</text>
+  <text x="190" y="329" text-anchor="middle" font-size="13" fill="#6b7a8a">Client-Server</text>
+  <text x="55" y="363" font-size="14" fill="#22303f">• 双方通过同步消息交互</text>
+  <text x="55" y="391" font-size="14" fill="#22303f">• 客户端事务完成后增删客户端</text>
+  <text x="55" y="419" font-size="14" fill="#22303f">• 服务器完成当前事务集合再变更</text>
+  <rect x="370" y="270" width="320" height="180" rx="9" fill="#f5f7f9" stroke="#6b7a8a" stroke-width="1.5"/>
+  <text x="530" y="304" text-anchor="middle" font-size="18" font-weight="bold" fill="#1f4e79">4 分布式控制模式</text>
+  <text x="530" y="329" text-anchor="middle" font-size="13" fill="#6b7a8a">Decentralized Control</text>
+  <text x="395" y="363" font-size="14" fill="#22303f">• 功能整合在多个分布式组件中</text>
+  <text x="395" y="391" font-size="14" fill="#22303f">• 常见环形 Ring 与顺序 Serial</text>
+  <text x="395" y="419" font-size="14" fill="#22303f">• 组件与前驱、后继交互</text>
+  <text x="360" y="480" text-anchor="middle" font-size="14" font-weight="bold" fill="#c05621">共同要求：选对安全时机，保证系统完整性与策略正确、安全</text>
+</svg>

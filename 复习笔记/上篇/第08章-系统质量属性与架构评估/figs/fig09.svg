@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 480" width="720" height="480" font-family="Microsoft YaHei, 微软雅黑, sans-serif">
+  <rect width="720" height="480" fill="#ffffff"/>
+  <text x="360" y="30" text-anchor="middle" font-size="22" font-weight="bold" fill="#1f4e79">ATAM 实践：四阶段八步骤（据图8-5重绘）</text>
+  <rect x="30" y="55" width="660" height="85" rx="9" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.5"/>
+  <text x="55" y="86" font-size="17" font-weight="bold" fill="#1f4e79">阶段1 演示</text>
+  <text x="55" y="114" font-size="12" fill="#6b7a8a">统一目标与认知</text>
+  <g text-anchor="middle" font-size="13">
+    <rect x="180" y="75" width="150" height="45" rx="6" fill="#ffffff"/><text x="255" y="103">1 介绍 ATAM</text>
+    <rect x="350" y="75" width="150" height="45" rx="6" fill="#ffffff"/><text x="425" y="103">2 介绍业务驱动</text>
+    <rect x="520" y="75" width="150" height="45" rx="6" fill="#ffffff"/><text x="595" y="103">3 介绍待评架构</text>
+  </g>
+  <line x1="360" y1="140" x2="360" y2="152" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="360,157 355.5,152 364.5,152" fill="#1f4e79"/>
+  <rect x="30" y="160" width="660" height="85" rx="9" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.5"/>
+  <text x="55" y="191" font-size="17" font-weight="bold" fill="#1f4e79">阶段2 调查和分析</text>
+  <text x="55" y="219" font-size="12" fill="#6b7a8a">架构师视角优先场景</text>
+  <g text-anchor="middle" font-size="13">
+    <rect x="210" y="180" width="140" height="45" rx="6" fill="#ffffff"/><text x="280" y="208">4 确定架构方法</text>
+    <rect x="370" y="180" width="140" height="45" rx="6" fill="#ffffff"/><text x="440" y="208">5 生成效用树</text>
+    <rect x="530" y="180" width="140" height="45" rx="6" fill="#ffffff"/><text x="600" y="208">6 分析架构方法</text>
+  </g>
+  <line x1="360" y1="245" x2="360" y2="257" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="360,262 355.5,257 364.5,257" fill="#1f4e79"/>
+  <rect x="30" y="265" width="660" height="85" rx="9" fill="#f3f6ee" stroke="#8aa15c" stroke-width="1.5"/>
+  <text x="55" y="296" font-size="17" font-weight="bold" fill="#4a6130">阶段3 测试</text>
+  <text x="55" y="324" font-size="12" fill="#6b7a8a">扩大干系人参与</text>
+  <g text-anchor="middle" font-size="13">
+    <rect x="225" y="285" width="205" height="45" rx="6" fill="#ffffff"/><text x="327" y="306">7 头脑风暴和优先场景</text><text x="327" y="323" font-size="10" fill="#6b7a8a">每人票数≈场景数×30%</text>
+    <rect x="460" y="285" width="205" height="45" rx="6" fill="#ffffff"/><text x="562" y="313">8 再次分析架构方法</text>
+  </g>
+  <line x1="360" y1="350" x2="360" y2="362" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="360,367 355.5,362 364.5,362" fill="#1f4e79"/>
+  <rect x="30" y="370" width="660" height="75" rx="9" fill="#fdf0e6" stroke="#c05621" stroke-width="1.5"/>
+  <text x="55" y="402" font-size="17" font-weight="bold" fill="#c05621">阶段4 报告 ATAM</text>
+  <text x="275" y="400" font-size="14">提交结果：效用树、场景集、分析问题</text>
+  <text x="275" y="425" font-size="14">风险与非风险、敏感点与权衡点、架构方法</text>
+  <text x="360" y="468" text-anchor="middle" font-size="12" fill="#6b7a8a">第6步分析效用树高优先级场景；第8步分析头脑风暴投票高优先级场景</text>
+</svg>

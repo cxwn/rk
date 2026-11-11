@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 325" font-family="Microsoft YaHei, 微软雅黑, sans-serif">
+  <rect x="260" y="16" width="200" height="34" rx="4" fill="#1f4e79"/>
+  <text x="360" y="38" text-anchor="middle" font-size="15" fill="#ffffff" font-weight="bold">网络与信息安全风险</text>
+  <line x1="360" y1="50" x2="360" y2="70" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <line x1="136" y1="70" x2="646" y2="70" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <line x1="136" y1="70" x2="136" y2="79" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="136,87 131.5,79 140.5,79" fill="#1f4e79"/>
+  <line x1="346" y1="70" x2="346" y2="79" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="346,87 341.5,79 350.5,79" fill="#1f4e79"/>
+  <line x1="498" y1="70" x2="498" y2="79" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="498,87 493.5,79 502.5,79" fill="#1f4e79"/>
+  <line x1="646" y1="70" x2="646" y2="79" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="646,87 641.5,79 650.5,79" fill="#1f4e79"/>
+  <rect x="8" y="90" width="256" height="30" rx="3" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.2"/>
+  <text x="136" y="110" text-anchor="middle" font-size="13" fill="#1f4e79" font-weight="bold">人为蓄意破坏</text>
+  <rect x="276" y="90" width="140" height="30" rx="3" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.2"/>
+  <text x="346" y="110" text-anchor="middle" font-size="13" fill="#1f4e79" font-weight="bold">灾害性攻击</text>
+  <rect x="428" y="90" width="140" height="30" rx="3" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.2"/>
+  <text x="498" y="110" text-anchor="middle" font-size="13" fill="#1f4e79" font-weight="bold">系统故障</text>
+  <rect x="580" y="90" width="132" height="30" rx="3" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.2"/>
+  <text x="646" y="110" text-anchor="middle" font-size="12" fill="#1f4e79" font-weight="bold">人员无意识行为</text>
+  <line x1="136" y1="120" x2="136" y2="129" stroke="#6b7a8a" stroke-width="1.2" fill="none"/>
+  <polygon points="136,137 131.5,129 140.5,129" fill="#6b7a8a"/>
+  <line x1="346" y1="120" x2="346" y2="129" stroke="#6b7a8a" stroke-width="1.2" fill="none"/>
+  <polygon points="346,137 341.5,129 350.5,129" fill="#6b7a8a"/>
+  <line x1="498" y1="120" x2="498" y2="129" stroke="#6b7a8a" stroke-width="1.2" fill="none"/>
+  <polygon points="498,137 493.5,129 502.5,129" fill="#6b7a8a"/>
+  <line x1="646" y1="120" x2="646" y2="129" stroke="#6b7a8a" stroke-width="1.2" fill="none"/>
+  <polygon points="646,137 641.5,129 650.5,129" fill="#6b7a8a"/>
+  <rect x="8" y="140" width="256" height="170" rx="3" fill="#fdf0e6" stroke="#c05621" stroke-width="1"/>
+  <text x="20" y="166" font-size="13" fill="#c05621" font-weight="bold">被动型攻击（只窃取）</text>
+  <text x="20" y="190" font-size="12" fill="#22303f">网络监听、非法登录、信息截取</text>
+  <text x="20" y="222" font-size="13" fill="#c05621" font-weight="bold">主动型攻击（动手改动）</text>
+  <text x="20" y="246" font-size="12" fill="#22303f">数据篡改、假冒身份、拒绝服务</text>
+  <text x="20" y="270" font-size="12" fill="#22303f">重放攻击、散播病毒、主观抵赖</text>
+  <rect x="276" y="140" width="140" height="70" rx="3" fill="#f3f6ee" stroke="#8aa15c" stroke-width="1"/>
+  <text x="286" y="168" font-size="12" fill="#22303f">水灾、火灾、地震</text>
+  <text x="286" y="192" font-size="12" fill="#22303f">雷击、战争</text>
+  <rect x="428" y="140" width="140" height="70" rx="3" fill="#f3f6ee" stroke="#8aa15c" stroke-width="1"/>
+  <text x="438" y="168" font-size="12" fill="#22303f">硬件故障、软件故障</text>
+  <text x="438" y="192" font-size="12" fill="#22303f">链路故障、供电故障</text>
+  <rect x="580" y="140" width="132" height="70" rx="3" fill="#f3f6ee" stroke="#8aa15c" stroke-width="1"/>
+  <text x="590" y="168" font-size="12" fill="#22303f">编程/操作错误</text>
+  <text x="590" y="192" font-size="12" fill="#22303f">无意泄密</text>
+</svg>

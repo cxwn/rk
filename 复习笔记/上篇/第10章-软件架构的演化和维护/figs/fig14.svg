@@ -1,0 +1,69 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 500" font-family="Microsoft YaHei, 微软雅黑, sans-serif">
+  <text x="360" y="30" text-anchor="middle" font-size="20" font-weight="bold" fill="#1f4e79">大型网站演化：第 6～10 阶段</text>
+  <rect x="25" y="55" width="145" height="66" rx="6" fill="#eaf1f8" stroke="#1f4e79"/>
+  <text x="97" y="81" text-anchor="middle" font-size="15" font-weight="bold" fill="#1f4e79">6 CDN 与</text>
+  <text x="97" y="103" text-anchor="middle" font-size="15" font-weight="bold" fill="#1f4e79">反向代理</text>
+  <line x1="170" y1="88" x2="184" y2="88" stroke="#1f4e79" stroke-width="1.4" fill="none"/>
+  <polygon points="192,88 184,83.5 184,92.5" fill="#1f4e79"/>
+  <rect x="195" y="55" width="190" height="66" rx="6" fill="#fdf0e6" stroke="#c05621"/>
+  <text x="290" y="84" text-anchor="middle" font-size="14" fill="#22303f">地域网络环境复杂</text>
+  <text x="290" y="106" text-anchor="middle" font-size="12" fill="#6b7a8a">访问延迟导致用户流失</text>
+  <line x1="385" y1="88" x2="399" y2="88" stroke="#c05621" stroke-width="1.4" fill="none"/>
+  <polygon points="407,88 399,83.5 399,92.5" fill="#c05621"/>
+  <rect x="410" y="55" width="285" height="66" rx="6" fill="#f3f6ee" stroke="#8aa15c"/>
+  <text x="552" y="84" text-anchor="middle" font-size="14" font-weight="bold" fill="#4a6130">CDN 就近缓存＋中心入口缓存</text>
+  <text x="552" y="106" text-anchor="middle" font-size="12" fill="#6b7a8a">尽早返回数据，减轻后端压力</text>
+  <rect x="25" y="140" width="145" height="66" rx="6" fill="#eaf1f8" stroke="#1f4e79"/>
+  <text x="97" y="166" text-anchor="middle" font-size="15" font-weight="bold" fill="#1f4e79">7 分布式文件</text>
+  <text x="97" y="188" text-anchor="middle" font-size="15" font-weight="bold" fill="#1f4e79">与数据库</text>
+  <line x1="170" y1="173" x2="184" y2="173" stroke="#1f4e79" stroke-width="1.4" fill="none"/>
+  <polygon points="192,173 184,168.5 184,177.5" fill="#1f4e79"/>
+  <rect x="195" y="140" width="190" height="66" rx="6" fill="#fdf0e6" stroke="#c05621"/>
+  <text x="290" y="169" text-anchor="middle" font-size="14" fill="#22303f">单库、单文件系统</text>
+  <text x="290" y="191" text-anchor="middle" font-size="12" fill="#6b7a8a">仍无法满足持续增长</text>
+  <line x1="385" y1="173" x2="399" y2="173" stroke="#c05621" stroke-width="1.4" fill="none"/>
+  <polygon points="407,173 399,168.5 399,177.5" fill="#c05621"/>
+  <rect x="410" y="140" width="285" height="66" rx="6" fill="#f3f6ee" stroke="#8aa15c"/>
+  <text x="552" y="169" text-anchor="middle" font-size="14" font-weight="bold" fill="#4a6130">文件与数据库分布式</text>
+  <text x="552" y="191" text-anchor="middle" font-size="12" fill="#6b7a8a">优先业务分库，拆库是最后手段</text>
+  <rect x="25" y="225" width="145" height="66" rx="6" fill="#eaf1f8" stroke="#1f4e79"/>
+  <text x="97" y="251" text-anchor="middle" font-size="15" font-weight="bold" fill="#1f4e79">8 NoSQL 与</text>
+  <text x="97" y="273" text-anchor="middle" font-size="15" font-weight="bold" fill="#1f4e79">搜索引擎</text>
+  <line x1="170" y1="258" x2="184" y2="258" stroke="#1f4e79" stroke-width="1.4" fill="none"/>
+  <polygon points="192,258 184,253.5 184,262.5" fill="#1f4e79"/>
+  <rect x="195" y="225" width="190" height="66" rx="6" fill="#fdf0e6" stroke="#c05621"/>
+  <text x="290" y="254" text-anchor="middle" font-size="14" fill="#22303f">存储与检索需求</text>
+  <text x="290" y="276" text-anchor="middle" font-size="12" fill="#6b7a8a">随业务变得越来越复杂</text>
+  <line x1="385" y1="258" x2="399" y2="258" stroke="#c05621" stroke-width="1.4" fill="none"/>
+  <polygon points="407,258 399,253.5 399,262.5" fill="#c05621"/>
+  <rect x="410" y="225" width="285" height="66" rx="6" fill="#f3f6ee" stroke="#8aa15c"/>
+  <text x="552" y="254" text-anchor="middle" font-size="14" font-weight="bold" fill="#4a6130">非关系存储＋专业检索</text>
+  <text x="552" y="276" text-anchor="middle" font-size="12" fill="#6b7a8a">统一数据访问模块管理多数据源</text>
+  <rect x="25" y="310" width="145" height="66" rx="6" fill="#eaf1f8" stroke="#1f4e79"/>
+  <text x="97" y="339" text-anchor="middle" font-size="15" font-weight="bold" fill="#1f4e79">9 业务拆分</text>
+  <text x="97" y="361" text-anchor="middle" font-size="12" fill="#6b7a8a">按产品线分而治之</text>
+  <line x1="170" y1="343" x2="184" y2="343" stroke="#1f4e79" stroke-width="1.4" fill="none"/>
+  <polygon points="192,343 184,338.5 184,347.5" fill="#1f4e79"/>
+  <rect x="195" y="310" width="190" height="66" rx="6" fill="#fdf0e6" stroke="#c05621"/>
+  <text x="290" y="339" text-anchor="middle" font-size="14" fill="#22303f">业务场景日益复杂</text>
+  <text x="290" y="361" text-anchor="middle" font-size="12" fill="#6b7a8a">单一应用难维护</text>
+  <line x1="385" y1="343" x2="399" y2="343" stroke="#c05621" stroke-width="1.4" fill="none"/>
+  <polygon points="407,343 399,338.5 399,347.5" fill="#c05621"/>
+  <rect x="410" y="310" width="285" height="66" rx="6" fill="#f3f6ee" stroke="#8aa15c"/>
+  <text x="552" y="339" text-anchor="middle" font-size="14" font-weight="bold" fill="#4a6130">应用按产品线拆分独立部署</text>
+  <text x="552" y="361" text-anchor="middle" font-size="12" fill="#6b7a8a">链接、消息队列或共享存储关联</text>
+  <rect x="25" y="395" width="145" height="66" rx="6" fill="#eaf1f8" stroke="#1f4e79"/>
+  <text x="97" y="424" text-anchor="middle" font-size="15" font-weight="bold" fill="#1f4e79">10 分布式服务</text>
+  <text x="97" y="446" text-anchor="middle" font-size="12" fill="#6b7a8a">公共业务服务化</text>
+  <line x1="170" y1="428" x2="184" y2="428" stroke="#1f4e79" stroke-width="1.4" fill="none"/>
+  <polygon points="192,428 184,423.5 184,432.5" fill="#1f4e79"/>
+  <rect x="195" y="395" width="190" height="66" rx="6" fill="#fdf0e6" stroke="#c05621"/>
+  <text x="290" y="424" text-anchor="middle" font-size="14" fill="#22303f">连接数随规模平方增长</text>
+  <text x="290" y="446" text-anchor="middle" font-size="12" fill="#6b7a8a">公共业务重复且部署困难</text>
+  <line x1="385" y1="428" x2="399" y2="428" stroke="#c05621" stroke-width="1.4" fill="none"/>
+  <polygon points="407,428 399,423.5 399,432.5" fill="#c05621"/>
+  <rect x="410" y="395" width="285" height="66" rx="6" fill="#f3f6ee" stroke="#8aa15c"/>
+  <text x="552" y="424" text-anchor="middle" font-size="14" font-weight="bold" fill="#4a6130">共用业务抽取并独立部署</text>
+  <text x="552" y="446" text-anchor="middle" font-size="12" fill="#6b7a8a">应用专注界面，远程调用服务</text>
+  <text x="360" y="486" text-anchor="middle" font-size="13" fill="#6b7a8a">演化动因：从响应与数据瓶颈，逐步转向业务复杂度与连接复杂度</text>
+</svg>

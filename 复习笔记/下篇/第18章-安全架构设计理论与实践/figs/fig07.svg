@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 380" font-family="Microsoft YaHei, 微软雅黑, sans-serif">
+  <rect x="260" y="16" width="200" height="34" rx="4" fill="#1f4e79"/>
+  <text x="360" y="38" text-anchor="middle" font-size="15" fill="#ffffff" font-weight="bold">信息系统安全体系</text>
+  <line x1="360" y1="50" x2="360" y2="70" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <line x1="130" y1="70" x2="590" y2="70" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <line x1="130" y1="70" x2="130" y2="79" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="130,87 125.5,79 134.5,79" fill="#1f4e79"/>
+  <line x1="360" y1="70" x2="360" y2="79" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="360,87 355.5,79 364.5,79" fill="#1f4e79"/>
+  <line x1="590" y1="70" x2="590" y2="79" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="590,87 585.5,79 594.5,79" fill="#1f4e79"/>
+  <rect x="30" y="90" width="200" height="34" rx="3" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.2"/>
+  <text x="130" y="112" text-anchor="middle" font-size="13" fill="#1f4e79" font-weight="bold">技术体系</text>
+  <rect x="260" y="90" width="200" height="34" rx="3" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.2"/>
+  <text x="360" y="112" text-anchor="middle" font-size="13" fill="#1f4e79" font-weight="bold">组织机构体系</text>
+  <rect x="490" y="90" width="200" height="34" rx="3" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.2"/>
+  <text x="590" y="112" text-anchor="middle" font-size="13" fill="#1f4e79" font-weight="bold">管理体系</text>
+  <line x1="130" y1="124" x2="130" y2="129" stroke="#6b7a8a" stroke-width="1.2" fill="none"/>
+  <polygon points="130,137 125.5,129 134.5,129" fill="#6b7a8a"/>
+  <line x1="360" y1="124" x2="360" y2="129" stroke="#6b7a8a" stroke-width="1.2" fill="none"/>
+  <polygon points="360,137 355.5,129 364.5,129" fill="#6b7a8a"/>
+  <line x1="590" y1="124" x2="590" y2="129" stroke="#6b7a8a" stroke-width="1.2" fill="none"/>
+  <polygon points="590,137 585.5,129 594.5,129" fill="#6b7a8a"/>
+  <rect x="30" y="140" width="200" height="220" rx="3" fill="#f3f6ee" stroke="#8aa15c" stroke-width="1"/>
+  <text x="42" y="164" font-size="12" fill="#1f4e79" font-weight="bold">物理安全技术</text>
+  <text x="42" y="186" font-size="11" fill="#22303f">环境/设备/媒体安全</text>
+  <text x="42" y="214" font-size="12" fill="#1f4e79" font-weight="bold">系统安全技术</text>
+  <text x="42" y="236" font-size="11" fill="#22303f">网络安全、系统安全</text>
+  <text x="42" y="258" font-size="11" fill="#22303f">信息安全、安全服务</text>
+  <text x="42" y="280" font-size="11" fill="#22303f">安全评估、入侵检测</text>
+  <text x="42" y="302" font-size="11" fill="#22303f">安全审计、密钥管理</text>
+  <rect x="260" y="140" width="200" height="190" rx="3" fill="#f3f6ee" stroke="#8aa15c" stroke-width="1"/>
+  <text x="272" y="164" font-size="12" fill="#1f4e79" font-weight="bold">机构</text>
+  <text x="272" y="186" font-size="11" fill="#22303f">领导决策/日常管理/执行</text>
+  <text x="272" y="214" font-size="12" fill="#1f4e79" font-weight="bold">岗位</text>
+  <text x="272" y="236" font-size="11" fill="#22303f">负责一个/几个安全事务</text>
+  <text x="272" y="264" font-size="12" fill="#1f4e79" font-weight="bold">人事</text>
+  <text x="272" y="286" font-size="11" fill="#22303f">在职/待职/离职员工</text>
+  <text x="272" y="308" font-size="11" fill="#22303f">素质教育、考核、监管</text>
+  <rect x="490" y="140" width="200" height="160" rx="3" fill="#f3f6ee" stroke="#8aa15c" stroke-width="1"/>
+  <text x="502" y="164" font-size="12" fill="#1f4e79" font-weight="bold">法律管理</text>
+  <text x="502" y="186" font-size="11" fill="#22303f">体系规范、ISO 标准</text>
+  <text x="502" y="214" font-size="12" fill="#1f4e79" font-weight="bold">制度管理</text>
+  <text x="502" y="236" font-size="11" fill="#22303f">实施细则</text>
+  <text x="502" y="264" font-size="12" fill="#1f4e79" font-weight="bold">培训管理</text>
+  <text x="502" y="286" font-size="11" fill="#22303f">安全意识与技能培训</text>
+</svg>

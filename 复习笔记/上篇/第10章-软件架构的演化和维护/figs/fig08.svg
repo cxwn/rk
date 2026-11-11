@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 390" font-family="Microsoft YaHei, 微软雅黑, sans-serif">
+  <text x="360" y="30" text-anchor="middle" font-size="20" font-weight="bold" fill="#1f4e79">DSA 动态演化四步闭环</text>
+  <rect x="65" y="55" width="590" height="62" rx="8" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.5"/>
+  <text x="360" y="81" text-anchor="middle" font-size="16" font-weight="bold" fill="#1f4e79">运行时架构实体</text>
+  <text x="360" y="104" text-anchor="middle" font-size="14" fill="#22303f">有状态 · 有行为 · 可操作 · 被运行环境共享</text>
+  <rect x="25" y="155" width="145" height="95" rx="7" fill="#eaf1f8" stroke="#1f4e79"/>
+  <text x="97" y="185" text-anchor="middle" font-size="15" font-weight="bold" fill="#1f4e79">1 捕捉并分析</text>
+  <text x="97" y="208" text-anchor="middle" font-size="15" font-weight="bold" fill="#1f4e79">需求变化</text>
+  <text x="97" y="233" text-anchor="middle" font-size="12" fill="#6b7a8a">监控内外部变化</text>
+  <line x1="170" y1="202" x2="189" y2="202" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="197,202 189,197.5 189,206.5" fill="#1f4e79"/>
+  <rect x="200" y="155" width="145" height="95" rx="7" fill="#eaf1f8" stroke="#1f4e79"/>
+  <text x="272" y="185" text-anchor="middle" font-size="15" font-weight="bold" fill="#1f4e79">2 获取或生成</text>
+  <text x="272" y="208" text-anchor="middle" font-size="15" font-weight="bold" fill="#1f4e79">演化策略</text>
+  <text x="272" y="233" text-anchor="middle" font-size="12" fill="#6b7a8a">判断时机与范围</text>
+  <line x1="345" y1="202" x2="364" y2="202" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="372,202 364,197.5 364,206.5" fill="#1f4e79"/>
+  <rect x="375" y="155" width="145" height="95" rx="7" fill="#fdf0e6" stroke="#c05621"/>
+  <text x="447" y="185" text-anchor="middle" font-size="15" font-weight="bold" fill="#c05621">3 选择策略</text>
+  <text x="447" y="208" text-anchor="middle" font-size="15" font-weight="bold" fill="#c05621">并实施演化</text>
+  <text x="447" y="233" text-anchor="middle" font-size="12" fill="#6b7a8a">在线调整架构</text>
+  <line x1="520" y1="202" x2="539" y2="202" stroke="#c05621" stroke-width="1.5" fill="none"/>
+  <polygon points="547,202 539,197.5 539,206.5" fill="#c05621"/>
+  <rect x="550" y="155" width="145" height="95" rx="7" fill="#f3f6ee" stroke="#8aa15c"/>
+  <text x="622" y="185" text-anchor="middle" font-size="15" font-weight="bold" fill="#4a6130">4 演化后评估</text>
+  <text x="622" y="208" text-anchor="middle" font-size="15" font-weight="bold" fill="#4a6130">与检测</text>
+  <text x="622" y="233" text-anchor="middle" font-size="12" fill="#6b7a8a">验证质量与一致性</text>
+  <polyline points="622,250 622,292 97,292 97,260" stroke="#8aa15c" stroke-width="1.5" fill="none"/>
+  <polygon points="97,253 92.5,260 101.5,260" fill="#8aa15c"/>
+  <text x="360" y="280" text-anchor="middle" font-size="13" fill="#4a6130">持续监控，形成下一轮演化</text>
+  <rect x="80" y="322" width="560" height="45" rx="7" fill="#fdf0e6" stroke="#c05621"/>
+  <text x="360" y="350" text-anchor="middle" font-size="15" font-weight="bold" fill="#c05621">原子性保障：任一操作失败，整个操作集全部撤销</text>
+</svg>

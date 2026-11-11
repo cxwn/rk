@@ -1,0 +1,53 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 340" font-family="Microsoft YaHei, 微软雅黑, sans-serif">
+  <rect x="290" y="16" width="140" height="34" rx="4" fill="#1f4e79"/>
+  <text x="360" y="38" text-anchor="middle" font-size="15" fill="#ffffff" font-weight="bold">安全模型</text>
+  <line x1="360" y1="50" x2="360" y2="70" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <line x1="73" y1="70" x2="641" y2="70" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <line x1="73" y1="70" x2="73" y2="79" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="73,87 68.5,79 77.5,79" fill="#1f4e79"/>
+  <line x1="215" y1="70" x2="215" y2="79" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="215,87 210.5,79 219.5,79" fill="#1f4e79"/>
+  <line x1="357" y1="70" x2="357" y2="79" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="357,87 352.5,79 361.5,79" fill="#1f4e79"/>
+  <line x1="499" y1="70" x2="499" y2="79" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="499,87 494.5,79 503.5,79" fill="#1f4e79"/>
+  <line x1="641" y1="70" x2="641" y2="79" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="641,87 636.5,79 645.5,79" fill="#1f4e79"/>
+  <rect x="8" y="90" width="130" height="40" rx="3" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.2"/>
+  <text x="73" y="115" text-anchor="middle" font-size="13" fill="#1f4e79" font-weight="bold">基本模型</text>
+  <rect x="150" y="90" width="130" height="40" rx="3" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.2"/>
+  <text x="215" y="115" text-anchor="middle" font-size="13" fill="#1f4e79" font-weight="bold">访问控制</text>
+  <rect x="292" y="90" width="130" height="40" rx="3" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.2"/>
+  <text x="357" y="115" text-anchor="middle" font-size="13" fill="#1f4e79" font-weight="bold">机密性</text>
+  <rect x="434" y="90" width="130" height="40" rx="3" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.2"/>
+  <text x="499" y="115" text-anchor="middle" font-size="13" fill="#1f4e79" font-weight="bold">完整性</text>
+  <rect x="576" y="90" width="130" height="40" rx="3" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.2"/>
+  <text x="641" y="115" text-anchor="middle" font-size="13" fill="#1f4e79" font-weight="bold">信息流</text>
+  <line x1="73" y1="130" x2="73" y2="139" stroke="#6b7a8a" stroke-width="1.2" fill="none"/>
+  <polygon points="73,147 68.5,139 77.5,139" fill="#6b7a8a"/>
+  <line x1="215" y1="130" x2="215" y2="139" stroke="#6b7a8a" stroke-width="1.2" fill="none"/>
+  <polygon points="215,147 210.5,139 219.5,139" fill="#6b7a8a"/>
+  <line x1="357" y1="130" x2="357" y2="139" stroke="#6b7a8a" stroke-width="1.2" fill="none"/>
+  <polygon points="357,147 352.5,139 361.5,139" fill="#6b7a8a"/>
+  <line x1="499" y1="130" x2="499" y2="139" stroke="#6b7a8a" stroke-width="1.2" fill="none"/>
+  <polygon points="499,147 494.5,139 503.5,139" fill="#6b7a8a"/>
+  <line x1="641" y1="130" x2="641" y2="139" stroke="#6b7a8a" stroke-width="1.2" fill="none"/>
+  <polygon points="641,147 636.5,139 645.5,139" fill="#6b7a8a"/>
+  <rect x="8" y="150" width="130" height="60" rx="3" fill="#f3f6ee" stroke="#8aa15c" stroke-width="1"/>
+  <text x="18" y="176" font-size="12" fill="#22303f" font-weight="bold">HRU</text>
+  <text x="18" y="198" font-size="12" fill="#22303f">访问控制矩阵</text>
+  <rect x="150" y="150" width="130" height="170" rx="3" fill="#fdf0e6" stroke="#c05621" stroke-width="1"/>
+  <text x="160" y="174" font-size="12" fill="#c05621" font-weight="bold">MAC 强制</text>
+  <text x="160" y="196" font-size="12" fill="#22303f">BLP</text>
+  <text x="160" y="218" font-size="12" fill="#22303f">Chinese Wall</text>
+  <text x="160" y="248" font-size="12" fill="#c05621" font-weight="bold">DAC 自主</text>
+  <text x="160" y="278" font-size="12" fill="#c05621" font-weight="bold">RBAC 角色</text>
+  <rect x="292" y="150" width="130" height="60" rx="3" fill="#f3f6ee" stroke="#8aa15c" stroke-width="1"/>
+  <text x="302" y="184" font-size="12" fill="#22303f">BLP 模型</text>
+  <rect x="434" y="150" width="130" height="90" rx="3" fill="#f3f6ee" stroke="#8aa15c" stroke-width="1"/>
+  <text x="444" y="176" font-size="12" fill="#22303f">Biba</text>
+  <text x="444" y="200" font-size="12" fill="#22303f">Clark-Wilson</text>
+  <rect x="576" y="150" width="130" height="90" rx="3" fill="#f3f6ee" stroke="#8aa15c" stroke-width="1"/>
+  <text x="586" y="176" font-size="12" fill="#22303f">非干扰性</text>
+  <text x="586" y="200" font-size="12" fill="#22303f">非观察性</text>
+</svg>

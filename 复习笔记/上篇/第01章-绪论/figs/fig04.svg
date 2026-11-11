@@ -1,0 +1,65 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 330" font-family="Microsoft YaHei, 微软雅黑, sans-serif">
+  <defs>
+    <marker id="arrow" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+      <path d="M0,0 L6,3 L0,6 Z" fill="#1f4e79"/>
+    </marker>
+  </defs>
+  <!-- 事件 -->
+  <ellipse cx="55" cy="150" rx="40" ry="26" fill="#fdf0e6" stroke="#c05621" stroke-width="1.2"/>
+  <text x="55" y="156" font-size="14" font-weight="bold" fill="#c05621" text-anchor="middle">事件</text>
+  <!-- 事件队列 -->
+  <rect x="130" y="118" width="110" height="64" rx="6" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.2"/>
+  <text x="185" y="146" font-size="14" font-weight="bold" fill="#1f4e79" text-anchor="middle">事件队列</text>
+  <text x="185" y="166" font-size="11" fill="#6b7a8a" text-anchor="middle">接收事件的入口</text>
+  <!-- 分发器 -->
+  <rect x="290" y="118" width="110" height="64" rx="6" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.2"/>
+  <text x="345" y="146" font-size="14" font-weight="bold" fill="#1f4e79" text-anchor="middle">分发器</text>
+  <text x="345" y="166" font-size="11" fill="#6b7a8a" text-anchor="middle">分发到业务单元</text>
+  <!-- 三条事件通道 -->
+  <g font-size="13" fill="#22303f">
+    <rect x="470" y="30" width="100" height="46" rx="6" fill="#f3f6ee" stroke="#8aa15c" stroke-width="1.2"/>
+    <text x="520" y="58" text-anchor="middle">事件通道</text>
+    <rect x="470" y="127" width="100" height="46" rx="6" fill="#f3f6ee" stroke="#8aa15c" stroke-width="1.2"/>
+    <text x="520" y="155" text-anchor="middle">事件通道</text>
+    <rect x="470" y="224" width="100" height="46" rx="6" fill="#f3f6ee" stroke="#8aa15c" stroke-width="1.2"/>
+    <text x="520" y="252" text-anchor="middle">事件通道</text>
+  </g>
+  <!-- 三个事件处理器 -->
+  <g font-size="13" fill="#22303f">
+    <rect x="610" y="30" width="100" height="46" rx="6" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.2"/>
+    <text x="660" y="51" text-anchor="middle" font-size="12">事件处理器</text>
+    <text x="660" y="68" text-anchor="middle" font-size="10" fill="#6b7a8a">业务模块</text>
+    <rect x="610" y="127" width="100" height="46" rx="6" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.2"/>
+    <text x="660" y="148" text-anchor="middle" font-size="12">事件处理器</text>
+    <text x="660" y="165" text-anchor="middle" font-size="10" fill="#6b7a8a">业务模块</text>
+    <rect x="610" y="224" width="100" height="46" rx="6" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.2"/>
+    <text x="660" y="245" text-anchor="middle" font-size="12">事件处理器</text>
+    <text x="660" y="262" text-anchor="middle" font-size="10" fill="#6b7a8a">业务模块</text>
+  </g>
+  <!-- 事件 -> 队列 -> 分发器 -->
+  <g stroke="#1f4e79" stroke-width="1.5" fill="none">
+    <line x1="98" y1="150" x2="116.0" y2="150.0"/>
+    <polygon points="124.0,150.0 116.0,154.5 116.0,145.5" fill="#1f4e79"/>
+    <line x1="243" y1="150" x2="276.0" y2="150.0"/>
+    <polygon points="284.0,150.0 276.0,154.5 276.0,145.5" fill="#1f4e79"/>
+  </g>
+  <!-- 分发器右缘三个独立连接点 -> 三条通道（直角折线） -->
+  <g stroke="#1f4e79" stroke-width="1.5" fill="none">
+    <polyline points="400.0,132.0 432.0,132.0 432.0,53.0 456.0,53.0"/>
+    <polygon points="464.0,53.0 456.0,57.5 456.0,48.5" fill="#1f4e79"/>
+    <line x1="400" y1="150" x2="456.0" y2="150.0"/>
+    <polygon points="464.0,150.0 456.0,154.5 456.0,145.5" fill="#1f4e79"/>
+    <polyline points="400.0,168.0 432.0,168.0 432.0,247.0 456.0,247.0"/>
+    <polygon points="464.0,247.0 456.0,251.5 456.0,242.5" fill="#1f4e79"/>
+  </g>
+  <!-- 通道 -> 处理器 -->
+  <g stroke="#1f4e79" stroke-width="1.5" fill="none">
+    <line x1="573" y1="53" x2="596.0" y2="53.0"/>
+    <polygon points="604.0,53.0 596.0,57.5 596.0,48.5" fill="#1f4e79"/>
+    <line x1="573" y1="150" x2="596.0" y2="150.0"/>
+    <polygon points="604.0,150.0 596.0,154.5 596.0,145.5" fill="#1f4e79"/>
+    <line x1="573" y1="247" x2="596.0" y2="247.0"/>
+    <polygon points="604.0,247.0 596.0,251.5 596.0,242.5" fill="#1f4e79"/>
+  </g>
+  <text x="360" y="308" font-size="12" fill="#6b7a8a" text-anchor="middle">事件处理器完成业务逻辑后发出新事件，触发下一步操作；简单项目可合并为「事件代理 + 事件处理器」</text>
+</svg>

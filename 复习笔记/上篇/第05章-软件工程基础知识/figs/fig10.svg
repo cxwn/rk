@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 325" font-family="Microsoft YaHei, 微软雅黑, sans-serif">
+  <rect width="720" height="325" fill="#ffffff"/>
+  <text x="360" y="32" text-anchor="middle" font-size="20" font-weight="bold" fill="#1f4e79">OOD 三类：边界交互、控制协调、实体保存数据</text>
+  <g text-anchor="middle">
+    <rect x="35" y="90" width="180" height="145" rx="8" fill="#fdf0e6" stroke="#c05621" stroke-width="1.8"/>
+    <text x="125" y="124" font-size="21" font-weight="bold" fill="#c05621">边界类</text>
+    <text x="125" y="155" font-size="16" fill="#22303f">课程注册窗口</text>
+    <text x="125" y="184" font-size="14" fill="#6b7a8a">参与者与系统交互</text>
+    <text x="125" y="208" font-size="14" fill="#6b7a8a">隔离外部变化</text>
+    <rect x="270" y="90" width="180" height="145" rx="8" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.8"/>
+    <text x="360" y="124" font-size="21" font-weight="bold" fill="#1f4e79">控制类</text>
+    <text x="360" y="155" font-size="16" fill="#22303f">选课控制器</text>
+    <text x="360" y="184" font-size="14" fill="#6b7a8a">封装用例特有行为</text>
+    <text x="360" y="208" font-size="14" fill="#6b7a8a">协调其他对象</text>
+    <rect x="505" y="90" width="180" height="145" rx="8" fill="#f3f6ee" stroke="#4a6130" stroke-width="1.8"/>
+    <text x="595" y="124" font-size="21" font-weight="bold" fill="#4a6130">实体类</text>
+    <text x="595" y="155" font-size="16" fill="#22303f">课程 / 学员</text>
+    <text x="595" y="184" font-size="14" fill="#6b7a8a">保存长期业务信息</text>
+    <text x="595" y="208" font-size="14" fill="#6b7a8a">通常需要持久化</text>
+  </g>
+  <line x1="215" y1="162" x2="259" y2="162" stroke="#1f4e79" stroke-width="1.5"/>
+  <polygon points="267,162 259,157.5 259,166.5" fill="#1f4e79"/>
+  <line x1="450" y1="162" x2="494" y2="162" stroke="#1f4e79" stroke-width="1.5"/>
+  <polygon points="502,162 494,157.5 494,166.5" fill="#1f4e79"/>
+  <text x="241" y="145" text-anchor="middle" font-size="12" fill="#6b7a8a">请求</text>
+  <text x="476" y="145" text-anchor="middle" font-size="12" fill="#6b7a8a">读写</text>
+  <rect x="85" y="265" width="550" height="38" rx="6" fill="#eaf1f8"/>
+  <text x="360" y="290" text-anchor="middle" font-size="15" fill="#1f4e79">识别口诀：窗口报表找边界，用例协调找控制，持久名词找实体</text>
+</svg>

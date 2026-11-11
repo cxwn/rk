@@ -1,0 +1,48 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 400" font-family="Microsoft YaHei, 微软雅黑, sans-serif">
+  <defs>
+    <marker id="arrow" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+      <path d="M0,0 L6,3 L0,6 Z" fill="#1f4e79"/>
+    </marker>
+  </defs>
+  <!-- 上排插件 -->
+  <g font-size="13" fill="#22303f">
+    <rect x="80" y="30" width="150" height="50" rx="6" fill="#fdf0e6" stroke="#c05621" stroke-width="1.2"/>
+    <text x="155" y="60" text-anchor="middle">即插组件（插件）</text>
+    <rect x="285" y="30" width="150" height="50" rx="6" fill="#fdf0e6" stroke="#c05621" stroke-width="1.2"/>
+    <text x="360" y="60" text-anchor="middle">即插组件（插件）</text>
+    <rect x="490" y="30" width="150" height="50" rx="6" fill="#fdf0e6" stroke="#c05621" stroke-width="1.2"/>
+    <text x="565" y="60" text-anchor="middle">即插组件（插件）</text>
+  </g>
+  <!-- 内核 -->
+  <rect x="240" y="150" width="240" height="100" rx="10" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.6"/>
+  <text x="360" y="192" font-size="17" font-weight="bold" fill="#1f4e79" text-anchor="middle">内核系统 Core</text>
+  <text x="360" y="218" font-size="12" fill="#6b7a8a" text-anchor="middle">只包含系统运行的最小功能</text>
+  <!-- 下排插件 -->
+  <g font-size="13" fill="#22303f">
+    <rect x="80" y="320" width="150" height="50" rx="6" fill="#fdf0e6" stroke="#c05621" stroke-width="1.2"/>
+    <text x="155" y="350" text-anchor="middle">即插组件（插件）</text>
+    <rect x="285" y="320" width="150" height="50" rx="6" fill="#fdf0e6" stroke="#c05621" stroke-width="1.2"/>
+    <text x="360" y="350" text-anchor="middle">即插组件（插件）</text>
+    <rect x="490" y="320" width="150" height="50" rx="6" fill="#fdf0e6" stroke="#c05621" stroke-width="1.2"/>
+    <text x="565" y="350" text-anchor="middle">即插组件（插件）</text>
+  </g>
+  <!-- 上排插件 -> 内核顶缘三个独立连接点（直角折线） -->
+  <g stroke="#1f4e79" stroke-width="1.5" fill="none">
+    <polyline points="155.0,83.0 155.0,110.0 300.0,110.0 300.0,136.0"/>
+    <polygon points="300.0,144.0 295.5,136.0 304.5,136.0" fill="#1f4e79"/>
+    <line x1="360" y1="83" x2="360.0" y2="136.0"/>
+    <polygon points="360.0,144.0 355.5,136.0 364.5,136.0" fill="#1f4e79"/>
+    <polyline points="565.0,83.0 565.0,110.0 420.0,110.0 420.0,136.0"/>
+    <polygon points="420.0,144.0 415.5,136.0 424.5,136.0" fill="#1f4e79"/>
+  </g>
+  <!-- 内核底缘三个独立连接点 -> 下排插件（直角折线） -->
+  <g stroke="#1f4e79" stroke-width="1.5" fill="none">
+    <polyline points="300.0,253.0 300.0,290.0 155.0,290.0 155.0,306.0"/>
+    <polygon points="155.0,314.0 150.5,306.0 159.5,306.0" fill="#1f4e79"/>
+    <line x1="360" y1="253" x2="360.0" y2="306.0"/>
+    <polygon points="360.0,314.0 355.5,306.0 364.5,306.0" fill="#1f4e79"/>
+    <polyline points="420.0,253.0 420.0,290.0 565.0,290.0 565.0,306.0"/>
+    <polygon points="565.0,314.0 560.5,306.0 569.5,306.0" fill="#1f4e79"/>
+  </g>
+  <text x="360" y="392" font-size="12" fill="#6b7a8a" text-anchor="middle">插件互相独立，插件之间的通信减少到最低，避免互相依赖</text>
+</svg>

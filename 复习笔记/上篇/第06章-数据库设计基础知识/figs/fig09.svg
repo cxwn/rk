@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 500" font-family="Microsoft YaHei, 微软雅黑, sans-serif">
+  <rect width="720" height="500" fill="#ffffff"/>
+  <text x="360" y="30" text-anchor="middle" font-size="20" font-weight="bold" fill="#1f4e79">E-R 图转换为关系模式：学生选课示例</text>
+  <rect x="30" y="50" width="660" height="200" rx="9" fill="#fbfdff" stroke="#d5dde5"/>
+  <text x="48" y="73" font-size="13" fill="#6b7a8a">概念模型：矩形＝实体，菱形＝联系，椭圆＝联系属性</text>
+  <rect x="55" y="90" width="145" height="55" rx="5" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.5"/>
+  <text x="127" y="124" text-anchor="middle" font-size="17" font-weight="bold" fill="#1f4e79">学生</text>
+  <line x1="200" y1="117" x2="235" y2="117" stroke="#1f4e79" stroke-width="1.5"/>
+  <text x="214" y="103" text-anchor="middle" font-size="14" font-weight="bold" fill="#c05621">m</text>
+  <polygon points="305,82 375,117 305,152 235,117" fill="#fdf0e6" stroke="#c05621" stroke-width="1.5"/>
+  <text x="305" y="124" text-anchor="middle" font-size="17" font-weight="bold" fill="#c05621">选课</text>
+  <line x1="375" y1="117" x2="455" y2="117" stroke="#1f4e79" stroke-width="1.5"/>
+  <text x="414" y="103" text-anchor="middle" font-size="14" font-weight="bold" fill="#c05621">n</text>
+  <rect x="455" y="90" width="145" height="55" rx="5" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.5"/>
+  <text x="527" y="124" text-anchor="middle" font-size="17" font-weight="bold" fill="#1f4e79">课程</text>
+  <line x1="305" y1="152" x2="305" y2="183" stroke="#c05621" stroke-width="1.5"/>
+  <ellipse cx="305" cy="213" rx="58" ry="30" fill="#f3f6ee" stroke="#8aa15c" stroke-width="1.4"/>
+  <text x="305" y="220" text-anchor="middle" font-size="15" fill="#4a6130">成绩</text>
+  <line x1="360" y1="250" x2="360" y2="289" stroke="#1f4e79" stroke-width="1.6"/>
+  <polygon points="360,297 355.5,289 364.5,289" fill="#1f4e79"/>
+  <text x="377" y="276" font-size="13" fill="#6b7a8a">转换</text>
+  <rect x="35" y="300" width="180" height="130" rx="7" fill="#eaf1f8" stroke="#1f4e79"/>
+  <rect x="35" y="300" width="180" height="38" rx="7" fill="#1f4e79"/>
+  <text x="125" y="325" text-anchor="middle" font-size="15" font-weight="bold" fill="#ffffff">学生关系</text>
+  <text x="125" y="364" text-anchor="middle" font-size="14" fill="#22303f">学生（学号，姓名）</text>
+  <text x="125" y="397" text-anchor="middle" font-size="13" fill="#6b7a8a">主码：学号</text>
+  <rect x="265" y="300" width="190" height="160" rx="7" fill="#fdf0e6" stroke="#c05621"/>
+  <rect x="265" y="300" width="190" height="38" rx="7" fill="#c05621"/>
+  <text x="360" y="325" text-anchor="middle" font-size="15" font-weight="bold" fill="#ffffff">选课关系（M:N）</text>
+  <text x="360" y="360" text-anchor="middle" font-size="13" fill="#22303f">选课（学号，课程号，成绩）</text>
+  <text x="360" y="390" text-anchor="middle" font-size="12" fill="#6b7a8a">主码：学号＋课程号</text>
+  <text x="360" y="418" text-anchor="middle" font-size="12" fill="#6b7a8a">学号、课程号分别是外码</text>
+  <text x="360" y="445" text-anchor="middle" font-size="12" fill="#c05621">联系属性“成绩”一并保留</text>
+  <rect x="505" y="300" width="180" height="130" rx="7" fill="#eaf1f8" stroke="#1f4e79"/>
+  <rect x="505" y="300" width="180" height="38" rx="7" fill="#1f4e79"/>
+  <text x="595" y="325" text-anchor="middle" font-size="15" font-weight="bold" fill="#ffffff">课程关系</text>
+  <text x="595" y="364" text-anchor="middle" font-size="14" fill="#22303f">课程（课程号，课程名）</text>
+  <text x="595" y="397" text-anchor="middle" font-size="13" fill="#6b7a8a">主码：课程号</text>
+  <text x="360" y="485" text-anchor="middle" font-size="13" fill="#6b7a8a">1:1 可并入任一方；1:N 通常并入 N 方；M:N 必须独立成关系</text>
+</svg>

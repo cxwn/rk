@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 478" font-family="Microsoft YaHei, 微软雅黑, sans-serif">
+  <text x="360" y="26" text-anchor="middle" font-size="16" font-weight="bold" fill="#1f4e79">边缘计算三类落地形态</text>
+  <rect x="60" y="48" width="600" height="66" rx="7" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.5"/>
+  <text x="360" y="75" text-anchor="middle" font-size="14" font-weight="bold" fill="#1f4e79">靠近物或数据源头：网络 + 计算 + 存储 + 应用</text>
+  <text x="360" y="98" text-anchor="middle" font-size="12" fill="#22303f">开放平台就近提供边缘智能服务</text>
+  <line x1="135" y1="114" x2="135" y2="149" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="135,157 130.5,149 139.5,149" fill="#1f4e79"/>
+  <line x1="360" y1="114" x2="360" y2="149" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="360,157 355.5,149 364.5,149" fill="#1f4e79"/>
+  <line x1="585" y1="114" x2="585" y2="149" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="585,157 580.5,149 589.5,149" fill="#1f4e79"/>
+  <rect x="30" y="160" width="210" height="226" rx="6" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.5"/>
+  <text x="135" y="188" text-anchor="middle" font-size="17" font-weight="bold" fill="#1f4e79">云边缘</text>
+  <text x="135" y="212" text-anchor="middle" font-size="12" font-weight="bold" fill="#22303f">云服务在边缘侧延伸</text>
+  <text x="135" y="240" text-anchor="middle" font-size="11" fill="#22303f">逻辑上仍是云服务</text>
+  <text x="135" y="262" text-anchor="middle" font-size="11" fill="#22303f">能力依赖云</text>
+  <text x="135" y="282" text-anchor="middle" font-size="11" fill="#22303f">或与云紧密协同</text>
+  <text x="135" y="310" text-anchor="middle" font-size="11" font-weight="bold" fill="#1f4e79">代表方案</text>
+  <text x="135" y="332" text-anchor="middle" font-size="10" fill="#22303f">华为云 IEF</text>
+  <text x="135" y="351" text-anchor="middle" font-size="10" fill="#22303f">阿里云 Link Edge</text>
+  <text x="135" y="370" text-anchor="middle" font-size="10" fill="#22303f">AWS Greengrass</text>
+  <rect x="255" y="160" width="210" height="226" rx="6" fill="#f3f6ee" stroke="#4a6130" stroke-width="1.5"/>
+  <text x="360" y="188" text-anchor="middle" font-size="17" font-weight="bold" fill="#4a6130">边缘云</text>
+  <text x="360" y="212" text-anchor="middle" font-size="12" font-weight="bold" fill="#22303f">在边缘侧构建云能力</text>
+  <text x="360" y="240" text-anchor="middle" font-size="11" fill="#22303f">中小规模云服务能力</text>
+  <text x="360" y="262" text-anchor="middle" font-size="11" fill="#22303f">中心云主要负责</text>
+  <text x="360" y="282" text-anchor="middle" font-size="11" fill="#22303f">管理与调度</text>
+  <text x="360" y="310" text-anchor="middle" font-size="11" font-weight="bold" fill="#4a6130">代表方案</text>
+  <text x="360" y="332" text-anchor="middle" font-size="10" fill="#22303f">多接入边缘计算（MEC）</text>
+  <text x="360" y="351" text-anchor="middle" font-size="10" fill="#22303f">CDN</text>
+  <text x="360" y="370" text-anchor="middle" font-size="10" fill="#22303f">华为云 IEC</text>
+  <rect x="480" y="160" width="210" height="226" rx="6" fill="#fdf0e6" stroke="#c05621" stroke-width="1.5"/>
+  <text x="585" y="188" text-anchor="middle" font-size="17" font-weight="bold" fill="#c05621">云化网关</text>
+  <text x="585" y="212" text-anchor="middle" font-size="12" font-weight="bold" fill="#22303f">以云化技术重构网关</text>
+  <text x="585" y="240" text-anchor="middle" font-size="11" fill="#22303f">边缘侧：协议转换</text>
+  <text x="585" y="262" text-anchor="middle" font-size="11" fill="#22303f">与接口转换</text>
+  <text x="585" y="290" text-anchor="middle" font-size="11" fill="#22303f">云侧控制器：</text>
+  <text x="585" y="312" text-anchor="middle" font-size="11" fill="#22303f">资源调度与业务编排</text>
+  <text x="585" y="348" text-anchor="middle" font-size="11" font-weight="bold" fill="#c05621">代表形态</text>
+  <text x="585" y="370" text-anchor="middle" font-size="10" fill="#22303f">云化网关形态</text>
+  <rect x="45" y="414" width="630" height="44" rx="6" fill="#ffffff" stroke="#8aa15c" stroke-width="1.2"/>
+  <text x="360" y="442" text-anchor="middle" font-size="12" font-weight="bold" fill="#4a6130">辨析：云边缘＝云服务延伸｜边缘云＝边缘建云｜云化网关＝网关云化</text>
+</svg>

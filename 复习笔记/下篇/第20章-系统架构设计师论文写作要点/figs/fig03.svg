@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 440" font-family="Microsoft YaHei, 微软雅黑, sans-serif">
+  <rect width="720" height="440" fill="#ffffff"/>
+  <text x="360" y="34" text-anchor="middle" font-size="22" font-weight="bold" fill="#1f4e79">论文解答五步流程</text>
+
+  <rect x="60" y="60" width="600" height="52" rx="7" fill="#eaf1f8" stroke="#1f4e79"/>
+  <text x="88" y="93" font-size="18" font-weight="bold" fill="#1f4e79">1</text>
+  <text x="132" y="93" font-size="17" font-weight="bold" fill="#1f4e79">选择题目</text>
+  <text x="286" y="93" font-size="15" fill="#22303f">最熟悉、把握最大｜画圈并填考号</text>
+
+  <rect x="60" y="130" width="600" height="52" rx="7" fill="#f3f6ee" stroke="#8aa15c"/>
+  <text x="88" y="163" font-size="18" font-weight="bold" fill="#4a6130">2</text>
+  <text x="132" y="163" font-size="17" font-weight="bold" fill="#4a6130">论文构思</text>
+  <text x="286" y="163" font-size="15" fill="#22303f">定论点｜配项目｜列简稿｜分字数</text>
+
+  <rect x="60" y="200" width="600" height="52" rx="7" fill="#fdf0e6" stroke="#c05621"/>
+  <text x="88" y="233" font-size="18" font-weight="bold" fill="#c05621">3</text>
+  <text x="132" y="233" font-size="17" font-weight="bold" fill="#c05621">写摘要</text>
+  <text x="286" y="233" font-size="15" fill="#22303f">简洁明快｜概括项目、角色、措施、效果</text>
+
+  <rect x="60" y="270" width="600" height="52" rx="7" fill="#1f4e79" stroke="#1f4e79"/>
+  <text x="88" y="303" font-size="18" font-weight="bold" fill="#ffffff">4</text>
+  <text x="132" y="303" font-size="17" font-weight="bold" fill="#ffffff">正文撰写</text>
+  <text x="286" y="303" font-size="15" fill="#ffffff">按稿展开｜控制篇幅｜避免前后矛盾</text>
+
+  <rect x="60" y="340" width="600" height="52" rx="7" fill="#eaf1f8" stroke="#6b7a8a"/>
+  <text x="88" y="373" font-size="18" font-weight="bold" fill="#1f4e79">5</text>
+  <text x="132" y="373" font-size="17" font-weight="bold" fill="#1f4e79">检查纠正</text>
+  <text x="286" y="373" font-size="15" fill="#22303f">查遗漏错字｜整洁工整｜务必写完</text>
+
+  <g stroke="#1f4e79" stroke-width="1.5" fill="none">
+    <line x1="360" y1="112" x2="360" y2="119"/><line x1="360" y1="182" x2="360" y2="189"/>
+    <line x1="360" y1="252" x2="360" y2="259"/><line x1="360" y1="322" x2="360" y2="329"/>
+  </g>
+  <g fill="#1f4e79">
+    <polygon points="360,127 355.5,119 364.5,119"/><polygon points="360,197 355.5,189 364.5,189"/>
+    <polygon points="360,267 355.5,259 364.5,259"/><polygon points="360,337 355.5,329 364.5,329"/>
+  </g>
+  <text x="360" y="421" text-anchor="middle" font-size="14" fill="#c05621">核心顺序：先审题定骨架，再填充真实实践，最后保完整与一致</text>
+</svg>

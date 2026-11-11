@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 270" font-family="Microsoft YaHei, 微软雅黑, sans-serif">
+  <text x="360" y="28" text-anchor="middle" font-size="16" font-weight="bold" fill="#1f4e79">无 KDC 的密钥分配</text>
+  <rect x="80" y="45" width="120" height="40" rx="4" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.5"/>
+  <text x="140" y="70" text-anchor="middle" font-size="13" font-weight="bold" fill="#1f4e79">用户 A</text>
+  <rect x="520" y="45" width="120" height="40" rx="4" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.5"/>
+  <text x="580" y="70" text-anchor="middle" font-size="13" font-weight="bold" fill="#1f4e79">用户 B</text>
+  <text x="360" y="105" text-anchor="middle" font-size="11.5" fill="#6b7a8a">A、B 事先共享主密钥 Km（无中心，适用于局部网络）</text>
+  <line x1="140" y1="85" x2="140" y2="215" stroke="#6b7a8a" stroke-width="1" fill="none"/>
+  <line x1="580" y1="85" x2="580" y2="215" stroke="#6b7a8a" stroke-width="1" fill="none"/>
+  <text x="360" y="126" text-anchor="middle" font-size="11.5" fill="#22303f">① request‖N1（A 请求与 B 通信）</text>
+  <line x1="140" y1="135" x2="569" y2="135" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="577,135 569,130.5 569,139.5" fill="#1f4e79"/>
+  <text x="360" y="161" text-anchor="middle" font-size="11.5" fill="#22303f">② E_Km[Ks‖request‖ID_B‖f(N1)‖N2]</text>
+  <line x1="580" y1="170" x2="151" y2="170" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="143,170 151,165.5 151,174.5" fill="#1f4e79"/>
+  <text x="360" y="196" text-anchor="middle" font-size="11.5" fill="#22303f">③ E_Ks[f(N2)]（A 用会话密钥证实自己）</text>
+  <line x1="140" y1="205" x2="569" y2="205" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="577,205 569,200.5 569,209.5" fill="#1f4e79"/>
+  <text x="360" y="245" text-anchor="middle" font-size="11.5" fill="#6b7a8a">Ks 为会话密钥、N 为随机数；B 生成 Ks 并用主密钥加密后发给 A</text>
+</svg>

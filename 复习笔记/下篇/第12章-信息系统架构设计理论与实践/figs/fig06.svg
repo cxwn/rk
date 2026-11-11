@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 410" font-family="Microsoft YaHei, 微软雅黑, sans-serif">
+  <text x="360" y="26" text-anchor="middle" font-size="17" font-weight="bold" fill="#1f4e79">企业信息系统总体参考框架</text>
+  <rect x="190" y="52" width="340" height="66" rx="7" fill="#fdf0e6" stroke="#c05621" stroke-width="1.6"/>
+  <text x="360" y="80" text-anchor="middle" font-size="16" font-weight="bold" fill="#c05621">第一层：战略系统</text>
+  <text x="360" y="102" text-anchor="middle" font-size="11" fill="#22303f">战略规划 + 高层决策支持</text>
+  <text x="555" y="82" font-size="12" fill="#c05621">战略管理</text>
+  <rect x="65" y="160" width="270" height="82" rx="7" fill="#f3f6ee" stroke="#4a6130" stroke-width="1.6"/>
+  <text x="200" y="189" text-anchor="middle" font-size="16" font-weight="bold" fill="#4a6130">第二层：业务系统</text>
+  <text x="200" y="213" text-anchor="middle" font-size="11" fill="#22303f">业务建模 · BPR 流程优化</text>
+  <text x="200" y="232" text-anchor="middle" font-size="11" fill="#22303f">识别相对稳定数据</text>
+  <rect x="385" y="160" width="270" height="82" rx="7" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.6"/>
+  <text x="520" y="189" text-anchor="middle" font-size="16" font-weight="bold" fill="#1f4e79">第二层：应用系统</text>
+  <text x="520" y="213" text-anchor="middle" font-size="11" fill="#22303f">TPS · MIS · DSS · ES · OAS</text>
+  <text x="520" y="232" text-anchor="middle" font-size="11" fill="#22303f">内部功能实现 + 外部界面</text>
+  <text x="360" y="148" text-anchor="middle" font-size="12" fill="#6b7a8a">战术管理：业务与应用同层</text>
+  <line x1="285" y1="118" x2="200" y2="149" stroke="#4a6130" stroke-width="1.5" fill="none"/>
+  <polygon points="197,157 196,147 205,151" fill="#4a6130"/>
+  <text x="215" y="134" text-anchor="middle" font-size="10" fill="#4a6130">重组要求</text>
+  <line x1="435" y1="118" x2="520" y2="149" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="523,157 515,151 524,147" fill="#1f4e79"/>
+  <text x="505" y="134" text-anchor="middle" font-size="10" fill="#1f4e79">集成要求</text>
+  <rect x="65" y="292" width="590" height="82" rx="7" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.6"/>
+  <text x="360" y="321" text-anchor="middle" font-size="16" font-weight="bold" fill="#1f4e79">第三层：企业信息基础设施（EII）</text>
+  <text x="360" y="345" text-anchor="middle" font-size="12" fill="#22303f">技术基础设施 · 信息资源设施 · 管理基础设施</text>
+  <text x="360" y="364" text-anchor="middle" font-size="11" fill="#6b7a8a">数据、技术和管理平台支撑</text>
+  <text x="555" y="397" font-size="12" fill="#6b7a8a">运行管理</text>
+  <line x1="200" y1="292" x2="200" y2="253" stroke="#4a6130" stroke-width="1.5" fill="none"/>
+  <polygon points="200,245 195.5,253 204.5,253" fill="#4a6130"/>
+  <line x1="520" y1="292" x2="520" y2="253" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="520,245 515.5,253 524.5,253" fill="#1f4e79"/>
+  <text x="215" y="273" font-size="10" fill="#6b7a8a">灵活响应</text>
+  <text x="535" y="273" font-size="10" fill="#6b7a8a">数据支持</text>
+</svg>

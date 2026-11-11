@@ -1,0 +1,625 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>第4章 信息安全技术基础知识</title>
+<style>
+  :root{ --ink:#22303f; --main:#1f4e79; --main-light:#eaf1f8; --accent:#c05621;
+    --accent-light:#fdf0e6; --line:#d5dde5; --muted:#6b7a8a; }
+  *{ box-sizing:border-box; print-color-adjust:exact; -webkit-print-color-adjust:exact; }
+  html,body{ margin:0; padding:0; }
+  body{ font-family:"Microsoft YaHei","微软雅黑","PingFang SC","Noto Sans CJK SC",sans-serif;
+    color:var(--ink); background:#e9edf1; font-size:10.5pt; line-height:1.75; }
+  .sheet{ max-width:190mm; margin:8mm auto; background:#fff; padding:10mm 11mm;
+    box-shadow:0 2px 14px rgba(0,0,0,.12); }
+  h1{ font-size:21pt; color:var(--main); margin:0 0 2mm; border-bottom:3px solid var(--main); padding-bottom:3mm; }
+  h2{ font-size:14pt; color:var(--main); margin:8mm 0 3mm; padding:1.2mm 0 1.2mm 3mm;
+    border-left:5px solid var(--main); background:linear-gradient(to right,var(--main-light),#fff); break-after:avoid; }
+  h3{ font-size:11.5pt; color:var(--main); margin:5mm 0 2mm; break-after:avoid; }
+  p{ margin:1.5mm 0; }
+  code{ background:#f0f3f6; border-radius:1mm; padding:0 1mm; font-size:9.5pt; }
+  .def,.example,.mnemonic{ border-radius:2mm; padding:2.5mm 3.5mm; margin:2.5mm 0; break-inside:avoid; }
+  .def{ border:1.5px solid var(--main); background:#fbfdff; }
+  .example{ background:var(--accent-light); border-left:4px solid var(--accent); }
+  .mnemonic{ background:#f3f6ee; border:1px dashed #8aa15c; color:#4a6130; }
+  table{ border-collapse:collapse; width:100%; margin:2.5mm 0; font-size:9.5pt; table-layout:fixed; }
+  th,td{ border:1px solid var(--line); padding:1.6mm 2mm; text-align:left; vertical-align:top; overflow-wrap:break-word; }
+  th{ background:var(--main); color:#fff; text-align:center; }
+  thead{ display:table-header-group; }
+  tr{ break-inside:avoid; }
+  td.tc{ text-align:center; }
+  tr:nth-child(even) td{ background:#f6f9fc; }
+  .fig{ margin:3mm 0; padding:2.5mm; border:1px solid var(--line); border-radius:2mm;
+    background:#fdfefe; break-inside:avoid; }
+  .fig .cap{ text-align:center; color:var(--muted); font-size:9pt; margin-top:1mm; }
+  svg{ display:block; width:100%; height:auto; }
+  svg text{ font-family:inherit; }
+  ul,ol{ margin:1.5mm 0 1.5mm 5mm; padding-left:4mm; }
+  li{ margin:0.8mm 0; }
+  .footer{ margin-top:8mm; padding-top:2mm; border-top:1px solid var(--line);
+    color:var(--muted); font-size:8.5pt; text-align:center; }
+  @page{ size:A4; margin:12mm; }
+  @media print{ body{ background:#fff; font-size:10pt; }
+    .sheet{ max-width:none; margin:0; padding:0; box-shadow:none; } h2{ margin-top:6mm; } }
+</style>
+</head>
+<body>
+<div class="sheet">
+<h1>第4章 信息安全技术基础知识</h1>
+<ul><li>教材位置：02.系统架构设计师第二版-教材.pdf PDF 第 155～184 页（书页 145～174）</li><li>复习状态：已完成</li><li>复习日期：2026-11-06</li><li>本章地位：上午综合知识的稳定出题区，密码算法、密钥管理、访问控制、数字签名、网络攻击与防御、安全等级与风险评估均为高频考点；本章也是第 18 章「安全架构设计理论与实践」的概念地基。</li></ul>
+<h2>一、大纲考点</h2>
+<p>大纲科目 1 第 3 部分「信息安全技术基础知识」（书页 27～31）与教材本章 4.1～4.8 一一对应：</p>
+<table><colgroup><col style="width:23.3%"><col style="width:51.2%"><col style="width:25.6%"></colgroup><thead><tr><th>大纲条目</th><th>大纲要求（考点）</th><th>教材小节</th></tr></thead><tbody><tr><td>3.1 信息安全基础知识</td><td>信息安全定义、5 个基本要素、范围（设备/数据/内容/行为安全）；信息存储安全；网络安全（安全漏洞、安全威胁、安全措施）</td><td>4.1.1～4.1.3</td></tr><tr><td>3.2 信息系统安全的作用与意义</td><td>中央网络安全与信息化领导小组职能；国家对信息安全的要求和标准</td><td>4.2</td></tr><tr><td>3.3 信息安全系统的组成框架</td><td>技术体系（基础安全设备、网络、操作系统、数据库、终端）；组织机构体系（决策/管理/执行层）；管理体系（法律/制度/培训）</td><td>4.3.1～4.3.3</td></tr><tr><td>3.4 信息加解密技术</td><td>数据加密内涵与保密通信模型；对称算法 DES、IDEA、AES；非对称算法原理与 RSA</td><td>4.4.1～4.4.3</td></tr><tr><td>3.5 密钥管理技术</td><td>密钥使用控制（密钥标签、控制矢量）与分配方法；公钥管理（公开发布、公用目录表、公钥管理机构、公钥证书 CA）；公钥加密分配单钥体制密钥</td><td>4.5.1～4.5.3</td></tr><tr><td>3.6 访问控制及数字签名技术</td><td>访问控制基本模型（主体、客体、控制策略）与实现技术（矩阵、ACL、能力表、授权关系表）；数字签名定义和条件、身份认证分类、对称/公开密钥签名原理</td><td>4.6.1～4.6.2</td></tr><tr><td>3.7 信息安全的抗攻击技术</td><td>密钥分类（DK、KK）与生成三因素；DoS/DDoS 及防御；ARP、DNS、IP 欺骗；端口扫描分类；强化 TCP/IP 堆栈（SYN 风暴、ICMP、SNMP）；基于网络/主机的漏洞扫描</td><td>4.7.1～4.7.6</td></tr><tr><td>3.8 信息安全的保障体系与评估方法</td><td>安全保护能力 5 个等级；安全法规制度、安全保密管理及协议（SSL、PGP、IPSec）、数字水印；安全风险管理、风险评估要素及关系、脆弱性评估方法</td><td>4.8.1～4.8.2（部分未展开，见板块五）</td></tr></tbody></table>
+<h2>二、知识点笔记</h2>
+<h3>4.1 信息安全基础知识</h3>
+<p><b>1. 信息安全的 5 个基本要素</b> ⭐【重点】【高频考点】</p>
+<div class="def">教材原文：信息安全包括 5 个基本要素：机密性、完整性、可用性、可控性与可审查性。</div>
+<table><colgroup><col style="width:13.3%"><col style="width:51.7%"><col style="width:35.0%"></colgroup><thead><tr><th>要素</th><th>一句话含义</th><th>通俗理解（以一份纸质合同类比）</th></tr></thead><tbody><tr><td class="tc">机密性</td><td>信息不暴露给未授权的实体或进程</td><td>合同锁进保险柜，只有签约双方能看</td></tr><tr><td class="tc">完整性</td><td>只有被允许的人才能修改数据，且能判别是否被篡改</td><td>合同盖骑缝章，换一页立刻被发现</td></tr><tr><td class="tc">可用性</td><td>授权实体在需要时可访问数据，攻击者不能占光资源阻碍工作</td><td>需要用合同的时候随时取得出来</td></tr><tr><td class="tc">可控性</td><td>可以控制授权范围内的信息流向及行为方式</td><td>合同只准复印给指定的人，不准再转抄</td></tr><tr><td class="tc">可审查性</td><td>对出现的信息安全问题提供调查的依据和手段</td><td>谁借过、谁复印过都有签收记录可查</td></tr></tbody></table>
+<div class="mnemonic">助记：「机、完、可、控、审」——机密、完整、可用、可控、可审查；注意「可控性、可审查性」是 CIA 三要素之外多出的两个，选择题常在这里设陷阱。</div>
+<p><b>2. 信息安全的范围（4 类）</b> ⭐【重点】</p>
+<table><colgroup><col style="width:12.5%"><col style="width:31.2%"><col style="width:56.2%"></colgroup><thead><tr><th>范围</th><th>定位</th><th>三个方面</th></tr></thead><tbody><tr><td class="tc">设备安全</td><td>信息系统安全的物质基础、首要问题</td><td>稳定性（不出故障）、可靠性（正常执行任务）、可用性（可正常使用）</td></tr><tr><td class="tc">数据安全</td><td>防止数据被未授权泄露、篡改、毁坏</td><td>秘密性、完整性、可用性</td></tr><tr><td class="tc">内容安全</td><td>政治、法律、道德层次的要求</td><td>政治健康、符合法律法规、符合道德规范</td></tr><tr><td class="tc">行为安全</td><td>服务最终通过行为提供给用户</td><td>行为的秘密性、完整性、可控性（偏离预期能发现、控制、纠正）</td></tr></tbody></table>
+<div class="example">举例：设备安全管「机器别坏」，数据安全管「数据别丢别改别泄密」，内容安全管「内容合法健康」，行为安全管「系统做的事符合预期、能纠正」——四层由硬到软、由静到动。</div>
+<p><b>3. 信息存储安全（4.1.2）</b></p>
+<ul><li>包括：信息使用的安全、系统安全监控、计算机病毒防治、数据加密和防止非法攻击等。</li><li>用户标识与验证（访问控制的基础）两类方法：基于人的物理特征（签名、指纹、语音识别）；基于特殊安全物品（智能 IC 卡、磁条卡）。</li><li>用户存取权限限制两种方法：<b>隔离控制法</b>（物理隔离、时间隔离、逻辑隔离、密码技术隔离）与<b>限制权限法</b>（用户分类管理、目录文件权限控制、临时文件加密并及时清除）。</li><li>系统安全监控：建立审计系统和日志管理系统，监控进程与登录用户、检查文件授权与修改、检查配置与口令文件、检查登录历史。</li><li>计算机病毒特点 ⭐【高频考点】：<b>隐蔽性、传染性、潜伏性、触发性、破坏性</b>；防治靠制度：补丁与杀毒升级、敏感文件检查、高强度口令、每天备份、防火墙、物理隔离等。</li></ul>
+<p><b>4. 网络安全（4.1.3）</b></p>
+<ul><li>安全隐患表现在：物理安全性、软件安全漏洞（特权软件带恶意代码）、不兼容使用安全漏洞（软硬捆绑引入）、未选择合适的安全哲理（安全策略未开启）。</li><li>网络安全威胁 5 类 ⭐【高频考点】：非授权访问（假冒、越权）、信息泄露或丢失（窃听、流量分析、隐蔽隧道）、破坏数据完整性（删改插重发）、拒绝服务攻击、利用网络传播病毒。</li><li>安全措施目标 5 项：<b>访问控制</b>（有权做事）、<b>认证</b>（身份与声称一致）、<b>完整性</b>（收发一致）、<b>审计</b>（事后可证实，即不可抵赖性）、<b>保密</b>（不被窃听）。</li></ul>
+<h3>4.2 信息系统安全的作用与意义</h3>
+<ul><li>2010 年「震网」APT 攻击物理摧毁伊朗铀浓缩离心机，标志黑客攻击从窃取信息的「软打击」上升到毁坏设备的「硬摧毁」。</li><li>2014 年中央成立网络安全与信息化领导小组；核心论断：<b>没有网络安全就没有国家安全，没有信息化就没有现代化</b>。</li></ul>
+<h3>4.3 信息安全系统的组成框架</h3>
+<div class="def">教材原文：信息系统安全系统框架通常由技术体系、组织机构体系和管理体系共同构建。</div>
+<table><colgroup><col style="width:10.9%"><col style="width:41.3%"><col style="width:47.8%"></colgroup><thead><tr><th>体系</th><th>组成</th><th>要点</th></tr></thead><tbody><tr><td class="tc">技术体系</td><td>基础安全设备、计算机网络安全、操作系统安全、数据库安全、终端设备安全</td><td>密码芯片/加密卡；防火墙、VPN、加密传输；标识鉴别、最小特权、可信通路、安全审计等</td></tr><tr><td class="tc">组织机构体系</td><td>机构、岗位、人事机构</td><td>机构分决策层、管理层、执行层；人事机构负责素质教育、业绩考核、安全监管</td></tr><tr><td class="tc">管理体系</td><td>法律管理、制度管理、培训管理</td><td>管理是信息系统安全的灵魂，培训管理是确保安全的前提</td></tr></tbody></table>
+<div class="mnemonic">助记：「三分技术，七分管理」；机构三层记「决—管—执」，管理三件记「法—制—训」。</div>
+<h3>4.4 信息加解密技术</h3>
+<p><b>1. 保密通信模型（4.4.1）</b> ⭐【重点】</p>
+<p>密码学 = 密码编码学（设计密码体制）+ 密码分析学（破译密码）。发送端用加密算法 E 和密钥 K 把明文 P 变成密文 <b>C=E(K,P)</b>，接收端用解密算法 D 和密钥 K 还原 <b>P=D(K,C)</b>。</p>
+<div class="fig"><div><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 275" font-family="Microsoft YaHei, 微软雅黑, sans-serif">
+  <text x="360" y="28" text-anchor="middle" font-size="16" font-weight="bold" fill="#1f4e79">保密通信模型：C=E(K,P)，P=D(K,C)</text>
+  <rect x="30" y="55" width="220" height="160" rx="6" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.5"/>
+  <text x="140" y="78" text-anchor="middle" font-size="13" font-weight="bold" fill="#1f4e79">发送端</text>
+  <rect x="45" y="95" width="75" height="36" rx="4" fill="#ffffff" stroke="#1f4e79" stroke-width="1.2"/>
+  <text x="82.5" y="118" text-anchor="middle" font-size="12" fill="#22303f">明文 P</text>
+  <rect x="150" y="95" width="85" height="36" rx="4" fill="#ffffff" stroke="#1f4e79" stroke-width="1.2"/>
+  <text x="192.5" y="118" text-anchor="middle" font-size="11.5" fill="#22303f">加密算法 E</text>
+  <rect x="150" y="160" width="85" height="32" rx="4" fill="#fdf0e6" stroke="#c05621" stroke-width="1.2"/>
+  <text x="192.5" y="181" text-anchor="middle" font-size="12" fill="#c05621">密钥 K</text>
+  <line x1="120" y1="113" x2="139" y2="113" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="147,113 139,108.5 139,117.5" fill="#1f4e79"/>
+  <line x1="192.5" y1="160" x2="192.5" y2="142" stroke="#c05621" stroke-width="1.5" fill="none"/>
+  <polygon points="192.5,134 188,142 197,142" fill="#c05621"/>
+  <rect x="300" y="95" width="120" height="36" rx="4" fill="#ffffff" stroke="#1f4e79" stroke-width="1.2"/>
+  <text x="360" y="118" text-anchor="middle" font-size="11.5" fill="#22303f">密文 C=E(K,P)</text>
+  <line x1="235" y1="113" x2="289" y2="113" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="297,113 289,108.5 289,117.5" fill="#1f4e79"/>
+  <rect x="300" y="200" width="120" height="36" rx="4" fill="#fdf0e6" stroke="#c05621" stroke-width="1.2"/>
+  <text x="360" y="223" text-anchor="middle" font-size="12" fill="#c05621">偷听者</text>
+  <line x1="360" y1="131" x2="360" y2="189" stroke="#c05621" stroke-width="1.5" fill="none"/>
+  <polygon points="360,197 355.5,189 364.5,189" fill="#c05621"/>
+  <rect x="470" y="55" width="220" height="160" rx="6" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.5"/>
+  <text x="580" y="78" text-anchor="middle" font-size="13" font-weight="bold" fill="#1f4e79">接收端</text>
+  <rect x="485" y="95" width="85" height="36" rx="4" fill="#ffffff" stroke="#1f4e79" stroke-width="1.2"/>
+  <text x="527.5" y="118" text-anchor="middle" font-size="11.5" fill="#22303f">解密算法 D</text>
+  <rect x="600" y="95" width="75" height="36" rx="4" fill="#ffffff" stroke="#1f4e79" stroke-width="1.2"/>
+  <text x="637.5" y="118" text-anchor="middle" font-size="12" fill="#22303f">明文 P</text>
+  <rect x="485" y="160" width="85" height="32" rx="4" fill="#fdf0e6" stroke="#c05621" stroke-width="1.2"/>
+  <text x="527.5" y="181" text-anchor="middle" font-size="12" fill="#c05621">密钥 K</text>
+  <line x1="420" y1="113" x2="474" y2="113" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="482,113 474,108.5 474,117.5" fill="#1f4e79"/>
+  <line x1="570" y1="113" x2="589" y2="113" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="597,113 589,108.5 589,117.5" fill="#1f4e79"/>
+  <line x1="527.5" y1="160" x2="527.5" y2="142" stroke="#c05621" stroke-width="1.5" fill="none"/>
+  <polygon points="527.5,134 523,142 532,142" fill="#c05621"/>
+  <text x="360" y="258" text-anchor="middle" font-size="12" fill="#6b7a8a">加/解密算法 E、D 公开，密钥 K 秘密；偷听者只得密文、没有密钥，无法还原明文</text>
+</svg></div><div class="cap">保密通信模型：算法公开、密钥秘密</div></div>
+<ul><li>加/解密函数 E、D 是<b>公开</b>的，密钥 K 是<b>秘密</b>的；偷听者只有密文没有密钥，无法读懂。</li><li>【易错】<b>无条件安全</b>（理论不可破解）指密文不含足以确定明文的信息；现实中几乎所有密码体制都不是理论不可破解的，追求的是给定计算费用下<b>计算上安全</b>。</li></ul>
+<p><b>2. 对称密钥加密算法（4.4.2）</b>：加密密钥 = 解密密钥，又称共享密钥算法。</p>
+<table><colgroup><col style="width:17.6%"><col style="width:13.2%"><col style="width:30.1%"><col style="width:39.0%"></colgroup><thead><tr><th>算法</th><th>分组长度</th><th>密钥长度</th><th>轮数/要点</th></tr></thead><tbody><tr><td class="tc">DES（1977）</td><td class="tc">64 位</td><td>56 位（IBM 原 Lucifer 用 128 位）</td><td>初始置换 → 16 轮替代与换位 → 逆初始置换</td></tr><tr><td class="tc">三重 DES</td><td class="tc">64 位</td><td>两把密钥，有效 112 位</td><td>EDE：K1 加密 → K2 解密 → K1 加密，耗时约 3 倍</td></tr><tr><td class="tc">IDEA（1990）</td><td class="tc">64 位</td><td>128 位</td><td>8 轮迭代，可软硬件实现，比 DES 快</td></tr><tr><td class="tc">AES（2002 标准）</td><td class="tc">128 位分组</td><td>128 / 192 / 256 位</td><td>Rijndael 算法胜出，全球免版税，可软硬件实现</td></tr></tbody></table>
+<div class="fig"><div><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 300" font-family="Microsoft YaHei, 微软雅黑, sans-serif">
+  <text x="360" y="28" text-anchor="middle" font-size="16" font-weight="bold" fill="#1f4e79">DES 加密流程与三重 DES</text>
+  <rect x="25" y="70" width="80" height="50" rx="4" fill="#ffffff" stroke="#1f4e79" stroke-width="1.2"/>
+  <text x="65" y="92" text-anchor="middle" font-size="12" fill="#22303f">明文</text>
+  <text x="65" y="109" text-anchor="middle" font-size="11" fill="#6b7a8a">64 位</text>
+  <rect x="140" y="70" width="100" height="50" rx="4" fill="#ffffff" stroke="#1f4e79" stroke-width="1.2"/>
+  <text x="190" y="99" text-anchor="middle" font-size="12" fill="#22303f">初始置换 IP</text>
+  <rect x="275" y="60" width="160" height="70" rx="4" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.5"/>
+  <text x="355" y="90" text-anchor="middle" font-size="12" font-weight="bold" fill="#1f4e79">16 轮替代与换位</text>
+  <text x="355" y="112" text-anchor="middle" font-size="11" fill="#22303f">（56 位密钥控制）</text>
+  <rect x="470" y="70" width="100" height="50" rx="4" fill="#ffffff" stroke="#1f4e79" stroke-width="1.2"/>
+  <text x="520" y="99" text-anchor="middle" font-size="12" fill="#22303f">逆初始置换</text>
+  <rect x="605" y="70" width="90" height="50" rx="4" fill="#ffffff" stroke="#1f4e79" stroke-width="1.2"/>
+  <text x="650" y="92" text-anchor="middle" font-size="12" fill="#22303f">密文</text>
+  <text x="650" y="109" text-anchor="middle" font-size="11" fill="#6b7a8a">64 位</text>
+  <line x1="105" y1="95" x2="129" y2="95" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="137,95 129,90.5 129,99.5" fill="#1f4e79"/>
+  <line x1="240" y1="95" x2="264" y2="95" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="272,95 264,90.5 264,99.5" fill="#1f4e79"/>
+  <line x1="435" y1="95" x2="459" y2="95" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="467,95 459,90.5 459,99.5" fill="#1f4e79"/>
+  <line x1="570" y1="95" x2="594" y2="95" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="602,95 594,90.5 594,99.5" fill="#1f4e79"/>
+  <rect x="300" y="165" width="110" height="34" rx="4" fill="#fdf0e6" stroke="#c05621" stroke-width="1.2"/>
+  <text x="355" y="187" text-anchor="middle" font-size="11.5" fill="#c05621">密钥 K（56 位）</text>
+  <line x1="355" y1="165" x2="355" y2="141" stroke="#c05621" stroke-width="1.5" fill="none"/>
+  <polygon points="355,133 350.5,141 359.5,141" fill="#c05621"/>
+  <text x="30" y="232" font-size="13" font-weight="bold" fill="#1f4e79">三重 DES（EDE，两把密钥，有效 112 位）</text>
+  <rect x="30" y="250" width="70" height="34" rx="4" fill="#ffffff" stroke="#1f4e79" stroke-width="1.2"/>
+  <text x="65" y="272" text-anchor="middle" font-size="12" fill="#22303f">明文</text>
+  <rect x="140" y="250" width="110" height="34" rx="4" fill="#ffffff" stroke="#1f4e79" stroke-width="1.2"/>
+  <text x="195" y="272" text-anchor="middle" font-size="11.5" fill="#22303f">DES 加密 K1</text>
+  <rect x="290" y="250" width="110" height="34" rx="4" fill="#ffffff" stroke="#1f4e79" stroke-width="1.2"/>
+  <text x="345" y="272" text-anchor="middle" font-size="11.5" fill="#22303f">DES 解密 K2</text>
+  <rect x="440" y="250" width="110" height="34" rx="4" fill="#ffffff" stroke="#1f4e79" stroke-width="1.2"/>
+  <text x="495" y="272" text-anchor="middle" font-size="11.5" fill="#22303f">DES 加密 K1</text>
+  <rect x="590" y="250" width="70" height="34" rx="4" fill="#ffffff" stroke="#1f4e79" stroke-width="1.2"/>
+  <text x="625" y="272" text-anchor="middle" font-size="12" fill="#22303f">密文</text>
+  <line x1="100" y1="267" x2="129" y2="267" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="137,267 129,262.5 129,271.5" fill="#1f4e79"/>
+  <line x1="250" y1="267" x2="279" y2="267" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="287,267 279,262.5 279,271.5" fill="#1f4e79"/>
+  <line x1="400" y1="267" x2="429" y2="267" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="437,267 429,262.5 429,271.5" fill="#1f4e79"/>
+  <line x1="550" y1="267" x2="579" y2="267" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="587,267 579,262.5 579,271.5" fill="#1f4e79"/>
+</svg></div><div class="cap">DES 加密流程与三重 DES</div></div>
+<ul><li>为什么三重 DES 不用两重 DES？⭐【易错】两重 DES 对<b>中间相遇攻击</b>极为脆弱；三把密钥 168 位被认为超过实际需要，故第 1、3 层共用 K1，有效长度 112 位。</li><li>举例：DES 像「同一把钥匙开锁和上锁」的保险箱，双方必须事先安全地拿到同一把钥匙——这就是后面密钥分配要解决的问题。</li></ul>
+<p><b>3. 非对称密钥加密算法（4.4.3）</b> ⭐【重点】【高频考点】</p>
+<p>1976 年 Diffie 和 Hellman 提出公钥加密思想。公钥 E、私钥 D 需满足：D(E(P))=P；不能由 E 导出 D；选择明文攻击不能破解 E。</p>
+<ul><li><b>公钥加密、私钥解密 → 保密通信；私钥加密、公钥解密 → 数字签名</b>（方向用反是常见错误）。</li><li>RSA 密钥生成：选两个大素数 p、q；n=pq，z=(p-1)(q-1)；选 d 与 z 互质；选 e 使 ed≡1(mod z)。<b>公钥 (e,n)，私钥 (d,n)</b>；加密 C=P^e mod n，解密 P=C^d mod n。</li><li>RSA 安全性基于<b>大整数分解的困难性</b>：分解出 n=pq 就能推出私钥。</li><li>举例：教材小例 p=3、q=11，则 n=33、z=20，取 d=7、e=3（3×7=21≡1 mod 20）。明文 P=2：加密 C=2³ mod 33=8；解密 8⁷ mod 33=2097152 mod 33=2，还原成功。</li></ul>
+<h3>4.5 密钥管理技术</h3>
+<p><b>1. 对称密钥的使用控制与分配（4.5.1）</b></p>
+<ul><li>密钥分配要解决两个问题：引入自动分配机制提高效率；尽量减少系统中驻留的密钥量。</li><li>使用控制两种技术：<b>密钥标签</b>（如把 DES 的 8 个校验位当标签，前 3 位表示主/会话密钥、加密、解密，长度太受限）；<b>控制矢量</b>（字段长度可变，KDC 生成密钥时加入，CV 经杂凑后与主密钥异或，用于加密会话密钥，用户须凭共享主密钥和控制矢量才能恢复会话密钥）。</li><li>共享密钥 4 种获取方式：A 选好物理送 B；第三方选好物理分送；用已有密钥加密新密钥传送；<b>KDC 经保密信道分别分发</b>（最常用）。前两种称人工发送；N 个用户两两通信需 <b>N(N-1)/2</b> 个共享密钥。</li></ul>
+<div class="fig"><div><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 270" font-family="Microsoft YaHei, 微软雅黑, sans-serif">
+  <text x="360" y="28" text-anchor="middle" font-size="16" font-weight="bold" fill="#1f4e79">无 KDC 的密钥分配</text>
+  <rect x="80" y="45" width="120" height="40" rx="4" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.5"/>
+  <text x="140" y="70" text-anchor="middle" font-size="13" font-weight="bold" fill="#1f4e79">用户 A</text>
+  <rect x="520" y="45" width="120" height="40" rx="4" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.5"/>
+  <text x="580" y="70" text-anchor="middle" font-size="13" font-weight="bold" fill="#1f4e79">用户 B</text>
+  <text x="360" y="105" text-anchor="middle" font-size="11.5" fill="#6b7a8a">A、B 事先共享主密钥 Km（无中心，适用于局部网络）</text>
+  <line x1="140" y1="85" x2="140" y2="215" stroke="#6b7a8a" stroke-width="1" fill="none"/>
+  <line x1="580" y1="85" x2="580" y2="215" stroke="#6b7a8a" stroke-width="1" fill="none"/>
+  <text x="360" y="126" text-anchor="middle" font-size="11.5" fill="#22303f">① request‖N1（A 请求与 B 通信）</text>
+  <line x1="140" y1="135" x2="569" y2="135" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="577,135 569,130.5 569,139.5" fill="#1f4e79"/>
+  <text x="360" y="161" text-anchor="middle" font-size="11.5" fill="#22303f">② E_Km[Ks‖request‖ID_B‖f(N1)‖N2]</text>
+  <line x1="580" y1="170" x2="151" y2="170" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="143,170 151,165.5 151,174.5" fill="#1f4e79"/>
+  <text x="360" y="196" text-anchor="middle" font-size="11.5" fill="#22303f">③ E_Ks[f(N2)]（A 用会话密钥证实自己）</text>
+  <line x1="140" y1="205" x2="569" y2="205" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="577,205 569,200.5 569,209.5" fill="#1f4e79"/>
+  <text x="360" y="245" text-anchor="middle" font-size="11.5" fill="#6b7a8a">Ks 为会话密钥、N 为随机数；B 生成 Ks 并用主密钥加密后发给 A</text>
+</svg></div><div class="cap">无 KDC 的密钥分配（教材图 4-3）</div></div>
+<div class="fig"><div><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 305" font-family="Microsoft YaHei, 微软雅黑, sans-serif">
+  <text x="360" y="28" text-anchor="middle" font-size="16" font-weight="bold" fill="#1f4e79">有 KDC 的密钥分配</text>
+  <rect x="60" y="45" width="100" height="40" rx="4" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.5"/>
+  <text x="110" y="70" text-anchor="middle" font-size="13" font-weight="bold" fill="#1f4e79">用户 A</text>
+  <rect x="310" y="45" width="100" height="40" rx="4" fill="#fdf0e6" stroke="#c05621" stroke-width="1.5"/>
+  <text x="360" y="70" text-anchor="middle" font-size="13" font-weight="bold" fill="#c05621">KDC</text>
+  <rect x="560" y="45" width="100" height="40" rx="4" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.5"/>
+  <text x="610" y="70" text-anchor="middle" font-size="13" font-weight="bold" fill="#1f4e79">用户 B</text>
+  <line x1="110" y1="85" x2="110" y2="255" stroke="#6b7a8a" stroke-width="1" fill="none"/>
+  <line x1="360" y1="85" x2="360" y2="160" stroke="#6b7a8a" stroke-width="1" fill="none"/>
+  <line x1="610" y1="85" x2="610" y2="255" stroke="#6b7a8a" stroke-width="1" fill="none"/>
+  <text x="235" y="101" text-anchor="middle" font-size="11.5" fill="#22303f">① request‖N1</text>
+  <line x1="110" y1="110" x2="349" y2="110" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="357,110 349,105.5 349,114.5" fill="#1f4e79"/>
+  <text x="235" y="131" text-anchor="middle" font-size="11" fill="#22303f">② E_Ka[Ks‖request‖N1‖E_Kb[Ks‖ID_A]]</text>
+  <line x1="360" y1="140" x2="121" y2="140" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="113,140 121,135.5 121,144.5" fill="#1f4e79"/>
+  <text x="360" y="166" text-anchor="middle" font-size="11.5" fill="#22303f">③ E_Kb[Ks‖ID_A]（A 把 KDC 给 B 的部分转发给 B）</text>
+  <line x1="110" y1="175" x2="599" y2="175" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="607,175 599,170.5 599,179.5" fill="#1f4e79"/>
+  <text x="360" y="201" text-anchor="middle" font-size="11.5" fill="#22303f">④ E_Ks[N2]（B 用会话密钥发起验证）</text>
+  <line x1="610" y1="210" x2="121" y2="210" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="113,210 121,205.5 121,214.5" fill="#1f4e79"/>
+  <text x="360" y="236" text-anchor="middle" font-size="11.5" fill="#22303f">⑤ E_Ks[f(N2)]（A 应答，双向确认）</text>
+  <line x1="110" y1="245" x2="599" y2="245" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="607,245 599,240.5 599,249.5" fill="#1f4e79"/>
+  <text x="360" y="285" text-anchor="middle" font-size="11.5" fill="#6b7a8a">Ka、Kb 为各用户与 KDC 共享的主密钥（共 N 个）；Ks 会话密钥通信结束即销毁</text>
+</svg></div><div class="cap">有 KDC 的密钥分配（教材图 4-4）</div></div>
+<ul><li>⭐【高频考点】KDC 方式下，会话密钥仍是 N(N-1)/2 个且<b>通信结束立即销毁</b>，但<b>主密钥只需 N 个</b>（每个用户与 KDC 共享一个），可物理分发。</li><li>用户多、分布广时用<b>分层 KDC</b>（本地 KDC + 全局 KDC）：减少主密钥分布，并把虚假 KDC 的危害限制在局部。</li><li>会话密钥更换越频繁越安全，但增加网络负担与延迟，有效期需权衡。</li></ul>
+<p><b>2. 公钥加密体制的密钥管理（4.5.2）</b> ⭐【高频考点】</p>
+<table><colgroup><col style="width:11.7%"><col style="width:50.9%"><col style="width:37.4%"></colgroup><thead><tr><th>方式</th><th>做法</th><th>主要缺陷</th></tr></thead><tbody><tr><td class="tc">公开发布</td><td>用户广播自己的公钥（如 PGP 附在消息上）</td><td>任何人都能伪造公钥发布，假冒者可解读发向被冒名者的消息</td></tr><tr><td class="tc">公用目录表</td><td>可信管理员维护「用户名+公钥」动态目录，定期公布更新</td><td>管理员的秘密钥一旦被获取，同样面临假冒</td></tr><tr><td class="tc">公钥管理机构</td><td>机构用自身秘密钥签名应答用户查询，用户可靠知道机构公钥</td><td>每次通信都求助机构，易成瓶颈，目录易受窜扰</td></tr><tr><td class="tc">公钥证书</td><td>CA 用自身秘密钥对 [时戳 T、身份 ID、公钥 PK] 签字形成证书，接收方用 CA 公钥验证</td><td>无需再联系管理机构，避免集中管理的不便与隐患，是现行主流</td></tr></tbody></table>
+<p><b>3. 公钥加密分配单钥密码体制的密钥（4.5.3）</b></p>
+<p>公钥算法加密慢，适合用来分配对称会话密钥，而不是直接加密大量数据。</p>
+<div class="fig"><div><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 270" font-family="Microsoft YaHei, 微软雅黑, sans-serif">
+  <text x="360" y="28" text-anchor="middle" font-size="16" font-weight="bold" fill="#1f4e79">公钥加密分配会话密钥（A、B 已完成公钥交换）</text>
+  <rect x="80" y="45" width="110" height="40" rx="4" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.5"/>
+  <text x="135" y="70" text-anchor="middle" font-size="13" font-weight="bold" fill="#1f4e79">用户 A</text>
+  <rect x="530" y="45" width="110" height="40" rx="4" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.5"/>
+  <text x="585" y="70" text-anchor="middle" font-size="13" font-weight="bold" fill="#1f4e79">用户 B</text>
+  <line x1="135" y1="85" x2="135" y2="230" stroke="#6b7a8a" stroke-width="1" fill="none"/>
+  <line x1="585" y1="85" x2="585" y2="230" stroke="#6b7a8a" stroke-width="1" fill="none"/>
+  <text x="360" y="106" text-anchor="middle" font-size="11.5" fill="#22303f">① E_PKb[N1‖ID_A]（A 用 B 公钥加密身份与随机数）</text>
+  <line x1="135" y1="115" x2="574" y2="115" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="582,115 574,110.5 574,119.5" fill="#1f4e79"/>
+  <text x="360" y="141" text-anchor="middle" font-size="11.5" fill="#22303f">② E_PKa[N1‖N2]（只有 B 能解读①，证明对方是 B）</text>
+  <line x1="585" y1="150" x2="146" y2="150" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="138,150 146,145.5 146,154.5" fill="#1f4e79"/>
+  <text x="360" y="176" text-anchor="middle" font-size="11.5" fill="#22303f">③ E_PKb[N2]（使 B 相信对方确是 A）</text>
+  <line x1="135" y1="185" x2="574" y2="185" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="582,185 574,180.5 574,189.5" fill="#1f4e79"/>
+  <text x="360" y="211" text-anchor="middle" font-size="11.5" fill="#22303f">④ M=E_PKb[E_SKa[Ks]]（A 私钥签名 + B 公钥加密）</text>
+  <line x1="135" y1="220" x2="574" y2="220" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="582,220 574,215.5 574,219.5" fill="#1f4e79"/>
+  <text x="360" y="252" text-anchor="middle" font-size="11.5" fill="#6b7a8a">B 以 D_PKa[D_SKb[M]] 恢复 Ks：先自己私钥解密（保密），再 A 公钥验证（认证），可防被动与主动攻击</text>
+</svg></div><div class="cap">公钥加密分配会话密钥（教材图 4-5）</div></div>
+<ul><li>①②③ 步用一次性随机数 N1、N2 完成双向身份确认；④ A 发送 M=E_PKb[E_SKa[Ks]]：<b>用 B 的公钥加密保证只有 B 能读（保密），用 A 的私钥加密保证只有 A 能发（认证）</b>；B 以 D_PKa[D_SKb[M]] 恢复会话密钥 Ks。</li><li>该过程保密性和认证性均很强，既可防被动攻击，又可防主动攻击。</li></ul>
+<h3>4.6 访问控制及数字签名技术</h3>
+<p><b>1. 访问控制基本模型（4.6.1）</b> ⭐【重点】</p>
+<ul><li>三要素：<b>主体 S</b>（主动实体：用户、用户组、终端、进程等）、<b>客体 O</b>（被动实体：信息、文件、记录、硬件等）、<b>控制策略 KS</b>（主体对客体的操作行为集和约束条件集，即访问规则集）。</li><li>【易错】主体与客体是<b>相对角色</b>：一个实体被访问时就是客体，主动访问时就是主体，二者可相互转化。</li><li>访问控制包括三方面：<b>认证</b>（双向识别）、<b>控制策略实现</b>（防非法用户、防越权、防敏感信息泄露）、<b>审计</b>（记录管理员授权等行为，形成威慑）。</li></ul>
+<p><b>2. 访问控制实现技术</b> ⭐【高频考点】</p>
+<p>访问矩阵以主体为行、客体为列，元素是访问方式集合（R 读、W 写、O 管理）。大型系统中矩阵大且多空值，实际不保存整个矩阵：</p>
+<table><colgroup><col style="width:11.0%"><col style="width:27.0%"><col style="width:26.5%"><col style="width:35.5%"></colgroup><thead><tr><th>实现技术</th><th>保存方式</th><th>优势</th><th>短板/适用</th></tr></thead><tbody><tr><td class="tc">访问控制表 ACL</td><td>按列：每个客体一张表</td><td>查某客体的访问权限、删除客体权限方便；最流行</td><td>查/删一个主体对所有客体的权限要遍历所有表</td></tr><tr><td class="tc">能力表 CL</td><td>按行：每个主体一张表</td><td>查某主体的全部权限方便</td><td>查某客体的被授权主体困难；现代 OS 少用，分布式系统可与 ACL 结合</td></tr><tr><td class="tc">授权关系表</td><td>只存矩阵非空元素，每行一个（主体，客体，权限）</td><td>按主体排序得能力表效率，按客体排序得 ACL 效率</td><td>安全数据库系统常用</td></tr></tbody></table>
+<div class="fig"><div><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 315" font-family="Microsoft YaHei, 微软雅黑, sans-serif">
+  <text x="360" y="28" text-anchor="middle" font-size="16" font-weight="bold" fill="#1f4e79">访问控制矩阵及其实现技术</text>
+  <rect x="60" y="60" width="250" height="34" fill="#eaf1f8"/>
+  <rect x="60" y="60" width="250" height="136" fill="none" stroke="#6b7a8a" stroke-width="1.2"/>
+  <line x1="130" y1="60" x2="130" y2="196" stroke="#6b7a8a" stroke-width="0.8"/>
+  <line x1="190" y1="60" x2="190" y2="196" stroke="#6b7a8a" stroke-width="0.8"/>
+  <line x1="250" y1="60" x2="250" y2="196" stroke="#6b7a8a" stroke-width="0.8"/>
+  <line x1="60" y1="94" x2="310" y2="94" stroke="#6b7a8a" stroke-width="0.8"/>
+  <line x1="60" y1="128" x2="310" y2="128" stroke="#6b7a8a" stroke-width="0.8"/>
+  <line x1="60" y1="162" x2="310" y2="162" stroke="#6b7a8a" stroke-width="0.8"/>
+  <text x="95" y="82" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#1f4e79">主体/客体</text>
+  <text x="160" y="82" text-anchor="middle" font-size="11.5" font-weight="bold" fill="#1f4e79">O1</text>
+  <text x="220" y="82" text-anchor="middle" font-size="11.5" font-weight="bold" fill="#1f4e79">O2</text>
+  <text x="280" y="82" text-anchor="middle" font-size="11.5" font-weight="bold" fill="#1f4e79">O3</text>
+  <text x="95" y="116" text-anchor="middle" font-size="11" fill="#22303f">S1 张三</text>
+  <text x="95" y="150" text-anchor="middle" font-size="11" fill="#22303f">S2 李四</text>
+  <text x="95" y="184" text-anchor="middle" font-size="10.5" fill="#22303f">S3 管理员</text>
+  <text x="160" y="116" text-anchor="middle" font-size="11.5" fill="#22303f">R,W</text>
+  <text x="220" y="116" text-anchor="middle" font-size="11.5" fill="#22303f">R</text>
+  <text x="280" y="116" text-anchor="middle" font-size="11.5" fill="#6b7a8a">—</text>
+  <text x="160" y="150" text-anchor="middle" font-size="11.5" fill="#22303f">R</text>
+  <text x="220" y="150" text-anchor="middle" font-size="11.5" fill="#22303f">R,W</text>
+  <text x="280" y="150" text-anchor="middle" font-size="11.5" fill="#6b7a8a">—</text>
+  <text x="160" y="184" text-anchor="middle" font-size="11.5" fill="#22303f">O</text>
+  <text x="220" y="184" text-anchor="middle" font-size="11.5" fill="#22303f">O</text>
+  <text x="280" y="184" text-anchor="middle" font-size="11.5" fill="#22303f">O</text>
+  <rect x="380" y="70" width="300" height="56" rx="5" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.2"/>
+  <text x="395" y="92" font-size="12.5" font-weight="bold" fill="#1f4e79">访问控制表 ACL（按列）</text>
+  <text x="395" y="114" font-size="11" fill="#22303f">每个客体一张表：查「谁能访问它」方便</text>
+  <rect x="380" y="146" width="300" height="56" rx="5" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.2"/>
+  <text x="395" y="168" font-size="12.5" font-weight="bold" fill="#1f4e79">能力表 CL（按行）</text>
+  <text x="395" y="190" font-size="11" fill="#22303f">每个主体一张表：查「它能访问什么」方便</text>
+  <rect x="380" y="222" width="300" height="56" rx="5" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.2"/>
+  <text x="395" y="244" font-size="12.5" font-weight="bold" fill="#1f4e79">授权关系表（非空元素）</text>
+  <text x="395" y="266" font-size="11" fill="#22303f">按主体排序≈能力表；按客体排序≈ACL</text>
+  <text x="343" y="88" text-anchor="middle" font-size="11" fill="#6b7a8a">按列</text>
+  <line x1="310" y1="98" x2="369" y2="98" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="377,98 369,93.5 369,102.5" fill="#1f4e79"/>
+  <text x="343" y="164" text-anchor="middle" font-size="11" fill="#6b7a8a">按行</text>
+  <line x1="310" y1="174" x2="369" y2="174" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="377,174 369,169.5 369,178.5" fill="#1f4e79"/>
+  <text x="280" y="240" text-anchor="middle" font-size="11" fill="#6b7a8a">非空元素</text>
+  <polyline points="190,196 190,250 369,250" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="377,250 369,245.5 369,254.5" fill="#1f4e79"/>
+  <text x="360" y="296" text-anchor="middle" font-size="11.5" fill="#6b7a8a">R=读、W=写、O=管理；矩阵大且稀疏，实际按列（ACL）、按行（能力表）或非空元素（授权关系表）保存</text>
+</svg></div><div class="cap">访问控制矩阵及其三种实现技术</div></div>
+<div class="mnemonic">助记：「ACL 围着资源转（列），能力表跟着用户走（行），授权关系表两头兼顾（排序定效率）」。</div>
+<p><b>3. 数字签名（4.6.2）</b> ⭐【重点】【高频考点】</p>
+<p>A 向 B 发送签名消息 P 要达到：B 能验证 P 确实来自 A（<b>认证</b>）；A 事后不能否认（<b>不可抵赖</b>）；B 不能编造或改变 P（<b>完整性</b>）。</p>
+<p>可用数字签名的 5 个条件：签名可信、不可伪造、不可重用（不能移到别的文件上）、签名后文件不可改变、不可抵赖。</p>
+<div class="fig"><div><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 240" font-family="Microsoft YaHei, 微软雅黑, sans-serif">
+  <text x="360" y="28" text-anchor="middle" font-size="16" font-weight="bold" fill="#1f4e79">基于对称密钥的数字签名（可信仲裁人 BB）</text>
+  <rect x="60" y="45" width="100" height="40" rx="4" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.5"/>
+  <text x="110" y="70" text-anchor="middle" font-size="13" font-weight="bold" fill="#1f4e79">发送方 A</text>
+  <rect x="310" y="45" width="100" height="40" rx="4" fill="#fdf0e6" stroke="#c05621" stroke-width="1.5"/>
+  <text x="360" y="70" text-anchor="middle" font-size="13" font-weight="bold" fill="#c05621">仲裁人 BB</text>
+  <rect x="560" y="45" width="100" height="40" rx="4" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.5"/>
+  <text x="610" y="70" text-anchor="middle" font-size="13" font-weight="bold" fill="#1f4e79">接收方 B</text>
+  <line x1="110" y1="85" x2="110" y2="180" stroke="#6b7a8a" stroke-width="1" fill="none"/>
+  <line x1="360" y1="85" x2="360" y2="180" stroke="#6b7a8a" stroke-width="1" fill="none"/>
+  <line x1="610" y1="85" x2="610" y2="180" stroke="#6b7a8a" stroke-width="1" fill="none"/>
+  <text x="235" y="106" text-anchor="middle" font-size="11" fill="#22303f">① A‖KA(B,RA,t,P)</text>
+  <line x1="110" y1="115" x2="349" y2="115" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="357,115 349,110.5 349,119.5" fill="#1f4e79"/>
+  <text x="485" y="146" text-anchor="middle" font-size="11" fill="#22303f">② KB(A,RA,t,P,KBB(A,t,P))</text>
+  <line x1="360" y1="155" x2="599" y2="155" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="607,155 599,150.5 599,159.5" fill="#1f4e79"/>
+  <text x="360" y="200" text-anchor="middle" font-size="11.5" fill="#6b7a8a">KA、KB 为 A、B 各自与 BB 共享的密钥；KBB 只有仲裁人 BB 掌握，t 为时间戳</text>
+  <text x="360" y="222" text-anchor="middle" font-size="11.5" fill="#6b7a8a">B 保存证据 KBB(A,t,P)：A 不能抵赖、B 不能篡改（仲裁时 BB 可当场解密验证）</text>
+</svg></div><div class="cap">基于对称密钥的数字签名（教材图 4-6）</div></div>
+<ul><li>对称密钥签名必须引入<b>可信仲裁人 BB</b>：A、B 分别与 BB 共享密钥，BB 用只有自己掌握的密钥生成签名证据 K_BB(A,t,P)；B 保存证据，A 无法抵赖、B 无法篡改（仲裁时 BB 可当场解密验证）。</li></ul>
+<div class="fig"><div><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 290" font-family="Microsoft YaHei, 微软雅黑, sans-serif">
+  <text x="360" y="28" text-anchor="middle" font-size="16" font-weight="bold" fill="#1f4e79">基于公钥的数字签名</text>
+  <text x="30" y="58" font-size="12" font-weight="bold" fill="#1f4e79">发送方 A</text>
+  <rect x="40" y="70" width="70" height="36" rx="4" fill="#ffffff" stroke="#1f4e79" stroke-width="1.2"/>
+  <text x="75" y="93" text-anchor="middle" font-size="12" fill="#22303f">明文 P</text>
+  <rect x="140" y="70" width="110" height="36" rx="4" fill="#fdf0e6" stroke="#c05621" stroke-width="1.2"/>
+  <text x="195" y="93" text-anchor="middle" font-size="11.5" fill="#c05621">A 私钥 D_A 签名</text>
+  <rect x="280" y="70" width="100" height="36" rx="4" fill="#ffffff" stroke="#1f4e79" stroke-width="1.2"/>
+  <text x="330" y="93" text-anchor="middle" font-size="11.5" fill="#22303f">签名 D_A(P)</text>
+  <rect x="410" y="70" width="110" height="36" rx="4" fill="#ffffff" stroke="#1f4e79" stroke-width="1.2"/>
+  <text x="465" y="93" text-anchor="middle" font-size="11.5" fill="#22303f">B 公钥 E_B 加密</text>
+  <rect x="550" y="70" width="120" height="36" rx="4" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.2"/>
+  <text x="610" y="93" text-anchor="middle" font-size="11.5" fill="#22303f">E_B(D_A(P))</text>
+  <line x1="110" y1="88" x2="129" y2="88" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="137,88 129,83.5 129,92.5" fill="#1f4e79"/>
+  <line x1="250" y1="88" x2="269" y2="88" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="277,88 269,83.5 269,92.5" fill="#1f4e79"/>
+  <line x1="380" y1="88" x2="399" y2="88" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="407,88 399,83.5 399,92.5" fill="#1f4e79"/>
+  <line x1="520" y1="88" x2="539" y2="88" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="547,88 539,83.5 539,92.5" fill="#1f4e79"/>
+  <line x1="610" y1="106" x2="610" y2="169" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="610,177 605.5,169 614.5,169" fill="#1f4e79"/>
+  <text x="30" y="168" font-size="12" font-weight="bold" fill="#1f4e79">接收方 B</text>
+  <rect x="550" y="180" width="120" height="36" rx="4" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.2"/>
+  <text x="610" y="203" text-anchor="middle" font-size="12" fill="#22303f">密文</text>
+  <rect x="410" y="180" width="110" height="36" rx="4" fill="#ffffff" stroke="#1f4e79" stroke-width="1.2"/>
+  <text x="465" y="203" text-anchor="middle" font-size="11.5" fill="#22303f">B 私钥 D_B 解密</text>
+  <rect x="280" y="180" width="100" height="36" rx="4" fill="#ffffff" stroke="#1f4e79" stroke-width="1.2"/>
+  <text x="330" y="203" text-anchor="middle" font-size="11.5" fill="#22303f">D_A(P)</text>
+  <rect x="140" y="180" width="110" height="36" rx="4" fill="#fdf0e6" stroke="#c05621" stroke-width="1.2"/>
+  <text x="195" y="203" text-anchor="middle" font-size="11.5" fill="#c05621">A 公钥 E_A 验证</text>
+  <rect x="40" y="180" width="70" height="36" rx="4" fill="#ffffff" stroke="#1f4e79" stroke-width="1.2"/>
+  <text x="75" y="203" text-anchor="middle" font-size="12" fill="#22303f">明文 P</text>
+  <line x1="550" y1="198" x2="531" y2="198" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="523,198 531,193.5 531,202.5" fill="#1f4e79"/>
+  <line x1="410" y1="198" x2="391" y2="198" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="383,198 391,193.5 391,202.5" fill="#1f4e79"/>
+  <line x1="280" y1="198" x2="261" y2="198" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="253,198 261,193.5 261,202.5" fill="#1f4e79"/>
+  <line x1="140" y1="198" x2="121" y2="198" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="113,198 121,193.5 121,202.5" fill="#1f4e79"/>
+  <text x="360" y="248" text-anchor="middle" font-size="11.5" fill="#6b7a8a">A 私钥签名＝来源认证＋不可抵赖，B 公钥加密＝传输保密</text>
+  <text x="360" y="270" text-anchor="middle" font-size="11.5" fill="#6b7a8a">实际对长文件只对单向 Hash 摘要签名，提高效率、减少存储</text>
+</svg></div><div class="cap">基于公钥的数字签名（教材图 4-7）</div></div>
+<ul><li>公钥签名：A 用自己的<b>私钥</b> D_A 签名，再用 B 的<b>公钥</b> E_B 加密；B 用自己的私钥解密后，保留 D_A(P)，随时可用 A 的公钥验证来源。A 若否认，B 出示 D_A(P) 并用 A 公钥解出 P 即可证明；B 若篡改，则拿不出与新内容对应的签名。</li><li>【高频】长文件直接公钥签名效率太低，实际与<b>单向 Hash 函数</b>结合：<b>只对文件的 Hash 摘要签名</b>，速度快，签名与文件可分开保存，存储量也大大降低。</li></ul>
+<h3>4.7 信息安全的抗攻击技术</h3>
+<p><b>1. 密钥的选择（4.7.1）</b> ⭐【高频考点】</p>
+<ul><li>密钥分两类：<b>数据加密密钥 DK</b>（直接加密数据）与<b>密钥加密密钥 KK</b>（加密保护其他密钥，使之安全传递）。算法的安全性在于密钥。</li><li>密钥生成三因素：<b>增大密钥空间</b>（N 位密钥空间为 2^N，如 8 位 ASCII 密钥从 4 字节到 8 字节，穷举时间从 1.2 小时增至 58 万年）；<b>选择强钥</b>（不用易猜口令）；<b>密钥的随机性</b>（可靠随机源或安全伪随机数发生器；要求均匀分布、独立性、不可预测性）。</li></ul>
+<p><b>2. 拒绝服务攻击与防御（4.7.2）</b> ⭐【重点】</p>
+<ul><li>DoS：人为或非人为行动使主机硬件/软件失去工作能力，拒绝合法用户服务；两种思路：塞满服务器缓冲区使其不接新请求；用 IP 欺骗迫使服务器复位合法用户连接。</li><li>传统外部 DoS 四种模式：<b>消耗资源</b>（带宽、磁盘、CPU、内存）、<b>破坏或更改配置信息</b>、<b>物理破坏或改变网络部件</b>、<b>利用服务程序处理错误使服务失效</b>（如 LAND）。</li><li>DDoS：先侵入控制一批计算机再同时攻击同一目标，克服了传统 DoS 受网络资源限制、隐蔽性差两大弱点。</li></ul>
+<div class="fig"><div><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 360" font-family="Microsoft YaHei, 微软雅黑, sans-serif">
+  <text x="360" y="28" text-anchor="middle" font-size="16" font-weight="bold" fill="#1f4e79">DDoS 的三级控制结构</text>
+  <rect x="290" y="45" width="140" height="40" rx="4" fill="#fdf0e6" stroke="#c05621" stroke-width="1.5"/>
+  <text x="360" y="70" text-anchor="middle" font-size="12.5" font-weight="bold" fill="#c05621">Client 客户端</text>
+  <rect x="80" y="150" width="140" height="40" rx="4" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.5"/>
+  <text x="150" y="175" text-anchor="middle" font-size="12" fill="#1f4e79">Handler 主控端</text>
+  <rect x="290" y="150" width="140" height="40" rx="4" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.5"/>
+  <text x="360" y="175" text-anchor="middle" font-size="12" fill="#1f4e79">Handler 主控端</text>
+  <rect x="500" y="150" width="140" height="40" rx="4" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.5"/>
+  <text x="570" y="175" text-anchor="middle" font-size="12" fill="#1f4e79">Handler 主控端</text>
+  <polyline points="320,85 320,120 150,120 150,139" stroke="#c05621" stroke-width="1.5" fill="none"/>
+  <polygon points="150,147 145.5,139 154.5,139" fill="#c05621"/>
+  <line x1="360" y1="85" x2="360" y2="139" stroke="#c05621" stroke-width="1.5" fill="none"/>
+  <polygon points="360,147 355.5,139 364.5,139" fill="#c05621"/>
+  <polyline points="400,85 400,120 570,120 570,139" stroke="#c05621" stroke-width="1.5" fill="none"/>
+  <polygon points="570,147 565.5,139 574.5,139" fill="#c05621"/>
+  <rect x="37" y="250" width="95" height="40" rx="4" fill="#f3f6ee" stroke="#8aa15c" stroke-width="1.2"/>
+  <text x="84.5" y="274" text-anchor="middle" font-size="11" fill="#4a6130">Agent 代理端</text>
+  <rect x="147" y="250" width="95" height="40" rx="4" fill="#f3f6ee" stroke="#8aa15c" stroke-width="1.2"/>
+  <text x="194.5" y="274" text-anchor="middle" font-size="11" fill="#4a6130">Agent 代理端</text>
+  <rect x="257" y="250" width="95" height="40" rx="4" fill="#f3f6ee" stroke="#8aa15c" stroke-width="1.2"/>
+  <text x="304.5" y="274" text-anchor="middle" font-size="11" fill="#4a6130">Agent 代理端</text>
+  <rect x="367" y="250" width="95" height="40" rx="4" fill="#f3f6ee" stroke="#8aa15c" stroke-width="1.2"/>
+  <text x="414.5" y="274" text-anchor="middle" font-size="11" fill="#4a6130">Agent 代理端</text>
+  <rect x="477" y="250" width="95" height="40" rx="4" fill="#f3f6ee" stroke="#8aa15c" stroke-width="1.2"/>
+  <text x="524.5" y="274" text-anchor="middle" font-size="11" fill="#4a6130">Agent 代理端</text>
+  <rect x="587" y="250" width="95" height="40" rx="4" fill="#f3f6ee" stroke="#8aa15c" stroke-width="1.2"/>
+  <text x="634.5" y="274" text-anchor="middle" font-size="11" fill="#4a6130">Agent 代理端</text>
+  <polyline points="130,190 130,218 84,218 84,239" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="84,247 79.5,239 88.5,239" fill="#1f4e79"/>
+  <polyline points="170,190 170,218 194,218 194,239" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="194,247 189.5,239 198.5,239" fill="#1f4e79"/>
+  <polyline points="340,190 340,218 304,218 304,239" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="304,247 299.5,239 308.5,239" fill="#1f4e79"/>
+  <polyline points="380,190 380,218 414,218 414,239" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="414,247 409.5,239 418.5,239" fill="#1f4e79"/>
+  <polyline points="540,190 540,218 524,218 524,239" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="524,247 519.5,239 528.5,239" fill="#1f4e79"/>
+  <polyline points="580,190 580,218 634,218 634,239" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="634,247 629.5,239 638.5,239" fill="#1f4e79"/>
+  <text x="360" y="318" text-anchor="middle" font-size="11.5" fill="#6b7a8a">Client 在攻击者主机上发起控制；Handler、Agent 均运行在被侵入控制的主机上</text>
+  <text x="360" y="340" text-anchor="middle" font-size="11.5" fill="#6b7a8a">Handler 转发攻击命令，Agent 同时向同一目标发起实际攻击；隐蔽性强、威力大</text>
+</svg></div><div class="cap">DDoS 的三级控制结构（教材图 4-8）</div></div>
+<ul><li>⭐【高频考点】三级角色：<b>Client 客户端</b>运行在攻击者主机上，发起和控制攻击；<b>Handler 主控端</b>运行在被侵入控制的主机上，控制代理端；<b>Agent 代理端</b>运行在被侵入控制的主机上，接收主控端命令、对目标实施实际攻击。</li><li>防御：加强数据包特征识别（找特征字符串定位攻击源）；防火墙监视敏感端口（UDP 31335、UDP 27444、TCP 27665 等）；统计通信数据量（攻击前 DNS 正反向查询激增、攻击时源地址流量超限）；及时修正系统漏洞。</li></ul>
+<p><b>3. 欺骗攻击与防御（4.7.3）</b> ⭐【高频考点】</p>
+<div class="fig"><div><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 320" font-family="Microsoft YaHei, 微软雅黑, sans-serif">
+  <text x="360" y="28" text-anchor="middle" font-size="16" font-weight="bold" fill="#1f4e79">ARP 欺骗</text>
+  <rect x="60" y="60" width="150" height="70" rx="5" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.5"/>
+  <text x="135" y="90" text-anchor="middle" font-size="12.5" font-weight="bold" fill="#1f4e79">主机 A</text>
+  <text x="135" y="114" text-anchor="middle" font-size="11" fill="#22303f">IP Ia / MAC AA:AA</text>
+  <rect x="510" y="60" width="150" height="70" rx="5" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.5"/>
+  <text x="585" y="90" text-anchor="middle" font-size="12.5" font-weight="bold" fill="#1f4e79">主机 C</text>
+  <text x="585" y="114" text-anchor="middle" font-size="11" fill="#22303f">IP Ic / MAC CC:CC</text>
+  <rect x="285" y="195" width="150" height="70" rx="5" fill="#fdf0e6" stroke="#c05621" stroke-width="1.5"/>
+  <text x="360" y="225" text-anchor="middle" font-size="12.5" font-weight="bold" fill="#c05621">攻击者 B</text>
+  <text x="360" y="249" text-anchor="middle" font-size="11" fill="#c05621">MAC: BB:BB</text>
+  <text x="358" y="52" text-anchor="middle" font-size="11" fill="#6b7a8a">A 原以为：按 IP 发给 C</text>
+  <line x1="210" y1="75" x2="499" y2="75" stroke="#6b7a8a" stroke-width="1.2" fill="none"/>
+  <polygon points="507,75 499,70.5 499,79.5" fill="#6b7a8a"/>
+  <polyline points="435,210 585,210 585,141" stroke="#c05621" stroke-width="1.5" fill="none"/>
+  <polygon points="585,133 580.5,141 589.5,141" fill="#c05621"/>
+  <text x="597" y="200" font-size="11" fill="#c05621">① 使 C 瘫痪</text>
+  <polyline points="285,225 135,225 135,141" stroke="#c05621" stroke-width="1.5" fill="none"/>
+  <polygon points="135,133 130.5,141 139.5,141" fill="#c05621"/>
+  <text x="210" y="210" text-anchor="middle" font-size="11" fill="#c05621">② 伪造 ARP 应答</text>
+  <text x="210" y="248" text-anchor="middle" font-size="11" fill="#c05621">IP=Ic，MAC=BB:BB</text>
+  <polyline points="210,115 250,115 250,160 360,160 360,184" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="360,192 355.5,184 364.5,184" fill="#1f4e79"/>
+  <text x="310" y="150" text-anchor="middle" font-size="11" fill="#1f4e79">③ 数据实际流向 B</text>
+  <text x="360" y="298" text-anchor="middle" font-size="11.5" fill="#6b7a8a">ARP 收到应答即更新缓存（无需先请求）；防范：静态绑定 IP-MAC、双向绑定、ARP 服务器</text>
+</svg></div><div class="cap">ARP 欺骗（教材图 4-9）</div></div>
+<ul><li>ARP 欺骗原理：主机收到 ARP 应答就更新本地缓存，<b>不要求先发过请求</b>；攻击者 B 先使 C 瘫痪，再冒充 C 向 A 回应答（IP 是 C 的、MAC 是 B 的），A 发给 C 的数据实际流向 B——局域网按 MAC 地址传输，与 IP 无关。</li><li>ARP 防范：arp -s 静态固化网关 IP-MAC；使用 ARP 服务器；<b>双向绑定</b>；ARP Guard 等防护软件。</li></ul>
+<div class="fig"><div><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 320" font-family="Microsoft YaHei, 微软雅黑, sans-serif">
+  <text x="360" y="28" text-anchor="middle" font-size="16" font-weight="bold" fill="#1f4e79">DNS 欺骗</text>
+  <rect x="40" y="120" width="160" height="60" rx="5" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.5"/>
+  <text x="120" y="146" text-anchor="middle" font-size="12.5" font-weight="bold" fill="#1f4e79">查询主机</text>
+  <text x="120" y="168" text-anchor="middle" font-size="11.5" fill="#22303f">www.angel.com</text>
+  <rect x="270" y="40" width="180" height="60" rx="5" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.5"/>
+  <text x="360" y="64" text-anchor="middle" font-size="12" font-weight="bold" fill="#1f4e79">xxx.com 子域 DNS</text>
+  <text x="360" y="88" text-anchor="middle" font-size="10.5" fill="#22303f">www.xxx.com=202.109.2.2</text>
+  <rect x="530" y="40" width="160" height="60" rx="5" fill="#ffffff" stroke="#1f4e79" stroke-width="1.2"/>
+  <text x="610" y="64" text-anchor="middle" font-size="12" fill="#22303f">真实网站</text>
+  <text x="610" y="88" text-anchor="middle" font-size="11" fill="#6b7a8a">www.xxx.com</text>
+  <rect x="270" y="200" width="180" height="60" rx="5" fill="#fdf0e6" stroke="#c05621" stroke-width="1.5"/>
+  <text x="360" y="224" text-anchor="middle" font-size="11.5" font-weight="bold" fill="#c05621">攻击者 www.heike.com</text>
+  <text x="360" y="248" text-anchor="middle" font-size="11" fill="#c05621">冒充 DNS 应答</text>
+  <rect x="530" y="200" width="160" height="60" rx="5" fill="#fdf0e6" stroke="#c05621" stroke-width="1.2"/>
+  <text x="610" y="224" text-anchor="middle" font-size="12" fill="#c05621">虚假站点</text>
+  <text x="610" y="248" text-anchor="middle" font-size="11" fill="#c05621">IP: 200.1.1.1</text>
+  <text x="185" y="56" text-anchor="middle" font-size="11" fill="#22303f">① 查询 www.xxx.com</text>
+  <polyline points="120,120 120,70 259,70" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="267,70 259,65.5 259,74.5" fill="#1f4e79"/>
+  <text x="488" y="56" text-anchor="middle" font-size="10.5" fill="#6b7a8a">真实 IP</text>
+  <line x1="450" y1="70" x2="519" y2="70" stroke="#6b7a8a" stroke-width="1.2" fill="none"/>
+  <polygon points="527,70 519,65.5 519,74.5" fill="#6b7a8a"/>
+  <text x="190" y="220" text-anchor="middle" font-size="11" fill="#c05621">② 假应答 200.1.1.1</text>
+  <polyline points="270,230 120,230 120,191" stroke="#c05621" stroke-width="1.5" fill="none"/>
+  <polygon points="120,183 115.5,191 124.5,191" fill="#c05621"/>
+  <text x="405" y="140" text-anchor="middle" font-size="11" fill="#1f4e79">③ 访问被引向虚假站点 200.1.1.1</text>
+  <polyline points="200,150 610,150 610,189" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="610,197 605.5,189 614.5,189" fill="#1f4e79"/>
+  <text x="360" y="296" text-anchor="middle" font-size="11.5" fill="#6b7a8a">检测：被动监听（一个请求多个不同应答）、虚假报文探测（向非 DNS 发请求）、交叉检查（反向查询核对）</text>
+</svg></div><div class="cap">DNS 欺骗（教材图 4-10）</div></div>
+<ul><li>DNS 欺骗：冒充域名服务器，把查询结果改成攻击者 IP，用户被引向虚假主页；并非真的「黑掉」对方网站，而是冒名顶替。</li><li>DNS 欺骗检测三种 ⭐【易错】：<b>被动监听检测</b>（同一请求出现两个及以上不同结果的应答包即可疑，多 IP 会在一个应答包的多个应答域中返回）；<b>虚假报文探测</b>（向非 DNS 服务器发请求，攻击者不验证目标是否合法 DNS 也会回应答，收到应答即被攻击）；<b>交叉检查查询</b>（对应答中的 IP 反向查询 DNS 名，不一致即被欺骗）。</li><li>IP 欺骗：先 DoS 使被冒充主机瘫痪，再利用 TCP 三次握手伪造源地址；防范：删除 hosts.equiv、.rhosts 并关闭相关 RPC 机制；防火墙过滤「来自外部、源地址却是内部 IP」的报文。</li></ul>
+<p><b>4. 端口扫描（4.7.4）</b> ⭐【高频考点】</p>
+<ul><li>目的：判断目标主机开放哪些服务、运行何种操作系统。端口是 TCP/IP 定义的「软插槽」，[IP:端口] 即 Socket，定位主机中的一个进程。</li><li>原理：尝试与目标端口建立连接，有回复（三次握手第二次）即为活动端口。</li></ul>
+<table><colgroup><col style="width:16.2%"><col style="width:29.5%"><col style="width:28.9%"><col style="width:25.4%"></colgroup><thead><tr><th>扫描方式</th><th>做法</th><th>端口开放的判定</th><th>特点</th></tr></thead><tbody><tr><td>全 TCP 连接</td><td>完成标准三次握手</td><td>连接建立成功</td><td>最古老，易被目标记录</td></tr><tr><td>半打开式（SYN 扫描）</td><td>发 SYN，收到 SYN=1、ACK=1 后回 RST 放弃握手</td><td>回应 SYN+ACK；回 RST 则是死端口</td><td>未建立全连接，被记录可能性低、速度快</td></tr><tr><td>FIN 扫描</td><td>发 FIN=1 报文</td><td>开放端口只丢弃、<b>无任何回应</b>；关闭端口回 RST</td><td>不涉及 TCP 连接，最隐蔽，称秘密扫描</td></tr><tr><td>第三方（代理）扫描</td><td>利用「肉鸡」代替入侵者扫描</td><td>同代理所用方法</td><td>隐藏真实攻击者身份</td></tr></tbody></table>
+<p><b>5. 强化 TCP/IP 堆栈（4.7.5）</b></p>
+<ul><li><b>SYN Flooding</b> ⭐【重点】：攻击者大量发送只完成第一次握手的 SYN 请求，服务器为维护庞大半连接列表并重试 SYN+ACK（SYN Timeout 约 30 秒～2 分钟）而耗尽资源，正常用户得不到响应。【易错】攻击者要伪造<b>不可达</b>的源地址——若盗用可达主机地址，该主机收到莫名的 SYN+ACK 会回 RST 把连接重置，攻击即失效。</li><li>防御 SYN Flooding 靠调整注册表键值（SynAttackProtect=2、TcpMaxHalfOpen 等，了解名称即可）。</li><li>ICMP 攻击：利用 ICMP 控制报文攻击路由器与主机，如 Ping of Death 利用 ICMP 包最大 64KB 的规定使堆栈崩溃；可设 EnableICMPRedirect=0 防御。</li><li>SNMP 是标准网络管理协议，能汇报也能控制设备（重定向流量、改优先级、断连接），被入侵者掌握可完全接管网络；可设 EnableDeadGWDetect=0 等键值防御。</li></ul>
+<p><b>6. 系统漏洞扫描（4.7.6）</b> ⭐【高频考点】</p>
+<table><colgroup><col style="width:15.1%"><col style="width:33.7%"><col style="width:51.2%"></colgroup><thead><tr><th>类型</th><th>原理</th><th>组成/优点</th></tr></thead><tbody><tr><td>基于网络的漏洞扫描</td><td>构造网络数据包发给远程目标，根据应答与漏洞特征比对</td><td>五模块：漏洞数据库、用户配置控制台、扫描引擎、当前活动扫描知识库、结果存储与报告生成；便宜、无需目标管理员配合、目标机零安装、维护简便</td></tr><tr><td>基于主机的漏洞扫描</td><td>在目标机安装 Agent/服务，可访问所有文件与进程</td><td>扫描漏洞数量多、集中化管理部署快、网络流量负载小（扫描由代理本地完成）</td></tr></tbody></table>
+<h3>4.8 信息安全的保障体系与评估方法</h3>
+<p><b>1. 计算机信息系统安全保护等级（4.8.1）</b> ⭐【重点】【高频考点】</p>
+<p>《计算机信息系统安全保护等级划分准则》（GB 17859—1999）规定 5 个等级：</p>
+<table><colgroup><col style="width:10.5%"><col style="width:15.4%"><col style="width:12.6%"><col style="width:61.5%"></colgroup><thead><tr><th>级别</th><th>名称</th><th>对应 TCSEC</th><th>必须记住的核心特征</th></tr></thead><tbody><tr><td class="tc">第 1 级</td><td class="tc">用户自主保护级</td><td class="tc">C1</td><td>隔离用户与数据，自主访问控制，保护用户和用户组信息</td></tr><tr><td class="tc">第 2 级</td><td class="tc">系统审计保护级</td><td class="tc">C2</td><td>粒度更细的自主访问控制 + 登录规程、审计、隔离资源，用户对自己行为负责</td></tr><tr><td class="tc">第 3 级</td><td class="tc">安全标记保护级</td><td class="tc">B1</td><td>安全策略模型、数据标记、<b>强制访问控制</b>的非形式化描述，准确标记输出信息</td></tr><tr><td class="tc">第 4 级</td><td class="tc">结构化保护级</td><td class="tc">B2</td><td>明确定义的<b>形式化</b>安全策略模型；自主+强制访问控制扩展到所有主客体；考虑隐蔽通道；划分为关键/非关键保护元素</td></tr><tr><td class="tc">第 5 级</td><td class="tc">访问验证保护级</td><td class="tc">B3</td><td><b>访问监控器</b>仲裁全部访问，本身抗篡改、足够小可分析测试；扩充审计、系统恢复，抗渗透能力很高</td></tr></tbody></table>
+<div class="mnemonic">助记：「自、审、标、结、验，C1、C2、B1、B2、B3」——自主→审计→标记→结构化→访问验证；第 3 级出现「强制」，第 4 级出现「形式化」，第 5 级出现「监控器」。</div>
+<p><b>2. 安全风险管理（4.8.2）</b> ⭐【重点】</p>
+<ul><li>安全风险 = 系统存在的<b>脆弱性</b>被人为或自然的<b>威胁</b>利用而导致安全事件造成的影响；风险评估就是对 CIA 安全属性科学评价，识别风险，是信息安全保障体系的评价方法和决策机制。</li><li>评估准备 5 项：确定范围、确定目标、建立组织结构、建立系统性评估方法、获得最高管理者批准。</li><li>按实施者分<b>自评估</b>（系统拥有者依靠自身力量）与<b>他评估</b>（上级/业务主管机关发起，具强制意味的检查评估）。</li><li>基本要素：<b>脆弱性、资产、威胁、风险、安全措施</b>；相关属性：业务战略、资产价值、安全需求、安全事件、残余风险。</li></ul>
+<div class="fig"><div><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 345" font-family="Microsoft YaHei, 微软雅黑, sans-serif">
+  <text x="360" y="26" text-anchor="middle" font-size="16" font-weight="bold" fill="#1f4e79">风险评估各要素关系</text>
+  <rect x="40" y="40" width="110" height="40" rx="4" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.2"/>
+  <text x="95" y="65" text-anchor="middle" font-size="12.5" fill="#22303f">业务战略</text>
+  <rect x="240" y="40" width="100" height="40" rx="4" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.2"/>
+  <text x="290" y="65" text-anchor="middle" font-size="12.5" fill="#22303f">资产</text>
+  <rect x="430" y="40" width="110" height="40" rx="4" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.2"/>
+  <text x="485" y="65" text-anchor="middle" font-size="12.5" fill="#22303f">资产价值</text>
+  <rect x="600" y="40" width="90" height="40" rx="4" fill="#f3f6ee" stroke="#8aa15c" stroke-width="1.2"/>
+  <text x="645" y="65" text-anchor="middle" font-size="12.5" fill="#4a6130">残余风险</text>
+  <rect x="40" y="140" width="110" height="40" rx="4" fill="#fdf0e6" stroke="#c05621" stroke-width="1.2"/>
+  <text x="95" y="165" text-anchor="middle" font-size="12.5" fill="#c05621">威胁</text>
+  <rect x="240" y="140" width="100" height="40" rx="4" fill="#fdf0e6" stroke="#c05621" stroke-width="1.2"/>
+  <text x="290" y="165" text-anchor="middle" font-size="12.5" fill="#c05621">脆弱性</text>
+  <rect x="430" y="140" width="110" height="40" rx="4" fill="#ffffff" stroke="#1f4e79" stroke-width="1.5"/>
+  <text x="485" y="165" text-anchor="middle" font-size="12.5" font-weight="bold" fill="#1f4e79">风险</text>
+  <rect x="600" y="140" width="90" height="40" rx="4" fill="#fdf0e6" stroke="#c05621" stroke-width="1.2"/>
+  <text x="645" y="165" text-anchor="middle" font-size="12.5" fill="#c05621">安全事件</text>
+  <rect x="240" y="240" width="110" height="40" rx="4" fill="#ffffff" stroke="#1f4e79" stroke-width="1.2"/>
+  <text x="295" y="265" text-anchor="middle" font-size="12.5" fill="#22303f">安全需求</text>
+  <rect x="430" y="240" width="110" height="40" rx="4" fill="#f3f6ee" stroke="#8aa15c" stroke-width="1.2"/>
+  <text x="485" y="265" text-anchor="middle" font-size="12.5" fill="#4a6130">安全措施</text>
+  <text x="193" y="52" text-anchor="middle" font-size="11" fill="#6b7a8a">依赖</text>
+  <line x1="150" y1="60" x2="229" y2="60" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="237,60 229,55.5 229,64.5" fill="#1f4e79"/>
+  <text x="383" y="52" text-anchor="middle" font-size="11" fill="#6b7a8a">拥有</text>
+  <line x1="340" y1="60" x2="419" y2="60" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="427,60 419,55.5 419,64.5" fill="#1f4e79"/>
+  <text x="493" y="112" font-size="11" fill="#6b7a8a">增加</text>
+  <line x1="485" y1="80" x2="485" y2="129" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="485,137 480.5,129 489.5,129" fill="#1f4e79"/>
+  <text x="193" y="152" text-anchor="middle" font-size="11" fill="#6b7a8a">利用</text>
+  <line x1="150" y1="160" x2="229" y2="160" stroke="#c05621" stroke-width="1.5" fill="none"/>
+  <polygon points="237,160 229,155.5 229,164.5" fill="#c05621"/>
+  <text x="298" y="115" font-size="11" fill="#6b7a8a">暴露</text>
+  <line x1="290" y1="140" x2="290" y2="91" stroke="#c05621" stroke-width="1.5" fill="none"/>
+  <polygon points="290,83 285.5,91 294.5,91" fill="#c05621"/>
+  <text x="383" y="152" text-anchor="middle" font-size="11" fill="#6b7a8a">形成风险</text>
+  <line x1="340" y1="160" x2="419" y2="160" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="427,160 419,155.5 419,164.5" fill="#1f4e79"/>
+  <text x="298" y="212" font-size="11" fill="#6b7a8a">未被满足</text>
+  <line x1="290" y1="180" x2="290" y2="229" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="290,237 285.5,229 294.5,229" fill="#1f4e79"/>
+  <text x="388" y="252" text-anchor="middle" font-size="11" fill="#6b7a8a">被满足</text>
+  <line x1="350" y1="260" x2="419" y2="260" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="427,260 419,255.5 419,264.5" fill="#1f4e79"/>
+  <text x="568" y="152" text-anchor="middle" font-size="11" fill="#6b7a8a">演变</text>
+  <line x1="540" y1="160" x2="589" y2="160" stroke="#c05621" stroke-width="1.5" fill="none"/>
+  <polygon points="597,160 589,155.5 589,164.5" fill="#c05621"/>
+  <text x="560" y="100" text-anchor="middle" font-size="11" fill="#6b7a8a">残留</text>
+  <polyline points="520,140 520,110 645,110 645,91" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="645,83 640.5,91 649.5,91" fill="#1f4e79"/>
+  <text x="682" y="112" font-size="11" fill="#6b7a8a">诱发</text>
+  <line x1="675" y1="80" x2="675" y2="129" stroke="#8aa15c" stroke-width="1.5" fill="none"/>
+  <polygon points="675,137 670.5,129 679.5,129" fill="#8aa15c"/>
+  <text x="463" y="215" font-size="11" fill="#6b7a8a">降低</text>
+  <line x1="455" y1="240" x2="455" y2="191" stroke="#8aa15c" stroke-width="1.5" fill="none"/>
+  <polygon points="455,183 450.5,191 459.5,191" fill="#8aa15c"/>
+  <text x="360" y="306" text-anchor="middle" font-size="11.5" fill="#6b7a8a">安全措施：抗击威胁、降低风险、满足安全需求（有成本）；资产价值越大、脆弱性越大，风险越大</text>
+  <text x="360" y="328" text-anchor="middle" font-size="11.5" fill="#6b7a8a">残余风险＝措施不当或无效＋有意接受的部分；风险不必降为零，残余风险须密切监视</text>
+</svg></div><div class="cap">风险评估各要素关系图（教材图 4-11）</div></div>
+<ul><li>【高频】核心关系：业务战略依赖资产，资产拥有价值且价值越大风险越大；<b>威胁利用脆弱性形成风险</b>；脆弱性使资产暴露、是未被满足的安全需求；安全需求由安全措施满足（有成本）；安全措施抗击威胁、降低风险、减弱安全事件影响；风险演变为安全事件。</li><li>残余风险 = 措施不当或无效留下的风险 + 权衡成本与资产价值后<b>有意接受</b>的风险；风险不可能也没必要降为零，残余风险须密切监视，可能诱发新的安全事件。</li><li>资产赋值：估的是<b>安全价值而非账面价格</b>，看资产损失引发的潜在业务影响（违法、业务中断、信誉、隐私、经济损失等），即对 CIA 影响分析。</li><li>威胁来源：人为因素（有意/无意）与环境因素（自然不可抗力、其他物理因素）；一项资产可面临多个威胁，一个威胁可影响多项资产。</li><li>脆弱性评估【易错】：<b>弱点本身不会造成损失，只是可被威胁利用的条件</b>；没有威胁的弱点可不实施保护措施但必须记录；不正确或没正确实施的安全措施本身就是脆弱性。评估方法：问卷调查、人员问询、工具扫描、手动检查、文档审查、渗透测试；分技术与管 理两方面。</li><li>风险计算 5 步：①资产识别并赋值；②威胁分析并给发生可能性赋值；③识别脆弱性并给严重程度赋值；④由威胁与脆弱性算安全事件发生可能性；⑤结合资产重要性与发生可能性算风险值。</li></ul>
+<h2>三、重点与易错点</h2>
+<table><colgroup><col style="width:7.1%"><col style="width:13.1%"><col style="width:46.4%"><col style="width:33.3%"></colgroup><thead><tr><th>#</th><th>考点</th><th>必须记住的结论</th><th>易错提醒</th></tr></thead><tbody><tr><td class="tc">1</td><td class="tc">信息安全五要素</td><td>机密性、完整性、可用性、可控性、可审查性</td><td>别只答 CIA 三要素，漏掉可控、可审查</td></tr><tr><td class="tc">2</td><td class="tc">信息安全范围</td><td>设备、数据、内容、行为四类安全</td><td>设备三性=稳定/可靠/可用；行为三性=秘密/完整/可控</td></tr><tr><td class="tc">3</td><td class="tc">安全措施目标</td><td>访问控制、认证、完整性、审计、保密</td><td>「审计」对应不可抵赖性，不是查账那么窄</td></tr><tr><td class="tc">4</td><td class="tc">密码体制安全性</td><td>现实追求计算上安全，算法公开、密钥保密</td><td>无条件安全（理论不可破解）几乎不存在</td></tr><tr><td class="tc">5</td><td class="tc">DES</td><td>64 位分组、56 位密钥、16 轮替代换位</td><td>IBM 原 Lucifer 是 128 位密钥，别与 DES 混淆</td></tr><tr><td class="tc">6</td><td class="tc">三重 DES</td><td>两密钥 EDE，有效 112 位</td><td>不是 168 位；两重 DES 怕中间相遇攻击</td></tr><tr><td class="tc">7</td><td class="tc">AES</td><td>Rijndael，密钥 128/192/256 位</td><td>没有 64 位密钥选项</td></tr><tr><td class="tc">8</td><td class="tc">RSA</td><td>公钥 (e,n)、私钥 (d,n)，安全性基于大整数分解困难</td><td>z=(p-1)(q-1)，d 与 z 互质，ed≡1(mod z)</td></tr><tr><td class="tc">9</td><td class="tc">公钥两种用法</td><td>公钥加密私钥解密=保密；私钥加密公钥解密=签名</td><td>签名用私钥「加密」，方向别记反</td></tr><tr><td class="tc">10</td><td class="tc">KDC 密钥分配</td><td>主密钥 N 个，会话密钥 N(N-1)/2 个且用完即销毁</td><td>分层 KDC 把虚假 KDC 危害限制在局部</td></tr><tr><td class="tc">11</td><td class="tc">公钥证书</td><td>CA 用自身私钥签字，接收方用 CA 公钥验证</td><td>证书让用户交换公钥无需再联系管理机构</td></tr><tr><td class="tc">12</td><td class="tc">访问控制实现</td><td>ACL 按列（每客体一表）、能力表按行（每主体一表）、授权关系表存非空元素</td><td>授权关系表按主体排序≈能力表，按客体排序≈ACL</td></tr><tr><td class="tc">13</td><td class="tc">数字签名</td><td>认证+不可抵赖+不可篡改；长文件只对 Hash 摘要签名</td><td>对称签名必须依赖可信仲裁人 BB</td></tr><tr><td class="tc">14</td><td class="tc">DDoS 三级结构</td><td>Client 发起控制 → Handler 主控转发 → Agent 实际攻击</td><td>Handler 与 Agent 都运行在被控制的主机上</td></tr><tr><td class="tc">15</td><td class="tc">扫描判定</td><td>SYN 扫描：开放回 SYN+ACK；FIN 扫描：开放无回应、关闭回 RST</td><td>FIN 判定与直觉相反，开放反而「没声音」</td></tr><tr><td class="tc">16</td><td class="tc">SYN Flooding</td><td>伪造不可达源地址，耗尽半连接列表</td><td>可达主机会回 RST 重置连接，攻击失效</td></tr><tr><td class="tc">17</td><td class="tc">欺骗检测</td><td>DNS 交叉检查=对返回 IP 做反向查询核对</td><td>ARP 收到应答即更新缓存，不需先发请求</td></tr><tr><td class="tc">18</td><td class="tc">安全保护等级</td><td>自/审/标/结/验 ↔ C1/C2/B1/B2/B3</td><td>强制访问控制从第 3 级开始，形式化模型是第 4 级</td></tr><tr><td class="tc">19</td><td class="tc">风险要素关系</td><td>威胁利用脆弱性形成风险，措施降低风险，残余风险需监视</td><td>脆弱性本身不造成损失，只是条件；风险不必降为零</td></tr></tbody></table>
+<h2>四、练习与真题</h2>
+<p>以下 14 道为按大纲考点自编的单选模拟题，答案与解析集中放在全章最后「六、参考答案」。</p>
+<p><b>1.</b> 信息安全五要素中，「对出现的信息安全问题提供调查的依据和手段」指的是（ ）。</p>
+<p>A. 可控性  B. 可审查性  C. 完整性  D. 可用性</p>
+<p><b>2.</b> 关于 DES 算法，下列说法正确的是（ ）。</p>
+<p>A. 明文分组 64 位，密钥 56 位，进行 16 轮替代与换位</p>
+<p>B. 明文分组 128 位，密钥 128 位，进行 8 轮迭代</p>
+<p>C. 明文分组 64 位，密钥 128 位，进行 16 轮替代与换位</p>
+<p>D. 明文分组 64 位，密钥 56 位，加密解密使用不同密钥</p>
+<p><b>3.</b> 三重 DES 采用两把密钥按「加密—解密—加密」运算，其有效密钥长度及不采用两重 DES 的原因分别是（ ）。</p>
+<p>A. 168 位；两重 DES 速度太慢</p>
+<p>B. 112 位；两重 DES 对中间相遇攻击极为脆弱</p>
+<p>C. 112 位；两重 DES 无法实现软硬件加密</p>
+<p>D. 168 位；两重 DES 密钥空间过大难以管理</p>
+<p><b>4.</b> AES 高级加密标准不支持的密钥长度是（ ）。</p>
+<p>A. 64 位  B. 128 位  C. 192 位  D. 256 位</p>
+<p><b>5.</b> RSA 算法中取 p=3、q=11、d=7、e=3，对明文 P=2 加密（C=P^e mod n），得到的密文为（ ）。</p>
+<p>A. 2  B. 6  C. 8  D. 26</p>
+<p><b>6.</b> 关于公钥证书，下列说法错误的是（ ）。</p>
+<p>A. 证书由 CA 用自身的秘密钥对时戳、用户身份、用户公钥等数据签字形成</p>
+<p>B. 接收方用 CA 的公钥即可验证证书真伪</p>
+<p>C. 用户交换公钥必须每次实时联系 CA 在线验证</p>
+<p>D. 证书可避免统一公钥管理机构带来的瓶颈与安全隐患</p>
+<p><b>7.</b> 某网络有 N 个用户，采用 KDC 方式为任意两用户分配会话密钥，则系统中需要驻留的主密钥数量为（ ）。</p>
+<p>A. N(N-1)/2  B. 2N  C. N  D. N²</p>
+<p><b>8.</b> 在访问控制的实现技术中，「每个客体一张表、按列保存访问矩阵，查询谁能访问某客体很方便」描述的是（ ）。</p>
+<p>A. 能力表  B. 访问控制表 ACL  C. 授权关系表  D. 访问控制矩阵整体存储</p>
+<p><b>9.</b> 实际数字签名协议常与单向 Hash 函数结合使用，其主要目的是（ ）。</p>
+<p>A. 用 Hash 值代替密钥，省去密钥管理</p>
+<p>B. 只对文件 Hash 摘要签名，提高签名速度并减少存储量</p>
+<p>C. 使签名可以被任何人伪造而不被发现</p>
+<p>D. 让签名可以重复用于其他文件</p>
+<p><b>10.</b> DDoS 三级控制结构中，负责接收主控端命令并对目标实施实际攻击的是（ ）。</p>
+<p>A. Client 客户端  B. Handler 主控端  C. Agent 代理端  D. 被攻击的目标主机</p>
+<p><b>11.</b> SYN Flooding 攻击者通常伪造不可达的源 IP 地址，其原因是（ ）。</p>
+<p>A. 不可达地址更容易通过防火墙</p>
+<p>B. 若盗用可达主机地址，该主机收到 SYN+ACK 后会回 RST 将连接重置</p>
+<p>C. 不可达地址可以加快三次握手速度</p>
+<p>D. 不可达地址不占用攻击者自身带宽</p>
+<p><b>12.</b> 使用 FIN 扫描探测目标端口时，若目标端口处于开放（活动）状态，扫描方通常会观察到（ ）。</p>
+<p>A. 返回 SYN+ACK 报文  B. 返回 RST 报文  C. 报文被简单丢弃，不返回任何回应  D. 返回 ICMP 重定向报文</p>
+<p><b>13.</b> 依据 GB 17859—1999，提供数据标记和强制访问控制非形式化描述、对应 TCSEC B1 级的是（ ）。</p>
+<p>A. 用户自主保护级  B. 系统审计保护级  C. 安全标记保护级  D. 结构化保护级</p>
+<p><b>14.</b> 关于信息安全风险评估，下列说法正确的是（ ）。</p>
+<p>A. 脆弱性本身就会直接造成资产损失，与威胁无关</p>
+<p>B. 风险必须降为零，否则评估不合格</p>
+<p>C. 威胁利用脆弱性形成风险，安全措施降低风险，残余风险需密切监视</p>
+<p>D. 资产赋值就是按资产账面价格计算风险</p>
+<h2>五、疑问与查漏补缺</h2>
+<ul><li><b>大纲有、教材未展开 1</b>：大纲 3.8.1 还要求「安全性规章与保护私有信息规则」「安全保密管理及协议（防泄露、数字水印；安全协议 SSL、PGP、IPSec）」，教材 4.8.1 只讲了保护等级。需自行补记：SSL/TLS 工作在传输层（为应用层提供安全通道），IPSec 工作在网络层（认证头 AH、封装安全载荷 ESP），PGP 用于电子邮件等应用层加密签名（本章 4.5.2 提到其公钥公开发布方式），数字水印属于信息隐藏技术，用于版权保护与防泄露溯源。</li><li><b>大纲有、教材未展开 2</b>：大纲 3.6.2 列「身份认证分类（数字签名、密钥和口令）」，教材未单列小节，相关内容散见 4.1.2（用户标识与验证：物理特征、安全物品）与 4.6.2（数字签名），复习时把三者按「口令所知、物品所有、生物特征、密码学凭证」串成一条线记忆。</li><li><b>教材易误读处 1</b>：4.4.2 写 DES「进行 19 次变换，其中 16 次变换由 56 位密钥控制」，标准表述为初始置换 + 16 轮迭代 + 逆初始置换，考试按「16 轮、56 位密钥」作答即可。</li><li><b>教材易误读处 2</b>：4.5.1 控制矢量公式与 4.5.3 图 4-5 步骤⑤的排版较混乱，理解其含义即可：控制矢量经杂凑后与主密钥异或用于保护会话密钥；图 4-5 中 B 恢复会话密钥的顺序是先用自己私钥 D_SKb 解密、再用 A 的公钥 D_PKa 验证。</li><li><b>教材易误读处 3</b>：4.7.5 注册表键值（SynAttackProtect 等）属 Windows 早期版本的操作细节，了解「通过限制半连接数、缩短超时来防御 SYN Flooding」的思想即可，不必逐条背诵数值。</li><li><b>与其他章节衔接</b>：TCP 三次握手、ARP/DNS 协议细节可回看第 2 章网络部分；安全体系框架、PKI/CA 工程应用、等级保护落地在第 18 章「安全架构设计理论与实践」展开；现行等保 2.0 标准（GB/T 22239—2019）与 GB 17859—1999 的对应关系本章未涉及，可作为扩展知识补充。</li></ul>
+<h2>六、参考答案</h2>
+<p><b>1.</b> B。可审查性强调为安全事件提供调查依据和手段；可控性是控制授权范围内的信息流向与行为方式。</p>
+<p><b>2.</b> A。DES 为 64 位分组、56 位密钥、16 轮替代与换位；B 选项的参数属于 IDEA，且对称算法加解密密钥相同。</p>
+<p><b>3.</b> B。两密钥 EDE 有效长度 112 位；两重 DES 对中间相遇攻击极为脆弱，故采用三重结构。</p>
+<p><b>4.</b> A。AES 支持 128、192、256 位三种密钥长度，不含 64 位。</p>
+<p><b>5.</b> C。n=pq=33，C=2³ mod 33=8；解密 8⁷ mod 33=2 可还原明文。</p>
+<p><b>6.</b> C。公钥证书的价值正在于接收方用 CA 公钥离线验证即可，交换公钥无须再实时联系管理机构。</p>
+<p><b>7.</b> C。KDC 方式下每个用户只与 KDC 共享一个主密钥，共 N 个；N(N-1)/2 是会话密钥数量。</p>
+<p><b>8.</b> B。ACL 按列保存、每个客体一张表；能力表按行保存、每个主体一张表；授权关系表只存非空元素。</p>
+<p><b>9.</b> B。长文件直接公钥签名效率太低，只对 Hash 摘要签名可提速、减少存储，且签名与文件可分开保存。</p>
+<p><b>10.</b> C。Agent 代理端运行在被控制主机上，接收 Handler 命令实施实际攻击；Client 负责发起控制，Handler 负责转发命令。</p>
+<p><b>11.</b> B。可达主机收到与自己无关的 SYN+ACK 会回 RST 重置连接，半连接无法保持，故攻击者伪造不可达源地址。</p>
+<p><b>12.</b> C。FIN 报文发到开放端口仅被丢弃、无回应；发到关闭端口才返回 RST，判定逻辑与 SYN 扫描相反。</p>
+<p><b>13.</b> C。第 3 级安全标记保护级对应 B1，引入数据标记与强制访问控制；第 4 级结构化保护级对应 B2。</p>
+<p><b>14.</b> C。脆弱性只是可被利用的条件，本身不造成损失；风险不可能也没必要降为零，残余风险须监视；资产赋值看安全价值而非账面价格。</p>
+<div class="footer">第4章 信息安全技术基础知识 · A4 打印版 · 由 README.md 统一生成</div>
+</div>
+</body>
+</html>

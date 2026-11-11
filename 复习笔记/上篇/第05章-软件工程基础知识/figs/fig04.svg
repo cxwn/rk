@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 380" font-family="Microsoft YaHei, 微软雅黑, sans-serif">
+  <rect width="720" height="380" fill="#ffffff"/>
+  <text x="360" y="32" text-anchor="middle" font-size="20" font-weight="bold" fill="#1f4e79">RUP“4+1”视图：用例视图串联四个视图</text>
+  <g text-anchor="middle">
+    <rect x="40" y="70" width="170" height="60" rx="7" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.5"/>
+    <text x="125" y="96" font-size="18" font-weight="bold" fill="#1f4e79">逻辑视图</text><text x="125" y="118" font-size="13" fill="#22303f">功能、类与对象</text>
+    <rect x="510" y="70" width="170" height="60" rx="7" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.5"/>
+    <text x="595" y="96" font-size="18" font-weight="bold" fill="#1f4e79">实现视图</text><text x="595" y="118" font-size="13" fill="#22303f">代码、构件与装配</text>
+    <rect x="270" y="145" width="180" height="70" rx="10" fill="#fdf0e6" stroke="#c05621" stroke-width="2"/>
+    <text x="360" y="175" font-size="20" font-weight="bold" fill="#c05621">用例视图</text><text x="360" y="199" font-size="14" fill="#22303f">系统做什么，驱动其他视图</text>
+    <rect x="40" y="250" width="170" height="60" rx="7" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.5"/>
+    <text x="125" y="276" font-size="18" font-weight="bold" fill="#1f4e79">进程视图</text><text x="125" y="298" font-size="13" fill="#22303f">并发、性能与伸缩</text>
+    <rect x="510" y="250" width="170" height="60" rx="7" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.5"/>
+    <text x="595" y="276" font-size="18" font-weight="bold" fill="#1f4e79">部署视图</text><text x="595" y="298" font-size="13" fill="#22303f">节点、拓扑与安装</text>
+  </g>
+  <g stroke="#c05621" stroke-width="1.5" fill="none">
+    <path d="M270 160 H240 V100 H221"/><path d="M450 160 H480 V100 H499"/>
+    <path d="M270 195 H240 V280 H221"/><path d="M450 195 H480 V280 H499"/>
+  </g>
+  <g fill="#c05621">
+    <polygon points="213,100 221,95.5 221,104.5"/><polygon points="507,100 499,95.5 499,104.5"/>
+    <polygon points="213,280 221,275.5 221,284.5"/><polygon points="507,280 499,275.5 499,284.5"/>
+  </g>
+  <text x="360" y="348" text-anchor="middle" font-size="14" fill="#6b7a8a">逻辑看功能｜实现看代码｜进程看并发｜部署看节点｜用例看价值</text>
+</svg>

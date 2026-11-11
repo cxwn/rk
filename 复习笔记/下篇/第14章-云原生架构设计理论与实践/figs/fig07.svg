@@ -1,0 +1,56 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 340" font-family="Microsoft YaHei, 微软雅黑, sans-serif">
+  <!-- 列标题 -->
+  <text x="125" y="26" text-anchor="middle" font-size="15" font-weight="bold" fill="#6b7a8a">传统部署</text>
+  <text x="125" y="44" text-anchor="middle" font-size="10" fill="#6b7a8a">Traditional Deployment</text>
+  <text x="360" y="26" text-anchor="middle" font-size="15" font-weight="bold" fill="#1f4e79">虚拟化部署</text>
+  <text x="360" y="44" text-anchor="middle" font-size="10" fill="#6b7a8a">Virtualized Deployment</text>
+  <text x="595" y="26" text-anchor="middle" font-size="15" font-weight="bold" fill="#c05621">容器部署</text>
+  <text x="595" y="44" text-anchor="middle" font-size="10" fill="#6b7a8a">Container Deployment</text>
+  <!-- 传统列 APP -->
+  <rect x="20" y="56" width="100" height="76" rx="5" fill="#f4f6f8" stroke="#6b7a8a" stroke-width="1.2"/>
+  <text x="70" y="88" text-anchor="middle" font-size="12" font-weight="bold" fill="#22303f">APP</text>
+  <text x="70" y="110" text-anchor="middle" font-size="10" fill="#22303f">Bin/Library</text>
+  <rect x="125" y="56" width="100" height="76" rx="5" fill="#f4f6f8" stroke="#6b7a8a" stroke-width="1.2"/>
+  <text x="175" y="88" text-anchor="middle" font-size="12" font-weight="bold" fill="#22303f">APP</text>
+  <text x="175" y="110" text-anchor="middle" font-size="10" fill="#22303f">Bin/Library</text>
+  <rect x="20" y="148" width="205" height="34" rx="5" fill="#e4e9ee" stroke="#6b7a8a" stroke-width="1.2"/>
+  <text x="122" y="170" text-anchor="middle" font-size="11" fill="#22303f">Operating System</text>
+  <rect x="20" y="198" width="205" height="34" rx="5" fill="#dfe5ea" stroke="#6b7a8a" stroke-width="1.2"/>
+  <text x="122" y="220" text-anchor="middle" font-size="11" fill="#22303f">HardWare</text>
+  <!-- 虚拟化列 VM -->
+  <rect x="255" y="56" width="100" height="76" rx="5" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.2"/>
+  <text x="305" y="68" text-anchor="middle" font-size="8.5" fill="#1f4e79">Virtual Machine</text>
+  <rect x="260" y="74" width="90" height="52" rx="4" fill="#ffffff" stroke="#1f4e79" stroke-width="1"/>
+  <text x="305" y="94" text-anchor="middle" font-size="11" font-weight="bold" fill="#22303f">APP</text>
+  <text x="305" y="114" text-anchor="middle" font-size="9.5" fill="#22303f">Bin/Library</text>
+  <rect x="360" y="56" width="100" height="76" rx="5" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.2"/>
+  <text x="410" y="68" text-anchor="middle" font-size="8.5" fill="#1f4e79">Virtual Machine</text>
+  <rect x="365" y="74" width="90" height="52" rx="4" fill="#ffffff" stroke="#1f4e79" stroke-width="1"/>
+  <text x="410" y="94" text-anchor="middle" font-size="11" font-weight="bold" fill="#22303f">APP</text>
+  <text x="410" y="114" text-anchor="middle" font-size="9.5" fill="#22303f">Bin/Library</text>
+  <rect x="255" y="148" width="205" height="34" rx="5" fill="#e4e9ee" stroke="#6b7a8a" stroke-width="1.2"/>
+  <text x="357" y="170" text-anchor="middle" font-size="11" fill="#22303f">Operating System</text>
+  <rect x="255" y="198" width="205" height="34" rx="5" fill="#dfe5ea" stroke="#6b7a8a" stroke-width="1.2"/>
+  <text x="357" y="220" text-anchor="middle" font-size="11" fill="#22303f">HardWare</text>
+  <!-- 容器列 Container -->
+  <rect x="490" y="56" width="100" height="76" rx="5" fill="#fdf0e6" stroke="#c05621" stroke-width="1.2"/>
+  <text x="540" y="68" text-anchor="middle" font-size="8.5" fill="#c05621">Container</text>
+  <rect x="495" y="74" width="90" height="52" rx="4" fill="#ffffff" stroke="#c05621" stroke-width="1"/>
+  <text x="540" y="94" text-anchor="middle" font-size="11" font-weight="bold" fill="#22303f">APP</text>
+  <text x="540" y="114" text-anchor="middle" font-size="9.5" fill="#22303f">Bin/Library</text>
+  <rect x="595" y="56" width="100" height="76" rx="5" fill="#fdf0e6" stroke="#c05621" stroke-width="1.2"/>
+  <text x="645" y="68" text-anchor="middle" font-size="8.5" fill="#c05621">Container</text>
+  <rect x="600" y="74" width="90" height="52" rx="4" fill="#ffffff" stroke="#c05621" stroke-width="1"/>
+  <text x="645" y="94" text-anchor="middle" font-size="11" font-weight="bold" fill="#22303f">APP</text>
+  <text x="645" y="114" text-anchor="middle" font-size="9.5" fill="#22303f">Bin/Library</text>
+  <rect x="490" y="148" width="205" height="34" rx="5" fill="#fdf0e6" stroke="#c05621" stroke-width="1.2"/>
+  <text x="592" y="170" text-anchor="middle" font-size="11" fill="#c05621">Container Runtime</text>
+  <rect x="490" y="198" width="205" height="34" rx="5" fill="#e4e9ee" stroke="#6b7a8a" stroke-width="1.2"/>
+  <text x="592" y="220" text-anchor="middle" font-size="11" fill="#22303f">Operating System</text>
+  <rect x="490" y="248" width="205" height="34" rx="5" fill="#dfe5ea" stroke="#6b7a8a" stroke-width="1.2"/>
+  <text x="592" y="270" text-anchor="middle" font-size="11" fill="#22303f">HardWare</text>
+  <!-- 底部特点 -->
+  <text x="125" y="308" text-anchor="middle" font-size="11" fill="#6b7a8a">环境不一致、迁移困难</text>
+  <text x="360" y="308" text-anchor="middle" font-size="11" fill="#1f4e79">每 VM 带完整 Guest OS，开销大</text>
+  <text x="595" y="308" text-anchor="middle" font-size="11" fill="#c05621">共享 OS 内核、轻量、秒级启动</text>
+</svg>

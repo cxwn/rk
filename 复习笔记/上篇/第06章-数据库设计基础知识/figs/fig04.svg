@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 400" font-family="Microsoft YaHei, 微软雅黑, sans-serif">
+  <rect width="720" height="400" fill="#ffffff"/>
+  <text x="360" y="30" text-anchor="middle" font-size="20" font-weight="bold" fill="#1f4e79">关系基本术语与三类完整性约束</text>
+  <text x="50" y="57" font-size="14" font-weight="bold" fill="#1f4e79">学生关系 S（关系实例）</text>
+  <rect x="50" y="70" width="620" height="140" fill="#ffffff" stroke="#1f4e79" stroke-width="1.4"/>
+  <rect x="50" y="70" width="620" height="42" fill="#1f4e79"/>
+  <line x1="205" y1="70" x2="205" y2="210" stroke="#1f4e79"/>
+  <line x1="360" y1="70" x2="360" y2="210" stroke="#1f4e79"/>
+  <line x1="515" y1="70" x2="515" y2="210" stroke="#1f4e79"/>
+  <line x1="50" y1="112" x2="670" y2="112" stroke="#1f4e79"/>
+  <line x1="50" y1="161" x2="670" y2="161" stroke="#d5dde5"/>
+  <text x="127" y="97" text-anchor="middle" font-size="14" font-weight="bold" fill="#ffffff">学号（主码）</text>
+  <text x="282" y="97" text-anchor="middle" font-size="14" font-weight="bold" fill="#ffffff">姓名</text>
+  <text x="437" y="97" text-anchor="middle" font-size="14" font-weight="bold" fill="#ffffff">系别</text>
+  <text x="592" y="97" text-anchor="middle" font-size="14" font-weight="bold" fill="#ffffff">年龄</text>
+  <text x="127" y="141" text-anchor="middle" font-size="14" fill="#22303f">S01</text>
+  <text x="282" y="141" text-anchor="middle" font-size="14" fill="#22303f">小林</text>
+  <text x="437" y="141" text-anchor="middle" font-size="14" fill="#22303f">计算机</text>
+  <text x="592" y="141" text-anchor="middle" font-size="14" fill="#22303f">20</text>
+  <text x="127" y="190" text-anchor="middle" font-size="14" fill="#22303f">S02</text>
+  <text x="282" y="190" text-anchor="middle" font-size="14" fill="#22303f">小周</text>
+  <text x="437" y="190" text-anchor="middle" font-size="14" fill="#22303f">数学</text>
+  <text x="592" y="190" text-anchor="middle" font-size="14" fill="#22303f">19</text>
+  <text x="360" y="231" text-anchor="middle" font-size="13" fill="#6b7a8a">每一列是属性；每一行是元组；属性个数是度；每列取值范围是域</text>
+  <rect x="25" y="255" width="205" height="120" rx="8" fill="#eaf1f8" stroke="#1f4e79"/>
+  <text x="127" y="284" text-anchor="middle" font-size="16" font-weight="bold" fill="#1f4e79">实体完整性</text>
+  <text x="127" y="313" text-anchor="middle" font-size="14" fill="#22303f">主码唯一且非空</text>
+  <text x="127" y="342" text-anchor="middle" font-size="13" fill="#6b7a8a">每个实体可唯一识别</text>
+  <rect x="258" y="255" width="205" height="120" rx="8" fill="#fdf0e6" stroke="#c05621"/>
+  <text x="360" y="284" text-anchor="middle" font-size="16" font-weight="bold" fill="#c05621">参照完整性</text>
+  <text x="360" y="313" text-anchor="middle" font-size="14" fill="#22303f">外码为空或指向已有码</text>
+  <text x="360" y="342" text-anchor="middle" font-size="13" fill="#6b7a8a">引用不能“悬空”</text>
+  <rect x="490" y="255" width="205" height="120" rx="8" fill="#f3f6ee" stroke="#8aa15c"/>
+  <text x="592" y="284" text-anchor="middle" font-size="16" font-weight="bold" fill="#4a6130">用户定义完整性</text>
+  <text x="592" y="313" text-anchor="middle" font-size="14" fill="#22303f">满足具体业务语义</text>
+  <text x="592" y="342" text-anchor="middle" font-size="13" fill="#6b7a8a">如年龄、库存取值范围</text>
+</svg>

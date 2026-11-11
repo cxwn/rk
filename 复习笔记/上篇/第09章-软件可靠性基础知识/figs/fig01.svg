@@ -1,0 +1,46 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 500" width="720" height="500" font-family="Microsoft YaHei, 微软雅黑, sans-serif">
+  <rect width="720" height="500" fill="#ffffff"/>
+  <text x="360" y="32" text-anchor="middle" font-size="22" font-weight="bold" fill="#1f4e79">软件可靠性定义：三个“规定”缺一不可</text>
+  <rect x="60" y="55" width="600" height="50" rx="8" fill="#1f4e79"/>
+  <text x="360" y="87" text-anchor="middle" font-size="17" font-weight="bold" fill="#ffffff">规定条件下、规定时间区间内，完成规定功能的能力</text>
+  <g stroke="#1f4e79" stroke-width="1.5" fill="none">
+    <line x1="150" y1="105" x2="150" y2="139"/>
+    <line x1="360" y1="105" x2="360" y2="139"/>
+    <line x1="570" y1="105" x2="570" y2="139"/>
+  </g>
+  <g fill="#1f4e79">
+    <polygon points="150,147 145.5,139 154.5,139"/>
+    <polygon points="360,147 355.5,139 364.5,139"/>
+    <polygon points="570,147 565.5,139 574.5,139"/>
+  </g>
+  <rect x="45" y="150" width="210" height="110" rx="8" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.5"/>
+  <text x="150" y="180" text-anchor="middle" font-size="17" font-weight="bold" fill="#1f4e79">规定的时间</text>
+  <text x="150" y="208" text-anchor="middle" font-size="12.5" fill="#22303f">指实际运行时间区间</text>
+  <text x="150" y="230" text-anchor="middle" font-size="12.5" fill="#22303f">含工作与挂起的累计时间</text>
+  <text x="150" y="252" text-anchor="middle" font-size="12.5" fill="#22303f">失效是随机事件</text>
+  <rect x="255" y="150" width="210" height="110" rx="8" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.5"/>
+  <text x="360" y="180" text-anchor="middle" font-size="17" font-weight="bold" fill="#1f4e79">规定的条件</text>
+  <text x="360" y="208" text-anchor="middle" font-size="12.5" fill="#22303f">即软件运行环境</text>
+  <text x="360" y="230" text-anchor="middle" font-size="12.5" fill="#22303f">硬件、OS、数据库、中间件</text>
+  <text x="360" y="252" text-anchor="middle" font-size="12.5" fill="#22303f">及输入数据格式与范围</text>
+  <rect x="465" y="150" width="210" height="110" rx="8" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.5"/>
+  <text x="570" y="180" text-anchor="middle" font-size="17" font-weight="bold" fill="#1f4e79">所要求的功能</text>
+  <text x="570" y="208" text-anchor="middle" font-size="12.5" fill="#22303f">为提供服务必须具备的功能</text>
+  <text x="570" y="230" text-anchor="middle" font-size="12.5" fill="#22303f">任务不同，调用模块不同</text>
+  <text x="570" y="252" text-anchor="middle" font-size="12.5" fill="#22303f">可靠性也可能不同</text>
+  <text x="360" y="300" text-anchor="middle" font-size="17" font-weight="bold" fill="#1f4e79">软件与硬件可靠性的 4 点区别</text>
+  <g font-size="13" fill="#22303f">
+    <rect x="60" y="318" width="120" height="34" rx="6" fill="#fdf0e6" stroke="#c05621"/>
+    <text x="120" y="340" text-anchor="middle" font-size="14" font-weight="bold" fill="#c05621">复杂性</text>
+    <text x="200" y="340">软件逻辑复杂，设计错误是失效主因；硬件相对简单</text>
+    <rect x="60" y="360" width="120" height="34" rx="6" fill="#fdf0e6" stroke="#c05621"/>
+    <text x="120" y="382" text-anchor="middle" font-size="14" font-weight="bold" fill="#c05621">物理退化</text>
+    <text x="200" y="382">软件无物理退化，正确即始终可靠；硬件多因退化失效</text>
+    <rect x="60" y="402" width="120" height="34" rx="6" fill="#fdf0e6" stroke="#c05621"/>
+    <text x="120" y="424" text-anchor="middle" font-size="14" font-weight="bold" fill="#c05621">唯一性</text>
+    <text x="200" y="424">软件复制不改变本身；任何两个硬件不可能绝对相同</text>
+    <rect x="60" y="444" width="120" height="34" rx="6" fill="#fdf0e6" stroke="#c05621"/>
+    <text x="120" y="466" text-anchor="middle" font-size="14" font-weight="bold" fill="#c05621">版本更新</text>
+    <text x="200" y="466">软件版本更新快、评估难；硬件定型后一般不更改</text>
+  </g>
+</svg>

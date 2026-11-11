@@ -1,0 +1,56 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 610" font-family="Microsoft YaHei, 微软雅黑, sans-serif">
+  <rect width="720" height="610" fill="#ffffff"/>
+  <text x="360" y="34" text-anchor="middle" font-size="22" font-weight="bold" fill="#1f4e79">论文整体结构与“三问”映射</text>
+  <text x="115" y="151" text-anchor="middle" font-size="16" font-weight="bold" fill="#6b7a8a">试题三问</text>
+  <text x="482" y="53" text-anchor="middle" font-size="16" font-weight="bold" fill="#6b7a8a">可套用的论文骨架</text>
+
+  <rect x="280" y="68" width="405" height="72" rx="8" fill="#fdf0e6" stroke="#c05621" stroke-width="1.5"/>
+  <text x="302" y="98" font-size="18" font-weight="bold" fill="#c05621">摘要｜300～400 字</text>
+  <text x="302" y="125" font-size="14" fill="#22303f">背景功能＋本人角色＋重点措施＋效果改进</text>
+
+  <rect x="35" y="175" width="160" height="80" rx="8" fill="#eaf1f8" stroke="#1f4e79"/>
+  <text x="115" y="207" text-anchor="middle" font-size="17" font-weight="bold" fill="#1f4e79">问题 1｜项目</text>
+  <text x="115" y="234" text-anchor="middle" font-size="14" fill="#22303f">概要与本人工作</text>
+  <rect x="280" y="175" width="405" height="80" rx="8" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.5"/>
+  <text x="302" y="207" font-size="18" font-weight="bold" fill="#1f4e79">正文① 项目概述</text>
+  <text x="302" y="234" font-size="14" fill="#22303f">背景、意义、规模、开发过程、本人任务</text>
+
+  <rect x="35" y="275" width="160" height="80" rx="8" fill="#f3f6ee" stroke="#8aa15c"/>
+  <text x="115" y="307" text-anchor="middle" font-size="17" font-weight="bold" fill="#4a6130">问题 2｜理论</text>
+  <text x="115" y="334" text-anchor="middle" font-size="14" fill="#22303f">分类特点与适用性</text>
+  <rect x="280" y="275" width="405" height="80" rx="8" fill="#f3f6ee" stroke="#8aa15c" stroke-width="1.5"/>
+  <text x="302" y="307" font-size="18" font-weight="bold" fill="#4a6130">正文② 理论铺垫</text>
+  <text x="302" y="334" font-size="14" fill="#22303f">准确回应专业知识，为项目选型建立依据</text>
+
+  <rect x="35" y="375" width="160" height="100" rx="8" fill="#fdf0e6" stroke="#c05621"/>
+  <text x="115" y="413" text-anchor="middle" font-size="17" font-weight="bold" fill="#c05621">问题 3｜应用</text>
+  <text x="115" y="442" text-anchor="middle" font-size="14" fill="#22303f">措施、效果</text>
+  <text x="115" y="463" text-anchor="middle" font-size="14" fill="#22303f">或选型原因</text>
+  <rect x="280" y="375" width="405" height="100" rx="8" fill="#fdf0e6" stroke="#c05621" stroke-width="1.5"/>
+  <text x="302" y="407" font-size="18" font-weight="bold" fill="#c05621">正文③ 实践主体｜2～3 个特色措施</text>
+  <text x="302" y="435" font-size="14" fill="#22303f">每项按“由来→问题→做法→效果”展开</text>
+  <text x="302" y="459" font-size="14" fill="#22303f">突出本人贡献，以真实项目细节和效果支撑</text>
+
+  <rect x="280" y="510" width="405" height="60" rx="8" fill="#eaf1f8" stroke="#6b7a8a" stroke-width="1.5"/>
+  <text x="302" y="537" font-size="17" font-weight="bold" fill="#1f4e79">结尾｜回扣论点＋不足与改进</text>
+  <text x="302" y="560" font-size="13" fill="#22303f">与摘要、开头一致，不引入新论点</text>
+
+  <g stroke="#1f4e79" stroke-width="1.5" fill="none">
+    <line x1="195" y1="215" x2="269" y2="215"/>
+    <line x1="195" y1="315" x2="269" y2="315"/>
+    <line x1="195" y1="425" x2="269" y2="425"/>
+    <line x1="482" y1="140" x2="482" y2="164"/>
+    <line x1="482" y1="475" x2="482" y2="499"/>
+  </g>
+  <g fill="#1f4e79">
+    <polygon points="277,215 269,210.5 269,219.5"/>
+    <polygon points="277,315 269,310.5 269,319.5"/>
+    <polygon points="277,425 269,420.5 269,429.5"/>
+    <polygon points="482,172 477.5,164 486.5,164"/>
+    <polygon points="482,507 477.5,499 486.5,499"/>
+  </g>
+  <text x="115" y="510" text-anchor="middle" font-size="14" font-weight="bold" fill="#4a6130">摘要统摄全文</text>
+  <text x="115" y="537" text-anchor="middle" font-size="13" fill="#6b7a8a">正文扩展摘要</text>
+  <text x="115" y="560" text-anchor="middle" font-size="13" fill="#6b7a8a">而非逐句拉长</text>
+  <text x="360" y="596" text-anchor="middle" font-size="14" fill="#c05621">审题后逐问映射，确保项目、理论、应用一个不缺</text>
+</svg>

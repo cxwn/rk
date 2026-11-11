@@ -1,0 +1,795 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>第3章 信息系统基础知识</title>
+<style>
+  :root{ --ink:#22303f; --main:#1f4e79; --main-light:#eaf1f8; --accent:#c05621;
+    --accent-light:#fdf0e6; --line:#d5dde5; --muted:#6b7a8a; }
+  *{ box-sizing:border-box; print-color-adjust:exact; -webkit-print-color-adjust:exact; }
+  html,body{ margin:0; padding:0; }
+  body{ font-family:"Microsoft YaHei","微软雅黑","PingFang SC","Noto Sans CJK SC",sans-serif;
+    color:var(--ink); background:#e9edf1; font-size:10.5pt; line-height:1.75; }
+  .sheet{ max-width:190mm; margin:8mm auto; background:#fff; padding:10mm 11mm;
+    box-shadow:0 2px 14px rgba(0,0,0,.12); }
+  h1{ font-size:21pt; color:var(--main); margin:0 0 2mm; border-bottom:3px solid var(--main); padding-bottom:3mm; }
+  h2{ font-size:14pt; color:var(--main); margin:8mm 0 3mm; padding:1.2mm 0 1.2mm 3mm;
+    border-left:5px solid var(--main); background:linear-gradient(to right,var(--main-light),#fff); break-after:avoid; }
+  h3{ font-size:11.5pt; color:var(--main); margin:5mm 0 2mm; break-after:avoid; }
+  p{ margin:1.5mm 0; }
+  code{ background:#f0f3f6; border-radius:1mm; padding:0 1mm; font-size:9.5pt; }
+  .def,.example,.mnemonic{ border-radius:2mm; padding:2.5mm 3.5mm; margin:2.5mm 0; break-inside:avoid; }
+  .def{ border:1.5px solid var(--main); background:#fbfdff; }
+  .example{ background:var(--accent-light); border-left:4px solid var(--accent); }
+  .mnemonic{ background:#f3f6ee; border:1px dashed #8aa15c; color:#4a6130; }
+  table{ border-collapse:collapse; width:100%; margin:2.5mm 0; font-size:9.5pt; table-layout:fixed; }
+  th,td{ border:1px solid var(--line); padding:1.6mm 2mm; text-align:left; vertical-align:top; overflow-wrap:break-word; }
+  th{ background:var(--main); color:#fff; text-align:center; }
+  thead{ display:table-header-group; }
+  tr{ break-inside:avoid; }
+  td.tc{ text-align:center; }
+  tr:nth-child(even) td{ background:#f6f9fc; }
+  .fig{ margin:3mm 0; padding:2.5mm; border:1px solid var(--line); border-radius:2mm;
+    background:#fdfefe; break-inside:avoid; }
+  .fig .cap{ text-align:center; color:var(--muted); font-size:9pt; margin-top:1mm; }
+  svg{ display:block; width:100%; height:auto; }
+  svg text{ font-family:inherit; }
+  ul,ol{ margin:1.5mm 0 1.5mm 5mm; padding-left:4mm; }
+  li{ margin:0.8mm 0; }
+  .footer{ margin-top:8mm; padding-top:2mm; border-top:1px solid var(--line);
+    color:var(--muted); font-size:8.5pt; text-align:center; }
+  @page{ size:A4; margin:12mm; }
+  @media print{ body{ background:#fff; font-size:10pt; }
+    .sheet{ max-width:none; margin:0; padding:0; box-shadow:none; } h2{ margin-top:6mm; } }
+</style>
+</head>
+<body>
+<div class="sheet">
+<h1>第3章 信息系统基础知识</h1>
+<ul><li>教材位置：02.系统架构设计师第二版-教材.pdf PDF 第 115～154 页（书页 105～144）</li><li>复习状态：已完成</li><li>复习日期：2026-11-06</li><li>本章地位：本章建立信息系统、典型业务系统与信息化模型的整体知识框架，是后续信息系统架构设计、软件工程、数据库及安全架构复习的概念底座。选择题常考分类边界、组成结构、阶段顺序和易混术语。</li></ul>
+<h2>一、大纲考点</h2>
+<p>大纲科目 1 第 2 部分「信息系统基础知识」位于大纲书页 23～27（PDF 第 33～37 页）。对应关系如下。</p>
+<table><colgroup><col style="width:19.3%"><col style="width:31.7%"><col style="width:18.6%"><col style="width:30.3%"></colgroup><thead><tr><th>大纲条目</th><th>大纲要求</th><th>教材对应</th><th>复习抓手</th></tr></thead><tbody><tr><td>2.1.1 信息系统定义</td><td>基本目标、定义、五个基本功能</td><td>3.1.1</td><td>六类组成、人机一体化、输入到控制</td></tr><tr><td>2.1.2 信息系统发展</td><td>诺兰模型六阶段</td><td>3.1.2</td><td>阶段顺序、两个时代、转折点</td></tr><tr><td>2.1.3 信息系统分类</td><td>TPS、MIS、DSS、ES、OAS 等</td><td>3.1.3、3.2～3.6</td><td>服务对象、问题结构化程度、输出</td></tr><tr><td>2.1.4 生命周期</td><td>产生、开发、运行、消亡</td><td>3.1.4</td><td>开发五阶段及各阶段产物</td></tr><tr><td>2.1.5 建设原则</td><td>高层介入、用户参与、自顶向下、工程化等</td><td>3.1.5</td><td>核心用户、全过程参与、信息一致性</td></tr><tr><td>2.1.6 开发方法</td><td>结构化、原型、面向对象、面向服务</td><td>3.1.6</td><td>适用场景与方法特征</td></tr><tr><td>2.1.7 综合性信息系统</td><td>ERP、WMS、MES/SFC、PDM</td><td>3.1.3、3.7</td><td>企业资源、仓储、制造、研发边界</td></tr><tr><td>2.2 业务处理系统</td><td>概念、五项功能、特点</td><td>3.2</td><td>批处理与 OLTP、三类文件</td></tr><tr><td>2.3 管理信息系统</td><td>概念、功能、组成</td><td>3.3</td><td>四部件、开闭环、金字塔、七子系统</td></tr><tr><td>2.4 决策支持系统</td><td>概念、九项功能、特点、组成</td><td>3.4</td><td>两库结构、数据仓库、数据挖掘、模型</td></tr><tr><td>2.5 专家系统</td><td>概念与 AI、六特点、组成与求解</td><td>3.5</td><td>知识库与推理机、三种推理</td></tr><tr><td>2.6 办公自动化系统</td><td>概念、三功能、组成</td><td>3.6</td><td>四大支柱、三类办公系统、四类设备</td></tr><tr><td>2.7 企业资源规划</td><td>概念、结构、功能及 PDM/CRM 应用</td><td>3.7</td><td>三流集成、计划层级、11 个模块</td></tr><tr><td>2.8 典型架构模型</td><td>电子政务、企业信息化、电子商务</td><td>3.8；部分见第五板块</td><td>五类互动、四阶段、三层融合、六种方法</td></tr></tbody></table>
+<h2>二、知识点笔记</h2>
+<h3>3.1 信息系统概述</h3>
+<h3>3.1.1 定义、组成与基本功能</h3>
+<div class="def">教材原文：信息系统是由计算机硬件、网络和通信设备、计算机软件、信息资源、信息用户和规章制度组成的，以处理信息流为目的的人机一体化系统。</div>
+<p>通俗地说，信息系统不是「一台计算机」或「一套软件」，而是<b>人、技术、数据与规则共同完成信息工作的整体</b>。计算机只是其中一部分，数据录入、结果使用和决策仍离不开人。</p>
+<p>⭐【重点】五个基本功能：<b>输入、存储、处理、输出、控制</b>。其中输出是各项功能最终服务的目标，控制贯穿信息加工、处理、传输和输出各环节。</p>
+<table><colgroup><col style="width:13.0%"><col style="width:47.8%"><col style="width:39.1%"></colgroup><thead><tr><th>功能</th><th>一句话理解</th><th>餐厅收银实例</th></tr></thead><tbody><tr><td class="tc">输入</td><td>把原始数据按系统目的和环境许可收进来</td><td>扫码录入菜品与数量</td></tr><tr><td class="tc">存储</td><td>保存资料和数据，供后续使用</td><td>保存订单、菜品价格、会员记录</td></tr><tr><td class="tc">处理</td><td>对数据计算、分析、检索或挖掘</td><td>计算金额、统计畅销菜</td></tr><tr><td class="tc">输出</td><td>以合适形式向各类用户提供信息</td><td>打印小票、生成经营报表</td></tr><tr><td class="tc">控制</td><td>管理设备并约束各环节按程序运行</td><td>校验权限、检查折扣是否合规</td></tr></tbody></table>
+<div class="example">举例：纸笔登记、算盘汇总、公告栏发布也能构成手工信息系统；接入收银机、网络和数据库后，才成为通常所说的基于计算机的信息系统。</div>
+<div class="fig"><div><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 420" font-family="Microsoft YaHei, 微软雅黑, sans-serif">
+  <rect width="720" height="420" fill="#ffffff"/>
+  <text x="360" y="30" text-anchor="middle" font-size="20" font-weight="bold" fill="#22303f">信息系统的组成与五个基本功能</text>
+  <rect x="40" y="50" width="640" height="105" rx="10" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.5"/>
+  <text x="60" y="76" font-size="15" font-weight="bold" fill="#1f4e79">六类组成：以处理信息流为目的的人机一体化系统</text>
+  <g font-size="13" fill="#22303f" text-anchor="middle">
+    <rect x="42" y="94" width="96" height="42" rx="6" fill="#ffffff" stroke="#6b7a8a"/>
+    <text x="90" y="120">计算机硬件</text>
+    <rect x="150" y="94" width="96" height="42" rx="6" fill="#ffffff" stroke="#6b7a8a"/>
+    <text x="198" y="120">网络通信设备</text>
+    <rect x="258" y="94" width="96" height="42" rx="6" fill="#ffffff" stroke="#6b7a8a"/>
+    <text x="306" y="120">计算机软件</text>
+    <rect x="366" y="94" width="96" height="42" rx="6" fill="#ffffff" stroke="#6b7a8a"/>
+    <text x="414" y="120">信息资源</text>
+    <rect x="474" y="94" width="96" height="42" rx="6" fill="#ffffff" stroke="#6b7a8a"/>
+    <text x="522" y="120">信息用户</text>
+    <rect x="582" y="94" width="96" height="42" rx="6" fill="#ffffff" stroke="#6b7a8a"/>
+    <text x="630" y="120">规章制度</text>
+  </g>
+  <line x1="360" y1="155" x2="360" y2="172" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="360,182 355.5,174 364.5,174" fill="#1f4e79"/>
+  <rect x="40" y="185" width="640" height="185" rx="10" fill="#f8fafc" stroke="#1f4e79" stroke-width="1.5"/>
+  <text x="60" y="212" font-size="15" font-weight="bold" fill="#1f4e79">五个基本功能</text>
+  <text x="660" y="212" text-anchor="end" font-size="12" fill="#6b7a8a">原始数据经过处理，转化为可用的信息</text>
+  <g text-anchor="middle">
+    <rect x="47" y="240" width="106" height="68" rx="7" fill="#eaf1f8" stroke="#1f4e79"/>
+    <text x="100" y="267" font-size="17" font-weight="bold" fill="#1f4e79">输入</text>
+    <text x="100" y="291" font-size="12" fill="#22303f">收集原始数据</text>
+    <rect x="177" y="240" width="106" height="68" rx="7" fill="#eaf1f8" stroke="#1f4e79"/>
+    <text x="230" y="267" font-size="17" font-weight="bold" fill="#1f4e79">存储</text>
+    <text x="230" y="291" font-size="12" fill="#22303f">保存资料数据</text>
+    <rect x="307" y="240" width="106" height="68" rx="7" fill="#fdf0e6" stroke="#c05621"/>
+    <text x="360" y="267" font-size="17" font-weight="bold" fill="#c05621">处理</text>
+    <text x="360" y="291" font-size="12" fill="#22303f">加工分析数据</text>
+    <rect x="437" y="240" width="106" height="68" rx="7" fill="#f3f6ee" stroke="#8aa15c"/>
+    <text x="490" y="267" font-size="17" font-weight="bold" fill="#4a6130">输出</text>
+    <text x="490" y="291" font-size="12" fill="#22303f">提供所需信息</text>
+    <rect x="567" y="240" width="106" height="68" rx="7" fill="#fdf0e6" stroke="#c05621"/>
+    <text x="620" y="267" font-size="17" font-weight="bold" fill="#c05621">控制</text>
+    <text x="620" y="291" font-size="12" fill="#22303f">管理约束环节</text>
+  </g>
+  <g stroke="#1f4e79" stroke-width="1.5" fill="none">
+    <line x1="153" y1="274" x2="166" y2="274"/><line x1="283" y1="274" x2="296" y2="274"/>
+    <line x1="413" y1="274" x2="426" y2="274"/><line x1="543" y1="274" x2="556" y2="274"/>
+  </g>
+  <g fill="#1f4e79">
+    <polygon points="174,274 166,269.5 166,278.5"/><polygon points="304,274 296,269.5 296,278.5"/>
+    <polygon points="434,274 426,269.5 426,278.5"/><polygon points="564,274 556,269.5 556,278.5"/>
+  </g>
+  <rect x="55" y="329" width="610" height="26" rx="5" fill="#f3f6ee" stroke="#8aa15c"/>
+  <text x="360" y="347" text-anchor="middle" font-size="13" fill="#4a6130">控制贯穿加工、处理、传输与输出；各项功能最终服务于有效输出</text>
+  <text x="360" y="400" text-anchor="middle" font-size="13" fill="#6b7a8a">计算机只是技术基础，用户与计算机共同完成信息工作</text>
+</svg></div><div class="cap">信息系统的组成与五个基本功能</div></div>
+<p><b>信息化</b>以信息资源开发利用为核心，以网络、通信等技术为依托，不只是设备更新，也会推动组织流程、管理方式乃至生产关系变化。</p>
+<h3>3.1.2 诺兰模型：信息系统发展的六阶段</h3>
+<p>⭐【高频考点】诺兰模型把组织从手工信息系统向计算机信息系统的发展概括为六个阶段，顺序不可颠倒。</p>
+<table><colgroup><col style="width:18.0%"><col style="width:44.0%"><col style="width:38.0%"></colgroup><thead><tr><th>阶段</th><th>核心特征</th><th>识别关键词</th></tr></thead><tbody><tr><td class="tc">1 初始</td><td>少量采购、少数人使用，多用于报表统计</td><td>常从财务部门开始</td></tr><tr><td class="tc">2 传播</td><td>应用与投入快速增长，但缺乏统一规划</td><td>冗余、不一致、难共享、效率不高</td></tr><tr><td class="tc">3 控制</td><td>管理者开始整体控制，强调组织协调</td><td>领导小组、数据库技术、信息孤岛</td></tr><tr><td class="tc">4 集成</td><td>重新规划，建立基础数据库和统一系统</td><td>集中式 DB、硬件与预算迅速增长</td></tr><tr><td class="tc">5 数据管理</td><td>统一数据平台、管理体系和信息管理平台</td><td>数据成为资源、整合共享</td></tr><tr><td class="tc">6 成熟</td><td>IT 与管理过程结合，满足各层次需求</td><td>内外部资源整合、支持决策</td></tr></tbody></table>
+<div class="fig"><div><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 390" font-family="Microsoft YaHei, 微软雅黑, sans-serif">
+  <rect width="720" height="390" fill="#ffffff"/>
+  <text x="360" y="30" text-anchor="middle" font-size="20" font-weight="bold" fill="#22303f">诺兰模型：信息系统发展的六个阶段</text>
+  <rect x="25" y="58" width="325" height="38" rx="8" fill="#eaf1f8" stroke="#1f4e79"/>
+  <text x="187.5" y="83" text-anchor="middle" font-size="16" font-weight="bold" fill="#1f4e79">计算机时代（前三阶段）</text>
+  <rect x="370" y="58" width="325" height="38" rx="8" fill="#f3f6ee" stroke="#8aa15c"/>
+  <text x="532.5" y="83" text-anchor="middle" font-size="16" font-weight="bold" fill="#4a6130">信息时代（后三阶段）</text>
+  <g text-anchor="middle">
+    <rect x="25" y="130" width="95" height="108" rx="7" fill="#eaf1f8" stroke="#1f4e79"/>
+    <text x="72.5" y="157" font-size="16" font-weight="bold" fill="#1f4e79">1 初始</text>
+    <text x="72.5" y="185" font-size="12" fill="#22303f">少数人使用</text><text x="72.5" y="207" font-size="12" fill="#22303f">财务部门常见</text>
+    <rect x="140" y="130" width="95" height="108" rx="7" fill="#eaf1f8" stroke="#1f4e79"/>
+    <text x="187.5" y="157" font-size="16" font-weight="bold" fill="#1f4e79">2 传播</text>
+    <text x="187.5" y="185" font-size="12" fill="#22303f">应用投入快增</text><text x="187.5" y="207" font-size="12" fill="#22303f">冗余不一致</text>
+    <rect x="255" y="130" width="95" height="108" rx="7" fill="#fdf0e6" stroke="#c05621"/>
+    <text x="302.5" y="157" font-size="16" font-weight="bold" fill="#c05621">3 控制</text>
+    <text x="302.5" y="185" font-size="12" fill="#22303f">领导小组</text><text x="302.5" y="207" font-size="12" fill="#22303f">数据库技术</text>
+    <rect x="370" y="130" width="95" height="108" rx="7" fill="#f3f6ee" stroke="#8aa15c"/>
+    <text x="417.5" y="157" font-size="16" font-weight="bold" fill="#4a6130">4 集成</text>
+    <text x="417.5" y="185" font-size="12" fill="#22303f">统一规划</text><text x="417.5" y="207" font-size="12" fill="#22303f">集中式数据库</text>
+    <rect x="485" y="130" width="95" height="108" rx="7" fill="#f3f6ee" stroke="#8aa15c"/>
+    <text x="532.5" y="157" font-size="15" font-weight="bold" fill="#4a6130">5 数据管理</text>
+    <text x="532.5" y="185" font-size="12" fill="#22303f">统一数据平台</text><text x="532.5" y="207" font-size="12" fill="#22303f">资源整合共享</text>
+    <rect x="600" y="130" width="95" height="108" rx="7" fill="#f3f6ee" stroke="#8aa15c"/>
+    <text x="647.5" y="157" font-size="16" font-weight="bold" fill="#4a6130">6 成熟</text>
+    <text x="647.5" y="185" font-size="12" fill="#22303f">IT 融合管理</text><text x="647.5" y="207" font-size="12" fill="#22303f">支持各层决策</text>
+  </g>
+  <g stroke="#1f4e79" stroke-width="1.5" fill="none">
+    <line x1="120" y1="184" x2="129" y2="184"/><line x1="235" y1="184" x2="244" y2="184"/>
+    <line x1="350" y1="184" x2="359" y2="184"/><line x1="465" y1="184" x2="474" y2="184"/>
+    <line x1="580" y1="184" x2="589" y2="184"/>
+  </g>
+  <g fill="#1f4e79">
+    <polygon points="137,184 129,179.5 129,188.5"/><polygon points="252,184 244,179.5 244,188.5"/>
+    <polygon points="367,184 359,179.5 359,188.5"/><polygon points="482,184 474,179.5 474,188.5"/>
+    <polygon points="597,184 589,179.5 589,188.5"/>
+  </g>
+  <rect x="175" y="278" width="370" height="60" rx="9" fill="#fdf0e6" stroke="#c05621" stroke-width="1.5"/>
+  <text x="360" y="303" text-anchor="middle" font-size="15" font-weight="bold" fill="#c05621">时代转折点：进行信息资源规划的时机</text>
+  <text x="360" y="326" text-anchor="middle" font-size="13" fill="#22303f">由分散计算机应用转向数据资源统一管理</text>
+  <text x="360" y="370" text-anchor="middle" font-size="14" fill="#4a6130">助记：初传控，集数成</text>
+</svg></div><div class="cap">诺兰模型六阶段</div></div>
+<p>⭐【易错】前三阶段具有<b>计算机时代</b>特征，后三阶段具有<b>信息时代</b>特征；转折点是进行<b>信息资源规划</b>的时机，不是「购买更多计算机」。</p>
+<div class="mnemonic">助记：初传控，集数成；前三计算机，后三信息时代。</div>
+<h3>3.1.3 信息系统分类与综合性系统</h3>
+<p>五类传统信息系统不是彼此取代，而是可并存、融合、共同发展。判断类型时先看<b>服务对象、问题类型和输出用途</b>。</p>
+<table><colgroup><col style="width:20.3%"><col style="width:30.4%"><col style="width:26.6%"><col style="width:22.8%"></colgroup><thead><tr><th>类型</th><th>通俗定位</th><th>主要对象与问题</th><th>典型输出</th></tr></thead><tbody><tr><td>TPS/DPS 业务处理系统</td><td>把日常业务记准、算快</td><td>作业层、高度结构化事务</td><td>订单、台账、发票、业务报表</td></tr><tr><td>MIS 管理信息系统</td><td>把各部门信息汇总用于管理</td><td>各管理层，侧重企业内部信息</td><td>计划、控制、预测和分析报告</td></tr><tr><td>DSS 决策支持系统</td><td>用数据和模型帮人比较方案</td><td>半结构化、非结构化决策</td><td>模拟、预测、备选方案分析</td></tr><tr><td>ES 专家系统</td><td>用专家知识与推理模仿专家</td><td>特定领域的复杂、经验性问题</td><td>诊断、建议及解释</td></tr><tr><td>OAS 办公自动化系统</td><td>把办公信息处理自动化</td><td>数据、文字、声音、图形、图像</td><td>公文、邮件、日程、会议与档案</td></tr><tr><td>综合系统</td><td>管理边界</td><td>一句话例子</td><td></td></tr><tr><td>---</td><td>---</td><td>---</td><td></td></tr><tr><td>ERP 企业资源规划</td><td>集成企业内外部资源与进销存、生产、财务等</td><td>统一协调订单、物料、生产和资金</td><td></td></tr><tr><td>WMS 仓储管理系统</td><td>库位、收发料、盘点、批次与库龄</td><td>扫码入库并指定货位，按先进先出拣货</td><td></td></tr><tr><td>MES/SFC 制造过程管理系统</td><td>生产过程、工艺、设备与现场执行</td><td>跟踪工单到工序，采集设备与质量数据</td><td></td></tr><tr><td>PDM 产品数据管理</td><td>研发物料、BOM、工程变更与协同研发</td><td>管理图纸版本和设计变更影响</td><td></td></tr></tbody></table>
+<div class="example">举例：ERP 决定「要生产什么、需要哪些资源」，MES 管「现场怎样按工单生产」，WMS 管「物料放在哪里、怎样出入库」，PDM 管「产品设计数据哪个版本有效」。</div>
+<h3>3.1.4 信息系统生命周期</h3>
+<p>⭐【重点】生命周期四阶段：<b>产生 → 开发 → 运行 → 消亡</b>。开发阶段又分<b>总体规划、系统分析、系统设计、系统实施、系统验收</b>。</p>
+<table><colgroup><col style="width:17.9%"><col style="width:47.9%"><col style="width:34.2%"></colgroup><thead><tr><th>阶段</th><th>主要工作</th><th>必记产物或判断</th></tr></thead><tbody><tr><td class="tc">产生</td><td>概念产生、需求调研与分析</td><td>需求分析报告</td></tr><tr><td class="tc">开发—总体规划</td><td>明确目标、总体架构、组织流程、实施计划、技术规范</td><td>服务企业总体目标，是开发起始阶段</td></tr><tr><td class="tc">开发—系统分析</td><td>分析组织、业务流程、数据与数据流程</td><td>⭐ 为设计提供<b>逻辑模型</b></td></tr><tr><td class="tc">开发—系统设计</td><td>架构、数据库、流程、模块、安全控制等设计</td><td>形成可实施的方案</td></tr><tr><td class="tc">开发—系统实施</td><td>编码、部署，把设计文本变成运行系统</td><td>用户参与尤其重要</td></tr><tr><td class="tc">开发—系统验收</td><td>试运行并检验性能、功能与用户友好性</td><td>验收后正式移交用户</td></tr><tr><td class="tc">运行</td><td>实际使用、质量检验与系统维护</td><td>长时间运行是质量试金石</td></tr><tr><td class="tc">消亡</td><td>更新改造、功能扩展、报废重建</td><td>建设初期就应考虑条件、时机和成本</td></tr></tbody></table>
+<p>运行维护分为<b>排错性、适应性、完善性、预防性</b>四类。通常运行初期前两类较多，后期后两类较多；不要误认为「验收即生命周期结束」。</p>
+<div class="mnemonic">助记：产生开发运行亡；开发细看规分设实施验。</div>
+<h3>3.1.5 信息系统建设原则</h3>
+<table><colgroup><col style="width:20.3%"><col style="width:40.7%"><col style="width:39.0%"></colgroup><thead><tr><th>原则</th><th>核心要求</th><th>易错提醒</th></tr></thead><tbody><tr><td class="tc">高层管理人员介入</td><td>从概念到运行给予决策、指导及资源支持</td><td>介入不等于亲自编程；CIO 是典型体现</td></tr><tr><td class="tc">用户参与开发</td><td>核心用户全过程、深度参与</td><td>⭐ 核心用户是实际使用者，不只是单位领导</td></tr><tr><td class="tc">自顶向下规划</td><td>先总体规划，保证信息一致性</td><td>不能代替子系统详细设计</td></tr><tr><td class="tc">工程化</td><td>用规范过程、方法和文档保证可维护、可扩展</td><td>不是「做出来能用就行」</td></tr><tr><td class="tc">其他原则</td><td>创新性、整体性、发展性、经济性</td><td>分别体现先进、完整、超前、实用</td></tr></tbody></table>
+<div class="example">举例：让收费窗口人员从需求讨论到试运行都参与，比只在验收时请领导签字更符合「用户参与开发」。</div>
+<h3>3.1.6 信息系统开发方法</h3>
+<table><colgroup><col style="width:16.1%"><col style="width:40.3%"><col style="width:43.5%"></colgroup><thead><tr><th>方法</th><th>核心思想</th><th>适用情形与注意点</th></tr></thead><tbody><tr><td class="tc">结构化方法</td><td>生命周期分阶段，自顶向下、结构化与模块化</td><td>业务成熟定型；目标清晰、阶段程式化、文档规范化</td></tr><tr><td class="tc">原型法</td><td>快速做模型，让用户试用并反复修改扩充</td><td>需求不清、需要尽早体验；不是省略需求分析</td></tr><tr><td class="tc">面向对象方法</td><td>用对象构造问题域模型，运用封装、继承、多态</td><td>对象归纳为类，组织类等级与类库，强调复用</td></tr><tr><td class="tc">面向服务方法</td><td>将接口定义与实现解耦，以业务服务支持互操作</td><td>跨构件、跨系统复用与共享，快速响应变化</td></tr></tbody></table>
+<p>原型循环：<b>基本需求 → 快速原型 → 用户试用评价 → 修改扩充 → 满意系统</b>。结构化方法适合银行、电信、商品零售等业务相对成熟的系统。</p>
+<h3>3.2 业务处理系统（TPS）</h3>
+<h3>3.2.1 概念与地位</h3>
+<p>TPS 又称电子数据处理系统（EDP），针对财会、销售、库存等具体事务，完成记录、传票、记账、统计、分类和报表工作。它服务于<b>作业层</b>，处理预先确定、高度结构化的任务。</p>
+<p>⭐【重点】TPS 是其他信息系统的<b>信息产生器</b>，也是连接企业与外部环境的<b>桥梁</b>。订票、存取款、出入库等 TPS 故障可能直接扰乱组织运行，不能因其「最初级」而误认为不重要。</p>
+<div class="fig"><div><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 350" font-family="Microsoft YaHei, 微软雅黑, sans-serif">
+  <rect width="720" height="350" fill="#ffffff"/>
+  <text x="360" y="30" text-anchor="middle" font-size="20" font-weight="bold" fill="#22303f">TPS 数据处理周期的五个阶段</text>
+  <text x="360" y="60" text-anchor="middle" font-size="13" fill="#6b7a8a">围绕日常事务，完成数据输入、处理、维护、输出与查询</text>
+  <g text-anchor="middle">
+    <rect x="25" y="115" width="115" height="105" rx="8" fill="#eaf1f8" stroke="#1f4e79"/>
+    <text x="82.5" y="145" font-size="16" font-weight="bold" fill="#1f4e79">1 数据输入</text>
+    <text x="82.5" y="174" font-size="12" fill="#22303f">人工 / 自动</text><text x="82.5" y="196" font-size="12" fill="#22303f">准确迅速录入</text>
+    <rect x="165" y="115" width="115" height="105" rx="8" fill="#fdf0e6" stroke="#c05621"/>
+    <text x="222.5" y="145" font-size="16" font-weight="bold" fill="#c05621">2 数据处理</text>
+    <text x="222.5" y="174" font-size="12" fill="#22303f">批处理</text><text x="222.5" y="196" font-size="12" fill="#22303f">联机事务处理</text>
+    <rect x="305" y="115" width="115" height="105" rx="8" fill="#f3f6ee" stroke="#8aa15c"/>
+    <text x="362.5" y="145" font-size="15" font-weight="bold" fill="#4a6130">3 数据库维护</text>
+    <text x="362.5" y="174" font-size="12" fill="#22303f">检索 / 修改</text><text x="362.5" y="196" font-size="12" fill="#22303f">存入 / 删除</text>
+    <rect x="445" y="115" width="115" height="105" rx="8" fill="#eaf1f8" stroke="#1f4e79"/>
+    <text x="502.5" y="143" font-size="14" font-weight="bold" fill="#1f4e79">4 文件报表生成</text>
+    <text x="502.5" y="174" font-size="12" fill="#22303f">行动 / 信息</text><text x="502.5" y="196" font-size="12" fill="#22303f">周转文件</text>
+    <rect x="585" y="115" width="110" height="105" rx="8" fill="#f3f6ee" stroke="#8aa15c"/>
+    <text x="640" y="145" font-size="16" font-weight="bold" fill="#4a6130">5 查询处理</text>
+    <text x="640" y="174" font-size="12" fill="#22303f">批次 / 实时</text><text x="640" y="196" font-size="12" fill="#22303f">按权限检索</text>
+  </g>
+  <g stroke="#1f4e79" stroke-width="1.5" fill="none">
+    <line x1="140" y1="167" x2="154" y2="167"/><line x1="280" y1="167" x2="294" y2="167"/>
+    <line x1="420" y1="167" x2="434" y2="167"/><line x1="560" y1="167" x2="574" y2="167"/>
+  </g>
+  <g fill="#1f4e79">
+    <polygon points="162,167 154,162.5 154,171.5"/><polygon points="302,167 294,162.5 294,171.5"/>
+    <polygon points="442,167 434,162.5 434,171.5"/><polygon points="582,167 574,162.5 574,171.5"/>
+  </g>
+  <rect x="60" y="265" width="600" height="48" rx="8" fill="#f8fafc" stroke="#6b7a8a"/>
+  <text x="360" y="286" text-anchor="middle" font-size="14" font-weight="bold" fill="#1f4e79">TPS 的价值：作业层的信息产生器、企业与外部环境的桥梁</text>
+  <text x="360" y="305" text-anchor="middle" font-size="12" fill="#6b7a8a">输出多为分类汇总，复杂分析与管理决策还需 MIS / DSS</text>
+</svg></div><div class="cap">TPS 数据处理周期的五个阶段</div></div>
+<h3>3.2.2 TPS 的五项功能</h3>
+<table><colgroup><col style="width:18.2%"><col style="width:47.3%"><col style="width:34.5%"></colgroup><thead><tr><th>功能</th><th>核心内容</th><th>记忆要点</th></tr></thead><tbody><tr><td class="tc">数据输入</td><td>人工、自动或二者结合，把原始数据准确迅速录入</td><td>输入常是信息处理瓶颈</td></tr><tr><td class="tc">数据处理</td><td>批处理或联机事务处理</td><td>⭐ 是否立即更新数据库</td></tr><tr><td class="tc">数据库维护</td><td>检索、修改、存入、删除</td><td>保证数据及时、正确反映经营状况</td></tr><tr><td class="tc">文件报表生成</td><td>行动文件、信息文件、周转文件及业务日志</td><td>多为分类汇总，较少分析概括</td></tr><tr><td class="tc">查询处理</td><td>批次或联机实时查询</td><td>按用户级别授予访问权限</td></tr></tbody></table>
+<p>常见自动输入设备包括 POS 终端、OCR、ATM、扫描仪、语音识别系统和触摸屏。TPS 的报表通常不能直接支持中高层复杂决策，需要 MIS/DSS 进一步分析。</p>
+<p>⭐【高频考点】批处理与联机事务处理对比：</p>
+<table><colgroup><col style="width:18.4%"><col style="width:40.8%"><col style="width:40.8%"></colgroup><thead><tr><th>对比项</th><th>批处理</th><th>联机事务处理（OLTP）</th></tr></thead><tbody><tr><td class="tc">数据积累</td><td>积累一段时间后定期成批处理</td><td>事务产生后立即处理，无需积累成批</td></tr><tr><td class="tc">数据更新</td><td>周期性更新，间隔期主文件可能过时</td><td>文件和数据库立即更新</td></tr><tr><td class="tc">查询</td><td>难满足实时查询</td><td>可即时响应查询</td></tr><tr><td class="tc">成本与保障</td><td>大量处理较经济</td><td>成本较高，需授权、容错与冗余</td></tr><tr><td class="tc">典型场景</td><td>工资、银行日终账目、定期报表</td><td>证券交易、航空订票、实时转账</td></tr></tbody></table>
+<div class="fig"><div><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 450" font-family="Microsoft YaHei, 微软雅黑, sans-serif">
+  <rect width="720" height="450" fill="#ffffff"/>
+  <text x="360" y="30" text-anchor="middle" font-size="20" font-weight="bold" fill="#22303f">批处理与联机事务处理（OLTP）</text>
+  <rect x="30" y="52" width="660" height="170" rx="10" fill="#f8fafc" stroke="#6b7a8a"/>
+  <text x="50" y="80" font-size="16" font-weight="bold" fill="#1f4e79">批处理：先积累成批，再定期处理</text>
+  <g text-anchor="middle" font-size="14">
+    <rect x="50" y="105" width="120" height="55" rx="6" fill="#eaf1f8" stroke="#1f4e79"/><text x="110" y="139">原始凭证</text>
+    <rect x="210" y="105" width="120" height="55" rx="6" fill="#eaf1f8" stroke="#1f4e79"/><text x="270" y="139">事务文件</text>
+    <rect x="370" y="105" width="120" height="55" rx="6" fill="#eaf1f8" stroke="#1f4e79"/><text x="430" y="139">分类排序</text>
+    <rect x="530" y="105" width="140" height="55" rx="6" fill="#f3f6ee" stroke="#8aa15c"/>
+    <text x="600" y="129">对账处理</text><text x="600" y="150">更新主文件</text>
+  </g>
+  <g stroke="#1f4e79" stroke-width="1.5" fill="none">
+    <line x1="170" y1="132" x2="199" y2="132"/><line x1="330" y1="132" x2="359" y2="132"/><line x1="490" y1="132" x2="519" y2="132"/>
+  </g>
+  <g fill="#1f4e79"><polygon points="207,132 199,127.5 199,136.5"/><polygon points="367,132 359,127.5 359,136.5"/><polygon points="527,132 519,127.5 519,136.5"/></g>
+  <text x="110" y="194" text-anchor="middle" font-size="13" fill="#4a6130">优点：大量处理较经济</text>
+  <text x="600" y="194" text-anchor="end" font-size="13" fill="#c05621">缺点：处理间隔期数据可能过时</text>
+  <rect x="30" y="245" width="660" height="170" rx="10" fill="#fdf0e6" stroke="#c05621"/>
+  <text x="50" y="273" font-size="16" font-weight="bold" fill="#c05621">OLTP：事务一产生就立即处理并更新</text>
+  <g text-anchor="middle" font-size="14">
+    <rect x="50" y="298" width="120" height="55" rx="6" fill="#ffffff" stroke="#c05621"/><text x="110" y="332">终端事务</text>
+    <rect x="210" y="298" width="120" height="55" rx="6" fill="#ffffff" stroke="#c05621"/><text x="270" y="332">联机处理</text>
+    <rect x="370" y="298" width="120" height="55" rx="6" fill="#ffffff" stroke="#c05621"/>
+    <text x="430" y="322">立即更新</text><text x="430" y="343">文件和数据库</text>
+    <rect x="530" y="298" width="140" height="55" rx="6" fill="#f3f6ee" stroke="#8aa15c"/><text x="600" y="332">即时响应查询</text>
+  </g>
+  <g stroke="#c05621" stroke-width="1.5" fill="none">
+    <line x1="170" y1="325" x2="199" y2="325"/><line x1="330" y1="325" x2="359" y2="325"/><line x1="490" y1="325" x2="519" y2="325"/>
+  </g>
+  <g fill="#c05621"><polygon points="207,325 199,320.5 199,329.5"/><polygon points="367,325 359,320.5 359,329.5"/><polygon points="527,325 519,320.5 519,329.5"/></g>
+  <text x="110" y="388" text-anchor="middle" font-size="13" fill="#4a6130">优点：数据新、响应快</text>
+  <text x="670" y="388" text-anchor="end" font-size="13" fill="#c05621">代价：需要授权、容错、冗余，成本较高</text>
+</svg></div><div class="cap">批处理与联机事务处理</div></div>
+<p>三类输出文件：<b>行动文件</b>使接收者可办理事务，如采购订单；<b>信息文件</b>证明业务已发生，如订单确认书；<b>周转文件</b>送出后还需返回，如多联发票及付款凭证。</p>
+<div class="mnemonic">助记：行动催你办，信息告诉你已办，周转出去还要还。</div>
+<h3>3.2.3 特点与开发</h3>
+<p>TPS 面向高度结构化问题，适合采用结构化生命周期法；同行业事务相似，常可购买商品化产品并做少量二次开发。其性能还会直接影响客户服务与组织形象。</p>
+<h3>3.3 管理信息系统（MIS）</h3>
+<h3>3.3.1 概念、总体结构与开闭环</h3>
+<p>MIS 在 TPS 基础上引入管理方法，对企业整体信息进行处理，用于预测、控制、计划和辅助全面管理，是高度集成的人机信息系统。</p>
+<p>⭐【重点】四大部件：<b>信息源、信息处理器、信息用户、信息管理者</b>。信息源提供数据，处理器完成加工，用户使用信息，管理者负责组织协调。</p>
+<table><colgroup><col style="width:11.1%"><col style="width:57.4%"><col style="width:31.5%"></colgroup><thead><tr><th>结构</th><th>决策过程中是否持续收集并反馈信息</th><th>例子</th></tr></thead><tbody><tr><td class="tc">开环</td><td>不依据执行过程的新信息调整本次决策，事后评价供以后参考</td><td>月初固定排产，中途不调整</td></tr><tr><td class="tc">闭环</td><td>不断收集反馈并调整决策，最终决策可能不同于最初设想</td><td>根据销量和库存动态调整排产</td></tr></tbody></table>
+<p>教材概括为：计算机实时处理系统通常属于闭环，批处理系统通常属于开环；但较长决策过程中的批处理也能构成闭环，不能绝对化。</p>
+<div class="fig"><div><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 490" font-family="Microsoft YaHei, 微软雅黑, sans-serif">
+  <rect width="720" height="490" fill="#ffffff"/>
+  <text x="360" y="30" text-anchor="middle" font-size="20" font-weight="bold" fill="#22303f">MIS 四大部件与开闭环结构</text>
+  <rect x="30" y="52" width="660" height="193" rx="10" fill="#eaf1f8" stroke="#1f4e79"/>
+  <text x="50" y="78" font-size="15" font-weight="bold" fill="#1f4e79">总体结构：信息源、信息处理器、信息用户、信息管理者</text>
+  <g text-anchor="middle">
+    <rect x="65" y="105" width="130" height="55" rx="7" fill="#ffffff" stroke="#1f4e79"/><text x="130" y="139" font-size="16">信息源</text>
+    <rect x="295" y="105" width="130" height="55" rx="7" fill="#ffffff" stroke="#1f4e79"/><text x="360" y="139" font-size="16">信息处理器</text>
+    <rect x="525" y="105" width="130" height="55" rx="7" fill="#ffffff" stroke="#1f4e79"/><text x="590" y="139" font-size="16">信息用户</text>
+    <rect x="245" y="185" width="230" height="42" rx="7" fill="#f3f6ee" stroke="#8aa15c"/><text x="360" y="212" font-size="15" fill="#4a6130">信息管理者：组织与协调</text>
+  </g>
+  <g stroke="#1f4e79" stroke-width="1.5" fill="none">
+    <line x1="195" y1="132" x2="284" y2="132"/><line x1="425" y1="132" x2="514" y2="132"/>
+    <line x1="360" y1="185" x2="360" y2="170"/>
+  </g>
+  <polygon points="292,132 284,127.5 284,136.5" fill="#1f4e79"/><polygon points="522,132 514,127.5 514,136.5" fill="#1f4e79"/>
+  <polygon points="360,163 355.5,171 364.5,171" fill="#1f4e79"/>
+  <rect x="30" y="270" width="315" height="185" rx="10" fill="#f8fafc" stroke="#6b7a8a"/>
+  <text x="187.5" y="297" text-anchor="middle" font-size="16" font-weight="bold" fill="#1f4e79">开环：本次决策不反馈调整</text>
+  <g text-anchor="middle" font-size="13">
+    <rect x="48" y="325" width="80" height="52" rx="6" fill="#eaf1f8" stroke="#1f4e79"/><text x="88" y="356">识别记录</text>
+    <rect x="153" y="325" width="85" height="52" rx="6" fill="#eaf1f8" stroke="#1f4e79"/><text x="195.5" y="356">变换决策</text>
+    <rect x="263" y="325" width="65" height="52" rx="6" fill="#eaf1f8" stroke="#1f4e79"/><text x="295.5" y="356">行动结果</text>
+  </g>
+  <line x1="128" y1="351" x2="142" y2="351" stroke="#1f4e79" stroke-width="1.5"/><line x1="238" y1="351" x2="252" y2="351" stroke="#1f4e79" stroke-width="1.5"/>
+  <polygon points="150,351 142,346.5 142,355.5" fill="#1f4e79"/><polygon points="260,351 252,346.5 252,355.5" fill="#1f4e79"/>
+  <text x="187.5" y="416" text-anchor="middle" font-size="12" fill="#6b7a8a">事后评价只供以后决策参考</text>
+  <rect x="375" y="270" width="315" height="185" rx="10" fill="#f3f6ee" stroke="#8aa15c"/>
+  <text x="532.5" y="297" text-anchor="middle" font-size="16" font-weight="bold" fill="#4a6130">闭环：持续反馈并调整本次决策</text>
+  <g text-anchor="middle" font-size="13">
+    <rect x="393" y="325" width="80" height="52" rx="6" fill="#ffffff" stroke="#8aa15c"/><text x="433" y="356">识别记录</text>
+    <rect x="498" y="325" width="85" height="52" rx="6" fill="#ffffff" stroke="#8aa15c"/><text x="540.5" y="356">变换决策</text>
+    <rect x="608" y="325" width="65" height="52" rx="6" fill="#ffffff" stroke="#8aa15c"/><text x="640.5" y="356">行动结果</text>
+  </g>
+  <line x1="473" y1="351" x2="487" y2="351" stroke="#4a6130" stroke-width="1.5"/><line x1="583" y1="351" x2="597" y2="351" stroke="#4a6130" stroke-width="1.5"/>
+  <polygon points="495,351 487,346.5 487,355.5" fill="#4a6130"/><polygon points="605,351 597,346.5 597,355.5" fill="#4a6130"/>
+  <polyline points="640,377 640,407 433,407 433,387" stroke="#4a6130" stroke-width="1.5" fill="none"/>
+  <polygon points="433,380 428.5,388 437.5,388" fill="#4a6130"/>
+  <text x="536" y="434" text-anchor="middle" font-size="12" fill="#4a6130">反馈信息使最终决策可能不同于最初设想</text>
+</svg></div><div class="cap">MIS 四大部件与开闭环结构</div></div>
+<h3>3.3.2 功能结构与金字塔</h3>
+<p>管理层次通常为<b>战略计划、管理控制、运行控制</b>，底部是业务处理；管理职能可包括销售市场、生产、后勤、人事、财务会计、信息处理、高层管理。下层处理量大，上层处理量小，形成纵横交织的金字塔。</p>
+<p>⭐【易错】横向综合是<b>按层</b>划分子系统，纵向综合是<b>按条（职能）</b>划分；纵横综合则可跨层、跨职能组合。</p>
+<div class="fig"><div><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 840" font-family="Microsoft YaHei, 微软雅黑, sans-serif">
+  <rect width="720" height="840" fill="#ffffff"/>
+  <text x="360" y="30" text-anchor="middle" font-size="20" font-weight="bold" fill="#22303f">MIS 金字塔、功能结构与功能—过程</text>
+  <text x="195" y="62" text-anchor="middle" font-size="15" font-weight="bold" fill="#1f4e79">管理层次：越往下处理量越大</text>
+  <polygon points="195,78 250,140 140,140" fill="#fdf0e6" stroke="#c05621" stroke-width="1.5"/>
+  <text x="195" y="126" text-anchor="middle" font-size="14" font-weight="bold" fill="#c05621">战略计划</text>
+  <polygon points="140,150 250,150 290,220 100,220" fill="#f3f6ee" stroke="#8aa15c" stroke-width="1.5"/>
+  <text x="195" y="190" text-anchor="middle" font-size="14" font-weight="bold" fill="#4a6130">管理控制</text>
+  <polygon points="100,230 290,230 325,300 65,300" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.5"/>
+  <text x="195" y="270" text-anchor="middle" font-size="14" font-weight="bold" fill="#1f4e79">运行控制</text>
+  <polygon points="65,310 325,310 355,380 35,380" fill="#eaf1f8" stroke="#6b7a8a" stroke-width="1.5"/>
+  <text x="195" y="350" text-anchor="middle" font-size="14" font-weight="bold" fill="#22303f">业务处理</text>
+  <text x="195" y="412" text-anchor="middle" font-size="13" fill="#6b7a8a">下层数据量大，上层数据量小</text>
+  <text x="195" y="438" text-anchor="middle" font-size="13" fill="#6b7a8a">职能条与管理层次纵横交织</text>
+  <rect x="385" y="52" width="310" height="402" rx="10" fill="#f8fafc" stroke="#6b7a8a"/>
+  <text x="540" y="80" text-anchor="middle" font-size="15" font-weight="bold" fill="#1f4e79">功能／层次矩阵（简化）</text>
+  <g stroke="#6b7a8a" stroke-width="1" fill="#ffffff">
+    <rect x="400" y="105" width="100" height="52"/><rect x="500" y="105" width="60" height="52"/><rect x="560" y="105" width="60" height="52"/><rect x="620" y="105" width="60" height="52"/>
+    <rect x="400" y="157" width="100" height="52"/><rect x="500" y="157" width="60" height="52"/><rect x="560" y="157" width="60" height="52"/><rect x="620" y="157" width="60" height="52"/>
+    <rect x="400" y="209" width="100" height="52"/><rect x="500" y="209" width="60" height="52"/><rect x="560" y="209" width="60" height="52"/><rect x="620" y="209" width="60" height="52"/>
+    <rect x="400" y="261" width="100" height="52"/><rect x="500" y="261" width="60" height="52"/><rect x="560" y="261" width="60" height="52"/><rect x="620" y="261" width="60" height="52"/>
+    <rect x="400" y="313" width="100" height="52"/><rect x="500" y="313" width="60" height="52"/><rect x="560" y="313" width="60" height="52"/><rect x="620" y="313" width="60" height="52"/>
+  </g>
+  <g text-anchor="middle" font-size="12" fill="#22303f">
+    <text x="450" y="136" font-weight="bold">管理层次</text><text x="530" y="136">销售</text><text x="590" y="136">生产</text><text x="650" y="136">财务</text>
+    <text x="450" y="188">战略计划</text><text x="530" y="188">新市场</text><text x="590" y="188">自动化</text><text x="650" y="188">长期财务</text>
+    <text x="450" y="240">管理控制</text><text x="530" y="240">计划比较</text><text x="590" y="240">成本进度</text><text x="650" y="240">预算成本</text>
+    <text x="450" y="292">运行控制</text><text x="530" y="292">日常调度</text><text x="590" y="292">实际进度</text><text x="650" y="292">异常报告</text>
+    <text x="450" y="344">业务处理</text><text x="530" y="344">销售订单</text><text x="590" y="344">工时票</text><text x="650" y="344">会计凭证</text>
+  </g>
+  <rect x="410" y="390" width="260" height="40" rx="6" fill="#fdf0e6" stroke="#c05621"/>
+  <text x="540" y="415" text-anchor="middle" font-size="14" font-weight="bold" fill="#c05621">横向按层｜纵向按职能条</text>
+  <text x="360" y="492" text-anchor="middle" font-size="15" font-weight="bold" fill="#1f4e79">功能结构：按管理职能划分子系统</text>
+  <rect x="260" y="515" width="200" height="45" rx="7" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.5"/>
+  <text x="360" y="543" text-anchor="middle" font-size="15" font-weight="bold" fill="#1f4e79">管理信息系统</text>
+  <g stroke="#1f4e79" stroke-width="1.4" fill="none">
+    <polyline points="280,560 280,578 80,578 80,607"/>
+    <polyline points="320,560 320,585 220,585 220,607"/>
+    <line x1="360" y1="560" x2="360" y2="607"/>
+    <polyline points="400,560 400,585 500,585 500,607"/>
+    <polyline points="440,560 440,578 640,578 640,607"/>
+  </g>
+  <g fill="#1f4e79">
+    <polygon points="80,617 75.5,609 84.5,609"/><polygon points="220,617 215.5,609 224.5,609"/>
+    <polygon points="360,617 355.5,609 364.5,609"/><polygon points="500,617 495.5,609 504.5,609"/>
+    <polygon points="640,617 635.5,609 644.5,609"/>
+  </g>
+  <g text-anchor="middle" font-size="14" fill="#22303f">
+    <rect x="30" y="620" width="100" height="55" rx="6" fill="#f3f6ee" stroke="#8aa15c"/><text x="80" y="654">市场子系统</text>
+    <rect x="170" y="620" width="100" height="55" rx="6" fill="#f3f6ee" stroke="#8aa15c"/><text x="220" y="654">财会子系统</text>
+    <rect x="310" y="620" width="100" height="55" rx="6" fill="#f3f6ee" stroke="#8aa15c"/><text x="360" y="654">人事子系统</text>
+    <rect x="450" y="620" width="100" height="55" rx="6" fill="#f3f6ee" stroke="#8aa15c"/><text x="500" y="654">生产子系统</text>
+    <rect x="590" y="620" width="100" height="55" rx="6" fill="#f3f6ee" stroke="#8aa15c"/><text x="640" y="654">供运子系统</text>
+  </g>
+  <text x="360" y="714" text-anchor="middle" font-size="15" font-weight="bold" fill="#1f4e79">功能—过程结构：职能通过逻辑相关活动落地（简化）</text>
+  <g text-anchor="middle" font-size="12" fill="#22303f">
+    <rect x="30" y="740" width="95" height="55" rx="6" fill="#eaf1f8" stroke="#1f4e79"/><text x="77.5" y="773">主计划</text>
+    <rect x="143" y="740" width="95" height="55" rx="6" fill="#eaf1f8" stroke="#1f4e79"/><text x="190.5" y="773">采购进货</text>
+    <rect x="256" y="740" width="95" height="55" rx="6" fill="#eaf1f8" stroke="#1f4e79"/><text x="303.5" y="773">库存管理</text>
+    <rect x="369" y="740" width="95" height="55" rx="6" fill="#fdf0e6" stroke="#c05621"/><text x="416.5" y="773">制造计划</text>
+    <rect x="482" y="740" width="95" height="55" rx="6" fill="#fdf0e6" stroke="#c05621"/><text x="529.5" y="762">工作令</text><text x="529.5" y="783">监督执行</text>
+    <rect x="595" y="740" width="95" height="55" rx="6" fill="#f3f6ee" stroke="#8aa15c"/><text x="642.5" y="773">包装运出</text>
+  </g>
+  <g stroke="#1f4e79" stroke-width="1.4" fill="none">
+    <line x1="125" y1="767" x2="132" y2="767"/><line x1="238" y1="767" x2="245" y2="767"/>
+    <line x1="351" y1="767" x2="358" y2="767"/><line x1="464" y1="767" x2="471" y2="767"/>
+    <line x1="577" y1="767" x2="584" y2="767"/>
+  </g>
+  <g fill="#1f4e79">
+    <polygon points="140,767 132,762.5 132,771.5"/><polygon points="253,767 245,762.5 245,771.5"/>
+    <polygon points="366,767 358,762.5 358,771.5"/><polygon points="479,767 471,762.5 471,771.5"/>
+    <polygon points="592,767 584,762.5 584,771.5"/>
+  </g>
+  <text x="360" y="824" text-anchor="middle" font-size="12" fill="#6b7a8a">过程是逻辑上相关活动的集合；各职能子系统经信息流相互联系</text>
+</svg></div><div class="cap">MIS 金字塔、功能结构与功能—过程结构</div></div>
+<p>功能结构中的子系统以管理职能命名，而非以计算机设备命名；「过程」是逻辑上相关活动的集合，功能—过程结构用于说明职能如何经由业务流程落地。</p>
+<h3>3.3.3 七个基本子系统与软件结构</h3>
+<table><colgroup><col style="width:17.8%"><col style="width:42.2%"><col style="width:40.0%"></colgroup><thead><tr><th>子系统</th><th>核心职能</th><th>战略层关注示例</th></tr></thead><tbody><tr><td class="tc">销售市场</td><td>销售、推销、市场分析</td><td>新市场开发、顾客与竞争者分析</td></tr><tr><td class="tc">生产</td><td>设计、设备、调度、质量、工时</td><td>加工方法与自动化</td></tr><tr><td class="tc">后勤</td><td>采购、收货、库存、分发</td><td>自制或外购、分配方案</td></tr><tr><td class="tc">人事</td><td>雇用、培训、考核、工资、离职</td><td>雇用战略、工资与培训规划</td></tr><tr><td class="tc">财务会计</td><td>资金保障、核算、预算与成本</td><td>长期财务、税收与预算计划</td></tr><tr><td class="tc">信息处理</td><td>数据处理、设备与程序、信息需求</td><td>集中或分散、总体架构与规划</td></tr><tr><td class="tc">高层管理</td><td>查询、决策支持、文件与指令</td><td>企业方向、综合资源和外部信息</td></tr></tbody></table>
+<p>软件结构可理解为：面向各职能和管理层次的应用软件，建立在公用应用程序、模型库、数据库管理系统及专用/公用数据文件之上，体现共享与集成。</p>
+<h3>3.4 决策支持系统（DSS）</h3>
+<h3>3.4.1 概念、基本模式与结构</h3>
+<div class="def">教材原文：DSS 能帮助决策者利用数据和模型去解决半结构化决策问题和非结构化决策问题，是交互式系统。</div>
+<p>⭐【高频考点】DSS 的四条判别标准：以<b>数据和模型</b>为主要资源；<b>支持而不代替</b>用户决策；面向半结构化、非结构化问题；目标是提高决策<b>有效性</b>而非单纯效率。</p>
+<p>DSS 从「模型库＋数据库＋人机交互」发展到增加知识库、方法库，再与人工智能、网络结合，形成智能、群体和分布式 DSS。基本模式中管理者处于核心，结合个人知识经验和系统支持，对真实系统进行决策。</p>
+<table><colgroup><col style="width:20.4%"><col style="width:42.6%"><col style="width:37.0%"></colgroup><thead><tr><th>结构</th><th>组成</th><th>识别要点</th></tr></thead><tbody><tr><td class="tc">两库结构</td><td>数据库子系统、模型库子系统、对话子系统</td><td>「两库」仍有对话部件，呈三角关系</td></tr><tr><td class="tc">基于知识的结构</td><td>语言系统、知识系统、问题处理系统</td><td>强调知识表达与问题处理</td></tr></tbody></table>
+<div class="fig"><div><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 510" font-family="Microsoft YaHei, 微软雅黑, sans-serif">
+  <rect width="720" height="510" fill="#ffffff"/>
+  <text x="360" y="30" text-anchor="middle" font-size="20" font-weight="bold" fill="#22303f">DSS 基本模式与两库结构</text>
+  <rect x="25" y="52" width="320" height="425" rx="10" fill="#f8fafc" stroke="#6b7a8a"/>
+  <text x="185" y="80" text-anchor="middle" font-size="16" font-weight="bold" fill="#1f4e79">基本模式：管理者处于核心</text>
+  <rect x="70" y="105" width="230" height="52" rx="7" fill="#eaf1f8" stroke="#1f4e79"/>
+  <text x="185" y="137" text-anchor="middle" font-size="16" fill="#22303f">真实系统</text>
+  <rect x="95" y="230" width="180" height="60" rx="8" fill="#fdf0e6" stroke="#c05621" stroke-width="1.5"/>
+  <text x="185" y="255" text-anchor="middle" font-size="16" font-weight="bold" fill="#c05621">管理者</text>
+  <text x="185" y="276" text-anchor="middle" font-size="12" fill="#22303f">知识、经验与判断</text>
+  <rect x="85" y="365" width="200" height="55" rx="7" fill="#f3f6ee" stroke="#8aa15c"/>
+  <text x="185" y="398" text-anchor="middle" font-size="15" fill="#4a6130">决策支持系统（DSS）</text>
+  <line x1="140" y1="157" x2="140" y2="217" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="140,227 135.5,219 144.5,219" fill="#1f4e79"/>
+  <text x="105" y="197" text-anchor="middle" font-size="12" fill="#6b7a8a">决策问题</text>
+  <line x1="240" y1="230" x2="240" y2="170" stroke="#c05621" stroke-width="1.5" fill="none"/>
+  <polygon points="240,160 235.5,168 244.5,168" fill="#c05621"/>
+  <text x="260" y="197" font-size="12" fill="#6b7a8a">操作</text>
+  <line x1="140" y1="290" x2="140" y2="352" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="140,362 135.5,354 144.5,354" fill="#1f4e79"/>
+  <text x="95" y="330" font-size="12" fill="#6b7a8a">处理数据</text>
+  <line x1="240" y1="365" x2="240" y2="303" stroke="#4a6130" stroke-width="1.5" fill="none"/>
+  <polygon points="240,293 235.5,301 244.5,301" fill="#4a6130"/>
+  <text x="270" y="330" text-anchor="middle" font-size="12" fill="#6b7a8a">响应／信息</text>
+  <text x="185" y="452" text-anchor="middle" font-size="12" fill="#6b7a8a">MIS 信息与外部信息共同支持决策</text>
+  <rect x="375" y="52" width="320" height="425" rx="10" fill="#f8fafc" stroke="#6b7a8a"/>
+  <text x="535" y="80" text-anchor="middle" font-size="16" font-weight="bold" fill="#1f4e79">两库结构：两库＋对话</text>
+  <rect x="460" y="100" width="150" height="45" rx="7" fill="#fdf0e6" stroke="#c05621"/>
+  <text x="535" y="128" text-anchor="middle" font-size="15" fill="#c05621">用户</text>
+  <rect x="460" y="185" width="150" height="50" rx="7" fill="#eaf1f8" stroke="#1f4e79"/>
+  <text x="535" y="215" text-anchor="middle" font-size="15" fill="#1f4e79">对话子系统</text>
+  <rect x="392" y="340" width="135" height="55" rx="7" fill="#f3f6ee" stroke="#8aa15c"/>
+  <text x="459.5" y="373" text-anchor="middle" font-size="14" fill="#4a6130">数据库子系统</text>
+  <rect x="543" y="340" width="135" height="55" rx="7" fill="#f3f6ee" stroke="#8aa15c"/>
+  <text x="610.5" y="373" text-anchor="middle" font-size="14" fill="#4a6130">模型库子系统</text>
+  <line x1="535" y1="145" x2="535" y2="172" stroke="#1f4e79" stroke-width="1.5"/>
+  <polygon points="535,182 530.5,174 539.5,174" fill="#1f4e79"/>
+  <polyline points="485,235 485,275 460,275 460,327" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="460,337 455.5,329 464.5,329" fill="#1f4e79"/>
+  <polyline points="585,235 585,275 610,275 610,327" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="610,337 605.5,329 614.5,329" fill="#1f4e79"/>
+  <line x1="527" y1="367" x2="532" y2="367" stroke="#4a6130" stroke-width="1.5"/>
+  <polygon points="540,367 532,362.5 532,371.5" fill="#4a6130"/>
+  <text x="535" y="438" text-anchor="middle" font-size="14" font-weight="bold" fill="#c05621">“两库”不等于总共两个部件</text>
+  <text x="535" y="460" text-anchor="middle" font-size="12" fill="#6b7a8a">数据与模型是主要资源，对话连接用户</text>
+</svg></div><div class="cap">DSS 基本模式与两库结构</div></div>
+<h3>3.4.2 九项功能与系统特点</h3>
+<p>DSS 的总体功能是<b>支持各种层次的人们进行决策</b>，再细分为以下九项具体功能。</p>
+<table><colgroup><col style="width:15.2%"><col style="width:49.5%"><col style="width:35.2%"></colgroup><thead><tr><th>功能组</th><th>对应大纲九项功能</th><th>通俗理解</th></tr></thead><tbody><tr><td class="tc">数据支持</td><td>整理内部数据；收集外部信息；收集活动反馈</td><td>给决策者「看清现状」</td></tr><tr><td class="tc">模型方法</td><td>存储管理模型；存储管理数学、统计、运筹方法</td><td>给决策者「分析工具」</td></tr><tr><td class="tc">资源管理</td><td>对数据、模型、方法查找、变更、增加、删除</td><td>工具可维护、可复用</td></tr><tr><td class="tc">加工交互</td><td>用模型方法加工数据；人机接口、图形加工与输出</td><td>支持汇总、预测和 What-if 分析</td></tr><tr><td class="tc">分布使用</td><td>支持分布方式与有效传输</td><td>异地共享数据、模型和方法</td></tr></tbody></table>
+<p>DSS 的五个特点：面向决策者；支持半结构化问题；辅助而不替代；随环境和认识动态调整；提倡交互，把人的经验判断与客观信息结合。</p>
+<h3>3.4.3 数据仓库、数据挖掘与模型管理</h3>
+<p>作业数据需经<b>重组和确认</b>才适合决策。数据仓库与作业层系统分离，数据经提炼、清洗、一致化并载入，支持分析查询；数据字典用于统一数据含义和表示。</p>
+<p>⭐【高频考点】数据挖掘四类结果：</p>
+<table><colgroup><col style="width:11.3%"><col style="width:47.2%"><col style="width:41.5%"></colgroup><thead><tr><th>类型</th><th>要回答的问题</th><th>例子</th></tr></thead><tbody><tr><td class="tc">联合</td><td>哪些事件经常一起发生</td><td>找出常被同时选修的课程，避免同时排课</td></tr><tr><td class="tc">定序</td><td>事件按什么先后次序出现</td><td>分析学生多个学期的选课次序</td></tr><tr><td class="tc">分类</td><td>按已知标准把对象归入哪类</td><td>按学制内或超学制完成学业分组</td></tr><tr><td class="tc">聚类</td><td>依据相似性可自然形成哪些群，并归纳区分规则</td><td>按兴趣、年龄、经验发现学生群体</td></tr></tbody></table>
+<div class="fig"><div><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 510" font-family="Microsoft YaHei, 微软雅黑, sans-serif">
+  <rect width="720" height="510" fill="#ffffff"/>
+  <text x="360" y="30" text-anchor="middle" font-size="20" font-weight="bold" fill="#22303f">数据仓库与数据挖掘</text>
+  <g text-anchor="middle" font-size="14">
+    <rect x="40" y="65" width="130" height="60" rx="7" fill="#eaf1f8" stroke="#1f4e79"/><text x="105" y="101">TPS／业务数据</text>
+    <rect x="295" y="65" width="130" height="60" rx="7" fill="#eaf1f8" stroke="#1f4e79"/><text x="360" y="101">外部信息</text>
+    <rect x="550" y="65" width="130" height="60" rx="7" fill="#eaf1f8" stroke="#1f4e79"/><text x="615" y="101">活动反馈信息</text>
+  </g>
+  <polyline points="105,125 105,155 270,155 270,177" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="270,187 265.5,179 274.5,179" fill="#1f4e79"/>
+  <line x1="360" y1="125" x2="360" y2="177" stroke="#1f4e79" stroke-width="1.5"/>
+  <polygon points="360,187 355.5,179 364.5,179" fill="#1f4e79"/>
+  <polyline points="615,125 615,155 450,155 450,177" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="450,187 445.5,179 454.5,179" fill="#1f4e79"/>
+  <rect x="210" y="190" width="300" height="60" rx="8" fill="#f3f6ee" stroke="#8aa15c" stroke-width="1.5"/>
+  <text x="360" y="215" text-anchor="middle" font-size="17" font-weight="bold" fill="#4a6130">数据仓库（独立于作业层）</text>
+  <text x="360" y="238" text-anchor="middle" font-size="12" fill="#22303f">面向分析查询，保持数据一致、准确、可用</text>
+  <text x="360" y="278" text-anchor="middle" font-size="13" fill="#6b7a8a">提炼 → 清洗确认 → 一致化 → 载入</text>
+  <line x1="360" y1="250" x2="360" y2="302" stroke="#4a6130" stroke-width="1.5"/>
+  <polygon points="360,312 355.5,304 364.5,304" fill="#4a6130"/>
+  <rect x="45" y="315" width="630" height="50" rx="8" fill="#fdf0e6" stroke="#c05621" stroke-width="1.5"/>
+  <text x="360" y="346" text-anchor="middle" font-size="16" font-weight="bold" fill="#c05621">数据挖掘／智能体：查询、趋势、异常、模式与规则</text>
+  <g stroke="#c05621" stroke-width="1.5" fill="none">
+    <line x1="120" y1="365" x2="120" y2="387"/><line x1="295" y1="365" x2="295" y2="387"/>
+    <line x1="470" y1="365" x2="470" y2="387"/><line x1="645" y1="365" x2="645" y2="387"/>
+  </g>
+  <g fill="#c05621">
+    <polygon points="120,397 115.5,389 124.5,389"/><polygon points="295,397 290.5,389 299.5,389"/>
+    <polygon points="470,397 465.5,389 474.5,389"/><polygon points="645,397 640.5,389 644.5,389"/>
+  </g>
+  <g text-anchor="middle">
+    <rect x="50" y="400" width="140" height="82" rx="7" fill="#eaf1f8" stroke="#1f4e79"/>
+    <text x="120" y="427" font-size="16" font-weight="bold" fill="#1f4e79">联合</text><text x="120" y="452" font-size="12" fill="#22303f">事件经常一起发生</text><text x="120" y="471" font-size="12" fill="#6b7a8a">看共现</text>
+    <rect x="225" y="400" width="140" height="82" rx="7" fill="#eaf1f8" stroke="#1f4e79"/>
+    <text x="295" y="427" font-size="16" font-weight="bold" fill="#1f4e79">定序</text><text x="295" y="452" font-size="12" fill="#22303f">识别先后次序</text><text x="295" y="471" font-size="12" fill="#6b7a8a">看顺序</text>
+    <rect x="400" y="400" width="140" height="82" rx="7" fill="#f3f6ee" stroke="#8aa15c"/>
+    <text x="470" y="427" font-size="16" font-weight="bold" fill="#4a6130">分类</text><text x="470" y="452" font-size="12" fill="#22303f">按已知标准归类</text><text x="470" y="471" font-size="12" fill="#6b7a8a">看类别</text>
+    <rect x="575" y="400" width="140" height="82" rx="7" fill="#f3f6ee" stroke="#8aa15c"/>
+    <text x="645" y="427" font-size="16" font-weight="bold" fill="#4a6130">聚类</text><text x="645" y="452" font-size="12" fill="#22303f">按相似性发现群组</text><text x="645" y="471" font-size="12" fill="#6b7a8a">找群组</text>
+  </g>
+</svg></div><div class="cap">数据仓库与数据挖掘</div></div>
+<p>模型建立方法包括<b>穷枚举法、算法、启发式、模拟法</b>。启发式是经验规则，适合结构化程度低的问题；模拟用于仿真环境并比较策略变化；模型既有经验模型，也有客观模型。</p>
+<h3>3.5 专家系统（ES）</h3>
+<h3>3.5.1 专家系统与人工智能</h3>
+<div class="def">教材原文：知识＋推理＝系统；传统软件则常表示为「数据结构＋算法＝程序」。</div>
+<p>ES 使用特定领域专家的知识和推理过程，解决通常需要资深专家才能处理的高难度问题。其能力来自知识库，知识表示和推理方法提供应用机理；高性能常以<b>领域较窄、通用性较差</b>为代价。</p>
+<p>人工智能旨在用机器模仿或扩展人的智能，1956 年达特茅斯会议首次提出这一学科方向。主要分支包括专家系统、机器人技术、视觉系统、自然语言处理、学习系统和神经网络。</p>
+<div class="fig"><div><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 430" font-family="Microsoft YaHei, 微软雅黑, sans-serif">
+  <rect width="720" height="430" fill="#ffffff"/>
+  <text x="360" y="30" text-anchor="middle" font-size="20" font-weight="bold" fill="#22303f">人工智能主要分支与专家系统公式</text>
+  <rect x="60" y="58" width="600" height="62" rx="10" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.5"/>
+  <text x="360" y="96" text-anchor="middle" font-size="19" font-weight="bold" fill="#1f4e79">人工智能（AI）主要分支</text>
+  <g stroke="#1f4e79" stroke-width="1.5" fill="none">
+    <line x1="72.5" y1="120" x2="72.5" y2="167"/><line x1="187.5" y1="120" x2="187.5" y2="167"/>
+    <line x1="302.5" y1="120" x2="302.5" y2="167"/><line x1="417.5" y1="120" x2="417.5" y2="167"/>
+    <line x1="532.5" y1="120" x2="532.5" y2="167"/><line x1="647.5" y1="120" x2="647.5" y2="167"/>
+  </g>
+  <g fill="#1f4e79">
+    <polygon points="72.5,177 68,169 77,169"/><polygon points="187.5,177 183,169 192,169"/>
+    <polygon points="302.5,177 298,169 307,169"/><polygon points="417.5,177 413,169 422,169"/>
+    <polygon points="532.5,177 528,169 537,169"/><polygon points="647.5,177 643,169 652,169"/>
+  </g>
+  <g text-anchor="middle" font-size="14" fill="#22303f">
+    <rect x="30" y="180" width="85" height="100" rx="7" fill="#f3f6ee" stroke="#8aa15c"/><text x="72.5" y="222">专家</text><text x="72.5" y="247">系统</text>
+    <rect x="145" y="180" width="85" height="100" rx="7" fill="#ffffff" stroke="#6b7a8a"/><text x="187.5" y="222">机器人</text><text x="187.5" y="247">技术</text>
+    <rect x="260" y="180" width="85" height="100" rx="7" fill="#ffffff" stroke="#6b7a8a"/><text x="302.5" y="222">视觉</text><text x="302.5" y="247">系统</text>
+    <rect x="375" y="180" width="85" height="100" rx="7" fill="#ffffff" stroke="#6b7a8a"/><text x="417.5" y="215">自然语言</text><text x="417.5" y="240">处理</text>
+    <rect x="490" y="180" width="85" height="100" rx="7" fill="#ffffff" stroke="#6b7a8a"/><text x="532.5" y="222">学习</text><text x="532.5" y="247">系统</text>
+    <rect x="605" y="180" width="85" height="100" rx="7" fill="#ffffff" stroke="#6b7a8a"/><text x="647.5" y="222">神经</text><text x="647.5" y="247">网络</text>
+  </g>
+  <rect x="55" y="330" width="285" height="62" rx="9" fill="#fdf0e6" stroke="#c05621" stroke-width="1.5"/>
+  <text x="197.5" y="357" text-anchor="middle" font-size="15" font-weight="bold" fill="#c05621">专家系统</text>
+  <text x="197.5" y="380" text-anchor="middle" font-size="16" fill="#22303f">知识＋推理＝系统</text>
+  <rect x="380" y="330" width="285" height="62" rx="9" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.5"/>
+  <text x="522.5" y="357" text-anchor="middle" font-size="15" font-weight="bold" fill="#1f4e79">传统程序</text>
+  <text x="522.5" y="380" text-anchor="middle" font-size="16" fill="#22303f">数据结构＋算法＝程序</text>
+</svg></div><div class="cap">人工智能主要分支与专家系统公式</div></div>
+<h3>3.5.2 专家系统特点</h3>
+<table><colgroup><col style="width:19.1%"><col style="width:46.8%"><col style="width:34.0%"></colgroup><thead><tr><th>对比项</th><th>专家系统</th><th>一般计算机系统</th></tr></thead><tbody><tr><td class="tc">功能</td><td>解决问题、解释结果、判断与决策</td><td>主要是解决问题</td></tr><tr><td class="tc">处理对象</td><td>数字与符号</td><td>以数字处理为主</td></tr><tr><td class="tc">问题与知识</td><td>半结构化、非结构化，可处理不确定知识</td><td>多为结构化问题和确定知识</td></tr><tr><td class="tc">模拟对象</td><td>人类专家的推理过程</td><td>常用数学模型模拟问题领域</td></tr><tr><td class="tc">结构</td><td>综合数据库、知识库、推理机三级</td><td>数据与程序两级</td></tr><tr><td class="tc">适用范围</td><td>特定狭窄领域，依赖启发式知识</td><td>通用性相对更强</td></tr></tbody></table>
+<p>六个特点：<b>超越时间限制、操作成本低廉、易于传递复制、处理手段一致、善于克服难题、适用特定领域</b>。最后一项是局限，不要错记为「适用于所有领域」。</p>
+<div class="mnemonic">助记：不停、省钱、能复制；一致、克难、领域窄。</div>
+<h3>3.5.3 组成、推理与求解过程</h3>
+<p>⭐【重点】ES 一般由<b>知识库、综合数据库、推理机、知识获取、解释程序、人机接口</b>组成，知识库与推理机是核心。</p>
+<table><colgroup><col style="width:16.4%"><col style="width:45.5%"><col style="width:38.2%"></colgroup><thead><tr><th>部件</th><th>作用</th><th>关键辨析</th></tr></thead><tbody><tr><td class="tc">知识库</td><td>存放事实性知识与启发性知识</td><td>静态知识库，一次推理中保持不变</td></tr><tr><td class="tc">综合数据库</td><td>存放初始状态、中间结果、过程记录、用户回答</td><td>动态知识库，运行中不断变化</td></tr><tr><td class="tc">推理机</td><td>按控制策略搜索知识并推理</td><td>与知识库分离，提高模块性和可维护性</td></tr><tr><td class="tc">知识获取</td><td>知识编辑、求精、自学习</td><td>维护知识一致性、完整性</td></tr><tr><td class="tc">解释程序</td><td>展示推理链、依据、数据和知识</td><td>回答「为什么、怎样得到结论」</td></tr><tr><td class="tc">人机接口</td><td>连接用户、领域专家和知识工程师</td><td>转换内部与外部表示形式</td></tr></tbody></table>
+<div class="fig"><div><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 520" font-family="Microsoft YaHei, 微软雅黑, sans-serif">
+  <rect width="720" height="520" fill="#ffffff"/>
+  <text x="360" y="30" text-anchor="middle" font-size="20" font-weight="bold" fill="#22303f">专家系统的一般结构</text>
+  <rect x="25" y="70" width="115" height="55" rx="7" fill="#eaf1f8" stroke="#1f4e79"/>
+  <text x="82.5" y="103" text-anchor="middle" font-size="16" fill="#1f4e79">用户</text>
+  <rect x="25" y="240" width="115" height="60" rx="7" fill="#eaf1f8" stroke="#1f4e79"/>
+  <text x="82.5" y="276" text-anchor="middle" font-size="15" fill="#1f4e79">人—机接口</text>
+  <line x1="82.5" y1="125" x2="82.5" y2="227" stroke="#1f4e79" stroke-width="1.5"/>
+  <polygon points="82.5,237 78,229 87,229" fill="#1f4e79"/>
+  <rect x="180" y="150" width="360" height="250" rx="10" fill="#f8fafc" stroke="#1f4e79" stroke-width="1.5"/>
+  <text x="360" y="177" text-anchor="middle" font-size="15" font-weight="bold" fill="#1f4e79">专家系统核心与工作存储区</text>
+  <rect x="210" y="195" width="140" height="65" rx="7" fill="#f3f6ee" stroke="#8aa15c"/>
+  <text x="280" y="222" text-anchor="middle" font-size="16" font-weight="bold" fill="#4a6130">知识库</text>
+  <text x="280" y="245" text-anchor="middle" font-size="12" fill="#22303f">事实＋启发性知识</text>
+  <rect x="390" y="195" width="140" height="65" rx="7" fill="#fdf0e6" stroke="#c05621"/>
+  <text x="460" y="222" text-anchor="middle" font-size="16" font-weight="bold" fill="#c05621">推理机</text>
+  <text x="460" y="245" text-anchor="middle" font-size="12" fill="#22303f">推理机制＋控制策略</text>
+  <rect x="300" y="310" width="140" height="65" rx="7" fill="#eaf1f8" stroke="#1f4e79"/>
+  <text x="370" y="337" text-anchor="middle" font-size="15" font-weight="bold" fill="#1f4e79">综合数据库</text>
+  <text x="370" y="360" text-anchor="middle" font-size="12" fill="#22303f">动态状态与中间结果</text>
+  <line x1="350" y1="227" x2="377" y2="227" stroke="#1f4e79" stroke-width="1.5"/>
+  <polygon points="387,227 379,222.5 379,231.5" fill="#1f4e79"/>
+  <line x1="420" y1="310" x2="420" y2="273" stroke="#1f4e79" stroke-width="1.5"/>
+  <polygon points="420,263 415.5,271 424.5,271" fill="#1f4e79"/>
+  <polyline points="140,270 160,270 160,342 287,342" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="297,342 289,337.5 289,346.5" fill="#1f4e79"/>
+  <rect x="580" y="55" width="115" height="55" rx="7" fill="#f3f6ee" stroke="#8aa15c"/>
+  <text x="637.5" y="79" text-anchor="middle" font-size="13" fill="#4a6130">领域专家／</text>
+  <text x="637.5" y="99" text-anchor="middle" font-size="13" fill="#4a6130">知识工程师</text>
+  <rect x="580" y="160" width="115" height="60" rx="7" fill="#f3f6ee" stroke="#8aa15c"/>
+  <text x="637.5" y="196" text-anchor="middle" font-size="15" fill="#4a6130">知识获取</text>
+  <line x1="637.5" y1="110" x2="637.5" y2="147" stroke="#4a6130" stroke-width="1.5"/>
+  <polygon points="637.5,157 633,149 642,149" fill="#4a6130"/>
+  <polyline points="580,190 560,190 560,135 170,135 170,227 199,227" stroke="#4a6130" stroke-width="1.5" fill="none"/>
+  <polygon points="207,227 199,222.5 199,231.5" fill="#4a6130"/>
+  <rect x="580" y="300" width="115" height="60" rx="7" fill="#fdf0e6" stroke="#c05621"/>
+  <text x="637.5" y="336" text-anchor="middle" font-size="15" fill="#c05621">解释程序</text>
+  <polyline points="530,227 557,227 557,330 567,330" stroke="#c05621" stroke-width="1.5" fill="none"/>
+  <polygon points="577,330 569,325.5 569,334.5" fill="#c05621"/>
+  <rect x="65" y="440" width="590" height="48" rx="8" fill="#f8fafc" stroke="#6b7a8a"/>
+  <text x="360" y="461" text-anchor="middle" font-size="14" font-weight="bold" fill="#1f4e79">核心＝知识库＋推理机；知识表示与使用知识的程序相分离</text>
+  <text x="360" y="480" text-anchor="middle" font-size="12" fill="#6b7a8a">知识库相对静态，综合数据库随推理动态变化，解释程序展示推理链</text>
+</svg></div><div class="cap">专家系统的一般结构</div></div>
+<table><colgroup><col style="width:17.0%"><col style="width:40.4%"><col style="width:42.6%"></colgroup><thead><tr><th>推理方式</th><th>方向与别名</th><th>适用情形</th></tr></thead><tbody><tr><td class="tc">正向推理</td><td>条件 → 结论，数据驱动</td><td>目标解空间很大</td></tr><tr><td class="tc">反向推理</td><td>假设结论 → 验证条件，目标驱动</td><td>解空间较小</td></tr><tr><td class="tc">双向推理</td><td>正反向同时进行，在中间达到一致</td><td>常用正向确定假设次序，再反向验证</td></tr></tbody></table>
+<div class="fig"><div><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 440" font-family="Microsoft YaHei, 微软雅黑, sans-serif">
+  <rect width="720" height="440" fill="#ffffff"/>
+  <text x="360" y="30" text-anchor="middle" font-size="20" font-weight="bold" fill="#22303f">专家系统的三种推理方式</text>
+  <rect x="20" y="52" width="680" height="110" rx="9" fill="#f8fafc" stroke="#6b7a8a"/>
+  <text x="35" y="83" font-size="15" font-weight="bold" fill="#1f4e79">正向推理</text>
+  <text x="35" y="107" font-size="12" fill="#6b7a8a">数据驱动</text>
+  <text x="35" y="132" font-size="12" fill="#6b7a8a">目标解空间大</text>
+  <g text-anchor="middle" font-size="14">
+    <rect x="180" y="82" width="120" height="55" rx="7" fill="#eaf1f8" stroke="#1f4e79"/><text x="240" y="116">条件／事实</text>
+    <rect x="340" y="82" width="120" height="55" rx="7" fill="#fdf0e6" stroke="#c05621"/><text x="400" y="116">推理机</text>
+    <rect x="500" y="82" width="120" height="55" rx="7" fill="#f3f6ee" stroke="#8aa15c"/><text x="560" y="116">结论</text>
+  </g>
+  <line x1="300" y1="109" x2="329" y2="109" stroke="#1f4e79" stroke-width="1.5"/><line x1="460" y1="109" x2="489" y2="109" stroke="#1f4e79" stroke-width="1.5"/>
+  <polygon points="337,109 329,104.5 329,113.5" fill="#1f4e79"/><polygon points="497,109 489,104.5 489,113.5" fill="#1f4e79"/>
+  <rect x="20" y="180" width="680" height="110" rx="9" fill="#f8fafc" stroke="#6b7a8a"/>
+  <text x="35" y="211" font-size="15" font-weight="bold" fill="#c05621">反向推理</text>
+  <text x="35" y="235" font-size="12" fill="#6b7a8a">目标驱动</text>
+  <text x="35" y="260" font-size="12" fill="#6b7a8a">解空间较小</text>
+  <g text-anchor="middle" font-size="14">
+    <rect x="180" y="210" width="120" height="55" rx="7" fill="#f3f6ee" stroke="#8aa15c"/><text x="240" y="244">条件／证据</text>
+    <rect x="340" y="210" width="120" height="55" rx="7" fill="#fdf0e6" stroke="#c05621"/><text x="400" y="244">推理机</text>
+    <rect x="500" y="210" width="120" height="55" rx="7" fill="#eaf1f8" stroke="#1f4e79"/><text x="560" y="244">假设结论</text>
+  </g>
+  <line x1="500" y1="237" x2="471" y2="237" stroke="#c05621" stroke-width="1.5"/><line x1="340" y1="237" x2="311" y2="237" stroke="#c05621" stroke-width="1.5"/>
+  <polygon points="463,237 471,232.5 471,241.5" fill="#c05621"/><polygon points="303,237 311,232.5 311,241.5" fill="#c05621"/>
+  <rect x="20" y="308" width="680" height="110" rx="9" fill="#f8fafc" stroke="#6b7a8a"/>
+  <text x="35" y="339" font-size="15" font-weight="bold" fill="#4a6130">双向推理</text>
+  <text x="35" y="363" font-size="12" fill="#6b7a8a">正反向同时</text>
+  <text x="35" y="388" font-size="12" fill="#6b7a8a">中间达到一致</text>
+  <g text-anchor="middle" font-size="14">
+    <rect x="180" y="338" width="120" height="55" rx="7" fill="#eaf1f8" stroke="#1f4e79"/><text x="240" y="372">条件／事实</text>
+    <rect x="340" y="338" width="120" height="55" rx="7" fill="#f3f6ee" stroke="#8aa15c"/><text x="400" y="372">一致状态</text>
+    <rect x="500" y="338" width="120" height="55" rx="7" fill="#fdf0e6" stroke="#c05621"/><text x="560" y="372">目标假设</text>
+  </g>
+  <line x1="300" y1="365" x2="329" y2="365" stroke="#1f4e79" stroke-width="1.5"/>
+  <polygon points="337,365 329,360.5 329,369.5" fill="#1f4e79"/>
+  <line x1="500" y1="365" x2="471" y2="365" stroke="#c05621" stroke-width="1.5"/>
+  <polygon points="463,365 471,360.5 471,369.5" fill="#c05621"/>
+</svg></div><div class="cap">专家系统的三种推理方式</div></div>
+<p>求解可概括为：搜索相关知识 → 形成假设集合 → 排序选优 → 执行方案 → 失败则回溯下一假设 → 成功解决或判定无解。</p>
+<h3>3.6 办公自动化系统（OAS）</h3>
+<h3>3.6.1 概念与四大支柱</h3>
+<p>OAS 是办公信息处理手段的自动化，强调数据、文字、声音、图形（静态）和图像（动态）的一体化处理。办公室人员包括主管、专业人员、秘书和办事员；越偏高层，沟通与决策工作越集中。</p>
+<p>⭐【重点】四大支柱：<b>计算机技术、通信技术、系统科学、行为科学</b>。其中<b>行为科学为主导，系统科学为理论基础</b>，结合运用计算机技术和通信技术。</p>
+<h3>3.6.2 三项功能与四类组成</h3>
+<table><colgroup><col style="width:13.6%"><col style="width:18.6%"><col style="width:67.8%"></colgroup><thead><tr><th>业务功能</th><th>对应系统</th><th>主要内容</th></tr></thead><tbody><tr><td class="tc">事务处理</td><td class="tc">事务型办公系统</td><td>文字、日程、文档、报表、数据处理；多机还支持邮件、会议、语音、图像和检索</td></tr><tr><td class="tc">信息管理</td><td class="tc">管理型办公系统</td><td>收集、加工、传递、共享、分析和反馈，连接孤立事务</td></tr><tr><td class="tc">辅助决策</td><td class="tc">决策型办公系统</td><td>基于管理型系统的信息建立模型，综合分析、预测和判断</td></tr></tbody></table>
+<p>OAS 完整组成包括<b>计算机设备、办公设备、数据通信及网络设备、软件系统</b>。软件又分系统软件、专用软件和支持软件；大纲列出组成时不要漏掉通信及网络设备。</p>
+<h3>3.7 企业资源规划（ERP）</h3>
+<h3>3.7.1 概念与三流集成</h3>
+<p>ERP 由 Gartner Group 于 1990 年提出，是 MRPⅡ 的下一代制造业系统和资源计划系统软件。它集成企业所有资源信息，为决策、计划、控制和经营业绩评估提供平台，也是管理理论和管理思想，不只是一套软件。</p>
+<p>⭐【高频考点】企业「三流」是<b>物流、资金流、信息流</b>。MRPⅡ 的核心是物流、主线是计划；ERP 的管理重心转向财务，并贯穿财务成本控制，管理范围扩展到整个供需链。</p>
+<div class="fig"><div><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 390" font-family="Microsoft YaHei, 微软雅黑, sans-serif">
+  <rect width="720" height="390" fill="#ffffff"/>
+  <text x="360" y="28" text-anchor="middle" font-size="20" font-weight="bold" fill="#22303f">ERP 企业运作供需链：三流集成</text>
+  <polyline points="60,139 60,85 620,85 620,139" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="60,147 55.5,139 64.5,139" fill="#1f4e79"/>
+  <polygon points="620,147 615.5,139 624.5,139" fill="#1f4e79"/>
+  <text x="340" y="74" text-anchor="middle" font-size="12" fill="#1f4e79">信息流：双向共享与传递</text>
+  <g text-anchor="middle">
+    <rect x="20" y="150" width="120" height="70" rx="7" fill="#eaf1f8" stroke="#1f4e79"/>
+    <text x="80" y="180" font-size="15" font-weight="bold" fill="#1f4e79">供应市场</text><text x="80" y="203" font-size="12" fill="#22303f">原材料／服务</text>
+    <rect x="160" y="150" width="120" height="70" rx="7" fill="#f3f6ee" stroke="#8aa15c"/>
+    <text x="220" y="192" font-size="16" font-weight="bold" fill="#4a6130">采购</text>
+    <rect x="300" y="150" width="120" height="70" rx="7" fill="#fdf0e6" stroke="#c05621"/>
+    <text x="360" y="192" font-size="16" font-weight="bold" fill="#c05621">加工</text>
+    <rect x="440" y="150" width="120" height="70" rx="7" fill="#f3f6ee" stroke="#8aa15c"/>
+    <text x="500" y="192" font-size="16" font-weight="bold" fill="#4a6130">销售</text>
+    <rect x="580" y="150" width="120" height="70" rx="7" fill="#eaf1f8" stroke="#1f4e79"/>
+    <text x="640" y="180" font-size="15" font-weight="bold" fill="#1f4e79">需求市场</text><text x="640" y="203" font-size="12" fill="#22303f">客户／消费者</text>
+  </g>
+  <g stroke="#c05621" stroke-width="1.8" fill="none">
+    <line x1="140" y1="185" x2="149" y2="185"/><line x1="280" y1="185" x2="289" y2="185"/>
+    <line x1="420" y1="185" x2="429" y2="185"/><line x1="560" y1="185" x2="569" y2="185"/>
+  </g>
+  <g fill="#c05621">
+    <polygon points="157,185 149,180.5 149,189.5"/><polygon points="297,185 289,180.5 289,189.5"/>
+    <polygon points="437,185 429,180.5 429,189.5"/><polygon points="577,185 569,180.5 569,189.5"/>
+  </g>
+  <text x="360" y="246" text-anchor="middle" font-size="13" fill="#c05621">物流过程：采购 → 加工 → 销售</text>
+  <polyline points="640,220 640,290 80,290 80,233" stroke="#4a6130" stroke-width="1.5" fill="none"/>
+  <polygon points="80,223 75.5,231 84.5,231" fill="#4a6130"/>
+  <text x="360" y="280" text-anchor="middle" font-size="13" fill="#4a6130">资金流过程：资金由需求侧流向供应侧</text>
+  <rect x="100" y="325" width="520" height="42" rx="8" fill="#f8fafc" stroke="#6b7a8a"/>
+  <text x="360" y="352" text-anchor="middle" font-size="15" font-weight="bold" fill="#1f4e79">ERP 对物流、资金流、信息流进行全面集成管理</text>
+</svg></div><div class="cap">ERP 企业运作供需链</div></div>
+<h3>3.7.2 计划层级与 11 个基本模块</h3>
+<table><colgroup><col style="width:29.3%"><col style="width:33.3%"><col style="width:37.4%"></colgroup><thead><tr><th>层级或模块</th><th>核心问题</th><th>必记结论</th></tr></thead><tbody><tr><td>生产预测</td><td>未来市场需求怎样</td><td>经营计划、生产计划大纲、MPS 都依赖预测</td></tr><tr><td>销售管理</td><td>怎样连接市场与客户</td><td>属于最高层计划范畴之一</td></tr><tr><td>经营计划与生产计划大纲（PP）</td><td>在资源约束下计划多少产量</td><td>PP 承上启下，细化经营计划并指导 MPS</td></tr><tr><td>主生产计划（MPS）</td><td>生产什么、多少、何时交货</td><td>汇总应等同生产计划大纲，是 MRP 依据</td></tr><tr><td>物料需求计划（MRP）</td><td>需要哪些零部件、多少、何时要</td><td>生产管理核心，分解为自制与采购计划</td></tr><tr><td>能力需求计划（CRP）</td><td>现有能力能否满足 MRP</td><td>核算能力、发现瓶颈</td></tr><tr><td>车间作业计划（PAC）</td><td>工单交给哪个车间、按何优先级执行</td><td>执行层计划，主流模式包括 JIT</td></tr><tr><td>采购与库存管理</td><td>采购全过程及物料进、出、存</td><td>ERP 基本模块</td></tr><tr><td>质量与设备管理</td><td>全过程质量与设备寿命周期</td><td>TQM 强调全员质量责任</td></tr><tr><td>财务管理</td><td>反映、监督经济活动与资金运动</td><td>渗透全部经济活动</td></tr><tr><td>扩展应用</td><td>CRM、分销资源、供应链、电子商务等</td><td>也常作为独立产品实施</td></tr></tbody></table>
+<p>⭐【重点】计划主线：<b>经营计划 → 生产计划大纲 → MPS → MRP → CRP → PAC</b>。MRP 展开物料需求，CRP 校验能力，PAC 下达到车间执行，三者不可混淆。</p>
+<div class="fig"><div><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 520" font-family="Microsoft YaHei, 微软雅黑, sans-serif">
+  <rect width="720" height="520" fill="#ffffff"/>
+  <text x="360" y="30" text-anchor="middle" font-size="20" font-weight="bold" fill="#22303f">ERP 计划层级与模块协同</text>
+  <text x="170" y="57" text-anchor="middle" font-size="15" font-weight="bold" fill="#1f4e79">计划主线：从战略到执行</text>
+  <g text-anchor="middle" font-size="14">
+    <rect x="40" y="72" width="260" height="42" rx="6" fill="#eaf1f8" stroke="#1f4e79"/><text x="170" y="99">经营计划</text>
+    <rect x="40" y="134" width="260" height="42" rx="6" fill="#eaf1f8" stroke="#1f4e79"/><text x="170" y="161">生产计划大纲（PP）</text>
+    <rect x="40" y="196" width="260" height="42" rx="6" fill="#fdf0e6" stroke="#c05621"/><text x="170" y="223">主生产计划（MPS）</text>
+    <rect x="40" y="258" width="260" height="42" rx="6" fill="#fdf0e6" stroke="#c05621"/><text x="170" y="285">物料需求计划（MRP）</text>
+    <rect x="40" y="320" width="260" height="42" rx="6" fill="#f3f6ee" stroke="#8aa15c"/><text x="170" y="347">能力需求计划（CRP）</text>
+    <rect x="40" y="382" width="260" height="42" rx="6" fill="#f3f6ee" stroke="#8aa15c"/><text x="170" y="409">车间作业计划（PAC）</text>
+  </g>
+  <g stroke="#1f4e79" stroke-width="1.5" fill="none">
+    <line x1="170" y1="114" x2="170" y2="123"/><line x1="170" y1="176" x2="170" y2="185"/>
+    <line x1="170" y1="238" x2="170" y2="247"/><line x1="170" y1="300" x2="170" y2="309"/>
+    <line x1="170" y1="362" x2="170" y2="371"/>
+  </g>
+  <g fill="#1f4e79">
+    <polygon points="170,131 165.5,123 174.5,123"/><polygon points="170,193 165.5,185 174.5,185"/>
+    <polygon points="170,255 165.5,247 174.5,247"/><polygon points="170,317 165.5,309 174.5,309"/>
+    <polygon points="170,379 165.5,371 174.5,371"/>
+  </g>
+  <rect x="340" y="55" width="340" height="390" rx="10" fill="#f8fafc" stroke="#6b7a8a"/>
+  <text x="510" y="84" text-anchor="middle" font-size="15" font-weight="bold" fill="#1f4e79">协同的基本与扩展模块</text>
+  <g text-anchor="middle" font-size="13" fill="#22303f">
+    <rect x="365" y="110" width="135" height="48" rx="6" fill="#eaf1f8" stroke="#1f4e79"/><text x="432.5" y="140">生产预测</text>
+    <rect x="520" y="110" width="135" height="48" rx="6" fill="#eaf1f8" stroke="#1f4e79"/><text x="587.5" y="140">销售管理</text>
+    <rect x="365" y="180" width="135" height="48" rx="6" fill="#f3f6ee" stroke="#8aa15c"/><text x="432.5" y="210">采购与库存</text>
+    <rect x="520" y="180" width="135" height="48" rx="6" fill="#f3f6ee" stroke="#8aa15c"/><text x="587.5" y="210">质量与设备</text>
+    <rect x="365" y="250" width="290" height="48" rx="6" fill="#fdf0e6" stroke="#c05621"/><text x="510" y="280">财务管理：贯穿资金运动与成本控制</text>
+    <rect x="365" y="320" width="290" height="70" rx="6" fill="#ffffff" stroke="#6b7a8a"/>
+    <text x="510" y="348">扩展应用</text><text x="510" y="374">CRM／SCM／PDM／电子商务</text>
+  </g>
+  <rect x="40" y="458" width="640" height="42" rx="7" fill="#fdf0e6" stroke="#c05621"/>
+  <text x="360" y="484" text-anchor="middle" font-size="14" font-weight="bold" fill="#c05621">MPS 定产品 → MRP 算物料 → CRP 核能力 → PAC 下达到车间执行</text>
+</svg></div><div class="cap">ERP 计划层级与模块协同</div></div>
+<h3>3.7.3 ERP 的功能</h3>
+<p>ERP 主要提供三类价值：把制造、营销、财务等结合起来支持各层决策；为不同行业提供有针对性的 IT 解决方案；从企业内部供应链扩展到全行业、跨行业供应链协同。PDM 偏研发产品数据，CRM 偏客户关系，均可与 ERP 集成但不是同一管理边界。</p>
+<h3>3.8 典型信息系统架构模型</h3>
+<h3>3.8.1 政府信息化与电子政务</h3>
+<p>电子政务利用信息技术集成政府管理和服务职能，在网络上优化重组组织结构与工作流程，突破时间、空间和部门分隔。三个组成部分是：政府内部电子化办公、政府部门间共享与实时通信、政府与居民双向信息交流。</p>
+<p>⭐【重点】三个行为主体形成五类互动，而不是只有 G2G、G2B、G2C 三类。</p>
+<table><colgroup><col style="width:26.8%"><col style="width:22.5%"><col style="width:50.7%"></colgroup><thead><tr><th>互动方向</th><th>常见简称</th><th>例子</th></tr></thead><tbody><tr><td class="tc">政府 ↔ 政府</td><td class="tc">G2G</td><td>公文交换、人口等基础信息共享</td></tr><tr><td class="tc">政府 → 企业</td><td class="tc">G2B</td><td>发布法规、颁发许可证</td></tr><tr><td class="tc">政府 → 居民</td><td class="tc">G2C</td><td>办事指南、证件与公共服务</td></tr><tr><td class="tc">企业 → 政府</td><td class="tc">B2G</td><td>纳税、报表、投标、政策建议</td></tr><tr><td class="tc">居民 → 政府</td><td class="tc">C2G</td><td>缴费、申报、参政议政、报警</td></tr></tbody></table>
+<p>电子政务四阶段：<b>网上发布静态信息 → 政府与用户单向互动 → 双向互动 → 网上事务处理</b>。判断关键是能否在线提交，以及是否最终在线完成整个业务。</p>
+<div class="fig"><div><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 520" font-family="Microsoft YaHei, 微软雅黑, sans-serif">
+  <rect width="720" height="520" fill="#ffffff"/>
+  <text x="360" y="30" text-anchor="middle" font-size="20" font-weight="bold" fill="#22303f">电子政务：五类互动与四个发展阶段</text>
+  <rect x="25" y="52" width="670" height="210" rx="10" fill="#f8fafc" stroke="#6b7a8a"/>
+  <text x="45" y="80" font-size="15" font-weight="bold" fill="#1f4e79">三个行为主体：政府、企业、居民 → 五类互动</text>
+  <g text-anchor="middle">
+    <rect x="40" y="108" width="120" height="110" rx="7" fill="#eaf1f8" stroke="#1f4e79"/>
+    <text x="100" y="137" font-size="16" font-weight="bold" fill="#1f4e79">G2G</text><text x="100" y="163" font-size="13" fill="#22303f">政府与政府</text><text x="100" y="192" font-size="12" fill="#6b7a8a">共享／公文</text>
+    <rect x="175" y="108" width="120" height="110" rx="7" fill="#f3f6ee" stroke="#8aa15c"/>
+    <text x="235" y="137" font-size="16" font-weight="bold" fill="#4a6130">G2B</text><text x="235" y="163" font-size="13" fill="#22303f">政府 → 企业</text><text x="235" y="192" font-size="12" fill="#6b7a8a">法规／许可</text>
+    <rect x="310" y="108" width="120" height="110" rx="7" fill="#f3f6ee" stroke="#8aa15c"/>
+    <text x="370" y="137" font-size="16" font-weight="bold" fill="#4a6130">G2C</text><text x="370" y="163" font-size="13" fill="#22303f">政府 → 居民</text><text x="370" y="192" font-size="12" fill="#6b7a8a">公共服务</text>
+    <rect x="445" y="108" width="120" height="110" rx="7" fill="#fdf0e6" stroke="#c05621"/>
+    <text x="505" y="137" font-size="16" font-weight="bold" fill="#c05621">B2G</text><text x="505" y="163" font-size="13" fill="#22303f">企业 → 政府</text><text x="505" y="192" font-size="12" fill="#6b7a8a">纳税／投标</text>
+    <rect x="580" y="108" width="120" height="110" rx="7" fill="#fdf0e6" stroke="#c05621"/>
+    <text x="640" y="137" font-size="16" font-weight="bold" fill="#c05621">C2G</text><text x="640" y="163" font-size="13" fill="#22303f">居民 → 政府</text><text x="640" y="192" font-size="12" fill="#6b7a8a">申报／议政</text>
+  </g>
+  <text x="360" y="244" text-anchor="middle" font-size="12" fill="#6b7a8a">注意方向：政府对企业／居民的服务，与企业／居民对政府的申报、参与分别计数</text>
+  <text x="360" y="298" text-anchor="middle" font-size="16" font-weight="bold" fill="#1f4e79">技术发展形式：由信息发布走向完整业务在线办结</text>
+  <g text-anchor="middle">
+    <rect x="35" y="325" width="140" height="105" rx="7" fill="#eaf1f8" stroke="#1f4e79"/>
+    <text x="105" y="352" font-size="15" font-weight="bold" fill="#1f4e79">1 起步阶段</text><text x="105" y="382" font-size="13" fill="#22303f">网上发布</text><text x="105" y="405" font-size="13" fill="#22303f">静态信息</text>
+    <rect x="205" y="325" width="140" height="105" rx="7" fill="#eaf1f8" stroke="#1f4e79"/>
+    <text x="275" y="352" font-size="15" font-weight="bold" fill="#1f4e79">2 单向互动</text><text x="275" y="382" font-size="13" fill="#22303f">动态信息</text><text x="275" y="405" font-size="13" fill="#22303f">下载／查询服务</text>
+    <rect x="375" y="325" width="140" height="105" rx="7" fill="#fdf0e6" stroke="#c05621"/>
+    <text x="445" y="352" font-size="15" font-weight="bold" fill="#c05621">3 双向互动</text><text x="445" y="382" font-size="13" fill="#22303f">在线填写</text><text x="445" y="405" font-size="13" fill="#22303f">并在线提交</text>
+    <rect x="545" y="325" width="140" height="105" rx="7" fill="#f3f6ee" stroke="#8aa15c"/>
+    <text x="615" y="350" font-size="14" font-weight="bold" fill="#4a6130">4 网上事务处理</text><text x="615" y="382" font-size="13" fill="#22303f">审核／划账等</text><text x="615" y="405" font-size="13" fill="#22303f">全流程在线完成</text>
+  </g>
+  <g stroke="#1f4e79" stroke-width="1.5" fill="none">
+    <line x1="175" y1="377" x2="194" y2="377"/><line x1="345" y1="377" x2="364" y2="377"/><line x1="515" y1="377" x2="534" y2="377"/>
+  </g>
+  <g fill="#1f4e79"><polygon points="202,377 194,372.5 194,381.5"/><polygon points="372,377 364,372.5 364,381.5"/><polygon points="542,377 534,372.5 534,381.5"/></g>
+  <rect x="85" y="462" width="550" height="36" rx="7" fill="#fdf0e6" stroke="#c05621"/>
+  <text x="360" y="486" text-anchor="middle" font-size="14" font-weight="bold" fill="#c05621">易错：能在线提交是双向互动；完成整个业务才是网上事务处理</text>
+</svg></div><div class="cap">电子政务五类互动与四个发展阶段</div></div>
+<p>应用可归纳为六类：面向社会、政府部门之间、部门内部一般应用、内部核心数据应用、政府电子化采购、电子社区。</p>
+<h3>3.8.2 企业信息化与电子商务</h3>
+<p>企业信息化是信息技术和信息资源由局部到全局、由战术到战略向企业渗透的过程，表现为生产自动化、管理网络化、决策智能化和商务电子化，根本目的在于提高竞争力。</p>
+<table><colgroup><col style="width:17.4%"><col style="width:52.2%"><col style="width:30.4%"></colgroup><thead><tr><th>规划层面</th><th>核心任务</th><th>形成依据</th></tr></thead><tbody><tr><td class="tc">企业战略</td><td>分析战略、供应链、管理模式与 IT 驱动因素</td><td>战略与信息技术融合</td></tr><tr><td class="tc">业务运作</td><td>找出关键驱动力、关键流程和业务需求</td><td>决定未来系统主要功能</td></tr><tr><td class="tc">管理运作</td><td>设计辅助流程、管理模式和信息技术体系</td><td>支撑组织科学高效运行</td></tr></tbody></table>
+<p>企业战略数据模型分为<b>数据库模型</b>与<b>数据仓库模型</b>：前者描述日常事务数据及关系，是基础；后者描述高层决策所需信息及关系。</p>
+<table><colgroup><col style="width:28.9%"><col style="width:71.1%"></colgroup><thead><tr><th>企业信息化方法</th><th>核心抓手</th></tr></thead><tbody><tr><td class="tc">业务流程重构</td><td>对组织结构和工作方法作彻底、根本性重新设计</td></tr><tr><td class="tc">核心业务应用</td><td>围绕企业最关键、最有竞争力的业务应用 IT</td></tr><tr><td class="tc">信息系统建设</td><td>以信息系统建设作为普遍性的实施重点</td></tr><tr><td class="tc">主题数据库</td><td>面向业务主题和核心业务，减少部门分割与信息孤岛</td></tr><tr><td class="tc">资源管理</td><td>采用 ERP、SCM 等整合资源</td></tr><tr><td class="tc">人力资本投资</td><td>对知识型员工投资，适合咨询、软件等知识密集企业</td></tr></tbody></table>
+<p>信息化还需与<b>技术创新、管理创新、制度创新</b>协同，通常全面规划、分步实施。大纲另列「电子商务的概念和标准」，但本章教材正文未展开，列入第五板块补充。</p>
+<h2>三、重点与易错点</h2>
+<table><colgroup><col style="width:8.8%"><col style="width:15.3%"><col style="width:43.8%"><col style="width:32.1%"></colgroup><thead><tr><th>#</th><th>考点</th><th>必须记住的结论</th><th>易错提醒</th></tr></thead><tbody><tr><td class="tc">1</td><td class="tc">信息系统组成</td><td>硬件、网络通信、软件、信息资源、用户、规章制度</td><td>不等同于计算机或软件</td></tr><tr><td class="tc">2</td><td class="tc">五功能</td><td>输入、存储、处理、输出、控制</td><td>控制贯穿各环节，输出是最终服务目标</td></tr><tr><td class="tc">3</td><td class="tc">诺兰模型</td><td>初始、传播、控制、集成、数据管理、成熟</td><td>「数据管理」与「成熟」不可倒序</td></tr><tr><td class="tc">4</td><td class="tc">两个时代</td><td>前三计算机时代，后三信息时代</td><td>转折是信息资源规划，不是集成阶段本身</td></tr><tr><td class="tc">5</td><td class="tc">生命周期</td><td>产生、开发、运行、消亡；开发含规分设实施验</td><td>系统分析出逻辑模型，设计出实施方案</td></tr><tr><td class="tc">6</td><td class="tc">用户参与</td><td>实际使用者是核心用户，全过程深度参与</td><td>领导签字不等于核心用户参与</td></tr><tr><td class="tc">7</td><td class="tc">自顶向下</td><td>总体规划保证信息一致性</td><td>不代替详细设计</td></tr><tr><td class="tc">8</td><td class="tc">TPS 地位</td><td>作业层信息产生器、内外部桥梁</td><td>初级不等于不重要</td></tr><tr><td class="tc">9</td><td class="tc">批处理与 OLTP</td><td>前者定期成批，后者立即处理更新</td><td>实时性越高通常授权容错成本越高</td></tr><tr><td class="tc">10</td><td class="tc">三类文件</td><td>行动、信息、周转</td><td>周转文件要返回，行动文件促发行动</td></tr><tr><td class="tc">11</td><td class="tc">MIS 开闭环</td><td>闭环在执行中持续反馈并调整</td><td>批处理并非绝对不能构成闭环</td></tr><tr><td class="tc">12</td><td class="tc">MIS 综合</td><td>横向按层，纵向按职能条</td><td>两个方向最易互换</td></tr><tr><td class="tc">13</td><td class="tc">DSS 目标</td><td>支持而不代替，提高有效性</td><td>不是自动替领导做最终决定</td></tr><tr><td class="tc">14</td><td class="tc">DSS 两库</td><td>数据库、模型库，另有对话子系统</td><td>两库结构不等于总共两个部件</td></tr><tr><td class="tc">15</td><td class="tc">数据挖掘</td><td>联合看共现，定序看先后，分类按标准，聚类找群组</td><td>分类与聚类最易混</td></tr><tr><td class="tc">16</td><td class="tc">ES 核心</td><td>知识库＋推理机；综合数据库是动态工作存储器</td><td>知识库静态不等于永远不可修改</td></tr><tr><td class="tc">17</td><td class="tc">推理方向</td><td>正向数据驱动适合解空间大，反向目标驱动适合解空间小</td><td>双向不是简单只做两遍</td></tr><tr><td class="tc">18</td><td class="tc">OAS 支柱</td><td>行为科学主导，系统科学为理论基础</td><td>主导不是计算机技术</td></tr><tr><td class="tc">19</td><td class="tc">ERP 计划</td><td>MPS 定产品数量交期，MRP 算物料，CRP 核能力，PAC 执行</td><td>不要把 CRP 当成物料展开</td></tr><tr><td class="tc">20</td><td class="tc">电子政务</td><td>三主体五方向，四阶段终于网上事务处理</td><td>双向互动不等于全流程网上办结</td></tr></tbody></table>
+<h2>四、练习与真题</h2>
+<p>以下为自编单选模拟题，每题只有一个最符合题意的选项。答案与解析集中在全章最后。</p>
+<p><b>1.</b> 某信息系统能够自动校验录入数据、限制越权操作并监控报表输出，这最直接体现其哪项基本功能？</p>
+<p>A. 输入  B. 存储  C. 控制  D. 处理</p>
+<p><b>2.</b> 按诺兰模型，企业开始成立领导小组、采用数据库技术，并着手解决数据共享问题，通常处于哪个阶段？</p>
+<p>A. 传播  B. 控制  C. 集成  D. 数据管理</p>
+<p><b>3.</b> 在信息系统开发阶段中，为系统设计提供逻辑模型的是哪项工作？</p>
+<p>A. 总体规划  B. 系统分析  C. 系统实施  D. 系统验收</p>
+<p><b>4.</b> 关于「用户参与开发原则」，下列说法最正确的是哪项？</p>
+<p>A. 只需用户单位领导参加验收  B. 核心用户应全过程深度参与  C. 用户只参与系统实施  D. 用户参与会取代开发人员</p>
+<p><b>5.</b> 每周将员工考勤数据汇总后统一计算工资，最适合采用哪种数据处理方式？</p>
+<p>A. 批处理  B. 联机事务处理  C. 双向推理  D. 数据挖掘</p>
+<p><b>6.</b> 某生产系统在排产执行中持续收集销量和库存，并据此调整本次排产方案，该 MIS 结构属于哪种？</p>
+<p>A. 开环  B. 闭环  C. 两库  D. 批处理开环且不能反馈</p>
+<p><b>7.</b> 下列哪项最能准确描述 DSS 的作用？</p>
+<p>A. 替代管理者作出最终决定  B. 只处理高度结构化业务  C. 用数据和模型支持半结构化决策  D. 主要追求事务处理效率</p>
+<p><b>8.</b> 从客户交易数据中发现「购买甲商品的人常同时购买乙商品」，属于数据挖掘的哪类结果？</p>
+<p>A. 联合  B. 定序  C. 分类  D. 聚类</p>
+<p><b>9.</b> 医疗诊断专家系统先假设某种疾病成立，再逐项验证症状和检查条件，采用的是哪种推理？</p>
+<p>A. 正向推理  B. 反向推理  C. 数据驱动  D. 穷举输入</p>
+<p><b>10.</b> 办公自动化系统四大支柱中，处于主导地位的是哪项？</p>
+<p>A. 计算机技术  B. 通信技术  C. 系统科学  D. 行为科学</p>
+<p><b>11.</b> ERP 中负责根据 MPS 推导零部件和材料需求数量、需求时期的是哪项？</p>
+<p>A. MRP  B. CRP  C. PAC  D. WMS</p>
+<p><b>12.</b> 居民在网上下载并填写报税表后又在线提交，但后续审核和退税仍线下完成，这主要属于电子政务的哪个阶段？</p>
+<p>A. 起步阶段  B. 单向互动  C. 双向互动  D. 网上事务处理</p>
+<h2>五、疑问与查漏补缺</h2>
+<table><colgroup><col style="width:20.7%"><col style="width:47.8%"><col style="width:31.5%"></colgroup><thead><tr><th>待补内容或易误读处</th><th>本章核对结果</th><th>后续处理</th></tr></thead><tbody><tr><td>电子商务的概念和标准</td><td>大纲 2.8.2 明确要求，但 3.8.2 教材正文止于企业信息化方法，未展开电子商务及标准</td><td>另查电子商务权威资料，补充概念、模式、相关标准体系</td></tr><tr><td>中国政府信息化策略和历程</td><td>大纲 2.8.1 单列要求，本章主要讲电子政务一般概念、内容和应用领域</td><td>补充我国政策阶段、重大工程与演进时间线</td></tr><tr><td>电子政务建设过程模式和技术模式</td><td>教材讲四个发展阶段及六项应用，不等于完整建设模式与技术模式</td><td>与第12章信息系统架构设计联动补充</td></tr><tr><td>PDM、CRM 在企业中的应用</td><td>教材 3.1.3、3.7 仅给边界和扩展模块，案例应用较略</td><td>结合实践案例理解研发数据集成、客户营销服务集成</td></tr><tr><td>OLTP 缩写</td><td>提取文本个别位置出现 OLIP 形近混排</td><td>统一记为 OnLine Transaction Processing，即 OLTP</td></tr><tr><td>OAS 辅助决策段用语</td><td>文中出现「经理型办公系统」提供信息的表述，上下文三类名称为事务型、管理型、决策型</td><td>按上下文理解为管理型系统提供决策信息基础</td></tr><tr><td>与其他章节衔接</td><td>结构化、原型、面向对象在第5章展开；数据仓库与数据库在第6章深化；电子政务架构在第12章深化</td><td>本章先记定义、边界和阶段，后续补方法细节与架构落地</td></tr></tbody></table>
+<h2>六、参考答案</h2>
+<p><b>1.</b> <b>C</b>。校验、权限约束与环节监控属于控制功能。</p>
+<p><b>2.</b> <b>B</b>。领导小组、数据库技术和整体控制是控制阶段的典型标志。</p>
+<p><b>3.</b> <b>B</b>。系统分析以业务流程等分析为基础，输出逻辑模型供系统设计使用。</p>
+<p><b>4.</b> <b>B</b>。核心用户主要是实际使用者，应全过程、深度参与开发。</p>
+<p><b>5.</b> <b>A</b>。工资数据可积累成批并定期处理，无需每次考勤后立即更新。</p>
+<p><b>6.</b> <b>B</b>。执行过程中持续反馈并调整本次决策是闭环结构。</p>
+<p><b>7.</b> <b>C</b>。DSS 以数据和模型支持半结构化、非结构化决策，支持而不代替人。</p>
+<p><b>8.</b> <b>A</b>。联合发现事件共现关系；定序关注先后，分类与聚类关注归组。</p>
+<p><b>9.</b> <b>B</b>。先提出结论假设再验证条件是目标驱动的反向推理。</p>
+<p><b>10.</b> <b>D</b>。四大支柱中行为科学为主导，系统科学为理论基础。</p>
+<p><b>11.</b> <b>A</b>。MRP 将最终产品计划展开为自制件、采购件的数量与时间计划。</p>
+<p><b>12.</b> <b>C</b>。能够在线提交属于双向互动；审核、退税未在线完成，尚未达到全流程网上事务处理。</p>
+<div class="footer">第3章 信息系统基础知识 · A4 打印版 · 由 README.md 统一生成</div>
+</div>
+</body>
+</html>

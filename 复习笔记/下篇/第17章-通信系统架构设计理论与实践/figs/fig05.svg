@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 330" font-family="Microsoft YaHei, 微软雅黑, sans-serif">
+  <text x="360" y="26" text-anchor="middle" font-size="16" font-weight="bold" fill="#1f4e79">三种存储访问方式对比（教材图 17-15、17-16 重绘）</text>
+  <text x="130" y="56" text-anchor="middle" font-size="13" font-weight="bold" fill="#1f4e79">DAS 直连式存储</text>
+  <text x="360" y="56" text-anchor="middle" font-size="13" font-weight="bold" fill="#1f4e79">NAS 网络连接存储</text>
+  <text x="590" y="56" text-anchor="middle" font-size="13" font-weight="bold" fill="#1f4e79">SAN 存储区域网络</text>
+  <!-- DAS -->
+  <rect x="60" y="80" width="140" height="40" rx="6" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.2"/>
+  <text x="130" y="104" text-anchor="middle" font-size="12" fill="#22303f">服务器 / 主机</text>
+  <line x1="130" y1="120" x2="130" y2="159" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="130,167 125.5,159 134.5,159" fill="#1f4e79"/>
+  <text x="140" y="148" font-size="10" fill="#6b7a8a">I/O 总线（IDE/ATA）</text>
+  <rect x="60" y="170" width="140" height="40" rx="6" fill="#f3f6ee" stroke="#8aa15c" stroke-width="1.2"/>
+  <text x="130" y="192" text-anchor="middle" font-size="12" fill="#4a6130">存储设备</text>
+  <text x="130" y="206" text-anchor="middle" font-size="9" fill="#4a6130">硬盘/RAID/磁带</text>
+  <text x="130" y="290" text-anchor="middle" font-size="11" fill="#22303f">直连块级 I/O；扩展共享性差</text>
+  <!-- NAS -->
+  <rect x="290" y="80" width="140" height="40" rx="6" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.2"/>
+  <text x="360" y="104" text-anchor="middle" font-size="12" fill="#22303f">客户机</text>
+  <line x1="360" y1="120" x2="360" y2="139" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="360,147 355.5,139 364.5,139" fill="#1f4e79"/>
+  <rect x="290" y="150" width="140" height="34" rx="6" fill="#f4f6f8" stroke="#6b7a8a" stroke-width="1.2"/>
+  <text x="360" y="171" text-anchor="middle" font-size="11" fill="#22303f">LAN/WAN/5G 网络</text>
+  <line x1="360" y1="184" x2="360" y2="209" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="360,217 355.5,209 364.5,209" fill="#1f4e79"/>
+  <text x="370" y="206" font-size="10" fill="#6b7a8a">CIFS/SMB · NFS</text>
+  <rect x="290" y="220" width="140" height="40" rx="6" fill="#f3f6ee" stroke="#8aa15c" stroke-width="1.2"/>
+  <text x="360" y="242" text-anchor="middle" font-size="12" fill="#4a6130">NAS 存储单元</text>
+  <text x="360" y="256" text-anchor="middle" font-size="10" fill="#4a6130">文件级 · RPC</text>
+  <text x="360" y="290" text-anchor="middle" font-size="11" fill="#22303f">以太网文件共享；易用低成本、性能较弱</text>
+  <!-- SAN -->
+  <rect x="520" y="80" width="140" height="40" rx="6" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.2"/>
+  <text x="590" y="104" text-anchor="middle" font-size="12" fill="#22303f">服务器</text>
+  <line x1="590" y1="120" x2="590" y2="139" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="590,147 585.5,139 594.5,139" fill="#1f4e79"/>
+  <rect x="520" y="150" width="140" height="34" rx="6" fill="#fdf0e6" stroke="#c05621" stroke-width="1.2"/>
+  <text x="590" y="171" text-anchor="middle" font-size="11" fill="#c05621">SAN 专用网络</text>
+  <line x1="590" y1="184" x2="590" y2="209" stroke="#c05621" stroke-width="1.5" fill="none"/>
+  <polygon points="590,217 585.5,209 594.5,209" fill="#c05621"/>
+  <text x="600" y="206" font-size="10" fill="#6b7a8a">FC / IP（iSCSI）</text>
+  <rect x="520" y="220" width="140" height="40" rx="6" fill="#f3f6ee" stroke="#8aa15c" stroke-width="1.2"/>
+  <text x="590" y="242" text-anchor="middle" font-size="12" fill="#4a6130">存储设施 LDU</text>
+  <text x="590" y="256" text-anchor="middle" font-size="10" fill="#4a6130">块级 · SCSI</text>
+  <text x="590" y="290" text-anchor="middle" font-size="11" fill="#22303f">专用网络块级；高性能低时延、高可用</text>
+  <text x="360" y="316" text-anchor="middle" font-size="11" fill="#22303f">SAN 协议：FCP 应用最广泛、iSCSI 第二、FCoE 较少、FC-NVMe 面向闪存</text>
+</svg>

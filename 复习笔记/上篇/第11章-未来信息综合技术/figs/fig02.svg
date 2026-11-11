@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 330" font-family="Microsoft YaHei, 微软雅黑, sans-serif">
+  <text x="360" y="26" text-anchor="middle" font-size="16" font-weight="bold" fill="#1f4e79">CPS 闭环赋能体系：状态感知 → 实时分析 → 科学决策 → 精准执行</text>
+  <rect x="40" y="80" width="230" height="170" rx="8" fill="#f3f6ee" stroke="#4a6130" stroke-width="1.5"/>
+  <text x="155" y="112" text-anchor="middle" font-size="16" font-weight="bold" fill="#4a6130">物理空间</text>
+  <text x="155" y="142" text-anchor="middle" font-size="12" fill="#22303f">人·机·物·环境</text>
+  <text x="155" y="168" text-anchor="middle" font-size="12" fill="#22303f">智能装备 / 生产线</text>
+  <text x="155" y="208" text-anchor="middle" font-size="11" fill="#6b7a8a">资源优化配置</text>
+  <text x="155" y="228" text-anchor="middle" font-size="11" fill="#6b7a8a">复杂性·不确定性问题求解</text>
+  <rect x="450" y="80" width="230" height="170" rx="8" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.5"/>
+  <text x="565" y="104" text-anchor="middle" font-size="15" font-weight="bold" fill="#1f4e79">信息空间</text>
+  <rect x="470" y="118" width="190" height="42" rx="5" fill="#ffffff" stroke="#1f4e79" stroke-width="1.2"/>
+  <text x="565" y="144" text-anchor="middle" font-size="13" font-weight="bold" fill="#22303f">② 实时分析</text>
+  <rect x="470" y="182" width="190" height="42" rx="5" fill="#ffffff" stroke="#1f4e79" stroke-width="1.2"/>
+  <text x="565" y="208" text-anchor="middle" font-size="13" font-weight="bold" fill="#22303f">③ 科学决策</text>
+  <line x1="565" y1="160" x2="565" y2="171" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="565,179 560.5,171 569.5,171" fill="#1f4e79"/>
+  <text x="360" y="86" text-anchor="middle" font-size="12" fill="#22303f">① 状态感知（数据上行）</text>
+  <line x1="278" y1="100" x2="439" y2="100" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="447,100 439,95.5 439,104.5" fill="#1f4e79"/>
+  <line x1="442" y1="228" x2="281" y2="228" stroke="#c05621" stroke-width="1.5" fill="none"/>
+  <polygon points="273,228 281,223.5 281,232.5" fill="#c05621"/>
+  <text x="360" y="252" text-anchor="middle" font-size="12" fill="#c05621">④ 精准执行（指令下行）</text>
+  <text x="60" y="292" font-size="12" fill="#22303f">本质：基于数据自动流动的闭环赋能——数据在流动中以隐性数据→显性数据→信息→知识</text>
+  <text x="60" y="314" font-size="12" fill="#22303f">的形态变化，逐步向外部环境释放价值，为物理实体「赋予」资源优化能力。</text>
+</svg>

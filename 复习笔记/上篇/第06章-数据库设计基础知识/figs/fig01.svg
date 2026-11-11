@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 380" font-family="Microsoft YaHei, 微软雅黑, sans-serif">
+  <rect width="720" height="380" fill="#ffffff"/>
+  <text x="360" y="30" text-anchor="middle" font-size="20" font-weight="bold" fill="#1f4e79">数据库系统组成与数据管理三阶段</text>
+  <rect x="40" y="50" width="640" height="145" rx="10" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.5"/>
+  <text x="60" y="76" font-size="16" font-weight="bold" fill="#1f4e79">数据库系统 DBS（完整系统）</text>
+  <rect x="75" y="98" width="160" height="65" rx="7" fill="#ffffff" stroke="#1f4e79"/>
+  <text x="155" y="124" text-anchor="middle" font-size="16" font-weight="bold" fill="#22303f">DB</text>
+  <text x="155" y="148" text-anchor="middle" font-size="13" fill="#6b7a8a">有组织的相关数据</text>
+  <rect x="280" y="98" width="160" height="65" rx="7" fill="#fdf0e6" stroke="#c05621"/>
+  <text x="360" y="124" text-anchor="middle" font-size="16" font-weight="bold" fill="#c05621">DBMS</text>
+  <text x="360" y="148" text-anchor="middle" font-size="13" fill="#22303f">核心系统软件</text>
+  <rect x="485" y="98" width="160" height="65" rx="7" fill="#ffffff" stroke="#6b7a8a"/>
+  <text x="565" y="122" text-anchor="middle" font-size="14" font-weight="bold" fill="#22303f">应用、硬件、人员</text>
+  <text x="565" y="148" text-anchor="middle" font-size="13" fill="#6b7a8a">共同组成运行环境</text>
+  <rect x="30" y="240" width="195" height="105" rx="8" fill="#f6f9fc" stroke="#6b7a8a"/>
+  <text x="127" y="270" text-anchor="middle" font-size="17" font-weight="bold" fill="#22303f">人工管理</text>
+  <text x="127" y="298" text-anchor="middle" font-size="13" fill="#6b7a8a">数据面向单个程序</text>
+  <text x="127" y="323" text-anchor="middle" font-size="13" fill="#6b7a8a">不长期保存、独立性差</text>
+  <line x1="225" y1="292" x2="254" y2="292" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="262,292 254,287.5 254,296.5" fill="#1f4e79"/>
+  <rect x="265" y="240" width="195" height="105" rx="8" fill="#eaf1f8" stroke="#1f4e79"/>
+  <text x="362" y="270" text-anchor="middle" font-size="17" font-weight="bold" fill="#1f4e79">文件系统</text>
+  <text x="362" y="298" text-anchor="middle" font-size="13" fill="#22303f">按文件名长期存取</text>
+  <text x="362" y="323" text-anchor="middle" font-size="13" fill="#6b7a8a">文件孤立、冗余、不一致</text>
+  <line x1="460" y1="292" x2="489" y2="292" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="497,292 489,287.5 489,296.5" fill="#1f4e79"/>
+  <rect x="500" y="240" width="190" height="105" rx="8" fill="#f3f6ee" stroke="#8aa15c"/>
+  <text x="595" y="270" text-anchor="middle" font-size="17" font-weight="bold" fill="#4a6130">数据库系统</text>
+  <text x="595" y="298" text-anchor="middle" font-size="13" fill="#22303f">结构化、共享、独立</text>
+  <text x="595" y="323" text-anchor="middle" font-size="13" fill="#4a6130">DBMS 统一控制</text>
+</svg>

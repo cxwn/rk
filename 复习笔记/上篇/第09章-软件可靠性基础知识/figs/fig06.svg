@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 445" width="720" height="445" font-family="Microsoft YaHei, 微软雅黑, sans-serif">
+  <rect width="720" height="445" fill="#ffffff"/>
+  <text x="360" y="32" text-anchor="middle" font-size="22" font-weight="bold" fill="#1f4e79">可靠性模型的 4 个组成部分与 3 个共同假设</text>
+  <text x="190" y="62" text-anchor="middle" font-size="14" font-weight="bold" fill="#6b7a8a">模型通常由 4 部分组成</text>
+  <text x="535" y="62" text-anchor="middle" font-size="14" font-weight="bold" fill="#6b7a8a">3 个共同假设（都有局限性）</text>
+  <rect x="40" y="80" width="300" height="64" rx="8" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.5"/>
+  <text x="190" y="105" text-anchor="middle" font-size="14" font-weight="bold" fill="#1f4e79">① 模型假设</text>
+  <text x="190" y="128" text-anchor="middle" font-size="12" fill="#22303f">对现实的简化或规范化，如失效独立发生</text>
+  <rect x="40" y="152" width="300" height="64" rx="8" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.5"/>
+  <text x="190" y="177" text-anchor="middle" font-size="14" font-weight="bold" fill="#1f4e79">② 性能度量</text>
+  <text x="190" y="200" text-anchor="middle" font-size="12" fill="#22303f">模型输出量，如失效强度、残留缺陷数</text>
+  <rect x="40" y="224" width="300" height="64" rx="8" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.5"/>
+  <text x="190" y="249" text-anchor="middle" font-size="14" font-weight="bold" fill="#1f4e79">③ 参数估计方法</text>
+  <text x="190" y="272" text-anchor="middle" font-size="12" fill="#22303f">间接估计无法直接实测的度量值</text>
+  <rect x="40" y="296" width="300" height="64" rx="8" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.5"/>
+  <text x="190" y="321" text-anchor="middle" font-size="14" font-weight="bold" fill="#1f4e79">④ 数据要求</text>
+  <text x="190" y="344" text-anchor="middle" font-size="12" fill="#22303f">模型运行所需的软件可靠性输入数据</text>
+  <rect x="390" y="80" width="290" height="100" rx="8" fill="#fdf0e6" stroke="#c05621" stroke-width="1.5"/>
+  <text x="535" y="108" text-anchor="middle" font-size="14" font-weight="bold" fill="#c05621">代表性假设</text>
+  <text x="535" y="136" text-anchor="middle" font-size="12" fill="#22303f">测试用例代表实际运行剖面</text>
+  <text x="535" y="158" text-anchor="middle" font-size="12" fill="#22303f">可用测试数据预测运行行为</text>
+  <rect x="390" y="188" width="290" height="100" rx="8" fill="#fdf0e6" stroke="#c05621" stroke-width="1.5"/>
+  <text x="535" y="216" text-anchor="middle" font-size="14" font-weight="bold" fill="#c05621">独立性假设</text>
+  <text x="535" y="244" text-anchor="middle" font-size="12" fill="#22303f">失效在不同时刻独立发生</text>
+  <text x="535" y="266" text-anchor="middle" font-size="12" fill="#22303f">一个失效不影响另一个失效</text>
+  <rect x="390" y="296" width="290" height="100" rx="8" fill="#fdf0e6" stroke="#c05621" stroke-width="1.5"/>
+  <text x="535" y="324" text-anchor="middle" font-size="14" font-weight="bold" fill="#c05621">相同性假设</text>
+  <text x="535" y="352" text-anchor="middle" font-size="12" fill="#22303f">所有失效的后果等级相同</text>
+  <text x="535" y="374" text-anchor="middle" font-size="12" fill="#22303f">只看发生时刻，不分严重等级</text>
+  <text x="360" y="428" text-anchor="middle" font-size="12.5" fill="#22303f">好模型的特性：假设可靠、简单、计算有用的量、能映射未来失效行为、可广泛应用</text>
+</svg>

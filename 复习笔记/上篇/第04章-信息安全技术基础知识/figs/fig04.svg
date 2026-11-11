@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 305" font-family="Microsoft YaHei, 微软雅黑, sans-serif">
+  <text x="360" y="28" text-anchor="middle" font-size="16" font-weight="bold" fill="#1f4e79">有 KDC 的密钥分配</text>
+  <rect x="60" y="45" width="100" height="40" rx="4" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.5"/>
+  <text x="110" y="70" text-anchor="middle" font-size="13" font-weight="bold" fill="#1f4e79">用户 A</text>
+  <rect x="310" y="45" width="100" height="40" rx="4" fill="#fdf0e6" stroke="#c05621" stroke-width="1.5"/>
+  <text x="360" y="70" text-anchor="middle" font-size="13" font-weight="bold" fill="#c05621">KDC</text>
+  <rect x="560" y="45" width="100" height="40" rx="4" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.5"/>
+  <text x="610" y="70" text-anchor="middle" font-size="13" font-weight="bold" fill="#1f4e79">用户 B</text>
+  <line x1="110" y1="85" x2="110" y2="255" stroke="#6b7a8a" stroke-width="1" fill="none"/>
+  <line x1="360" y1="85" x2="360" y2="160" stroke="#6b7a8a" stroke-width="1" fill="none"/>
+  <line x1="610" y1="85" x2="610" y2="255" stroke="#6b7a8a" stroke-width="1" fill="none"/>
+  <text x="235" y="101" text-anchor="middle" font-size="11.5" fill="#22303f">① request‖N1</text>
+  <line x1="110" y1="110" x2="349" y2="110" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="357,110 349,105.5 349,114.5" fill="#1f4e79"/>
+  <text x="235" y="131" text-anchor="middle" font-size="11" fill="#22303f">② E_Ka[Ks‖request‖N1‖E_Kb[Ks‖ID_A]]</text>
+  <line x1="360" y1="140" x2="121" y2="140" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="113,140 121,135.5 121,144.5" fill="#1f4e79"/>
+  <text x="360" y="166" text-anchor="middle" font-size="11.5" fill="#22303f">③ E_Kb[Ks‖ID_A]（A 把 KDC 给 B 的部分转发给 B）</text>
+  <line x1="110" y1="175" x2="599" y2="175" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="607,175 599,170.5 599,179.5" fill="#1f4e79"/>
+  <text x="360" y="201" text-anchor="middle" font-size="11.5" fill="#22303f">④ E_Ks[N2]（B 用会话密钥发起验证）</text>
+  <line x1="610" y1="210" x2="121" y2="210" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="113,210 121,205.5 121,214.5" fill="#1f4e79"/>
+  <text x="360" y="236" text-anchor="middle" font-size="11.5" fill="#22303f">⑤ E_Ks[f(N2)]（A 应答，双向确认）</text>
+  <line x1="110" y1="245" x2="599" y2="245" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="607,245 599,240.5 599,249.5" fill="#1f4e79"/>
+  <text x="360" y="285" text-anchor="middle" font-size="11.5" fill="#6b7a8a">Ka、Kb 为各用户与 KDC 共享的主密钥（共 N 个）；Ks 会话密钥通信结束即销毁</text>
+</svg>

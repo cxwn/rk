@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 490" font-family="Microsoft YaHei, 微软雅黑, sans-serif">
+  <rect width="720" height="490" fill="#ffffff"/>
+  <text x="360" y="30" text-anchor="middle" font-size="20" font-weight="bold" fill="#22303f">MIS 四大部件与开闭环结构</text>
+  <rect x="30" y="52" width="660" height="193" rx="10" fill="#eaf1f8" stroke="#1f4e79"/>
+  <text x="50" y="78" font-size="15" font-weight="bold" fill="#1f4e79">总体结构：信息源、信息处理器、信息用户、信息管理者</text>
+  <g text-anchor="middle">
+    <rect x="65" y="105" width="130" height="55" rx="7" fill="#ffffff" stroke="#1f4e79"/><text x="130" y="139" font-size="16">信息源</text>
+    <rect x="295" y="105" width="130" height="55" rx="7" fill="#ffffff" stroke="#1f4e79"/><text x="360" y="139" font-size="16">信息处理器</text>
+    <rect x="525" y="105" width="130" height="55" rx="7" fill="#ffffff" stroke="#1f4e79"/><text x="590" y="139" font-size="16">信息用户</text>
+    <rect x="245" y="185" width="230" height="42" rx="7" fill="#f3f6ee" stroke="#8aa15c"/><text x="360" y="212" font-size="15" fill="#4a6130">信息管理者：组织与协调</text>
+  </g>
+  <g stroke="#1f4e79" stroke-width="1.5" fill="none">
+    <line x1="195" y1="132" x2="284" y2="132"/><line x1="425" y1="132" x2="514" y2="132"/>
+    <line x1="360" y1="185" x2="360" y2="170"/>
+  </g>
+  <polygon points="292,132 284,127.5 284,136.5" fill="#1f4e79"/><polygon points="522,132 514,127.5 514,136.5" fill="#1f4e79"/>
+  <polygon points="360,163 355.5,171 364.5,171" fill="#1f4e79"/>
+  <rect x="30" y="270" width="315" height="185" rx="10" fill="#f8fafc" stroke="#6b7a8a"/>
+  <text x="187.5" y="297" text-anchor="middle" font-size="16" font-weight="bold" fill="#1f4e79">开环：本次决策不反馈调整</text>
+  <g text-anchor="middle" font-size="13">
+    <rect x="48" y="325" width="80" height="52" rx="6" fill="#eaf1f8" stroke="#1f4e79"/><text x="88" y="356">识别记录</text>
+    <rect x="153" y="325" width="85" height="52" rx="6" fill="#eaf1f8" stroke="#1f4e79"/><text x="195.5" y="356">变换决策</text>
+    <rect x="263" y="325" width="65" height="52" rx="6" fill="#eaf1f8" stroke="#1f4e79"/><text x="295.5" y="356">行动结果</text>
+  </g>
+  <line x1="128" y1="351" x2="142" y2="351" stroke="#1f4e79" stroke-width="1.5"/><line x1="238" y1="351" x2="252" y2="351" stroke="#1f4e79" stroke-width="1.5"/>
+  <polygon points="150,351 142,346.5 142,355.5" fill="#1f4e79"/><polygon points="260,351 252,346.5 252,355.5" fill="#1f4e79"/>
+  <text x="187.5" y="416" text-anchor="middle" font-size="12" fill="#6b7a8a">事后评价只供以后决策参考</text>
+  <rect x="375" y="270" width="315" height="185" rx="10" fill="#f3f6ee" stroke="#8aa15c"/>
+  <text x="532.5" y="297" text-anchor="middle" font-size="16" font-weight="bold" fill="#4a6130">闭环：持续反馈并调整本次决策</text>
+  <g text-anchor="middle" font-size="13">
+    <rect x="393" y="325" width="80" height="52" rx="6" fill="#ffffff" stroke="#8aa15c"/><text x="433" y="356">识别记录</text>
+    <rect x="498" y="325" width="85" height="52" rx="6" fill="#ffffff" stroke="#8aa15c"/><text x="540.5" y="356">变换决策</text>
+    <rect x="608" y="325" width="65" height="52" rx="6" fill="#ffffff" stroke="#8aa15c"/><text x="640.5" y="356">行动结果</text>
+  </g>
+  <line x1="473" y1="351" x2="487" y2="351" stroke="#4a6130" stroke-width="1.5"/><line x1="583" y1="351" x2="597" y2="351" stroke="#4a6130" stroke-width="1.5"/>
+  <polygon points="495,351 487,346.5 487,355.5" fill="#4a6130"/><polygon points="605,351 597,346.5 597,355.5" fill="#4a6130"/>
+  <polyline points="640,377 640,407 433,407 433,387" stroke="#4a6130" stroke-width="1.5" fill="none"/>
+  <polygon points="433,380 428.5,388 437.5,388" fill="#4a6130"/>
+  <text x="536" y="434" text-anchor="middle" font-size="12" fill="#4a6130">反馈信息使最终决策可能不同于最初设想</text>
+</svg>

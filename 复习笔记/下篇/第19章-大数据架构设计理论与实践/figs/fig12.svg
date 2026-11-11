@@ -1,0 +1,67 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 490" font-family="Microsoft YaHei, 微软雅黑, sans-serif">
+  <text x="360" y="26" text-anchor="middle" font-size="16" font-weight="bold" fill="#1f4e79">Kappa 实践：证券日志与电商智能决策（图 19-15、19-16 重绘）</text>
+  <rect x="20" y="45" width="680" height="190" rx="8" fill="#f7fafc" stroke="#6b7a8a"/>
+  <text x="360" y="69" text-anchor="middle" font-size="13" font-weight="bold" fill="#1f4e79">证券实时日志：统一采集、流式解析、分类存储</text>
+  <rect x="30" y="92" width="100" height="52" rx="6" fill="#eaf1f8" stroke="#1f4e79"/>
+  <text x="80" y="114" text-anchor="middle" font-size="11" font-weight="bold" fill="#1f4e79">Filebeat</text>
+  <text x="80" y="134" text-anchor="middle" font-size="10" fill="#22303f">分布式采集</text>
+  <line x1="130" y1="118" x2="157" y2="118" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="165,118 157,113.5 157,122.5" fill="#1f4e79"/>
+  <rect x="170" y="92" width="90" height="52" rx="6" fill="#f3f6ee" stroke="#8aa15c"/>
+  <text x="215" y="123" text-anchor="middle" font-size="11" fill="#4a6130">Kafka</text>
+  <line x1="260" y1="118" x2="287" y2="118" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="295,118 287,113.5 287,122.5" fill="#1f4e79"/>
+  <rect x="300" y="92" width="100" height="52" rx="6" fill="#fdf0e6" stroke="#c05621"/>
+  <text x="350" y="114" text-anchor="middle" font-size="11" font-weight="bold" fill="#c05621">Flink</text>
+  <text x="350" y="134" text-anchor="middle" font-size="10" fill="#22303f">清洗解析</text>
+  <line x1="400" y1="118" x2="427" y2="118" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="435,118 427,113.5 427,122.5" fill="#1f4e79"/>
+  <rect x="440" y="82" width="125" height="72" rx="6" fill="#eaf1f8" stroke="#1f4e79"/>
+  <text x="502" y="105" text-anchor="middle" font-size="10" font-weight="bold" fill="#1f4e79">ElasticSearch</text>
+  <text x="502" y="124" text-anchor="middle" font-size="10" fill="#22303f">日志全文与历史</text>
+  <text x="502" y="144" text-anchor="middle" font-size="10" fill="#1f4e79">OpenTSDB：指标</text>
+  <line x1="565" y1="118" x2="587" y2="118" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="595,118 587,113.5 587,122.5" fill="#1f4e79"/>
+  <rect x="600" y="82" width="90" height="72" rx="6" fill="#f3f6ee" stroke="#8aa15c"/>
+  <text x="645" y="104" text-anchor="middle" font-size="10" fill="#4a6130">智能搜索</text>
+  <text x="645" y="124" text-anchor="middle" font-size="10" fill="#4a6130">可视化</text>
+  <text x="645" y="144" text-anchor="middle" font-size="10" fill="#4a6130">监控预警</text>
+  <text x="360" y="184" text-anchor="middle" font-size="11" fill="#22303f">日志转指标并支持全文检索、正则筛选、趋势预判和故障溯源</text>
+  <text x="360" y="210" text-anchor="middle" font-size="10" fill="#4a6130">价值：集中管理日志，统一实时计算口径，降低跨系统排查成本</text>
+  <rect x="20" y="255" width="680" height="210" rx="8" fill="#f7fafc" stroke="#6b7a8a"/>
+  <text x="360" y="279" text-anchor="middle" font-size="13" font-weight="bold" fill="#c05621">电商智能决策：实时窗口聚合驱动参数迭代</text>
+  <rect x="30" y="300" width="100" height="52" rx="6" fill="#eaf1f8" stroke="#1f4e79"/>
+  <text x="80" y="322" text-anchor="middle" font-size="10" font-weight="bold" fill="#1f4e79">B 端实时事件</text>
+  <text x="80" y="341" text-anchor="middle" font-size="9" fill="#22303f">点击/下单/出价</text>
+  <line x1="130" y1="326" x2="152" y2="326" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="160,326 152,321.5 152,330.5" fill="#1f4e79"/>
+  <rect x="165" y="300" width="85" height="52" rx="6" fill="#f3f6ee" stroke="#8aa15c"/>
+  <text x="207" y="331" text-anchor="middle" font-size="11" fill="#4a6130">Kafka</text>
+  <line x1="250" y1="326" x2="272" y2="326" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="280,326 272,321.5 272,330.5" fill="#1f4e79"/>
+  <rect x="285" y="300" width="100" height="52" rx="6" fill="#fdf0e6" stroke="#c05621"/>
+  <text x="335" y="322" text-anchor="middle" font-size="11" font-weight="bold" fill="#c05621">Flink</text>
+  <text x="335" y="341" text-anchor="middle" font-size="9" fill="#22303f">清洗/窗口聚合</text>
+  <line x1="385" y1="326" x2="407" y2="326" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="415,326 407,321.5 407,330.5" fill="#1f4e79"/>
+  <rect x="420" y="300" width="105" height="52" rx="6" fill="#eaf1f8" stroke="#1f4e79"/>
+  <text x="472" y="322" text-anchor="middle" font-size="11" font-weight="bold" fill="#1f4e79">Tair / Hive</text>
+  <text x="472" y="341" text-anchor="middle" font-size="9" fill="#22303f">指标缓存/日志</text>
+  <line x1="525" y1="326" x2="547" y2="326" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="555,326 547,321.5 547,330.5" fill="#1f4e79"/>
+  <rect x="560" y="300" width="130" height="52" rx="6" fill="#fdf0e6" stroke="#c05621"/>
+  <text x="625" y="322" text-anchor="middle" font-size="11" font-weight="bold" fill="#c05621">决策服务端</text>
+  <text x="625" y="341" text-anchor="middle" font-size="9" fill="#22303f">计算参数与模型</text>
+  <line x1="625" y1="352" x2="625" y2="379" stroke="#c05621" stroke-width="1.5" fill="none"/>
+  <polygon points="625,387 620.5,379 629.5,379" fill="#c05621"/>
+  <rect x="555" y="390" width="140" height="45" rx="6" fill="#f3f6ee" stroke="#8aa15c"/>
+  <text x="625" y="417" text-anchor="middle" font-size="10" fill="#4a6130">Zookeeper 发更新通知</text>
+  <line x1="555" y1="412" x2="437" y2="412" stroke="#8aa15c" stroke-width="1.5" fill="none"/>
+  <polygon points="429,412 437,407.5 437,416.5" fill="#8aa15c"/>
+  <rect x="285" y="390" width="140" height="45" rx="6" fill="#eaf1f8" stroke="#1f4e79"/>
+  <text x="355" y="409" text-anchor="middle" font-size="10" fill="#1f4e79">业务客户端拉取参数</text>
+  <text x="355" y="427" text-anchor="middle" font-size="9" fill="#22303f">本地保存、本地读取</text>
+  <text x="45" y="404" font-size="10" fill="#4a6130">实时性：</text>
+  <text x="45" y="425" font-size="10" fill="#22303f">当天数据立即参与计算</text>
+  <text x="360" y="481" text-anchor="middle" font-size="10" fill="#6b7a8a">客户端从本地读取最新参数，避免每次业务调用都产生远程网络延迟</text>
+</svg>

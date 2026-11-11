@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 495" font-family="Microsoft YaHei, 微软雅黑, sans-serif">
+  <text x="360" y="26" text-anchor="middle" font-size="16" font-weight="bold" fill="#1f4e79">Lambda 三层架构（教材图 19-4 重绘）</text>
+  <rect x="250" y="45" width="220" height="50" rx="7" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.4"/>
+  <text x="360" y="66" text-anchor="middle" font-size="13" font-weight="bold" fill="#1f4e79">数据源 Data Source</text>
+  <text x="360" y="85" text-anchor="middle" font-size="10" fill="#22303f">原始、不可变、永远真实的事实</text>
+  <line x1="360" y1="95" x2="360" y2="110" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <line x1="185" y1="110" x2="535" y2="110" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <line x1="185" y1="110" x2="185" y2="119" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="185,127 180.5,119 189.5,119" fill="#1f4e79"/>
+  <line x1="535" y1="110" x2="535" y2="119" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="535,127 530.5,119 539.5,119" fill="#1f4e79"/>
+  <rect x="65" y="130" width="240" height="70" rx="7" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.4"/>
+  <text x="185" y="154" text-anchor="middle" font-size="14" font-weight="bold" fill="#1f4e79">批处理层 Batch Layer</text>
+  <text x="185" y="176" text-anchor="middle" font-size="11" fill="#22303f">全量主数据 · MapReduce 预计算</text>
+  <text x="185" y="192" text-anchor="middle" font-size="10" fill="#6b7a8a">准确、全量、时延高</text>
+  <rect x="415" y="130" width="240" height="70" rx="7" fill="#fdf0e6" stroke="#c05621" stroke-width="1.4"/>
+  <text x="535" y="154" text-anchor="middle" font-size="14" font-weight="bold" fill="#c05621">加速层 Speed Layer</text>
+  <text x="535" y="176" text-anchor="middle" font-size="11" fill="#22303f">最近增量 · 流式持续更新</text>
+  <text x="535" y="192" text-anchor="middle" font-size="10" fill="#6b7a8a">低延迟、可暂时近似</text>
+  <line x1="185" y1="200" x2="185" y2="239" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="185,247 180.5,239 189.5,239" fill="#1f4e79"/>
+  <line x1="535" y1="200" x2="535" y2="239" stroke="#c05621" stroke-width="1.5" fill="none"/>
+  <polygon points="535,247 530.5,239 539.5,239" fill="#c05621"/>
+  <rect x="65" y="250" width="240" height="52" rx="6" fill="#ffffff" stroke="#1f4e79" stroke-width="1.2"/>
+  <text x="185" y="281" text-anchor="middle" font-size="13" font-weight="bold" fill="#1f4e79">Batch View 批处理视图</text>
+  <rect x="415" y="250" width="240" height="52" rx="6" fill="#ffffff" stroke="#c05621" stroke-width="1.2"/>
+  <text x="535" y="281" text-anchor="middle" font-size="13" font-weight="bold" fill="#c05621">Real-time View 实时视图</text>
+  <line x1="185" y1="302" x2="290" y2="329" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="297,337 288,333 291,325" fill="#1f4e79"/>
+  <line x1="535" y1="302" x2="430" y2="329" stroke="#c05621" stroke-width="1.5" fill="none"/>
+  <polygon points="423,337 429,325 432,333" fill="#c05621"/>
+  <rect x="240" y="340" width="240" height="60" rx="7" fill="#f3f6ee" stroke="#8aa15c" stroke-width="1.4"/>
+  <text x="360" y="365" text-anchor="middle" font-size="14" font-weight="bold" fill="#4a6130">服务层 Serving Layer</text>
+  <text x="360" y="387" text-anchor="middle" font-size="11" fill="#22303f">索引、合并两类视图，响应查询</text>
+  <line x1="360" y1="400" x2="360" y2="419" stroke="#8aa15c" stroke-width="1.5" fill="none"/>
+  <polygon points="360,427 355.5,419 364.5,419" fill="#8aa15c"/>
+  <rect x="270" y="430" width="180" height="40" rx="6" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.2"/>
+  <text x="360" y="455" text-anchor="middle" font-size="13" font-weight="bold" fill="#1f4e79">统一查询结果</text>
+  <text x="360" y="486" text-anchor="middle" font-size="11" fill="#4a6130">新批视图覆盖增量后，旧实时视图可丢弃，结果走向最终精度</text>
+</svg>

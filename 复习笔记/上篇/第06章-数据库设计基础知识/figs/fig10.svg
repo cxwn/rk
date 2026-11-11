@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 405" font-family="Microsoft YaHei, 微软雅黑, sans-serif">
+  <rect width="720" height="405" fill="#ffffff"/>
+  <text x="360" y="30" text-anchor="middle" font-size="20" font-weight="bold" fill="#1f4e79">应用程序访问数据库的四种方式</text>
+  <rect x="30" y="55" width="110" height="52" rx="6" fill="#eaf1f8" stroke="#1f4e79"/>
+  <text x="85" y="87" text-anchor="middle" font-size="14" fill="#22303f">C 等应用程序</text>
+  <line x1="140" y1="81" x2="259" y2="81" stroke="#1f4e79" stroke-width="1.5"/>
+  <polygon points="267,81 259,76.5 259,85.5" fill="#1f4e79"/>
+  <rect x="270" y="55" width="180" height="52" rx="6" fill="#fdf0e6" stroke="#c05621"/>
+  <text x="360" y="77" text-anchor="middle" font-size="14" font-weight="bold" fill="#c05621">库函数接口：OCI</text>
+  <text x="360" y="98" text-anchor="middle" font-size="12" fill="#6b7a8a">厂商 API，依赖具体 DBMS</text>
+  <line x1="450" y1="81" x2="549" y2="81" stroke="#1f4e79" stroke-width="1.5"/>
+  <polygon points="557,81 549,76.5 549,85.5" fill="#1f4e79"/>
+  <rect x="560" y="55" width="125" height="52" rx="6" fill="#f3f6ee" stroke="#8aa15c"/>
+  <text x="622" y="87" text-anchor="middle" font-size="14" fill="#4a6130">Oracle 等 DBMS</text>
+  <rect x="30" y="140" width="110" height="52" rx="6" fill="#eaf1f8" stroke="#1f4e79"/>
+  <text x="85" y="172" text-anchor="middle" font-size="14" fill="#22303f">宿主语言源码</text>
+  <line x1="140" y1="166" x2="259" y2="166" stroke="#1f4e79" stroke-width="1.5"/>
+  <polygon points="267,166 259,161.5 259,170.5" fill="#1f4e79"/>
+  <rect x="270" y="140" width="180" height="52" rx="6" fill="#fdf0e6" stroke="#c05621"/>
+  <text x="360" y="162" text-anchor="middle" font-size="14" font-weight="bold" fill="#c05621">嵌入式 SQL</text>
+  <text x="360" y="183" text-anchor="middle" font-size="12" fill="#6b7a8a">预编译为宿主语言调用</text>
+  <line x1="450" y1="166" x2="549" y2="166" stroke="#1f4e79" stroke-width="1.5"/>
+  <polygon points="557,166 549,161.5 549,170.5" fill="#1f4e79"/>
+  <rect x="560" y="140" width="125" height="52" rx="6" fill="#f3f6ee" stroke="#8aa15c"/>
+  <text x="622" y="172" text-anchor="middle" font-size="14" fill="#4a6130">函数库＋DBMS</text>
+  <rect x="30" y="225" width="110" height="52" rx="6" fill="#eaf1f8" stroke="#1f4e79"/>
+  <text x="85" y="257" text-anchor="middle" font-size="14" fill="#22303f">统一应用程序</text>
+  <line x1="140" y1="251" x2="259" y2="251" stroke="#1f4e79" stroke-width="1.5"/>
+  <polygon points="267,251 259,246.5 259,255.5" fill="#1f4e79"/>
+  <rect x="270" y="225" width="180" height="52" rx="6" fill="#fdf0e6" stroke="#c05621"/>
+  <text x="360" y="247" text-anchor="middle" font-size="14" font-weight="bold" fill="#c05621">ODBC 通用接口</text>
+  <text x="360" y="268" text-anchor="middle" font-size="12" fill="#6b7a8a">数据源名＋对应驱动程序</text>
+  <line x1="450" y1="251" x2="549" y2="251" stroke="#1f4e79" stroke-width="1.5"/>
+  <polygon points="557,251 549,246.5 549,255.5" fill="#1f4e79"/>
+  <rect x="560" y="225" width="125" height="52" rx="6" fill="#f3f6ee" stroke="#8aa15c"/>
+  <text x="622" y="257" text-anchor="middle" font-size="14" fill="#4a6130">异构数据源</text>
+  <rect x="30" y="310" width="110" height="52" rx="6" fill="#eaf1f8" stroke="#1f4e79"/>
+  <text x="85" y="342" text-anchor="middle" font-size="14" fill="#22303f">面向对象程序</text>
+  <line x1="140" y1="336" x2="259" y2="336" stroke="#1f4e79" stroke-width="1.5"/>
+  <polygon points="267,336 259,331.5 259,340.5" fill="#1f4e79"/>
+  <rect x="270" y="310" width="180" height="52" rx="6" fill="#fdf0e6" stroke="#c05621"/>
+  <text x="360" y="332" text-anchor="middle" font-size="14" font-weight="bold" fill="#c05621">ORM 对象关系映射</text>
+  <text x="360" y="353" text-anchor="middle" font-size="12" fill="#6b7a8a">映射元数据封装持久化</text>
+  <line x1="450" y1="336" x2="549" y2="336" stroke="#1f4e79" stroke-width="1.5"/>
+  <polygon points="557,336 549,331.5 549,340.5" fill="#1f4e79"/>
+  <rect x="560" y="310" width="125" height="52" rx="6" fill="#f3f6ee" stroke="#8aa15c"/>
+  <text x="622" y="342" text-anchor="middle" font-size="14" fill="#4a6130">关系数据库表</text>
+  <text x="360" y="390" text-anchor="middle" font-size="13" fill="#6b7a8a">识别关键词：OCI 函数库｜嵌入式 SQL 预编译｜ODBC 驱动｜ORM 对象—关系映射</text>
+</svg>

@@ -1,0 +1,740 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>第10章 软件架构的演化和维护</title>
+<style>
+  :root{ --ink:#22303f; --main:#1f4e79; --main-light:#eaf1f8; --accent:#c05621;
+    --accent-light:#fdf0e6; --line:#d5dde5; --muted:#6b7a8a; }
+  *{ box-sizing:border-box; print-color-adjust:exact; -webkit-print-color-adjust:exact; }
+  html,body{ margin:0; padding:0; }
+  body{ font-family:"Microsoft YaHei","微软雅黑","PingFang SC","Noto Sans CJK SC",sans-serif;
+    color:var(--ink); background:#e9edf1; font-size:10.5pt; line-height:1.75; }
+  .sheet{ max-width:190mm; margin:8mm auto; background:#fff; padding:10mm 11mm;
+    box-shadow:0 2px 14px rgba(0,0,0,.12); }
+  h1{ font-size:21pt; color:var(--main); margin:0 0 2mm; border-bottom:3px solid var(--main); padding-bottom:3mm; }
+  h2{ font-size:14pt; color:var(--main); margin:8mm 0 3mm; padding:1.2mm 0 1.2mm 3mm;
+    border-left:5px solid var(--main); background:linear-gradient(to right,var(--main-light),#fff); break-after:avoid; }
+  h3{ font-size:11.5pt; color:var(--main); margin:5mm 0 2mm; break-after:avoid; }
+  p{ margin:1.5mm 0; }
+  code{ background:#f0f3f6; border-radius:1mm; padding:0 1mm; font-size:9.5pt; }
+  .def,.example,.mnemonic{ border-radius:2mm; padding:2.5mm 3.5mm; margin:2.5mm 0; break-inside:avoid; }
+  .def{ border:1.5px solid var(--main); background:#fbfdff; }
+  .example{ background:var(--accent-light); border-left:4px solid var(--accent); }
+  .mnemonic{ background:#f3f6ee; border:1px dashed #8aa15c; color:#4a6130; }
+  table{ border-collapse:collapse; width:100%; margin:2.5mm 0; font-size:9.5pt; table-layout:fixed; }
+  th,td{ border:1px solid var(--line); padding:1.6mm 2mm; text-align:left; vertical-align:top; overflow-wrap:break-word; }
+  th{ background:var(--main); color:#fff; text-align:center; }
+  thead{ display:table-header-group; }
+  tr{ break-inside:avoid; }
+  td.tc{ text-align:center; }
+  tr:nth-child(even) td{ background:#f6f9fc; }
+  .fig{ margin:3mm 0; padding:2.5mm; border:1px solid var(--line); border-radius:2mm;
+    background:#fdfefe; break-inside:avoid; }
+  .fig .cap{ text-align:center; color:var(--muted); font-size:9pt; margin-top:1mm; }
+  svg{ display:block; width:100%; height:auto; }
+  svg text{ font-family:inherit; }
+  ul,ol{ margin:1.5mm 0 1.5mm 5mm; padding-left:4mm; }
+  li{ margin:0.8mm 0; }
+  .footer{ margin-top:8mm; padding-top:2mm; border-top:1px solid var(--line);
+    color:var(--muted); font-size:8.5pt; text-align:center; }
+  @page{ size:A4; margin:12mm; }
+  @media print{ body{ background:#fff; font-size:10pt; }
+    .sheet{ max-width:none; margin:0; padding:0; box-shadow:none; } h2{ margin-top:6mm; } }
+</style>
+</head>
+<body>
+<div class="sheet">
+<h1>第10章 软件架构的演化和维护</h1>
+<ul><li>教材位置：02.系统架构设计师第二版-教材.pdf PDF 第 340～378 页（书页 330～368）</li><li>复习状态：已完成</li><li>复习日期：2026-11-06</li><li>本章地位：本章回答“架构怎样变、怎样评估变化、怎样管住变化”，是架构设计从一次性交付走向全生命周期治理的关键一章。静态/动态演化、演化评估、网站十阶段演化和可维护性度量是选择题与案例题的重要素材。</li></ul>
+<h2>一、大纲考点</h2>
+<table><colgroup><col style="width:27.1%"><col style="width:51.1%"><col style="width:21.8%"></colgroup><thead><tr><th>大纲条目</th><th>大纲要求</th><th>教材对应小节</th></tr></thead><tbody><tr><td>9.1 软件架构演化概述</td><td>演化的定义、重要性、原因和原则；组件、连接件、约束三类关注点</td><td>10.1；原则集中见 10.4</td></tr><tr><td>9.2 面向对象软件架构演化过程</td><td>对象、消息、复合片段、约束演化及其核心操作</td><td>10.2.1～10.2.4</td></tr><tr><td>9.3 软件架构的演化分类</td><td>四个演化时期；静态/动态演化需求、过程、原子操作；DSA 与 DR</td><td>10.3.1～10.3.3</td></tr><tr><td>9.4 软件架构可持续演化原则</td><td>18 项原则及相应度量方案</td><td>10.4</td></tr><tr><td>9.5 软件架构演化评估方法</td><td>已知过程的版本度量与质量属性距离；未知过程的逆向推测评估</td><td>10.5.1～10.5.2</td></tr><tr><td>9.6 软件架构演化实例分析</td><td>大型网站架构的 10 个演化阶段</td><td>10.6.1～10.6.10</td></tr><tr><td>9.7 软件架构维护</td><td>知识管理、隔离区域、版本管理；CCN、FFC、CBO、RFC、TCC、LCC</td><td>10.7.1～10.7.4</td></tr></tbody></table>
+<h2>二、知识点笔记</h2>
+<h3>10.1 软件架构演化和定义的关系</h3>
+<div class="def">教材原文：软件架构的演化就是为了维持软件架构自身的有用性。</div>
+<p>演化不是只改代码，而是软件<b>整体结构</b>随需求、业务环境和运行环境变化而调整，覆盖需求获取、架构建模、文档、实现和维护等全生命周期。“架构是演化来的，而不是设计来的”强调初始设计要在使用中持续校正。</p>
+<p>⭐【重点】架构层演化优于直接改代码的三个原因：</p>
+<table><colgroup><col style="width:43.5%"><col style="width:56.5%"></colgroup><thead><tr><th>原因</th><th>通俗理解</th></tr></thead><tbody><tr><td>形式化、可视化表示提高可构造性</td><td>先看全城交通图再改道路，比沿街盲目施工更可控</td></tr><tr><td>整体结构、配置和约束信息支持预判</td><td>设计时就能考虑未来可能怎样扩展</td></tr><tr><td>明确组件耦合关系，支持动态调整</td><td>知道“谁连着谁”，才能估计拆改会波及哪里</td></tr></tbody></table>
+<p>不同架构定义决定不同演化视角。若 SA={components, connectors, constraints}，演化就围绕三要素的添加、修改和删除展开。</p>
+<table><colgroup><col style="width:18.2%"><col style="width:39.4%"><col style="width:42.4%"></colgroup><thead><tr><th>要素</th><th>含义与演化表现</th><th>典型波及效应</th></tr></thead><tbody><tr><td class="tc">组件 Component</td><td>计算元素、数据存储或重要模块；增删改内部模块</td><td>新模块带来新消息，删模块删消息，改模块改消息</td></tr><tr><td class="tc">连接件 Connector</td><td>组件之间的交互关系；增删改交互消息</td><td>常伴随组件演化，也可由内部结构或交互流程调整引起</td></tr><tr><td class="tc">约束 Constraint</td><td>组件与连接件的拓扑关系、配置及参数</td><td>约束数据增删改，可能改变架构正确性判断</td></tr></tbody></table>
+<div class="fig"><div><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 360" font-family="Microsoft YaHei, 微软雅黑, sans-serif">
+  <text x="360" y="32" text-anchor="middle" font-size="20" font-weight="bold" fill="#1f4e79">架构演化三要素与波及效应</text>
+  <rect x="35" y="70" width="190" height="120" rx="8" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.5"/>
+  <text x="130" y="103" text-anchor="middle" font-size="18" font-weight="bold" fill="#1f4e79">组件</text>
+  <text x="130" y="130" text-anchor="middle" font-size="14" fill="#22303f">计算、存储、模块</text>
+  <text x="130" y="157" text-anchor="middle" font-size="14" fill="#22303f">增 / 删 / 改模块</text>
+  <line x1="225" y1="130" x2="259" y2="130" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="267,130 259,125.5 259,134.5" fill="#1f4e79"/>
+  <rect x="270" y="70" width="180" height="120" rx="8" fill="#fdf0e6" stroke="#c05621" stroke-width="1.5"/>
+  <text x="360" y="103" text-anchor="middle" font-size="18" font-weight="bold" fill="#c05621">连接件</text>
+  <text x="360" y="130" text-anchor="middle" font-size="14" fill="#22303f">组件间交互关系</text>
+  <text x="360" y="157" text-anchor="middle" font-size="14" fill="#22303f">增 / 删 / 改消息</text>
+  <line x1="450" y1="130" x2="484" y2="130" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="492,130 484,125.5 484,134.5" fill="#1f4e79"/>
+  <rect x="495" y="70" width="190" height="120" rx="8" fill="#f3f6ee" stroke="#8aa15c" stroke-width="1.5"/>
+  <text x="590" y="103" text-anchor="middle" font-size="18" font-weight="bold" fill="#4a6130">约束</text>
+  <text x="590" y="130" text-anchor="middle" font-size="14" fill="#22303f">拓扑、配置、参数</text>
+  <text x="590" y="157" text-anchor="middle" font-size="14" fill="#22303f">增 / 删 / 改约束数据</text>
+  <text x="360" y="222" text-anchor="middle" font-size="15" font-weight="bold" fill="#6b7a8a">一次变更可能产生直接与间接影响</text>
+  <rect x="35" y="245" width="200" height="75" rx="7" fill="#fdf0e6" stroke="#c05621"/>
+  <text x="135" y="275" text-anchor="middle" font-size="15" font-weight="bold" fill="#c05621">直接受影响元素</text>
+  <text x="135" y="301" text-anchor="middle" font-size="13" fill="#22303f">被显式增删改</text>
+  <rect x="260" y="245" width="200" height="75" rx="7" fill="#fdf0e6" stroke="#c05621"/>
+  <text x="360" y="275" text-anchor="middle" font-size="15" font-weight="bold" fill="#c05621">受波及元素</text>
+  <text x="360" y="301" text-anchor="middle" font-size="13" fill="#22303f">依赖与交互间接受影响</text>
+  <rect x="485" y="245" width="200" height="75" rx="7" fill="#eaf1f8" stroke="#6b7a8a"/>
+  <text x="585" y="275" text-anchor="middle" font-size="15" font-weight="bold" fill="#1f4e79">未受影响元素</text>
+  <text x="585" y="301" text-anchor="middle" font-size="13" fill="#22303f">共同组成演化后架构</text>
+</svg></div><div class="cap">图10-1 架构演化三要素与波及效应</div></div>
+<p>变更元素分为<b>直接受影响</b>与<b>间接受波及</b>两类，它们再与未受影响元素共同组成演化后架构。</p>
+<div class="example">举例：给商城增加“积分服务”是组件演化；订单服务调用积分服务是连接件演化；规定“扣积分必须先于发货”是约束演化。只加服务却没有消息交互，它对当前系统行为就没有实际意义。</div>
+<h3>10.2 面向对象软件架构演化过程</h3>
+<h3>1. 对象演化与消息演化</h3>
+<p>对象自身的接口、类型、语义等属性变化不改变对象间交互过程；真正影响顺序图动态行为的对象操作只有 <b>AO（AddObject）</b> 和 <b>DO（DeleteObject）</b>。对象演化通常必须伴随消息演化，否则新增对象没有交互、删除对象留下无效关系。</p>
+<p>⭐【高频考点】消息是顺序图的核心，五类消息演化如下。</p>
+<table><colgroup><col style="width:12.4%"><col style="width:27.8%"><col style="width:43.3%"><col style="width:16.5%"></colgroup><thead><tr><th>操作</th><th>全称</th><th>改变内容</th><th>记忆抓手</th></tr></thead><tbody><tr><td class="tc">AM</td><td>AddMessage</td><td>新增一条交互消息</td><td class="tc">加交互</td></tr><tr><td class="tc">DM</td><td>DeleteMessage</td><td>删除一条交互消息，是 AM 的逆向操作</td><td class="tc">删交互</td></tr><tr><td class="tc">SMO</td><td>SwapMessageOrder</td><td>交换两条消息的时间顺序</td><td class="tc">换先后</td></tr><tr><td class="tc">OM</td><td>OverturnMessage</td><td>反转发送对象与接收对象</td><td class="tc">换方向</td></tr><tr><td class="tc">CMM</td><td>ChangeMessageModule</td><td>改变消息的发送或接收对象</td><td class="tc">换端点</td></tr></tbody></table>
+<div class="fig"><div><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 430" font-family="Microsoft YaHei, 微软雅黑, sans-serif">
+  <text x="360" y="30" text-anchor="middle" font-size="20" font-weight="bold" fill="#1f4e79">对象演化与五类消息演化</text>
+  <rect x="30" y="55" width="660" height="125" rx="8" fill="#f8fbfd" stroke="#b8c7d6"/>
+  <text x="360" y="80" text-anchor="middle" font-size="15" font-weight="bold" fill="#6b7a8a">对象动态行为演化</text>
+  <rect x="60" y="95" width="270" height="60" rx="7" fill="#eaf1f8" stroke="#1f4e79"/>
+  <text x="195" y="121" text-anchor="middle" font-size="17" font-weight="bold" fill="#1f4e79">AO：添加对象</text>
+  <text x="195" y="143" text-anchor="middle" font-size="13" fill="#22303f">新功能或职责独立</text>
+  <rect x="390" y="95" width="270" height="60" rx="7" fill="#fdf0e6" stroke="#c05621"/>
+  <text x="525" y="121" text-anchor="middle" font-size="17" font-weight="bold" fill="#c05621">DO：删除对象</text>
+  <text x="525" y="143" text-anchor="middle" font-size="13" fill="#22303f">移除功能或合并职责</text>
+  <line x1="195" y1="155" x2="195" y2="194" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="195,202 190.5,194 199.5,194" fill="#1f4e79"/>
+  <line x1="525" y1="155" x2="525" y2="194" stroke="#c05621" stroke-width="1.5" fill="none"/>
+  <polygon points="525,202 520.5,194 529.5,194" fill="#c05621"/>
+  <rect x="30" y="205" width="660" height="185" rx="8" fill="#f8fbfd" stroke="#b8c7d6"/>
+  <text x="360" y="230" text-anchor="middle" font-size="15" font-weight="bold" fill="#6b7a8a">消息演化是顺序图演化的核心，对象演化通常伴随消息演化</text>
+  <rect x="45" y="250" width="116" height="105" rx="6" fill="#eaf1f8" stroke="#1f4e79"/>
+  <text x="103" y="280" text-anchor="middle" font-size="18" font-weight="bold" fill="#1f4e79">AM</text>
+  <text x="103" y="307" text-anchor="middle" font-size="14" fill="#22303f">添加消息</text>
+  <text x="103" y="333" text-anchor="middle" font-size="13" fill="#6b7a8a">加交互</text>
+  <rect x="174" y="250" width="116" height="105" rx="6" fill="#eaf1f8" stroke="#1f4e79"/>
+  <text x="232" y="280" text-anchor="middle" font-size="18" font-weight="bold" fill="#1f4e79">DM</text>
+  <text x="232" y="307" text-anchor="middle" font-size="14" fill="#22303f">删除消息</text>
+  <text x="232" y="333" text-anchor="middle" font-size="13" fill="#6b7a8a">删交互</text>
+  <rect x="303" y="250" width="116" height="105" rx="6" fill="#fdf0e6" stroke="#c05621"/>
+  <text x="361" y="280" text-anchor="middle" font-size="18" font-weight="bold" fill="#c05621">SMO</text>
+  <text x="361" y="307" text-anchor="middle" font-size="14" fill="#22303f">交换时序</text>
+  <text x="361" y="333" text-anchor="middle" font-size="13" fill="#6b7a8a">换先后</text>
+  <rect x="432" y="250" width="116" height="105" rx="6" fill="#fdf0e6" stroke="#c05621"/>
+  <text x="490" y="280" text-anchor="middle" font-size="18" font-weight="bold" fill="#c05621">OM</text>
+  <text x="490" y="307" text-anchor="middle" font-size="14" fill="#22303f">反转方向</text>
+  <text x="490" y="333" text-anchor="middle" font-size="13" fill="#6b7a8a">换收发</text>
+  <rect x="561" y="250" width="116" height="105" rx="6" fill="#f3f6ee" stroke="#8aa15c"/>
+  <text x="619" y="280" text-anchor="middle" font-size="18" font-weight="bold" fill="#4a6130">CMM</text>
+  <text x="619" y="307" text-anchor="middle" font-size="14" fill="#22303f">改变端点</text>
+  <text x="619" y="333" text-anchor="middle" font-size="13" fill="#6b7a8a">换对象</text>
+  <text x="360" y="414" text-anchor="middle" font-size="13" fill="#6b7a8a">消息变化不必然违背约束：无关 / 相关不违背 / 相关且违背</text>
+</svg></div><div class="cap">图10-2 对象演化与五类消息演化</div></div>
+<p>消息演化与约束有三种关系：<b>无关</b>、<b>相关但不违背约束</b>、<b>相关且违背约束</b>。前两类可保持架构正确性，第三类是不正确演化；因此“消息发生变化”不等于“必然破坏约束”。</p>
+<h3>2. 复合片段演化与约束演化</h3>
+<p>复合片段描述对象交互的控制流，与消息同属连接件范畴。重点关注会产生分支的 ref、loop、break、alt、opt、par；其内部执行序列的演化等价于消息序列演化。</p>
+<table><colgroup><col style="width:14.4%"><col style="width:26.0%"><col style="width:59.6%"></colgroup><thead><tr><th>操作</th><th>含义</th><th>关键提醒</th></tr></thead><tbody><tr><td class="tc">AF / DF</td><td>添加 / 删除复合片段</td><td>二者互为逆向演化；ref 关联另一顺序图，par 产生并行消息</td></tr><tr><td class="tc">FTC</td><td>改变复合片段类型</td><td>改变控制流，可看作“删除旧片段＋添加新片段”</td></tr><tr><td class="tc">FCC</td><td>改变片段成立条件</td><td>同时修改条件成立与不成立两条转移的触发事件</td></tr></tbody></table>
+<p>约束演化只有 <b>AC（添加约束）</b> 与 <b>DC（删除约束）</b>；修改约束视为“删除旧约束＋添加新约束”。AC 后必须检查当前设计是否满足新约束，DC 后一般仍满足剩余约束。</p>
+<div class="fig"><div><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 390" font-family="Microsoft YaHei, 微软雅黑, sans-serif">
+  <text x="360" y="30" text-anchor="middle" font-size="20" font-weight="bold" fill="#1f4e79">复合片段与约束演化</text>
+  <text x="360" y="65" text-anchor="middle" font-size="15" font-weight="bold" fill="#6b7a8a">复合片段：交互控制流（ref / loop / break / alt / opt / par）</text>
+  <rect x="30" y="85" width="150" height="120" rx="7" fill="#eaf1f8" stroke="#1f4e79"/>
+  <text x="105" y="120" text-anchor="middle" font-size="20" font-weight="bold" fill="#1f4e79">AF</text>
+  <text x="105" y="150" text-anchor="middle" font-size="15" fill="#22303f">添加片段</text>
+  <text x="105" y="178" text-anchor="middle" font-size="13" fill="#6b7a8a">新增控制流</text>
+  <rect x="200" y="85" width="150" height="120" rx="7" fill="#eaf1f8" stroke="#1f4e79"/>
+  <text x="275" y="120" text-anchor="middle" font-size="20" font-weight="bold" fill="#1f4e79">DF</text>
+  <text x="275" y="150" text-anchor="middle" font-size="15" fill="#22303f">删除片段</text>
+  <text x="275" y="178" text-anchor="middle" font-size="13" fill="#6b7a8a">AF 的逆向演化</text>
+  <rect x="370" y="85" width="150" height="120" rx="7" fill="#fdf0e6" stroke="#c05621"/>
+  <text x="445" y="120" text-anchor="middle" font-size="20" font-weight="bold" fill="#c05621">FTC</text>
+  <text x="445" y="150" text-anchor="middle" font-size="15" fill="#22303f">改变类型</text>
+  <text x="445" y="178" text-anchor="middle" font-size="13" fill="#6b7a8a">删除＋添加组合</text>
+  <rect x="540" y="85" width="150" height="120" rx="7" fill="#fdf0e6" stroke="#c05621"/>
+  <text x="615" y="120" text-anchor="middle" font-size="20" font-weight="bold" fill="#c05621">FCC</text>
+  <text x="615" y="150" text-anchor="middle" font-size="15" fill="#22303f">改变条件</text>
+  <text x="615" y="178" text-anchor="middle" font-size="13" fill="#6b7a8a">同步改两条转移</text>
+  <rect x="55" y="245" width="260" height="95" rx="8" fill="#f3f6ee" stroke="#8aa15c" stroke-width="1.5"/>
+  <text x="185" y="278" text-anchor="middle" font-size="18" font-weight="bold" fill="#4a6130">AC：添加约束</text>
+  <text x="185" y="310" text-anchor="middle" font-size="14" fill="#22303f">必须检查设计是否满足新约束</text>
+  <rect x="405" y="245" width="260" height="95" rx="8" fill="#f3f6ee" stroke="#8aa15c" stroke-width="1.5"/>
+  <text x="535" y="278" text-anchor="middle" font-size="18" font-weight="bold" fill="#4a6130">DC：删除约束</text>
+  <text x="535" y="310" text-anchor="middle" font-size="14" fill="#22303f">去除不再需要的条件</text>
+  <text x="360" y="370" text-anchor="middle" font-size="14" font-weight="bold" fill="#c05621">修改约束 = 删除旧约束（DC）＋ 添加新约束（AC）</text>
+</svg></div><div class="cap">图10-3 复合片段与约束演化</div></div>
+<div class="mnemonic">助记：对象只增删，消息“增删换序、反向换端”；片段“增删改型改条件”，约束只增删、修改先删后增。</div>
+<h3>10.3 软件架构演化方式的分类</h3>
+<p>三种典型分类视角不要混答：</p>
+<table><colgroup><col style="width:29.9%"><col style="width:70.1%"></colgroup><thead><tr><th>分类依据</th><th>类别</th></tr></thead><tbody><tr><td>实现方式与实施粒度</td><td>基于过程和函数、面向对象、基于组件、基于架构的演化</td></tr><tr><td>研究方法（Barnes 等）</td><td>演化支持；版本和工程管理工具；架构变换形式方法；成本收益分析</td></tr><tr><td>是否处于系统运行期</td><td>静态演化、动态演化（本章重点）</td></tr></tbody></table>
+<p>⭐【高频考点】四个演化时期按“编译前→编译后执行前→受限运行中→运行中”排列。</p>
+<table><colgroup><col style="width:25.0%"><col style="width:75.0%"></colgroup><thead><tr><th>时期</th><th>时间边界与特点</th></tr></thead><tbody><tr><td class="tc">设计时演化</td><td>架构模型及相关代码编译之前</td></tr><tr><td class="tc">运行前演化</td><td>编译之后、执行之前；无需考虑应用状态，但需考虑架构及组件增删机制</td></tr><tr><td class="tc">有限制运行时演化</td><td>设计时预定条件，系统进入“安全”模式后执行规定操作</td></tr><tr><td class="tc">运行时演化</td><td>运行中增删、替换组件或改变拓扑，最难实现</td></tr></tbody></table>
+<div class="fig"><div><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 340" font-family="Microsoft YaHei, 微软雅黑, sans-serif">
+  <text x="360" y="30" text-anchor="middle" font-size="20" font-weight="bold" fill="#1f4e79">四个演化时期与动静分界</text>
+  <rect x="25" y="75" width="145" height="145" rx="7" fill="#eaf1f8" stroke="#1f4e79"/>
+  <text x="97" y="108" text-anchor="middle" font-size="16" font-weight="bold" fill="#1f4e79">设计时演化</text>
+  <text x="97" y="140" text-anchor="middle" font-size="14" fill="#22303f">模型与代码</text>
+  <text x="97" y="164" text-anchor="middle" font-size="14" fill="#22303f">编译之前</text>
+  <text x="97" y="196" text-anchor="middle" font-size="13" fill="#6b7a8a">最早</text>
+  <line x1="170" y1="148" x2="192" y2="148" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="200,148 192,143.5 192,152.5" fill="#1f4e79"/>
+  <rect x="203" y="75" width="145" height="145" rx="7" fill="#eaf1f8" stroke="#1f4e79"/>
+  <text x="275" y="108" text-anchor="middle" font-size="16" font-weight="bold" fill="#1f4e79">运行前演化</text>
+  <text x="275" y="140" text-anchor="middle" font-size="14" fill="#22303f">编译之后</text>
+  <text x="275" y="164" text-anchor="middle" font-size="14" fill="#22303f">执行之前</text>
+  <text x="275" y="196" text-anchor="middle" font-size="13" fill="#6b7a8a">不看运行状态</text>
+  <line x1="348" y1="148" x2="370" y2="148" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="378,148 370,143.5 370,152.5" fill="#1f4e79"/>
+  <rect x="381" y="75" width="145" height="145" rx="7" fill="#fdf0e6" stroke="#c05621"/>
+  <text x="453" y="102" text-anchor="middle" font-size="15" font-weight="bold" fill="#c05621">有限制运行时</text>
+  <text x="453" y="126" text-anchor="middle" font-size="15" font-weight="bold" fill="#c05621">演化</text>
+  <text x="453" y="157" text-anchor="middle" font-size="14" fill="#22303f">安全模式下</text>
+  <text x="453" y="185" text-anchor="middle" font-size="13" fill="#6b7a8a">满足预定约束</text>
+  <line x1="526" y1="148" x2="548" y2="148" stroke="#c05621" stroke-width="1.5" fill="none"/>
+  <polygon points="556,148 548,143.5 548,152.5" fill="#c05621"/>
+  <rect x="559" y="75" width="136" height="145" rx="7" fill="#fdf0e6" stroke="#c05621" stroke-width="2"/>
+  <text x="627" y="108" text-anchor="middle" font-size="16" font-weight="bold" fill="#c05621">运行时演化</text>
+  <text x="627" y="140" text-anchor="middle" font-size="14" fill="#22303f">系统运行中</text>
+  <text x="627" y="164" text-anchor="middle" font-size="14" fill="#22303f">改变结构拓扑</text>
+  <text x="627" y="196" text-anchor="middle" font-size="13" fill="#c05621">最难实现</text>
+  <line x1="25" y1="250" x2="348" y2="250" stroke="#1f4e79" stroke-width="2"/>
+  <line x1="25" y1="242" x2="25" y2="258" stroke="#1f4e79" stroke-width="2"/>
+  <line x1="348" y1="242" x2="348" y2="258" stroke="#1f4e79" stroke-width="2"/>
+  <text x="186" y="282" text-anchor="middle" font-size="16" font-weight="bold" fill="#1f4e79">静态演化：未运行或已停止</text>
+  <line x1="381" y1="250" x2="695" y2="250" stroke="#c05621" stroke-width="2"/>
+  <line x1="381" y1="242" x2="381" y2="258" stroke="#c05621" stroke-width="2"/>
+  <line x1="695" y1="242" x2="695" y2="258" stroke="#c05621" stroke-width="2"/>
+  <text x="538" y="282" text-anchor="middle" font-size="16" font-weight="bold" fill="#c05621">动态演化：运行期间不停机</text>
+  <text x="360" y="320" text-anchor="middle" font-size="14" fill="#6b7a8a">时间主线：编译前 → 编译后执行前 → 受限运行中 → 运行中</text>
+</svg></div><div class="cap">图10-4 四个演化时期与动静分界</div></div>
+<h3>1. 静态演化</h3>
+<p>静态演化是系统<b>停止运行期间</b>的修改更新，需求来自设计时调整和运行前升级；对应更正性、适应性、完善性维护。</p>
+<div class="fig"><div><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 330" font-family="Microsoft YaHei, 微软雅黑, sans-serif">
+  <text x="360" y="30" text-anchor="middle" font-size="20" font-weight="bold" fill="#1f4e79">静态演化五步循环过程</text>
+  <text x="76" y="62" text-anchor="middle" font-size="14" fill="#6b7a8a">原系统</text>
+  <line x1="76" y1="70" x2="76" y2="89" stroke="#6b7a8a" stroke-width="1.5" fill="none"/>
+  <polygon points="76,97 71.5,89 80.5,89" fill="#6b7a8a"/>
+  <rect x="20" y="100" width="112" height="90" rx="7" fill="#eaf1f8" stroke="#1f4e79"/>
+  <text x="76" y="135" text-anchor="middle" font-size="16" font-weight="bold" fill="#1f4e79">1 软件理解</text>
+  <text x="76" y="163" text-anchor="middle" font-size="12" fill="#22303f">文档·架构·关系</text>
+  <line x1="132" y1="145" x2="149" y2="145" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="157,145 149,140.5 149,149.5" fill="#1f4e79"/>
+  <rect x="160" y="100" width="112" height="90" rx="7" fill="#eaf1f8" stroke="#1f4e79"/>
+  <text x="216" y="130" text-anchor="middle" font-size="15" font-weight="bold" fill="#1f4e79">2 需求变更</text>
+  <text x="216" y="151" text-anchor="middle" font-size="15" font-weight="bold" fill="#1f4e79">分析</text>
+  <text x="216" y="174" text-anchor="middle" font-size="12" fill="#22303f">找新旧差异</text>
+  <line x1="272" y1="145" x2="289" y2="145" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="297,145 289,140.5 289,149.5" fill="#1f4e79"/>
+  <rect x="300" y="100" width="112" height="90" rx="7" fill="#fdf0e6" stroke="#c05621"/>
+  <text x="356" y="135" text-anchor="middle" font-size="16" font-weight="bold" fill="#c05621">3 演化计划</text>
+  <text x="356" y="163" text-anchor="middle" font-size="12" fill="#22303f">范围·成本·方案</text>
+  <line x1="412" y1="145" x2="429" y2="145" stroke="#c05621" stroke-width="1.5" fill="none"/>
+  <polygon points="437,145 429,140.5 429,149.5" fill="#c05621"/>
+  <rect x="440" y="100" width="112" height="90" rx="7" fill="#fdf0e6" stroke="#c05621"/>
+  <text x="496" y="135" text-anchor="middle" font-size="16" font-weight="bold" fill="#c05621">4 系统重构</text>
+  <text x="496" y="163" text-anchor="middle" font-size="12" fill="#22303f">实施结构调整</text>
+  <line x1="552" y1="145" x2="569" y2="145" stroke="#c05621" stroke-width="1.5" fill="none"/>
+  <polygon points="577,145 569,140.5 569,149.5" fill="#c05621"/>
+  <rect x="580" y="100" width="112" height="90" rx="7" fill="#f3f6ee" stroke="#8aa15c"/>
+  <text x="636" y="135" text-anchor="middle" font-size="16" font-weight="bold" fill="#4a6130">5 系统测试</text>
+  <text x="636" y="163" text-anchor="middle" font-size="12" fill="#22303f">验证更新后系统</text>
+  <polyline points="636,190 636,220 76,220 76,201" stroke="#8aa15c" stroke-width="1.5" fill="none"/>
+  <polygon points="76,193 71.5,201 80.5,201" fill="#8aa15c"/>
+  <text x="360" y="250" text-anchor="middle" font-size="14" font-weight="bold" fill="#4a6130">发现不足：返回理解，循环迭代</text>
+  <text x="360" y="292" text-anchor="middle" font-size="14" fill="#22303f">系统停止运行期间执行；每一步都要分析组件变更的波及范围</text>
+  <text x="360" y="316" text-anchor="middle" font-size="13" fill="#6b7a8a">对应维护：更正性维护 · 适应性维护 · 完善性维护</text>
+</svg></div><div class="cap">图10-5 静态演化五步循环过程</div></div>
+<div class="mnemonic">助记：先“理解”，再“析需”；定“计划”，做“重构”，最后“测试”，不合格就迭代。</div>
+<p>⭐【重点】原子演化操作是基于 UML 模型、<b>逻辑语义上粒度最小</b>的修改，并非物理上绝对不可分割。每次原子操作产生中间版本 Ai，不同质量属性关注的操作序列可以不同。</p>
+<table><colgroup><col style="width:25.8%"><col style="width:47.1%"><col style="width:27.1%"></colgroup><thead><tr><th>关注质量</th><th>原子操作集合</th><th>影响</th></tr></thead><tbody><tr><td>可维护性（组件图）</td><td>AMD/RMD 依赖、AMI/RMI 接口、AM/RM 模块、SM/AGM 拆分/聚合</td><td>改变逻辑结构、调用方式、内聚与耦合</td></tr><tr><td>可靠性（用例图、部署图、顺序图）</td><td>AMS/RMS 消息、AO/RO 对象、AF/RF/CF 片段、AU/RU 用例、AA/RA 参与者</td><td>改变交互场景复杂度和潜在运行风险</td></tr></tbody></table>
+<p>静态演化可借助组件影响关系与<b>可达矩阵</b>计算变更波及范围。正交软件架构则通过“功能分层＋线索化”控制影响：同层组件不允许相互调用，每个变动只影响一条线索。</p>
+<div class="fig"><div><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 430" font-family="Microsoft YaHei, 微软雅黑, sans-serif">
+  <text x="360" y="30" text-anchor="middle" font-size="20" font-weight="bold" fill="#1f4e79">正交软件架构的单线索演化</text>
+  <text x="65" y="78" text-anchor="middle" font-size="14" fill="#6b7a8a">第一层</text>
+  <text x="65" y="143" text-anchor="middle" font-size="14" fill="#6b7a8a">第二层</text>
+  <text x="65" y="208" text-anchor="middle" font-size="14" fill="#6b7a8a">第三层</text>
+  <text x="65" y="273" text-anchor="middle" font-size="14" fill="#6b7a8a">第四层</text>
+  <text x="65" y="338" text-anchor="middle" font-size="14" fill="#6b7a8a">第五层</text>
+  <g stroke="#6b7a8a" stroke-width="1.5" fill="none">
+    <line x1="340" y1="87" x2="190" y2="117"/>
+    <line x1="360" y1="87" x2="360" y2="117"/>
+    <line x1="190" y1="152" x2="190" y2="182"/>
+    <line x1="360" y1="152" x2="360" y2="182"/>
+    <line x1="190" y1="217" x2="190" y2="247"/>
+    <line x1="360" y1="217" x2="360" y2="247"/>
+    <line x1="190" y1="282" x2="340" y2="312"/>
+    <line x1="360" y1="282" x2="360" y2="312"/>
+  </g>
+  <g stroke="#8aa15c" stroke-width="1.8" fill="none">
+    <line x1="380" y1="87" x2="530" y2="117"/>
+    <line x1="530" y1="152" x2="530" y2="247"/>
+    <line x1="530" y1="282" x2="380" y2="312"/>
+  </g>
+  <rect x="330" y="55" width="60" height="32" rx="4" fill="#eaf1f8" stroke="#1f4e79"/>
+  <text x="360" y="77" text-anchor="middle" font-size="15" font-weight="bold" fill="#1f4e79">A</text>
+  <rect x="160" y="120" width="60" height="32" rx="4" fill="#f5f7f9" stroke="#6b7a8a"/>
+  <text x="190" y="142" text-anchor="middle" font-size="15" fill="#22303f">B</text>
+  <rect x="330" y="120" width="60" height="32" rx="4" fill="#fdf0e6" stroke="#c05621"/>
+  <text x="360" y="142" text-anchor="middle" font-size="15" font-weight="bold" fill="#c05621">C</text>
+  <rect x="500" y="120" width="60" height="32" rx="4" fill="#f3f6ee" stroke="#8aa15c"/>
+  <text x="530" y="142" text-anchor="middle" font-size="15" font-weight="bold" fill="#4a6130">C′</text>
+  <rect x="160" y="185" width="60" height="32" rx="4" fill="#f5f7f9" stroke="#6b7a8a"/>
+  <text x="190" y="207" text-anchor="middle" font-size="15" fill="#22303f">D</text>
+  <rect x="330" y="185" width="60" height="32" rx="4" fill="#fdf0e6" stroke="#c05621"/>
+  <text x="360" y="207" text-anchor="middle" font-size="15" font-weight="bold" fill="#c05621">E</text>
+  <rect x="160" y="250" width="60" height="32" rx="4" fill="#f5f7f9" stroke="#6b7a8a"/>
+  <text x="190" y="272" text-anchor="middle" font-size="15" fill="#22303f">F</text>
+  <rect x="330" y="250" width="60" height="32" rx="4" fill="#fdf0e6" stroke="#c05621"/>
+  <text x="360" y="272" text-anchor="middle" font-size="15" font-weight="bold" fill="#c05621">G</text>
+  <rect x="500" y="250" width="60" height="32" rx="4" fill="#f3f6ee" stroke="#8aa15c"/>
+  <text x="530" y="272" text-anchor="middle" font-size="15" font-weight="bold" fill="#4a6130">G′</text>
+  <rect x="330" y="315" width="60" height="32" rx="4" fill="#eaf1f8" stroke="#1f4e79"/>
+  <text x="360" y="337" text-anchor="middle" font-size="15" font-weight="bold" fill="#1f4e79">H</text>
+  <text x="190" y="375" text-anchor="middle" font-size="13" fill="#6b7a8a">未变线索</text>
+  <text x="360" y="375" text-anchor="middle" font-size="13" fill="#c05621">更新前线索</text>
+  <text x="530" y="375" text-anchor="middle" font-size="13" fill="#4a6130">更新后线索</text>
+  <rect x="95" y="392" width="530" height="28" rx="5" fill="#eaf1f8"/>
+  <text x="360" y="412" text-anchor="middle" font-size="14" font-weight="bold" fill="#1f4e79">同层组件不互调；C、G 的更新只沿一条线索传播</text>
+</svg></div><div class="cap">图10-6 正交软件架构的单线索演化</div></div>
+<p>正交架构演化顺序：需求变动归类并判断重用 → 制订计划 → 增删改组件 → 更新组件交互 → 形成演化后架构。</p>
+<h3>2. 动态演化</h3>
+<p>动态演化是在系统运行期间、<b>不停止系统功能</b>的情况下完成演化，发生于有限制运行时和运行时阶段。需求既可能来自内部执行（如请求到达时创建组件），也可能来自外部重配置请求（如操作系统在线升级），尤其适用于航空航天、生命维持、金融、交通等难停机系统。</p>
+<table><colgroup><col style="width:22.9%"><col style="width:34.9%"><col style="width:42.2%"></colgroup><thead><tr><th>动态性级别</th><th>允许变化</th><th>例子</th></tr></thead><tbody><tr><td>级别1：交互动态性</td><td>固定结构下的数据动态交互</td><td>同一批服务不断交换新数据</td></tr><tr><td>级别2：结构动态性</td><td>增删组件和连接件实例</td><td>在线增加一个服务实例（研究与应用主流）</td></tr><tr><td>级别3：架构动态性</td><td>基本构造可重定义，如新组件类型</td><td>在线引入前所未有的组件类型</td></tr></tbody></table>
+<div class="fig"><div><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 360" font-family="Microsoft YaHei, 微软雅黑, sans-serif">
+  <text x="360" y="30" text-anchor="middle" font-size="20" font-weight="bold" fill="#1f4e79">软件的三级动态性</text>
+  <rect x="35" y="75" width="185" height="180" rx="8" fill="#eaf1f8" stroke="#1f4e79"/>
+  <rect x="55" y="92" width="70" height="28" rx="14" fill="#1f4e79"/>
+  <text x="90" y="112" text-anchor="middle" font-size="14" font-weight="bold" fill="#ffffff">级别 1</text>
+  <text x="127" y="151" text-anchor="middle" font-size="17" font-weight="bold" fill="#1f4e79">交互动态性</text>
+  <text x="127" y="183" text-anchor="middle" font-size="14" fill="#22303f">结构固定</text>
+  <text x="127" y="208" text-anchor="middle" font-size="14" fill="#22303f">数据动态交互</text>
+  <text x="127" y="236" text-anchor="middle" font-size="13" fill="#6b7a8a">交换新数据</text>
+  <line x1="220" y1="165" x2="254" y2="165" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="262,165 254,160.5 254,169.5" fill="#1f4e79"/>
+  <rect x="265" y="75" width="190" height="180" rx="8" fill="#fdf0e6" stroke="#c05621"/>
+  <rect x="285" y="92" width="70" height="28" rx="14" fill="#c05621"/>
+  <text x="320" y="112" text-anchor="middle" font-size="14" font-weight="bold" fill="#ffffff">级别 2</text>
+  <text x="360" y="151" text-anchor="middle" font-size="17" font-weight="bold" fill="#c05621">结构动态性</text>
+  <text x="360" y="183" text-anchor="middle" font-size="14" fill="#22303f">增删组件实例</text>
+  <text x="360" y="208" text-anchor="middle" font-size="14" fill="#22303f">增删连接件实例</text>
+  <text x="360" y="236" text-anchor="middle" font-size="13" fill="#c05621">研究与应用主流</text>
+  <line x1="455" y1="165" x2="489" y2="165" stroke="#c05621" stroke-width="1.5" fill="none"/>
+  <polygon points="497,165 489,160.5 489,169.5" fill="#c05621"/>
+  <rect x="500" y="75" width="185" height="180" rx="8" fill="#f3f6ee" stroke="#8aa15c" stroke-width="2"/>
+  <rect x="520" y="92" width="70" height="28" rx="14" fill="#8aa15c"/>
+  <text x="555" y="112" text-anchor="middle" font-size="14" font-weight="bold" fill="#ffffff">级别 3</text>
+  <text x="592" y="151" text-anchor="middle" font-size="17" font-weight="bold" fill="#4a6130">架构动态性</text>
+  <text x="592" y="183" text-anchor="middle" font-size="14" fill="#22303f">基本构造重定义</text>
+  <text x="592" y="208" text-anchor="middle" font-size="14" fill="#22303f">如新增组件类型</text>
+  <text x="592" y="236" text-anchor="middle" font-size="13" fill="#4a6130">当前支持较少</text>
+  <rect x="55" y="282" width="610" height="52" rx="7" fill="#f5f7f9" stroke="#b8c7d6"/>
+  <text x="360" y="304" text-anchor="middle" font-size="14" fill="#22303f">动态能力逐级增强：数据交互 → 实例结构 → 架构构造</text>
+  <text x="360" y="325" text-anchor="middle" font-size="13" fill="#6b7a8a">Cuesta 认为只有级别 3 的架构才是真正的动态架构</text>
+</svg></div><div class="cap">图10-7 软件的三级动态性</div></div>
+<p>动态演化内容包括<b>属性改名、行为变化、拓扑结构改变、风格变化</b>。风格通常应保持，确需改变时只变为其衍生风格，如两层 C/S→三层 C/S、1 对 1 请求响应→1 对 N。</p>
+<table><colgroup><col style="width:25.0%"><col style="width:56.2%"><col style="width:18.8%"></colgroup><thead><tr><th>技术</th><th>核心含义</th><th>本章归类</th></tr></thead><tbody><tr><td class="tc">DSA 动态软件架构</td><td>能修改自身架构，并在系统执行期间实施修改</td><td class="tc">架构动态性</td></tr><tr><td class="tc">DR 动态重配置</td><td>部署后从组件、连接件配置入手，在线增删及改连接</td><td class="tc">结构动态性</td></tr></tbody></table>
+<p>⭐【重点】DSA 把运行时架构表示为有状态、有行为、可操作的共享实体，使协同逻辑脱离计算组件。系统必须保存当前架构信息、设置监控管理机制，并保证演化操作<b>原子性</b>：任一操作失败，整个操作集撤销。</p>
+<div class="fig"><div><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 390" font-family="Microsoft YaHei, 微软雅黑, sans-serif">
+  <text x="360" y="30" text-anchor="middle" font-size="20" font-weight="bold" fill="#1f4e79">DSA 动态演化四步闭环</text>
+  <rect x="65" y="55" width="590" height="62" rx="8" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.5"/>
+  <text x="360" y="81" text-anchor="middle" font-size="16" font-weight="bold" fill="#1f4e79">运行时架构实体</text>
+  <text x="360" y="104" text-anchor="middle" font-size="14" fill="#22303f">有状态 · 有行为 · 可操作 · 被运行环境共享</text>
+  <rect x="25" y="155" width="145" height="95" rx="7" fill="#eaf1f8" stroke="#1f4e79"/>
+  <text x="97" y="185" text-anchor="middle" font-size="15" font-weight="bold" fill="#1f4e79">1 捕捉并分析</text>
+  <text x="97" y="208" text-anchor="middle" font-size="15" font-weight="bold" fill="#1f4e79">需求变化</text>
+  <text x="97" y="233" text-anchor="middle" font-size="12" fill="#6b7a8a">监控内外部变化</text>
+  <line x1="170" y1="202" x2="189" y2="202" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="197,202 189,197.5 189,206.5" fill="#1f4e79"/>
+  <rect x="200" y="155" width="145" height="95" rx="7" fill="#eaf1f8" stroke="#1f4e79"/>
+  <text x="272" y="185" text-anchor="middle" font-size="15" font-weight="bold" fill="#1f4e79">2 获取或生成</text>
+  <text x="272" y="208" text-anchor="middle" font-size="15" font-weight="bold" fill="#1f4e79">演化策略</text>
+  <text x="272" y="233" text-anchor="middle" font-size="12" fill="#6b7a8a">判断时机与范围</text>
+  <line x1="345" y1="202" x2="364" y2="202" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="372,202 364,197.5 364,206.5" fill="#1f4e79"/>
+  <rect x="375" y="155" width="145" height="95" rx="7" fill="#fdf0e6" stroke="#c05621"/>
+  <text x="447" y="185" text-anchor="middle" font-size="15" font-weight="bold" fill="#c05621">3 选择策略</text>
+  <text x="447" y="208" text-anchor="middle" font-size="15" font-weight="bold" fill="#c05621">并实施演化</text>
+  <text x="447" y="233" text-anchor="middle" font-size="12" fill="#6b7a8a">在线调整架构</text>
+  <line x1="520" y1="202" x2="539" y2="202" stroke="#c05621" stroke-width="1.5" fill="none"/>
+  <polygon points="547,202 539,197.5 539,206.5" fill="#c05621"/>
+  <rect x="550" y="155" width="145" height="95" rx="7" fill="#f3f6ee" stroke="#8aa15c"/>
+  <text x="622" y="185" text-anchor="middle" font-size="15" font-weight="bold" fill="#4a6130">4 演化后评估</text>
+  <text x="622" y="208" text-anchor="middle" font-size="15" font-weight="bold" fill="#4a6130">与检测</text>
+  <text x="622" y="233" text-anchor="middle" font-size="12" fill="#6b7a8a">验证质量与一致性</text>
+  <polyline points="622,250 622,292 97,292 97,260" stroke="#8aa15c" stroke-width="1.5" fill="none"/>
+  <polygon points="97,253 92.5,260 101.5,260" fill="#8aa15c"/>
+  <text x="360" y="280" text-anchor="middle" font-size="13" fill="#4a6130">持续监控，形成下一轮演化</text>
+  <rect x="80" y="322" width="560" height="45" rx="7" fill="#fdf0e6" stroke="#c05621"/>
+  <text x="360" y="350" text-anchor="middle" font-size="15" font-weight="bold" fill="#c05621">原子性保障：任一操作失败，整个操作集全部撤销</text>
+</svg></div><div class="cap">图10-8 DSA 动态演化四步闭环</div></div>
+<table><colgroup><col style="width:21.5%"><col style="width:78.5%"></colgroup><thead><tr><th>DSA 描述语言</th><th>视角与核心机制</th></tr></thead><tbody><tr><td class="tc">π-ADL</td><td>行为视角；以 π 演算描述组件、连接件和行为随时间演化，适合移动系统</td></tr><tr><td class="tc">Pilar</td><td>反射视角；基于 MARMOL，组件由接口、配置、具化、约束组成</td></tr><tr><td class="tc">LIME</td><td>协调视角；分离计算与协调，支持物理和逻辑移动性</td></tr></tbody></table>
+<p>DSA 工具路线包括反射机制、组件操作、π 演算和外部架构演化管理器。PKUAS 的四类平台实体是<b>容器系统、公共服务、工具、微内核</b>：前三者作为被管理系统组件组成资源层，微内核负责装载、配置、卸载及状态管理。</p>
+<p>DR 的四种重配置模式如下。</p>
+<table><colgroup><col style="width:23.1%"><col style="width:76.9%"></colgroup><thead><tr><th>模式</th><th>重配置控制要点</th></tr></thead><tbody><tr><td class="tc">主从</td><td>主组件分派工作并汇总从组件响应；主操作状态与主重配置状态正交</td></tr><tr><td class="tc">中央控制</td><td>一个中央控制器控制多个组件，维护空闲/非空闲状态</td></tr><tr><td class="tc">客户端/服务器</td><td>同步消息交互；须在客户端事务或服务器当前事务集合完成后增删组件</td></tr><tr><td class="tc">分布式控制</td><td>功能分布于多个控制组件，常见环形和顺序模式</td></tr></tbody></table>
+<div class="fig"><div><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 500" font-family="Microsoft YaHei, 微软雅黑, sans-serif">
+  <text x="360" y="30" text-anchor="middle" font-size="20" font-weight="bold" fill="#1f4e79">动态重配置的四种模式</text>
+  <rect x="30" y="60" width="320" height="180" rx="9" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.5"/>
+  <text x="190" y="94" text-anchor="middle" font-size="18" font-weight="bold" fill="#1f4e79">1 主从模式</text>
+  <text x="190" y="119" text-anchor="middle" font-size="13" fill="#6b7a8a">Master-Slave</text>
+  <text x="55" y="153" font-size="14" fill="#22303f">• 主组件分派工作并汇总响应</text>
+  <text x="55" y="181" font-size="14" fill="#22303f">• 从组件空闲，接到任务再激活</text>
+  <text x="55" y="209" font-size="14" fill="#22303f">• 主操作与主重配置状态正交</text>
+  <rect x="370" y="60" width="320" height="180" rx="9" fill="#fdf0e6" stroke="#c05621" stroke-width="1.5"/>
+  <text x="530" y="94" text-anchor="middle" font-size="18" font-weight="bold" fill="#c05621">2 中央控制模式</text>
+  <text x="530" y="119" text-anchor="middle" font-size="13" fill="#6b7a8a">Centralized Control</text>
+  <text x="395" y="153" font-size="14" fill="#22303f">• 一个中央控制器管理多个组件</text>
+  <text x="395" y="181" font-size="14" fill="#22303f">• 状态图维持空闲 / 非空闲状态</text>
+  <text x="395" y="209" font-size="14" fill="#22303f">• 常用于实时系统</text>
+  <rect x="30" y="270" width="320" height="180" rx="9" fill="#f3f6ee" stroke="#8aa15c" stroke-width="1.5"/>
+  <text x="190" y="304" text-anchor="middle" font-size="18" font-weight="bold" fill="#4a6130">3 客户端 / 服务器</text>
+  <text x="190" y="329" text-anchor="middle" font-size="13" fill="#6b7a8a">Client-Server</text>
+  <text x="55" y="363" font-size="14" fill="#22303f">• 双方通过同步消息交互</text>
+  <text x="55" y="391" font-size="14" fill="#22303f">• 客户端事务完成后增删客户端</text>
+  <text x="55" y="419" font-size="14" fill="#22303f">• 服务器完成当前事务集合再变更</text>
+  <rect x="370" y="270" width="320" height="180" rx="9" fill="#f5f7f9" stroke="#6b7a8a" stroke-width="1.5"/>
+  <text x="530" y="304" text-anchor="middle" font-size="18" font-weight="bold" fill="#1f4e79">4 分布式控制模式</text>
+  <text x="530" y="329" text-anchor="middle" font-size="13" fill="#6b7a8a">Decentralized Control</text>
+  <text x="395" y="363" font-size="14" fill="#22303f">• 功能整合在多个分布式组件中</text>
+  <text x="395" y="391" font-size="14" fill="#22303f">• 常见环形 Ring 与顺序 Serial</text>
+  <text x="395" y="419" font-size="14" fill="#22303f">• 组件与前驱、后继交互</text>
+  <text x="360" y="480" text-anchor="middle" font-size="14" font-weight="bold" fill="#c05621">共同要求：选对安全时机，保证系统完整性与策略正确、安全</text>
+</svg></div><div class="cap">图10-9 动态重配置的四种模式</div></div>
+<p>DR 难点：约束难定义；性能约束需运行时评估；单一方案难兼顾所有性能方面；同时保证系统完整性与重配置策略正确、安全。PuLSE 以产品为核心支持产品线构想与部署，PLUSEE 则用多视角 UML 模型和 OCL 检查一致性。</p>
+<h3>10.4 软件架构可持续演化原则</h3>
+<p>⭐【高频考点】18 项原则可归成“成本进度风险、结构行为、模块复杂性、重构重用、技术环境标准、质量需求”六组；考试常给度量方案反选原则。</p>
+<div class="fig"><div><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 520" font-family="Microsoft YaHei, 微软雅黑, sans-serif">
+  <text x="360" y="30" text-anchor="middle" font-size="20" font-weight="bold" fill="#1f4e79">软件架构可持续演化 18 原则分组</text>
+  <rect x="30" y="60" width="320" height="125" rx="8" fill="#eaf1f8" stroke="#1f4e79"/>
+  <text x="190" y="90" text-anchor="middle" font-size="17" font-weight="bold" fill="#1f4e79">成本、进度与风险</text>
+  <text x="55" y="122" font-size="14" fill="#22303f">1 演化成本控制 ECC</text>
+  <text x="55" y="148" font-size="14" fill="#22303f">2 进度可控　3 风险可控</text>
+  <text x="55" y="172" font-size="12" fill="#6b7a8a">先判断演化是否值得、能否如期完成</text>
+  <rect x="370" y="60" width="320" height="125" rx="8" fill="#eaf1f8" stroke="#1f4e79"/>
+  <text x="530" y="90" text-anchor="middle" font-size="17" font-weight="bold" fill="#1f4e79">主体、结构与目标</text>
+  <text x="395" y="120" font-size="14" fill="#22303f">4 主体维持　5 总体结构优化</text>
+  <text x="395" y="146" font-size="14" fill="#22303f">6 平滑演化 IWR　7 目标一致</text>
+  <text x="395" y="172" font-size="12" fill="#6b7a8a">主体稳、增量稳，阶段目标服务最终目标</text>
+  <rect x="30" y="210" width="320" height="125" rx="8" fill="#fdf0e6" stroke="#c05621"/>
+  <text x="190" y="240" text-anchor="middle" font-size="17" font-weight="bold" fill="#c05621">模块影响与复杂性</text>
+  <text x="55" y="272" font-size="14" fill="#22303f">8 模块独立演化（修改局部化）</text>
+  <text x="55" y="298" font-size="14" fill="#22303f">9 影响可控　10 复杂性可控</text>
+  <text x="55" y="322" font-size="12" fill="#6b7a8a">修改范围可预测，复杂度增长受控</text>
+  <rect x="370" y="210" width="320" height="125" rx="8" fill="#fdf0e6" stroke="#c05621"/>
+  <text x="530" y="240" text-anchor="middle" font-size="17" font-weight="bold" fill="#c05621">重构、重用与设计</text>
+  <text x="395" y="272" font-size="14" fill="#22303f">11 有利于重构　12 有利于重用</text>
+  <text x="395" y="298" font-size="14" fill="#22303f">13 设计原则遵从性</text>
+  <text x="395" y="322" font-size="12" fill="#6b7a8a">高内聚低耦合，不破坏好的设计经验</text>
+  <rect x="30" y="360" width="320" height="125" rx="8" fill="#f3f6ee" stroke="#8aa15c"/>
+  <text x="190" y="390" text-anchor="middle" font-size="17" font-weight="bold" fill="#4a6130">技术、环境与标准</text>
+  <text x="55" y="422" font-size="14" fill="#22303f">14 适应新技术（技术独立性）</text>
+  <text x="55" y="448" font-size="14" fill="#22303f">15 环境适应性　16 标准依从性</text>
+  <text x="55" y="472" font-size="12" fill="#6b7a8a">降低技术依赖，兼容环境并遵循标准</text>
+  <rect x="370" y="360" width="320" height="125" rx="8" fill="#f3f6ee" stroke="#8aa15c"/>
+  <text x="530" y="390" text-anchor="middle" font-size="17" font-weight="bold" fill="#4a6130">质量与新需求</text>
+  <text x="395" y="422" font-size="14" fill="#22303f">17 质量向好 QI</text>
+  <text x="395" y="448" font-size="14" fill="#22303f">18 适应新需求</text>
+  <text x="395" y="472" font-size="12" fill="#6b7a8a">演化后质量更好，适应变化能力不降低</text>
+  <text x="360" y="508" text-anchor="middle" font-size="13" fill="#6b7a8a">记忆主线：控成本 → 稳主体 → 限影响 → 易重构 → 适环境 → 提质量</text>
+</svg></div><div class="cap">图10-10 可持续演化18原则分组</div></div>
+<table><colgroup><col style="width:10.1%"><col style="width:29.4%"><col style="width:60.5%"></colgroup><thead><tr><th>#</th><th>原则</th><th>必须掌握的度量或判断</th></tr></thead><tbody><tr><td class="tc">1</td><td>演化成本控制 ECC</td><td>CoE ≪ CoRD：演化成本远小于重新开发成本最佳</td></tr><tr><td class="tc">2</td><td>进度可控</td><td>实际与预期完成时间差越小越好，体现迭代递增</td></tr><tr><td class="tc">3</td><td>风险可控</td><td>分别检验经济、时间、人力、技术、环境风险</td></tr><tr><td class="tc">4</td><td>主体维持</td><td>AIG=主体规模变更量/主体规模，主体行为稳定、增量平稳</td></tr><tr><td class="tc">5</td><td>系统总体结构优化</td><td>用整体可靠性和性能判断结构是否更合理</td></tr><tr><td class="tc">6</td><td>平滑演化 IWR</td><td>IWR=变更总量/项目规模，相邻版本更新率相对固定</td></tr><tr><td class="tc">7</td><td>目标一致</td><td>阶段目标与最终目标一致，实际与预期目标差越小越好</td></tr><tr><td class="tc">8</td><td>模块独立演化（修改局部化）</td><td>修改尽量局部，对其他模块影响小</td></tr><tr><td class="tc">9</td><td>影响可控</td><td>修改波及范围可预测、可控制</td></tr><tr><td class="tc">10</td><td>复杂性可控</td><td>CC 低于阈值且增长可控，保证易维护、扩展、分析、测试</td></tr><tr><td class="tc">11</td><td>有利于重构</td><td>复杂度越低，通常越容易重构</td></tr><tr><td class="tc">12</td><td>有利于重用</td><td>高内聚、低耦合有利于维持或提高重用性</td></tr><tr><td class="tc">13</td><td>设计原则遵从性</td><td>冲突原则占比越小越好，不与既有设计原则冲突</td></tr><tr><td class="tc">14</td><td>适应新技术（技术独立性 TI）</td><td>降低对特定技术依赖，使软件可跨平台运行</td></tr><tr><td class="tc">15</td><td>环境适应性</td><td>用硬件/软件兼容性衡量新环境适应能力</td></tr><tr><td class="tc">16</td><td>标准依从性</td><td>不违背国际、国家、行业、企业等质量标准，需人工判定</td></tr><tr><td class="tc">17</td><td>质量向好 QI</td><td>演化后质量优于演化前，关注指标综合效果更好</td></tr><tr><td class="tc">18</td><td>适应新需求</td><td>不降低、最好提高架构适应新需求的能力，比较适应需求集与实际需求集</td></tr></tbody></table>
+<div class="mnemonic">助记：成本进度先控险，主体优化求平滑；目标模块控影响，复杂重构促重用；设计技术适环境，标准质量迎需求。</div>
+<h3>10.5 软件架构演化评估方法</h3>
+<h3>1. 演化过程已知</h3>
+<p>把完整演化拆成原子操作序列，得到 A0,A1,…,An；逐版本度量得到 Q0,Q1,…,Qn，再算质量属性距离。可维护性的 Qi 是 CCN、FFC、CBO、RFC、TCC、LCC 构成的六元组，可靠性的 Qi 是表示潜在风险率的实数。</p>
+<div class="fig"><div><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 400" font-family="Microsoft YaHei, 微软雅黑, sans-serif">
+  <text x="360" y="30" text-anchor="middle" font-size="20" font-weight="bold" fill="#1f4e79">演化过程已知的架构评估</text>
+  <text x="360" y="58" text-anchor="middle" font-size="14" fill="#6b7a8a">完整演化拆为原子操作序列，每步形成一个中间版本</text>
+  <rect x="25" y="80" width="100" height="52" rx="6" fill="#eaf1f8" stroke="#1f4e79"/>
+  <text x="75" y="113" text-anchor="middle" font-size="18" font-weight="bold" fill="#1f4e79">A0</text>
+  <line x1="125" y1="106" x2="149" y2="106" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="157,106 149,101.5 149,110.5" fill="#1f4e79"/>
+  <rect x="160" y="80" width="100" height="52" rx="6" fill="#eaf1f8" stroke="#1f4e79"/>
+  <text x="210" y="113" text-anchor="middle" font-size="18" font-weight="bold" fill="#1f4e79">A1</text>
+  <line x1="260" y1="106" x2="284" y2="106" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="292,106 284,101.5 284,110.5" fill="#1f4e79"/>
+  <rect x="295" y="80" width="100" height="52" rx="6" fill="#eaf1f8" stroke="#1f4e79"/>
+  <text x="345" y="113" text-anchor="middle" font-size="18" font-weight="bold" fill="#1f4e79">A2</text>
+  <line x1="395" y1="106" x2="419" y2="106" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="427,106 419,101.5 419,110.5" fill="#1f4e79"/>
+  <rect x="430" y="80" width="100" height="52" rx="6" fill="#f5f7f9" stroke="#6b7a8a"/>
+  <text x="480" y="113" text-anchor="middle" font-size="20" font-weight="bold" fill="#6b7a8a">…</text>
+  <line x1="530" y1="106" x2="554" y2="106" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="562,106 554,101.5 554,110.5" fill="#1f4e79"/>
+  <rect x="565" y="80" width="100" height="52" rx="6" fill="#eaf1f8" stroke="#1f4e79"/>
+  <text x="615" y="113" text-anchor="middle" font-size="18" font-weight="bold" fill="#1f4e79">An</text>
+  <g stroke="#6b7a8a" stroke-width="1.4" fill="none">
+    <line x1="75" y1="132" x2="75" y2="174"/>
+    <line x1="210" y1="132" x2="210" y2="174"/>
+    <line x1="345" y1="132" x2="345" y2="174"/>
+    <line x1="480" y1="132" x2="480" y2="174"/>
+    <line x1="615" y1="132" x2="615" y2="174"/>
+  </g>
+  <g fill="#6b7a8a">
+    <polygon points="75,182 70.5,174 79.5,174"/>
+    <polygon points="210,182 205.5,174 214.5,174"/>
+    <polygon points="345,182 340.5,174 349.5,174"/>
+    <polygon points="480,182 475.5,174 484.5,174"/>
+    <polygon points="615,182 610.5,174 619.5,174"/>
+  </g>
+  <rect x="25" y="185" width="100" height="58" rx="6" fill="#f3f6ee" stroke="#8aa15c"/>
+  <text x="75" y="221" text-anchor="middle" font-size="18" font-weight="bold" fill="#4a6130">Q0</text>
+  <rect x="160" y="185" width="100" height="58" rx="6" fill="#f3f6ee" stroke="#8aa15c"/>
+  <text x="210" y="221" text-anchor="middle" font-size="18" font-weight="bold" fill="#4a6130">Q1</text>
+  <rect x="295" y="185" width="100" height="58" rx="6" fill="#f3f6ee" stroke="#8aa15c"/>
+  <text x="345" y="221" text-anchor="middle" font-size="18" font-weight="bold" fill="#4a6130">Q2</text>
+  <rect x="430" y="185" width="100" height="58" rx="6" fill="#f5f7f9" stroke="#6b7a8a"/>
+  <text x="480" y="221" text-anchor="middle" font-size="20" font-weight="bold" fill="#6b7a8a">…</text>
+  <rect x="565" y="185" width="100" height="58" rx="6" fill="#f3f6ee" stroke="#8aa15c"/>
+  <text x="615" y="221" text-anchor="middle" font-size="18" font-weight="bold" fill="#4a6130">Qn</text>
+  <rect x="70" y="270" width="580" height="48" rx="7" fill="#eaf1f8" stroke="#1f4e79"/>
+  <text x="360" y="300" text-anchor="middle" font-size="15" font-weight="bold" fill="#1f4e79">逐版本度量 Qi，逐对计算 D(i-1,i)，综合评估质量变化</text>
+  <rect x="105" y="338" width="510" height="42" rx="7" fill="#fdf0e6" stroke="#c05621"/>
+  <text x="360" y="365" text-anchor="middle" font-size="15" font-weight="bold" fill="#c05621">关键：D(0,n) ≠ 各相邻质量距离之和</text>
+</svg></div><div class="cap">图10-11 演化过程已知的评估执行过程</div></div>
+<ul><li>可维护性距离：对六维向量求归一化笛卡儿距离，Dm(A,B)=sqrt(Σ[((ai-bi)/(ai+bi))²])。</li><li>可靠性距离：一维简化形式，Dr(A,B)=abs((a-b)/(a+b))。</li><li>距离越大，表示同一架构两个版本在相应质量属性上的差距越大，<b>不直接等于结构差异越大</b>。</li></ul>
+<p>⭐【易错】D(0,n) 不等于各相邻距离之和，原子操作的质量影响<b>不具有累加性</b>。质量距离应针对同一架构的不同演化版本，不宜用来比较两个完全不同的软件。</p>
+<p>评估用途：分析架构修改影响、监控质量变化曲线、定位质量突变对应的关键演化过程。</p>
+<h3>2. 演化过程未知</h3>
+<p>无法追踪中间步骤时，只对演化前后版本分别度量，比较质量属性变化并计算距离，逆向推测可能的演化操作、位置和对象，再分析高层驱动因素（修错、提性能、平台移植等），最后判断变化是否符合预期。</p>
+<div class="fig"><div><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 630" font-family="Microsoft YaHei, 微软雅黑, sans-serif">
+  <text x="360" y="30" text-anchor="middle" font-size="20" font-weight="bold" fill="#1f4e79">演化过程未知的逆向评估流程</text>
+  <rect x="60" y="55" width="220" height="48" rx="6" fill="#eaf1f8" stroke="#1f4e79"/>
+  <text x="170" y="86" text-anchor="middle" font-size="16" font-weight="bold" fill="#1f4e79">演化前架构</text>
+  <rect x="440" y="55" width="220" height="48" rx="6" fill="#eaf1f8" stroke="#1f4e79"/>
+  <text x="550" y="86" text-anchor="middle" font-size="16" font-weight="bold" fill="#1f4e79">演化后架构</text>
+  <line x1="170" y1="103" x2="170" y2="129" stroke="#6b7a8a" stroke-width="1.5" fill="none"/>
+  <polygon points="170,137 165.5,129 174.5,129" fill="#6b7a8a"/>
+  <line x1="550" y1="103" x2="550" y2="129" stroke="#6b7a8a" stroke-width="1.5" fill="none"/>
+  <polygon points="550,137 545.5,129 554.5,129" fill="#6b7a8a"/>
+  <rect x="60" y="140" width="220" height="48" rx="6" fill="#f5f7f9" stroke="#6b7a8a"/>
+  <text x="170" y="171" text-anchor="middle" font-size="16" fill="#22303f">架构度量</text>
+  <rect x="440" y="140" width="220" height="48" rx="6" fill="#f5f7f9" stroke="#6b7a8a"/>
+  <text x="550" y="171" text-anchor="middle" font-size="16" fill="#22303f">架构度量</text>
+  <line x1="170" y1="188" x2="170" y2="214" stroke="#6b7a8a" stroke-width="1.5" fill="none"/>
+  <polygon points="170,222 165.5,214 174.5,214" fill="#6b7a8a"/>
+  <line x1="550" y1="188" x2="550" y2="214" stroke="#6b7a8a" stroke-width="1.5" fill="none"/>
+  <polygon points="550,222 545.5,214 554.5,214" fill="#6b7a8a"/>
+  <rect x="60" y="225" width="220" height="48" rx="6" fill="#f3f6ee" stroke="#8aa15c"/>
+  <text x="170" y="256" text-anchor="middle" font-size="16" font-weight="bold" fill="#4a6130">演化前度量结果</text>
+  <rect x="440" y="225" width="220" height="48" rx="6" fill="#f3f6ee" stroke="#8aa15c"/>
+  <text x="550" y="256" text-anchor="middle" font-size="16" font-weight="bold" fill="#4a6130">演化后度量结果</text>
+  <polyline points="170,273 170,292 300,292 300,307" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="300,315 295.5,307 304.5,307" fill="#1f4e79"/>
+  <polyline points="550,273 550,292 420,292 420,307" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="420,315 415.5,307 424.5,307" fill="#1f4e79"/>
+  <rect x="245" y="318" width="230" height="55" rx="7" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.5"/>
+  <text x="360" y="342" text-anchor="middle" font-size="16" font-weight="bold" fill="#1f4e79">比较架构质量属性变化</text>
+  <text x="360" y="363" text-anchor="middle" font-size="13" fill="#6b7a8a">计算前后质量属性距离</text>
+  <line x1="360" y1="373" x2="360" y2="399" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="360,407 355.5,399 364.5,399" fill="#1f4e79"/>
+  <rect x="245" y="410" width="230" height="52" rx="7" fill="#fdf0e6" stroke="#c05621"/>
+  <text x="360" y="442" text-anchor="middle" font-size="16" font-weight="bold" fill="#c05621">逆向推测演化操作集合</text>
+  <line x1="360" y1="462" x2="360" y2="488" stroke="#c05621" stroke-width="1.5" fill="none"/>
+  <polygon points="360,496 355.5,488 364.5,488" fill="#c05621"/>
+  <rect x="245" y="499" width="230" height="52" rx="7" fill="#fdf0e6" stroke="#c05621"/>
+  <text x="360" y="523" text-anchor="middle" font-size="16" font-weight="bold" fill="#c05621">分析高层驱动因素</text>
+  <text x="360" y="543" text-anchor="middle" font-size="12" fill="#6b7a8a">修错 · 提性能 · 平台移植</text>
+  <line x1="360" y1="551" x2="360" y2="567" stroke="#c05621" stroke-width="1.5" fill="none"/>
+  <polygon points="360,575 355.5,567 364.5,567" fill="#c05621"/>
+  <rect x="220" y="578" width="280" height="42" rx="7" fill="#f3f6ee" stroke="#8aa15c" stroke-width="1.5"/>
+  <text x="360" y="605" text-anchor="middle" font-size="16" font-weight="bold" fill="#4a6130">判断质量变化是否符合预期</text>
+</svg></div><div class="cap">图10-12 演化过程未知的逆向评估流程</div></div>
+<div class="example">举例：若重构目标是提高可维护性，度量显示圈复杂度下降、耦合度降低，说明演化符合预期；若复杂度反升，则原问题未解决或引入了新质量问题。</div>
+<h3>10.6 大型网站系统架构演化实例</h3>
+<p>⭐【高频考点】十阶段的主线是<b>瓶颈驱动演化</b>，不是任何网站必须机械照搬的固定路线。</p>
+<table><colgroup><col style="width:21.2%"><col style="width:30.3%"><col style="width:48.5%"></colgroup><thead><tr><th>阶段</th><th>主要瓶颈</th><th>核心演化手段与结果</th></tr></thead><tbody><tr><td>1 单体架构</td><td>初期访问量小</td><td>应用、数据库、文件同机，简单但资源互相争用</td></tr><tr><td>2 垂直架构</td><td>单机性能与存储不足</td><td>应用、文件、数据库分服务器，按角色配置硬件</td></tr><tr><td>3 缓存</td><td>数据库访问压力大</td><td>本地缓存＋远程分布式缓存，利用“80% 访问集中于 20% 数据”</td></tr><tr><td>4 服务集群</td><td>单应用服务器连接与处理能力有限</td><td>负载均衡＋应用服务器集群，提高并发与可伸缩性</td></tr><tr><td>5 数据库读写分离</td><td>缓存未命中读及全部写仍压数据库</td><td>写主库、读从库、主从复制，数据访问模块屏蔽差异</td></tr><tr><td>6 反向代理和 CDN</td><td>地域网络差异、响应慢</td><td>二者均靠缓存尽早返回数据，加速并减轻后端压力</td></tr><tr><td>7 分布式文件与数据库</td><td>单库、单文件系统到极限</td><td>文件和数据分布式；数据库拆分是最后手段，优先业务分库</td></tr><tr><td>8 NoSQL 和搜索引擎</td><td>存储与检索需求复杂</td><td>引入可伸缩的非关系存储和检索，统一数据访问模块管理多源</td></tr><tr><td>9 业务拆分</td><td>业务场景复杂</td><td>按产品线拆应用、独立部署，以链接、消息队列或共享存储关联</td></tr><tr><td>10 分布式服务</td><td>应用与存储连接过多、公共业务重复</td><td>抽取共用业务独立部署，应用专注界面并远程调用服务</td></tr></tbody></table>
+<div class="fig"><div><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 500" font-family="Microsoft YaHei, 微软雅黑, sans-serif">
+  <text x="360" y="30" text-anchor="middle" font-size="20" font-weight="bold" fill="#1f4e79">大型网站演化：第 1～5 阶段</text>
+  <rect x="25" y="55" width="145" height="66" rx="6" fill="#eaf1f8" stroke="#1f4e79"/>
+  <text x="97" y="84" text-anchor="middle" font-size="15" font-weight="bold" fill="#1f4e79">1 单体架构</text>
+  <text x="97" y="106" text-anchor="middle" font-size="12" fill="#6b7a8a">小型网站起步</text>
+  <line x1="170" y1="88" x2="184" y2="88" stroke="#1f4e79" stroke-width="1.4" fill="none"/>
+  <polygon points="192,88 184,83.5 184,92.5" fill="#1f4e79"/>
+  <rect x="195" y="55" width="190" height="66" rx="6" fill="#fdf0e6" stroke="#c05621"/>
+  <text x="290" y="84" text-anchor="middle" font-size="14" fill="#22303f">初期访问量小</text>
+  <text x="290" y="106" text-anchor="middle" font-size="12" fill="#6b7a8a">单机即可支撑</text>
+  <line x1="385" y1="88" x2="399" y2="88" stroke="#c05621" stroke-width="1.4" fill="none"/>
+  <polygon points="407,88 399,83.5 399,92.5" fill="#c05621"/>
+  <rect x="410" y="55" width="285" height="66" rx="6" fill="#f3f6ee" stroke="#8aa15c"/>
+  <text x="552" y="84" text-anchor="middle" font-size="14" font-weight="bold" fill="#4a6130">应用、数据库、文件同机</text>
+  <text x="552" y="106" text-anchor="middle" font-size="12" fill="#6b7a8a">结构简单，资源共享</text>
+  <rect x="25" y="140" width="145" height="66" rx="6" fill="#eaf1f8" stroke="#1f4e79"/>
+  <text x="97" y="169" text-anchor="middle" font-size="15" font-weight="bold" fill="#1f4e79">2 垂直架构</text>
+  <text x="97" y="191" text-anchor="middle" font-size="12" fill="#6b7a8a">应用与数据分离</text>
+  <line x1="170" y1="173" x2="184" y2="173" stroke="#1f4e79" stroke-width="1.4" fill="none"/>
+  <polygon points="192,173 184,168.5 184,177.5" fill="#1f4e79"/>
+  <rect x="195" y="140" width="190" height="66" rx="6" fill="#fdf0e6" stroke="#c05621"/>
+  <text x="290" y="169" text-anchor="middle" font-size="14" fill="#22303f">单机性能下降</text>
+  <text x="290" y="191" text-anchor="middle" font-size="12" fill="#6b7a8a">存储空间不足</text>
+  <line x1="385" y1="173" x2="399" y2="173" stroke="#c05621" stroke-width="1.4" fill="none"/>
+  <polygon points="407,173 399,168.5 399,177.5" fill="#c05621"/>
+  <rect x="410" y="140" width="285" height="66" rx="6" fill="#f3f6ee" stroke="#8aa15c"/>
+  <text x="552" y="169" text-anchor="middle" font-size="14" font-weight="bold" fill="#4a6130">应用 / 文件 / 数据库分机</text>
+  <text x="552" y="191" text-anchor="middle" font-size="12" fill="#6b7a8a">按角色配置处理器、内存与硬盘</text>
+  <rect x="25" y="225" width="145" height="66" rx="6" fill="#eaf1f8" stroke="#1f4e79"/>
+  <text x="97" y="254" text-anchor="middle" font-size="15" font-weight="bold" fill="#1f4e79">3 使用缓存</text>
+  <text x="97" y="276" text-anchor="middle" font-size="12" fill="#6b7a8a">热点数据入内存</text>
+  <line x1="170" y1="258" x2="184" y2="258" stroke="#1f4e79" stroke-width="1.4" fill="none"/>
+  <polygon points="192,258 184,253.5 184,262.5" fill="#1f4e79"/>
+  <rect x="195" y="225" width="190" height="66" rx="6" fill="#fdf0e6" stroke="#c05621"/>
+  <text x="290" y="254" text-anchor="middle" font-size="14" fill="#22303f">数据库访问压力大</text>
+  <text x="290" y="276" text-anchor="middle" font-size="12" fill="#6b7a8a">热点数据被反复读取</text>
+  <line x1="385" y1="258" x2="399" y2="258" stroke="#c05621" stroke-width="1.4" fill="none"/>
+  <polygon points="407,258 399,253.5 399,262.5" fill="#c05621"/>
+  <rect x="410" y="225" width="285" height="66" rx="6" fill="#f3f6ee" stroke="#8aa15c"/>
+  <text x="552" y="254" text-anchor="middle" font-size="14" font-weight="bold" fill="#4a6130">本地缓存＋远程分布式缓存</text>
+  <text x="552" y="276" text-anchor="middle" font-size="12" fill="#6b7a8a">降低数据库读取与写入压力</text>
+  <rect x="25" y="310" width="145" height="66" rx="6" fill="#eaf1f8" stroke="#1f4e79"/>
+  <text x="97" y="339" text-anchor="middle" font-size="15" font-weight="bold" fill="#1f4e79">4 服务集群</text>
+  <text x="97" y="361" text-anchor="middle" font-size="12" fill="#6b7a8a">提升并发能力</text>
+  <line x1="170" y1="343" x2="184" y2="343" stroke="#1f4e79" stroke-width="1.4" fill="none"/>
+  <polygon points="192,343 184,338.5 184,347.5" fill="#1f4e79"/>
+  <rect x="195" y="310" width="190" height="66" rx="6" fill="#fdf0e6" stroke="#c05621"/>
+  <text x="290" y="339" text-anchor="middle" font-size="14" fill="#22303f">单应用服务器到极限</text>
+  <text x="290" y="361" text-anchor="middle" font-size="12" fill="#6b7a8a">高峰期连接数有限</text>
+  <line x1="385" y1="343" x2="399" y2="343" stroke="#c05621" stroke-width="1.4" fill="none"/>
+  <polygon points="407,343 399,338.5 399,347.5" fill="#c05621"/>
+  <rect x="410" y="310" width="285" height="66" rx="6" fill="#f3f6ee" stroke="#8aa15c"/>
+  <text x="552" y="339" text-anchor="middle" font-size="14" font-weight="bold" fill="#4a6130">负载均衡＋应用服务器集群</text>
+  <text x="552" y="361" text-anchor="middle" font-size="12" fill="#6b7a8a">加机器分担压力，实现可伸缩</text>
+  <rect x="25" y="395" width="145" height="66" rx="6" fill="#eaf1f8" stroke="#1f4e79"/>
+  <text x="97" y="424" text-anchor="middle" font-size="15" font-weight="bold" fill="#1f4e79">5 读写分离</text>
+  <text x="97" y="446" text-anchor="middle" font-size="12" fill="#6b7a8a">数据库主从复制</text>
+  <line x1="170" y1="428" x2="184" y2="428" stroke="#1f4e79" stroke-width="1.4" fill="none"/>
+  <polygon points="192,428 184,423.5 184,432.5" fill="#1f4e79"/>
+  <rect x="195" y="395" width="190" height="66" rx="6" fill="#fdf0e6" stroke="#c05621"/>
+  <text x="290" y="424" text-anchor="middle" font-size="14" fill="#22303f">未命中读与全部写</text>
+  <text x="290" y="446" text-anchor="middle" font-size="12" fill="#6b7a8a">仍使数据库成为瓶颈</text>
+  <line x1="385" y1="428" x2="399" y2="428" stroke="#c05621" stroke-width="1.4" fill="none"/>
+  <polygon points="407,428 399,423.5 399,432.5" fill="#c05621"/>
+  <rect x="410" y="395" width="285" height="66" rx="6" fill="#f3f6ee" stroke="#8aa15c"/>
+  <text x="552" y="424" text-anchor="middle" font-size="14" font-weight="bold" fill="#4a6130">写主库、读从库、主从复制</text>
+  <text x="552" y="446" text-anchor="middle" font-size="12" fill="#6b7a8a">数据访问模块对应用屏蔽差异</text>
+  <text x="360" y="486" text-anchor="middle" font-size="13" fill="#6b7a8a">演化动因：从单机资源不足，逐步转向数据库与并发瓶颈</text>
+</svg></div><div class="cap">图10-13 大型网站演化第1～5阶段</div></div>
+<div class="fig"><div><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 500" font-family="Microsoft YaHei, 微软雅黑, sans-serif">
+  <text x="360" y="30" text-anchor="middle" font-size="20" font-weight="bold" fill="#1f4e79">大型网站演化：第 6～10 阶段</text>
+  <rect x="25" y="55" width="145" height="66" rx="6" fill="#eaf1f8" stroke="#1f4e79"/>
+  <text x="97" y="81" text-anchor="middle" font-size="15" font-weight="bold" fill="#1f4e79">6 CDN 与</text>
+  <text x="97" y="103" text-anchor="middle" font-size="15" font-weight="bold" fill="#1f4e79">反向代理</text>
+  <line x1="170" y1="88" x2="184" y2="88" stroke="#1f4e79" stroke-width="1.4" fill="none"/>
+  <polygon points="192,88 184,83.5 184,92.5" fill="#1f4e79"/>
+  <rect x="195" y="55" width="190" height="66" rx="6" fill="#fdf0e6" stroke="#c05621"/>
+  <text x="290" y="84" text-anchor="middle" font-size="14" fill="#22303f">地域网络环境复杂</text>
+  <text x="290" y="106" text-anchor="middle" font-size="12" fill="#6b7a8a">访问延迟导致用户流失</text>
+  <line x1="385" y1="88" x2="399" y2="88" stroke="#c05621" stroke-width="1.4" fill="none"/>
+  <polygon points="407,88 399,83.5 399,92.5" fill="#c05621"/>
+  <rect x="410" y="55" width="285" height="66" rx="6" fill="#f3f6ee" stroke="#8aa15c"/>
+  <text x="552" y="84" text-anchor="middle" font-size="14" font-weight="bold" fill="#4a6130">CDN 就近缓存＋中心入口缓存</text>
+  <text x="552" y="106" text-anchor="middle" font-size="12" fill="#6b7a8a">尽早返回数据，减轻后端压力</text>
+  <rect x="25" y="140" width="145" height="66" rx="6" fill="#eaf1f8" stroke="#1f4e79"/>
+  <text x="97" y="166" text-anchor="middle" font-size="15" font-weight="bold" fill="#1f4e79">7 分布式文件</text>
+  <text x="97" y="188" text-anchor="middle" font-size="15" font-weight="bold" fill="#1f4e79">与数据库</text>
+  <line x1="170" y1="173" x2="184" y2="173" stroke="#1f4e79" stroke-width="1.4" fill="none"/>
+  <polygon points="192,173 184,168.5 184,177.5" fill="#1f4e79"/>
+  <rect x="195" y="140" width="190" height="66" rx="6" fill="#fdf0e6" stroke="#c05621"/>
+  <text x="290" y="169" text-anchor="middle" font-size="14" fill="#22303f">单库、单文件系统</text>
+  <text x="290" y="191" text-anchor="middle" font-size="12" fill="#6b7a8a">仍无法满足持续增长</text>
+  <line x1="385" y1="173" x2="399" y2="173" stroke="#c05621" stroke-width="1.4" fill="none"/>
+  <polygon points="407,173 399,168.5 399,177.5" fill="#c05621"/>
+  <rect x="410" y="140" width="285" height="66" rx="6" fill="#f3f6ee" stroke="#8aa15c"/>
+  <text x="552" y="169" text-anchor="middle" font-size="14" font-weight="bold" fill="#4a6130">文件与数据库分布式</text>
+  <text x="552" y="191" text-anchor="middle" font-size="12" fill="#6b7a8a">优先业务分库，拆库是最后手段</text>
+  <rect x="25" y="225" width="145" height="66" rx="6" fill="#eaf1f8" stroke="#1f4e79"/>
+  <text x="97" y="251" text-anchor="middle" font-size="15" font-weight="bold" fill="#1f4e79">8 NoSQL 与</text>
+  <text x="97" y="273" text-anchor="middle" font-size="15" font-weight="bold" fill="#1f4e79">搜索引擎</text>
+  <line x1="170" y1="258" x2="184" y2="258" stroke="#1f4e79" stroke-width="1.4" fill="none"/>
+  <polygon points="192,258 184,253.5 184,262.5" fill="#1f4e79"/>
+  <rect x="195" y="225" width="190" height="66" rx="6" fill="#fdf0e6" stroke="#c05621"/>
+  <text x="290" y="254" text-anchor="middle" font-size="14" fill="#22303f">存储与检索需求</text>
+  <text x="290" y="276" text-anchor="middle" font-size="12" fill="#6b7a8a">随业务变得越来越复杂</text>
+  <line x1="385" y1="258" x2="399" y2="258" stroke="#c05621" stroke-width="1.4" fill="none"/>
+  <polygon points="407,258 399,253.5 399,262.5" fill="#c05621"/>
+  <rect x="410" y="225" width="285" height="66" rx="6" fill="#f3f6ee" stroke="#8aa15c"/>
+  <text x="552" y="254" text-anchor="middle" font-size="14" font-weight="bold" fill="#4a6130">非关系存储＋专业检索</text>
+  <text x="552" y="276" text-anchor="middle" font-size="12" fill="#6b7a8a">统一数据访问模块管理多数据源</text>
+  <rect x="25" y="310" width="145" height="66" rx="6" fill="#eaf1f8" stroke="#1f4e79"/>
+  <text x="97" y="339" text-anchor="middle" font-size="15" font-weight="bold" fill="#1f4e79">9 业务拆分</text>
+  <text x="97" y="361" text-anchor="middle" font-size="12" fill="#6b7a8a">按产品线分而治之</text>
+  <line x1="170" y1="343" x2="184" y2="343" stroke="#1f4e79" stroke-width="1.4" fill="none"/>
+  <polygon points="192,343 184,338.5 184,347.5" fill="#1f4e79"/>
+  <rect x="195" y="310" width="190" height="66" rx="6" fill="#fdf0e6" stroke="#c05621"/>
+  <text x="290" y="339" text-anchor="middle" font-size="14" fill="#22303f">业务场景日益复杂</text>
+  <text x="290" y="361" text-anchor="middle" font-size="12" fill="#6b7a8a">单一应用难维护</text>
+  <line x1="385" y1="343" x2="399" y2="343" stroke="#c05621" stroke-width="1.4" fill="none"/>
+  <polygon points="407,343 399,338.5 399,347.5" fill="#c05621"/>
+  <rect x="410" y="310" width="285" height="66" rx="6" fill="#f3f6ee" stroke="#8aa15c"/>
+  <text x="552" y="339" text-anchor="middle" font-size="14" font-weight="bold" fill="#4a6130">应用按产品线拆分独立部署</text>
+  <text x="552" y="361" text-anchor="middle" font-size="12" fill="#6b7a8a">链接、消息队列或共享存储关联</text>
+  <rect x="25" y="395" width="145" height="66" rx="6" fill="#eaf1f8" stroke="#1f4e79"/>
+  <text x="97" y="424" text-anchor="middle" font-size="15" font-weight="bold" fill="#1f4e79">10 分布式服务</text>
+  <text x="97" y="446" text-anchor="middle" font-size="12" fill="#6b7a8a">公共业务服务化</text>
+  <line x1="170" y1="428" x2="184" y2="428" stroke="#1f4e79" stroke-width="1.4" fill="none"/>
+  <polygon points="192,428 184,423.5 184,432.5" fill="#1f4e79"/>
+  <rect x="195" y="395" width="190" height="66" rx="6" fill="#fdf0e6" stroke="#c05621"/>
+  <text x="290" y="424" text-anchor="middle" font-size="14" fill="#22303f">连接数随规模平方增长</text>
+  <text x="290" y="446" text-anchor="middle" font-size="12" fill="#6b7a8a">公共业务重复且部署困难</text>
+  <line x1="385" y1="428" x2="399" y2="428" stroke="#c05621" stroke-width="1.4" fill="none"/>
+  <polygon points="407,428 399,423.5 399,432.5" fill="#c05621"/>
+  <rect x="410" y="395" width="285" height="66" rx="6" fill="#f3f6ee" stroke="#8aa15c"/>
+  <text x="552" y="424" text-anchor="middle" font-size="14" font-weight="bold" fill="#4a6130">共用业务抽取并独立部署</text>
+  <text x="552" y="446" text-anchor="middle" font-size="12" fill="#6b7a8a">应用专注界面，远程调用服务</text>
+  <text x="360" y="486" text-anchor="middle" font-size="13" fill="#6b7a8a">演化动因：从响应与数据瓶颈，逐步转向业务复杂度与连接复杂度</text>
+</svg></div><div class="cap">图10-14 大型网站演化第6～10阶段</div></div>
+<table><colgroup><col style="width:28.2%"><col style="width:71.8%"></colgroup><thead><tr><th>易混技术</th><th>部署位置与特点</th></tr></thead><tbody><tr><td class="tc">本地缓存</td><td>应用服务器内，速度快但容量有限，并与应用争内存</td></tr><tr><td class="tc">远程分布式缓存</td><td>独立缓存服务器集群，容量可扩展，需网络访问</td></tr><tr><td class="tc">CDN</td><td>网络提供商机房，用户就近获取缓存数据</td></tr><tr><td class="tc">反向代理</td><td>网站中心机房，请求先到达代理，命中缓存就直接返回</td></tr></tbody></table>
+<h3>10.7 软件架构维护</h3>
+<p>维护要追踪和控制演化，使其持续满足需求，主要包含知识、修改和版本管理。</p>
+<table><colgroup><col style="width:18.5%"><col style="width:81.5%"></colgroup><thead><tr><th>管理内容</th><th>核心考点</th></tr></thead><tbody><tr><td class="tc">架构知识管理</td><td><b>架构知识＝架构设计＋架构设计决策</b>；既记录“做成什么样”，也记录“为什么这样做”</td></tr><tr><td class="tc">架构修改管理</td><td>建立隔离区域（Region of Quiescence），明确规则、类型、影响范围和副作用，使修改少影响其他部分</td></tr><tr><td class="tc">架构版本管理</td><td>为版本演化控制、使用、评价和量化度量提供依据；可借助邻接矩阵、可达矩阵分析波及效应</td></tr></tbody></table>
+<p>知识不文档化会“沉没”，人员变动后会“腐蚀”；现实障碍包括记录收益不直观、短期进度压力、缺乏反思和培训、知识难共享检索。</p>
+<p>⭐【高频考点】可维护性六指标针对组件图。L 为组件图数目，totalN/totalE 为外部组件数/相连边数；组件内部子组件用于高层模块内聚度分析。</p>
+<table><colgroup><col style="width:16.4%"><col style="width:39.7%"><col style="width:43.8%"></colgroup><thead><tr><th>指标</th><th>度量含义</th><th>复习结论</th></tr></thead><tbody><tr><td class="tc">CCN 圈复杂度</td><td>整个架构独立执行路径数，CCN=(totalE-totalN)+2L</td><td>整体度量，不取组件平均；越高越复杂，实践中以 CCN≤10 为宜</td></tr><tr><td class="tc">FFC 扇入扇出度</td><td>综合组件主动调用与被调用频率</td><td>越大表示接口或依赖关联越多；架构结果为组件值平均</td></tr><tr><td class="tc">CBO 模块间耦合度</td><td>模块与其他模块交互频繁程度</td><td>越大越易受修改和错误影响，可维护性越差、风险越高</td></tr><tr><td class="tc">RFC 模块的响应</td><td>执行所需功能数量，含自身接口、依赖模块和子模块功能</td><td>RFC=S+E+R；只含被提供接口且无子模块/依赖时可为 0</td></tr><tr><td class="tc">TCC 紧内聚度</td><td>子组件之间直接依赖形成的内部紧密程度</td><td>高内聚有利于独立演化；无子组件时为 not applied</td></tr><tr><td class="tc">LCC 松内聚度</td><td>在直接关系上计入间接关联后的内聚程度</td><td>与 TCC 对比观察内部关联；无子组件时不适用</td></tr></tbody></table>
+<p>教材示例中 totalE=19、totalN=13、L=1，故 CCN=(19-13)+2×1=8。ClientApplication 含 2 个子组件，示例算得 FFC=32、CBO≈0.231、RFC=4、TCC=LCC=3；除 CCN 外，其余架构级指标取外部组件度量结果的平均值。</p>
+<div class="mnemonic">助记：圈看全图，扇看来往，耦看牵扯，响应看功能，紧松看内部。</div>
+<h2>三、重点与易错点</h2>
+<table><colgroup><col style="width:8.5%"><col style="width:14.8%"><col style="width:40.1%"><col style="width:36.6%"></colgroup><thead><tr><th>#</th><th>考点</th><th>必须记住的结论</th><th>易错提醒</th></tr></thead><tbody><tr><td class="tc">1</td><td class="tc">演化本质</td><td>整体结构演化，贯穿全生命周期</td><td>不等同于局部代码修改</td></tr><tr><td class="tc">2</td><td class="tc">架构三要素</td><td>组件、连接件、约束</td><td>约束不是连接件本身</td></tr><tr><td class="tc">3</td><td class="tc">对象演化</td><td>影响动态行为的对象操作是 AO、DO</td><td>接口等自身属性变化不直接列为对象动态行为演化</td></tr><tr><td class="tc">4</td><td class="tc">消息演化</td><td>AM、DM、SMO、OM、CMM</td><td>SMO 换顺序，OM 换方向，CMM 换端点</td></tr><tr><td class="tc">5</td><td class="tc">消息与约束</td><td>可无关、相关不违背、相关且违背</td><td>消息变化不必然破坏约束</td></tr><tr><td class="tc">6</td><td class="tc">复合片段</td><td>AF、DF、FTC、FCC</td><td>FCC 要同步改成立/不成立两条转移</td></tr><tr><td class="tc">7</td><td class="tc">四时期</td><td>编译前、编译后执行前、受限运行中、运行中</td><td>运行前不是运行时；运行时最难</td></tr><tr><td class="tc">8</td><td class="tc">静态演化</td><td>停机更新；理解→析需→计划→重构→测试</td><td>原子操作是逻辑粒度最小，不是物理不可分</td></tr><tr><td class="tc">9</td><td class="tc">正交架构</td><td>同层组件不互调，变动只影响一条线索</td><td>“正交”不是组件完全无依赖</td></tr><tr><td class="tc">10</td><td class="tc">三级动态性</td><td>交互动态、结构动态、架构动态</td><td>增删实例属级别2；新组件类型属级别3</td></tr><tr><td class="tc">11</td><td class="tc">DSA/DR</td><td>DSA 修改自身架构；DR 修改部署后配置</td><td>二者是不同侧面，不是严格互斥分类</td></tr><tr><td class="tc">12</td><td class="tc">DSA 原子性</td><td>任一操作失败，整个操作集撤销</td><td>不是失败操作单独跳过</td></tr><tr><td class="tc">13</td><td class="tc">18原则</td><td>ECC 看成本、IWR 看平稳、模块独立看局部修改</td><td>主体维持与平滑演化都求稳定，但度量对象不同</td></tr><tr><td class="tc">14</td><td class="tc">质量距离</td><td>衡量同一架构版本间质量差异，不可累加</td><td>不用于推断两个不同软件的结构相似度</td></tr><tr><td class="tc">15</td><td class="tc">已知/未知评估</td><td>已知追踪中间版本；未知由前后度量逆向推测</td><td>未知过程并非不能评估</td></tr><tr><td class="tc">16</td><td class="tc">网站演化</td><td>缓存→集群→读写分离→CDN/代理→分布式→业务与服务拆分</td><td>CDN 在网络商机房，反向代理在中心机房</td></tr><tr><td class="tc">17</td><td class="tc">知识管理</td><td>架构知识＋设计决策及依据</td><td>只保存架构图不完整</td></tr><tr><td class="tc">18</td><td class="tc">六指标</td><td>CCN 看整体，其余通常取组件平均；高内聚低耦合</td><td>无子组件时 TCC/LCC 为 not applied，不是填 0</td></tr></tbody></table>
+<h2>四、练习与真题</h2>
+<p>以下 12 道为自编单选模拟题，答案与解析集中在全章最后。</p>
+<p><b>1.</b> 在面向对象软件架构演化中，交换两条消息时间顺序的操作是（ ）。</p>
+<p>A. AM  B. SMO  C. OM  D. CMM</p>
+<p><b>2.</b> 关于四个架构演化时期，下列说法正确的是（ ）。</p>
+<p>A. 运行前演化发生在编译之前  B. 设计时演化必须考虑运行状态  C. 运行时演化最难实现  D. 有限制运行时演化不允许任何约束</p>
+<p><b>3.</b> 静态演化的一般过程，正确的先后顺序是（ ）。</p>
+<p>A. 需求变更分析→软件理解→系统重构→演化计划→系统测试  B. 软件理解→需求变更分析→演化计划→系统重构→系统测试  C. 软件理解→演化计划→需求变更分析→系统测试→系统重构  D. 演化计划→软件理解→系统重构→需求变更分析→系统测试</p>
+<p><b>4.</b> 正交软件架构能够限制修改波及范围，主要依赖（ ）。</p>
+<p>A. 同层组件自由互调  B. 所有组件部署在同一节点  C. 功能分层与线索化，同层组件不互调  D. 每次变更都重写全部组件</p>
+<p><b>5.</b> 系统在线增加一个已有类型的组件实例，按 Cuesta 的分类属于（ ）。</p>
+<p>A. 交互动态性  B. 结构动态性  C. 架构动态性  D. 非动态演化</p>
+<p><b>6.</b> DSA 实施演化时，若操作集中的一个操作失败，正确处置是（ ）。</p>
+<p>A. 跳过失败操作继续执行  B. 只记录错误但不处理  C. 撤销整个操作集  D. 直接停止整个业务系统</p>
+<p><b>7.</b> 判断架构演化成本是否值得，最符合演化成本控制原则的是（ ）。</p>
+<p>A. CoE 远大于 CoRD  B. CoE 约等于 CoRD  C. CoE 远小于 CoRD  D. 只比较代码行数</p>
+<p><b>8.</b> 关于架构质量属性距离，下列说法正确的是（ ）。</p>
+<p>A. 任意两个软件都可据此判断结构相似度  B. 总距离必等于各相邻距离之和  C. 距离越大表示版本间对应质量差异越大  D. 可靠性距离是六元组距离</p>
+<p><b>9.</b> 关于 CDN 与反向代理，下列说法正确的是（ ）。</p>
+<p>A. 二者基本原理都不是缓存  B. CDN 部署在网络提供商机房，反向代理部署在网站中心机房  C. 反向代理用于主从数据库复制  D. CDN 只能缓存数据库写请求</p>
+<p><b>10.</b> 架构知识管理中的“架构知识”应理解为（ ）。</p>
+<p>A. 架构设计＋架构设计决策  B. 源代码＋测试数据  C. 组件数＋连接件数  D. 用户需求＋硬件清单</p>
+<p><b>11.</b> 关于可维护性指标，下列说法正确的是（ ）。</p>
+<p>A. CBO 越大，可维护性通常越好  B. CCN 必须取所有组件值的平均  C. RFC 只统计代码注释数量  D. CBO 越大，越容易受其他模块修改和错误影响</p>
+<p><b>12.</b> 某组件没有子组件时，其 TCC 和 LCC 应如何处理（ ）。</p>
+<p>A. 都强制记为 1  B. 都强制记为 0  C. 记为 not applied，不适用  D. 用 CCN 替代</p>
+<h2>五、疑问与查漏补缺</h2>
+<ul><li><b>大纲要求“知识管理现状”，教材未给统一落地策略。</b> 可补充采用架构决策记录（ADR）保存背景、选项、决策、理由和后果，但答题仍应以教材的定义和现实障碍为主。</li><li><b>DSA 与 DR 的边界不是公认严格分类。</b> 教材为便于讨论将 DSA 归为架构动态性、DR 归为结构动态性，不宜推广成行业唯一定义。</li><li><b>教材个别度量文字存在口径疑点。</b> “适应新需求”以适应需求集合占实际需求集合的比例理解时通常越高越好，但提取文本的方案说明写“RNR 越小越好”；复习应掌握原则目标，遇到原题需结合公式和选项核对。</li><li><b>缩写随模型视角变化。</b> 对象删除在 10.2 写 DO，在可靠性原子操作中写 RO；消息增删也出现 AM/DM 与 AMS/RMS 两组写法，需按题干语境识别，不要机械跨表替换。</li><li><b>内聚度措辞易误读。</b> 教材末称“模块间内聚度 TCC/LCC”，但公式和示例实际分析组件内部子组件关系；无子组件时不适用，不应理解为组件之间的耦合。</li><li><b>与其他章节衔接。</b> 质量向好和评估可回看第8章质量属性；可靠性风险度量衔接第9章；网站业务服务化可衔接第15章面向服务架构，在线重配置与弹性伸缩可衔接第14章云原生架构。</li><li><b>十阶段是典型案例而非强制步骤。</b> 实际系统可能合并、跳过或并行采用缓存、集群、分库和服务化，核心答题依据始终是“当前瓶颈与对应措施”。</li></ul>
+<h2>六、参考答案</h2>
+<p><b>1.</b> <b>B</b>。SMO（SwapMessageOrder）交换消息先后顺序；OM 反转方向，CMM 改变发送或接收对象。</p>
+<p><b>2.</b> <b>C</b>。运行时演化可增删、替换组件或改拓扑，实现最难；运行前演化发生在编译后执行前。</p>
+<p><b>3.</b> <b>B</b>。静态演化为软件理解、需求变更分析、演化计划、系统重构、系统测试，并可循环迭代。</p>
+<p><b>4.</b> <b>C</b>。分层和线索化且同层不互调，使每次变动只影响一条线索。</p>
+<p><b>5.</b> <b>B</b>。增删已有组件或连接件实例属于结构动态性；定义新组件类型才属于架构动态性。</p>
+<p><b>6.</b> <b>C</b>。动态演化必须保证原子性，任一操作失败就撤销整个操作集，避免不稳定状态。</p>
+<p><b>7.</b> <b>C</b>。ECC 要求演化成本 CoE 明显小于重新开发成本 CoRD，远小于最佳。</p>
+<p><b>8.</b> <b>C</b>。质量属性距离衡量同一架构版本间质量差异，不具有累加性，也不等同于结构相似度。</p>
+<p><b>9.</b> <b>B</b>。两者都利用缓存尽早返回数据；CDN 靠近用户，反向代理位于网站中心机房入口。</p>
+<p><b>10.</b> <b>A</b>。架构知识不仅包括设计结果，还包括设计决策及其依据。</p>
+<p><b>11.</b> <b>D</b>。CBO 越大表示耦合交互越多，通常可维护性越差；CCN 是整体度量而非组件平均。</p>
+<p><b>12.</b> <b>C</b>。没有子组件时内聚度公式分母无意义，教材以 not applied 表示，不能简单填 0 或 1。</p>
+<div class="footer">第10章 软件架构的演化和维护 · A4 打印版 · 由 README.md 统一生成</div>
+</div>
+</body>
+</html>

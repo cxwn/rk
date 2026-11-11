@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 500" width="720" height="500">
+  <rect width="720" height="500" fill="#ffffff"/>
+  <text x="360" y="34" text-anchor="middle" font-family="Microsoft YaHei, 微软雅黑, sans-serif" font-size="22" font-weight="bold" fill="#22303f">业务容器中的Domain Model—Service—Control（重绘图13-10）</text>
+  <rect x="170" y="58" width="380" height="48" rx="8" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.5"/>
+  <text x="360" y="89" text-anchor="middle" font-family="Microsoft YaHei, 微软雅黑, sans-serif" font-size="17" font-weight="bold" fill="#1f4e79">表示层：JSP / Servlet / Java应用 / 其他客户端</text>
+  <line x1="360" y1="106" x2="360" y2="127" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="360,135 355.5,127 364.5,127" fill="#1f4e79"/>
+  <rect x="62" y="138" width="596" height="230" rx="10" fill="#fdf0e6" stroke="#c05621" stroke-width="2"/>
+  <text x="360" y="167" text-anchor="middle" font-family="Microsoft YaHei, 微软雅黑, sans-serif" font-size="18" font-weight="bold" fill="#c05621">业务容器（Business Container）</text>
+  <rect x="86" y="194" width="160" height="92" rx="8" fill="#f3f6ee" stroke="#8aa15c" stroke-width="1.5"/>
+  <text x="166" y="224" text-anchor="middle" font-family="Microsoft YaHei, 微软雅黑, sans-serif" font-size="17" font-weight="bold" fill="#4a6130">Domain Model</text>
+  <text x="166" y="249" text-anchor="middle" font-family="Microsoft YaHei, 微软雅黑, sans-serif" font-size="13" fill="#22303f">领域业务对象</text>
+  <text x="166" y="271" text-anchor="middle" font-family="Microsoft YaHei, 微软雅黑, sans-serif" font-size="13" fill="#22303f">业务属性与状态</text>
+  <rect x="280" y="194" width="160" height="92" rx="8" fill="#ffffff" stroke="#1f4e79" stroke-width="1.5"/>
+  <text x="360" y="224" text-anchor="middle" font-family="Microsoft YaHei, 微软雅黑, sans-serif" font-size="17" font-weight="bold" fill="#1f4e79">Service</text>
+  <text x="360" y="249" text-anchor="middle" font-family="Microsoft YaHei, 微软雅黑, sans-serif" font-size="13" fill="#22303f">业务过程与功能单元</text>
+  <text x="360" y="271" text-anchor="middle" font-family="Microsoft YaHei, 微软雅黑, sans-serif" font-size="13" fill="#22303f">中立接口，松耦合</text>
+  <rect x="474" y="194" width="160" height="92" rx="8" fill="#ffffff" stroke="#c05621" stroke-width="1.5"/>
+  <text x="554" y="224" text-anchor="middle" font-family="Microsoft YaHei, 微软雅黑, sans-serif" font-size="17" font-weight="bold" fill="#c05621">Control</text>
+  <text x="554" y="249" text-anchor="middle" font-family="Microsoft YaHei, 微软雅黑, sans-serif" font-size="13" fill="#22303f">服务控制器</text>
+  <text x="554" y="271" text-anchor="middle" font-family="Microsoft YaHei, 微软雅黑, sans-serif" font-size="13" fill="#22303f">决定切换与执行顺序</text>
+  <line x1="246" y1="224" x2="268" y2="224" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="276,224 268,219.5 268,228.5" fill="#1f4e79"/>
+  <line x1="280" y1="260" x2="258" y2="260" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="250,260 258,255.5 258,264.5" fill="#1f4e79"/>
+  <line x1="474" y1="236" x2="452" y2="236" stroke="#c05621" stroke-width="1.5" fill="none"/>
+  <polygon points="444,236 452,231.5 452,240.5" fill="#c05621"/>
+  <text x="360" y="321" text-anchor="middle" font-family="Microsoft YaHei, 微软雅黑, sans-serif" font-size="14" fill="#22303f">Service读写领域状态；Control依据状态与参数调度Service</text>
+  <text x="360" y="348" text-anchor="middle" font-family="Microsoft YaHei, 微软雅黑, sans-serif" font-size="13" fill="#c05621">容器隔离相邻层，避免业务代码渗入表示层</text>
+  <line x1="360" y1="368" x2="360" y2="389" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="360,397 355.5,389 364.5,389" fill="#1f4e79"/>
+  <rect x="174" y="400" width="372" height="64" rx="8" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.5"/>
+  <text x="360" y="427" text-anchor="middle" font-family="Microsoft YaHei, 微软雅黑, sans-serif" font-size="17" font-weight="bold" fill="#1f4e79">DAO接口 → DAO执行 → 数据库</text>
+  <text x="360" y="451" text-anchor="middle" font-family="Microsoft YaHei, 微软雅黑, sans-serif" font-size="13" fill="#22303f">数据访问细节不进入表示层</text>
+</svg>

@@ -1,0 +1,1058 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>第2章 计算机系统基础知识</title>
+<style>
+  :root{ --ink:#22303f; --main:#1f4e79; --main-light:#eaf1f8; --accent:#c05621;
+    --accent-light:#fdf0e6; --line:#d5dde5; --muted:#6b7a8a; }
+  *{ box-sizing:border-box; print-color-adjust:exact; -webkit-print-color-adjust:exact; }
+  html,body{ margin:0; padding:0; }
+  body{ font-family:"Microsoft YaHei","微软雅黑","PingFang SC","Noto Sans CJK SC",sans-serif;
+    color:var(--ink); background:#e9edf1; font-size:10.5pt; line-height:1.75; }
+  .sheet{ max-width:190mm; margin:8mm auto; background:#fff; padding:10mm 11mm;
+    box-shadow:0 2px 14px rgba(0,0,0,.12); }
+  h1{ font-size:21pt; color:var(--main); margin:0 0 2mm; border-bottom:3px solid var(--main); padding-bottom:3mm; }
+  h2{ font-size:14pt; color:var(--main); margin:8mm 0 3mm; padding:1.2mm 0 1.2mm 3mm;
+    border-left:5px solid var(--main); background:linear-gradient(to right,var(--main-light),#fff); break-after:avoid; }
+  h3{ font-size:11.5pt; color:var(--main); margin:5mm 0 2mm; break-after:avoid; }
+  p{ margin:1.5mm 0; }
+  code{ background:#f0f3f6; border-radius:1mm; padding:0 1mm; font-size:9.5pt; }
+  .def,.example,.mnemonic{ border-radius:2mm; padding:2.5mm 3.5mm; margin:2.5mm 0; break-inside:avoid; }
+  .def{ border:1.5px solid var(--main); background:#fbfdff; }
+  .example{ background:var(--accent-light); border-left:4px solid var(--accent); }
+  .mnemonic{ background:#f3f6ee; border:1px dashed #8aa15c; color:#4a6130; }
+  table{ border-collapse:collapse; width:100%; margin:2.5mm 0; font-size:9.5pt; table-layout:fixed; }
+  th,td{ border:1px solid var(--line); padding:1.6mm 2mm; text-align:left; vertical-align:top; overflow-wrap:break-word; }
+  th{ background:var(--main); color:#fff; text-align:center; }
+  thead{ display:table-header-group; }
+  tr{ break-inside:avoid; }
+  td.tc{ text-align:center; }
+  tr:nth-child(even) td{ background:#f6f9fc; }
+  .fig{ margin:3mm 0; padding:2.5mm; border:1px solid var(--line); border-radius:2mm;
+    background:#fdfefe; break-inside:avoid; }
+  .fig .cap{ text-align:center; color:var(--muted); font-size:9pt; margin-top:1mm; }
+  svg{ display:block; width:100%; height:auto; }
+  svg text{ font-family:inherit; }
+  ul,ol{ margin:1.5mm 0 1.5mm 5mm; padding-left:4mm; }
+  li{ margin:0.8mm 0; }
+  .footer{ margin-top:8mm; padding-top:2mm; border-top:1px solid var(--line);
+    color:var(--muted); font-size:8.5pt; text-align:center; }
+  @page{ size:A4; margin:12mm; }
+  @media print{ body{ background:#fff; font-size:10pt; }
+    .sheet{ max-width:none; margin:0; padding:0; box-shadow:none; } h2{ margin-top:6mm; } }
+</style>
+</head>
+<body>
+<div class="sheet">
+<h1>第2章 计算机系统基础知识</h1>
+<ul><li>教材位置：02.系统架构设计师第二版-教材.pdf PDF 第 34～114 页（书页 24～104）</li><li>复习状态：已完成</li><li>复习日期：2026-11-06</li><li>本章地位：全书知识底座，内容多、范围广，是<b>上午综合知识选择题</b>的重要出题章。学习策略：<b>概念抓关键词、分类做成表格、计算掌握三个公式（香农、阿姆达尔、位示图）</b>，不要在冷门细节上平均用力。</li></ul>
+<h2>一、大纲考点</h2>
+<p>对照 01.系统架构第二版-大纲.pdf 考试科目 1 第 1 部分「计算机系统基本知识」（大纲书页 17～22，PDF 第 27～32 页），大纲 1.1～1.9 与教材 2.1～2.9 一一对应：</p>
+<table><colgroup><col style="width:21.2%"><col style="width:66.7%"><col style="width:12.1%"></colgroup><thead><tr><th>大纲条目</th><th>大纲要求（考点）</th><th>教材对应</th></tr></thead><tbody><tr><td>1.1 计算机系统概述</td><td>计算机系统的定义、组成和分类</td><td class="tc">2.1</td></tr><tr><td>1.2 计算机硬件</td><td>⭐冯·诺依曼计算机结构；典型计算机体系结构；<b>CPU、GPU、DSP、FPGA</b>；<b>CISC 和 RISC</b>；国产处理器芯片结构；片上缓存、片外缓存、主存和外存；内总线、系统总线和外部总线；显示、音频、网络和 SATA 等接口；鼠标、显示器、扫描仪和摄像头等外部设备</td><td class="tc">2.2</td></tr><tr><td>1.3 计算机软件</td><td>软件的定义、作用和分类（系统软件和应用软件）；操作系统的组成、作用、类型、特点和基本原理，批处理/分时/网络/分布式/嵌入式/实时操作系统；数据库定义、作用、类型，DBMS 基本原理，关系型数据库（数据模型、关系描述和数据库设计），分布式数据库（结构和应用），常见 DBMS 产品；文件系统定义、组成、原理、存取方式和存储管理；网络协议（LAN/WAN/无线/移动）；中间件定义、作用、类型与典型产品（IBM MQSeries、BEA Tuxedo）；软件构件定义、组装模型、商用构件标准（CORBA、J2EE、DNA 2000）；通用与专用应用软件</td><td class="tc">2.3</td></tr><tr><td>1.4 嵌入式系统及软件</td><td>嵌入式系统定义、组成、用途、特点；嵌入式处理器及支撑硬件、环境要求；嵌入式软件集成开发环境；嵌入式系统分类（嵌入式、强/弱实时、安全攸关系统）；嵌入式软件架构和特点、与传统开发的差异；<b>安全攸关软件的安全性设计（DO-178 目的、安全等级划分和生命周期）</b></td><td class="tc">2.4</td></tr><tr><td>1.5 计算机网络</td><td>网络发展四阶段；基本功能（数据通信、资源共享、管理集中化、分布式处理和负荷均衡）；基本指标（速率、带宽、吞吐量、时延和利用率）；信道、信号变换、复用和多址、5G 通信网；局域网（五类拓扑和以太网技术）、WLAN（标准和三类拓扑）、广域网、城域网、移动通信网（发展、特征和服务化架构）；网络设备（集线器、中继器、网桥、交换机、路由器和防火墙）；交换技术、路由技术及相关协议；<b>OSI/RM 分层参考模型、OSI 协议集、TCP/IP 协议集及比较</b>；网络规划、设计和实施</td><td class="tc">2.5</td></tr><tr><td>1.6 计算机语言</td><td>计算机语言的组成；机器语言（指令格式、操作码和寻址）、汇编语言（语句格式和伪指令）、高级语言（C/C++/Java/Python）；<b>建模语言（UML 的组成要素、关系和五种视图）</b>；形式化语言（规格说明、分类、开发过程和 Z 语言）</td><td class="tc">2.6</td></tr><tr><td>1.7 多媒体</td><td>多媒体的定义、特征、基本组成及应用；视音频技术、通信技术、数据压缩技术、VR/AR 技术</td><td class="tc">2.7</td></tr><tr><td>1.8 系统工程</td><td>系统工程基本概念；系统工程方法（<b>霍尔三维结构、切克兰德方法、并行工程方法、综合集成法、WSR 系统方法</b>）；系统工程全生命周期七阶段（探索研究、概念、开发、生产、使用、保障、退役）；采用方法（计划驱动、渐进迭代式、精益、敏捷）；<b>MBSE 基本概念与三大支柱（建模语言、建模工具、建模思路）</b></td><td class="tc">2.8</td></tr><tr><td>1.9 系统性能</td><td>计算机、路由器、交换机、网络、操作系统的性能指标；性能计算、性能设计与性能评估（含<b>阿姆达尔定律</b>）</td><td class="tc">2.9</td></tr></tbody></table>
+<h2>二、知识点笔记</h2>
+<h3>2.1 计算机系统概述（2.1）</h3>
+<p><b>计算机系统（Computer System）是指用于数据管理的计算机硬件、软件及网络组成的系统</b>：按人的要求接收和存储信息，自动进行数据处理和计算，并输出结果信息。通常所说的计算机系统指<b>硬件子系统 + 软件子系统</b>；把连接多个计算机以实现计算机间数据交换的网络设备称为<b>计算机网络</b>。</p>
+<ul><li><b>硬件</b>：由机械、电子元器件、磁介质和光介质等物理实体构成，包括处理器（含运算单元和控制单元）、存储器、输入设备和输出设备等，是<b>有形的</b>。</li><li><b>软件</b>：一系列按照特定顺序组织的数据和指令，控制硬件完成指定功能，是<b>无形的</b>。分为<b>系统软件</b>（支持应用软件运行、提供平台支撑，如操作系统、编译工具）和<b>应用软件</b>（为某一专门应用目的而开发，如办公、娱乐软件）。</li></ul>
+<p>从功能看，硬件与软件的<b>界限正在逐渐模糊</b>：某些功能既可由硬件实现也可由软件实现（典型如可编程逻辑，设计阶段可当软件对待，运行时以逻辑门物理形态存在）。计算机系统可从结构、性能、规模、用途等维度分类（通用计算机、嵌入式计算机、电信/家用/可穿戴设备等），同一设备可归属多个类别，<b>分类没有严格界限</b>。</p>
+<div class="fig"><div><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 430" font-family="Microsoft YaHei, 微软雅黑, sans-serif">
+  <!-- 顶层 -->
+  <rect x="260" y="16" width="200" height="46" rx="7" fill="#1f4e79"/>
+  <text x="360" y="45" font-size="17" font-weight="bold" fill="#ffffff" text-anchor="middle">计算机系统</text>
+  <!-- 硬件外框 -->
+  <rect x="30" y="104" width="300" height="296" rx="8" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.4"/>
+  <text x="180" y="130" font-size="15" font-weight="bold" fill="#1f4e79" text-anchor="middle">硬件（有形）</text>
+  <g font-size="12" fill="#22303f">
+    <rect x="50" y="146" width="260" height="48" rx="5" fill="#ffffff" stroke="#1f4e79"/>
+    <text x="180" y="166" text-anchor="middle" font-weight="bold">中央处理器</text>
+    <text x="180" y="184" text-anchor="middle" font-size="10" fill="#6b7a8a">运算单元 + 控制单元</text>
+    <rect x="50" y="206" width="260" height="48" rx="5" fill="#ffffff" stroke="#1f4e79"/>
+    <text x="180" y="226" text-anchor="middle" font-weight="bold">存储器</text>
+    <text x="180" y="244" text-anchor="middle" font-size="10" fill="#6b7a8a">主存（内存）+ 外存</text>
+    <rect x="50" y="266" width="260" height="48" rx="5" fill="#ffffff" stroke="#1f4e79"/>
+    <text x="180" y="286" text-anchor="middle" font-weight="bold">输入设备</text>
+    <text x="180" y="304" text-anchor="middle" font-size="10" fill="#6b7a8a">键盘、鼠标等</text>
+    <rect x="50" y="326" width="260" height="48" rx="5" fill="#ffffff" stroke="#1f4e79"/>
+    <text x="180" y="346" text-anchor="middle" font-weight="bold">输出设备</text>
+    <text x="180" y="364" text-anchor="middle" font-size="10" fill="#6b7a8a">显示器等</text>
+  </g>
+  <!-- 软件外框 -->
+  <rect x="390" y="104" width="300" height="296" rx="8" fill="#f3f6ee" stroke="#8aa15c" stroke-width="1.4"/>
+  <text x="540" y="130" font-size="15" font-weight="bold" fill="#4a6130" text-anchor="middle">软件（无形）</text>
+  <g font-size="12" fill="#22303f">
+    <rect x="410" y="146" width="260" height="64" rx="5" fill="#ffffff" stroke="#8aa15c"/>
+    <text x="540" y="170" text-anchor="middle" font-weight="bold">系统软件</text>
+    <text x="540" y="190" text-anchor="middle" font-size="10" fill="#6b7a8a">操作系统、编译工具</text>
+    <rect x="410" y="226" width="260" height="64" rx="5" fill="#ffffff" stroke="#8aa15c"/>
+    <text x="540" y="250" text-anchor="middle" font-weight="bold">应用软件</text>
+    <text x="540" y="270" text-anchor="middle" font-size="10" fill="#6b7a8a">办公软件、娱乐软件等</text>
+  </g>
+  <!-- 顶层 -> 硬件/软件（顶框底缘两个独立连接点，直角折线） -->
+  <g stroke="#1f4e79" stroke-width="1.5" fill="none">
+    <polyline points="320,65 320,84 180,84 180,96"/>
+    <polygon points="180,99 175.5,91 184.5,91" fill="#1f4e79"/>
+    <polyline points="400,65 400,84 540,84 540,96"/>
+    <polygon points="540,99 535.5,91 544.5,91" fill="#1f4e79"/>
+  </g>
+  <text x="360" y="422" font-size="11" fill="#6b7a8a" text-anchor="middle">硬件与软件功能界限逐渐模糊；计算机网络 = 连接多个计算机实现数据交换的网络设备</text>
+</svg></div><div class="cap">典型计算机系统的组成（据教材图 2-1 重绘）</div></div>
+<h3>2.2 计算机硬件（2.2）</h3>
+<h3>1. 硬件组成与处理器 ⭐【重点】</h3>
+<p>冯·诺依曼结构把计算机硬件划分为<b>运算器、控制器、存储器、输入设备、输出设备</b> 5 部分；现实硬件中，<b>控制单元和运算单元集成为处理器</b>，输入/输出设备常集成为一体，因此按<b>处理器、存储器、总线、接口和外部设备</b>来阐述。</p>
+<p><b>处理器（CPU）</b>是运算和控制的核心：位宽从 4 位发展到 64 位；能力上集成多级缓存、多种总线和接口；内核从单核发展为多核、异构多核和众核。指令集按复杂程度分两类 ⭐【高频考点】：</p>
+<table><colgroup><col style="width:15.8%"><col style="width:28.1%"><col style="width:19.9%"><col style="width:36.3%"></colgroup><thead><tr><th>指令集</th><th>全称</th><th>代表</th><th>趋势</th></tr></thead><tbody><tr><td class="tc">CISC 复杂指令集</td><td>Complex Instruction Set Computers</td><td>Intel、AMD 的 <b>x86</b> CPU</td><td>因历史原因仍存在</td></tr><tr><td class="tc">RISC 精简指令集</td><td>Reduced Instruction Set Computers</td><td><b>ARM 和 Power</b></td><td><b>几乎所有后期出现的指令集均为 RISC</b>，是发展趋势</td></tr></tbody></table>
+<p>典型处理器体系结构中：指令部件通过 <b>MMU-Cache</b> 存储结构取得指令并译码控制；<b>存取部件</b>取数据；<b>寄存器组</b>为运算器准备数据与结果寄存器；<b>运算部件</b>（整型、浮点、向量）执行运算；<b>完成部件</b>对结果排队并向指令部件反馈，控制指令顺序执行、跳转等时序。各部件经<b>地址总线、数据总线</b>互连。</p>
+<div class="fig"><div><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 400" font-family="Microsoft YaHei, 微软雅黑, sans-serif">
+  <!-- 上排：指令部件、MMU、Cache -->
+  <g font-size="14" font-weight="bold" fill="#1f4e79">
+    <rect x="40" y="40" width="150" height="60" rx="6" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.2"/>
+    <text x="115" y="76" text-anchor="middle">指令部件</text>
+    <rect x="270" y="40" width="150" height="60" rx="6" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.2"/>
+    <text x="345" y="76" text-anchor="middle">MMU 部件</text>
+    <rect x="500" y="40" width="150" height="60" rx="6" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.2"/>
+    <text x="575" y="76" text-anchor="middle">Cache 部件</text>
+  </g>
+  <!-- 中排：存取、寄存器、运算 -->
+  <g font-size="14" font-weight="bold" fill="#1f4e79">
+    <rect x="40" y="160" width="150" height="60" rx="6" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.2"/>
+    <text x="115" y="196" text-anchor="middle">存取部件</text>
+    <rect x="270" y="160" width="150" height="60" rx="6" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.2"/>
+    <text x="345" y="196" text-anchor="middle">寄存器组</text>
+    <rect x="500" y="160" width="150" height="60" rx="6" fill="#fdf0e6" stroke="#c05621" stroke-width="1.2"/>
+    <text x="575" y="188" text-anchor="middle" fill="#c05621">运算部件</text>
+    <text x="575" y="208" text-anchor="middle" font-size="10" font-weight="normal" fill="#22303f">整型 / 浮点 / 向量</text>
+  </g>
+  <!-- 完成部件 -->
+  <rect x="270" y="270" width="150" height="50" rx="6" fill="#f3f6ee" stroke="#8aa15c" stroke-width="1.2"/>
+  <text x="345" y="300" font-size="14" font-weight="bold" fill="#4a6130" text-anchor="middle">完成部件</text>
+  <!-- 总线 -->
+  <rect x="40" y="344" width="610" height="36" rx="5" fill="#ffffff" stroke="#6b7a8a" stroke-width="1"/>
+  <text x="345" y="367" font-size="12" fill="#6b7a8a" text-anchor="middle">地址总线 / 数据总线（各部件互连）</text>
+  <!-- 连线：指令->MMU->Cache -->
+  <g stroke="#1f4e79" stroke-width="1.5" fill="none">
+    <line x1="193" y1="70" x2="259" y2="70"/>
+    <polygon points="267,70 259,65.5 259,74.5" fill="#1f4e79"/>
+    <line x1="423" y1="70" x2="489" y2="70"/>
+    <polygon points="497,70 489,65.5 489,74.5" fill="#1f4e79"/>
+    <!-- 指令->存取 -->
+    <line x1="115" y1="103" x2="115" y2="149"/>
+    <polygon points="115,157 110.5,149 119.5,149" fill="#1f4e79"/>
+    <!-- 存取->寄存器->运算 -->
+    <line x1="193" y1="190" x2="259" y2="190"/>
+    <polygon points="267,190 259,185.5 259,194.5" fill="#1f4e79"/>
+    <line x1="423" y1="190" x2="489" y2="190"/>
+    <polygon points="497,190 489,185.5 489,194.5" fill="#1f4e79"/>
+    <!-- 运算/存取/寄存器 -> 完成部件（顶缘三个独立连接点） -->
+    <polyline points="575,223 575,246 400,246 400,262"/>
+    <polygon points="400,267 395.5,259 404.5,259" fill="#1f4e79"/>
+    <polyline points="190,223 190,246 320,246 320,262"/>
+    <polygon points="320,267 315.5,259 324.5,259" fill="#1f4e79"/>
+    <line x1="345" y1="223" x2="345" y2="262"/>
+    <polygon points="345,267 340.5,259 349.5,259" fill="#1f4e79"/>
+    <!-- 完成部件 -> 指令部件（结果反馈，绕行最左侧） -->
+    <polyline points="267,295 15,295 15,70 32,70" stroke="#c05621"/>
+    <polygon points="40,70 32,65.5 32,74.5" fill="#c05621"/>
+  </g>
+  <text x="360" y="394" font-size="11" fill="#c05621" text-anchor="middle">完成部件向指令部件反馈执行结果，控制顺序执行与跳转时序</text>
+</svg></div><div class="cap">典型的处理器体系结构（据教材图 2-3 重绘）</div></div>
+<p>常见专用处理器芯片 ⭐：</p>
+<table><colgroup><col style="width:21.3%"><col style="width:56.8%"><col style="width:21.9%"></colgroup><thead><tr><th>芯片</th><th>特点</th><th>典型应用</th></tr></thead><tbody><tr><td>GPU 图形处理器</td><td>具有<b>数百或数千个内核</b>，优化为<b>并行</b>运行大量计算</td><td>深度学习、机器学习</td></tr><tr><td>DSP 数字信号处理器</td><td>专用于<b>实时数字信号处理</b>：饱和算法处理溢出、乘积累加提高矩阵效率、傅里叶变换专用指令</td><td>各类高速信号采集设备</td></tr><tr><td>FPGA 现场可编程逻辑门阵列</td><td>硬件逻辑<b>可编程重构</b>，设计阶段可当软件对待、运行时以逻辑门物理形态存在</td><td>需要灵活定制硬件逻辑的场合</td></tr></tbody></table>
+<p>国产处理器呈现百花齐放局面，知名度较高的有<b>龙芯、飞腾、申威、兆芯、国微、国芯、华睿、翔腾微和景嘉微</b>等。</p>
+<h3>2. 存储器 ⭐【重点】</h3>
+<p>存储器按硬件结构可分为 SRAM、DRAM、NVRAM、Flash、EPROM、Disk 等。计算机系统通常采用<b>分层体系（Memory Hierarchy）</b>，按与处理器的物理距离分 4 个层次 ⭐【高频考点】：</p>
+<table><colgroup><col style="width:12.8%"><col style="width:36.5%"><col style="width:27.6%"><col style="width:23.1%"></colgroup><thead><tr><th>层次</th><th>位置与介质</th><th>典型容量</th><th>特点</th></tr></thead><tbody><tr><td class="tc">片上缓存</td><td>处理器核心内，<b>SRAM</b></td><td>16kB～512kB（L1/L2）</td><td>速度最快、容量最小</td></tr><tr><td class="tc">片外缓存</td><td>处理器核心外，需经交换互联开关访问，一般也是 <b>SRAM</b></td><td>256kB～4MB（L2/L3 或平台 Cache）</td><td>容量较片上略大</td></tr><tr><td class="tc">主存（内存）</td><td>独立部件/芯片，<b>DRAM</b>，经总线连接</td><td>数百 MB～数十 GB</td><td><b>依赖不断充电维持数据</b>（易失）</td></tr><tr><td class="tc">外存</td><td>磁带、磁盘、光盘、各类 Flash</td><td>Nor Flash 为 MB 级，磁盘为 GB/TB 级</td><td>速度慢、容量大、<b>掉电保持数据</b></td></tr></tbody></table>
+<p>外存掉电保持数据但并非永久：Flash 约 10 年、光盘数年至数十年、磁盘 10 年以上、磁带 30 年以上。整体规律：<b>越靠近处理器，速度越快、容量越小、单位成本越高</b>。</p>
+<div class="fig"><div><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 420" font-family="Microsoft YaHei, 微软雅黑, sans-serif">
+  <text x="360" y="26" font-size="12" fill="#1f4e79" text-anchor="middle">靠近 CPU：速度更快、容量更小、单位成本更高</text>
+  <!-- 四层金字塔 -->
+  <g>
+    <rect x="240" y="44" width="240" height="66" rx="5" fill="#1f4e79"/>
+    <text x="360" y="70" font-size="14" font-weight="bold" fill="#ffffff" text-anchor="middle">片上缓存</text>
+    <text x="360" y="92" font-size="11" fill="#ffffff" text-anchor="middle">SRAM ｜ 16kB～512kB（L1/L2）</text>
+    <rect x="180" y="134" width="360" height="66" rx="5" fill="#3a6b99"/>
+    <text x="360" y="160" font-size="14" font-weight="bold" fill="#ffffff" text-anchor="middle">片外缓存</text>
+    <text x="360" y="182" font-size="11" fill="#ffffff" text-anchor="middle">SRAM ｜ 256kB～4MB（L2/L3/平台 Cache）</text>
+    <rect x="120" y="224" width="480" height="66" rx="5" fill="#6a8fb5"/>
+    <text x="360" y="250" font-size="14" font-weight="bold" fill="#ffffff" text-anchor="middle">主存（内存）</text>
+    <text x="360" y="272" font-size="11" fill="#ffffff" text-anchor="middle">DRAM ｜ 数百 MB～数十 GB（不断充电维持，易失）</text>
+    <rect x="60" y="314" width="600" height="66" rx="5" fill="#c05621"/>
+    <text x="360" y="340" font-size="14" font-weight="bold" fill="#ffffff" text-anchor="middle">外存</text>
+    <text x="360" y="362" font-size="11" fill="#ffffff" text-anchor="middle">磁带 / 磁盘 / 光盘 / Flash ｜ MB～TB 级（掉电保持数据）</text>
+  </g>
+  <!-- 层间箭头：距离拉远 -->
+  <g stroke="#6b7a8a" stroke-width="1.4" fill="none">
+    <line x1="360" y1="113" x2="360" y2="126"/>
+    <polygon points="360,131 355.5,123 364.5,123" fill="#6b7a8a"/>
+    <line x1="360" y1="203" x2="360" y2="216"/>
+    <polygon points="360,221 355.5,213 364.5,213" fill="#6b7a8a"/>
+    <line x1="360" y1="293" x2="360" y2="306"/>
+    <polygon points="360,311 355.5,303 364.5,303" fill="#6b7a8a"/>
+  </g>
+  <text x="360" y="404" font-size="12" fill="#6b7a8a" text-anchor="middle">远离 CPU：速度更慢、容量更大、成本更低；外存保持数据也有年限（Flash≈10 年、磁带＞30 年）</text>
+</svg></div><div class="cap">存储器的四层体系</div></div>
+<h3>3. 总线、接口与外部设备</h3>
+<p><b>总线（Bus）是计算机部件间遵循某一特定协议实现数据交换的形式</b>。按所处位置分三类 ⭐：</p>
+<table><colgroup><col style="width:17.0%"><col style="width:31.9%"><col style="width:51.1%"></colgroup><thead><tr><th>类型</th><th>别称</th><th>作用范围</th></tr></thead><tbody><tr><td class="tc">内总线</td><td>片上总线、片内总线</td><td>各类<b>芯片内部</b>互连</td></tr><tr><td class="tc">系统总线</td><td>局部总线（广义次级联）</td><td>计算机中 <b>CPU、主存、I/O 接口</b>之间</td></tr><tr><td class="tc">外部总线</td><td>通信总线</td><td>计算机板与<b>外部设备</b>之间、或计算机系统之间</td></tr></tbody></table>
+<p>总线之间通过<b>桥（Bridge）</b>连接，桥是一种特殊外设，主要实现<b>总线协议间的转换</b>。总线性能指标有总线带宽、服务质量 QoS、时延和抖动等。常见<b>并行总线</b>：PCI、PCIe、ATA(IDE)；常见<b>串行总线</b>：USB、SATA、CAN、RS-232、RS-485、RapidIO 和以太网等；专业领域还有航空 ARINC429/659/664、MIL-STD-1553B，工控 CAN、IEEE1394、VME 等。</p>
+<p><b>接口是同一计算机不同功能层之间的通信规则</b>：显示类（HDMI、DVI）、音频类（TRS、RCA、XLR）、网络类（RJ45、FC）、PS/2、USB、SATA、LPT 打印、RS-232 等；离散量接口与 A/D 转换接口多随需求设计。<b>一种总线可对应多种接口</b>（如以太网总线可用 RJ-45 或同轴电缆连接）。</p>
+<p><b>外部设备（外围设备）是计算机的非必要设备</b>：包括所有输入输出设备以及部分存储设备（外存），如键盘、鼠标、显示器、扫描仪、摄像头、麦克风、打印机、光驱、网卡、存储卡/盘；移动穿戴设备中有加速计、GPS、陀螺仪、感光和指纹识别设备等。外设都通过<b>接口</b>与计算机主体连接。</p>
+<h3>2.3 计算机软件（2.3）</h3>
+<h3>1. 软件概述</h3>
+<p><b>计算机软件是指计算机系统中的程序及其文档</b>，是计算任务的处理对象和处理规则的描述。处理对象是<b>数据</b>（数字、文字、图形等，只是表示而无含义）或<b>信息</b>（数据及有关的含义）；处理规则指处理的动作和步骤；文档是便于了解程序的阐述性资料。软件按作用和运行环境分为<b>系统软件</b>（不依赖特定应用领域的通用软件，可再分操作系统、程序设计语言翻译系统、数据库管理系统和网络软件）和<b>应用软件</b>（为某类应用需要设计，可再分专用与通用）。</p>
+<h3>2. 操作系统 ⭐【重点】</h3>
+<p><b>操作系统是计算机系统的资源管理者</b>，首要作用是通过 <b>CPU 管理、存储管理、设备管理和文件管理</b>合理分配资源，是配置在计算机硬件上的<b>第 1 层软件</b>：向下管理裸机，向上为其他软件提供支持、为用户提供接口。</p>
+<p>组成：<b>内核（Kernel）+ 配套软件</b>（GUI、常用应用程序、实用程序、开发运行构件）。内核提供<b>进程管理（任务管理）、存储管理、文件管理和设备管理</b>，对硬件抽象后向应用提供统一的<b>系统调用接口（API）</b>；内核常驻内存、以 CPU 最高优先级运行、可执行<b>特权指令</b>、可直接访问各种外设和全部主存空间。</p>
+<p>三大作用：①管理运行程序、分配软硬件资源（处理器/存储/文件/I/O 设备管理）；②提供友善<b>人机界面</b>（GUI）；③为应用开发运行提供高效平台（呈现一台「<b>虚拟计算机</b>」，屏蔽物理设备细节）。</p>
+<p>四个特征 ⭐【高频考点】：</p>
+<table><colgroup><col style="width:11.1%"><col style="width:52.8%"><col style="width:36.1%"></colgroup><thead><tr><th>特征</th><th>含义</th><th>关键点</th></tr></thead><tbody><tr><td class="tc">并发性</td><td>宏观上多个程序同时运行</td><td>单 CPU 下微观上<b>交替轮流执行</b>；多 CPU 才可<b>并行</b></td></tr><tr><td class="tc">共享性</td><td>资源被多个并发进程共同使用而非独占</td><td>共享方式分<b>同时共享和互斥共享</b></td></tr><tr><td class="tc">虚拟性</td><td>把一个物理实体变为多个逻辑对应物，或把多个物理实体变为一个逻辑对应物</td><td>提供易用高效的操作环境（如虚拟内存）</td></tr><tr><td class="tc">不确定性</td><td>进程「走走停停」，执行时机、速度、完成时间不可预知</td><td>可能导致<b>执行结果不唯一</b></td></tr></tbody></table>
+<p>操作系统分类 ⭐：</p>
+<table><colgroup><col style="width:12.9%"><col style="width:43.6%"><col style="width:43.6%"></colgroup><thead><tr><th>类型</th><th>核心思想</th><th>记忆要点</th></tr></thead><tbody><tr><td>批处理操作系统</td><td>单道：一次只有一个作业装入内存；多道：多个作业装入内存，I/O 时把 CPU 交给其他作业</td><td>多道三特点：<b>多道、宏观并行、微观串行</b>；作业由用户程序、数据和作业说明书组成</td></tr><tr><td>分时操作系统</td><td>CPU 时间划分为很短<b>时间片</b>，轮流为各终端用户服务</td><td>四特点：<b>多路性、独立性、交互性、及时性</b>；用户感觉独占系统</td></tr><tr><td>实时操作系统</td><td>以足够快的速度处理外来信息，在被控对象允许的时间范围内快速反应</td><td>对交互要求不高、<b>要求可靠性</b>；分实时控制系统（火炮、自动驾驶）和实时信息处理系统（订票、检索）</td></tr><tr><td>网络操作系统</td><td>使联网计算机方便有效地共享网络资源、为网络用户服务</td><td>特征：硬件独立性、多用户支持、目录服务等</td></tr><tr><td>分布式操作系统</td><td>为分散计算机组成的系统配置，统一界面、协同完成任务</td><td>是网络操作系统的<b>更高级形式</b>，增加<b>透明性</b>、可靠性和高性能</td></tr><tr><td>微型计算机操作系统</td><td>常用的微机 OS</td><td>Windows、Mac OS、Linux</td></tr><tr><td>嵌入式操作系统</td><td>运行在嵌入式智能设备中，统一协调软硬件资源</td><td>五特点：<b>微型化、可定制、实时性、可靠性、易移植性（HAL+BSP）</b>；常见 VxWorks、μClinux、μC/OS、eCos 等</td></tr></tbody></table>
+<h3>3. 数据库 ⭐【重点】</h3>
+<p><b>数据库（DB）是指长期存储在计算机内、有组织的、统一管理的相关数据的集合</b>，不仅描述数据本身，还包括事物之间的联系，具有<b>较小的冗余度、较高的数据独立性和易扩展性</b>，可为多个用户共享。早期有层次式、网络式、关系型三种；目前最常见的是关系型和非关系型。按存储体系可分为 5 类：</p>
+<table><colgroup><col style="width:22.3%"><col style="width:53.2%"><col style="width:24.5%"></colgroup><thead><tr><th>类型</th><th>存储特点</th><th>通俗理解</th></tr></thead><tbody><tr><td>关系型数据库</td><td>把复杂数据结构归结为简单的<b>二元关系（二维表）</b>，操作建立在关系表格上</td><td>多张 Excel 表互相关联</td></tr><tr><td>键值（Key-Value）数据库</td><td>数据存为<b>键值对</b>集合，键是唯一标识符</td><td>大字典，按 key 取 value</td></tr><tr><td>列存储数据库</td><td>相对行式存储，按<b>列</b>组织表中数据</td><td>按列整列地读，利于分析统计</td></tr><tr><td>文档数据库</td><td>存放 XML/JSON/BSON 等<b>自描述、分层树状</b>文档，文档相似但不必相同</td><td>可视为<b>其值可查的键值数据库</b></td></tr><tr><td>搜索引擎数据库</td><td>面向搜索引擎爬取数据的特定格式存储</td><td>为检索性能优化</td></tr></tbody></table>
+<p><b>关系数据库</b>：数据模型是数据库系统的核心与基础，具有<b>数据结构、数据操作和完整性约束条件</b>三要素 ⭐。关系可理解为二维表，用若干关系表示实体及其联系；<b>主码能唯一确定某个实体</b>（如学号唯一确定学生）。例如：学生（学号，姓名，年龄，系别）、课程（课程号，课程名，学分）、选课（学号，课程号，分数）。</p>
+<p>数据库设计特点：以数据模型为核心展开、静态结构设计与动态行为设计分离、试探性、反复性和多步性；设计方法分直观设计法、规范设计法、计算机辅助设计法和自动化设计法 4 类（常用 3NF 方法、E-R 方法等）。设计分 6 个阶段 ⭐【高频考点】：</p>
+<table><colgroup><col style="width:14.3%"><col style="width:51.4%"><col style="width:34.3%"></colgroup><thead><tr><th>阶段</th><th>主要任务</th><th>关键产物/方法</th></tr></thead><tbody><tr><td class="tc">需求分析</td><td>调查现行系统，明确<b>数据需求和业务处理需求</b></td><td>需求说明书</td></tr><tr><td class="tc">概念结构设计</td><td>建立信息模型（数据建模），与具体 DBMS 无关</td><td><b>E-R 方法</b>：局部 E-R → 全局 E-R → 全局优化</td></tr><tr><td class="tc">逻辑结构设计</td><td>确定数据模型，<b>E-R 图转换为指定数据模型</b>，确定完整性约束和用户视图</td><td>视图、概念模式及应用处理说明书</td></tr><tr><td class="tc">物理结构设计</td><td>确定存储结构与存取方法、存放位置与存储分配</td><td>高效可实现的物理结构</td></tr><tr><td class="tc">应用程序设计</td><td>DBMS 二次开发：选方法、订计划、选架构、定安全策略</td><td>结构化或面向对象设计方法</td></tr><tr><td class="tc">运行维护</td><td>转储和恢复、安全完整性控制、性能监督分析与改造、重组重构</td><td>保证正常运行与优化</td></tr></tbody></table>
+<div class="fig"><div><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 260" font-family="Microsoft YaHei, 微软雅黑, sans-serif">
+  <!-- 六阶段流程 -->
+  <g>
+    <rect x="15" y="60" width="100" height="86" rx="6" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.2"/>
+    <text x="65" y="92" font-size="13" font-weight="bold" fill="#1f4e79" text-anchor="middle">需求分析</text>
+    <text x="65" y="118" font-size="10" fill="#22303f" text-anchor="middle">数据需求</text>
+    <text x="65" y="134" font-size="10" fill="#22303f" text-anchor="middle">业务处理需求</text>
+    <rect x="130" y="60" width="100" height="86" rx="6" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.2"/>
+    <text x="180" y="88" font-size="13" font-weight="bold" fill="#1f4e79" text-anchor="middle">概念结构</text>
+    <text x="180" y="106" font-size="13" font-weight="bold" fill="#1f4e79" text-anchor="middle">设计</text>
+    <text x="180" y="130" font-size="10" fill="#22303f" text-anchor="middle">E-R 方法建模</text>
+    <rect x="245" y="60" width="100" height="86" rx="6" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.2"/>
+    <text x="295" y="88" font-size="13" font-weight="bold" fill="#1f4e79" text-anchor="middle">逻辑结构</text>
+    <text x="295" y="106" font-size="13" font-weight="bold" fill="#1f4e79" text-anchor="middle">设计</text>
+    <text x="295" y="130" font-size="10" fill="#22303f" text-anchor="middle">E-R→数据模型</text>
+    <rect x="360" y="60" width="100" height="86" rx="6" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.2"/>
+    <text x="410" y="88" font-size="13" font-weight="bold" fill="#1f4e79" text-anchor="middle">物理结构</text>
+    <text x="410" y="106" font-size="13" font-weight="bold" fill="#1f4e79" text-anchor="middle">设计</text>
+    <text x="410" y="130" font-size="10" fill="#22303f" text-anchor="middle">存储与存取</text>
+    <rect x="475" y="60" width="100" height="86" rx="6" fill="#fdf0e6" stroke="#c05621" stroke-width="1.2"/>
+    <text x="525" y="88" font-size="13" font-weight="bold" fill="#c05621" text-anchor="middle">应用程序</text>
+    <text x="525" y="106" font-size="13" font-weight="bold" fill="#c05621" text-anchor="middle">设计</text>
+    <text x="525" y="130" font-size="10" fill="#22303f" text-anchor="middle">DBMS 二次开发</text>
+    <rect x="590" y="60" width="100" height="86" rx="6" fill="#f3f6ee" stroke="#8aa15c" stroke-width="1.2"/>
+    <text x="640" y="92" font-size="13" font-weight="bold" fill="#4a6130" text-anchor="middle">运行维护</text>
+    <text x="640" y="118" font-size="10" fill="#22303f" text-anchor="middle">优化、重组</text>
+    <text x="640" y="134" font-size="10" fill="#22303f" text-anchor="middle">与重构</text>
+  </g>
+  <!-- 相邻箭头 -->
+  <g stroke="#1f4e79" stroke-width="1.5" fill="none">
+    <line x1="118" y1="103" x2="122" y2="103"/>
+    <polygon points="127,103 119,98.5 119,107.5" fill="#1f4e79"/>
+    <line x1="233" y1="103" x2="237" y2="103"/>
+    <polygon points="242,103 234,98.5 234,107.5" fill="#1f4e79"/>
+    <line x1="348" y1="103" x2="352" y2="103"/>
+    <polygon points="357,103 349,98.5 349,107.5" fill="#1f4e79"/>
+    <line x1="463" y1="103" x2="467" y2="103"/>
+    <polygon points="472,103 464,98.5 464,107.5" fill="#1f4e79"/>
+    <line x1="578" y1="103" x2="582" y2="103"/>
+    <polygon points="587,103 579,98.5 579,107.5" fill="#1f4e79"/>
+  </g>
+  <text x="360" y="186" font-size="12" fill="#22303f" text-anchor="middle">概念模型与具体 DBMS 无关；逻辑结构确定数据模型与完整性约束；物理结构面向存储效率</text>
+  <text x="360" y="212" font-size="11" fill="#6b7a8a" text-anchor="middle">设计方法：直观设计法 / 规范设计法（3NF、E-R）/ 计算机辅助设计法 / 自动化设计法</text>
+  <text x="360" y="240" font-size="11" fill="#6b7a8a" text-anchor="middle">（据教材图 2-5 重绘）</text>
+</svg></div><div class="cap">数据库的设计步骤（据教材图 2-5 重绘）</div></div>
+<p><b>分布式数据库系统（DDBS）</b>：针对<b>地理上分散、管理上又需要不同程度集中</b>的需求提出。满足<b>分布性、逻辑相关性、场地透明性和场地自治性</b>的称为完全分布式数据库系统；特点是数据的集中控制性、数据独立性、数据冗余可控性、场地自治性和存取的有效性。我国提出的 <b>4 层结构模式</b> ⭐：</p>
+<table><colgroup><col style="width:16.8%"><col style="width:37.4%"><col style="width:45.8%"></colgroup><thead><tr><th>层次</th><th>内容</th><th>通俗理解</th></tr></thead><tbody><tr><td class="tc">全局外层</td><td>多个<b>全局视图</b></td><td>各类用户看到的全局数据外观</td></tr><tr><td class="tc">全局概念层</td><td>全局概念模式、<b>分片模式、分配模式</b></td><td>全局逻辑结构 + 数据怎么切分、放到哪些场地</td></tr><tr><td class="tc">局部概念层</td><td>各场地的局部概念模式</td><td>每个场地自己的逻辑结构</td></tr><tr><td class="tc">局部内层</td><td>各场地的局部内模式与<b>局部数据库</b></td><td>每个场地实际的物理存储</td></tr></tbody></table>
+<p>4 层模式适用于<b>同构型和异构型</b>分布式数据库。应用领域有分布式计算、Internet 应用、数据仓库、数据复制和全球联网查询等（Sybase Replication Server 为典型产品）。</p>
+<div class="fig"><div><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 430" font-family="Microsoft YaHei, 微软雅黑, sans-serif">
+  <!-- 全局外层 -->
+  <rect x="60" y="24" width="600" height="72" rx="6" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.2"/>
+  <text x="360" y="46" font-size="14" font-weight="bold" fill="#1f4e79" text-anchor="middle">全局外层</text>
+  <g font-size="11" fill="#22303f">
+    <rect x="110" y="56" width="140" height="28" rx="4" fill="#ffffff" stroke="#1f4e79"/>
+    <text x="180" y="75" text-anchor="middle">全局视图</text>
+    <rect x="290" y="56" width="140" height="28" rx="4" fill="#ffffff" stroke="#1f4e79"/>
+    <text x="360" y="75" text-anchor="middle">全局视图</text>
+    <rect x="470" y="56" width="140" height="28" rx="4" fill="#ffffff" stroke="#1f4e79"/>
+    <text x="540" y="75" text-anchor="middle">全局视图</text>
+  </g>
+  <!-- 全局概念层 -->
+  <rect x="60" y="122" width="600" height="72" rx="6" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.2"/>
+  <text x="360" y="144" font-size="14" font-weight="bold" fill="#1f4e79" text-anchor="middle">全局概念层</text>
+  <g font-size="11" fill="#22303f">
+    <rect x="110" y="154" width="140" height="28" rx="4" fill="#ffffff" stroke="#1f4e79"/>
+    <text x="180" y="173" text-anchor="middle">全局概念模式</text>
+    <rect x="290" y="154" width="140" height="28" rx="4" fill="#fdf0e6" stroke="#c05621"/>
+    <text x="360" y="173" text-anchor="middle">分片模式</text>
+    <rect x="470" y="154" width="140" height="28" rx="4" fill="#fdf0e6" stroke="#c05621"/>
+    <text x="540" y="173" text-anchor="middle">分配模式</text>
+  </g>
+  <!-- 局部概念层 -->
+  <rect x="60" y="220" width="600" height="72" rx="6" fill="#f3f6ee" stroke="#8aa15c" stroke-width="1.2"/>
+  <text x="360" y="242" font-size="14" font-weight="bold" fill="#4a6130" text-anchor="middle">局部概念层</text>
+  <g font-size="11" fill="#22303f">
+    <rect x="110" y="252" width="140" height="28" rx="4" fill="#ffffff" stroke="#8aa15c"/>
+    <text x="180" y="271" text-anchor="middle">局部概念模式</text>
+    <rect x="290" y="252" width="140" height="28" rx="4" fill="#ffffff" stroke="#8aa15c"/>
+    <text x="360" y="271" text-anchor="middle">局部概念模式</text>
+    <rect x="470" y="252" width="140" height="28" rx="4" fill="#ffffff" stroke="#8aa15c"/>
+    <text x="540" y="271" text-anchor="middle">局部概念模式</text>
+  </g>
+  <!-- 局部内层 -->
+  <rect x="60" y="318" width="600" height="72" rx="6" fill="#f3f6ee" stroke="#8aa15c" stroke-width="1.2"/>
+  <text x="360" y="340" font-size="14" font-weight="bold" fill="#4a6130" text-anchor="middle">局部内层</text>
+  <g font-size="11" fill="#22303f">
+    <rect x="110" y="350" width="140" height="28" rx="4" fill="#ffffff" stroke="#8aa15c"/>
+    <text x="180" y="369" text-anchor="middle">局部内模式/局部库</text>
+    <rect x="290" y="350" width="140" height="28" rx="4" fill="#ffffff" stroke="#8aa15c"/>
+    <text x="360" y="369" text-anchor="middle">局部内模式/局部库</text>
+    <rect x="470" y="350" width="140" height="28" rx="4" fill="#ffffff" stroke="#8aa15c"/>
+    <text x="540" y="369" text-anchor="middle">局部内模式/局部库</text>
+  </g>
+  <!-- 层间映射箭头（每层间两条独立竖线） -->
+  <g stroke="#6b7a8a" stroke-width="1.4" fill="none">
+    <line x1="200" y1="99" x2="200" y2="114"/>
+    <polygon points="200,119 195.5,111 204.5,111" fill="#6b7a8a"/>
+    <line x1="520" y1="99" x2="520" y2="114"/>
+    <polygon points="520,119 515.5,111 524.5,111" fill="#6b7a8a"/>
+    <line x1="200" y1="197" x2="200" y2="212"/>
+    <polygon points="200,217 195.5,209 204.5,209" fill="#6b7a8a"/>
+    <line x1="520" y1="197" x2="520" y2="212"/>
+    <polygon points="520,217 515.5,209 524.5,209" fill="#6b7a8a"/>
+    <line x1="200" y1="295" x2="200" y2="310"/>
+    <polygon points="200,315 195.5,307 204.5,307" fill="#6b7a8a"/>
+    <line x1="520" y1="295" x2="520" y2="310"/>
+    <polygon points="520,315 515.5,307 524.5,307" fill="#6b7a8a"/>
+  </g>
+  <text x="360" y="110" font-size="10" fill="#6b7a8a" text-anchor="middle">映射</text>
+  <text x="360" y="208" font-size="10" fill="#6b7a8a" text-anchor="middle">映射</text>
+  <text x="360" y="306" font-size="10" fill="#6b7a8a" text-anchor="middle">映射</text>
+  <text x="360" y="416" font-size="11" fill="#6b7a8a" text-anchor="middle">同构 / 异构分布式数据库均适用；完全分布式：分布性、逻辑相关性、场地透明性、场地自治性</text>
+</svg></div><div class="cap">分布式数据库的四层结构模式（据教材图 2-6 重绘）</div></div>
+<p><b>常用 DBMS</b>：小型代表有 MySQL（2009 年被 Oracle 收购）、Access；大型代表有 <b>Oracle、SQL Server、IBM DB2</b>。Oracle 使用 <b>PL/SQL</b>，产品含数据库服务器、开发工具和连接产品三类；DB2 是 IBM 分布式数据库解决方案，支持同一条 SQL 查询不同 Database 甚至不同 DBMS 的数据；<b>Sybase 是世界上第一个真正基于 C/S 结构的 RDBMS 产品</b>，由 SQLServer、SQLToolset、OpenClient/OpenServer 三部分组成；SQL Server 使用 <b>Transact-SQL</b>。大型 DBMS 的共同特点：基于网络环境（C/S、B/S 均可）、支持大规模应用（数千并发用户）、自动锁、高安全性、备份恢复与设备镜像、维护数据完整性、分布式处理功能。</p>
+<h3>4. 文件系统 ⭐【重点】</h3>
+<p><b>文件（File）是具有符号名的、在逻辑上具有完整意义的一组相关信息项的集合</b>，包括<b>文件体</b>（真实内容）和<b>文件说明</b>（文件名、类型、存储地址、长度、访问权限、时间等管理信息）。<b>文件系统是操作系统中实现文件统一管理的一组软件和相关数据的集合</b>，功能：<b>按名存取</b>（而非按地址存取）、统一用户接口、并发访问和控制、安全性控制、优化性能、差错恢复。常用文件系统类型有 FAT、VFAT、NTFS、Ext2、HPFS 等。</p>
+<p>文件分类：按性质用途分系统文件、库文件、用户文件；按保存期限分临时、档案、永久文件；按保护方式分只读、读/写、可执行、不保护文件；<b>UNIX 分为普通文件、目录文件和设备文件（特殊文件）</b>。</p>
+<p><b>逻辑结构</b>（用户角度）分两类：<b>有结构的记录式文件</b>（由一个以上记录构成，记录可定长或不定长）和<b>无结构的流式文件</b>（一串顺序字符流/字节流，用读/写指针指出下一个要访问的字符，可看作记录式文件的特例）。</p>
+<p><b>物理结构</b>（存储设备上的存放方法）⭐【易错】：</p>
+<table><colgroup><col style="width:13.7%"><col style="width:43.1%"><col style="width:43.1%"></colgroup><thead><tr><th>物理结构</th><th>存放方式</th><th>存取特点</th></tr></thead><tbody><tr><td>连续结构（顺序结构）</td><td>逻辑上连续的信息依次放在<b>连续编号</b>的物理块上</td><td>知道起始块号 + 长度即可方便存取</td></tr><tr><td>链接结构（串联结构）</td><td>放在<b>不连续</b>物理块，每块设指针指向下一块</td><td>知道第 1 个块号即可按链指针查找整个文件</td></tr><tr><td>索引结构</td><td>放在不连续物理块，系统为每个文件建<b>索引表</b>（逻辑块号→物理块号），索引表起始地址放在文件目录项中</td><td>通过索引表直接定位，索引表一般占一个或几个物理块（多物理块时可链接文件或多重索引）</td></tr></tbody></table>
+<p><b>存取方法</b>：顺序存取（按顺序依次读/写）和随机存取（按任意次序读/写）。</p>
+<p><b>空闲空间管理</b>：数据结构称磁盘分配表，常用方法 ⭐：</p>
+<table><colgroup><col style="width:14.8%"><col style="width:54.3%"><col style="width:30.9%"></colgroup><thead><tr><th>方法</th><th>原理</th><th>要点</th></tr></thead><tbody><tr><td class="tc">空闲区表</td><td>为所有连续未分配「空闲区」建表（序号、第 1 块号、块数、状态）</td><td><b>适用于连续文件结构</b></td></tr><tr><td class="tc">位示图（Bitmap）</td><td>每一位对应一个物理块，<b>0 表示空闲、1 表示占用</b>；字长 32 位时第 0 个字对应 0～31 号块</td><td>大小由磁盘物理块总数决定，<b>适合各种物理结构</b></td></tr><tr><td class="tc">空闲块链</td><td>每个空闲块存指向下一个空闲块的指针，构成链表，头指针放在特定位置</td><td>不需磁盘分配表，<b>节省空间</b></td></tr><tr><td class="tc">成组链接法</td><td><b>UNIX 采用</b>：空闲块分组（如每 100 块一组），每组第 1 块登记下一组块号和总数；第 1 块号为 0 表示最后一组</td><td>兼顾链表与成组管理</td></tr></tbody></table>
+<p><b>文件共享与保护</b> ⭐【易错】：</p>
+<table><colgroup><col style="width:10.1%"><col style="width:45.6%"><col style="width:44.3%"></colgroup><thead><tr><th>共享方式</th><th>原理</th><th>特点</th></tr></thead><tbody><tr><td class="tc">硬链接</td><td>两个文件目录表目指向<b>同一个索引结点</b>（不同文件名链接同一文件实体）</td><td>文件主删除共享文件须先删除所有硬链接，否则其他用户目录指针悬空</td></tr><tr><td class="tc">符号链接</td><td>建立新的文件或目录，与原文件<b>路径名映射</b>，访问时经映射找到原文件</td><td><b>可跨越文件系统</b>，甚至跨网络连接其他机器的文件</td></tr></tbody></table>
+<p>文件保护采用<b>存取控制</b>：存取控制矩阵（用户 × 文件二维矩阵，权限 R/W/X 组合，因太大往往无法实现）；存取控制表（按用户类别简化，<b>UNIX 把用户分为文件主、同组用户和其他用户三类</b>）；用户权限表（以用户为单位集中记录可存取文件，相当于矩阵一行的简化）；密码（创建时提供密码，存盘加密、读取解密）。</p>
+<h3>5. 网络协议与中间件 ⭐【重点】</h3>
+<p><b>协议是网络中的计算机进行通信时，为实现数据正常发送与接收必须遵循的事先约定好的规则</b>，规定通信的数据格式、传送时序以及控制信息和应答信号等。常用网络协议包括<b>局域网协议（LAN）、广域网协议（WAN）、无线网协议和移动网协议</b>；互联网使用 <b>TCP/IP 协议簇</b>。</p>
+<p><b>中间件（Middleware）是应用软件与各种操作系统之间使用的标准化编程接口和协议</b>，处在<b>操作系统、网络和数据库之上、应用软件的下层</b>，起承上启下作用，使应用开发独立于硬件和操作系统并能在不同系统上运行，属于<b>可复用基础软件</b>。</p>
+<div class="fig"><div><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 330" font-family="Microsoft YaHei, 微软雅黑, sans-serif">
+  <!-- 应用软件层 -->
+  <rect x="60" y="30" width="600" height="60" rx="6" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.2"/>
+  <text x="360" y="66" font-size="15" font-weight="bold" fill="#1f4e79" text-anchor="middle">应用软件（多种应用）</text>
+  <!-- 中间件层 -->
+  <rect x="60" y="126" width="600" height="60" rx="6" fill="#fdf0e6" stroke="#c05621" stroke-width="1.4"/>
+  <text x="360" y="152" font-size="15" font-weight="bold" fill="#c05621" text-anchor="middle">中间件（分布式系统服务）</text>
+  <text x="360" y="172" font-size="11" fill="#22303f" text-anchor="middle">标准化编程接口与协议，属于可复用基础软件</text>
+  <!-- 操作系统/网络/数据库层 -->
+  <rect x="60" y="222" width="600" height="60" rx="6" fill="#f3f6ee" stroke="#8aa15c" stroke-width="1.2"/>
+  <text x="360" y="258" font-size="15" font-weight="bold" fill="#4a6130" text-anchor="middle">操作系统 ｜ 网络、数据库</text>
+  <!-- 承上启下箭头（两条独立竖线，双向语义） -->
+  <g stroke="#1f4e79" stroke-width="1.5" fill="none">
+    <line x1="240" y1="93" x2="240" y2="118"/>
+    <polygon points="240,123 235.5,115 244.5,115" fill="#1f4e79"/>
+    <line x1="480" y1="93" x2="480" y2="118"/>
+    <polygon points="480,123 475.5,115 484.5,115" fill="#1f4e79"/>
+    <line x1="240" y1="189" x2="240" y2="214"/>
+    <polygon points="240,219 235.5,211 244.5,211" fill="#1f4e79"/>
+    <line x1="480" y1="189" x2="480" y2="214"/>
+    <polygon points="480,219 475.5,211 484.5,211" fill="#1f4e79"/>
+  </g>
+  <text x="360" y="314" font-size="12" fill="#6b7a8a" text-anchor="middle">承上启下：使应用开发独立于计算机硬件和操作系统，并能在不同系统上运行相同应用功能</text>
+</svg></div><div class="cap">中间件的位置（据教材图 2-8 重绘）</div></div>
+<p>中间件按在分布式系统中承担的职责分为 8 类：</p>
+<table><colgroup><col style="width:16.9%"><col style="width:39.5%"><col style="width:43.5%"></colgroup><thead><tr><th>类型</th><th>职责</th><th>代表产品/要点</th></tr></thead><tbody><tr><td>通信处理（消息）中间件</td><td>实现可靠、高效、实时的跨平台数据传输</td><td><b>市面上销售额最大</b>；BEA eLink、<b>IBM MQSeries</b>、TongLINK</td></tr><tr><td>事务处理（交易）中间件</td><td>大量事务在多服务器上实时并发、负载平衡调度、故障恢复与自动切换</td><td><b>BEA Tuxedo</b> 由此闻名</td></tr><tr><td>数据存取管理中间件</td><td>网络上虚拟缓冲存取、格式转换、解压等</td><td>面向集中存放的各类数据</td></tr><tr><td>Web 服务器中间件</td><td>弥补浏览器会话能力差、不擅长数据写入、受 HTTP 限制等不足</td><td>如 SilverStream 产品</td></tr><tr><td>安全中间件</td><td>解决安全保密问题，适应灵活多变的安全要求</td><td>军政商部门须用国产产品</td></tr><tr><td>跨平台和架构的中间件</td><td>集成不同系统平台上的构件或新老版本构件</td><td><b>CORBA 功能最强但庞大</b>；JavaBeans 灵活简单适合浏览器；COM+ 适合 Windows</td></tr><tr><td>专用平台中间件</td><td>为特定应用领域建立参考模式、架构与构件库</td><td>如电子商务、网站领域</td></tr><tr><td>网络中间件</td><td>网管、接入、网络测试、虚拟社区和虚拟缓冲等</td><td>当前热门研发方向</td></tr></tbody></table>
+<p>两个典型产品 ⭐【易错：产品与类型对应】：<b>IBM MQSeries 是消息处理中间件</b>，由信息传输系统和应用程序接口组成，资源是<b>消息和队列</b>，关键是<b>异步消息处理保证可靠传输</b>（网络不可靠或应用忙/故障时信息不丢失、不阻塞）；<b>BEA Tuxedo 是交易中间件</b>，支持多数据库协调更新并确保数据完整性，能持续监视并排除故障构件保证<b>不间断访问</b>，可按负载自动启停应用服务实现负载均衡，借助 <b>DDR（数据依赖路由）</b>选择消息路由。</p>
+<h3>6. 软件构件</h3>
+<p><b>构件（组件）是一个自包容、可复用的程序集</b>，整体向外提供统一访问接口，外部只能通过接口访问而不能直接操作内部。<b>两个最重要特性：自包容与可重用</b> ⭐。</p>
+<p><b>构件组装模型</b>：需求分析定义功能后，设计构件组装结构（系统划分为构件集合、明确关系），再独立开发/重用/购买构件，最后组装、测试发布。开发过程：<b>设计构件组装 → 建立构件库 → 构建应用软件 → 测试与发布</b>。优点：自包容使扩展容易、重用降低成本、粒度小便于团队并行独立开发；缺点：依赖经验丰富的架构设计师、为重用可能牺牲性能、学习成本高、<b>第三方构件库质量难以控制</b>。</p>
+<p>主流商用构件标准规范 ⭐：</p>
+<table><colgroup><col style="width:13.2%"><col style="width:14.0%"><col style="width:72.7%"></colgroup><thead><tr><th>标准</th><th>提出方</th><th>核心内容</th></tr></thead><tbody><tr><td class="tc">CORBA</td><td class="tc">OMG</td><td>三层：<b>对象请求代理 ORB</b>（分布对象的「软总线」，实现对象间通信互操作）、公共对象服务（并发、名字、事务、安全等）、公共设施（构件框架与业务协作规则）；CCM 构件模型含抽象构件模型、构件容器结构、构件配置和打包规范</td></tr><tr><td class="tc">J2EE</td><td class="tc">Sun</td><td>支持 <b>RMI 和 IIOP</b>；服务器端形式有 Servlet、JSP、<b>EJB</b>；<b>EJB 是业务逻辑层的中间件技术</b>，给出服务器端分布构件规范（构件、容器接口、打包配置），Bean 分会话 Bean（维护会话）和实体 Bean（处理事务），通常由 Servlet 负责客户端通信、访问 EJB、经 JSP 生成页面返回</td></tr><tr><td class="tc">DNA 2000</td><td class="tc">Microsoft</td><td>基于 Windows 2000 的分布计算架构，融合事务处理、可伸缩性、异步消息队列和集群；<b>DCOM/COM/COM+</b> 将 COM、DCOM、MTS 功能统一，提供负载均衡、内存数据库、对象池、构件管理配置等服务</td></tr></tbody></table>
+<h3>7. 应用软件</h3>
+<p>应用软件按开发方式和适用范围分为<b>通用应用软件</b>（文字处理、电子表格、图形图像、媒体播放、网络通信、演示、信息检索、个人信息管理、游戏等，如 Word、Excel、Photoshop、PowerPoint）和<b>专用（定制）应用软件</b>（按特定领域要求专门开发，如超市销售管理、集成制造、教务管理、医院信息系统，专用性强、成本高、价格贵）。广泛使用的应用软件共同特点：<b>替代现实世界已有工具且更方便有效；能完成已有工具很难甚至不可能完成的任务</b>。</p>
+<h3>2.4 嵌入式系统及软件（2.4）⭐【重点】</h3>
+<h3>1. 组成及特点</h3>
+<p><b>嵌入式系统（Embedded System）是为了特定应用而专门构建且将信息处理过程和物理过程紧密结合为一体的专用计算机系统</b>；以应用为中心、以计算机技术为基础，软硬件<b>可配置可裁减</b>，需满足功能、可靠性、成本、体积和功耗的严格要求。嵌入式软件指可运行在嵌入式系统中的程序代码和帮助这些软件开发所用的工具或环境软件的总称。</p>
+<p>基本工作原理：通过外部接口采集输入信息或人机接口输入的命令，对数据加工计算，将结果通过外部接口输出<b>控制受控对象</b>。组成 5 部分：</p>
+<table><colgroup><col style="width:20.0%"><col style="width:80.0%"></colgroup><thead><tr><th>组成</th><th>要点</th></tr></thead><tbody><tr><td class="tc">嵌入式处理器</td><td>抵抗高温、寒冷、电磁、加速度等<b>恶劣环境</b>，低功耗、体积小；工艺分<b>民用、工业、军用</b>三档</td></tr><tr><td class="tc">相关支撑硬件</td><td>处理器以外的<b>存储器、定时器、总线、I/O 接口及专用硬件</b>（教材 ARM 实例：Flash/SDRAM/硬盘、LCD、键盘、RS-232/USB/JTAG、TCP/IP 与 CAN 总线）</td></tr><tr><td class="tc">嵌入式操作系统</td><td>管理计算机资源和应用软件，应具备<b>实时性、可剪裁性和安全性</b></td></tr><tr><td class="tc">支撑软件</td><td>为应用开发运行提供公共服务与开发调试能力，通常以<b>库</b>的方式被引用</td></tr><tr><td class="tc">应用软件</td><td>为完成嵌入式系统某一特定目标开发</td></tr></tbody></table>
+<p>特点 8 条：<b>专用性强；技术融合；软硬一体、软件为主（有 IP 核）；比通用计算机资源少；程序代码固化在非易失存储器中；需专门开发工具和环境（本身不具备开发能力）；体积小、价格低、工艺先进、性能价格比高、配置要求低、实时性强；对安全性和可靠性要求高</b>。</p>
+<div class="fig"><div><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 380" font-family="Microsoft YaHei, 微软雅黑, sans-serif">
+  <!-- 上半：基本工作原理 -->
+  <text x="360" y="26" font-size="14" font-weight="bold" fill="#1f4e79" text-anchor="middle">基本工作原理</text>
+  <g font-size="13" fill="#22303f">
+    <rect x="10" y="50" width="120" height="56" rx="6" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.2"/>
+    <text x="70" y="84" text-anchor="middle">操作者</text>
+    <rect x="150" y="50" width="120" height="56" rx="6" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.2"/>
+    <text x="210" y="84" text-anchor="middle">人-机接口</text>
+    <rect x="290" y="50" width="120" height="56" rx="6" fill="#fdf0e6" stroke="#c05621" stroke-width="1.2"/>
+    <text x="350" y="76" text-anchor="middle" font-weight="bold" fill="#c05621">嵌入式</text>
+    <text x="350" y="94" text-anchor="middle" font-weight="bold" fill="#c05621">计算机</text>
+    <rect x="430" y="50" width="120" height="56" rx="6" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.2"/>
+    <text x="490" y="76" text-anchor="middle">数字/模拟</text>
+    <text x="490" y="94" text-anchor="middle">接口</text>
+    <rect x="570" y="50" width="120" height="56" rx="6" fill="#f3f6ee" stroke="#8aa15c" stroke-width="1.2"/>
+    <text x="630" y="84" text-anchor="middle">受控对象</text>
+  </g>
+  <g stroke="#1f4e79" stroke-width="1.5" fill="none">
+    <line x1="133" y1="78" x2="139" y2="78"/>
+    <polygon points="147,78 139,73.5 139,82.5" fill="#1f4e79"/>
+    <line x1="273" y1="78" x2="279" y2="78"/>
+    <polygon points="287,78 279,73.5 279,82.5" fill="#1f4e79"/>
+    <line x1="413" y1="78" x2="419" y2="78"/>
+    <polygon points="427,78 419,73.5 419,82.5" fill="#1f4e79"/>
+    <line x1="553" y1="78" x2="559" y2="78"/>
+    <polygon points="567,78 559,73.5 559,82.5" fill="#1f4e79"/>
+  </g>
+  <text x="360" y="136" font-size="11" fill="#6b7a8a" text-anchor="middle">采集输入信息/命令 → 加工计算 → 输出结果控制受控对象</text>
+  <!-- 下半：开发环境 -->
+  <text x="360" y="186" font-size="14" font-weight="bold" fill="#1f4e79" text-anchor="middle">开发环境：宿主机开发 → 目标机运行/固化</text>
+  <rect x="100" y="210" width="170" height="80" rx="8" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.4"/>
+  <text x="185" y="242" font-size="15" font-weight="bold" fill="#1f4e79" text-anchor="middle">宿主机</text>
+  <text x="185" y="266" font-size="11" fill="#22303f" text-anchor="middle">PC/工作站 + 专用工具</text>
+  <rect x="450" y="210" width="170" height="80" rx="8" fill="#f3f6ee" stroke="#8aa15c" stroke-width="1.4"/>
+  <text x="535" y="242" font-size="15" font-weight="bold" fill="#4a6130" text-anchor="middle">目标机</text>
+  <text x="535" y="266" font-size="11" fill="#22303f" text-anchor="middle">嵌入式设备运行环境</text>
+  <g stroke="#1f4e79" stroke-width="1.5" fill="none">
+    <line x1="273" y1="250" x2="439" y2="250"/>
+    <polygon points="447,250 439,245.5 439,254.5" fill="#1f4e79"/>
+  </g>
+  <text x="360" y="236" font-size="11" fill="#22303f" text-anchor="middle">串口 / 网络 / JTAG</text>
+  <text x="360" y="324" font-size="11" fill="#6b7a8a" text-anchor="middle">生成二进制代码后下载到目标机或固化在其存储器上运行</text>
+  <text x="360" y="352" font-size="12" fill="#c05621" text-anchor="middle">嵌入式系统最大特点：运行和开发在不同环境中进行</text>
+</svg></div><div class="cap">嵌入式系统的基本工作原理与开发环境（据教材图 2-10、2-13 重绘）</div></div>
+<h3>2. 分类</h3>
+<ul><li>按用途分<b>嵌入式实时系统和嵌入式非实时系统</b>，实时系统又分<b>强实时（Hard Real-Time）和弱实时（Weak Real-Time）</b>。<b>实时系统是指能够在指定或确定的时间内完成系统功能并对外部或内部、同步或异步事件做出响应的系统</b>：计算正确性<b>不仅取决于逻辑正确性，也取决于结果产生的时间</b>，时间约束不满足就是系统错误。</li><li>按安全性要求分<b>安全攸关（Safety-Critical/Life-Critical）系统和非安全攸关系统</b>。<b>安全攸关系统是指其不正确的功能或失效会导致人员伤亡、财产损失等严重后果的计算机系统</b>。</li></ul>
+<h3>3. 嵌入式软件的组成及特点 ⭐【高频考点】</h3>
+<p>嵌入式系统最大特点：<b>运行和开发在不同环境中进行</b>——运行环境称「<b>目标机</b>」，开发环境称「<b>宿主机</b>」，经串口/网络/JTAG 连接，生成二进制代码后卸载到目标机或固化运行。软件组成采用<b>层次化结构</b>，分 5 层 ⭐：</p>
+<table><colgroup><col style="width:10.5%"><col style="width:51.2%"><col style="width:38.4%"></colgroup><thead><tr><th>层次</th><th>内容</th><th>记忆要点</th></tr></thead><tbody><tr><td class="tc">应用层</td><td>工业控制、军事、物联网、移动设备等具体应用</td><td>面向最终业务</td></tr><tr><td class="tc">中间件层</td><td>嵌入式数据库、OpenGL、JAVA、虚拟机、<b>DDS/CORBA</b>、Hadoop 等</td><td>连接两个独立应用的桥梁，常分服务/集成/数据/消息/安全中间件</td></tr><tr><td class="tc">操作系统层</td><td><b>嵌入式（实时）操作系统 E(RT)OS</b>（任务管理、存储管理、任务间通信、时钟/中断管理）+ 可配置组件（文件系统、设备管理、运行时库 RTL、GUI、网络管理、目标机代理 Agent）</td><td>组件可配置可剪裁</td></tr><tr><td class="tc">抽象层</td><td><b>硬件抽象 HAL</b>（为上层提供虚拟硬件资源）+ <b>板级支持包 BSP</b>（硬件驱动软件，面向芯片/电路驱动）</td><td>屏蔽硬件差异、支撑易移植</td></tr><tr><td class="tc">硬件层</td><td>微处理器、存储器（ROM/SDRAM/Flash）、I/O（A/D、D/A）、通用设备、总线、电源、时钟</td><td>运行支撑的硬件环境</td></tr></tbody></table>
+<p>嵌入式软件主要特点 6 条 ⭐【易错：安全性 vs 可靠性表述】：</p>
+<table><colgroup><col style="width:14.6%"><col style="width:53.7%"><col style="width:31.7%"></colgroup><thead><tr><th>特点</th><th>含义</th><th>常用设计方法</th></tr></thead><tbody><tr><td class="tc">可剪裁性</td><td>按功能需求增减软件模块，使系统更紧凑</td><td>静态编译、动态库、控制函数流程</td></tr><tr><td class="tc">可配置性</td><td>按运行功能/性能需要被配置，扩展、变更和增量服务</td><td>数据驱动、静态编译、配置表</td></tr><tr><td class="tc">强实时性</td><td>任务必须在规定时限（Deadline）内完成，算法优劣是主要影响</td><td>表驱动、配置、静/动态结合、汇编语言</td></tr><tr><td class="tc">安全性（Safety）</td><td>规定条件和时间内<b>不发生事故</b>的能力，反映失效后损失大小；机载 DO-178 分 A～E 5 个安全等级</td><td>编码标准、安全保障机制、FMECA</td></tr><tr><td class="tc">可靠性</td><td>规定条件和时间周期内<b>程序执行所要求功能</b>的能力；软件不随时间老化，与硬件可靠性衡量指标完全不同</td><td>容错技术、余度技术、鲁棒性设计</td></tr><tr><td class="tc">高确定性</td><td>任务、资源、状态、错误和时限都预先规划，运行期间不得出现资源枯竭和未预计状态</td><td>静态分配资源、越界检查、状态机、静态任务调度</td></tr></tbody></table>
+<p>嵌入式软件开发与传统开发的差异：在<b>宿主机上用专门工具开发</b>、代码需<b>固化到目标机</b>；强调软硬件协同效率与稳定性；需要专门开发工具、目标系统和测试设备；实时性、安全性和可靠性要求更高；考虑代码规模；安全攸关系统还须满足领域<b>设计和代码审定</b>；采用<b>模块化设计</b>。</p>
+<div class="fig"><div><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 480" font-family="Microsoft YaHei, 微软雅黑, sans-serif">
+  <!-- 应用层 -->
+  <rect x="60" y="24" width="600" height="68" rx="6" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.2"/>
+  <text x="90" y="50" font-size="14" font-weight="bold" fill="#1f4e79">应用层</text>
+  <text x="90" y="74" font-size="11" fill="#22303f">工业控制应用 ｜ 军事应用 ｜ 物联网应用 ｜ 移动设备应用</text>
+  <!-- 中间件层 -->
+  <rect x="60" y="116" width="600" height="68" rx="6" fill="#fdf0e6" stroke="#c05621" stroke-width="1.2"/>
+  <text x="90" y="142" font-size="14" font-weight="bold" fill="#c05621">中间件层</text>
+  <text x="90" y="166" font-size="11" fill="#22303f">嵌入式数据库、OpenGL、JAVA、虚拟机（VM）、DDS/CORBA、Hadoop</text>
+  <!-- 操作系统层 -->
+  <rect x="60" y="208" width="600" height="80" rx="6" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.2"/>
+  <text x="90" y="234" font-size="14" font-weight="bold" fill="#1f4e79">操作系统层</text>
+  <text x="90" y="256" font-size="11" fill="#22303f">嵌入式（实时）操作系统 E(RT)OS：任务管理、存储管理、任务间通信、时钟/中断管理</text>
+  <text x="90" y="276" font-size="11" fill="#22303f">可配置组件：文件系统、设备管理、运行时库 RTL、GUI、网络管理、目标机代理 Agent</text>
+  <!-- 抽象层 -->
+  <rect x="60" y="312" width="600" height="68" rx="6" fill="#f3f6ee" stroke="#8aa15c" stroke-width="1.2"/>
+  <text x="90" y="338" font-size="14" font-weight="bold" fill="#4a6130">抽象层</text>
+  <text x="90" y="362" font-size="11" fill="#22303f">硬件抽象 HAL（提供虚拟硬件资源）＋ 板级支持包 BSP（硬件驱动软件）</text>
+  <!-- 硬件层 -->
+  <rect x="60" y="404" width="600" height="68" rx="6" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.2"/>
+  <text x="90" y="430" font-size="14" font-weight="bold" fill="#1f4e79">硬件层</text>
+  <text x="90" y="454" font-size="11" fill="#22303f">微处理器、ROM/SDRAM/Flash、A/D、D/A、I/O、通用设备、总线、电源、时钟</text>
+  <!-- 层间箭头（每层间两条独立竖线） -->
+  <g stroke="#6b7a8a" stroke-width="1.4" fill="none">
+    <line x1="150" y1="95" x2="150" y2="108"/>
+    <polygon points="150,113 145.5,105 154.5,105" fill="#6b7a8a"/>
+    <line x1="570" y1="95" x2="570" y2="108"/>
+    <polygon points="570,113 565.5,105 574.5,105" fill="#6b7a8a"/>
+    <line x1="150" y1="187" x2="150" y2="200"/>
+    <polygon points="150,205 145.5,197 154.5,197" fill="#6b7a8a"/>
+    <line x1="570" y1="187" x2="570" y2="200"/>
+    <polygon points="570,205 565.5,197 574.5,197" fill="#6b7a8a"/>
+    <line x1="150" y1="291" x2="150" y2="304"/>
+    <polygon points="150,309 145.5,301 154.5,301" fill="#6b7a8a"/>
+    <line x1="570" y1="291" x2="570" y2="304"/>
+    <polygon points="570,309 565.5,301 574.5,301" fill="#6b7a8a"/>
+    <line x1="150" y1="383" x2="150" y2="396"/>
+    <polygon points="150,401 145.5,393 154.5,393" fill="#6b7a8a"/>
+    <line x1="570" y1="383" x2="570" y2="396"/>
+    <polygon points="570,401 565.5,393 574.5,393" fill="#6b7a8a"/>
+  </g>
+</svg></div><div class="cap">嵌入式系统软件的五层组成架构（据教材图 2-14 重绘）</div></div>
+<h3>4. 安全攸关软件的安全性设计（DO-178）⭐【高频考点】</h3>
+<p>IEEE 将<b>安全攸关软件</b>定义为「用于一个系统中，<b>可能导致不可接受的风险</b>的软件」。安全性属于<b>系统特性</b>，软件自身无所谓安全与否，但作为安全攸关系统的一部分时可能助长不安全因素；安全性分析应<b>自上而下、结合场景</b>。应按软件对安全性的影响程度分配<b>开发保证级别</b>：级别越高，要求的开发和验证活动、依赖性证据、错误识别排除越多，<b>成本也越高，并非越高越好</b>。</p>
+<p><b>DO-178 是美国 FAA 民用飞机适航标准中针对机载软件的标准</b>（《机载系统/设备合格审定中的软件考虑》），被航空、航天等安全攸关领域普遍采用。1982 年首版、<b>1992 年 DO-178B</b> 成为国际公认机载软件开发标准、<b>2011 年 DO-178C</b> 新增工具鉴定、基于模型的开发验证、面向对象技术和形式化验证。</p>
+<p><b>DO-178B 的目的</b>：为机载软件提供指导，使其在满足适航要求的安全性水平下完成预期功能。精髓是<b>目标、过程、数据</b>三要素 ⭐：</p>
+<table><colgroup><col style="width:8.5%"><col style="width:52.1%"><col style="width:39.4%"></colgroup><thead><tr><th>要素</th><th>内容</th><th>关键点</th></tr></thead><tbody><tr><td class="tc">目标</td><td>软件生命周期需达到的 <b>66 个目标</b>，按 A～E 安全等级分布</td><td>选择该标准就必须满足其全部适用目标</td></tr><tr><td class="tc">过程</td><td>为满足目标要进行的活动</td><td>生命周期分为<b>软件计划、软件开发、软件综合</b>三大过程</td></tr><tr><td class="tc">数据</td><td>证明目标达到的证据，即<b>软件生命周期数据</b>（文档、代码、报表、记录等）</td><td>数据组织与配置管理要求具体</td></tr></tbody></table>
+<p><b>软件安全等级与目标数量</b> ⭐【易错：数字常考】：</p>
+<table><colgroup><col style="width:12.5%"><col style="width:18.8%"><col style="width:52.1%"><col style="width:16.7%"></colgroup><thead><tr><th>等级</th><th>失效状态</th><th>后果简要说明</th><th>目标数量</th></tr></thead><tbody><tr><td class="tc">A 级</td><td class="tc">灾难性的</td><td>航空器<b>无法安全飞行和着陆</b></td><td class="tc"><b>66</b></td></tr><tr><td class="tc">B 级</td><td class="tc">危害性的</td><td><b>严重</b>降低航空器或机组克服不利运行情况的能力</td><td class="tc"><b>65</b></td></tr><tr><td class="tc">C 级</td><td class="tc">严重的</td><td><b>显著</b>降低上述能力</td><td class="tc"><b>56</b></td></tr><tr><td class="tc">D 级</td><td class="tc">不严重的</td><td><b>轻微</b>降低上述能力</td><td class="tc"><b>28</b></td></tr><tr><td class="tc">E 级</td><td class="tc">没有影响的</td><td>不会影响航空器或机组任何能力</td><td class="tc"><b>0</b></td></tr></tbody></table>
+<p><b>软件生命周期三大过程</b> ⭐：</p>
+<table><colgroup><col style="width:12.3%"><col style="width:33.3%"><col style="width:54.3%"></colgroup><thead><tr><th>过程</th><th>职责</th><th>子过程</th></tr></thead><tbody><tr><td class="tc">软件计划过程</td><td>策划协调全部生命周期活动，制订软件计划和标准</td><td>指导开发与综合过程</td></tr><tr><td class="tc">软件开发过程</td><td>生产软件产品：自顶向下、由粗及细、从无到有</td><td><b>软件需求</b>（开发高层需求）、<b>软件设计</b>（细化体系结构和低层需求）、<b>软件编码</b>（编写源代码）、<b>集成</b>（编译链接加载到目标机）4 个子过程</td></tr><tr><td class="tc">软件综合过程</td><td>验证、管理、控制软件产品，保证正确、受控、可信</td><td><b>软件验证</b>（技术评估）、<b>软件配置管理</b>（标识、基线、更改控制、归档）、<b>软件质量保证</b>（数据和过程审计）、<b>审定联络</b>（与合格审查机构沟通）4 个子过程</td></tr></tbody></table>
+<p>软件生存周期与系统生存周期的关系：<b>系统需求 → 软件高层需求 → 软件架构（低层需求）→ 源程序代码 → 可执行目标代码</b>；软件需求来自系统分解，二者密不可分。</p>
+<p><b>DO-178 与 CMMI 的差异</b> ⭐【易错】：</p>
+<table><colgroup><col style="width:8.3%"><col style="width:39.3%"><col style="width:52.4%"></colgroup><thead><tr><th>对比项</th><th>CMMI</th><th>DO-178</th></tr></thead><tbody><tr><td class="tc">视角</td><td><b>过程改进</b>：覆盖个人、项目、组织三层次，关注组织整体能力提升</td><td><b>适航审定</b>：关注项目软件质量对安全性的影响</td></tr><tr><td class="tc">组成</td><td>主要由<b>实践</b>组成（各行业最佳实践抽象）</td><td>由<b>目标、活动与数据</b>组成，活动要求具体，对输出数据要求明确</td></tr><tr><td class="tc">覆盖面</td><td>集成系统、软件、硬件视角，措辞须兼顾多场景</td><td><b>聚焦软件</b>，更易被软件工程师理解；过程范围比 CMMI 少（如项目监控、风险管理、培训未明确要求）</td></tr></tbody></table>
+<p>结论：<b>DO-178 比 CMMI 目标更清晰、要求更具体，且专门针对安全攸关软件</b>；两者都侧重「要求」而非具体方法步骤；企业要持续商业成功，CMMI 的过程改进更有指导性。</p>
+<div class="fig"><div><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 400" font-family="Microsoft YaHei, 微软雅黑, sans-serif">
+  <!-- 顶部输入 -->
+  <rect x="190" y="18" width="340" height="44" rx="6" fill="#1f4e79"/>
+  <text x="360" y="45" font-size="13" font-weight="bold" fill="#ffffff" text-anchor="middle">系统生命周期：系统需求 ＋ 软件级别</text>
+  <!-- 计划过程 -->
+  <rect x="30" y="118" width="190" height="180" rx="6" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.2"/>
+  <text x="125" y="146" font-size="14" font-weight="bold" fill="#1f4e79" text-anchor="middle">软件计划过程</text>
+  <text x="125" y="180" font-size="11" fill="#22303f" text-anchor="middle">策划协调全部活动</text>
+  <text x="125" y="202" font-size="11" fill="#22303f" text-anchor="middle">制订软件计划与标准</text>
+  <text x="125" y="240" font-size="11" fill="#6b7a8a" text-anchor="middle">指导开发过程与</text>
+  <text x="125" y="260" font-size="11" fill="#6b7a8a" text-anchor="middle">综合过程</text>
+  <!-- 开发过程 -->
+  <rect x="265" y="118" width="190" height="180" rx="6" fill="#fdf0e6" stroke="#c05621" stroke-width="1.2"/>
+  <text x="360" y="144" font-size="14" font-weight="bold" fill="#c05621" text-anchor="middle">软件开发过程</text>
+  <g font-size="11" fill="#22303f">
+    <rect x="285" y="156" width="150" height="28" rx="4" fill="#ffffff" stroke="#c05621"/>
+    <text x="360" y="175" text-anchor="middle">软件需求（高层需求）</text>
+    <rect x="285" y="190" width="150" height="28" rx="4" fill="#ffffff" stroke="#c05621"/>
+    <text x="360" y="209" text-anchor="middle">软件设计（低层需求）</text>
+    <rect x="285" y="224" width="150" height="28" rx="4" fill="#ffffff" stroke="#c05621"/>
+    <text x="360" y="243" text-anchor="middle">软件编码（源代码）</text>
+    <rect x="285" y="258" width="150" height="28" rx="4" fill="#ffffff" stroke="#c05621"/>
+    <text x="360" y="277" text-anchor="middle">集成（目标机）</text>
+  </g>
+  <!-- 综合过程 -->
+  <rect x="500" y="118" width="190" height="180" rx="6" fill="#f3f6ee" stroke="#8aa15c" stroke-width="1.2"/>
+  <text x="595" y="144" font-size="14" font-weight="bold" fill="#4a6130" text-anchor="middle">软件综合过程</text>
+  <g font-size="11" fill="#22303f">
+    <rect x="520" y="156" width="150" height="28" rx="4" fill="#ffffff" stroke="#8aa15c"/>
+    <text x="595" y="175" text-anchor="middle">软件验证</text>
+    <rect x="520" y="190" width="150" height="28" rx="4" fill="#ffffff" stroke="#8aa15c"/>
+    <text x="595" y="209" text-anchor="middle">软件配置管理</text>
+    <rect x="520" y="224" width="150" height="28" rx="4" fill="#ffffff" stroke="#8aa15c"/>
+    <text x="595" y="243" text-anchor="middle">软件质量保证</text>
+    <rect x="520" y="258" width="150" height="28" rx="4" fill="#ffffff" stroke="#8aa15c"/>
+    <text x="595" y="277" text-anchor="middle">审定联络</text>
+  </g>
+  <!-- 顶部 -> 三过程（顶框底缘三个独立连接点，直角折线） -->
+  <g stroke="#1f4e79" stroke-width="1.5" fill="none">
+    <polyline points="270,65 270,90 125,90 125,110"/>
+    <polygon points="125,115 120.5,107 129.5,107" fill="#1f4e79"/>
+    <line x1="360" y1="65" x2="360" y2="110"/>
+    <polygon points="360,115 355.5,107 364.5,107" fill="#1f4e79"/>
+    <polyline points="450,65 450,90 595,90 595,110"/>
+    <polygon points="595,115 590.5,107 599.5,107" fill="#1f4e79"/>
+    <!-- 计划 -> 开发 -> 综合 -->
+    <line x1="223" y1="208" x2="257" y2="208"/>
+    <polygon points="262,208 254,203.5 254,212.5" fill="#1f4e79"/>
+    <line x1="458" y1="208" x2="492" y2="208"/>
+    <polygon points="497,208 489,203.5 489,212.5" fill="#1f4e79"/>
+  </g>
+  <text x="360" y="336" font-size="12" fill="#22303f" text-anchor="middle">DO-178B 三要素：目标（66 个，A～E 级分布）· 过程（三大过程）· 数据（软件生命周期数据）</text>
+  <text x="360" y="362" font-size="11" fill="#6b7a8a" text-anchor="middle">（据教材图 2-16 简化重绘）</text>
+</svg></div><div class="cap">DO-178B 软件生命周期三大过程（据教材图 2-16 简化重绘）</div></div>
+<h3>2.5 计算机网络（2.5）⭐【重点】</h3>
+<p><b>计算机网络是利用通信线路将地理上分散的、具有独立功能的计算机系统和通信设备按不同形式连接起来，并依靠网络软件及通信协议实现资源共享和信息传递的系统</b>。网络技术涵盖<b>通信技术、网络技术、组网技术和网络工程</b>四方面。</p>
+<h3>1. 基本概念</h3>
+<p>发展四阶段 ⭐：</p>
+<table><colgroup><col style="width:14.4%"><col style="width:22.3%"><col style="width:63.3%"></colgroup><thead><tr><th>阶段</th><th>时间</th><th>特征与代表</th></tr></thead><tbody><tr><td class="tc">诞生阶段</td><td>20 世纪 60 年代中期之前</td><td><b>以单个计算机为中心的远程联机系统</b>（飞机订票系统，主机 + 2000 多终端，后出现前端机 FEP）</td></tr><tr><td class="tc">形成阶段</td><td>60 年代中期至 70 年代</td><td><b>多个主机互联</b>，代表 <b>ARPANET</b>；IMP 转接构成<b>通信子网</b>，主机构成<b>资源子网</b></td></tr><tr><td class="tc">互联互通阶段</td><td>70 年代末至 90 年代</td><td><b>开放式标准化网络</b>，产生 <b>TCP/IP 与 OSI</b> 两种国际通用体系结构</td></tr><tr><td class="tc">高速发展阶段</td><td>90 年代至今</td><td>光纤与高速网络技术，发展为以 <b>Internet</b> 为代表的互联网</td></tr></tbody></table>
+<p>五大功能：<b>数据通信</b>（最主要功能之一，信息以二进制形式传递）、<b>资源共享</b>（硬件、软件、数据资源）、<b>管理集中化</b>、<b>实现分布式处理</b>（大课题拆分由不同计算机完成再集中）、<b>负荷均衡</b>（过重时自动转移负荷到较轻计算机）。</p>
+<p>性能指标 ⭐【易错：带宽两种含义】：</p>
+<table><colgroup><col style="width:11.2%"><col style="width:49.2%"><col style="width:39.7%"></colgroup><thead><tr><th>指标</th><th>含义</th><th>要点</th></tr></thead><tbody><tr><td class="tc">速率</td><td>主机或通信设备在数字信道上传送数据的速率，又称数据率/比特率</td><td>单位 <b>b/s</b>，最重要指标之一</td></tr><tr><td class="tc">带宽</td><td>①信号具有的<b>频带宽度</b>（单位 Hz，如电话信号 3.1kHz）；②网络中通信线路传送数据的能力，即单位时间内结点到结点能通过的「<b>最高数据率</b>」</td><td>网络中带宽单位是 <b>b/s</b></td></tr><tr><td class="tc">吞吐量</td><td>单位时间内通过某网络（信道、接口）的数据量</td><td>受带宽/额定速率限制，如 100Mb/s 以太网典型吞吐量可能只有 70Mb/s</td></tr><tr><td class="tc">时延</td><td>数据从网络一端传送到另一端所需时间</td><td>由<b>发送时延、传播时延、处理时延、排队时延</b>组成</td></tr><tr><td class="tc">往返时间 RTT</td><td>从发送数据开始到收到接收方确认总共经历的时间</td><td>重要性能指标</td></tr><tr><td class="tc">利用率</td><td>信道利用率（有数据通过的概率）和网络利用率（全网信道利用率的加权平均）</td><td>完全空闲的信道利用率为零</td></tr></tbody></table>
+<p>非性能指标：费用、质量、标准化、可靠性、可扩展性、可升级性、易管理性和可维护性等。</p>
+<h3>2. 通信技术 ⭐【重点】</h3>
+<p><b>信道</b>分<b>物理信道</b>（由传输介质和设备组成，分无线和有线）和<b>逻辑信道</b>（发送端与接收端之间的虚拟线路，可连接或无连接，以物理信道为载体）。信息传输过程：<b>信源 → 发信机（编码和调制）→ 信道 → 收信机（解调和译码）→ 信宿</b>。不是所有频率的信号都能通过信道，<b>频率响应决定哪些可以通过，可通过的频率范围大小就是信道带宽</b>。</p>
+<p><b>香农公式</b> ⭐【高频考点】：<b>C = B × log₂(1 + S/N)</b>。C 为信道容量（最大传输速率，b/s），B 为信号带宽（Hz），S/N 为信噪比（信号平均功率与噪声平均功率之比）。<b>带宽越大、信噪比越高，信道容量越大</b>，实际工程中需在带宽与信噪比之间权衡。</p>
+<p><b>信号变换</b>：发信机处理包括<b>信源编码 → 信道编码 → 交织 → 脉冲成形 → 调制</b>；收信机做相反处理（解调、采样判决、去交织、信道译码、信源译码）。</p>
+<table><colgroup><col style="width:13.4%"><col style="width:46.2%"><col style="width:40.3%"></colgroup><thead><tr><th>环节</th><th>作用</th><th>通俗理解</th></tr></thead><tbody><tr><td class="tc">信源编码</td><td>模拟信号模数转换 + 压缩编码去冗余，形成数字信号</td><td>如 GSM 先 PCM 编码再 RPE-LPT 压缩</td></tr><tr><td class="tc">信道编码</td><td><b>增加冗余信息</b>以便接收端检错纠错</td><td>只能纠正<b>零星错误</b>，对连续误码无能为力</td></tr><tr><td class="tc">交织</td><td>把编码后数据顺序按规律打乱，接收端复原</td><td>使<b>连续误码变成零星误码</b>，配合信道译码纠错</td></tr><tr><td class="tc">脉冲成形</td><td>把发送数据转换成合适波形</td><td><b>减小带宽需求</b>（矩形脉冲竖边需很高频率）</td></tr><tr><td class="tc">调制</td><td>将信息承载到满足信号要求的<b>高频载波</b>上</td><td>便于信道传输</td></tr></tbody></table>
+<p><b>复用技术与多址技术</b> ⭐【易错】：<b>复用技术是在一条信道上同时传输多路数据</b>（TDM 时分复用、FDM 频分复用、CDM 码分复用，ADSL 用 FDM 使语音上下行占不同带宽）；<b>多址技术是在一条线上同时传输多个用户的数据并在接收端分离</b>（TDMA、FDMA、CDMA）。<b>多路复用技术是多址技术的基础</b>，多址还涉及信道资源分配算法（如 Walsh 码分配）。</p>
+<p><b>5G 通信网络</b>的特征技术 8 项：①基于 <b>OFDM</b> 优化的波形和多址接入（4G LTE/WiFi 广泛采用，可扩展大带宽、高频谱效率）；②可扩展的 OFDM 间隔参数配置（5G NR，适应丰富频谱与部署）；③OFDM 加窗提高多路传输效率（应对大规模物联网，降低带外辐射）；④灵活框架设计（STTI、自包含集成子帧）；⑤<b>大规模 MIMO</b>（基站端最多 <b>256 根天线</b>，二维排布实现 3D 波束成型）；⑥<b>毫米波</b>（首次将 <b>&gt;24GHz</b> 频段用于移动宽带，速率高但易受阻、难穿墙）；⑦频谱共享（授权与非授权频谱利用）；⑧先进信道编码：<b>LDPC 码</b>（稀疏校验矩阵、性能逼近香农极限、译码可并行）和 <b>Polar 码</b>（信道极化，选近完美信道传输，<b>用作 5G 控制信道的主要编码方式</b>）。</p>
+<h3>3. 网络技术 ⭐【重点】【高频考点】</h3>
+<p><b>局域网（LAN）</b>：有限地理范围内计算机互联，封闭型。五种拓扑结构 ⭐【易错：优缺点对应】：</p>
+<table><colgroup><col style="width:8.0%"><col style="width:36.0%"><col style="width:24.0%"><col style="width:32.0%"></colgroup><thead><tr><th>拓扑</th><th>结构特点</th><th>优点</th><th>缺点</th></tr></thead><tbody><tr><td class="tc">星状结构</td><td>每个结点都通过连接线连到<b>中心结点</b>，任意两结点通信最多两步</td><td>传输快、结构简单、建网易、便于控制管理</td><td><b>中心结点故障则全网瘫痪</b>，可靠性低、共享能力差</td></tr><tr><td class="tc">树状结构</td><td>分级的集中式网络，任意两结点间<b>不产生回路</b>，链路双向传输</td><td>成本低、结构简单、扩充灵活、便于寻查路径</td><td>除叶结点及链路外，<b>任一工作站或链路故障都影响全网</b></td></tr><tr><td class="tc">总线结构</td><td>所有结点连到<b>一根总线</b>上，都通过总线传输</td><td>结构简单、布线少</td><td>总线负载能力有限，<b>总线故障影响每个结点</b></td></tr><tr><td class="tc">环形结构</td><td>各结点首尾相连成<b>闭合环</b>，信息沿<b>固定方向单向流动</b>，两结点仅一条通路</td><td>无信道选择问题、各结点地位相同</td><td><b>任一结点故障导致物理瘫痪</b>；不便扩充、响应延时长、效率较低</td></tr><tr><td class="tc">网状结构</td><td>任何结点彼此之间<b>均存在通信链路</b></td><td><b>任一结点故障不影响其他结点通信</b>，可靠性高</td><td>布线烦琐、建设成本高、控制复杂</td></tr></tbody></table>
+<div class="fig"><div><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 660" font-family="Microsoft YaHei, 微软雅黑, sans-serif">
+  <!-- 星状 -->
+  <g stroke="#1f4e79" stroke-width="1.3">
+    <line x1="160" y1="100" x2="220" y2="100"/>
+    <line x1="160" y1="100" x2="190" y2="148"/>
+    <line x1="160" y1="100" x2="130" y2="148"/>
+    <line x1="160" y1="100" x2="100" y2="100"/>
+    <line x1="160" y1="100" x2="130" y2="52"/>
+    <line x1="160" y1="100" x2="190" y2="52"/>
+  </g>
+  <circle cx="160" cy="100" r="9" fill="#c05621"/>
+  <g fill="#1f4e79">
+    <circle cx="220" cy="100" r="8"/>
+    <circle cx="190" cy="148" r="8"/>
+    <circle cx="130" cy="148" r="8"/>
+    <circle cx="100" cy="100" r="8"/>
+    <circle cx="130" cy="52" r="8"/>
+    <circle cx="190" cy="52" r="8"/>
+  </g>
+  <text x="160" y="196" font-size="14" font-weight="bold" fill="#1f4e79" text-anchor="middle">星状结构</text>
+  <text x="160" y="216" font-size="10" fill="#6b7a8a" text-anchor="middle">中心结点故障则全网瘫痪</text>
+  <!-- 树状 -->
+  <g stroke="#1f4e79" stroke-width="1.3">
+    <line x1="520" y1="40" x2="455" y2="100"/>
+    <line x1="520" y1="40" x2="585" y2="100"/>
+    <line x1="455" y1="100" x2="420" y2="155"/>
+    <line x1="455" y1="100" x2="490" y2="155"/>
+    <line x1="585" y1="100" x2="550" y2="155"/>
+    <line x1="585" y1="100" x2="620" y2="155"/>
+  </g>
+  <circle cx="520" cy="40" r="9" fill="#c05621"/>
+  <g fill="#3a6b99">
+    <circle cx="455" cy="100" r="8"/>
+    <circle cx="585" cy="100" r="8"/>
+  </g>
+  <g fill="#1f4e79">
+    <circle cx="420" cy="155" r="8"/>
+    <circle cx="490" cy="155" r="8"/>
+    <circle cx="550" cy="155" r="8"/>
+    <circle cx="620" cy="155" r="8"/>
+  </g>
+  <text x="520" y="196" font-size="14" font-weight="bold" fill="#1f4e79" text-anchor="middle">树状结构</text>
+  <text x="520" y="216" font-size="10" fill="#6b7a8a" text-anchor="middle">除叶结点及链路外，故障影响全网</text>
+  <!-- 总线 -->
+  <line x1="50" y1="300" x2="270" y2="300" stroke="#c05621" stroke-width="4"/>
+  <g stroke="#1f4e79" stroke-width="1.3">
+    <line x1="80" y1="300" x2="80" y2="352"/>
+    <line x1="130" y1="300" x2="130" y2="352"/>
+    <line x1="180" y1="300" x2="180" y2="352"/>
+    <line x1="230" y1="300" x2="230" y2="352"/>
+  </g>
+  <g fill="#1f4e79">
+    <circle cx="80" cy="360" r="8"/>
+    <circle cx="130" cy="360" r="8"/>
+    <circle cx="180" cy="360" r="8"/>
+    <circle cx="230" cy="360" r="8"/>
+  </g>
+  <text x="160" y="400" font-size="14" font-weight="bold" fill="#1f4e79" text-anchor="middle">总线结构</text>
+  <text x="160" y="420" font-size="10" fill="#6b7a8a" text-anchor="middle">总线故障影响总线上每个结点</text>
+  <!-- 环形 -->
+  <g stroke="#1f4e79" stroke-width="1.3" fill="none">
+    <line x1="580" y1="300" x2="550" y2="348"/>
+    <line x1="550" y1="348" x2="490" y2="348"/>
+    <line x1="490" y1="348" x2="460" y2="300"/>
+    <line x1="460" y1="300" x2="490" y2="252"/>
+    <line x1="490" y1="252" x2="550" y2="252"/>
+    <line x1="550" y1="252" x2="580" y2="300"/>
+  </g>
+  <g fill="#1f4e79">
+    <circle cx="580" cy="300" r="8"/>
+    <circle cx="550" cy="348" r="8"/>
+    <circle cx="490" cy="348" r="8"/>
+    <circle cx="460" cy="300" r="8"/>
+    <circle cx="490" cy="252" r="8"/>
+    <circle cx="550" cy="252" r="8"/>
+  </g>
+  <text x="520" y="400" font-size="14" font-weight="bold" fill="#1f4e79" text-anchor="middle">环形结构</text>
+  <text x="520" y="420" font-size="10" fill="#6b7a8a" text-anchor="middle">单向流动，任一结点故障导致瘫痪</text>
+  <!-- 网状 -->
+  <g stroke="#6b7a8a" stroke-width="1.1">
+    <line x1="260" y1="480" x2="460" y2="480"/>
+    <line x1="260" y1="580" x2="460" y2="580"/>
+    <line x1="260" y1="480" x2="260" y2="580"/>
+    <line x1="460" y1="480" x2="460" y2="580"/>
+    <line x1="260" y1="480" x2="460" y2="580"/>
+    <line x1="460" y1="480" x2="260" y2="580"/>
+    <line x1="360" y1="530" x2="260" y2="480"/>
+    <line x1="360" y1="530" x2="460" y2="480"/>
+    <line x1="360" y1="530" x2="260" y2="580"/>
+    <line x1="360" y1="530" x2="460" y2="580"/>
+  </g>
+  <g fill="#1f4e79">
+    <circle cx="260" cy="480" r="8"/>
+    <circle cx="460" cy="480" r="8"/>
+    <circle cx="260" cy="580" r="8"/>
+    <circle cx="460" cy="580" r="8"/>
+    <circle cx="360" cy="530" r="8" fill="#c05621"/>
+  </g>
+  <text x="360" y="624" font-size="14" font-weight="bold" fill="#1f4e79" text-anchor="middle">网状结构</text>
+  <text x="360" y="644" font-size="10" fill="#6b7a8a" text-anchor="middle">任一结点故障不影响其他结点通信，但布线烦琐、成本高</text>
+</svg></div><div class="cap">局域网的五种拓扑结构（据教材图 2-17～2-19 重绘）</div></div>
+<p><b>以太网技术</b>：IEEE <b>802.3</b> 标准，规定物理层连线、电信号和介质访问层协议，是当前应用最普遍的局域网技术。以太帧结构 ⭐：</p>
+<table><colgroup><col style="width:14.4%"><col style="width:18.9%"><col style="width:66.7%"></colgroup><thead><tr><th>字段</th><th>含义</th><th>要点</th></tr></thead><tbody><tr><td class="tc">DMAC</td><td>目的终端 MAC 地址</td><td>接收方</td></tr><tr><td class="tc">SMAC</td><td>源 MAC 地址</td><td>发送方</td></tr><tr><td class="tc">Length/Type</td><td>2 字节</td><td><b>值大于 1500 表示帧类型</b>（属于哪个上层协议，可直接提交上层分帧处理，即流行的 ETHERNET_II）；<b>小于 1500 表示数据帧长度</b></td></tr><tr><td class="tc">DATA/PAD</td><td>具体数据/填充</td><td>不足 64 字节须填充（PAD）</td></tr><tr><td class="tc">FCS</td><td>帧校验字段</td><td>判断数据帧是否出错</td></tr></tbody></table>
+<p><b>最小帧长 64 字节</b> ⭐【高频考点】：受 <b>CSMA/CD</b> 算法限制——避免某结点已把数据包最后一个 bit 发完，而第一个 bit 还未到达较远结点，使对方误以为线路空闲而发送数据造成<b>冲突</b>；不足 64 字节时高层协议必须填充。数据域长度上限通常设为 <b>1500 字节</b>。最大传输距离没有严格限制，由线路质量、信号衰减决定。流量控制用于防止设备阻塞时丢帧：<b>半双工用反压（Back-Pressure）技术</b>（模拟碰撞使信源降速），<b>全双工遵循 IEEE 802.3x，用 64 字节「PAUSE」MAC 控制帧</b>通知信源暂停发送。</p>
+<div class="fig"><div><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 280" font-family="Microsoft YaHei, 微软雅黑, sans-serif">
+  <!-- 帧分段 -->
+  <g font-size="13" font-weight="bold">
+    <rect x="20" y="50" width="110" height="60" fill="#eaf1f8" stroke="#1f4e79"/>
+    <text x="75" y="85" fill="#1f4e79" text-anchor="middle">DMAC</text>
+    <rect x="130" y="50" width="110" height="60" fill="#eaf1f8" stroke="#1f4e79"/>
+    <text x="185" y="85" fill="#1f4e79" text-anchor="middle">SMAC</text>
+    <rect x="240" y="50" width="130" height="60" fill="#fdf0e6" stroke="#c05621"/>
+    <text x="305" y="85" fill="#c05621" text-anchor="middle">Length/Type</text>
+    <rect x="370" y="50" width="240" height="60" fill="#f3f6ee" stroke="#8aa15c"/>
+    <text x="490" y="85" fill="#4a6130" text-anchor="middle">DATA / PAD</text>
+    <rect x="610" y="50" width="90" height="60" fill="#eaf1f8" stroke="#1f4e79"/>
+    <text x="655" y="85" fill="#1f4e79" text-anchor="middle">FCS</text>
+  </g>
+  <g font-size="11" fill="#6b7a8a">
+    <text x="75" y="132" text-anchor="middle">目的 MAC</text>
+    <text x="185" y="132" text-anchor="middle">源 MAC</text>
+    <text x="305" y="132" text-anchor="middle">2 字节</text>
+    <text x="490" y="132" text-anchor="middle">数据 / 填充</text>
+    <text x="655" y="132" text-anchor="middle">帧校验</text>
+  </g>
+  <g font-size="12" fill="#22303f">
+    <text x="20" y="176">• Length/Type：大于 1500 表示上层协议类型（ETHERNET_II）；小于 1500 表示数据帧长度</text>
+    <text x="20" y="204">• 最小帧长 64 字节（CSMA/CD 限制），不足时必须在数据部分 PAD 填充；数据域上限通常 1500 字节</text>
+    <text x="20" y="232">• 流量控制：半双工用反压技术；全双工用 IEEE 802.3x 的 64 字节 PAUSE 控制帧</text>
+  </g>
+  <text x="360" y="264" font-size="11" fill="#6b7a8a" text-anchor="middle">（据教材图 2-20 重绘）</text>
+</svg></div><div class="cap">以太网帧结构（据教材图 2-20 重绘）</div></div>
+<p><b>无线局域网（WLAN）</b>：利用无线技术在空中传输数据、话音和视频，关键技术有红外传输、扩频、窄带微波等；优点是安装便捷、使用灵活、经济节约、易于扩展。标准演进：<b>IEEE 802.11</b>（最早，1～2Mb/s）→ <b>802.11b</b>（11Mb/s）→ <b>802.11a</b>（54Mb/s）→ <b>802.11g</b>（与 a 同速率、兼容 b、工作在免费的 <b>2.4GHz</b>、更便宜）→ <b>802.11n</b>（200Mb/s 以上）。三种拓扑 ⭐：</p>
+<table><colgroup><col style="width:10.7%"><col style="width:37.3%"><col style="width:52.1%"></colgroup><thead><tr><th>拓扑</th><th>结构</th><th>特点</th></tr></thead><tbody><tr><td class="tc">点对点型</td><td>无线链路连接两个固定有线 LAN 网段（经桥路器/中继器）</td><td>结构简单，获<b>中远距离高速率</b>链路，无移动性问题、波束可很窄</td></tr><tr><td class="tc">HUB 型</td><td>中心结点 HUB + 若干外围结点，任何两外围结点通信<b>须经 HUB</b></td><td>集中控制：设备简单、维护费用低、管理单一；但<b>延迟增加、抗毁差，中心故障易致全网瘫痪</b></td></tr><tr><td class="tc">完全分布型</td><td>各结点协助转发，分布路由，多跳</td><td><b>抗毁好、移动强</b>，适合较低速率中小型网络；复杂性和成本高、管理困难，<b>尚处理论探讨阶段</b>，军事前景好</td></tr></tbody></table>
+<p><b>广域网（WAN）</b>：将分布于更广区域（城市、国家甚至国家之间）的计算机设备联接起来，通常由<b>电信部门组建、经营和管理</b>，向公众提供有偿通信服务；由<b>通信子网</b>（通信结点设备 + 链路）与<b>资源子网</b>（资源设备与软件）组成。相关技术 ⭐：</p>
+<table><colgroup><col style="width:21.4%"><col style="width:78.6%"></colgroup><thead><tr><th>技术</th><th>要点</th></tr></thead><tbody><tr><td class="tc">SONET/SDH</td><td>同步光网络：SONET 是美国标准、<b>SDH 由 ITU 颁布、从 SONET 发展而来</b>，均为<b>传输网络物理层技术</b>；SONET 用于美国加拿大，SDH 用于其他国家</td></tr><tr><td class="tc">DDN 数字数据网</td><td>利用数字信道提供<b>半永久性连接电路</b>，满足租用数据专线需要；速率高、质量高、协议简单、可靠性高；<b>租用期间用户独占线路带宽</b></td></tr><tr><td class="tc">帧中继 FR</td><td>运行于 OSI 的<b>物理层和数据链路层</b>，是 <b>X.25 的简化版</b>，更高性能与效率；采用<b>虚电路</b>技术，吞吐量高、时延低、适合突发业务</td></tr><tr><td class="tc">ATM 异步传输模式</td><td>以<b>信元</b>为基础的<b>面向连接</b>的分组交换和复用技术；<b>信元长度固定 53 字节</b>，可高速处理交换，典型速率 <b>150Mb/s</b>，支持语音、数据、视频多业务</td></tr></tbody></table>
+<p>广域网分类：<b>公共传输网络</b>（电信部门组建，分电路交换和分组交换）、<b>专用传输网络</b>（单个组织自建私有，主要是 DDN）、<b>无线传输网络</b>（GSM、TD-SCDMA/WCDMA/CDMA2000、LTE、5G）。</p>
+<p><b>城域网（MAN）</b>：单个城市范围内建立的计算机通信网，为<b>整个城市而非特定部门</b>服务；主要用光缆，速率 100Mb/s 以上，基于大型 LAN 相似技术，标准为<b>分布式队列双总线 DQDB（IEEE 802.6）</b>；通常分<b>核心层、汇聚层和接入层</b>三层（核心层高带宽承载与互联互通、汇聚层业务汇聚分发与服务等级分类、接入层多技术用户接入）。</p>
+<p><b>移动通信网</b>：1G 模拟信号（只能语音、容量有限、安全性差）→ 2G 数字调制（9.6～14.4kb/s，可传文字，移动互联网起点）→ 3G（384kb/s、室内可达 2Mb/s，大数据传送成为可能）→ 4G（体验与 20Mb/s 家庭宽带相当，进入移动互联网时代）→ 5G。<b>5G 基本特征：高速率（峰值可大于 20Gb/s，约为 4G 的 20 倍）、低时延（从 4G 的 50ms 缩减到 1ms）、海量设备连接（1000 亿量级）、低功耗</b> ⭐。</p>
+<p>5G 两个主要架构特征 ⭐【高频考点】：</p>
+<table><colgroup><col style="width:11.8%"><col style="width:47.3%"><col style="width:40.9%"></colgroup><thead><tr><th>特征</th><th>内容</th><th>要点</th></tr></thead><tbody><tr><td class="tc">服务化架构 SBA</td><td>5G 核心网引入 <b>Service-based Architecture</b>，网络功能灵活定制、按需组合；控制面网元（AMF、SMF、NRF、NSSF 等）间采用<b>服务化接口 SBI、以 HTTP 为承载协议</b>；AMF 与接入网点到点用 SCTP，SMF 与 UPF、UPF 与 (R)AN 用 UDP，UPF 与 DN 基于 IP</td><td>支持软件快速迭代、低成本试错</td></tr><tr><td class="tc">网络切片</td><td>在<b>单个物理网络上切分出多个逻辑网络</b>，避免为每个服务建专用物理网，降低建网运维成本；三类切片：<b>eMBB</b>（移动宽带：4K/8K、全息、AR/VR，高带宽高速率）、<b>mMTC</b>（海量物联网：传感器密集静止，对时延移动性要求不高）、<b>uRLLC</b>（关键任务物联网：无人驾驶、远程医疗，<b>超低时延超高可靠</b>）</td><td>引入 SPN/FlexE 硬切片，刚性管道隔离、带宽灵活分配，保护倒换 1ms 以内</td></tr></tbody></table>
+<div class="fig"><div><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 330" font-family="Microsoft YaHei, 微软雅黑, sans-serif">
+  <!-- 中心 5G 网络 -->
+  <ellipse cx="360" cy="150" rx="118" ry="56" fill="#1f4e79"/>
+  <text x="360" y="144" font-size="16" font-weight="bold" fill="#ffffff" text-anchor="middle">5G 网络</text>
+  <text x="360" y="168" font-size="11" fill="#ffffff" text-anchor="middle">同一物理网络</text>
+  <!-- eMBB -->
+  <rect x="40" y="40" width="190" height="76" rx="7" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.2"/>
+  <text x="135" y="66" font-size="14" font-weight="bold" fill="#1f4e79" text-anchor="middle">eMBB 移动宽带</text>
+  <text x="135" y="90" font-size="10" fill="#22303f" text-anchor="middle">4K/8K、全息、AR/VR</text>
+  <text x="135" y="106" font-size="10" fill="#6b7a8a" text-anchor="middle">高带宽、高速率</text>
+  <!-- mMTC -->
+  <rect x="40" y="200" width="190" height="76" rx="7" fill="#f3f6ee" stroke="#8aa15c" stroke-width="1.2"/>
+  <text x="135" y="226" font-size="14" font-weight="bold" fill="#4a6130" text-anchor="middle">mMTC 海量物联网</text>
+  <text x="135" y="250" font-size="10" fill="#22303f" text-anchor="middle">传感器密集、多静止</text>
+  <text x="135" y="266" font-size="10" fill="#6b7a8a" text-anchor="middle">时延/移动性要求不高</text>
+  <!-- uRLLC -->
+  <rect x="490" y="120" width="200" height="76" rx="7" fill="#fdf0e6" stroke="#c05621" stroke-width="1.2"/>
+  <text x="590" y="146" font-size="14" font-weight="bold" fill="#c05621" text-anchor="middle">uRLLC 关键任务物联网</text>
+  <text x="590" y="170" font-size="10" fill="#22303f" text-anchor="middle">无人驾驶、远程医疗</text>
+  <text x="590" y="186" font-size="10" fill="#6b7a8a" text-anchor="middle">超低时延、超高可靠</text>
+  <!-- 中心 -> 三切片（箭头止于切片边缘外侧） -->
+  <g stroke="#1f4e79" stroke-width="1.5" fill="none">
+    <line x1="252" y1="122" x2="239" y2="86"/>
+    <polygon points="233,78 234.5,87 242.5,84" fill="#1f4e79"/>
+    <line x1="252" y1="178" x2="239" y2="214"/>
+    <polygon points="233,222 234.5,213 242.5,216" fill="#1f4e79"/>
+    <line x1="481" y1="155" x2="482" y2="155"/>
+    <polygon points="487,155 479,150.5 479,159.5" fill="#1f4e79"/>
+  </g>
+  <text x="360" y="306" font-size="12" fill="#6b7a8a" text-anchor="middle">网络切片：单个物理网络切分出多个逻辑网络，按场景定制，避免重复建网、降低成本</text>
+</svg></div><div class="cap">5G 网络的三类切片（据教材图 2-22 重绘）</div></div>
+<h3>4. 组网技术 ⭐【重点】【高频考点】</h3>
+<p><b>基本网络设备及工作层级</b> ⭐【易错：设备与层级配对】：</p>
+<table><colgroup><col style="width:10.8%"><col style="width:21.5%"><col style="width:67.7%"></colgroup><thead><tr><th>设备</th><th>工作层级</th><th>核心功能</th></tr></thead><tbody><tr><td class="tc">集线器</td><td>物理层（最简单设备）</td><td>一个端口收到的数据<b>转送到所有其他端口</b>，含上联端口</td></tr><tr><td class="tc">中继器</td><td><b>物理层</b></td><td>接收识别并<b>再生信号</b>后发送到其他分支，可连接不同物理介质，要求各分支数据包和逻辑链路协议相同</td></tr><tr><td class="tc">网桥</td><td><b>数据链路层</b></td><td>含中继器功能，可连多种介质与不同物理分支（以太网、令牌网），上层信息对其透明</td></tr><tr><td class="tc">交换机</td><td><b>数据链路层</b></td><td>为任意两结点提供<b>独享转发通路</b>，从端口接收数据经内部处理<b>转发到指定端口</b>；自动寻址、避免端口冲突、提高吞吐</td></tr><tr><td class="tc">路由器</td><td><b>网络层</b></td><td>在多个网络上<b>交换和路由数据包</b>，经路由信息生成<b>路由表</b>进行路径选择，常用于广域网或广域网与局域网互连</td></tr><tr><td class="tc">防火墙</td><td>网络门户（规则过滤）</td><td>设安全规则对进出网络数据<b>监视和过滤</b>；硬件防火墙把程序做到芯片里，减轻 CPU 负担、路由更稳定</td></tr></tbody></table>
+<p><b>OSI/RM 七层参考模型</b>：ISO 公布的开放系统互连参考模型，由低层至高层为<b>物理层、数据链路层、网络层、传输层、会话层、表示层、应用层</b> ⭐【必背】。分层思想：每一层在下层服务基础上提供更高级增值服务，最高层提供运行分布式应用程序的服务，通过分层分解复杂问题、保持层间独立。</p>
+<div class="mnemonic">助记：七层从下到上——「物、数、网、传、会、表、应」（物理、数据链路、网络、传输、会话、表示、应用）。</div>
+<p><b>TCP/IP 协议集</b>：Internet 核心协议，特性为逻辑编址、路由选择、域名解析、错误检测和流量控制及应用支持；是个协议族，主要包括 <b>IP、TCP、UDP、TELNET、FTP、SMTP、NNTP、HTTP</b> 等 8 个。模型分<b>网络接口层、网际层、传输层、应用层 4 层</b>：网络接口层未详细描述（主机用某种协议与网络相连）；<b>网际层是关键部分</b>，使主机把分组发往任何网络并独立传向目标；传输层定义两个端到端协议 <b>TCP 和 UDP</b>。</p>
+<p><b>OSI 与 TCP/IP 对照</b> ⭐【高频考点】：</p>
+<table><colgroup><col style="width:21.9%"><col style="width:13.9%"><col style="width:64.2%"></colgroup><thead><tr><th>OSI 七层</th><th>TCP/IP 四层</th><th>对应主要协议</th></tr></thead><tbody><tr><td>应用层、表示层、会话层</td><td class="tc">应用层</td><td><b>FTP</b>（文件传输）、<b>Telnet</b>（远程登录）、<b>SMTP</b>（电子邮件）、NFS（网络文件服务）、SNMP（网络管理）、HTTP 等</td></tr><tr><td>传输层</td><td class="tc">传输层</td><td><b>TCP、UDP</b></td></tr><tr><td>网络层</td><td class="tc">网际层</td><td><b>IP、ICMP、ARP、RARP</b></td></tr><tr><td>数据链路层、物理层</td><td class="tc">网络接口层</td><td>Ethernet/IEEE 802.3、FDDI、Token-Ring、ARCnet、PPP/SLIP 等</td></tr></tbody></table>
+<p>Internet 地址有<b>域名格式和 IP 地址格式</b>两种表示，域名与 IP 地址一一对应；IP 协议版本 4 为 IPv4、版本 6 为 IPv6。WWW 万维网采用统一资源定位器 <b>URL</b>；常用服务有 DNS、WWW、E-mail、FTP、Telnet 等。</p>
+<div class="fig"><div><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 500" font-family="Microsoft YaHei, 微软雅黑, sans-serif">
+  <text x="125" y="22" font-size="14" font-weight="bold" fill="#1f4e79" text-anchor="middle">OSI/RM 七层</text>
+  <text x="360" y="22" font-size="14" font-weight="bold" fill="#c05621" text-anchor="middle">主要协议</text>
+  <text x="595" y="22" font-size="14" font-weight="bold" fill="#4a6130" text-anchor="middle">TCP/IP 四层</text>
+  <!-- OSI 层块 -->
+  <g font-size="13" fill="#1f4e79" font-weight="bold">
+    <rect x="40" y="36" width="170" height="48" rx="5" fill="#eaf1f8" stroke="#1f4e79"/>
+    <text x="125" y="65" text-anchor="middle">应用层</text>
+    <rect x="40" y="94" width="170" height="48" rx="5" fill="#eaf1f8" stroke="#1f4e79"/>
+    <text x="125" y="123" text-anchor="middle">表示层</text>
+    <rect x="40" y="152" width="170" height="48" rx="5" fill="#eaf1f8" stroke="#1f4e79"/>
+    <text x="125" y="181" text-anchor="middle">会话层</text>
+    <rect x="40" y="210" width="170" height="48" rx="5" fill="#eaf1f8" stroke="#1f4e79"/>
+    <text x="125" y="239" text-anchor="middle">传输层</text>
+    <rect x="40" y="268" width="170" height="48" rx="5" fill="#eaf1f8" stroke="#1f4e79"/>
+    <text x="125" y="297" text-anchor="middle">网络层</text>
+    <rect x="40" y="326" width="170" height="48" rx="5" fill="#eaf1f8" stroke="#1f4e79"/>
+    <text x="125" y="355" text-anchor="middle">数据链路层</text>
+    <rect x="40" y="384" width="170" height="48" rx="5" fill="#eaf1f8" stroke="#1f4e79"/>
+    <text x="125" y="413" text-anchor="middle">物理层</text>
+  </g>
+  <!-- 中间协议块 -->
+  <g font-size="11" fill="#22303f">
+    <rect x="280" y="36" width="160" height="164" rx="5" fill="#fdf0e6" stroke="#c05621"/>
+    <text x="360" y="76" text-anchor="middle">FTP / Telnet / SMTP</text>
+    <text x="360" y="104" text-anchor="middle">NFS / SNMP / HTTP</text>
+    <text x="360" y="132" text-anchor="middle">（应用层协议）</text>
+    <rect x="280" y="210" width="160" height="48" rx="5" fill="#fdf0e6" stroke="#c05621"/>
+    <text x="360" y="239" text-anchor="middle">TCP、UDP</text>
+    <rect x="280" y="268" width="160" height="48" rx="5" fill="#fdf0e6" stroke="#c05621"/>
+    <text x="360" y="297" text-anchor="middle">IP、ICMP、ARP、RARP</text>
+    <rect x="280" y="326" width="160" height="106" rx="5" fill="#fdf0e6" stroke="#c05621"/>
+    <text x="360" y="366" text-anchor="middle">Ethernet / 802.3</text>
+    <text x="360" y="390" text-anchor="middle">FDDI、PPP / SLIP</text>
+  </g>
+  <!-- TCP/IP 层块 -->
+  <g font-size="13" fill="#4a6130" font-weight="bold">
+    <rect x="510" y="36" width="170" height="164" rx="5" fill="#f3f6ee" stroke="#8aa15c"/>
+    <text x="595" y="123" text-anchor="middle">应用层</text>
+    <rect x="510" y="210" width="170" height="48" rx="5" fill="#f3f6ee" stroke="#8aa15c"/>
+    <text x="595" y="239" text-anchor="middle">传输层</text>
+    <rect x="510" y="268" width="170" height="48" rx="5" fill="#f3f6ee" stroke="#8aa15c"/>
+    <text x="595" y="297" text-anchor="middle">网际层</text>
+    <rect x="510" y="326" width="170" height="106" rx="5" fill="#f3f6ee" stroke="#8aa15c"/>
+    <text x="595" y="384" text-anchor="middle">网络接口层</text>
+  </g>
+  <!-- OSI -> 协议（左半，各层独立横线） -->
+  <g stroke="#6b7a8a" stroke-width="1.3" fill="none">
+    <line x1="213" y1="60" x2="269" y2="60"/>
+    <line x1="213" y1="118" x2="269" y2="118"/>
+    <line x1="213" y1="176" x2="269" y2="176"/>
+    <line x1="213" y1="234" x2="269" y2="234"/>
+    <line x1="213" y1="292" x2="269" y2="292"/>
+    <line x1="213" y1="350" x2="269" y2="350"/>
+    <line x1="213" y1="408" x2="269" y2="408"/>
+  </g>
+  <!-- 协议 -> TCP/IP（右半，每组一条横线带箭头） -->
+  <g stroke="#1f4e79" stroke-width="1.4" fill="none">
+    <line x1="443" y1="118" x2="499" y2="118"/>
+    <polygon points="507,118 499,113.5 499,122.5" fill="#1f4e79"/>
+    <line x1="443" y1="234" x2="499" y2="234"/>
+    <polygon points="507,234 499,229.5 499,238.5" fill="#1f4e79"/>
+    <line x1="443" y1="292" x2="499" y2="292"/>
+    <polygon points="507,292 499,287.5 499,296.5" fill="#1f4e79"/>
+    <line x1="443" y1="379" x2="499" y2="379"/>
+    <polygon points="507,379 499,374.5 499,383.5" fill="#1f4e79"/>
+  </g>
+  <text x="360" y="466" font-size="12" fill="#1f4e79" text-anchor="middle">助记（OSI 下→上）：物、数、网、传、会、表、应；TCP/IP：网络接口 / 网际 / 传输 / 应用</text>
+  <text x="360" y="488" font-size="11" fill="#6b7a8a" text-anchor="middle">OSI 上三层对应 TCP/IP 应用层，下两层对应网络接口层</text>
+</svg></div><div class="cap">OSI 七层模型与 TCP/IP 四层模型对照</div></div>
+<p><b>交换技术</b>：交换机功能包括集线功能、中继功能（转发帧时重新产生不失真电信号）、桥接功能、<b>隔离冲突域功能</b>（每个冲突域有独立带宽）。基本交换原理 ⭐：</p>
+<table><colgroup><col style="width:18.5%"><col style="width:81.5%"></colgroup><thead><tr><th>功能</th><th>原理</th></tr></thead><tbody><tr><td class="tc">转发路径学习</td><td>根据收到帧的<b>源 MAC 地址</b>建立该地址与端口的映射，写入 MAC 地址表</td></tr><tr><td class="tc">数据转发</td><td>目的 MAC 在表中查到，则向<b>对应端口</b>转发</td></tr><tr><td class="tc">数据泛洪</td><td>目的 MAC <b>不在表中，则向所有端口转发（泛洪）</b>；广播帧和组播帧向所有端口（<b>不包括源端口</b>）转发</td></tr><tr><td class="tc">链路地址更新</td><td>MAC 地址表每隔一定时间（如 <b>300s</b>）更新一次</td></tr></tbody></table>
+<p>交换机组网中多条物理链路会形成<b>环路</b>，导致数据转发异常，<b>生成树协议（STP）可解决链路环路问题</b> ⭐；为提高链路可靠性或提升端口带宽，可采用<b>链路聚合协议（如 802.3ad）</b>。</p>
+<p><b>路由技术</b>：路由器功能包括异种网络互连、子网协议转换、数据路由、速率适配、隔离网络防广播风暴（防火墙）、<b>报文分片和重组</b>（超 MTU 分片、到目的地重组）、备份与流量控制。路由原理：工作在网络层，根据数据包<b>目的地址</b>查<b>路由表</b>决定<b>下一跳地址</b>；路由表可静态配置，也可由动态路由协议自动生成。<b>路由协议是运行在路由器上、让路由器自动学习其他路由器网络并在拓扑变化后自动更新路由表的协议</b>，分两类 ⭐：</p>
+<table><colgroup><col style="width:17.4%"><col style="width:18.8%"><col style="width:63.8%"></colgroup><thead><tr><th>类别</th><th>范围</th><th>细分与代表</th></tr></thead><tbody><tr><td class="tc">内部网关协议 IGP</td><td>一个<b>自治系统 AS 内</b></td><td><b>距离矢量</b>路由协议（小型网络易配置，但大型网络环路难、带宽占多）；<b>链路状态</b>算法 <b>IS-IS 和 OSPF</b>（大型网络更有效、应用广）</td></tr><tr><td class="tc">外部网关协议 EGP</td><td><b>AS 之间</b></td><td>最初 EGP 为简单树形拓扑设计、局限多；IETF 制定标准的<b>边界网关协议 BGP</b></td></tr></tbody></table>
+<h3>5. 网络工程</h3>
+<p>网络建设分三环节：<b>网络规划</b>（首要环节：需求分析、可行性分析、现有网络分析，以需求为导向兼顾技术与工程可行性）、<b>网络设计</b>（总体目标与原则、通信子网设计、设备选型、网络安全设计）、<b>网络实施</b>（工程实施计划、设备验收、安装调试、系统试运行和切换、用户培训）。</p>
+<h3>2.6 计算机语言（2.6）⭐【重点】</h3>
+<p>计算机语言是人与计算机之间传递信息的媒介，主要由一套指令组成，包括<b>表达式</b>（变量、常量、字面量和运算符）、<b>流程控制</b>（分支、循环、函数和异常）和<b>集合</b>（字符串、数组、散列表等数据结构）三大部分。早期分为机器语言、汇编语言和高级语言三大类，本章再增<b>建模语言</b>与<b>形式化语言</b>。</p>
+<h3>1. 机器语言</h3>
+<p><b>机器语言是第一代计算机语言</b>，全部指令的集合称指令系统，可被计算机<b>直接理解和执行</b>，优点是<b>执行速度快、占用内存少</b>；缺点是 0/1 串编程烦琐、难学难记难调试，且<b>依赖机器硬件、不可移植</b>。</p>
+<p><b>指令格式</b>：指令是二进制代码，<b>一条指令包括操作码和地址码两种信息</b> ⭐。完整指令需指出：操作码（操作性质功能）、操作数的地址、操作结果的存储地址、下条指令的地址。<b>用程序计数器 PC 存放下条指令地址</b>：每执行一条指令 PC 自动 +1，遇转移指令时用转移地址修改 PC，因此指令中不必显式给出下条指令地址。操作码长度取决于指令系统中的指令条数；地址码描述操作对象（直接给操作数，或指出存储器/寄存器地址）。</p>
+<p>常见指令格式按地址域数量分 ⭐：</p>
+<table><colgroup><col style="width:15.4%"><col style="width:46.2%"><col style="width:38.5%"></colgroup><thead><tr><th>格式</th><th>地址安排</th><th>备注</th></tr></thead><tbody><tr><td class="tc">三地址指令</td><td>A1、A2 为两个操作数地址，A3 为结果地址</td><td>下条指令地址由 PC 顺序给出</td></tr><tr><td class="tc">二地址指令</td><td>A1 为第 1 操作数地址，<b>A2 同时确定第 2 操作数地址和结果地址</b></td><td>结果覆盖第 2 操作数</td></tr><tr><td class="tc">单地址指令</td><td>A 为第 1 操作数地址</td><td>第 2 操作数与结果<b>固定使用某个寄存器</b>（地址隐含）</td></tr><tr><td class="tc">零地址指令</td><td><b>堆栈型</b>计算机中操作数在栈顶两单元、结果放回栈顶</td><td>地址均隐含，只有操作码</td></tr><tr><td class="tc">可变地址数指令</td><td>地址数随操作定义改变</td><td>可少至 0 个、多至 6 个</td></tr></tbody></table>
+<h3>2. 汇编语言</h3>
+<p><b>汇编语言是第二代计算机语言，是机器语言的符号化描述</b>（如 ADD 表加法、MOV 表数据传送），代码短、省空间、效率高，但<b>仍是面向机器的语言，通用性差、可移植性不好</b>；把符号翻译成二进制机器语言的程序称<b>汇编程序</b>。</p>
+<p>源程序中有 3 种语句 ⭐【易错：是否产生机器代码】：</p>
+<table><colgroup><col style="width:23.9%"><col style="width:49.3%"><col style="width:26.9%"></colgroup><thead><tr><th>语句</th><th>作用</th><th>是否产生机器代码</th></tr></thead><tbody><tr><td>指令语句（机器指令语句）</td><td>汇编后被 CPU 直接识别执行（ADD、SUB、AND 等）</td><td><b>产生</b>（操作在程序运行时完成）</td></tr><tr><td>伪指令语句</td><td>指示<b>汇编程序在汇编时</b>完成某些工作（分配存储单元、符号赋值）</td><td><b>不产生</b>（操作在汇编时完成）</td></tr><tr><td>宏指令语句</td><td>把多次重复使用的程序段定义为宏，在需要处用宏名引用</td><td>宏的引用，展开后按指令处理</td></tr></tbody></table>
+<p>指令语句和伪指令语句格式相同，均由<b>名字、操作符、操作数和注释</b>4 个字段组成：指令语句的名字叫<b>标号</b>、必须以<b>冒号</b>结束（代表指令第 1 个字节的符号地址），<b>伪指令语句名字后用空格结束、不得用冒号</b>（重要区别）；操作符字段不可缺少（指令助记符或 DB/DW/DD、SEGMENT、PROC 等伪指令）；操作数可有多个、用逗号或空格分隔；注释字段任选、以<b>分号</b>开始、不进目标程序。</p>
+<h3>3. 高级语言</h3>
+<p>高级语言是一类语言的统称，<b>比汇编语言更贴近人类语言，与计算机架构、指令集无关，可移植性好</b>。代表：</p>
+<table><colgroup><col style="width:8.9%"><col style="width:35.4%"><col style="width:55.7%"></colgroup><thead><tr><th>语言</th><th>提出者与时间</th><th>特点</th></tr></thead><tbody><tr><td class="tc">C</td><td>Bell 实验室，20 世纪 70 年代，为描述 UNIX 而开发</td><td><b>同时具有汇编和高级语言优点</b>：简洁灵活、可移植、可直接操作硬件、目标代码质量高、执行效率高；标准历经 C89/C90、C99、C11、C18</td></tr><tr><td class="tc">C++</td><td>Bell 实验室 1980 年改进 C、1983 年命名</td><td>保持 C 优点并<b>增加面向对象支持</b>；标准有 C++98、C++11/14/17/20</td></tr><tr><td class="tc">Java</td><td>SUN 公司 1991 年提出</td><td><b>完全面向对象</b>，口号「<b>一次编写，处处运行</b>」，跨平台、可重用、安全性好，被称为 Internet 上的「世界语」</td></tr><tr><td class="tc">Python</td><td>吉多·范罗苏姆 1989 年设计、1991 年首发</td><td>解释性、互动性、面向对象的<b>脚本语言</b>，简洁易学、<b>标准库强大</b>，应用于 Web、科学计算、大数据分析</td></tr></tbody></table>
+<h3>4. 建模语言（UML）⭐【高频考点】</h3>
+<p>面向对象建模语言在 20 世纪 90 年代多达 50 余种，阻碍交流，联合设计小组求同存异推出 UML（Booch、OMT、OOSE 融合）。<b>1997 年 10 月 OMG 采纳 UML 1.1 作为标准建模语言</b>，1999 年底占面向对象建模市场 90%，成为事实上的工业标准。<b>UML 是定义良好、易于表达、功能强大且普遍适用的建模语言，支持从需求分析开始的软件开发全过程；它与程序设计语言无关，只是语言而不是方法学</b> ⭐【易错：UML 不是开发方法】。</p>
+<p><b>UML 由 3 个要素构成：基本构造块（事物、关系）、图（支配构造块如何放置的规则）和公用机制</b>。其中：</p>
+<p><b>事物 4 种</b>：<b>结构事物</b>（模型的名词、静态部分：类、接口、协作、用例、主动类、构件、制品、结点）；<b>行为事物</b>（模型的动词、动态部分：<b>交互、状态机、活动</b>）；<b>分组事物</b>（组织部分，主要是<b>包</b>，仅在开发时存在，与仅运行时存在的构件不同）；<b>注释事物</b>（解释部分，主要是<b>注解</b>）。</p>
+<p><b>关系 4 种</b> ⭐【高频易错：图形与语义对应】：</p>
+<table><colgroup><col style="width:8.8%"><col style="width:64.7%"><col style="width:26.5%"></colgroup><thead><tr><th>关系</th><th>语义</th><th>图形表示</th></tr></thead><tbody><tr><td class="tc">依赖</td><td>一个事物变化会影响另一个事物的语义</td><td><b>可能有方向的虚线</b></td></tr><tr><td class="tc">关联</td><td>描述一组链（对象之间的连接），可标注重复度和角色；<b>聚集是特殊类型的关联，描述整体和部分间结构关系</b></td><td>实线（聚集整体端加空心菱形）</td></tr><tr><td class="tc">泛化</td><td>特殊/一般关系，<b>子元素对象可替代父元素对象</b>，子元素共享父元素的结构和行为</td><td><b>带空心箭头的实线，指向父元素</b></td></tr><tr><td class="tc">实现</td><td>一个类元指定由另一个类元保证执行的契约（接口与实现类/构件、用例与实现协作之间）</td><td><b>带空心箭头的虚线</b></td></tr></tbody></table>
+<div class="fig"><div><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 320" font-family="Microsoft YaHei, 微软雅黑, sans-serif">
+  <!-- 依赖 -->
+  <text x="180" y="26" font-size="14" font-weight="bold" fill="#1f4e79" text-anchor="middle">依赖</text>
+  <rect x="40" y="46" width="90" height="42" rx="4" fill="#eaf1f8" stroke="#1f4e79"/>
+  <text x="85" y="72" font-size="12" fill="#22303f" text-anchor="middle">事物 A</text>
+  <rect x="250" y="46" width="90" height="42" rx="4" fill="#eaf1f8" stroke="#1f4e79"/>
+  <text x="295" y="72" font-size="12" fill="#22303f" text-anchor="middle">事物 B</text>
+  <line x1="133" y1="67" x2="239" y2="67" stroke="#1f4e79" stroke-width="1.4" stroke-dasharray="5,3" fill="none"/>
+  <polygon points="247,67 239,62.5 239,71.5" fill="#1f4e79"/>
+  <text x="180" y="114" font-size="11" fill="#6b7a8a" text-anchor="middle">可能有方向的虚线</text>
+  <!-- 关联（聚集） -->
+  <text x="540" y="26" font-size="14" font-weight="bold" fill="#1f4e79" text-anchor="middle">关联（聚集）</text>
+  <rect x="400" y="46" width="90" height="42" rx="4" fill="#f3f6ee" stroke="#8aa15c"/>
+  <text x="445" y="72" font-size="12" fill="#22303f" text-anchor="middle">整体</text>
+  <rect x="610" y="46" width="90" height="42" rx="4" fill="#eaf1f8" stroke="#1f4e79"/>
+  <text x="655" y="72" font-size="12" fill="#22303f" text-anchor="middle">部分</text>
+  <line x1="498" y1="67" x2="607" y2="67" stroke="#1f4e79" stroke-width="1.4"/>
+  <polygon points="498,67 490,60 482,67 490,74" fill="#ffffff" stroke="#1f4e79" stroke-width="1.4"/>
+  <text x="540" y="114" font-size="11" fill="#6b7a8a" text-anchor="middle">实线；聚集时整体端为空心菱形</text>
+  <!-- 泛化 -->
+  <text x="180" y="176" font-size="14" font-weight="bold" fill="#1f4e79" text-anchor="middle">泛化</text>
+  <rect x="40" y="196" width="90" height="42" rx="4" fill="#eaf1f8" stroke="#1f4e79"/>
+  <text x="85" y="222" font-size="12" fill="#22303f" text-anchor="middle">子元素</text>
+  <rect x="250" y="196" width="90" height="42" rx="4" fill="#f3f6ee" stroke="#8aa15c"/>
+  <text x="295" y="222" font-size="12" fill="#22303f" text-anchor="middle">父元素</text>
+  <line x1="133" y1="217" x2="229" y2="217" stroke="#1f4e79" stroke-width="1.4" fill="none"/>
+  <polygon points="247,217 229,209 229,225" fill="#ffffff" stroke="#1f4e79" stroke-width="1.4"/>
+  <text x="180" y="264" font-size="11" fill="#6b7a8a" text-anchor="middle">带空心箭头的实线，指向父元素</text>
+  <!-- 实现 -->
+  <text x="540" y="176" font-size="14" font-weight="bold" fill="#1f4e79" text-anchor="middle">实现</text>
+  <rect x="400" y="196" width="90" height="42" rx="4" fill="#eaf1f8" stroke="#1f4e79"/>
+  <text x="445" y="222" font-size="12" fill="#22303f" text-anchor="middle">实现类</text>
+  <rect x="610" y="196" width="90" height="42" rx="4" fill="#fdf0e6" stroke="#c05621"/>
+  <text x="655" y="222" font-size="12" fill="#22303f" text-anchor="middle">接口</text>
+  <line x1="493" y1="217" x2="589" y2="217" stroke="#1f4e79" stroke-width="1.4" stroke-dasharray="5,3" fill="none"/>
+  <polygon points="607,217 589,209 589,225" fill="#ffffff" stroke="#1f4e79" stroke-width="1.4"/>
+  <text x="540" y="264" font-size="11" fill="#6b7a8a" text-anchor="middle">带空心箭头的虚线</text>
+  <text x="360" y="304" font-size="11" fill="#6b7a8a" text-anchor="middle">（据教材图 2-29～2-33 重绘）</text>
+</svg></div><div class="cap">UML 四种关系的图形表示（据教材图 2-29～2-33 重绘）</div></div>
+<p><b>UML 2.0 提供 13 种图</b>：类图、对象图、用例图、序列图、通信图、状态图、活动图、构件图、部署图、组合结构图、包图、交互概览图和计时图；其中<b>序列图、通信图、交互概览图和计时图统称交互图</b>。用例图展现用例、参与者及关系（用例间有 <b>&lt;&lt;include&gt;&gt; 包含和 &lt;&lt;extend&gt;&gt; 扩展</b>，参与者与用例间有关联，用例/参与者间可有泛化），用于对系统<b>语境</b>（画系统边界、声明外部参与者）和<b>需求</b>（系统应做什么而非怎样做）建模，把系统看作黑盒子。</p>
+<p><b>UML 5 种视图</b> ⭐【高频考点：用例视图居中】：</p>
+<table><colgroup><col style="width:14.5%"><col style="width:34.7%"><col style="width:28.0%"><col style="width:22.8%"></colgroup><thead><tr><th>视图</th><th>描述内容</th><th>主要图</th><th>关注者</th></tr></thead><tbody><tr><td><b>用例视图（中心地位）</b></td><td>系统功能需求，外部用户可观察到的功能模型</td><td>用例图</td><td>客户、分析者、设计者、开发者、测试者</td></tr><tr><td>逻辑视图</td><td>系统内部功能如何实现：静态结构和动态协作</td><td>类图、对象图、状态图、顺序图、合作图、活动图</td><td>设计、开发者</td></tr><tr><td>进程视图</td><td>系统的<b>并发性</b>：控制线程及线程间通信同步</td><td>状态图、顺序图、合作图、活动图、构件图、配置图</td><td>开发者、系统集成者</td></tr><tr><td>实现视图</td><td><b>代码构件组织</b>、实现模块及依赖关系</td><td>构件图</td><td>设计者、开发者、测试者</td></tr><tr><td>部署视图</td><td>软硬件<b>物理体系结构</b>及连接，哪个程序/对象驻留在哪台计算机执行</td><td>配置图</td><td>开发者、系统集成者、测试者</td></tr></tbody></table>
+<p>与第 1 章「4+1」视角对应理解：用例视图≈场景、逻辑视图≈逻辑、进程视图≈过程、实现视图≈开发、部署视图≈物理，但两套表述的出处不同，答题以题干指定体系为准。</p>
+<h3>5. 形式化语言</h3>
+<p><b>形式化方法是用具有精确语义的形式语言书写程序功能描述</b>，把概念、判断、推理转化成形式符号研究，是设计编制程序的出发点、验证程序是否正确的依据，能确保与需求一致并用于分析验证。</p>
+<p><b>规格说明语言主要流派</b>：①<b>公理方法</b>（前置条件与后置条件描述程序行为，代表 Floyd、Hoare、Dijkstra）；②基于集合论和一阶谓词演算的 <b>meta-IV 和 Z 语言</b>（meta-IV 对应<b>维也纳开发方法 VDM</b>）；③<b>代数规格说明</b>（抽象数据类型的代数描述，OBJ、ACT）；④<b>进程描述语言</b>（描述开发进程行为，Hoare 的 <b>CSP</b>、Milner 的 <b>CCS</b>）。ISO 认可的规格说明语言有 LOTOS、ESTELLE、SDL、Z.100 等。</p>
+<p><b>形式化方法分类</b>：按系统特性分面向对象（Z、VDM、B、Object-Z）、面向属性（OBJ3、Larch）、基于并发性（CCS、ACP、CSP、LOTOS）、基于实时性（TRIO、RTOZ）；按描述方式分<b>模型描述</b>（构造数学模型直接描述）与<b>性质描述</b>（描述系统性质间接描述）；按表达能力分<b>模型方法</b>（显式描述状态与动作，不能显式表示并发）、<b>代数方法</b>（隐式描述操作，也不能显式表示并发）、<b>进程代数方法</b>（显式模型描述并发，交错语义）、<b>逻辑方法</b>（逻辑描述程序/时间状态规范）、<b>网络模型方法</b>（如 <b>Petri 网</b>，独立描述每个结点、显式给出并发模型）。</p>
+<p><b>形式化开发过程</b>：贯穿可行性分析、需求分析、体系结构设计、详细设计、编码、测试发布 6 阶段——需求阶段要求明确描述需求；体系结构设计可采用<b>半形式化</b>方法；编码阶段自动代码生成器可把较小系统的形式化描述直接转为可执行程序；测试阶段可用于<b>测试用例自动生成、保证覆盖率</b>。</p>
+<p><b>Z 语言</b> ⭐【易错】：<b>具有「状态—操作」风格的形式化规格说明语言</b>，以<b>一阶逻辑和集合论</b>为形式语义基础，<b>最主要的结构是模式（Schema），一个模式由变量说明和谓词约束两部分组成</b>，描述系统状态和操作；是<b>强类型系统</b>（每个对象有唯一类型）；可结合自然语言书写；支持<b>求精</b>（从抽象模型逐步精化到可执行代码）；优点是精确、简洁、无二义性，适用于无法现场调试的高安全性系统。<b>Z 语言没有提供计时或并发行为的描述</b>，可与 CSP、CCS 等结合产生含并发行为的规格说明。</p>
+<h3>2.7 多媒体（2.7）</h3>
+<p><b>媒体（Media）是承载信息的载体</b>，按 ITU-T 建议分为 5 类 ⭐【高频易错】：</p>
+<table><colgroup><col style="width:20.9%"><col style="width:23.9%"><col style="width:55.2%"></colgroup><thead><tr><th>媒体类型</th><th>含义</th><th>例子</th></tr></thead><tbody><tr><td>感觉媒体</td><td>用户接触信息的<b>感觉形式</b></td><td>视觉、听觉、触觉</td></tr><tr><td>表示媒体</td><td>信息的<b>表示形式</b></td><td>图像、声音、视频（的编码表示）</td></tr><tr><td>表现媒体（显示媒体）</td><td><b>表现和获取信息的物理设备</b></td><td>输入：键盘、鼠标、扫描仪、话筒、摄像机；输出：显示器、打印机、音箱</td></tr><tr><td>存储媒体</td><td><b>存储表示媒体的物理介质</b></td><td>硬盘、软盘、光盘、ROM、RAM</td></tr><tr><td>传输媒体</td><td><b>传输表示媒体的物理介质</b></td><td>电缆、光缆、电磁波</td></tr></tbody></table>
+<p><b>多媒体是利用计算机技术把文本、图形、图像、声音、动画和电视等多种媒体综合起来，建立逻辑连接，并能获取、压缩、加工处理和存储，集成为一个具有交互性的系统</b>。四个重要特征：<b>多维化</b>（媒体多样化）、<b>集成性</b>（设备集成与信息/表现集成）、<b>交互性</b>（变被动为主动的重要标志）、<b>实时性</b>（音视频等媒体具有很强时间特性）。</p>
+<p>多媒体系统由硬件（多媒体计算机、板卡、外部设备及控制接口）和软件（驱动软件、操作系统、数据处理软件、创作工具软件、应用软件）组成。关键技术包括感觉媒体表示、<b>数据压缩</b>、存储、多媒体数据库、超文本与超媒体、信息检索、<b>通信</b>、人机交互及外部设备等。</p>
+<p><b>视音频技术</b>：视频技术含<b>视频数字化</b>（模拟视频模数转换为数字信号）和<b>视频编码</b>（数字化信号编码为可录制播放的视频信号）；音频技术含音频数字化、语音处理、语音合成及语音识别 4 方面。编解码目的是对视音频数据进行<b>传输和存储</b>，常加入<b>同步元数据</b>（如字幕），常见封装格式有 mpg、avi、mov、mp4 等。压缩方法总体分两类 ⭐：<b>无损压缩</b>（解压后与压缩前<b>完全一致</b>，多数采用 <b>RLE 行程编码</b>，常见格式 WAV、PCM、FLAC、APE 等）和<b>有损压缩</b>（丢失人眼人耳<b>不敏感</b>的信息且<b>不可恢复</b>，常见格式 MP3、WMA、OGG 等）。</p>
+<p><b>通信技术</b>：含数据传输信道技术（同轴电缆、双绞线、光纤、微波、卫星等物理介质）和数据传输技术（基带/频带传输及调制、同步、多路复用、数据交换、编码加密、差错控制等）。</p>
+<p><b>数据压缩技术</b> ⭐：按压缩时机分<b>即时压缩</b>（传输过程中压缩，常用于影像声音，需专门硬件如压缩卡）和<b>非即时压缩</b>；按对象分<b>数据压缩</b>（时间性数据，即时采集处理传输）和<b>文件压缩</b>（保存到磁盘等介质的数据）；按质量分<b>无损压缩</b>（利用<b>统计冗余</b>，压缩比较低）和<b>有损压缩</b>（利用人类视听不敏感特性，允许损失信息）。国际编码标准：</p>
+<table><colgroup><col style="width:16.7%"><col style="width:22.2%"><col style="width:61.1%"></colgroup><thead><tr><th>标准</th><th>适用对象</th><th>要点</th></tr></thead><tbody><tr><td class="tc"><b>JPEG / JPEG 2000</b></td><td><b>静态图像</b>压缩</td><td>联合图像专家小组（CCITT 与 ISO 联合）制定的编码算法</td></tr><tr><td class="tc"><b>MPEG 系列</b></td><td><b>运动图像（动态视频）</b>压缩</td><td>运动图像专家组 1988 年成立；系列含 MPEG-1、MPEG-2、MPEG-4、MPEG-7、MPEG-21、DVI</td></tr><tr><td class="tc"><b>H.26L</b></td><td>视频编解码</td><td>ITU-T VCEG 1997 年制定、2002 年正式确定，提供更高压缩效率与网络适应性，适用于<b>可视电话和视频会议等实时视频通信</b></td></tr></tbody></table>
+<p><b>VR/AR 技术</b> ⭐【易错：VR 与 AR 区分】：<b>虚拟现实 VR 是创建和体验虚拟世界的计算机仿真系统</b>，利用计算机生成模拟环境使用户<b>沉浸</b>其中，通过自然技能（头部转动、手势等）与虚拟实体交互，需借助头盔立体显示器、数据手套、三维鼠标等三维传感设备；<b>增强现实 AR 是把模拟仿真的实体信息叠加到现实世界中被感官感知</b>，达到<b>超越现实</b>的感官体验（涉及计算机图形图像、空间定位、人文智能技术）。VR/AR 分 4 类：</p>
+<table><colgroup><col style="width:16.3%"><col style="width:42.6%"><col style="width:41.1%"></colgroup><thead><tr><th>类型</th><th>定义</th><th>特点</th></tr></thead><tbody><tr><td class="tc">桌面式 VR</td><td>计算机形成三维交互场景，鼠标等输入、屏幕呈现虚拟环境</td><td><b>易实现、应用广、成本低</b>，但受环境干扰、体验感弱</td></tr><tr><td class="tc">分布式 VR</td><td>VR 与网络融合，同一 VR 环境下多用户共享信息</td><td>忽略地域限制、共享度高，<b>研发成本极高</b>，适合专业领域</td></tr><tr><td class="tc">沉浸式 VR</td><td>各类输入输出设备给用户<b>完全沉浸、全身心参与</b>的环境</td><td>实时交互与体验感好，但硬件与混合技术要求高、成本高</td></tr><tr><td class="tc">增强式 VR（AR）</td><td>虚拟仿真世界与现实世界<b>叠加</b>，用户无须脱离真实世界</td><td>体验更完美，混合技术要求更高、开发成本高、起步晚</td></tr></tbody></table>
+<p>其关键技术还包括：<b>数据采集与优化传输</b>（全向相机、高速摄像机、激光设备获取自然现象数据，低功耗低延时传输）和<b>交互与情形实时再现</b>（力觉反馈、触觉反馈，跟踪定位、高效渲染、逼真显示）。</p>
+<h3>2.8 系统工程（2.8）⭐【重点】</h3>
+<h3>1. 基本概念</h3>
+<p><b>系统工程是一种组织管理技术</b>：把研究对象看作由很多相互联系、相互制约的组成部分构成的总体，运用运筹学理论方法及电子计算机技术，对各组成部分进行分析、预测和评价，最后综合使系统达到最优。产生于第二次世界大战期间，<b>1960 年美国阿波罗登月计划成功运用系统工程</b>，此后获迅速发展。</p>
+<p><b>系统（ISO/IEC 15288:2008）</b>是人造的、被创建用于在定义明确的环境中提供产品或服务的组合，系统元素包括硬件、软件、数据、人员、流程、设施、材料等；<b>系统是由交互的元素组织起来的组合，用以实现一个或多个特定目的</b>。<b>系统之系统（SoS）</b>指系统元素本身也是系统的情况（如 GPS 既是飞机机载导航系统的组成，也是汽车导航系统的组成），部件系统互操作能产生单个系统无法单独达成的结果。</p>
+<p>钱学森（1978）：系统工程是<b>组织管理「系统」的规划、研究、设计、制造、试验和使用的科学方法，是一种对所有「系统」都具有普遍意义的科学方法</b>。INCOSE：系统工程是<b>一种使系统能够成功实现的跨学科的方法和手段</b>，专注开发周期<b>早期</b>定义客户需求与功能并文件化，再考虑运行、成本、进度、性能、培训、保障、制造和退出等完整问题。核心特征：<b>跨学科、技术和整体性（系统思维）</b>——分析和设计与其部分截然不同的整体，全面看问题并把社会方面与技术方面联系起来。</p>
+<h3>2. 系统工程方法 ⭐【高频考点】</h3>
+<p>系统工程方法的特点是<b>整体性、综合性、协调性、科学性和实践性</b>，包括整体观念、综合观念、科学观念和创新观念。</p>
+<p><b>① 霍尔三维结构（硬系统方法论 HSM）</b>：美国系统工程专家<b>霍尔（A.D.Hall）1969 年</b>提出，将系统工程活动分为前后衔接的 <b>7 个时间阶段和 7 个逻辑步骤</b>，加上所需专业知识技能，形成<b>时间维、逻辑维、知识维</b>三维结构 ⭐【必背】：</p>
+<table><colgroup><col style="width:15.2%"><col style="width:84.8%"></colgroup><thead><tr><th>维度</th><th>内容</th></tr></thead><tbody><tr><td class="tc">时间维</td><td><b>规划、拟订方案、研制、生产、安装、运行、更新</b> 7 个时间阶段</td></tr><tr><td class="tc">逻辑维</td><td><b>明确问题、确定目标、系统综合、系统分析、优化、决策、实施</b> 7 个逻辑步骤</td></tr><tr><td class="tc">知识维</td><td>工程、医学、建筑、商业、法律、管理、社会科学、艺术等各种专业知识和技能</td></tr></tbody></table>
+<p>霍尔三维结构集中体现系统工程方法的<b>系统化、综合化、最优化、程序化和标准化</b>特点，为解决大型复杂系统的规划、组织、管理提供统一思想方法。</p>
+<div class="fig"><div><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 450" font-family="Microsoft YaHei, 微软雅黑, sans-serif">
+  <text x="360" y="26" font-size="14" font-weight="bold" fill="#1f4e79" text-anchor="middle">霍尔三维结构（A.D.Hall，1969，硬系统方法论 HSM）</text>
+  <!-- 时间×逻辑平面（虚线参考面） -->
+  <rect x="180" y="50" width="440" height="250" fill="none" stroke="#d5dde5" stroke-width="1" stroke-dasharray="4,3"/>
+  <!-- 时间维（横轴） -->
+  <line x1="180" y1="300" x2="648" y2="300" stroke="#1f4e79" stroke-width="1.8"/>
+  <polygon points="660,300 648,295 648,305" fill="#1f4e79"/>
+  <text x="664" y="290" font-size="13" font-weight="bold" fill="#1f4e79">时间维</text>
+  <g font-size="10" fill="#22303f">
+    <text x="210" y="322" text-anchor="middle">规划</text>
+    <text x="272" y="322" text-anchor="middle">拟订方案</text>
+    <text x="334" y="322" text-anchor="middle">研制</text>
+    <text x="396" y="322" text-anchor="middle">生产</text>
+    <text x="458" y="322" text-anchor="middle">安装</text>
+    <text x="520" y="322" text-anchor="middle">运行</text>
+    <text x="582" y="322" text-anchor="middle">更新</text>
+  </g>
+  <g fill="#1f4e79">
+    <circle cx="210" cy="300" r="3.5"/>
+    <circle cx="272" cy="300" r="3.5"/>
+    <circle cx="334" cy="300" r="3.5"/>
+    <circle cx="396" cy="300" r="3.5"/>
+    <circle cx="458" cy="300" r="3.5"/>
+    <circle cx="520" cy="300" r="3.5"/>
+    <circle cx="582" cy="300" r="3.5"/>
+  </g>
+  <!-- 逻辑维（纵轴） -->
+  <line x1="180" y1="300" x2="180" y2="52" stroke="#c05621" stroke-width="1.8"/>
+  <polygon points="180,40 175,52 185,52" fill="#c05621"/>
+  <text x="130" y="60" font-size="13" font-weight="bold" fill="#c05621" text-anchor="middle">逻辑维</text>
+  <g font-size="10" fill="#22303f">
+    <text x="196" y="290">明确问题</text>
+    <text x="196" y="255">确定目标</text>
+    <text x="196" y="220">系统综合</text>
+    <text x="196" y="185">系统分析</text>
+    <text x="196" y="150">优化</text>
+    <text x="196" y="115">决策</text>
+    <text x="196" y="80">实施</text>
+  </g>
+  <g fill="#c05621">
+    <circle cx="180" cy="286" r="3.5"/>
+    <circle cx="180" cy="251" r="3.5"/>
+    <circle cx="180" cy="216" r="3.5"/>
+    <circle cx="180" cy="181" r="3.5"/>
+    <circle cx="180" cy="146" r="3.5"/>
+    <circle cx="180" cy="111" r="3.5"/>
+    <circle cx="180" cy="76" r="3.5"/>
+  </g>
+  <!-- 知识维（斜轴） -->
+  <line x1="180" y1="300" x2="52" y2="390" stroke="#8aa15c" stroke-width="1.8"/>
+  <polygon points="42,396 53,389 50,380" fill="#8aa15c"/>
+  <text x="120" y="418" font-size="13" font-weight="bold" fill="#4a6130" text-anchor="middle">知识维</text>
+  <text x="330" y="418" font-size="11" fill="#22303f" text-anchor="middle">工程、医学、建筑、商业、法律、管理、社会科学、艺术等</text>
+  <text x="420" y="350" font-size="11" fill="#6b7a8a" text-anchor="middle">7 个时间阶段 × 7 个逻辑步骤 × 专业知识技能</text>
+  <text x="420" y="372" font-size="11" fill="#6b7a8a" text-anchor="middle">体现系统化、综合化、最优化、程序化、标准化</text>
+</svg></div><div class="cap">霍尔三维结构</div></div>
+<p><b>② 切克兰德方法（软系统方法论）</b>：英国 <b>P.切克兰德 20 世纪 80 年代中前期</b>提出。社会经济系统的问题难以事先确定需求、难以定量分析，<b>核心不是「最优化」而是「比较」与「探寻」</b>——从模型和现状的比较中学习改善现状的途径，含有组织讨论、听取各方意见的意思，更好反映人的因素。工作过程 7 步：<b>认识问题 → 根底定义 → 建立概念模型 → 比较及探寻 → 选择 → 设计与实施 → 评估与反馈</b>。</p>
+<p><b>③ 并行工程（Concurrent Engineering）</b>：对产品及其相关过程（制造和支持过程）进行<b>并行、集成化处理</b>的系统方法，要求设计开始即考虑<b>产品生命周期全过程</b>（质量、成本、用户要求及工艺与服务质量）。<b>目标是提高质量、降低成本、缩短产品开发周期和上市时间</b>；做法是<b>产品开发初期组织多职能协同项目组</b>，使问题在开发早期解决、避免返工；强调设计开发期间结合概念/结构/工艺设计与最终需求、项目小组随时或定期反馈协调、依据信息系统工具（如 CIM）辅助并行化。</p>
+<p><b>④ 综合集成法</b>：<b>钱学森等 1990 年初提出「从定性到定量的综合集成法」</b>，用于处理<b>开放的复杂巨系统</b>（子系统种类很多且有层次结构、关联复杂且开放），区别于培根式还原论。系统分类：简单系统 → 巨系统（子系统成千上万）→ 简单巨系统（种类不多、关联简单，如激光系统）→ <b>开放的复杂巨系统</b>。开放复杂巨系统性质：<b>开放性、复杂性、进化与涌现性、层次性、巨量性</b>。1992 年钱学森又提出<b>综合集成研讨厅体系</b>：将<b>专家群体、数据和各种信息与计算机网络</b>有机结合。主要特点：定性与定量结合贯穿全过程、科学理论与经验知识结合、多学科综合、宏观与微观统一、<b>必须有大型计算机系统支持</b>。</p>
+<p><b>⑤ WSR 系统方法</b>：<b>物理（Wuli）- 事理（Shili）- 人理（Renli）方法论</b>，<b>顾基发教授和朱志昌博士 1994 年</b>在英国 HULL 大学提出，属定性与定量综合集成的东方系统思想。实践准则是「<b>懂物理、明事理、通人理</b>」。一般工作过程 7 步：<b>理解意图、制定目标、调查分析、构造策略、选择方案、协调关系、实现构想</b>；<b>协调关系始终贯穿整个过程</b>（协调每一步物理事理人理、意图目标现实策略方案构想、投入产出成效的关系）。物理主要用自然科学方法，事理主要用运筹学、系统工程、管理科学、控制论及软计算、特尔斐法、层次分析法等，人理可细分为关系、感情、习惯、知识、利益、和解与管理等。</p>
+<h3>3. 系统工程的生命周期 ⭐【高频考点】</h3>
+<p>ISO/IEC 15288:2008 定义生命周期的目的是<b>以有序高效的方式建立满足利益攸关者需求的框架</b>，通过定义阶段并决策是否就绪进入下一阶段实现；<b>跳过阶段和决策会大幅增加成本与进度风险</b>；系统工程的任务通常集中在初期，但生产运行后仍需修改，故系统工程贯穿所有生命周期阶段。</p>
+<p>七个一般生命周期阶段 ⭐【必背，注意与霍尔时间维区分】：</p>
+<table><colgroup><col style="width:13.8%"><col style="width:37.5%"><col style="width:48.8%"></colgroup><thead><tr><th>阶段</th><th>目的</th><th>要点</th></tr></thead><tbody><tr><td class="tc">探索性研究阶段</td><td><b>识别利益攸关者需求，探索创意和技术</b></td><td>大量创造性系统工程在此完成，可引入概念阶段</td></tr><tr><td class="tc">概念阶段</td><td><b>细化需求，探索可行概念，提出有望实现的解决方案</b></td><td>需求识别、明确并文档化（无探索阶段时在此完成）；退出计划也在此阶段定义</td></tr><tr><td class="tc">开发阶段</td><td><b>细化系统需求，创建解决方案描述，构建系统，验证并确认</b></td><td>含详细计划与 V&amp;V 活动，可自主选择开发模型，不限于瀑布</td></tr><tr><td class="tc">生产阶段</td><td><b>生产系统并进行检验和验证</b></td><td>可能为降本或提升能力更改产品，需重新验证与系统工程评估</td></tr><tr><td class="tc">使用阶段</td><td><b>运行系统以满足用户需求</b></td><td>在预期环境交付服务，可有计划升级（运行流程）</td></tr><tr><td class="tc">保障阶段</td><td><b>提供持续的系统能力</b></td><td>服务、维护使系统持续运行，可延寿降本（维护流程）</td></tr><tr><td class="tc">退役阶段</td><td><b>存储、归档或退出系统</b></td><td>确保退出需求满足；许多国家强制创建者负责生命终止退出</td></tr></tbody></table>
+<p>生命周期方法 4 种 ⭐【易错：适用场景】：</p>
+<table><colgroup><col style="width:12.9%"><col style="width:43.6%"><col style="width:43.6%"></colgroup><thead><tr><th>方法</th><th>核心思想</th><th>适用/特点</th></tr></thead><tbody><tr><td>计划驱动方法</td><td>需求、设计、构建、测试、部署的传统方式，全程遵守规定流程</td><td>适合需协调多家公司的大型团队项目；<b>特别关注文档完整性、需求可追溯性及事后验证</b></td></tr><tr><td>渐进迭代式开发 IID</td><td>先提供初始能力，再连续交付达期望系统，快速产生价值</td><td><b>需求不清晰或引入新技术时</b>使用；不断评估演进直至满足要求；<b>适用于较小、不太复杂的系统</b>，重点在灵活性</td></tr><tr><td>精益开发</td><td>源于丰田「准时化」，彻底消除浪费、不一致及不合理需求，<b>向客户交付最大价值并使浪费最小化</b></td><td>精益 SE 是把精益原则实践工具用于系统工程，提升对利益攸关者的价值交付</td></tr><tr><td>敏捷开发</td><td>关键目标在<b>灵活性</b>，风险可接受时允许从序列排除选定事件</td><td>原则：尽早持续交付有价值软件、<b>欢迎需求变更（即使后期）</b>、短周期交付可用软件、业务与开发每天一起工作、<b>面对面交谈最有效</b>、<b>工作软件是进展主要度量</b>、简单性、自组织团队、定期反省调整</td></tr></tbody></table>
+<h3>4. 基于模型的系统工程（MBSE）⭐【高频考点】</h3>
+<p><b>2007 年 INCOSE 在《系统工程 2020 年愿景》中正式提出 MBSE 定义：MBSE 是建模方法的形式化应用，以使建模方法支持系统需求、分析、设计、验证和确认等活动，这些活动从概念性设计阶段开始，持续贯穿到设计开发以及后来的所有生命周期阶段</b>。MBSE 仍是系统工程，层层分解、综合集成思路不变，<b>核心是采用形式化、图形化、关联化的建模语言及工具改造系统工程的技术过程</b>。</p>
+<p>系统工程过程三阶段产物：<b>需求分析阶段</b>产生需求图、用例图及包图；<b>功能分析与分配阶段</b>产生顺序图、活动图及状态机图；<b>设计综合阶段</b>产生模块定义图、内部块图及参数图。</p>
+<p><b>MBSE 三大支柱</b> ⭐【必背】：</p>
+<table><colgroup><col style="width:8.3%"><col style="width:45.8%"><col style="width:45.8%"></colgroup><thead><tr><th>支柱</th><th>内容</th><th>要点</th></tr></thead><tbody><tr><td class="tc">建模语言</td><td><b>SysML</b>（OMG 在重用和扩展 <b>UML 2.0 子集</b>基础上提出的系统建模语言），作为系统工程的标准建模语言</td><td>统一建模语言：跨学科通用语言、图形化可视化便于理解、形式化关联化便于计算机处理</td></tr><tr><td class="tc">建模工具</td><td>支持系统建模语言画图的计算机和网络环境（核心为支持 SysML 的软件），底层关联数据形成<b>模型库</b>，可构建分布式协同建模环境</td><td>已有数据转换标准可与热学、力学等专业分析软件交换数据、迭代优化</td></tr><tr><td class="tc">建模思路</td><td>设计团队如何利用各种图形建立系统模型（工作流程）</td><td>代表方法：<b>IBM Telelogic Harmony-SE、Weilkiens SYSMOD、INCOSE OOSEM</b>；应根据组织特点研究适合自身的思路流程，是前置重点工作</td></tr></tbody></table>
+<h3>2.9 系统性能（2.9）⭐【重点】</h3>
+<p><b>系统性能是一个系统提供给用户的所有性能指标的集合</b>，包括硬件性能（主频、容量、带宽）和软件性能（上下文切换、延迟、执行时间），包括部件指标和综合指标；包含<b>性能指标、性能计算、性能设计和性能评估</b> 4 方面。</p>
+<h3>1. 性能指标</h3>
+<table><colgroup><col style="width:20.0%"><col style="width:80.0%"></colgroup><thead><tr><th>对象</th><th>主要性能指标（关键词记忆）</th></tr></thead><tbody><tr><td class="tc">计算机</td><td>时钟频率（主频）、运算速度、运算精度、内存容量、存取周期、数据处理速率 PDR、吞吐率、响应时间、利用率、<b>RASIS 特性</b>（可靠性、可用性、可维护性、完整性和安全性）、平均故障响应时间、兼容性、可扩充性、性能价格比</td></tr><tr><td class="tc">路由器</td><td>设备吞吐量、端口吞吐量、<b>全双工线速转发能力</b>、背靠背帧数、路由表能力、背板能力、丢包率、时延及时延抖动、VPN 支持、队列管理、冗余热插拔、网管与计费、语音支持等</td></tr><tr><td class="tc">交换机</td><td>类型与配置、背板吞吐量、缓冲区大小、<b>最大 MAC 地址表大小</b>、支持协议标准（RIP/OSPF/BGP 等）、最大路由表数、<b>VLAN 及最大 VLAN 数量</b>、QoS、端口镜像、链路聚集与负载均衡、冗余热交换组件等</td></tr><tr><td class="tc">网络</td><td><b>设备级、网络级、应用级、用户级</b>性能指标和吞吐量</td></tr><tr><td class="tc">操作系统</td><td><b>系统上下文切换、系统响应时间、系统吞吐率（量）、系统资源利用率、可靠性和可移植性</b></td></tr><tr><td class="tc">数据库管理系统</td><td>数据库大小、表数量、单表大小、记录（行）数量与大小、索引数量、<b>最大并发事务处理能力</b>、负载均衡能力、最大连接数等</td></tr><tr><td class="tc">Web 服务器</td><td><b>最大并发连接数、响应延迟和吞吐量</b>（3 项，常考）</td></tr></tbody></table>
+<h3>2. 性能计算</h3>
+<p>主要方法有<b>定义法、公式法、程序检测法和仪器检测法</b>；常用计算过程有 <b>MIPS</b>（每秒百万条指令）计算、峰值计算、<b>等效指令速度（吉普森 Gibson 法）</b>；实际应用中常对指标复合计算并<b>加权处理</b>得最终结果。</p>
+<h3>3. 性能设计</h3>
+<p><b>性能调整</b>：系统性能降到基本水平时由<b>查找和消除瓶颈</b>组成。数据库系统关注 CPU/内存使用、数据库设计与管理优化、进程线程状态、硬盘剩余空间、日志文件大小；应用系统关注可用性、响应时间、并发用户数与资源占用。开始前必须<b>识别约束、指定负载、设置性能目标</b>；调整是重复受控的试验，循环过程为<b>收集、分析、配置和测试</b>。</p>
+<p><b>阿姆达尔（Amdahl）定律</b> ⭐【高频考点】：对某一部件采用更快执行方式所获得的系统性能改变程度，<b>取决于这种方式被使用的频率或所占总执行时间的比例</b>。</p>
+<p><b>加速比 = 不使用增强部件时完成整个任务的时间 / 使用增强部件时完成整个任务的时间</b>，它取决于两个因素：<b>增强比例</b>（能被改进增强的部分在总执行时间中所占比例，≤1）和<b>增强加速比</b>（增强部分本身速度提高的倍数）。公式：</p>
+<p><b>新的执行时间 = 原来的执行时间 × [(1 − 增强比例) + 增强比例 / 增强加速比]</b></p>
+<p><b>总加速比 = 1 / [(1 − 增强比例) + 增强比例 / 增强加速比]</b></p>
+<div class="example">举例：某功能部件占总执行时间的 <b>60%</b>，采用增强部件后该部分速度提高到原来的 <b>10 倍</b>，则总加速比 = 1 / [(1 − 0.6) + 0.6/10] = 1 / (0.4 + 0.06) = 1/0.46 ≈ <b>2.17</b>。可见<b>局部提升再大，整体加速也受未改进部分（40%）限制</b>——这就是「加速比取决于改进部分所占比例」的含义，也是性能优化要先找主要瓶颈的原因。</div>
+<h3>4. 性能评估</h3>
+<p><b>性能评估是为了一个目的，按照一定步骤，选用一定度量项目，通过建模和实验，对系统性能进行各项检测、解释测试结果并形成文档的技术</b>，目的之一是为性能优化提供参考。</p>
+<p><b>基准测试程序</b>：把应用程序中<b>用得最多、最频繁的核心程序</b>作为评价计算机性能的标准程序（benchmark）。4 种评价程序<b>评测准确程度依次递减</b> ⭐【易错：顺序】：<b>真实的程序 &gt; 核心程序 &gt; 小型基准程序 &gt; 合成基准程序</b>。常用基准测试程序有整数测试 <b>Dhrystone</b>、浮点测试 <b>Linpack</b>、<b>Whetstone</b>、<b>SPEC</b> 和 <b>TPC</b> 基准程序。</p>
+<p><b>Web 服务器性能评估</b>：指标为<b>最大并发连接数、响应延迟和吞吐量</b>；常见评测方法有<b>基准性能测试、压力测试和可靠性测试</b>。</p>
+<p><b>系统监视</b> 3 种方式：①系统本身提供的<b>命令</b>（UNIX/Linux 的 w、ps、last，Windows 的 netstat 等）；②通过<b>系统记录文件</b>查阅特定时间运行状态；③<b>集成命令、文件记录和可视化技术</b>（如 Windows 的 <b>Perfmon</b>）。</p>
+<h2>三、重点与易错点</h2>
+<table><colgroup><col style="width:5.3%"><col style="width:16.9%"><col style="width:39.1%"><col style="width:38.7%"></colgroup><thead><tr><th>#</th><th>考点</th><th>必须记住的结论</th><th>易错提醒</th></tr></thead><tbody><tr><td class="tc">1</td><td>CISC 与 RISC</td><td>CISC 代表 x86（Intel/AMD）；RISC 代表 ARM/Power，后期指令集几乎均为 RISC</td><td>不要记成「RISC 指令多而全」，其特点是<b>精简</b></td></tr><tr><td class="tc">2</td><td>存储器四层</td><td>片上缓存（SRAM，16kB～512kB）→ 片外缓存（SRAM，256kB～4MB）→ 主存（DRAM，充电维持）→ 外存（掉电保持）</td><td>DRAM 主存是<b>易失</b>的；外存保持数据也有年限</td></tr><tr><td class="tc">3</td><td>并发与并行</td><td>并发是宏观同时、微观交替；多 CPU 才并行</td><td>多道批处理三特点：<b>多道、宏观并行、微观串行</b></td></tr><tr><td class="tc">4</td><td>操作系统特征与分类</td><td>四特征：并发、共享、虚拟、不确定；分时四特点：多路、独立、交互、及时</td><td>嵌入式 OS 五特点：微型化、可定制、实时、可靠、<b>易移植（HAL+BSP）</b></td></tr><tr><td class="tc">5</td><td>数据库设计 6 阶段与分布式 4 层</td><td>需求 → 概念（E-R）→ 逻辑（转数据模型）→ 物理 → 应用程序设计 → 运行维护；分布式 4 层：全局外层/全局概念层/局部概念层/局部内层</td><td>全局概念层含<b>分片模式与分配模式</b>；概念结构设计与 DBMS 无关</td></tr><tr><td class="tc">6</td><td>文件物理结构与空闲管理</td><td>连续（连续块）、链接（指针串联）、索引（索引表）；空闲区表适用连续结构、位示图适合各种结构、成组链接为 UNIX 采用</td><td>位示图 <b>0 空闲 1 占用</b>；硬链接指向同一索引结点，符号链接按路径映射可跨文件系统</td></tr><tr><td class="tc">7</td><td>中间件类型与产品</td><td><b>MQSeries = 消息中间件</b>（消息和队列、异步可靠传输）；<b>Tuxedo = 交易中间件</b>（事务完整性、不间断访问、DDR 路由）</td><td>消息中间件是<b>销售额最大</b>的中间件；交易中间件以 Tuxedo 闻名</td></tr><tr><td class="tc">8</td><td>构件与标准</td><td>构件两特性：自包容、可重用；CORBA 三层含 ORB「软总线」；EJB 属<b>业务逻辑层</b>中间件</td><td>会话 Bean 维护会话、实体 Bean 处理事务；构件化有第三方质量不可控风险</td></tr><tr><td class="tc">9</td><td>嵌入式 5 层与软件 6 特点</td><td>硬件层 → 抽象层（HAL+BSP）→ 操作系统层 → 中间件层 → 应用层；可剪裁、可配置、强实时、安全性、可靠性、高确定性</td><td><b>安全性 = 不发生事故</b>，<b>可靠性 = 执行所要求功能的能力</b>；开发在宿主机、运行在目标机</td></tr><tr><td class="tc">10</td><td>DO-178B</td><td>目标、过程、数据三要素；A66/B65/C56/D28/E0；三大过程：计划、开发（需求/设计/编码/集成）、综合（验证/配置管理/质量保证/审定联络）</td><td>DO-178C 于 2011 年发布；与 CMMI 区别在<b>适航审定 vs 过程改进</b></td></tr><tr><td class="tc">11</td><td>香农公式与信号变换</td><td>C = B·log₂(1+S/N)；信道编码加冗余纠零星错、交织把连续误码变零星误码</td><td>复用传多路数据、多址传多用户数据，<b>复用是多址的基础</b></td></tr><tr><td class="tc">12</td><td>五种拓扑与以太网</td><td>星状怕中心故障、环形单向且任一故障瘫、网状最可靠成本高；最小帧长 <b>64B</b>（CSMA/CD）、数据域通常上限 <b>1500B</b>、Length/Type <b>大于 1500 表类型</b></td><td>半双工反压、全双工 <b>802.3x PAUSE 帧</b>；WLAN 三拓扑中完全分布型尚处理论探讨</td></tr><tr><td class="tc">13</td><td>OSI 与 TCP/IP、设备层级</td><td>物数网传会表应；TCP/IP 四层：网络接口/网际/传输/应用；中继器物理层、网桥与交换机数据链路层、路由器网络层</td><td><b>OSI 高三层对应 TCP/IP 应用层</b>；STP 解决交换环路、BGP 用于 AS 之间</td></tr><tr><td class="tc">14</td><td>UML</td><td>3 要素（构造块、图、公用机制）；4 事物、4 关系、13 种图、5 视图（<b>用例视图居中</b>）</td><td>泛化 = 空心箭头<b>实线</b>指父、实现 = 空心箭头<b>虚线</b>、依赖 = 虚线；UML 是语言<b>不是方法学</b></td></tr><tr><td class="tc">15</td><td>形式化与 Z 语言</td><td>Z 语言以<b>一阶逻辑 + 集合论</b>为基础，<b>模式 = 变量说明 + 谓词约束</b>，强类型、可求精</td><td><b>Z 不能描述计时与并发</b>，可结合 CSP/CCS</td></tr><tr><td class="tc">16</td><td>媒体 5 类与压缩</td><td>感觉/表示/表现（显示）/存储/传输；JPEG 静态、MPEG 动态、H.26L 实时视频通信</td><td><b>VR 沉浸虚拟世界、AR 虚拟叠加现实</b>；无损压缩利用统计冗余、多数用 RLE</td></tr><tr><td class="tc">17</td><td>系统工程方法</td><td>霍尔三维（时间/逻辑/知识，硬系统）；切克兰德（软系统，<b>比较与探寻</b>）；并行工程（生命周期全过程、缩短周期）；综合集成法（钱学森、开放复杂巨系统）；WSR（物理事理人理，协调贯穿）</td><td>切克兰德核心<b>不是最优化</b>；WSR 是顾基发、朱志昌 1994 年提出</td></tr><tr><td class="tc">18</td><td>生命周期 7 阶段与 4 方法</td><td>探索研究 → 概念 → 开发 → 生产 → 使用 → 保障 → 退役；计划驱动/IID/精益/敏捷</td><td><b>霍尔时间维 7 阶段 ≠ 生命周期 7 阶段</b>；IID 适合较小不太复杂系统；敏捷欢迎后期变更</td></tr><tr><td class="tc">19</td><td>MBSE 三大支柱</td><td>建模语言（<b>SysML</b>，UML 2.0 子集扩展）、建模工具、建模思路（Harmony-SE/SYSMOD/OOSEM）</td><td>MBSE 由 INCOSE 于 <b>2007 年</b>提出，<b>仍是系统工程</b>，思路流程不变</td></tr><tr><td class="tc">20</td><td>性能计算与评估</td><td>阿姆达尔：<b>总加速比 = 1/[(1−增强比例)+增强比例/增强加速比]</b>；评价准确度：真实程序 &gt; 核心程序 &gt; 小型基准 &gt; 合成基准</td><td>局部加速受未改进部分限制；Web 服务器指标：最大并发连接数、响应延迟、吞吐量</td></tr></tbody></table>
+<h2>四、练习与真题</h2>
+<p>以下为依据大纲与教材自编的模拟练习题（单选），用于自测本章考点。</p>
+<p><b>1.</b> 关于 RISC 与 CISC 的说法，正确的是（ ）。</p>
+<p>A. CISC 以 ARM 和 Power 为代表  B. RISC 以 Intel、AMD 的 x86 为代表  C. 几乎所有后期出现的指令集均为 RISC 架构  D. RISC 指令功能比 CISC 更复杂</p>
+<p><b>2.</b> 计算机存储器分层体系中，主存（内存）通常采用的结构是（ ）。</p>
+<p>A. SRAM，依靠不断充电维持数据  B. DRAM，依靠不断充电维持数据  C. Flash，掉电后保持数据  D. EPROM，掉电后保持数据</p>
+<p><b>3.</b> 分时操作系统的主要特点不包括（ ）。</p>
+<p>A. 多路性  B. 独立性  C. 交互性  D. 多道性</p>
+<p><b>4.</b> 在数据库设计过程中，将 E-R 图转换为指定数据模型、确定完整性约束和用户视图的工作属于（ ）。</p>
+<p>A. 需求分析阶段  B. 概念结构设计阶段  C. 逻辑结构设计阶段  D. 物理结构设计阶段</p>
+<p><b>5.</b> 关于文件的物理结构与空闲空间管理，下列说法错误的是（ ）。</p>
+<p>A. 链接结构中每个物理块设有指向下一个物理块的指针  B. 位示图适合各种物理结构，其大小由磁盘物理块总数决定  C. 空闲区表适用于连续文件结构  D. 位示图中每一位取值 0 表示占用、1 表示空闲</p>
+<p><b>6.</b> IBM MQSeries 与 BEA Tuxedo 分别属于（ ）。</p>
+<p>A. 消息中间件、交易中间件  B. 交易中间件、消息中间件  C. 安全中间件、数据存取管理中间件  D. 架构中间件、网络中间件</p>
+<p><b>7.</b> 嵌入式系统软件通常采用层次化结构，其中硬件抽象（HAL）和板级支持包（BSP）位于（ ）。</p>
+<p>A. 硬件层  B. 抽象层  C. 操作系统层  D. 中间件层</p>
+<p><b>8.</b> 按 DO-178B 标准，软件安全等级与需要达到的目标数量对应关系正确的是（ ）。</p>
+<p>A. A 级 28 个、B 级 56 个  B. A 级 66 个、C 级 56 个  C. D 级 65 个、E 级 0 个  D. B 级 66 个、D 级 28 个</p>
+<p><b>9.</b> 以太网规定最小帧长为 64 字节，其主要原因是（ ）。</p>
+<p>A. 提高信道利用率  B. 便于进行帧校验  C. 避免发送结点发完数据后，远端结点因未收到报文而误判线路空闲、发送数据造成冲突  D. 与数据域上限 1500 字节保持一致</p>
+<p><b>10.</b> 在 TCP/IP 模型中，ICMP、ARP 和 RARP 协议工作的层次是（ ）。</p>
+<p>A. 应用层  B. 传输层  C. 网际层  D. 网络接口层</p>
+<p><b>11.</b> UML 的四种关系中，「泛化」关系在图形上表示为（ ）。</p>
+<p>A. 可能有方向的虚线  B. 带空心箭头的实线，指向父元素  C. 带空心箭头的虚线  D. 整体端带空心菱形的实线</p>
+<p><b>12.</b> 关于系统工程方法，下列对应关系错误的是（ ）。</p>
+<p>A. 霍尔三维结构——时间维、逻辑维、知识维  B. 切克兰德方法——核心是最优化  C. WSR 方法——物理、事理、人理，协调关系贯穿全过程  D. 综合集成法——钱学森提出，处理开放的复杂巨系统</p>
+<p><b>13.</b> 某系统中，可采用增强方式改进的部件占总执行时间的 60%，增强后该部分速度提高到原来的 10 倍。根据阿姆达尔定律，系统的总加速比约为（ ）。</p>
+<p>A. 6.00  B. 2.17  C. 1.46  D. 4.00</p>
+<p><b>14.</b> 关于多媒体与 VR/AR 技术，下列说法正确的是（ ）。</p>
+<p>A. JPEG 是面向运动图像的压缩标准  B. 无损压缩利用人类视听不敏感特性，允许损失部分信息  C. VR 创建虚拟仿真环境使用户沉浸其中，AR 将虚拟信息叠加到现实世界  D. MPEG 是静态图像压缩编码的国际标准</p>
+<p>（参考答案集中放在全章最后的「六、参考答案」，请先独立完成再核对。）</p>
+<h2>五、疑问与查漏补缺</h2>
+<ul><li>大纲 1.2 还要求「国产处理器芯片结构」，教材仅列举龙芯、飞腾、申威、兆芯等产品名称，未展开各芯片架构细节，复习时以<b>记住代表产品名录</b>为主，可结合时事资料适度补充。</li><li>大纲 1.5 的「OSI 协议集」教材表 2-5 罗列较简（VT、FTAM、CMIP/CMIS、TP0～TP4、CLNP、X.25 PLP、HDLC 等），本章未逐层展开，建议结合表 2-5 做<b>协议—层次</b>对应识记即可，不必深挖协议细节。</li><li>教材图 2-21「5G 网络的系统架构」涉及 AUSF、AMF、SMF、UPF 等大量网元，大纲只要求「服务化架构」，笔记保留 SBA + HTTP 承载、控制面/用户面分工即可，网元全称不作硬性背诵要求；需要时回看教材图 2-21。</li><li>UML 13 种图的详细画法（序列图、状态图、活动图等）属于后续<b>软件工程与架构设计章节</b>的应用内容，本章掌握「3 要素、4 事物、4 关系、13 种图名称、5 视图」即可。</li><li>DO-178C（2011）相比 DO-178B 的新增内容（工具鉴定、基于模型的开发验证、面向对象、形式化验证）教材仅一句话带过，考试若涉及通常只考「新增哪些技术」，已列入笔记；DO-178B 的 66 个目标明细不需背诵。</li><li>教材 2.5.2 在香农公式后有「比较大的带宽、降低信噪比」的表述，易被误读为「信噪比越低容量越大」。应按公式理解：<b>带宽与信噪比共同决定容量，且工程上需权衡（带宽增大往往伴随噪声功率上升）</b>，不要脱离公式死记该句。</li><li>教材 2.2.5 接口举例中「HDMI、DVI 和 DVI 等」存在重复排版，应为 HDMI、DVI、VGA 一类显示接口，笔记按显示类接口理解。</li><li>多媒体「表现媒体」与「表示媒体」仅一字之差，做题时注意：表示媒体 = 信息的表示形式（编码），表现（显示）媒体 = 物理设备（输入/输出设备）。</li></ul>
+<h2>六、参考答案</h2>
+<p><b>1.</b> <b>C</b>。CISC 以 x86 为代表，RISC 以 ARM/Power 为代表且是发展趋势。</p>
+<p><b>2.</b> <b>B</b>。主存通常采用 DRAM，依赖不断充电维持数据（易失）；片上/片外缓存一般为 SRAM；外存掉电保持数据。</p>
+<p><b>3.</b> <b>D</b>。分时系统四特点为多路性、独立性、交互性、及时性；「多道」是多道批处理系统的特点（多道、宏观并行、微观串行）。</p>
+<p><b>4.</b> <b>C</b>。逻辑结构设计阶段确定数据模型，将 E-R 图转换为指定数据模型，确定完整性约束和用户视图。</p>
+<p><b>5.</b> <b>D</b>。位示图中 0 表示空闲、1 表示占用，D 项正好说反。</p>
+<p><b>6.</b> <b>A</b>。MQSeries 是消息处理中间件（资源为消息和队列），Tuxedo 是交易中间件。</p>
+<p><b>7.</b> <b>B</b>。抽象层由硬件抽象（HAL）和板级支持包（BSP）组成，为上层提供虚拟硬件资源与驱动支持。</p>
+<p><b>8.</b> <b>B</b>。正确对应为 A66/B65/C56/D28/E0，只有 B 项完全正确。</p>
+<p><b>9.</b> <b>C</b>。最小帧长由 CSMA/CD 机制决定，防止远端结点误判线路空闲而产生冲突。</p>
+<p><b>10.</b> <b>C</b>。网际层除 IP 外还有 ICMP、ARP、RARP 等重要协议。</p>
+<p><b>11.</b> <b>B</b>。泛化是带空心箭头的实线并指向父元素；实现是带空心箭头的虚线；依赖是可能有方向的虚线；聚集整体端为空心菱形。</p>
+<p><b>12.</b> <b>B</b>。切克兰德方法的核心是「比较」与「探寻」，不是最优化；最优化是霍尔硬系统方法论的特点。</p>
+<p><b>13.</b> <b>B</b>。总加速比 = 1/[(1−0.6) + 0.6/10] = 1/0.46 ≈ 2.17。</p>
+<p><b>14.</b> <b>C</b>。JPEG 面向静态图像、MPEG 面向运动图像；利用视听不敏感特性并允许损失信息的是<b>有损</b>压缩；VR/AR 的区分以 C 项为准。</p>
+<div class="footer">第2章 计算机系统基础知识 · A4 打印版 · 由 README.md 统一生成</div>
+</div>
+</body>
+</html>

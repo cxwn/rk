@@ -1,0 +1,48 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 458" font-family="Microsoft YaHei, 微软雅黑, sans-serif">
+  <text x="360" y="28" text-anchor="middle" font-size="14" fill="#1f4e79" font-weight="bold">OSI 安全体系：5 类安全服务 × 8 类安全机制 × 7 层协议</text>
+  <rect x="30" y="56" width="160" height="36" rx="3" fill="#1f4e79"/>
+  <text x="110" y="79" text-anchor="middle" font-size="13" fill="#ffffff" font-weight="bold">鉴别服务</text>
+  <line x1="190" y1="74" x2="239" y2="74" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="247,74 239,69.5 239,78.5" fill="#1f4e79"/>
+  <rect x="250" y="56" width="320" height="36" rx="3" fill="#f3f6ee" stroke="#8aa15c" stroke-width="1"/>
+  <text x="262" y="79" font-size="12" fill="#22303f">加密、数字签名、鉴别交换</text>
+  <rect x="30" y="104" width="160" height="36" rx="3" fill="#1f4e79"/>
+  <text x="110" y="127" text-anchor="middle" font-size="13" fill="#ffffff" font-weight="bold">访问控制服务</text>
+  <line x1="190" y1="122" x2="239" y2="122" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="247,122 239,117.5 239,126.5" fill="#1f4e79"/>
+  <rect x="250" y="104" width="320" height="36" rx="3" fill="#f3f6ee" stroke="#8aa15c" stroke-width="1"/>
+  <text x="262" y="127" font-size="12" fill="#22303f">访问控制机制</text>
+  <rect x="30" y="152" width="160" height="36" rx="3" fill="#1f4e79"/>
+  <text x="110" y="175" text-anchor="middle" font-size="13" fill="#ffffff" font-weight="bold">数据机密性服务</text>
+  <line x1="190" y1="170" x2="239" y2="170" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="247,170 239,165.5 239,174.5" fill="#1f4e79"/>
+  <rect x="250" y="152" width="320" height="36" rx="3" fill="#f3f6ee" stroke="#8aa15c" stroke-width="1"/>
+  <text x="262" y="175" font-size="12" fill="#22303f">加密、业务流填充、路由控制</text>
+  <rect x="30" y="200" width="160" height="36" rx="3" fill="#1f4e79"/>
+  <text x="110" y="223" text-anchor="middle" font-size="13" fill="#ffffff" font-weight="bold">数据完整性服务</text>
+  <line x1="190" y1="218" x2="239" y2="218" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="247,218 239,213.5 239,222.5" fill="#1f4e79"/>
+  <rect x="250" y="200" width="320" height="36" rx="3" fill="#f3f6ee" stroke="#8aa15c" stroke-width="1"/>
+  <text x="262" y="223" font-size="12" fill="#22303f">加密、数字签名、数据完整性机制</text>
+  <rect x="30" y="248" width="160" height="36" rx="3" fill="#1f4e79"/>
+  <text x="110" y="271" text-anchor="middle" font-size="13" fill="#ffffff" font-weight="bold">抗抵赖服务</text>
+  <line x1="190" y1="266" x2="239" y2="266" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="247,266 239,261.5 239,270.5" fill="#1f4e79"/>
+  <rect x="250" y="248" width="320" height="36" rx="3" fill="#f3f6ee" stroke="#8aa15c" stroke-width="1"/>
+  <text x="262" y="271" font-size="12" fill="#22303f">数字签名、数据完整性、公证机制</text>
+  <rect x="20" y="320" width="220" height="104" rx="4" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.2"/>
+  <text x="32" y="344" font-size="12" fill="#1f4e79" font-weight="bold">多点技术防御</text>
+  <text x="32" y="366" font-size="11" fill="#22303f">网络和基础设施</text>
+  <text x="32" y="386" font-size="11" fill="#22303f">边界（流量过滤、入侵检测）</text>
+  <text x="32" y="406" font-size="11" fill="#22303f">计算环境（主机访问控制）</text>
+  <rect x="250" y="320" width="220" height="104" rx="4" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.2"/>
+  <text x="262" y="344" font-size="12" fill="#1f4e79" font-weight="bold">分层技术防御</text>
+  <text x="262" y="366" font-size="11" fill="#22303f">多重防御机制层层设障</text>
+  <text x="262" y="386" font-size="11" fill="#22303f">例：内外边界嵌套防火墙</text>
+  <text x="262" y="406" font-size="11" fill="#22303f">配合入侵检测（保护＋检测）</text>
+  <rect x="480" y="320" width="220" height="104" rx="4" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.2"/>
+  <text x="492" y="344" font-size="12" fill="#1f4e79" font-weight="bold">支撑性基础设施</text>
+  <text x="492" y="366" font-size="11" fill="#22303f">PKI 公钥基础设施</text>
+  <text x="492" y="386" font-size="11" fill="#22303f">检测和响应基础设施</text>
+  <text x="360" y="444" text-anchor="middle" font-size="12" fill="#6b7a8a">安全服务配置：除会话层外各层均可提供，最适合物理层、网络层、运输层、应用层</text>
+</svg>

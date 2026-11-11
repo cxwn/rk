@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 360" font-family="Microsoft YaHei, 微软雅黑, sans-serif">
+  <text x="360" y="28" text-anchor="middle" font-size="16" font-weight="bold" fill="#1f4e79">DDoS 的三级控制结构</text>
+  <rect x="290" y="45" width="140" height="40" rx="4" fill="#fdf0e6" stroke="#c05621" stroke-width="1.5"/>
+  <text x="360" y="70" text-anchor="middle" font-size="12.5" font-weight="bold" fill="#c05621">Client 客户端</text>
+  <rect x="80" y="150" width="140" height="40" rx="4" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.5"/>
+  <text x="150" y="175" text-anchor="middle" font-size="12" fill="#1f4e79">Handler 主控端</text>
+  <rect x="290" y="150" width="140" height="40" rx="4" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.5"/>
+  <text x="360" y="175" text-anchor="middle" font-size="12" fill="#1f4e79">Handler 主控端</text>
+  <rect x="500" y="150" width="140" height="40" rx="4" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.5"/>
+  <text x="570" y="175" text-anchor="middle" font-size="12" fill="#1f4e79">Handler 主控端</text>
+  <polyline points="320,85 320,120 150,120 150,139" stroke="#c05621" stroke-width="1.5" fill="none"/>
+  <polygon points="150,147 145.5,139 154.5,139" fill="#c05621"/>
+  <line x1="360" y1="85" x2="360" y2="139" stroke="#c05621" stroke-width="1.5" fill="none"/>
+  <polygon points="360,147 355.5,139 364.5,139" fill="#c05621"/>
+  <polyline points="400,85 400,120 570,120 570,139" stroke="#c05621" stroke-width="1.5" fill="none"/>
+  <polygon points="570,147 565.5,139 574.5,139" fill="#c05621"/>
+  <rect x="37" y="250" width="95" height="40" rx="4" fill="#f3f6ee" stroke="#8aa15c" stroke-width="1.2"/>
+  <text x="84.5" y="274" text-anchor="middle" font-size="11" fill="#4a6130">Agent 代理端</text>
+  <rect x="147" y="250" width="95" height="40" rx="4" fill="#f3f6ee" stroke="#8aa15c" stroke-width="1.2"/>
+  <text x="194.5" y="274" text-anchor="middle" font-size="11" fill="#4a6130">Agent 代理端</text>
+  <rect x="257" y="250" width="95" height="40" rx="4" fill="#f3f6ee" stroke="#8aa15c" stroke-width="1.2"/>
+  <text x="304.5" y="274" text-anchor="middle" font-size="11" fill="#4a6130">Agent 代理端</text>
+  <rect x="367" y="250" width="95" height="40" rx="4" fill="#f3f6ee" stroke="#8aa15c" stroke-width="1.2"/>
+  <text x="414.5" y="274" text-anchor="middle" font-size="11" fill="#4a6130">Agent 代理端</text>
+  <rect x="477" y="250" width="95" height="40" rx="4" fill="#f3f6ee" stroke="#8aa15c" stroke-width="1.2"/>
+  <text x="524.5" y="274" text-anchor="middle" font-size="11" fill="#4a6130">Agent 代理端</text>
+  <rect x="587" y="250" width="95" height="40" rx="4" fill="#f3f6ee" stroke="#8aa15c" stroke-width="1.2"/>
+  <text x="634.5" y="274" text-anchor="middle" font-size="11" fill="#4a6130">Agent 代理端</text>
+  <polyline points="130,190 130,218 84,218 84,239" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="84,247 79.5,239 88.5,239" fill="#1f4e79"/>
+  <polyline points="170,190 170,218 194,218 194,239" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="194,247 189.5,239 198.5,239" fill="#1f4e79"/>
+  <polyline points="340,190 340,218 304,218 304,239" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="304,247 299.5,239 308.5,239" fill="#1f4e79"/>
+  <polyline points="380,190 380,218 414,218 414,239" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="414,247 409.5,239 418.5,239" fill="#1f4e79"/>
+  <polyline points="540,190 540,218 524,218 524,239" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="524,247 519.5,239 528.5,239" fill="#1f4e79"/>
+  <polyline points="580,190 580,218 634,218 634,239" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="634,247 629.5,239 638.5,239" fill="#1f4e79"/>
+  <text x="360" y="318" text-anchor="middle" font-size="11.5" fill="#6b7a8a">Client 在攻击者主机上发起控制；Handler、Agent 均运行在被侵入控制的主机上</text>
+  <text x="360" y="340" text-anchor="middle" font-size="11.5" fill="#6b7a8a">Handler 转发攻击命令，Agent 同时向同一目标发起实际攻击；隐蔽性强、威力大</text>
+</svg>

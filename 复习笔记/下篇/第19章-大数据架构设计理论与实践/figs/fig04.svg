@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 420" font-family="Microsoft YaHei, 微软雅黑, sans-serif">
+  <text x="360" y="26" text-anchor="middle" font-size="16" font-weight="bold" fill="#1f4e79">批处理预计算与加速层增量视图（图 19-6、19-7 重绘）</text>
+  <rect x="20" y="45" width="330" height="330" rx="8" fill="#f7fafc" stroke="#6b7a8a"/>
+  <text x="185" y="70" text-anchor="middle" font-size="13" font-weight="bold" fill="#1f4e79">Batch Layer：全量预计算</text>
+  <rect x="60" y="88" width="250" height="45" rx="6" fill="#eaf1f8" stroke="#1f4e79"/>
+  <text x="185" y="115" text-anchor="middle" font-size="12" fill="#22303f">全体不可变主数据集</text>
+  <line x1="185" y1="133" x2="185" y2="154" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="185,162 180.5,154 189.5,154" fill="#1f4e79"/>
+  <rect x="60" y="165" width="250" height="45" rx="6" fill="#f3f6ee" stroke="#8aa15c"/>
+  <text x="185" y="192" text-anchor="middle" font-size="12" fill="#4a6130">MapReduce 按业务查询预计算</text>
+  <line x1="185" y1="210" x2="185" y2="235" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <line x1="90" y1="235" x2="280" y2="235" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <line x1="90" y1="235" x2="90" y2="249" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="90,257 85.5,249 94.5,249" fill="#1f4e79"/>
+  <line x1="185" y1="235" x2="185" y2="249" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="185,257 180.5,249 189.5,249" fill="#1f4e79"/>
+  <line x1="280" y1="235" x2="280" y2="249" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="280,257 275.5,249 284.5,249" fill="#1f4e79"/>
+  <rect x="45" y="260" width="90" height="42" rx="5" fill="#ffffff" stroke="#1f4e79"/>
+  <text x="90" y="285" text-anchor="middle" font-size="10" fill="#1f4e79">Batch View 1</text>
+  <rect x="140" y="260" width="90" height="42" rx="5" fill="#ffffff" stroke="#1f4e79"/>
+  <text x="185" y="285" text-anchor="middle" font-size="10" fill="#1f4e79">Batch View 2</text>
+  <rect x="235" y="260" width="90" height="42" rx="5" fill="#ffffff" stroke="#1f4e79"/>
+  <text x="280" y="285" text-anchor="middle" font-size="10" fill="#1f4e79">Batch View 3</text>
+  <text x="185" y="330" text-anchor="middle" font-size="11" fill="#22303f">查询直接读视图或简单加工</text>
+  <text x="185" y="352" text-anchor="middle" font-size="10" fill="#6b7a8a">准确全量，但生成时延高</text>
+  <rect x="370" y="45" width="330" height="330" rx="8" fill="#f7fafc" stroke="#6b7a8a"/>
+  <text x="535" y="70" text-anchor="middle" font-size="13" font-weight="bold" fill="#c05621">Speed Layer：增量滚动更新</text>
+  <rect x="390" y="88" width="80" height="40" rx="5" fill="#fdf0e6" stroke="#c05621"/>
+  <text x="430" y="112" text-anchor="middle" font-size="11" fill="#c05621">增量 t1</text>
+  <rect x="495" y="88" width="80" height="40" rx="5" fill="#fdf0e6" stroke="#c05621"/>
+  <text x="535" y="112" text-anchor="middle" font-size="11" fill="#c05621">增量 t2</text>
+  <rect x="600" y="88" width="80" height="40" rx="5" fill="#fdf0e6" stroke="#c05621"/>
+  <text x="640" y="112" text-anchor="middle" font-size="11" fill="#c05621">增量 t3</text>
+  <line x1="430" y1="128" x2="430" y2="154" stroke="#c05621" stroke-width="1.5" fill="none"/>
+  <polygon points="430,162 425.5,154 434.5,154" fill="#c05621"/>
+  <line x1="535" y1="128" x2="535" y2="154" stroke="#c05621" stroke-width="1.5" fill="none"/>
+  <polygon points="535,162 530.5,154 539.5,154" fill="#c05621"/>
+  <line x1="640" y1="128" x2="640" y2="154" stroke="#c05621" stroke-width="1.5" fill="none"/>
+  <polygon points="640,162 635.5,154 644.5,154" fill="#c05621"/>
+  <rect x="400" y="165" width="280" height="48" rx="6" fill="#fdf0e6" stroke="#c05621"/>
+  <text x="540" y="194" text-anchor="middle" font-size="12" fill="#c05621">流式引擎：新到一条，增量算一次</text>
+  <line x1="540" y1="213" x2="540" y2="259" stroke="#c05621" stroke-width="1.5" fill="none"/>
+  <polygon points="540,267 535.5,259 544.5,259" fill="#c05621"/>
+  <rect x="400" y="270" width="280" height="45" rx="6" fill="#ffffff" stroke="#c05621"/>
+  <text x="540" y="297" text-anchor="middle" font-size="12" font-weight="bold" fill="#c05621">Real-time View 持续更新</text>
+  <text x="535" y="340" text-anchor="middle" font-size="11" fill="#22303f">只补批视图尚未覆盖的新数据</text>
+  <text x="535" y="360" text-anchor="middle" font-size="10" fill="#6b7a8a">低延迟、可暂时近似，后续被批算纠正</text>
+  <text x="360" y="403" text-anchor="middle" font-size="12" font-weight="bold" fill="#4a6130">助记：批层「全量重算得准确」，速层「增量快算补新鲜」</text>
+</svg>

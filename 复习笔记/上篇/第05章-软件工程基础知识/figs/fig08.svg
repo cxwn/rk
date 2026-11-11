@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 470" font-family="Microsoft YaHei, 微软雅黑, sans-serif">
+  <rect width="720" height="470" fill="#ffffff"/>
+  <text x="360" y="30" text-anchor="middle" font-size="20" font-weight="bold" fill="#1f4e79">耦合与内聚：方向相反，目标是“高内聚、低耦合”</text>
+  <text x="185" y="66" text-anchor="middle" font-size="17" font-weight="bold" fill="#1f4e79">耦合：低 → 高（模块之间）</text>
+  <text x="535" y="66" text-anchor="middle" font-size="17" font-weight="bold" fill="#4a6130">内聚：高 → 低（模块内部）</text>
+  <g font-size="15">
+    <rect x="30" y="84" width="310" height="40" rx="5" fill="#f3f6ee" stroke="#8aa15c"/><text x="48" y="110" fill="#22303f">非直接耦合</text><text x="320" y="110" text-anchor="end" font-size="13" fill="#6b7a8a">无直接关系</text>
+    <rect x="30" y="132" width="310" height="40" rx="5" fill="#f3f6ee" stroke="#8aa15c"/><text x="48" y="158" fill="#22303f">数据耦合</text><text x="320" y="158" text-anchor="end" font-size="13" fill="#6b7a8a">传简单数据</text>
+    <rect x="30" y="180" width="310" height="40" rx="5" fill="#f3f6ee" stroke="#8aa15c"/><text x="48" y="206" fill="#22303f">标记耦合</text><text x="320" y="206" text-anchor="end" font-size="13" fill="#6b7a8a">传数据结构</text>
+    <rect x="30" y="228" width="310" height="40" rx="5" fill="#fdf0e6" stroke="#c05621"/><text x="48" y="254" fill="#22303f">控制耦合</text><text x="320" y="254" text-anchor="end" font-size="13" fill="#6b7a8a">传控制信息</text>
+    <rect x="30" y="276" width="310" height="40" rx="5" fill="#fdf0e6" stroke="#c05621"/><text x="48" y="302" fill="#22303f">通信耦合</text><text x="320" y="302" text-anchor="end" font-size="13" fill="#6b7a8a">共用输入/输出</text>
+    <rect x="30" y="324" width="310" height="40" rx="5" fill="#fdf0e6" stroke="#c05621"/><text x="48" y="350" fill="#22303f">公共耦合</text><text x="320" y="350" text-anchor="end" font-size="13" fill="#6b7a8a">共享数据环境</text>
+    <rect x="30" y="372" width="310" height="40" rx="5" fill="#fdf0e6" stroke="#c05621" stroke-width="1.8"/><text x="48" y="398" fill="#22303f">内容耦合</text><text x="320" y="398" text-anchor="end" font-size="13" fill="#c05621">进入对方内部</text>
+    <rect x="380" y="84" width="310" height="40" rx="5" fill="#f3f6ee" stroke="#4a6130" stroke-width="1.8"/><text x="398" y="110" fill="#22303f">功能内聚</text><text x="670" y="110" text-anchor="end" font-size="13" fill="#4a6130">单一功能</text>
+    <rect x="380" y="132" width="310" height="40" rx="5" fill="#f3f6ee" stroke="#8aa15c"/><text x="398" y="158" fill="#22303f">顺序内聚</text><text x="670" y="158" text-anchor="end" font-size="13" fill="#6b7a8a">输出接输入</text>
+    <rect x="380" y="180" width="310" height="40" rx="5" fill="#f3f6ee" stroke="#8aa15c"/><text x="398" y="206" fill="#22303f">通信内聚</text><text x="670" y="206" text-anchor="end" font-size="13" fill="#6b7a8a">同一数据结构</text>
+    <rect x="380" y="228" width="310" height="40" rx="5" fill="#eaf1f8" stroke="#1f4e79"/><text x="398" y="254" fill="#22303f">过程内聚</text><text x="670" y="254" text-anchor="end" font-size="13" fill="#6b7a8a">特定次序</text>
+    <rect x="380" y="276" width="310" height="40" rx="5" fill="#eaf1f8" stroke="#1f4e79"/><text x="398" y="302" fill="#22303f">时间内聚</text><text x="670" y="302" text-anchor="end" font-size="13" fill="#6b7a8a">同时执行</text>
+    <rect x="380" y="324" width="310" height="40" rx="5" fill="#fdf0e6" stroke="#c05621"/><text x="398" y="350" fill="#22303f">逻辑内聚</text><text x="670" y="350" text-anchor="end" font-size="13" fill="#6b7a8a">逻辑相似</text>
+    <rect x="380" y="372" width="310" height="40" rx="5" fill="#fdf0e6" stroke="#c05621"/><text x="398" y="398" fill="#22303f">偶然内聚</text><text x="670" y="398" text-anchor="end" font-size="13" fill="#c05621">松散无关</text>
+  </g>
+  <text x="360" y="447" text-anchor="middle" font-size="16" font-weight="bold" fill="#1f4e79">助记：耦合“非数标控通公内”｜内聚“功顺通过时逻偶”</text>
+</svg>

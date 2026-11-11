@@ -1,0 +1,46 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 535" font-family="Microsoft YaHei, 微软雅黑, sans-serif">
+  <rect width="720" height="535" fill="#ffffff"/>
+  <text x="360" y="28" text-anchor="middle" font-size="20" font-weight="bold" fill="#1f4e79">数据库三级模式、两级映像（重绘图 6-1）</text>
+  <text x="26" y="132" font-size="14" font-weight="bold" fill="#6b7a8a">视图层</text>
+  <text x="26" y="300" font-size="14" font-weight="bold" fill="#6b7a8a">逻辑层</text>
+  <text x="26" y="425" font-size="14" font-weight="bold" fill="#6b7a8a">物理层</text>
+  <rect x="120" y="45" width="160" height="38" rx="6" fill="#f6f9fc" stroke="#6b7a8a"/>
+  <text x="200" y="70" text-anchor="middle" font-size="14" fill="#22303f">用户组 A</text>
+  <rect x="440" y="45" width="160" height="38" rx="6" fill="#f6f9fc" stroke="#6b7a8a"/>
+  <text x="520" y="70" text-anchor="middle" font-size="14" fill="#22303f">用户组 B</text>
+  <line x1="200" y1="83" x2="200" y2="89" stroke="#1f4e79" stroke-width="1.5"/>
+  <polygon points="200,97 195.5,89 204.5,89" fill="#1f4e79"/>
+  <line x1="520" y1="83" x2="520" y2="89" stroke="#1f4e79" stroke-width="1.5"/>
+  <polygon points="520,97 515.5,89 524.5,89" fill="#1f4e79"/>
+  <rect x="100" y="100" width="200" height="60" rx="7" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.5"/>
+  <text x="200" y="126" text-anchor="middle" font-size="16" font-weight="bold" fill="#1f4e79">外模式 A</text>
+  <text x="200" y="149" text-anchor="middle" font-size="13" fill="#6b7a8a">外部视图：用户的局部数据</text>
+  <rect x="420" y="100" width="200" height="60" rx="7" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.5"/>
+  <text x="520" y="126" text-anchor="middle" font-size="16" font-weight="bold" fill="#1f4e79">外模式 B</text>
+  <text x="520" y="149" text-anchor="middle" font-size="13" fill="#6b7a8a">外模式可以有多个</text>
+  <line x1="200" y1="160" x2="200" y2="225" stroke="#c05621" stroke-width="1.5"/>
+  <line x1="200" y1="225" x2="250" y2="225" stroke="#c05621" stroke-width="1.5"/>
+  <line x1="250" y1="225" x2="250" y2="249" stroke="#c05621" stroke-width="1.5"/>
+  <polygon points="250,257 245.5,249 254.5,249" fill="#c05621"/>
+  <text x="188" y="203" text-anchor="end" font-size="12" fill="#c05621">外/概映像 A</text>
+  <line x1="520" y1="160" x2="520" y2="225" stroke="#c05621" stroke-width="1.5"/>
+  <line x1="520" y1="225" x2="470" y2="225" stroke="#c05621" stroke-width="1.5"/>
+  <line x1="470" y1="225" x2="470" y2="249" stroke="#c05621" stroke-width="1.5"/>
+  <polygon points="470,257 465.5,249 474.5,249" fill="#c05621"/>
+  <text x="532" y="203" font-size="12" fill="#c05621">外/概映像 B</text>
+  <rect x="170" y="260" width="380" height="70" rx="7" fill="#fdf0e6" stroke="#c05621" stroke-width="1.7"/>
+  <text x="360" y="289" text-anchor="middle" font-size="18" font-weight="bold" fill="#c05621">概念模式（模式）</text>
+  <text x="360" y="315" text-anchor="middle" font-size="13" fill="#22303f">全部数据的逻辑结构、联系与约束</text>
+  <line x1="360" y1="330" x2="360" y2="379" stroke="#8aa15c" stroke-width="1.6"/>
+  <polygon points="360,387 355.5,379 364.5,379" fill="#8aa15c"/>
+  <text x="375" y="360" font-size="12" fill="#4a6130">概念/内模式映像 → 物理数据独立性</text>
+  <rect x="220" y="390" width="280" height="60" rx="7" fill="#f3f6ee" stroke="#8aa15c" stroke-width="1.7"/>
+  <text x="360" y="416" text-anchor="middle" font-size="17" font-weight="bold" fill="#4a6130">内模式（存储模式）</text>
+  <text x="360" y="439" text-anchor="middle" font-size="13" fill="#22303f">记录、索引与文件组织方式</text>
+  <line x1="360" y1="450" x2="360" y2="469" stroke="#1f4e79" stroke-width="1.5"/>
+  <polygon points="360,477 355.5,469 364.5,469" fill="#1f4e79"/>
+  <rect x="260" y="480" width="200" height="38" rx="6" fill="#1f4e79"/>
+  <text x="360" y="505" text-anchor="middle" font-size="15" font-weight="bold" fill="#ffffff">数据库（内部视图）</text>
+  <rect x="300" y="182" width="120" height="34" rx="5" fill="#fdf0e6"/>
+  <text x="360" y="204" text-anchor="middle" font-size="12" fill="#c05621">逻辑数据独立性</text>
+</svg>

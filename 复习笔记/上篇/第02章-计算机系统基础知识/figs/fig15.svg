@@ -1,0 +1,56 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 450" font-family="Microsoft YaHei, 微软雅黑, sans-serif">
+  <text x="360" y="26" font-size="14" font-weight="bold" fill="#1f4e79" text-anchor="middle">霍尔三维结构（A.D.Hall，1969，硬系统方法论 HSM）</text>
+  <!-- 时间×逻辑平面（虚线参考面） -->
+  <rect x="180" y="50" width="440" height="250" fill="none" stroke="#d5dde5" stroke-width="1" stroke-dasharray="4,3"/>
+  <!-- 时间维（横轴） -->
+  <line x1="180" y1="300" x2="648" y2="300" stroke="#1f4e79" stroke-width="1.8"/>
+  <polygon points="660,300 648,295 648,305" fill="#1f4e79"/>
+  <text x="664" y="290" font-size="13" font-weight="bold" fill="#1f4e79">时间维</text>
+  <g font-size="10" fill="#22303f">
+    <text x="210" y="322" text-anchor="middle">规划</text>
+    <text x="272" y="322" text-anchor="middle">拟订方案</text>
+    <text x="334" y="322" text-anchor="middle">研制</text>
+    <text x="396" y="322" text-anchor="middle">生产</text>
+    <text x="458" y="322" text-anchor="middle">安装</text>
+    <text x="520" y="322" text-anchor="middle">运行</text>
+    <text x="582" y="322" text-anchor="middle">更新</text>
+  </g>
+  <g fill="#1f4e79">
+    <circle cx="210" cy="300" r="3.5"/>
+    <circle cx="272" cy="300" r="3.5"/>
+    <circle cx="334" cy="300" r="3.5"/>
+    <circle cx="396" cy="300" r="3.5"/>
+    <circle cx="458" cy="300" r="3.5"/>
+    <circle cx="520" cy="300" r="3.5"/>
+    <circle cx="582" cy="300" r="3.5"/>
+  </g>
+  <!-- 逻辑维（纵轴） -->
+  <line x1="180" y1="300" x2="180" y2="52" stroke="#c05621" stroke-width="1.8"/>
+  <polygon points="180,40 175,52 185,52" fill="#c05621"/>
+  <text x="130" y="60" font-size="13" font-weight="bold" fill="#c05621" text-anchor="middle">逻辑维</text>
+  <g font-size="10" fill="#22303f">
+    <text x="196" y="290">明确问题</text>
+    <text x="196" y="255">确定目标</text>
+    <text x="196" y="220">系统综合</text>
+    <text x="196" y="185">系统分析</text>
+    <text x="196" y="150">优化</text>
+    <text x="196" y="115">决策</text>
+    <text x="196" y="80">实施</text>
+  </g>
+  <g fill="#c05621">
+    <circle cx="180" cy="286" r="3.5"/>
+    <circle cx="180" cy="251" r="3.5"/>
+    <circle cx="180" cy="216" r="3.5"/>
+    <circle cx="180" cy="181" r="3.5"/>
+    <circle cx="180" cy="146" r="3.5"/>
+    <circle cx="180" cy="111" r="3.5"/>
+    <circle cx="180" cy="76" r="3.5"/>
+  </g>
+  <!-- 知识维（斜轴） -->
+  <line x1="180" y1="300" x2="52" y2="390" stroke="#8aa15c" stroke-width="1.8"/>
+  <polygon points="42,396 53,389 50,380" fill="#8aa15c"/>
+  <text x="120" y="418" font-size="13" font-weight="bold" fill="#4a6130" text-anchor="middle">知识维</text>
+  <text x="330" y="418" font-size="11" fill="#22303f" text-anchor="middle">工程、医学、建筑、商业、法律、管理、社会科学、艺术等</text>
+  <text x="420" y="350" font-size="11" fill="#6b7a8a" text-anchor="middle">7 个时间阶段 × 7 个逻辑步骤 × 专业知识技能</text>
+  <text x="420" y="372" font-size="11" fill="#6b7a8a" text-anchor="middle">体现系统化、综合化、最优化、程序化、标准化</text>
+</svg>

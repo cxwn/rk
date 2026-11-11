@@ -1,0 +1,732 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>第7章 系统架构设计基础知识</title>
+<style>
+  :root{ --ink:#22303f; --main:#1f4e79; --main-light:#eaf1f8; --accent:#c05621;
+    --accent-light:#fdf0e6; --line:#d5dde5; --muted:#6b7a8a; }
+  *{ box-sizing:border-box; print-color-adjust:exact; -webkit-print-color-adjust:exact; }
+  html,body{ margin:0; padding:0; }
+  body{ font-family:"Microsoft YaHei","微软雅黑","PingFang SC","Noto Sans CJK SC",sans-serif;
+    color:var(--ink); background:#e9edf1; font-size:10.5pt; line-height:1.75; }
+  .sheet{ max-width:190mm; margin:8mm auto; background:#fff; padding:10mm 11mm;
+    box-shadow:0 2px 14px rgba(0,0,0,.12); }
+  h1{ font-size:21pt; color:var(--main); margin:0 0 2mm; border-bottom:3px solid var(--main); padding-bottom:3mm; }
+  h2{ font-size:14pt; color:var(--main); margin:8mm 0 3mm; padding:1.2mm 0 1.2mm 3mm;
+    border-left:5px solid var(--main); background:linear-gradient(to right,var(--main-light),#fff); break-after:avoid; }
+  h3{ font-size:11.5pt; color:var(--main); margin:5mm 0 2mm; break-after:avoid; }
+  p{ margin:1.5mm 0; }
+  code{ background:#f0f3f6; border-radius:1mm; padding:0 1mm; font-size:9.5pt; }
+  .def,.example,.mnemonic{ border-radius:2mm; padding:2.5mm 3.5mm; margin:2.5mm 0; break-inside:avoid; }
+  .def{ border:1.5px solid var(--main); background:#fbfdff; }
+  .example{ background:var(--accent-light); border-left:4px solid var(--accent); }
+  .mnemonic{ background:#f3f6ee; border:1px dashed #8aa15c; color:#4a6130; }
+  table{ border-collapse:collapse; width:100%; margin:2.5mm 0; font-size:9.5pt; table-layout:fixed; }
+  th,td{ border:1px solid var(--line); padding:1.6mm 2mm; text-align:left; vertical-align:top; overflow-wrap:break-word; }
+  th{ background:var(--main); color:#fff; text-align:center; }
+  thead{ display:table-header-group; }
+  tr{ break-inside:avoid; }
+  td.tc{ text-align:center; }
+  tr:nth-child(even) td{ background:#f6f9fc; }
+  .fig{ margin:3mm 0; padding:2.5mm; border:1px solid var(--line); border-radius:2mm;
+    background:#fdfefe; break-inside:avoid; }
+  .fig .cap{ text-align:center; color:var(--muted); font-size:9pt; margin-top:1mm; }
+  svg{ display:block; width:100%; height:auto; }
+  svg text{ font-family:inherit; }
+  ul,ol{ margin:1.5mm 0 1.5mm 5mm; padding-left:4mm; }
+  li{ margin:0.8mm 0; }
+  .footer{ margin-top:8mm; padding-top:2mm; border-top:1px solid var(--line);
+    color:var(--muted); font-size:8.5pt; text-align:center; }
+  @page{ size:A4; margin:12mm; }
+  @media print{ body{ background:#fff; font-size:10pt; }
+    .sheet{ max-width:none; margin:0; padding:0; box-shadow:none; } h2{ margin-top:6mm; } }
+</style>
+</head>
+<body>
+<div class="sheet">
+<h1>第7章 系统架构设计基础知识</h1>
+<ul><li>教材位置：02.系统架构设计师第二版-教材.pdf PDF 第 258～280 页（书页 248～270）</li><li>复习状态：已完成</li><li>复习日期：2026-11-06</li><li>本章地位：架构师考试的<b>核心章</b>，上午选择题与下午案例题均高频。<b>架构风格分类与辨析、ABSD 六子过程、DSSA 活动与角色</b>几乎是每次考试的必考内容，也是后续第 8、10、13 章及论文写作的概念地基。</li></ul>
+<h2>一、大纲考点</h2>
+<p>对照 01.系统架构第二版-大纲.pdf 科目 1 第 6 部分「系统架构设计基础知识」（大纲书页 40～43，PDF 第 50～53 页），大纲条目与教材小节一一对应。</p>
+<table><colgroup><col style="width:29.4%"><col style="width:57.5%"><col style="width:13.1%"></colgroup><thead><tr><th>大纲条目</th><th>大纲要求（考点）</th><th>教材对应小节</th></tr></thead><tbody><tr><td>6.1.1 软件架构的定义</td><td>⭐定义、发展历程及作用；架构设计分类（<b>数据设计和体系结构设计</b>）</td><td class="tc">7.1.1</td></tr><tr><td>6.1.2 软件架构设计与生命周期</td><td>⭐生命周期六阶段（需求、设计、实现、构件组装、部署、后开发）；Use Case 图、<b>ADL</b>、<b>4+1 模型</b>、UML；<b>IEEE 1471—2000</b></td><td class="tc">7.1.2</td></tr><tr><td>6.1.3 软件架构的重要性</td><td>架构设计在品质、涉众、计划、指导、复杂性、复用、维护、冲突分析上的作用</td><td class="tc">7.1.3</td></tr><tr><td>6.2.1 体系结构的设计方法概述</td><td>⭐ABSD 定义、适应范围；<b>三个基础</b>（功能分解、内聚耦合；质量和商业需求；模板使用）</td><td class="tc">7.2.1</td></tr><tr><td>6.2.2 概念与术语</td><td>设计元素、视角与视图、用例和质量场景</td><td class="tc">7.2.2</td></tr><tr><td>6.2.3 基于体系结构的开发模型</td><td>⭐传统开发与 ABSD 的差别；ABSD 六阶段（需求、设计、文档化、复审、实现、演化）</td><td class="tc">7.2.3</td></tr><tr><td>6.2.4 体系结构需求</td><td>⭐需求获取、<b>标识构件</b>（生成类图→对类分组→打包成构件）、架构需求评审</td><td class="tc">7.2.4</td></tr><tr><td>6.2.5 体系结构设计</td><td>体系结构设计过程模型（五步）</td><td class="tc">7.2.5</td></tr><tr><td>6.2.6 体系结构文档化</td><td>⭐两个输出文档：<b>体系结构规格说明</b> + 测试体系结构需求的<b>质量设计说明书</b></td><td class="tc">7.2.6</td></tr><tr><td>6.2.7 体系结构复审</td><td>复审的目的、要求和意义（标识风险、发现缺陷）</td><td class="tc">7.2.7</td></tr><tr><td>6.2.8 体系结构实现</td><td>实现过程模型（分析设计→构件实现→构件组装→系统测试）</td><td class="tc">7.2.8</td></tr><tr><td>6.2.9 体系结构的演化</td><td>⭐演化定义、作用与六步骤</td><td class="tc">7.2.9</td></tr><tr><td>6.3.1 软件架构风格概述</td><td>⭐风格的定义、内涵（<b>词汇表 + 约束</b>）、分类和作用</td><td class="tc">7.3.1</td></tr><tr><td>6.3.2 数据流体系结构风格</td><td>⭐批处理、管道-过滤器</td><td class="tc">7.3.2</td></tr><tr><td>6.3.3 调用/返回体系结构风格</td><td>⭐主程序/子程序、面向对象、层次型、客户端/服务器</td><td class="tc">7.3.3</td></tr><tr><td>6.3.4 以数据为中心的体系结构风格</td><td>⭐仓库、黑板</td><td class="tc">7.3.4</td></tr><tr><td>6.3.5 虚拟机体系结构风格</td><td>⭐解释器、规则系统</td><td class="tc">7.3.5</td></tr><tr><td>6.3.6 独立构件体系结构风格</td><td>⭐进程通信、事件系统（隐式调用）</td><td class="tc">7.3.6</td></tr><tr><td>6.4.1～6.4.2 架构复用定义、分类与原因</td><td>复用定义与作用；分类（<b>机会复用、系统复用</b>）；复用的能力与优势</td><td class="tc">7.4.1、7.4.2</td></tr><tr><td>6.4.3 架构复用的对象及形式</td><td>可复用资产对象内容（需求、架构设计、元素、测试等十类）</td><td class="tc">7.4.3</td></tr><tr><td>6.4.4 架构复用的基本过程</td><td>⭐三阶段：构造/获取资产→管理资产（<b>构件库、构件分类与检索</b>）→使用资产（修改、扩展、配置、组装与集成）</td><td class="tc">7.4.4</td></tr><tr><td>6.5.1 DSSA 的定义</td><td>⭐DSSA 定义与适应场景；<b>垂直域和水平域</b></td><td class="tc">7.5.1</td></tr><tr><td>6.5.2 DSSA 的基本活动</td><td>⭐<b>领域分析、领域设计、领域实现</b></td><td class="tc">7.5.2</td></tr><tr><td>6.5.3 参与 DSSA 的人员</td><td>⭐四种角色：领域专家、领域分析人员、领域设计人员、领域实现人员</td><td class="tc">7.5.3</td></tr><tr><td>6.5.4 DSSA 的建立过程</td><td>⭐五阶段；<b>DSSA 三层次系统模型</b></td><td class="tc">7.5.4</td></tr></tbody></table>
+<h2>二、知识点笔记</h2>
+<h3>2.1 软件架构概念（7.1）</h3>
+<h3>1. 软件架构的定义 ⭐【重点】【高频考点】</h3>
+<div class="def">教材原文（Bass、Clements 和 Kazman）：<b>一个程序和计算系统软件体系结构是指系统的一个或者多个结构。结构中包括软件的构件、构件的外部可见属性以及它们之间的相互关系。</b></div>
+<p>通俗地说，架构就是「系统由哪些零件组成、每个零件对外长什么样、零件之间怎么连接协作」的一张总蓝图，它不是可运行的代码，而是对系统的一种<b>表达</b>，可帮助工程师分析设计有效性、早期比较备选方案、降低构造风险。</p>
+<p><b>架构设计的两个层次</b> ⭐：软件体系结构设计通常考虑设计金字塔中的两个层次——<b>数据设计</b>（体现数据构件、类的定义，封装属性和操作）与<b>体系结构设计</b>（关注软件构件的结构、属性和交互作用）。体系结构设计是构建软件的<b>初始蓝图</b>。【易错】「体系结构」与「架构」在本书中含义相同（Software Architecture 的不同译法），不是两个概念。</p>
+<div class="fig"><div><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 330" font-family="Microsoft YaHei, 微软雅黑, sans-serif">
+  <rect x="0" y="0" width="720" height="330" fill="#ffffff"/>
+  <text x="360" y="24" text-anchor="middle" font-size="15" font-weight="bold" fill="#22303f">软件体系结构 = 系统的一个或多个结构</text>
+  <rect x="210" y="40" width="300" height="44" rx="6" fill="#1f4e79"/>
+  <text x="360" y="67" text-anchor="middle" font-size="15" font-weight="bold" fill="#ffffff">软件体系结构（SA）</text>
+  <polyline points="270,84 270,100 135,100 135,123" fill="none" stroke="#1f4e79" stroke-width="1.5"/>
+  <polygon points="135,123 130.5,115 139.5,115" fill="#1f4e79"/>
+  <line x1="360" y1="84" x2="360" y2="115" stroke="#1f4e79" stroke-width="1.5"/>
+  <polygon points="360,123 355.5,115 364.5,115" fill="#1f4e79"/>
+  <polyline points="450,84 450,100 585,100 585,123" fill="none" stroke="#1f4e79" stroke-width="1.5"/>
+  <polygon points="585,123 580.5,115 589.5,115" fill="#1f4e79"/>
+  <rect x="40" y="126" width="190" height="54" rx="6" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.2"/>
+  <text x="135" y="149" text-anchor="middle" font-size="14" font-weight="bold" fill="#1f4e79">构件</text>
+  <text x="135" y="169" text-anchor="middle" font-size="11" fill="#22303f">模块、类、数据库、中间件</text>
+  <rect x="265" y="126" width="190" height="54" rx="6" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.2"/>
+  <text x="360" y="149" text-anchor="middle" font-size="14" font-weight="bold" fill="#1f4e79">构件的外部可见属性</text>
+  <text x="360" y="169" text-anchor="middle" font-size="11" fill="#22303f">对外接口、功能、质量特性</text>
+  <rect x="490" y="126" width="190" height="54" rx="6" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.2"/>
+  <text x="585" y="149" text-anchor="middle" font-size="14" font-weight="bold" fill="#1f4e79">构件之间的相互关系</text>
+  <text x="585" y="169" text-anchor="middle" font-size="11" fill="#22303f">如何连接、交互、协作</text>
+  <line x1="60" y1="208" x2="660" y2="208" stroke="#6b7a8a" stroke-width="1" stroke-dasharray="4 3"/>
+  <text x="360" y="234" text-anchor="middle" font-size="14" font-weight="bold" fill="#22303f">设计金字塔的两个层次</text>
+  <rect x="90" y="250" width="240" height="56" rx="6" fill="#fdf0e6" stroke="#c05621" stroke-width="1.2"/>
+  <text x="210" y="273" text-anchor="middle" font-size="14" font-weight="bold" fill="#c05621">数据设计</text>
+  <text x="210" y="293" text-anchor="middle" font-size="11" fill="#22303f">数据构件、类的定义（封装属性与操作）</text>
+  <rect x="390" y="250" width="240" height="56" rx="6" fill="#fdf0e6" stroke="#c05621" stroke-width="1.2"/>
+  <text x="510" y="273" text-anchor="middle" font-size="14" font-weight="bold" fill="#c05621">体系结构设计</text>
+  <text x="510" y="293" text-anchor="middle" font-size="11" fill="#22303f">构件的结构、属性与交互作用</text>
+</svg></div><div class="cap">软件架构定义三要素与两个设计层次</div></div>
+<h3>2. 软件架构设计与生命周期（7.1.2）⭐【重点】</h3>
+<p>架构研究贯穿整个软件生命周期，各阶段关注点不同：</p>
+<table><colgroup><col style="width:12.4%"><col style="width:68.2%"><col style="width:19.4%"></colgroup><thead><tr><th>阶段</th><th>架构研究的核心内容</th><th>记忆关键词</th></tr></thead><tbody><tr><td class="tc">需求分析</td><td>需求模型→SA 模型的<b>转换</b>与<b>可追踪性</b>（问题空间→解空间）</td><td>转换、追踪</td></tr><tr><td class="tc">设计</td><td>SA 模型描述（基本概念、<b>ADL</b>、<b>多视图</b>）、设计分析、经验复用；研究最早、最多</td><td>描述、ADL、多视图</td></tr><tr><td class="tc">实现</td><td>基于 SA 的开发过程支持、SA→实现的过渡（模型映射、构件组装、中间件）、基于 SA 的测试</td><td>过渡、映射</td></tr><tr><td class="tc">构件组装</td><td>支持可复用构件<b>互联</b>（连接子实现、中间件）；检测并消除<b>体系结构失配</b></td><td>互联、失配</td></tr><tr><td class="tc">部署</td><td>用高层视图描述软硬件模型，分析部署方案的<b>质量属性</b></td><td>部署方案</td></tr><tr><td class="tc">后开发</td><td>维护、演化、复用：<b>动态软件体系结构</b>、<b>体系结构恢复与重建</b></td><td>动态、重建</td></tr></tbody></table>
+<div class="mnemonic">助记：生命周期六阶段——「需、设、实、组、部、后」。</div>
+<div class="fig"><div><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 300" font-family="Microsoft YaHei, 微软雅黑, sans-serif">
+  <rect x="0" y="0" width="720" height="300" fill="#ffffff"/>
+  <text x="360" y="26" text-anchor="middle" font-size="15" font-weight="bold" fill="#22303f">软件架构贯穿生命周期的六个阶段</text>
+  <rect x="30" y="46" width="200" height="66" rx="6" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.2"/>
+  <text x="130" y="72" text-anchor="middle" font-size="14" font-weight="bold" fill="#1f4e79">① 需求分析</text>
+  <text x="130" y="94" text-anchor="middle" font-size="11" fill="#22303f">需求模型→SA 模型转换与追踪</text>
+  <rect x="260" y="46" width="200" height="66" rx="6" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.2"/>
+  <text x="360" y="72" text-anchor="middle" font-size="14" font-weight="bold" fill="#1f4e79">② 设计（研究最早最多）</text>
+  <text x="360" y="94" text-anchor="middle" font-size="11" fill="#22303f">基本概念、ADL、多视图</text>
+  <rect x="490" y="46" width="200" height="66" rx="6" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.2"/>
+  <text x="590" y="72" text-anchor="middle" font-size="14" font-weight="bold" fill="#1f4e79">③ 实现</text>
+  <text x="590" y="94" text-anchor="middle" font-size="11" fill="#22303f">模型映射、构件组装、中间件</text>
+  <line x1="230" y1="79" x2="249" y2="79" stroke="#1f4e79" stroke-width="1.5"/>
+  <polygon points="257,79 249,74.5 249,83.5" fill="#1f4e79"/>
+  <line x1="460" y1="79" x2="479" y2="79" stroke="#1f4e79" stroke-width="1.5"/>
+  <polygon points="487,79 479,74.5 479,83.5" fill="#1f4e79"/>
+  <line x1="590" y1="112" x2="590" y2="173" stroke="#1f4e79" stroke-width="1.5"/>
+  <polygon points="590,181 585.5,173 594.5,173" fill="#1f4e79"/>
+  <rect x="490" y="184" width="200" height="66" rx="6" fill="#f3f6ee" stroke="#4a6130" stroke-width="1.2"/>
+  <text x="590" y="210" text-anchor="middle" font-size="14" font-weight="bold" fill="#4a6130">④ 构件组装</text>
+  <text x="590" y="232" text-anchor="middle" font-size="11" fill="#22303f">连接子实现；检测消除架构失配</text>
+  <rect x="260" y="184" width="200" height="66" rx="6" fill="#f3f6ee" stroke="#4a6130" stroke-width="1.2"/>
+  <text x="360" y="210" text-anchor="middle" font-size="14" font-weight="bold" fill="#4a6130">⑤ 部署</text>
+  <text x="360" y="232" text-anchor="middle" font-size="11" fill="#22303f">软硬件模型；部署方案质量分析</text>
+  <rect x="30" y="184" width="200" height="66" rx="6" fill="#f3f6ee" stroke="#4a6130" stroke-width="1.2"/>
+  <text x="130" y="210" text-anchor="middle" font-size="14" font-weight="bold" fill="#4a6130">⑥ 后开发</text>
+  <text x="130" y="232" text-anchor="middle" font-size="11" fill="#22303f">动态架构；架构恢复与重建</text>
+  <line x1="490" y1="217" x2="471" y2="217" stroke="#4a6130" stroke-width="1.5"/>
+  <polygon points="463,217 471,212.5 471,221.5" fill="#4a6130"/>
+  <line x1="260" y1="217" x2="241" y2="217" stroke="#4a6130" stroke-width="1.5"/>
+  <polygon points="233,217 241,212.5 241,221.5" fill="#4a6130"/>
+  <text x="360" y="282" text-anchor="middle" font-size="12" fill="#6b7a8a">需求阶段面向问题空间，架构设计面向解空间，二者需保持可追踪性</text>
+</svg></div><div class="cap">软件架构与生命周期六阶段</div></div>
+<p><b>设计阶段 SA 模型描述的三个层次</b> ⭐【高频考点】：</p>
+<ol><li><b>SA 的基本概念</b>：模型由哪些元素组成、按何种原则组织。构件间的互联机制独立出来成为与构件同级的实体——<b>连接子</b>；现阶段描述方法是<b>构件和连接子的建模</b>。</li><li><b>体系结构描述语言（ADL）</b>：支持构件、连接子及其配置的描述。<b>对连接子的重视是区分 ADL 与其他建模语言的重要特征</b>。典型 ADL：UniCon、Rapide、Darwin、Wright、C2SADL、Acme、xADL、XYZ/ADL、ABC/ADL。</li><li><b>SA 模型的多视图表示</b>：从不同视角描述体系结构，体现<b>关注点分离</b>思想。</li></ol>
+<p><b>典型多视图方案对比</b> ⭐【高频考点】【易错】：</p>
+<table><colgroup><col style="width:19.1%"><col style="width:13.7%"><col style="width:67.2%"></colgroup><thead><tr><th>模型/标准</th><th>提出方</th><th>视图组成</th></tr></thead><tbody><tr><td><b>4+1 模型</b></td><td class="tc">Kruchten</td><td>逻辑视图、进程视图、开发视图、物理视图 + 统一的<b>场景</b></td></tr><tr><td>Hofmeister 4 视图</td><td class="tc">Hofmeister</td><td>概念视图、模块视图、执行视图、代码视图</td></tr><tr><td>Views and Beyond</td><td class="tc">CMU-SEI</td><td>模块视图、构件和连接子视图、分配视图</td></tr><tr><td>IEEE 1471-2000</td><td class="tc">IEEE</td><td>软件密集型系统体系结构描述推荐实践（标准，非视图清单）；同类还有 RM-ODP、UML、Zachman 框架</td></tr></tbody></table>
+<p>【易错】4+1 的「+1」是<b>场景</b>（用例），不是第五个视图种类；Hofmeister 的「代码视图」不要与 4+1 的「开发视图」张冠李戴。现阶段 ADL 大多<b>没有显式支持多视图</b>。</p>
+<p><b>构件组装阶段的体系结构失配</b> ⭐：Garlan 等人 1995 年提出，指复用构件对体系结构和环境的<b>假设</b>与实际状况不同导致的冲突，分三类：①<b>由构件引起</b>（基础设施、控制模型、数据模型）；②<b>由连接子引起</b>（交互协议、连接子数据模型）；③<b>对全局体系结构的假设冲突</b>。<b>后开发阶段两个方向</b>：动态软件体系结构（运行时架构可改变：内部执行导致 / 外部请求重配置）与体系结构恢复重建（从已实现系统获取架构，方法有手工重建、工具支持的手工重建、查询语言自动聚集、数据挖掘四类）。</p>
+<h3>3. 软件架构的重要性（7.1.3）</h3>
+<p>架构设计是<b>降低成本、改进质量、按时按需交付产品</b>的关键因素，教材列出八点：</p>
+<table><colgroup><col style="width:11.8%"><col style="width:27.5%"><col style="width:60.8%"></colgroup><thead><tr><th>#</th><th>重要性</th><th>一句话解释</th></tr></thead><tbody><tr><td class="tc">1</td><td>满足系统品质</td><td>性能、安全、可维护等质量靠架构元素交互实现，可尽早评估</td></tr><tr><td class="tc">2</td><td>使受益人达成一致目标</td><td>文档化架构让涉众讨论、权衡、达成共识（架构师主要职责）</td></tr><tr><td class="tc">3</td><td>支持计划编制</td><td>构件依赖关系支撑任务划分、日程、成本与风险管理</td></tr><tr><td class="tc">4</td><td>对系统开发的指导性</td><td>明确定义组件、接口、通信与标准，给设计实现提供框架</td></tr><tr><td class="tc">5</td><td>有效管理复杂性</td><td>高层抽象 + 递归分解，把大问题拆小</td></tr><tr><td class="tc">6</td><td>为复用奠定基础</td><td>支持大粒度资源复用（现货组件、既有系统、封装应用）</td></tr><tr><td class="tc">7</td><td>降低维护费用</td><td>把维护人员当作主要涉众，内建维护机制与可扩充性</td></tr><tr><td class="tc">8</td><td>支持冲突分析</td><td>变更前可推断影响：改一个构件能分析波及哪些构件</td></tr></tbody></table>
+<div class="mnemonic">助记：重要性八条——「品质、共识、计划、指导、降繁、复用、省维护、析冲突」。</div>
+<h3>2.2 基于架构的软件开发方法 ABSD（7.2）⭐【重点】【高频考点】</h3>
+<h3>1. 概述与三个基础（7.2.1）</h3>
+<div class="def">教材原文：<b>ABSD 方法是由体系结构驱动的</b>，即由构成体系结构的<b>商业、质量和功能需求的组合</b>驱动的。</div>
+<p>ABSD 的特点：设计活动可以从项目<b>总体功能框架明确</b>就开始，<b>不必等需求抽取分析完成</b>，设计与需求活动<b>并行</b>；方法是<b>递归的、迭代的</b>，每步清晰定义，体系结构总是清晰的，降低设计随意性。</p>
+<p><b>三个基础</b> ⭐：①<b>功能的分解</b>（使用已有的基于模块的<b>内聚和耦合</b>技术）；②通过<b>选择体系结构风格</b>实现<b>质量和商业需求</b>；③<b>软件模板</b>的使用（复用一些软件系统的结构）。</p>
+<div class="mnemonic">助记：ABSD 三基础——「功能分解、风格选、模板用」。</div>
+<div class="example">举例：开发一个电商平台，总体功能框架（商品、订单、支付）一明确就可以开始架构设计，不必等每个页面的需求细节写完；先按功能拆出子系统，再选分层风格满足可维护性要求，界面布局套用已有模板。</div>
+<h3>2. 概念与术语（7.2.2）</h3>
+<ul><li><b>设计元素</b>：ABSD 自顶向下递归细化：最顶层系统分解为若干<b>概念子系统</b>和软件模板；第 2 层概念子系统分解为<b>概念构件</b>和附加模板；逐层细化直到产生<b>实际构件和类</b>。</li><li><b>视角与视图</b>：从不同视角观察架构——静态视角判断质量特性，动态视角判断系统行为特性；用<b>逻辑视图</b>记录设计元素的功能和概念接口。</li><li><b>用例和质量场景</b> ⭐【易错】：<b>用例捕获功能需求</b>（给用户一个结果值的功能点）；<b>质量场景捕获质量需求</b>（变更、性能、可靠性、交互性场景）。质量场景必须包括<b>预期的和非预期的</b>场景。</li></ul>
+<div class="example">举例：「用户每年增长 10% 时系统响应仍小于 2 秒」是预期性能场景；「用户每年增长 100%」是非预期场景——未必真发生，但用来确定设计的<b>边界条件</b>。</div>
+<div class="fig"><div><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 360" font-family="Microsoft YaHei, 微软雅黑, sans-serif">
+  <rect x="0" y="0" width="720" height="360" fill="#ffffff"/>
+  <text x="360" y="24" text-anchor="middle" font-size="15" font-weight="bold" fill="#22303f">ABSD 设计元素：自顶向下、递归细化</text>
+  <text x="60" y="62" text-anchor="middle" font-size="12" fill="#6b7a8a">第 1 层</text>
+  <text x="60" y="150" text-anchor="middle" font-size="12" fill="#6b7a8a">第 2 层</text>
+  <text x="60" y="240" text-anchor="middle" font-size="12" fill="#6b7a8a">第 3 层</text>
+  <text x="60" y="330" text-anchor="middle" font-size="12" fill="#6b7a8a">第 4 层</text>
+  <rect x="290" y="40" width="140" height="40" rx="6" fill="#1f4e79"/>
+  <text x="360" y="65" text-anchor="middle" font-size="15" font-weight="bold" fill="#ffffff">系统</text>
+  <polyline points="330,80 330,96 205,96 205,119" fill="none" stroke="#1f4e79" stroke-width="1.5"/>
+  <polygon points="205,127 200.5,119 209.5,119" fill="#1f4e79"/>
+  <polyline points="390,80 390,96 495,96 495,119" fill="none" stroke="#1f4e79" stroke-width="1.5"/>
+  <polygon points="495,127 490.5,119 499.5,119" fill="#1f4e79"/>
+  <rect x="120" y="130" width="170" height="44" rx="6" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.2"/>
+  <text x="205" y="157" text-anchor="middle" font-size="14" font-weight="bold" fill="#1f4e79">概念子系统</text>
+  <rect x="430" y="130" width="130" height="44" rx="6" fill="#fdf0e6" stroke="#c05621" stroke-width="1.2"/>
+  <text x="495" y="157" text-anchor="middle" font-size="14" font-weight="bold" fill="#c05621">软件模板</text>
+  <line x1="175" y1="174" x2="175" y2="186" stroke="#1f4e79" stroke-width="1.5"/>
+  <line x1="175" y1="186" x2="205" y2="186" stroke="#1f4e79" stroke-width="1.5"/>
+  <line x1="205" y1="186" x2="205" y2="209" stroke="#1f4e79" stroke-width="1.5"/>
+  <polygon points="205,217 200.5,209 209.5,209" fill="#1f4e79"/>
+  <polyline points="235,174 235,186 495,186 495,209" fill="none" stroke="#1f4e79" stroke-width="1.5"/>
+  <polygon points="495,217 490.5,209 499.5,209" fill="#1f4e79"/>
+  <rect x="120" y="220" width="170" height="44" rx="6" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.2"/>
+  <text x="205" y="247" text-anchor="middle" font-size="14" font-weight="bold" fill="#1f4e79">概念构件</text>
+  <rect x="430" y="220" width="130" height="44" rx="6" fill="#fdf0e6" stroke="#c05621" stroke-width="1.2"/>
+  <text x="495" y="247" text-anchor="middle" font-size="14" font-weight="bold" fill="#c05621">附加软件模板</text>
+  <line x1="205" y1="264" x2="205" y2="299" stroke="#1f4e79" stroke-width="1.5"/>
+  <polygon points="205,307 200.5,299 209.5,299" fill="#1f4e79"/>
+  <rect x="120" y="310" width="170" height="40" rx="6" fill="#f3f6ee" stroke="#4a6130" stroke-width="1.2"/>
+  <text x="205" y="335" text-anchor="middle" font-size="14" font-weight="bold" fill="#4a6130">实际构件和类</text>
+  <text x="470" y="335" text-anchor="middle" font-size="11" fill="#6b7a8a">逐层细化，直到能产生构件和类</text>
+</svg></div><div class="cap">ABSD 设计元素的自顶向下分解（据教材图 7-1 重绘）</div></div>
+<h3>3. ABSD 开发模型：六个子过程（7.2.3）⭐【高频考点】</h3>
+<p>传统开发模型中，体系结构建立在<b>需求分析之后、概要设计之前</b>，存在开发效率不高、不利于复用等缺点。ABSD 把整个过程划分为<b>体系结构需求、设计、文档化、复审、实现、演化</b>六个子过程。</p>
+<div class="mnemonic">助记：ABSD 六子过程——「需、设、文、审、实、演」。</div>
+<div class="fig"><div><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 190" font-family="Microsoft YaHei, 微软雅黑, sans-serif">
+  <rect x="0" y="0" width="720" height="190" fill="#ffffff"/>
+  <text x="360" y="26" text-anchor="middle" font-size="15" font-weight="bold" fill="#22303f">ABSD 体系结构开发模型：六个子过程</text>
+  <g font-size="13" font-weight="bold" fill="#1f4e79">
+    <rect x="20" y="46" width="100" height="56" rx="6" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.2"/>
+    <text x="70" y="70" text-anchor="middle">体系结构</text>
+    <text x="70" y="90" text-anchor="middle">需求</text>
+    <rect x="140" y="46" width="100" height="56" rx="6" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.2"/>
+    <text x="190" y="70" text-anchor="middle">体系结构</text>
+    <text x="190" y="90" text-anchor="middle">设计</text>
+    <rect x="260" y="46" width="100" height="56" rx="6" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.2"/>
+    <text x="310" y="70" text-anchor="middle">体系结构</text>
+    <text x="310" y="90" text-anchor="middle">文档化</text>
+    <rect x="380" y="46" width="100" height="56" rx="6" fill="#fdf0e6" stroke="#c05621" stroke-width="1.2"/>
+    <text x="430" y="70" text-anchor="middle" fill="#c05621">体系结构</text>
+    <text x="430" y="90" text-anchor="middle" fill="#c05621">复审</text>
+    <rect x="500" y="46" width="100" height="56" rx="6" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.2"/>
+    <text x="550" y="70" text-anchor="middle">体系结构</text>
+    <text x="550" y="90" text-anchor="middle">实现</text>
+    <rect x="620" y="46" width="100" height="56" rx="6" fill="#f3f6ee" stroke="#4a6130" stroke-width="1.2"/>
+    <text x="670" y="70" text-anchor="middle" fill="#4a6130">体系结构</text>
+    <text x="670" y="90" text-anchor="middle" fill="#4a6130">演化</text>
+  </g>
+  <g stroke="#1f4e79" stroke-width="1.5">
+    <line x1="120" y1="74" x2="129" y2="74"/>
+    <line x1="240" y1="74" x2="249" y2="74"/>
+    <line x1="360" y1="74" x2="369" y2="74"/>
+    <line x1="480" y1="74" x2="489" y2="74"/>
+    <line x1="600" y1="74" x2="609" y2="74"/>
+  </g>
+  <g fill="#1f4e79">
+    <polygon points="137,74 129,69.5 129,78.5"/>
+    <polygon points="257,74 249,69.5 249,78.5"/>
+    <polygon points="377,74 369,69.5 369,78.5"/>
+    <polygon points="497,74 489,69.5 489,78.5"/>
+    <polygon points="617,74 609,69.5 609,78.5"/>
+  </g>
+  <polyline points="670,102 670,132 70,132 70,113" fill="none" stroke="#6b7a8a" stroke-width="1.3" stroke-dasharray="5 3"/>
+  <polygon points="70,105 65.5,113 74.5,113" fill="#6b7a8a"/>
+  <text x="370" y="126" text-anchor="middle" font-size="11" fill="#6b7a8a">迭代</text>
+  <text x="360" y="164" text-anchor="middle" font-size="12" fill="#22303f">设计—文档化—复审迭代进行；实现与演化之间可多次（0:N）循环</text>
+</svg></div><div class="cap">ABSD 体系结构开发模型六子过程（据教材图 7-2 重绘）</div></div>
+<h3>4. 各子过程要点（7.2.4～7.2.9）</h3>
+<p><b>（1）体系结构需求</b> ⭐：需求获取一般来自三方面——<b>系统的质量目标、系统的商业目标、系统开发人员的商业目标</b>。标识构件分三步：</p>
+<table><colgroup><col style="width:19.8%"><col style="width:60.3%"><col style="width:19.8%"></colgroup><thead><tr><th>步骤</th><th>做什么</th><th>要点</th></tr></thead><tbody><tr><td class="tc">① 生成类图</td><td>用 CASE 工具（如 Rational Rose）生成</td><td class="tc">初始逻辑结构基础</td></tr><tr><td class="tc">② 对类进行分组</td><td>隔离类成一组；概括关联的类组成附加组；聚合/合成关联的类也成附加组</td><td class="tc">简化类图结构</td></tr><tr><td class="tc">③ 把类打包成构件</td><td>类簇打包成构件，可再合并成更大构件</td><td class="tc">得到大致构件</td></tr></tbody></table>
+<p>随后进行<b>架构需求评审</b>：由分析、客户、设计、测试等代表组成小组，审查需求是否真实、类分组与构件合并是否合理；可在「需求获取—标识构件—需求评审」间<b>迭代</b>，类似系统需求可从<b>需求库</b>取出复用。</p>
+<div class="fig"><div><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 360" font-family="Microsoft YaHei, 微软雅黑, sans-serif">
+  <rect x="0" y="0" width="720" height="360" fill="#ffffff"/>
+  <text x="360" y="24" text-anchor="middle" font-size="15" font-weight="bold" fill="#22303f">体系结构需求过程</text>
+  <rect x="40" y="40" width="130" height="40" rx="6" fill="#fdf0e6" stroke="#c05621" stroke-width="1.2"/>
+  <text x="105" y="65" text-anchor="middle" font-size="14" font-weight="bold" fill="#c05621">需求库</text>
+  <line x1="170" y1="60" x2="257" y2="60" stroke="#c05621" stroke-width="1.5"/>
+  <polygon points="267,60 257,55.5 257,64.5" fill="#c05621"/>
+  <text x="213" y="48" text-anchor="middle" font-size="10" fill="#c05621">复用修改</text>
+  <rect x="270" y="40" width="180" height="40" rx="6" fill="#1f4e79"/>
+  <text x="360" y="65" text-anchor="middle" font-size="14" font-weight="bold" fill="#ffffff">需求获取</text>
+  <rect x="240" y="92" width="240" height="196" rx="8" fill="none" stroke="#6b7a8a" stroke-width="1.2" stroke-dasharray="5 3"/>
+  <line x1="360" y1="80" x2="360" y2="107" stroke="#1f4e79" stroke-width="1.5"/>
+  <polygon points="360,117 355.5,107 364.5,107" fill="#1f4e79"/>
+  <rect x="270" y="120" width="180" height="40" rx="6" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.2"/>
+  <text x="360" y="145" text-anchor="middle" font-size="14" fill="#1f4e79">① 生成类图</text>
+  <line x1="360" y1="160" x2="360" y2="177" stroke="#1f4e79" stroke-width="1.5"/>
+  <polygon points="360,187 355.5,177 364.5,177" fill="#1f4e79"/>
+  <rect x="270" y="190" width="180" height="40" rx="6" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.2"/>
+  <text x="360" y="215" text-anchor="middle" font-size="14" fill="#1f4e79">② 对类进行分组</text>
+  <line x1="360" y1="230" x2="360" y2="237" stroke="#1f4e79" stroke-width="1.5"/>
+  <polygon points="360,247 355.5,237 364.5,237" fill="#1f4e79"/>
+  <rect x="270" y="250" width="180" height="30" rx="6" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.2"/>
+  <text x="360" y="270" text-anchor="middle" font-size="13" fill="#1f4e79">③ 把类打包成构件</text>
+  <text x="248" y="110" font-size="11" fill="#6b7a8a">标识构件</text>
+  <line x1="360" y1="288" x2="360" y2="307" stroke="#1f4e79" stroke-width="1.5"/>
+  <polygon points="360,317 355.5,307 364.5,307" fill="#1f4e79"/>
+  <rect x="270" y="320" width="180" height="34" rx="6" fill="#f3f6ee" stroke="#4a6130" stroke-width="1.2"/>
+  <text x="360" y="342" text-anchor="middle" font-size="14" font-weight="bold" fill="#4a6130">架构需求评审</text>
+  <polyline points="450,337 560,337 560,60 463,60" fill="none" stroke="#6b7a8a" stroke-width="1.3" stroke-dasharray="5 3"/>
+  <polygon points="453,60 463,55.5 463,64.5" fill="#6b7a8a"/>
+  <text x="578" y="205" text-anchor="middle" font-size="11" fill="#6b7a8a">迭代</text>
+</svg></div><div class="cap">体系结构需求过程（据教材图 7-3 重绘）</div></div>
+<p><b>（2）体系结构设计</b> ⭐：五步迭代——①<b>提出体系结构模型</b>（首先选择合适的<b>体系结构风格</b>）；②把已标识的<b>构件映射</b>到体系结构中（得到中间结构）；③<b>分析构件之间的相互作用</b>；④<b>产生软件体系结构</b>（在中间结构上精化）；⑤<b>设计评审</b>（邀请<b>独立于系统开发的外部人员</b>）。</p>
+<div class="fig"><div><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 185" font-family="Microsoft YaHei, 微软雅黑, sans-serif">
+  <rect x="0" y="0" width="720" height="185" fill="#ffffff"/>
+  <text x="360" y="26" text-anchor="middle" font-size="15" font-weight="bold" fill="#22303f">体系结构设计过程：五步迭代</text>
+  <g font-size="12" font-weight="bold" fill="#1f4e79">
+    <rect x="10" y="46" width="124" height="64" rx="6" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.2"/>
+    <text x="72" y="74" text-anchor="middle">① 提出体系</text>
+    <text x="72" y="94" text-anchor="middle">结构模型</text>
+    <rect x="152" y="46" width="124" height="64" rx="6" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.2"/>
+    <text x="214" y="74" text-anchor="middle">② 把构件映射</text>
+    <text x="214" y="94" text-anchor="middle">到体系结构</text>
+    <rect x="294" y="46" width="124" height="64" rx="6" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.2"/>
+    <text x="356" y="74" text-anchor="middle">③ 分析构件</text>
+    <text x="356" y="94" text-anchor="middle">相互作用</text>
+    <rect x="436" y="46" width="124" height="64" rx="6" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.2"/>
+    <text x="498" y="74" text-anchor="middle">④ 产生软件</text>
+    <text x="498" y="94" text-anchor="middle">体系结构</text>
+    <rect x="578" y="46" width="124" height="64" rx="6" fill="#fdf0e6" stroke="#c05621" stroke-width="1.2"/>
+    <text x="640" y="82" text-anchor="middle" fill="#c05621">⑤ 设计评审</text>
+  </g>
+  <g stroke="#1f4e79" stroke-width="1.5">
+    <line x1="134" y1="78" x2="141" y2="78"/>
+    <line x1="276" y1="78" x2="283" y2="78"/>
+    <line x1="418" y1="78" x2="425" y2="78"/>
+    <line x1="560" y1="78" x2="567" y2="78"/>
+  </g>
+  <g fill="#1f4e79">
+    <polygon points="149,78 141,73.5 141,82.5"/>
+    <polygon points="291,78 283,73.5 283,82.5"/>
+    <polygon points="433,78 425,73.5 425,82.5"/>
+    <polygon points="575,78 567,73.5 567,82.5"/>
+  </g>
+  <polyline points="640,110 640,140 72,140 72,121" fill="none" stroke="#6b7a8a" stroke-width="1.3" stroke-dasharray="5 3"/>
+  <polygon points="72,113 67.5,121 76.5,121" fill="#6b7a8a"/>
+  <text x="356" y="134" text-anchor="middle" font-size="11" fill="#6b7a8a">迭代</text>
+  <text x="360" y="168" text-anchor="middle" font-size="12" fill="#22303f">首要步骤是选择合适的体系结构风格；设计评审邀请独立于开发的外部人员</text>
+</svg></div><div class="cap">体系结构设计过程五步（据教材图 7-4 重绘）</div></div>
+<p><b>（3）体系结构文档化</b> ⭐【高频考点】：主要输出<b>两个文档</b>——<b>体系结构规格说明</b> + <b>测试体系结构需求的质量设计说明书</b>。文档是系统演化各阶段设计与开发人员的<b>通信媒介</b>，要从使用者角度编写、分发给所有相关开发人员并保证<b>最新</b>。</p>
+<p><b>（4）体系结构复审</b>：设计、文档化、复审是一个<b>迭代</b>过程；主版本分析后安排<b>外部人员（用户代表和领域专家）</b>参加复审。通常搭建一个<b>可运行的最小化系统</b>评估架构是否满足需要。目的是<b>标识潜在风险、及早发现设计缺陷和错误</b>（需求是否满足、质量是否体现、层次是否清晰、构件划分是否合理等）。</p>
+<p><b>（5）体系结构实现</b>：以<b>复审后的文档化体系结构说明书</b>为基础：分析与设计→构件实现（从<b>构件库</b>查找符合<b>接口约束</b>的构件，必要时新开发）→构件组装→系统测试（构件功能测试 + 整体功能性能测试）。构件<b>接口约束对外唯一代表构件</b>。</p>
+<p><b>（6）体系结构演化</b> ⭐【高频考点】：使用系统演化步骤修改应用以满足新需求，六步：</p>
+<table><colgroup><col style="width:26.8%"><col style="width:58.9%"><col style="width:14.3%"></colgroup><thead><tr><th>步骤</th><th>内容</th><th>记忆点</th></tr></thead><tbody><tr><td>① 需求变化归类</td><td>变化需求与已有构件对应，找不到对应的做标记（后续新建构件）</td><td class="tc">归类</td></tr><tr><td>② 制订体系结构演化计划</td><td>改变原结构前制订周密计划作指南</td><td class="tc">计划</td></tr><tr><td>③ 修改、增加或删除构件</td><td>按归类决定构件变动，并做功能性测试</td><td class="tc">构件变动</td></tr><tr><td>④ 更新构件的相互作用</td><td>构件变动后更新构件间控制流</td><td class="tc">更新交互</td></tr><tr><td>⑤ 构件组装与测试</td><td>组装成新体系结构，测整体功能与性能</td><td class="tc">组装测试</td></tr><tr><td>⑥ 技术评审</td><td>评审是否反映需求变动；不符合则在第②～⑥步间迭代</td><td class="tc">评审迭代</td></tr></tbody></table>
+<div class="mnemonic">助记：演化六步——「归类、计划、改构件、更交互、组装测、再评审」。</div>
+<h3>2.3 软件架构风格（7.3）⭐【重点】【高频考点】</h3>
+<h3>1. 风格概述（7.3.1）</h3>
+<div class="def">教材原文：<b>软件体系结构风格是描述某一特定应用领域中系统组织方式的惯用模式。</b>体系结构风格定义一个系统家族，即<b>一个体系结构定义一个词汇表和一组约束</b>。</div>
+<p>通俗地说，风格就是「某一类系统公认的搭法」：<b>词汇表</b>规定能用哪些构件和连接件类型，<b>约束</b>规定这些构件连接件怎么组合。听到「客户/服务器」就知道系统怎么组织，这就是风格的价值——<b>促进设计重用</b>。</p>
+<p>核心目标是<b>体系结构级的软件重用</b>。教材将经典风格分为<b>五大类</b>：</p>
+<table><colgroup><col style="width:17.9%"><col style="width:48.2%"><col style="width:33.9%"></colgroup><thead><tr><th>大类</th><th>包含的子风格</th><th>一句话特征</th></tr></thead><tbody><tr><td class="tc">数据流</td><td>批处理、管道-过滤器</td><td>数据依次流经各处理步骤</td></tr><tr><td class="tc">调用/返回</td><td>主程序/子程序、面向对象、层次型、客户端/服务器</td><td>分而治之，调用后控制返回</td></tr><tr><td class="tc">以数据为中心</td><td>仓库、黑板</td><td>围绕中央数据结构组织</td></tr><tr><td class="tc">虚拟机</td><td>解释器、规则系统</td><td>人为构建运行环境解析自定义语言</td></tr><tr><td class="tc">独立构件</td><td>进程通信、事件系统</td><td>构件独立、不直接通信，降低耦合</td></tr></tbody></table>
+<div class="mnemonic">助记：五大类——「数据流、调用返、数据中心、虚拟机、独立件」。</div>
+<h3>2. 数据流风格（7.3.2）⭐</h3>
+<p>数据流体系结构没有概念上的程序计数器，指令可执行性仅由<b>输入参数的可用性</b>决定，执行顺序不可预测；两种子风格对比如下。</p>
+<table><colgroup><col style="width:13.6%"><col style="width:44.1%"><col style="width:42.4%"></colgroup><thead><tr><th>对比项</th><th>批处理</th><th>管道-过滤器</th></tr></thead><tbody><tr><td class="tc">基本构件</td><td>独立的应用程序（每个处理步骤）</td><td><b>过滤器</b>（Filter）</td></tr><tr><td class="tc">连接件</td><td>某种类型的媒介（如磁带），定义数据流图</td><td><b>管道</b>（Pipe），传输数据流</td></tr><tr><td class="tc">数据传递</td><td>数据<b>完整、整体</b>传递，前一步结束后下一步才开始</td><td>数据<b>流式</b>传递，过滤器读输入流→处理→写输出流</td></tr><tr><td class="tc">通俗例子</td><td>老式工资处理：全部考勤录完才能统一算工资</td><td>编译器：词法分析→语法分析→代码生成流水作业</td></tr></tbody></table>
+<div class="fig"><div><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 310" font-family="Microsoft YaHei, 微软雅黑, sans-serif">
+  <rect x="0" y="0" width="720" height="310" fill="#ffffff"/>
+  <text x="360" y="24" text-anchor="middle" font-size="14" font-weight="bold" fill="#22303f">批处理：数据完整、整体传递，前一步结束后下一步才开始</text>
+  <g font-size="13" font-weight="bold" fill="#1f4e79">
+    <rect x="20" y="50" width="104" height="44" rx="6" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.2"/>
+    <text x="72" y="77" text-anchor="middle">数据转换</text>
+    <rect x="158" y="50" width="104" height="44" rx="6" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.2"/>
+    <text x="210" y="77" text-anchor="middle">验证</text>
+    <rect x="296" y="50" width="104" height="44" rx="6" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.2"/>
+    <text x="348" y="77" text-anchor="middle">排序</text>
+    <rect x="434" y="50" width="104" height="44" rx="6" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.2"/>
+    <text x="486" y="77" text-anchor="middle">更新</text>
+    <rect x="572" y="50" width="104" height="44" rx="6" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.2"/>
+    <text x="624" y="77" text-anchor="middle">打印</text>
+  </g>
+  <g stroke="#1f4e79" stroke-width="1.5">
+    <line x1="124" y1="72" x2="147" y2="72"/>
+    <line x1="262" y1="72" x2="285" y2="72"/>
+    <line x1="400" y1="72" x2="423" y2="72"/>
+    <line x1="538" y1="72" x2="561" y2="72"/>
+  </g>
+  <g fill="#1f4e79">
+    <polygon points="155,72 147,67.5 147,76.5"/>
+    <polygon points="293,72 285,67.5 285,76.5"/>
+    <polygon points="431,72 423,67.5 423,76.5"/>
+    <polygon points="569,72 561,67.5 561,76.5"/>
+  </g>
+  <g font-size="10" fill="#6b7a8a" text-anchor="middle">
+    <text x="141" y="112">磁带</text>
+    <text x="279" y="112">磁带</text>
+    <text x="417" y="112">磁带</text>
+    <text x="555" y="112">磁带</text>
+  </g>
+  <line x1="40" y1="140" x2="680" y2="140" stroke="#6b7a8a" stroke-width="1" stroke-dasharray="4 3"/>
+  <text x="360" y="170" text-anchor="middle" font-size="14" font-weight="bold" fill="#22303f">管道-过滤器：数据流式传递，边产生边处理</text>
+  <ellipse cx="60" cy="236" rx="45" ry="22" fill="#f3f6ee" stroke="#4a6130" stroke-width="1.2"/>
+  <text x="60" y="241" text-anchor="middle" font-size="12" fill="#4a6130">输入流</text>
+  <g font-size="13" font-weight="bold" fill="#1f4e79">
+    <rect x="130" y="214" width="120" height="44" rx="6" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.2"/>
+    <text x="190" y="241" text-anchor="middle">过滤器 1</text>
+    <rect x="300" y="214" width="120" height="44" rx="6" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.2"/>
+    <text x="360" y="241" text-anchor="middle">过滤器 2</text>
+    <rect x="470" y="214" width="120" height="44" rx="6" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.2"/>
+    <text x="530" y="241" text-anchor="middle">过滤器 3</text>
+  </g>
+  <ellipse cx="655" cy="236" rx="45" ry="22" fill="#f3f6ee" stroke="#4a6130" stroke-width="1.2"/>
+  <text x="655" y="241" text-anchor="middle" font-size="12" fill="#4a6130">输出流</text>
+  <g stroke="#1f4e79" stroke-width="1.5">
+    <line x1="105" y1="236" x2="119" y2="236"/>
+    <line x1="250" y1="236" x2="289" y2="236"/>
+    <line x1="420" y1="236" x2="459" y2="236"/>
+    <line x1="590" y1="236" x2="599" y2="236"/>
+  </g>
+  <g fill="#1f4e79">
+    <polygon points="127,236 119,231.5 119,240.5"/>
+    <polygon points="297,236 289,231.5 289,240.5"/>
+    <polygon points="467,236 459,231.5 459,240.5"/>
+    <polygon points="607,236 599,231.5 599,240.5"/>
+  </g>
+  <g font-size="10" fill="#6b7a8a" text-anchor="middle">
+    <text x="275" y="222">管道</text>
+    <text x="445" y="222">管道</text>
+  </g>
+  <text x="360" y="292" text-anchor="middle" font-size="12" fill="#22303f">构件 = 过滤器，连接件 = 管道；一个过滤器的输出是下一个过滤器的输入</text>
+</svg></div><div class="cap">批处理与管道-过滤器风格对比（据教材图 7-7、7-8 重绘）</div></div>
+<h3>3. 调用/返回风格（7.3.3）⭐</h3>
+<p>利用调用与返回机制，<b>分而治之</b>降低复杂度、增加可修改性。四个子风格：</p>
+<table><colgroup><col style="width:16.4%"><col style="width:22.2%"><col style="width:15.8%"><col style="width:45.6%"></colgroup><thead><tr><th>子风格</th><th>构件</th><th>连接件/交互</th><th>特点与记忆点</th></tr></thead><tbody><tr><td>主程序/子程序</td><td>主程序、子程序（可合成为模块）</td><td><b>过程调用</b></td><td>单线程控制，调用有层次性；子程序正确性取决于它调用的子程序</td></tr><tr><td>面向对象</td><td><b>对象</b>（抽象数据类型的实例）</td><td>对象间消息/过程调用</td><td>数据表示与操作<b>封装</b>在对象中，建立在数据抽象上</td></tr><tr><td>层次型</td><td>各层（实现虚拟机）</td><td>层间交互<b>协议</b></td><td>每层为上层服务、作下层客户；接口只对相邻层可见；每层最多影响两层</td></tr><tr><td>客户端/服务器（C/S）</td><td>客户机、服务器</td><td>网络</td><td>基于<b>资源不对等</b>且为实现共享；两层「胖客户机瘦服务器」，三层「瘦客户机」</td></tr></tbody></table>
+<p><b>两层与三层 C/S 对比</b> ⭐【高频考点】：两层 C/S 三部分——数据库服务器、客户应用程序、网络；服务器管数据，客户机完成用户交互。三层 C/S 增加<b>应用服务器</b>，应用功能分为<b>表示层</b>（用户接口，图形界面）、<b>功能层</b>（业务处理逻辑，驻留应用服务器）、<b>数据层</b>（数据库管理系统），三层逻辑上独立。</p>
+<div class="fig"><div><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 300" font-family="Microsoft YaHei, 微软雅黑, sans-serif">
+  <rect x="0" y="0" width="720" height="300" fill="#ffffff"/>
+  <text x="170" y="24" text-anchor="middle" font-size="14" font-weight="bold" fill="#22303f">主程序/子程序</text>
+  <rect x="90" y="40" width="140" height="40" rx="6" fill="#1f4e79"/>
+  <text x="160" y="65" text-anchor="middle" font-size="14" font-weight="bold" fill="#ffffff">主程序</text>
+  <polyline points="130,80 130,96 90,96 90,119" fill="none" stroke="#1f4e79" stroke-width="1.5"/>
+  <polygon points="90,127 85.5,119 94.5,119" fill="#1f4e79"/>
+  <polyline points="190,80 190,96 250,96 250,119" fill="none" stroke="#1f4e79" stroke-width="1.5"/>
+  <polygon points="250,127 245.5,119 254.5,119" fill="#1f4e79"/>
+  <rect x="30" y="130" width="120" height="38" rx="6" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.2"/>
+  <text x="90" y="154" text-anchor="middle" font-size="13" fill="#1f4e79">子程序 A</text>
+  <rect x="190" y="130" width="120" height="38" rx="6" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.2"/>
+  <text x="250" y="154" text-anchor="middle" font-size="13" fill="#1f4e79">子程序 B</text>
+  <polyline points="90,168 90,186 170,186 170,209" fill="none" stroke="#1f4e79" stroke-width="1.5"/>
+  <polygon points="170,217 165.5,209 174.5,209" fill="#1f4e79"/>
+  <rect x="110" y="220" width="120" height="38" rx="6" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.2"/>
+  <text x="170" y="244" text-anchor="middle" font-size="13" fill="#1f4e79">子程序 C</text>
+  <text x="170" y="286" text-anchor="middle" font-size="11" fill="#22303f">单线程控制；过程调用为连接件</text>
+  <line x1="350" y1="14" x2="350" y2="290" stroke="#6b7a8a" stroke-width="1" stroke-dasharray="4 3"/>
+  <text x="540" y="24" text-anchor="middle" font-size="14" font-weight="bold" fill="#22303f">层次型</text>
+  <g font-size="13" font-weight="bold" fill="#4a6130">
+    <rect x="400" y="30" width="280" height="40" rx="6" fill="#f3f6ee" stroke="#4a6130" stroke-width="1.2"/>
+    <text x="540" y="55" text-anchor="middle">用户系统</text>
+    <rect x="400" y="94" width="280" height="40" rx="6" fill="#f3f6ee" stroke="#4a6130" stroke-width="1.2"/>
+    <text x="540" y="119" text-anchor="middle">各种构件</text>
+    <rect x="400" y="158" width="280" height="40" rx="6" fill="#f3f6ee" stroke="#4a6130" stroke-width="1.2"/>
+    <text x="540" y="183" text-anchor="middle">核心层</text>
+    <rect x="400" y="222" width="280" height="40" rx="6" fill="#f3f6ee" stroke="#4a6130" stroke-width="1.2"/>
+    <text x="540" y="247" text-anchor="middle">基本工具</text>
+  </g>
+  <g stroke="#1f4e79" stroke-width="1.4">
+    <line x1="520" y1="70" x2="520" y2="83"/>
+    <line x1="520" y1="134" x2="520" y2="147"/>
+    <line x1="520" y1="198" x2="520" y2="211"/>
+    <line x1="580" y1="94" x2="580" y2="81"/>
+    <line x1="580" y1="158" x2="580" y2="145"/>
+    <line x1="580" y1="222" x2="580" y2="209"/>
+  </g>
+  <g fill="#1f4e79">
+    <polygon points="520,91 515.5,83 524.5,83"/>
+    <polygon points="520,155 515.5,147 524.5,147"/>
+    <polygon points="520,219 515.5,211 524.5,211"/>
+    <polygon points="580,73 575.5,81 584.5,81"/>
+    <polygon points="580,137 575.5,145 584.5,145"/>
+    <polygon points="580,201 575.5,209 584.5,209"/>
+  </g>
+  <text x="505" y="86" text-anchor="end" font-size="10" fill="#6b7a8a">提供服务</text>
+  <text x="595" y="86" font-size="10" fill="#6b7a8a">作为客户</text>
+  <text x="540" y="286" text-anchor="middle" font-size="11" fill="#22303f">每层为上层服务，并作为下层的客户</text>
+</svg></div><div class="cap">主程序/子程序与层次型风格（据教材图 7-10 重绘）</div></div>
+<div class="fig"><div><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 305" font-family="Microsoft YaHei, 微软雅黑, sans-serif">
+  <rect x="0" y="0" width="720" height="305" fill="#ffffff"/>
+  <text x="175" y="24" text-anchor="middle" font-size="13" font-weight="bold" fill="#22303f">两层 C/S：胖客户机，瘦服务器</text>
+  <rect x="40" y="60" width="180" height="50" rx="6" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.2"/>
+  <text x="130" y="82" text-anchor="middle" font-size="13" font-weight="bold" fill="#1f4e79">客户应用程序</text>
+  <text x="130" y="100" text-anchor="middle" font-size="11" fill="#22303f">完成与用户的交互</text>
+  <rect x="40" y="190" width="180" height="50" rx="6" fill="#1f4e79"/>
+  <text x="130" y="212" text-anchor="middle" font-size="13" font-weight="bold" fill="#ffffff">数据库服务器</text>
+  <text x="130" y="230" text-anchor="middle" font-size="11" fill="#ffffff">负责数据管理</text>
+  <line x1="110" y1="110" x2="110" y2="179" stroke="#1f4e79" stroke-width="1.5"/>
+  <polygon points="110,187 105.5,179 114.5,179" fill="#1f4e79"/>
+  <line x1="150" y1="190" x2="150" y2="121" stroke="#1f4e79" stroke-width="1.5"/>
+  <polygon points="150,113 145.5,121 154.5,121" fill="#1f4e79"/>
+  <text x="185" y="155" font-size="11" fill="#6b7a8a">网络</text>
+  <text x="175" y="272" text-anchor="middle" font-size="11" fill="#22303f">组成：数据库服务器、客户应用程序、网络</text>
+  <line x1="345" y1="14" x2="345" y2="292" stroke="#6b7a8a" stroke-width="1" stroke-dasharray="4 3"/>
+  <text x="535" y="24" text-anchor="middle" font-size="13" font-weight="bold" fill="#22303f">三层 C/S：瘦客户机</text>
+  <rect x="420" y="44" width="240" height="44" rx="6" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.2"/>
+  <text x="540" y="63" text-anchor="middle" font-size="13" font-weight="bold" fill="#1f4e79">表示层（客户机）</text>
+  <text x="540" y="80" text-anchor="middle" font-size="11" fill="#22303f">用户接口，图形用户界面</text>
+  <rect x="420" y="134" width="240" height="44" rx="6" fill="#fdf0e6" stroke="#c05621" stroke-width="1.2"/>
+  <text x="540" y="153" text-anchor="middle" font-size="13" font-weight="bold" fill="#c05621">功能层（应用服务器）</text>
+  <text x="540" y="170" text-anchor="middle" font-size="11" fill="#22303f">应用主体，实现业务处理逻辑</text>
+  <rect x="420" y="224" width="240" height="44" rx="6" fill="#1f4e79"/>
+  <text x="540" y="243" text-anchor="middle" font-size="13" font-weight="bold" fill="#ffffff">数据层</text>
+  <text x="540" y="260" text-anchor="middle" font-size="11" fill="#ffffff">数据库管理系统</text>
+  <g stroke="#1f4e79" stroke-width="1.4">
+    <line x1="510" y1="88" x2="510" y2="123"/>
+    <line x1="510" y1="178" x2="510" y2="213"/>
+    <line x1="570" y1="134" x2="570" y2="99"/>
+    <line x1="570" y1="224" x2="570" y2="189"/>
+  </g>
+  <g fill="#1f4e79">
+    <polygon points="510,131 505.5,123 514.5,123"/>
+    <polygon points="510,221 505.5,213 514.5,213"/>
+    <polygon points="570,91 565.5,99 574.5,99"/>
+    <polygon points="570,181 565.5,189 574.5,189"/>
+  </g>
+  <text x="535" y="292" text-anchor="middle" font-size="11" fill="#22303f">应用逻辑驻留应用服务器，三层逻辑上独立</text>
+</svg></div><div class="cap">两层 C/S 与三层 C/S 体系结构（据教材图 7-11、7-12 重绘）</div></div>
+<h3>4. 以数据为中心的风格（7.3.4）⭐【易错】</h3>
+<table><colgroup><col style="width:14.8%"><col style="width:33.3%"><col style="width:51.9%"></colgroup><thead><tr><th>对比项</th><th>仓库</th><th>黑板</th></tr></thead><tbody><tr><td class="tc">中央结构</td><td><b>中央数据结构</b>说明当前数据状态</td><td><b>黑板</b>（共享数据），解空间组织成分级结构</td></tr><tr><td class="tc">其他构件</td><td>一组对中央数据操作的<b>独立构件</b></td><td>若干<b>知识源</b>（独立知识模块），直接存取黑板</td></tr><tr><td class="tc">触发方式</td><td>独立构件围绕仓库交互</td><td>知识源根据黑板状态逐步改写部分解</td></tr><tr><td class="tc">适用</td><td>数据集中存储维护、多构件共享</td><td><b>复杂非结构化问题</b>，综合多种知识源求解</td></tr><tr><td class="tc">典型应用</td><td>数据库系统、开发环境</td><td><b>信号处理：语音识别、模式识别</b>；松耦合代理数据共享</td></tr></tbody></table>
+<div class="example">举例：黑板像医院专家会诊——病历（黑板）贴在中间，各科医生（知识源）轮流查看并写下自己的诊断意见，直到拼出完整结论；没有哪位医生指挥全局。</div>
+<div class="fig"><div><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 295" font-family="Microsoft YaHei, 微软雅黑, sans-serif">
+  <rect x="0" y="0" width="720" height="295" fill="#ffffff"/>
+  <text x="170" y="24" text-anchor="middle" font-size="14" font-weight="bold" fill="#22303f">仓库风格</text>
+  <rect x="30" y="40" width="110" height="36" rx="6" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.2"/>
+  <text x="85" y="63" text-anchor="middle" font-size="12" fill="#1f4e79">独立构件</text>
+  <rect x="200" y="40" width="110" height="36" rx="6" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.2"/>
+  <text x="255" y="63" text-anchor="middle" font-size="12" fill="#1f4e79">独立构件</text>
+  <rect x="90" y="110" width="160" height="56" rx="6" fill="#fdf0e6" stroke="#c05621" stroke-width="1.2"/>
+  <text x="170" y="134" text-anchor="middle" font-size="14" font-weight="bold" fill="#c05621">仓库</text>
+  <text x="170" y="153" text-anchor="middle" font-size="11" fill="#22303f">中央数据结构</text>
+  <polyline points="85,76 85,92 130,92 130,99" fill="none" stroke="#1f4e79" stroke-width="1.4"/>
+  <polygon points="130,107 125.5,99 134.5,99" fill="#1f4e79"/>
+  <polyline points="255,76 255,92 190,92 190,99" fill="none" stroke="#1f4e79" stroke-width="1.4"/>
+  <polygon points="190,107 185.5,99 194.5,99" fill="#1f4e79"/>
+  <rect x="115" y="220" width="110" height="36" rx="6" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.2"/>
+  <text x="170" y="243" text-anchor="middle" font-size="12" fill="#1f4e79">独立构件</text>
+  <line x1="150" y1="166" x2="150" y2="209" stroke="#1f4e79" stroke-width="1.4"/>
+  <polygon points="150,217 145.5,209 154.5,209" fill="#1f4e79"/>
+  <line x1="190" y1="220" x2="190" y2="177" stroke="#1f4e79" stroke-width="1.4"/>
+  <polygon points="190,169 185.5,177 194.5,177" fill="#1f4e79"/>
+  <text x="240" y="197" font-size="10" fill="#6b7a8a">交互</text>
+  <text x="170" y="282" text-anchor="middle" font-size="11" fill="#22303f">中央数据 + 一组独立构件</text>
+  <line x1="355" y1="14" x2="355" y2="288" stroke="#6b7a8a" stroke-width="1" stroke-dasharray="4 3"/>
+  <text x="530" y="24" text-anchor="middle" font-size="14" font-weight="bold" fill="#22303f">黑板风格</text>
+  <rect x="400" y="40" width="100" height="36" rx="6" fill="#f3f6ee" stroke="#4a6130" stroke-width="1.2"/>
+  <text x="450" y="63" text-anchor="middle" font-size="12" fill="#4a6130">知识源 1</text>
+  <rect x="570" y="40" width="100" height="36" rx="6" fill="#f3f6ee" stroke="#4a6130" stroke-width="1.2"/>
+  <text x="620" y="63" text-anchor="middle" font-size="12" fill="#4a6130">知识源 2</text>
+  <rect x="450" y="110" width="180" height="56" rx="6" fill="#fdf0e6" stroke="#c05621" stroke-width="1.2"/>
+  <text x="540" y="134" text-anchor="middle" font-size="14" font-weight="bold" fill="#c05621">黑板</text>
+  <text x="540" y="153" text-anchor="middle" font-size="11" fill="#22303f">共享数据（部分解）</text>
+  <polyline points="450,76 450,92 490,92 490,99" fill="none" stroke="#4a6130" stroke-width="1.4"/>
+  <polygon points="490,107 485.5,99 494.5,99" fill="#4a6130"/>
+  <polyline points="620,76 620,92 570,92 570,99" fill="none" stroke="#4a6130" stroke-width="1.4"/>
+  <polygon points="570,107 565.5,99 574.5,99" fill="#4a6130"/>
+  <rect x="400" y="220" width="100" height="36" rx="6" fill="#f3f6ee" stroke="#4a6130" stroke-width="1.2"/>
+  <text x="450" y="243" text-anchor="middle" font-size="12" fill="#4a6130">知识源 3</text>
+  <rect x="570" y="220" width="100" height="36" rx="6" fill="#f3f6ee" stroke="#4a6130" stroke-width="1.2"/>
+  <text x="620" y="243" text-anchor="middle" font-size="12" fill="#4a6130">知识源 4</text>
+  <polyline points="450,220 450,196 490,196 490,177" fill="none" stroke="#4a6130" stroke-width="1.4"/>
+  <polygon points="490,169 485.5,177 494.5,177" fill="#4a6130"/>
+  <polyline points="620,220 620,196 570,196 570,177" fill="none" stroke="#4a6130" stroke-width="1.4"/>
+  <polygon points="570,169 565.5,177 574.5,177" fill="#4a6130"/>
+  <text x="530" y="282" text-anchor="middle" font-size="11" fill="#22303f">知识源直接存取黑板，逐步逼近完整解</text>
+</svg></div><div class="cap">仓库与黑板体系结构风格（据教材图 7-13、7-14 重绘）</div></div>
+<h3>5. 虚拟机风格（7.3.5）⭐</h3>
+<p>基本思想：<b>人为构建一个运行环境</b>，在其上解析运行自定义语言，增加架构灵活性。</p>
+<table><colgroup><col style="width:8.3%"><col style="width:45.8%"><col style="width:45.8%"></colgroup><thead><tr><th>子风格</th><th>组成</th><th>特点</th></tr></thead><tbody><tr><td class="tc">解释器</td><td><b>解释引擎</b> + 被解释代码的<b>存储区</b> + 记录引擎<b>当前工作状态</b>的数据结构 + 记录源代码<b>执行进度</b>的数据结构</td><td>仿真硬件执行过程，弥合程序语义与硬件语义差异；<b>缺点：执行效率较低</b>；典型例子：专家系统</td></tr><tr><td class="tc">规则系统</td><td><b>规则集、规则解释器、规则/数据选择器、工作内存</b>（知识库含规则集与事实集）</td><td>基于规则推理，输入触发数据，经规则/数据选择后由解释器执行并更新工作内存</td></tr></tbody></table>
+<div class="fig"><div><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 330" font-family="Microsoft YaHei, 微软雅黑, sans-serif">
+  <rect x="0" y="0" width="720" height="330" fill="#ffffff"/>
+  <text x="185" y="24" text-anchor="middle" font-size="14" font-weight="bold" fill="#22303f">解释器：四部分组成</text>
+  <rect x="30" y="50" width="150" height="50" rx="6" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.2"/>
+  <text x="105" y="72" text-anchor="middle" font-size="12" font-weight="bold" fill="#1f4e79">被解释的程序</text>
+  <text x="105" y="90" text-anchor="middle" font-size="10" fill="#22303f">代码存储区</text>
+  <rect x="220" y="50" width="130" height="50" rx="6" fill="#fdf0e6" stroke="#c05621" stroke-width="1.2"/>
+  <text x="285" y="80" text-anchor="middle" font-size="13" font-weight="bold" fill="#c05621">解释引擎</text>
+  <rect x="30" y="170" width="150" height="50" rx="6" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.2"/>
+  <text x="105" y="192" text-anchor="middle" font-size="12" font-weight="bold" fill="#1f4e79">程序执行的当前状态</text>
+  <text x="105" y="210" text-anchor="middle" font-size="10" fill="#22303f">记录源代码执行进度</text>
+  <rect x="220" y="170" width="130" height="50" rx="6" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.2"/>
+  <text x="285" y="192" text-anchor="middle" font-size="12" font-weight="bold" fill="#1f4e79">解释引擎的</text>
+  <text x="285" y="210" text-anchor="middle" font-size="12" font-weight="bold" fill="#1f4e79">内部状态</text>
+  <line x1="180" y1="75" x2="209" y2="75" stroke="#1f4e79" stroke-width="1.4"/>
+  <polygon points="217,75 209,70.5 209,79.5" fill="#1f4e79"/>
+  <line x1="285" y1="100" x2="285" y2="159" stroke="#1f4e79" stroke-width="1.4"/>
+  <polygon points="285,167 280.5,159 289.5,159" fill="#1f4e79"/>
+  <line x1="180" y1="195" x2="209" y2="195" stroke="#1f4e79" stroke-width="1.4"/>
+  <polygon points="217,195 209,190.5 209,199.5" fill="#1f4e79"/>
+  <line x1="85" y1="100" x2="85" y2="159" stroke="#1f4e79" stroke-width="1.4"/>
+  <polygon points="85,167 80.5,159 89.5,159" fill="#1f4e79"/>
+  <line x1="125" y1="170" x2="125" y2="111" stroke="#1f4e79" stroke-width="1.4"/>
+  <polygon points="125,103 120.5,111 129.5,111" fill="#1f4e79"/>
+  <text x="185" y="250" text-anchor="middle" font-size="11" fill="#22303f">引擎读取代码与状态，逐条解释执行</text>
+  <text x="185" y="270" text-anchor="middle" font-size="11" fill="#22303f">缺点：效率较低；典型例子：专家系统</text>
+  <line x1="375" y1="14" x2="375" y2="318" stroke="#6b7a8a" stroke-width="1" stroke-dasharray="4 3"/>
+  <text x="545" y="24" text-anchor="middle" font-size="14" font-weight="bold" fill="#22303f">规则系统：四部分组成</text>
+  <rect x="420" y="44" width="250" height="44" rx="6" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.2"/>
+  <text x="545" y="71" text-anchor="middle" font-size="13" font-weight="bold" fill="#1f4e79">知识库（规则集 + 事实集）</text>
+  <rect x="420" y="124" width="250" height="40" rx="6" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.2"/>
+  <text x="545" y="149" text-anchor="middle" font-size="13" fill="#1f4e79">规则/数据选择器</text>
+  <rect x="420" y="200" width="250" height="40" rx="6" fill="#fdf0e6" stroke="#c05621" stroke-width="1.2"/>
+  <text x="545" y="225" text-anchor="middle" font-size="13" font-weight="bold" fill="#c05621">规则解释器</text>
+  <rect x="420" y="272" width="250" height="40" rx="6" fill="#f3f6ee" stroke="#4a6130" stroke-width="1.2"/>
+  <text x="545" y="297" text-anchor="middle" font-size="13" fill="#4a6130">工作内存</text>
+  <line x1="545" y1="88" x2="545" y2="113" stroke="#1f4e79" stroke-width="1.4"/>
+  <polygon points="545,121 540.5,113 549.5,113" fill="#1f4e79"/>
+  <line x1="545" y1="164" x2="545" y2="189" stroke="#1f4e79" stroke-width="1.4"/>
+  <polygon points="545,197 540.5,189 549.5,189" fill="#1f4e79"/>
+  <line x1="545" y1="240" x2="545" y2="261" stroke="#1f4e79" stroke-width="1.4"/>
+  <polygon points="545,269 540.5,261 549.5,261" fill="#1f4e79"/>
+  <text x="555" y="110" font-size="10" fill="#6b7a8a">规则/事实</text>
+  <text x="555" y="186" font-size="10" fill="#6b7a8a">被选择的规则/数据</text>
+  <text x="555" y="258" font-size="10" fill="#6b7a8a">更新</text>
+  <polyline points="670,292 700,292 700,144 681,144" fill="none" stroke="#6b7a8a" stroke-width="1.2" stroke-dasharray="5 3"/>
+  <polygon points="673,144 681,139.5 681,148.5" fill="#6b7a8a"/>
+  <text x="688" y="132" text-anchor="middle" font-size="10" fill="#6b7a8a">触发数据</text>
+</svg></div><div class="cap">解释器与规则系统的组成（据教材图 7-15、7-16 简化重绘）</div></div>
+<h3>6. 独立构件风格（7.3.6）⭐【高频考点】</h3>
+<p>每个构件相对独立、<b>不直接通信</b>，降低耦合度、提升灵活性。</p>
+<ul><li><b>进程通信</b>：构件是<b>独立的过程（命名过程）</b>，连接件是<b>消息传递</b>；方式可点到点、异步或同步、远程过程调用。</li><li><b>事件系统（隐式调用）</b> ⭐：构件<b>不直接调用过程</b>，而是<b>触发或广播事件</b>；其他构件的过程在事件中<b>注册</b>，事件触发时系统<b>自动调用</b>所有注册过程。</li></ul>
+<p>【易错】隐式调用的关键特征：<b>事件的触发者不知道哪些构件会被影响</b>，不能假定处理顺序，甚至不知道哪些过程会被调用；因此许多隐式调用系统也包含<b>显式调用</b>作为补充。</p>
+<div class="example">举例：调试器 Debugger 在断点停下时只「声明事件」，编辑器自动卷屏到断点、变量监视器自动刷新数值——Debugger 并不知道、也不关心谁会响应。这就像小区广播「停水通知」，广播员不用知道哪些住户会因此储水。</div>
+<div class="fig"><div><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 260" font-family="Microsoft YaHei, 微软雅黑, sans-serif">
+  <rect x="0" y="0" width="720" height="260" fill="#ffffff"/>
+  <text x="360" y="24" text-anchor="middle" font-size="15" font-weight="bold" fill="#22303f">事件系统：基于事件的隐式调用</text>
+  <rect x="40" y="90" width="130" height="50" rx="6" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.2"/>
+  <text x="105" y="112" text-anchor="middle" font-size="13" font-weight="bold" fill="#1f4e79">事件源</text>
+  <text x="105" y="130" text-anchor="middle" font-size="10" fill="#22303f">Event Source</text>
+  <rect x="300" y="90" width="150" height="50" rx="6" fill="#1f4e79"/>
+  <text x="375" y="112" text-anchor="middle" font-size="13" font-weight="bold" fill="#ffffff">事件管理器</text>
+  <text x="375" y="130" text-anchor="middle" font-size="10" fill="#ffffff">Event Manager</text>
+  <rect x="560" y="30" width="130" height="40" rx="6" fill="#f3f6ee" stroke="#4a6130" stroke-width="1.2"/>
+  <text x="625" y="55" text-anchor="middle" font-size="12" fill="#4a6130">事件处理器 1</text>
+  <rect x="560" y="95" width="130" height="40" rx="6" fill="#f3f6ee" stroke="#4a6130" stroke-width="1.2"/>
+  <text x="625" y="120" text-anchor="middle" font-size="12" fill="#4a6130">事件处理器 2</text>
+  <rect x="560" y="160" width="130" height="40" rx="6" fill="#f3f6ee" stroke="#4a6130" stroke-width="1.2"/>
+  <text x="625" y="185" text-anchor="middle" font-size="12" fill="#4a6130">事件处理器 3</text>
+  <line x1="170" y1="115" x2="289" y2="115" stroke="#1f4e79" stroke-width="1.5"/>
+  <polygon points="297,115 289,110.5 289,119.5" fill="#1f4e79"/>
+  <text x="234" y="102" text-anchor="middle" font-size="10" fill="#6b7a8a">发布事件</text>
+  <polyline points="450,100 505,100 505,50 549,50" fill="none" stroke="#4a6130" stroke-width="1.5"/>
+  <polygon points="557,50 549,45.5 549,54.5" fill="#4a6130"/>
+  <line x1="450" y1="115" x2="549" y2="115" stroke="#4a6130" stroke-width="1.5"/>
+  <polygon points="557,115 549,110.5 549,119.5" fill="#4a6130"/>
+  <polyline points="450,130 505,130 505,180 549,180" fill="none" stroke="#4a6130" stroke-width="1.5"/>
+  <polygon points="557,180 549,175.5 549,184.5" fill="#4a6130"/>
+  <text x="452" y="155" font-size="10" fill="#6b7a8a">分发/通知</text>
+  <text x="360" y="232" text-anchor="middle" font-size="12" fill="#22303f">过程在事件中注册，事件触发时自动调用所有注册过程</text>
+  <text x="360" y="252" text-anchor="middle" font-size="12" fill="#c05621">触发者不知道哪些构件被影响，也不能假定处理顺序</text>
+</svg></div><div class="cap">事件系统的隐式调用（据教材图 7-17 重绘）</div></div>
+<h3>2.4 软件架构复用（7.4）</h3>
+<h3>1. 定义与分类（7.4.1）⭐</h3>
+<ul><li><b>软件产品线</b>：一组软件密集型系统，共享公共可管理的特性集，以规定方式用<b>公共核心资产</b>集成开发。核心资产库包括软件架构及可剪裁元素，还包括设计文档、用户手册、项目管理历史记录、测试计划与用例等。</li><li><b>软件复用</b>：系统化的软件开发过程——通过<b>识别、开发、分类、获取和修改</b>软件实体，在不同开发过程中重复使用它们。</li><li><b>复用分类</b> ⭐【高频考点】：<b>机会复用</b>（开发过程中发现可复用资产就复用）与<b>系统复用</b>（<b>开发之前</b>就规划决定哪些需要复用）。</li></ul>
+<div class="example">举例：写代码时顺手把上个项目的工具函数拷过来，是机会复用；公司立项时就规划「支付、鉴权两个模块全线产品统一复用」，是系统复用。</div>
+<h3>2. 复用的原因（7.4.2）</h3>
+<p>减少开发工作、缩短时间、降低成本、提高生产力；提高产品质量与<b>互操作性</b>；使维护更简单。复用核心资产并采用产品线可显著提高效率、缩短上市时间。</p>
+<h3>3. 复用的对象及形式（7.4.3）</h3>
+<p>可复用资产非常广，共<b>十类</b>：<b>需求、架构设计、元素、建模与分析、测试、项目规划、过程方法工具、人员、样本系统、缺陷消除</b>。一般形式复用包括函数、库、类/接口/包的复用；趋势是复用体<b>由小粒度向大粒度发展</b>。</p>
+<h3>4. 复用的基本过程（7.4.4）⭐【高频考点】</h3>
+<table><colgroup><col style="width:16.1%"><col style="width:35.0%"><col style="width:48.9%"></colgroup><thead><tr><th>阶段</th><th>做什么</th><th>关键点</th></tr></thead><tbody><tr><td>① 构造/获取可复用资产</td><td>构造恰当可复用资产</td><td>资产须<b>可靠、可被广泛使用、易于理解和修改</b></td></tr><tr><td>② 管理可复用资产</td><td>用<b>构件库</b>存储管理</td><td>构件库功能：存储、管理、检索、浏览维护；两个关键问题：<b>构件分类</b>（按特定方式组织）与<b>构件检索</b>（快速准确找到构件）</td></tr><tr><td>③ 使用可复用资产</td><td>检索→获取→定制（<b>修改、扩展、配置</b>）→<b>组装与集成</b>成最终系统</td><td>以需求为导向</td></tr></tbody></table>
+<div class="fig"><div><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 205" font-family="Microsoft YaHei, 微软雅黑, sans-serif">
+  <rect x="0" y="0" width="720" height="205" fill="#ffffff"/>
+  <text x="360" y="26" text-anchor="middle" font-size="15" font-weight="bold" fill="#22303f">软件架构复用的基本过程</text>
+  <rect x="30" y="60" width="180" height="60" rx="6" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.2"/>
+  <text x="120" y="86" text-anchor="middle" font-size="13" font-weight="bold" fill="#1f4e79">① 构造/获取</text>
+  <text x="120" y="106" text-anchor="middle" font-size="13" font-weight="bold" fill="#1f4e79">可复用资产</text>
+  <rect x="280" y="60" width="170" height="60" rx="6" fill="#fdf0e6" stroke="#c05621" stroke-width="1.2"/>
+  <text x="365" y="86" text-anchor="middle" font-size="13" font-weight="bold" fill="#c05621">② 可复用资产库</text>
+  <text x="365" y="106" text-anchor="middle" font-size="12" fill="#22303f">构件库</text>
+  <rect x="520" y="60" width="170" height="60" rx="6" fill="#f3f6ee" stroke="#4a6130" stroke-width="1.2"/>
+  <text x="605" y="86" text-anchor="middle" font-size="13" font-weight="bold" fill="#4a6130">③ 复用这些资产</text>
+  <text x="605" y="106" text-anchor="middle" font-size="12" fill="#22303f">定制后组装集成</text>
+  <line x1="210" y1="90" x2="269" y2="90" stroke="#1f4e79" stroke-width="1.5"/>
+  <polygon points="277,90 269,85.5 269,94.5" fill="#1f4e79"/>
+  <text x="243" y="76" text-anchor="middle" font-size="11" fill="#6b7a8a">入库</text>
+  <line x1="450" y1="90" x2="509" y2="90" stroke="#1f4e79" stroke-width="1.5"/>
+  <polygon points="517,90 509,85.5 509,94.5" fill="#1f4e79"/>
+  <text x="485" y="76" text-anchor="middle" font-size="10" fill="#6b7a8a">选择/定制/组装</text>
+  <text x="360" y="150" text-anchor="middle" font-size="11" fill="#22303f">获取：资产须可靠、可被广泛使用、易于理解和修改</text>
+  <text x="360" y="170" text-anchor="middle" font-size="11" fill="#22303f">管理：构件库支持存储、管理、检索与浏览维护；关键是构件分类与构件检索</text>
+  <text x="360" y="190" text-anchor="middle" font-size="11" fill="#22303f">使用：检索获取后修改、扩展、配置，再组装与集成形成最终系统</text>
+</svg></div><div class="cap">软件架构复用的基本过程（据教材图 7-18 重绘）</div></div>
+<h3>2.5 特定领域软件体系结构 DSSA（7.5）⭐【重点】【高频考点】</h3>
+<h3>1. 定义与特征（7.5.1）</h3>
+<div class="def">教材原文（Hayes Roth）：<b>DSSA 就是专用于一类特定类型的任务（领域）的、在整个领域中能有效地使用的、为成功构造应用系统限定了标准的组合结构的软件构件的集合。</b></div>
+<p>Tracz 的定义：DSSA 是支持一组应用的<b>领域模型、参考需求、参考体系结构</b>等组成的开发基础，目标是支持特定领域中<b>多个应用的生成</b>。通俗地说，DSSA 就是「同一行业的一类系统，共用一套标准架构骨架」。</p>
+<p><b>DSSA 四个必备特征</b> ⭐：①严格定义的<b>问题域和问题解域</b>；②<b>普遍性</b>（可用于领域中特定应用开发）；③对整个领域<b>构件组织模型的恰当抽象</b>；④具备该领域固定的、典型的<b>可重用元素</b>。</p>
+<p><b>领域的两种理解</b> ⭐【易错】：<b>垂直域</b>——定义一个特定<b>系统族</b>，覆盖族内多个系统，产出通用软件体系结构（只能应用于<b>成熟、稳定的领域</b>）；<b>水平域</b>——定义多个系统、多个系统族中<b>功能区域的共有部分</b>，在<b>子系统级</b>涵盖多个系统族的特定功能。垂直域条件难满足时，可把领域<b>分割成较小范围</b>。</p>
+<h3>2. 基本活动（7.5.2）⭐</h3>
+<table><colgroup><col style="width:10.7%"><col style="width:30.7%"><col style="width:58.7%"></colgroup><thead><tr><th>活动</th><th>目标</th><th>要点</th></tr></thead><tbody><tr><td class="tc">领域分析</td><td>获得<b>领域模型</b></td><td>定义领域边界、识别信息源（现存系统、文献、专家、用户调查等）；选<b>样本系统</b>，区分共同需求与独有需求</td></tr><tr><td class="tc">领域设计</td><td>获得 <b>DSSA</b></td><td>不是单个系统表示，而是适应多系统的高层设计；通过<b>多选一、可选</b>方案体现变化性；同时形成<b>重用基础设施的规约</b></td></tr><tr><td class="tc">领域实现</td><td>依据领域模型和 DSSA <b>开发组织可重用信息</b></td><td>可从现有系统提取或新开发；是<b>重用基础设施的实现</b>阶段</td></tr></tbody></table>
+<p>整个过程是<b>反复的、逐渐求精</b>的，每个阶段都可能返回前面的步骤修改完善。</p>
+<div class="mnemonic">助记：DSSA 三活动产出——「分析出模型、设计出架构、实现出构件」。</div>
+<h3>3. 参与 DSSA 的人员（7.5.3）⭐【高频考点】</h3>
+<table><colgroup><col style="width:14.1%"><col style="width:23.9%"><col style="width:62.0%"></colgroup><thead><tr><th>角色</th><th>谁来担任</th><th>主要任务</th></tr></thead><tbody><tr><td class="tc">领域专家</td><td>有经验的用户、软件工程师等</td><td>提供领域知识；组织<b>领域字典</b>；帮助选择<b>样本系统</b>；<b>复审</b>领域模型与 DSSA</td></tr><tr><td class="tc">领域分析人员</td><td>有知识工程背景的系统分析员</td><td>控制<b>领域分析</b>过程；知识获取并组织到<b>领域模型</b>；验证与维护领域模型</td></tr><tr><td class="tc">领域设计人员</td><td>有经验的软件设计人员</td><td>控制软件设计过程；根据领域模型<b>开发出 DSSA</b>；验证 DSSA；建立领域模型与 DSSA 的联系</td></tr><tr><td class="tc">领域实现人员</td><td>有经验的程序设计人员</td><td>从头开发或用<b>再工程</b>从现有系统<b>提取可重用构件</b>；验证构件；建立 DSSA 与构件间联系</td></tr></tbody></table>
+<p>【易错】「开发 DSSA」是<b>领域设计人员</b>的事，「开发可重用构件」是<b>领域实现人员</b>的事；「复审领域模型」找<b>领域专家</b>，「维护领域模型」找<b>领域分析人员</b>。</p>
+<h3>4. DSSA 的建立过程与三层模型（7.5.4）⭐</h3>
+<p>建立过程分<b>五个阶段</b>：①<b>定义领域范围</b>（确定领域中有什么、何时结束）；②<b>定义领域特定的元素</b>（编译<b>领域字典</b>和同义词词典，识别共同性与差异性）；③<b>定义领域特定的设计和实现需求约束</b>（描述解空间有差别的特性，记录约束后果）；④<b>定义领域模型和体系结构</b>（产生一般体系结构，说明构件语法语义）；⑤<b>产生、搜集可重用的产品单元</b>（为 DSSA 增加构件）。</p>
+<p>该过程是<b>并发的、递归的、反复的</b>（螺旋模型），每阶段可能经历多遍、每次增加细节。</p>
+<p><b>DSSA 三层次系统模型</b> ⭐：<b>领域开发环境</b>（领域架构师，参考需求/领域模型/参考结构/开发工具）→ <b>领域特定的应用开发环境</b>（应用工程师，实例化的体系结构）→ <b>应用执行环境</b>（操作员）。</p>
+<div class="fig"><div><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 345" font-family="Microsoft YaHei, 微软雅黑, sans-serif">
+  <rect x="0" y="0" width="720" height="345" fill="#ffffff"/>
+  <text x="360" y="26" text-anchor="middle" font-size="15" font-weight="bold" fill="#22303f">DSSA 三层次系统模型</text>
+  <rect x="60" y="46" width="600" height="80" rx="8" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.4"/>
+  <text x="360" y="76" text-anchor="middle" font-size="15" font-weight="bold" fill="#1f4e79">领域开发环境（领域架构师）</text>
+  <text x="360" y="102" text-anchor="middle" font-size="12" fill="#22303f">参考需求 · 领域模型 · 参考结构 · 开发工具</text>
+  <line x1="250" y1="126" x2="250" y2="155" stroke="#1f4e79" stroke-width="1.5"/>
+  <polygon points="250,163 245.5,155 254.5,155" fill="#1f4e79"/>
+  <line x1="470" y1="126" x2="470" y2="155" stroke="#1f4e79" stroke-width="1.5"/>
+  <polygon points="470,163 465.5,155 474.5,155" fill="#1f4e79"/>
+  <text x="485" y="150" font-size="11" fill="#6b7a8a">派生 / 实例化</text>
+  <rect x="60" y="166" width="600" height="70" rx="8" fill="#f3f6ee" stroke="#4a6130" stroke-width="1.4"/>
+  <text x="360" y="194" text-anchor="middle" font-size="15" font-weight="bold" fill="#4a6130">领域特定的应用开发环境（应用工程师）</text>
+  <text x="360" y="218" text-anchor="middle" font-size="12" fill="#22303f">实例化的体系结构</text>
+  <line x1="250" y1="236" x2="250" y2="265" stroke="#4a6130" stroke-width="1.5"/>
+  <polygon points="250,273 245.5,265 254.5,265" fill="#4a6130"/>
+  <line x1="470" y1="236" x2="470" y2="265" stroke="#4a6130" stroke-width="1.5"/>
+  <polygon points="470,273 465.5,265 474.5,265" fill="#4a6130"/>
+  <text x="485" y="260" font-size="11" fill="#6b7a8a">部署运行</text>
+  <rect x="60" y="276" width="600" height="56" rx="8" fill="#fdf0e6" stroke="#c05621" stroke-width="1.4"/>
+  <text x="360" y="300" text-anchor="middle" font-size="15" font-weight="bold" fill="#c05621">应用执行环境（操作员）</text>
+  <text x="360" y="322" text-anchor="middle" font-size="12" fill="#22303f">具体应用的运行</text>
+</svg></div><div class="cap">DSSA 三层次系统模型（据教材图 7-19 重绘）</div></div>
+<h2>三、重点与易错点</h2>
+<table><colgroup><col style="width:7.4%"><col style="width:17.8%"><col style="width:41.7%"><col style="width:33.1%"></colgroup><thead><tr><th>#</th><th>考点</th><th>必须记住的结论</th><th>易错提醒</th></tr></thead><tbody><tr><td class="tc">1</td><td>架构定义</td><td>构件 + 外部可见属性 + 相互关系（Bass 定义）</td><td>架构是「表达」不是可运行软件</td></tr><tr><td class="tc">2</td><td>架构设计两层次</td><td>数据设计 + 体系结构设计</td><td>不要写成「概要设计 + 详细设计」</td></tr><tr><td class="tc">3</td><td>生命周期六阶段</td><td>需求、设计、实现、构件组装、部署、后开发</td><td>「构件组装」独立成阶段，别漏</td></tr><tr><td class="tc">4</td><td>ADL 的特征</td><td>支持构件、连接子及配置；<b>重视连接子</b>是区别于其他建模语言的标志</td><td>ADL 大多不显式支持多视图</td></tr><tr><td class="tc">5</td><td>4+1 模型</td><td>逻辑、进程、开发、物理 + 场景</td><td>「+1」是场景；Hofmeister 是概念/模块/执行/代码</td></tr><tr><td class="tc">6</td><td>体系结构失配</td><td>构件假设与环境实际不同导致冲突；分构件、连接子、全局架构三类</td><td>Garlan 等 1995 年提出</td></tr><tr><td class="tc">7</td><td>ABSD 三基础</td><td>功能分解（内聚耦合）、选风格实现质量商业需求、软件模板</td><td>驱动是「商业+质量+功能需求组合」</td></tr><tr><td class="tc">8</td><td>用例 vs 质量场景</td><td>用例捕获功能需求，质量场景捕获质量需求（含预期与非预期）</td><td>非预期场景用于确定边界条件</td></tr><tr><td class="tc">9</td><td>ABSD 六子过程</td><td>需求、设计、文档化、复审、实现、演化</td><td>文档化输出<b>两个</b>文档：规格说明+质量设计说明书</td></tr><tr><td class="tc">10</td><td>标识构件三步</td><td>生成类图→对类分组→把类打包成构件</td><td>分组规则：隔离、概括关联、聚合/合成关联各成组</td></tr><tr><td class="tc">11</td><td>架构演化六步</td><td>归类→计划→构件变动→更新交互→组装测试→技术评审</td><td>不符合需求在第②～⑥步间迭代</td></tr><tr><td class="tc">12</td><td>五大类风格</td><td>数据流、调用/返回、以数据为中心、虚拟机、独立构件</td><td>黑板属「以数据为中心」，解释器属「虚拟机」</td></tr><tr><td class="tc">13</td><td>批处理 vs 管道-过滤器</td><td>批处理整体传递、逐步串行；管道-过滤器流式传递</td><td>管道-过滤器构件是过滤器、连接件是管道</td></tr><tr><td class="tc">14</td><td>两层/三层 C/S</td><td>三层增加应用服务器；表示层/功能层/数据层</td><td>两层胖客户机，三层瘦客户机</td></tr><tr><td class="tc">15</td><td>事件系统隐式调用</td><td>触发者不知道谁被影响、不假定处理顺序</td><td>可包含显式调用作补充；进程通信构件是命名过程</td></tr><tr><td class="tc">16</td><td>复用分类与过程</td><td>机会复用/系统复用；获取→管理（构件库）→使用</td><td>管理两关键：构件分类、构件检索</td></tr><tr><td class="tc">17</td><td>DSSA 垂直/水平域</td><td>垂直域=系统族通用架构；水平域=跨系统族共有功能（子系统级）</td><td>垂直域要求领域成熟稳定</td></tr><tr><td class="tc">18</td><td>DSSA 活动与角色</td><td>分析→领域模型；设计→DSSA；实现→可重用构件；四角色各司其职</td><td>开发 DSSA 是设计人员，开发构件是实现人员</td></tr></tbody></table>
+<h2>四、练习与真题</h2>
+<p>以下为本章自编模拟单选题，答案集中放在全章最后。</p>
+<p><b>1.</b> 根据 Bass 等人的定义，软件体系结构不包括下列哪项内容？</p>
+<p>A. 软件的构件  B. 构件的外部可见属性  C. 构件之间的相互关系  D. 构件内部的算法实现细节</p>
+<p><b>2.</b> 在软件架构生命周期中，研究「动态软件体系结构」和「体系结构恢复与重建」属于哪个阶段？</p>
+<p>A. 设计阶段  B. 实现阶段  C. 构件组装阶段  D. 后开发阶段</p>
+<p><b>3.</b> 关于体系结构描述语言（ADL），下列说法正确的是？</p>
+<p>A. ADL 只描述构件，不描述连接子</p>
+<p>B. 对连接子的重视是区分 ADL 与其他建模语言的重要特征</p>
+<p>C. 现阶段的 ADL 大多显式支持多视图表示</p>
+<p>D. UML 是典型的 ADL，二者完全等同</p>
+<p><b>4.</b> ABSD 方法的三个基础是功能分解、选择体系结构风格实现质量和商业需求，以及？</p>
+<p>A. 软件模板的使用  B. 严格的需求冻结  C. 形式化验证  D. 面向对象分析</p>
+<p><b>5.</b> 在 ABSD 中，用于捕获质量需求的是？</p>
+<p>A. 用例  B. 数据流图  C. 质量场景  D. 类图</p>
+<p><b>6.</b> ABSD 模型把整个软件过程划分为六个子过程，下列哪项不属于其中？</p>
+<p>A. 体系结构需求  B. 体系结构文档化  C. 体系结构复审  D. 体系结构部署</p>
+<p><b>7.</b> 体系结构文档化过程的主要输出结果是体系结构规格说明和？</p>
+<p>A. 测试体系结构需求的质量设计说明书  B. 详细设计说明书  C. 用户操作手册  D. 项目开发计划</p>
+<p><b>8.</b> ABSD 标识构件过程的正确步骤顺序是？</p>
+<p>A. 对类进行分组→生成类图→把类打包成构件</p>
+<p>B. 生成类图→把类打包成构件→对类进行分组</p>
+<p>C. 生成类图→对类进行分组→把类打包成构件</p>
+<p>D. 把类打包成构件→生成类图→对类进行分组</p>
+<p><b>9.</b> 某系统由词法分析、语法分析、语义分析、代码生成等步骤组成，前一步的输出作为后一步的输入，数据以流的方式传递。该系统采用的架构风格是？</p>
+<p>A. 批处理  B. 管道-过滤器  C. 黑板  D. 主程序/子程序</p>
+<p><b>10.</b> 语音识别系统通常综合多种知识源，围绕共享数据结构逐步求解复杂的非结构化问题，最适合采用的架构风格是？</p>
+<p>A. 仓库  B. 黑板  C. 解释器  D. 事件系统</p>
+<p><b>11.</b> 关于基于事件的隐式调用风格，下列说法错误的是？</p>
+<p>A. 构件通过触发或广播事件进行交互</p>
+<p>B. 事件的触发者不知道哪些构件会被这些事件影响</p>
+<p>C. 构件之间必须直接调用对方的过程</p>
+<p>D. 许多隐式调用系统也包含显式调用作为补充</p>
+<p><b>12.</b> 在 DSSA 活动中，负责「控制整个软件设计过程，根据领域模型开发出 DSSA」的角色是？</p>
+<p>A. 领域专家  B. 领域分析人员  C. 领域设计人员  D. 领域实现人员</p>
+<h2>五、疑问与查漏补缺</h2>
+<ol><li><b>大纲 6.1.1 要求「发展历程」</b>：本章未展开，该内容在<b>第 1 章 1.1.1</b> 系统讲述，两章应合并记忆；UML、IEEE 1471-2000 的细节同样见第 1 章。</li><li><b>教材笔误/印刷瑕疵</b>：7.1.1 节末「其日标是」应为「其目标是」；7.5.4 两处「Tract」与 7.5.1 的「Tracz」为同一人，拼写不一致；图 7-11 以「主机+终端」示意早期 C/S，理解时以文字定义为准。</li><li><b>与其他章衔接</b>：质量场景与六属性场景在<b>第 8 章</b>展开；动态演化与架构恢复重建在<b>第 10 章</b>深入；层次型、C/S 的工程落地见<b>第 13 章</b>；DSSA 与产品线实践可对照<b>第 12 章</b>。</li><li><b>大纲 6.2.7 复审的「要求」</b>：教材只给出原则（外部人员参加、搭建可运行最小化系统、标识风险），未给量化指标，答题按「目的=标识风险、发现缺陷；方式=外部人员+最小化系统」组织即可。</li></ol>
+<h2>六、参考答案</h2>
+<p><b>1.</b> D。架构包括构件、构件的外部可见属性和相互关系，不关心内部算法实现细节。</p>
+<p><b>2.</b> D。后开发阶段围绕维护、演化、复用，典型方向是动态软件体系结构与体系结构恢复重建。</p>
+<p><b>3.</b> B。ADL 支持构件、连接子及其配置，重视连接子是其重要特征；现阶段 ADL 大多不显式支持多视图。</p>
+<p><b>4.</b> A。ABSD 三基础：功能分解、通过选择架构风格实现质量和商业需求、软件模板的使用。</p>
+<p><b>5.</b> C。用例捕获功能需求，质量场景捕获质量需求（变更、性能、可靠性、交互性）。</p>
+<p><b>6.</b> D。六子过程为需求、设计、文档化、复审、实现、演化，不含「部署」。</p>
+<p><b>7.</b> A。文档化输出体系结构规格说明与测试体系结构需求的质量设计说明书两个文档。</p>
+<p><b>8.</b> C。标识构件三步：生成类图→对类进行分组→把类打包成构件。</p>
+<p><b>9.</b> B。步骤间以数据流连接、流式传递是管道-过滤器；批处理要求数据完整整体传递。</p>
+<p><b>10.</b> B。黑板适用于复杂非结构化问题，综合多种知识源，传统应用即语音识别、模式识别。</p>
+<p><b>11.</b> C。隐式调用中构件不直接调用过程，而是触发/广播事件，由系统自动调用注册过程。</p>
+<p><b>12.</b> C。开发 DSSA 是领域设计人员的任务；领域实现人员负责开发或提取可重用构件。</p>
+<div class="footer">第7章 系统架构设计基础知识 · A4 打印版 · 由 README.md 统一生成</div>
+</div>
+</body>
+</html>

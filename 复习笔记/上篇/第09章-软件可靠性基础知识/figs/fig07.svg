@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 490" width="720" height="490" font-family="Microsoft YaHei, 微软雅黑, sans-serif">
+  <rect width="720" height="490" fill="#ffffff"/>
+  <text x="360" y="32" text-anchor="middle" font-size="22" font-weight="bold" fill="#1f4e79">软件可靠性模型的十种类型</text>
+  <g>
+    <rect x="40" y="55" width="305" height="70" rx="8" fill="#eaf1f8" stroke="#1f4e79"/>
+    <text x="55" y="79" font-size="13.5" font-weight="bold" fill="#1f4e79">1. 种子法模型</text>
+    <text x="55" y="99" font-size="11.5" fill="#22303f">预先播种设定错误，按原始错误与诱导</text>
+    <text x="55" y="116" font-size="11.5" fill="#22303f">错误比例，估计程序中残留的错误数</text>
+    <rect x="375" y="55" width="305" height="70" rx="8" fill="#eaf1f8" stroke="#1f4e79"/>
+    <text x="390" y="79" font-size="13.5" font-weight="bold" fill="#1f4e79">2. 失效率类模型</text>
+    <text x="390" y="99" font-size="11.5" fill="#22303f">研究程序失效率，如 Jelinski-Moranda、</text>
+    <text x="390" y="116" font-size="11.5" fill="#22303f">Schick-Wolverton 等模型</text>
+    <rect x="40" y="135" width="305" height="70" rx="8" fill="#eaf1f8" stroke="#1f4e79"/>
+    <text x="55" y="159" font-size="13.5" font-weight="bold" fill="#1f4e79">3. 曲线拟合类模型</text>
+    <text x="55" y="179" font-size="11.5" fill="#22303f">用回归分析研究软件复杂性、缺陷数、</text>
+    <text x="55" y="196" font-size="11.5" fill="#22303f">失效率与失效间隔时间</text>
+    <rect x="375" y="135" width="305" height="70" rx="8" fill="#eaf1f8" stroke="#1f4e79"/>
+    <text x="390" y="159" font-size="13.5" font-weight="bold" fill="#1f4e79">4. 可靠性增长模型</text>
+    <text x="390" y="179" font-size="11.5" fill="#22303f">用增长函数描述检错过程中的可靠性改</text>
+    <text x="390" y="196" font-size="11.5" fill="#22303f">进，如 Duane、Weibull 模型</text>
+    <rect x="40" y="215" width="305" height="70" rx="8" fill="#eaf1f8" stroke="#1f4e79"/>
+    <text x="55" y="239" font-size="13.5" font-weight="bold" fill="#1f4e79">5. 程序结构分析模型</text>
+    <text x="55" y="259" font-size="11.5" fill="#22303f">按模块调用关系组成分析网络，合成整</text>
+    <text x="55" y="276" font-size="11.5" fill="#22303f">体可靠性，如 Cheung 模型</text>
+    <rect x="375" y="215" width="305" height="70" rx="8" fill="#eaf1f8" stroke="#1f4e79"/>
+    <text x="390" y="239" font-size="13.5" font-weight="bold" fill="#1f4e79">6. 输入域分类模型</text>
+    <text x="390" y="259" font-size="11.5" fill="#22303f">按输入域样本点的使用概率与测试结果</text>
+    <text x="390" y="276" font-size="11.5" fill="#22303f">推断使用可靠性，如 Nelson 模型</text>
+    <rect x="40" y="295" width="305" height="70" rx="8" fill="#eaf1f8" stroke="#1f4e79"/>
+    <text x="55" y="319" font-size="13.5" font-weight="bold" fill="#1f4e79">7. 执行路径分析方法模型</text>
+    <text x="55" y="339" font-size="11.5" fill="#22303f">先算各逻辑路径与错误路径的执行概率，</text>
+    <text x="55" y="356" font-size="11.5" fill="#22303f">再综合出软件的使用可靠性</text>
+    <rect x="375" y="295" width="305" height="70" rx="8" fill="#eaf1f8" stroke="#1f4e79"/>
+    <text x="390" y="319" font-size="13.5" font-weight="bold" fill="#1f4e79">8. 非齐次泊松过程模型（NHPP）</text>
+    <text x="390" y="339" font-size="11.5" fill="#22303f">以单位时间失效次数为独立泊松变量，</text>
+    <text x="390" y="356" font-size="11.5" fill="#22303f">预测累计失效数，如 G-O 模型</text>
+    <rect x="40" y="375" width="305" height="70" rx="8" fill="#eaf1f8" stroke="#1f4e79"/>
+    <text x="55" y="399" font-size="13.5" font-weight="bold" fill="#1f4e79">9. 马尔可夫过程模型</text>
+    <text x="55" y="419" font-size="11.5" fill="#22303f">如完全改错、不完全改错的线性死亡模</text>
+    <text x="55" y="436" font-size="11.5" fill="#22303f">型，以及非静态线性死亡模型</text>
+    <rect x="375" y="375" width="305" height="70" rx="8" fill="#eaf1f8" stroke="#1f4e79"/>
+    <text x="390" y="399" font-size="13.5" font-weight="bold" fill="#1f4e79">10. 贝叶斯分析模型</text>
+    <text x="390" y="419" font-size="11.5" fill="#22303f">利用失效率先验分布与当前测试失效信</text>
+    <text x="390" y="436" font-size="11.5" fill="#22303f">息评估可靠性，适合继承性好的软件</text>
+  </g>
+  <text x="360" y="472" text-anchor="middle" font-size="12.5" fill="#22303f">Musa 与 Okumoto 另按时间域、失效数类、失效数分布、有限/无限类对模型分类</text>
+</svg>

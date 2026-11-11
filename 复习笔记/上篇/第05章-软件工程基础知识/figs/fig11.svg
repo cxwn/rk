@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 330" font-family="Microsoft YaHei, 微软雅黑, sans-serif">
+  <rect width="720" height="330" fill="#ffffff"/>
+  <text x="360" y="32" text-anchor="middle" font-size="20" font-weight="bold" fill="#1f4e79">净室盒子结构：从外部行为到过程实现</text>
+  <g text-anchor="middle">
+    <rect x="35" y="85" width="200" height="145" rx="8" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.8"/>
+    <text x="135" y="120" font-size="21" font-weight="bold" fill="#1f4e79">黑盒</text>
+    <text x="135" y="148" font-size="16" fill="#22303f">行为视图</text>
+    <text x="135" y="179" font-size="14" fill="#6b7a8a">外部可观察行为</text>
+    <text x="135" y="204" font-size="14" fill="#6b7a8a">输入 → 输出</text>
+    <rect x="260" y="85" width="200" height="145" rx="8" fill="#fdf0e6" stroke="#c05621" stroke-width="1.8"/>
+    <text x="360" y="120" font-size="21" font-weight="bold" fill="#c05621">状态盒</text>
+    <text x="360" y="148" font-size="16" fill="#22303f">有限状态机视图</text>
+    <text x="360" y="179" font-size="14" fill="#6b7a8a">状态 + 状态迁移</text>
+    <text x="360" y="204" font-size="14" fill="#6b7a8a">仍隐藏具体过程</text>
+    <rect x="485" y="85" width="200" height="145" rx="8" fill="#f3f6ee" stroke="#4a6130" stroke-width="1.8"/>
+    <text x="585" y="120" font-size="21" font-weight="bold" fill="#4a6130">明盒</text>
+    <text x="585" y="148" font-size="16" fill="#22303f">过程视图</text>
+    <text x="585" y="179" font-size="14" fill="#6b7a8a">过程与算法实现</text>
+    <text x="585" y="204" font-size="14" fill="#6b7a8a">逐步求精</text>
+  </g>
+  <line x1="235" y1="157" x2="249" y2="157" stroke="#1f4e79" stroke-width="1.5"/>
+  <polygon points="257,157 249,152.5 249,161.5" fill="#1f4e79"/>
+  <line x1="460" y1="157" x2="474" y2="157" stroke="#1f4e79" stroke-width="1.5"/>
+  <polygon points="482,157 474,152.5 474,161.5" fill="#1f4e79"/>
+  <rect x="95" y="260" width="530" height="44" rx="7" fill="#f3f6ee" stroke="#8aa15c"/>
+  <text x="360" y="288" text-anchor="middle" font-size="15" fill="#4a6130">规范逐层细化，正确性验证贯穿；统计测试依据使用模型抽样</text>
+</svg>

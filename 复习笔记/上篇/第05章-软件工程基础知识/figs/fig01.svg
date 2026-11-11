@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 475" font-family="Microsoft YaHei, 微软雅黑, sans-serif">
+  <rect width="720" height="475" fill="#ffffff"/>
+  <text x="360" y="30" text-anchor="middle" font-size="20" font-weight="bold" fill="#1f4e79">瀑布模型：阶段依次下降，阶段末设置里程碑</text>
+  <g font-size="16" text-anchor="middle" fill="#22303f">
+    <rect x="30" y="50" width="170" height="32" rx="4" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.5"/><text x="115" y="72">需求分析</text>
+    <rect x="72" y="102" width="170" height="32" rx="4" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.5"/><text x="157" y="124">系统设计</text>
+    <rect x="114" y="154" width="170" height="32" rx="4" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.5"/><text x="199" y="176">程序设计</text>
+    <rect x="156" y="206" width="170" height="32" rx="4" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.5"/><text x="241" y="228">编码实现</text>
+    <rect x="198" y="258" width="170" height="32" rx="4" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.5"/><text x="283" y="280">单元测试</text>
+    <rect x="240" y="310" width="170" height="32" rx="4" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.5"/><text x="325" y="332">集成测试</text>
+    <rect x="282" y="362" width="170" height="32" rx="4" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.5"/><text x="367" y="384">系统测试</text>
+    <rect x="324" y="414" width="170" height="32" rx="4" fill="#f3f6ee" stroke="#4a6130" stroke-width="1.5"/><text x="409" y="436">运行维护</text>
+  </g>
+  <g stroke="#1f4e79" stroke-width="1.5" fill="none">
+    <path d="M115 82 V90 H157 V91"/><path d="M157 134 V142 H199 V143"/>
+    <path d="M199 186 V194 H241 V195"/><path d="M241 238 V246 H283 V247"/>
+    <path d="M283 290 V298 H325 V299"/><path d="M325 342 V350 H367 V351"/>
+    <path d="M367 394 V402 H409 V403"/>
+  </g>
+  <g fill="#1f4e79">
+    <polygon points="157,99 152.5,91 161.5,91"/><polygon points="199,151 194.5,143 203.5,143"/>
+    <polygon points="241,203 236.5,195 245.5,195"/><polygon points="283,255 278.5,247 287.5,247"/>
+    <polygon points="325,307 320.5,299 329.5,299"/><polygon points="367,359 362.5,351 371.5,351"/>
+    <polygon points="409,411 404.5,403 413.5,403"/>
+  </g>
+  <rect x="535" y="184" width="150" height="96" rx="8" fill="#fdf0e6" stroke="#c05621" stroke-width="1.5"/>
+  <text x="610" y="215" text-anchor="middle" font-size="16" font-weight="bold" fill="#c05621">每阶段审查确认</text>
+  <text x="610" y="244" text-anchor="middle" font-size="15" fill="#22303f">里程碑＝一组</text>
+  <text x="610" y="266" text-anchor="middle" font-size="15" fill="#22303f">检查条件</text>
+  <text x="570" y="329" text-anchor="middle" font-size="14" fill="#6b7a8a">前阶段输出</text>
+  <text x="570" y="351" text-anchor="middle" font-size="14" fill="#6b7a8a">是后阶段输入</text>
+</svg>

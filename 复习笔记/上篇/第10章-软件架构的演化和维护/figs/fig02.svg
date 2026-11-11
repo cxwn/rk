@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 430" font-family="Microsoft YaHei, 微软雅黑, sans-serif">
+  <text x="360" y="30" text-anchor="middle" font-size="20" font-weight="bold" fill="#1f4e79">对象演化与五类消息演化</text>
+  <rect x="30" y="55" width="660" height="125" rx="8" fill="#f8fbfd" stroke="#b8c7d6"/>
+  <text x="360" y="80" text-anchor="middle" font-size="15" font-weight="bold" fill="#6b7a8a">对象动态行为演化</text>
+  <rect x="60" y="95" width="270" height="60" rx="7" fill="#eaf1f8" stroke="#1f4e79"/>
+  <text x="195" y="121" text-anchor="middle" font-size="17" font-weight="bold" fill="#1f4e79">AO：添加对象</text>
+  <text x="195" y="143" text-anchor="middle" font-size="13" fill="#22303f">新功能或职责独立</text>
+  <rect x="390" y="95" width="270" height="60" rx="7" fill="#fdf0e6" stroke="#c05621"/>
+  <text x="525" y="121" text-anchor="middle" font-size="17" font-weight="bold" fill="#c05621">DO：删除对象</text>
+  <text x="525" y="143" text-anchor="middle" font-size="13" fill="#22303f">移除功能或合并职责</text>
+  <line x1="195" y1="155" x2="195" y2="194" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="195,202 190.5,194 199.5,194" fill="#1f4e79"/>
+  <line x1="525" y1="155" x2="525" y2="194" stroke="#c05621" stroke-width="1.5" fill="none"/>
+  <polygon points="525,202 520.5,194 529.5,194" fill="#c05621"/>
+  <rect x="30" y="205" width="660" height="185" rx="8" fill="#f8fbfd" stroke="#b8c7d6"/>
+  <text x="360" y="230" text-anchor="middle" font-size="15" font-weight="bold" fill="#6b7a8a">消息演化是顺序图演化的核心，对象演化通常伴随消息演化</text>
+  <rect x="45" y="250" width="116" height="105" rx="6" fill="#eaf1f8" stroke="#1f4e79"/>
+  <text x="103" y="280" text-anchor="middle" font-size="18" font-weight="bold" fill="#1f4e79">AM</text>
+  <text x="103" y="307" text-anchor="middle" font-size="14" fill="#22303f">添加消息</text>
+  <text x="103" y="333" text-anchor="middle" font-size="13" fill="#6b7a8a">加交互</text>
+  <rect x="174" y="250" width="116" height="105" rx="6" fill="#eaf1f8" stroke="#1f4e79"/>
+  <text x="232" y="280" text-anchor="middle" font-size="18" font-weight="bold" fill="#1f4e79">DM</text>
+  <text x="232" y="307" text-anchor="middle" font-size="14" fill="#22303f">删除消息</text>
+  <text x="232" y="333" text-anchor="middle" font-size="13" fill="#6b7a8a">删交互</text>
+  <rect x="303" y="250" width="116" height="105" rx="6" fill="#fdf0e6" stroke="#c05621"/>
+  <text x="361" y="280" text-anchor="middle" font-size="18" font-weight="bold" fill="#c05621">SMO</text>
+  <text x="361" y="307" text-anchor="middle" font-size="14" fill="#22303f">交换时序</text>
+  <text x="361" y="333" text-anchor="middle" font-size="13" fill="#6b7a8a">换先后</text>
+  <rect x="432" y="250" width="116" height="105" rx="6" fill="#fdf0e6" stroke="#c05621"/>
+  <text x="490" y="280" text-anchor="middle" font-size="18" font-weight="bold" fill="#c05621">OM</text>
+  <text x="490" y="307" text-anchor="middle" font-size="14" fill="#22303f">反转方向</text>
+  <text x="490" y="333" text-anchor="middle" font-size="13" fill="#6b7a8a">换收发</text>
+  <rect x="561" y="250" width="116" height="105" rx="6" fill="#f3f6ee" stroke="#8aa15c"/>
+  <text x="619" y="280" text-anchor="middle" font-size="18" font-weight="bold" fill="#4a6130">CMM</text>
+  <text x="619" y="307" text-anchor="middle" font-size="14" fill="#22303f">改变端点</text>
+  <text x="619" y="333" text-anchor="middle" font-size="13" fill="#6b7a8a">换对象</text>
+  <text x="360" y="414" text-anchor="middle" font-size="13" fill="#6b7a8a">消息变化不必然违背约束：无关 / 相关不违背 / 相关且违背</text>
+</svg>

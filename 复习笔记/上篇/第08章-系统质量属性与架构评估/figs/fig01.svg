@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 500" width="720" height="500" font-family="Microsoft YaHei, 微软雅黑, sans-serif">
+  <rect width="720" height="500" fill="#ffffff"/>
+  <text x="360" y="32" text-anchor="middle" font-size="22" font-weight="bold" fill="#1f4e79">质量属性分类全景</text>
+  <rect x="30" y="55" width="660" height="115" rx="10" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.5"/>
+  <text x="50" y="84" font-size="16" font-weight="bold" fill="#1f4e79">GB/T 16260.1：六个质量维度</text>
+  <g font-size="14" text-anchor="middle">
+    <rect x="45" y="103" width="100" height="42" rx="6" fill="#ffffff"/><text x="95" y="129">功能性</text>
+    <rect x="155" y="103" width="100" height="42" rx="6" fill="#ffffff"/><text x="205" y="129">可靠性</text>
+    <rect x="265" y="103" width="100" height="42" rx="6" fill="#ffffff"/><text x="315" y="129">易用性</text>
+    <rect x="375" y="103" width="100" height="42" rx="6" fill="#ffffff"/><text x="425" y="129">效率</text>
+    <rect x="485" y="103" width="100" height="42" rx="6" fill="#ffffff"/><text x="535" y="129">维护性</text>
+    <rect x="595" y="103" width="80" height="42" rx="6" fill="#ffffff"/><text x="635" y="129">可移植性</text>
+  </g>
+  <rect x="30" y="190" width="315" height="265" rx="10" fill="#fdf0e6" stroke="#c05621" stroke-width="1.5"/>
+  <rect x="375" y="190" width="315" height="265" rx="10" fill="#f3f6ee" stroke="#8aa15c" stroke-width="1.5"/>
+  <text x="187" y="222" text-anchor="middle" font-size="18" font-weight="bold" fill="#c05621">开发期质量属性（6项）</text>
+  <text x="532" y="222" text-anchor="middle" font-size="18" font-weight="bold" fill="#4a6130">运行期质量属性（7项）</text>
+  <g font-size="15">
+    <text x="65" y="257">1. 易理解性：设计容易被理解</text>
+    <text x="65" y="288">2. 可扩展性：容易增加新功能</text>
+    <text x="65" y="319">3. 可重用性：容易复用系统或构件</text>
+    <text x="65" y="350">4. 可测试性：容易证明满足需求</text>
+    <text x="65" y="381">5. 可维护性：容易定位并实施修改</text>
+    <text x="65" y="412">6. 可移植性：容易迁移运行环境</text>
+    <text x="410" y="253">1. 性能：响应速度、吞吐量、容量</text>
+    <text x="410" y="281">2. 安全性：服务合法并阻止非法</text>
+    <text x="410" y="309">3. 可伸缩性：负载增长仍保质量</text>
+    <text x="410" y="337">4. 互操作性：交换数据、调用服务</text>
+    <text x="410" y="365">5. 可靠性：持续无故障运行能力</text>
+    <text x="410" y="393">6. 可用性：正常工作的时间比例</text>
+    <text x="410" y="421">7. 鲁棒性：非正常情况保持定义行为</text>
+  </g>
+  <text x="187" y="441" text-anchor="middle" font-size="12" fill="#6b7a8a">关注理解、修改、测试与迁移</text>
+  <text x="532" y="441" text-anchor="middle" font-size="12" fill="#6b7a8a">关注运行、交互、故障与负载</text>
+  <text x="360" y="482" text-anchor="middle" font-size="13" fill="#6b7a8a">三套分类用于不同语境，答题时先辨认题目所问的分类体系</text>
+</svg>

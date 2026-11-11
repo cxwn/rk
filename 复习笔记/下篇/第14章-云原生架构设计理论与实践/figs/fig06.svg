@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 280" font-family="Microsoft YaHei, 微软雅黑, sans-serif">
+  <text x="360" y="30" text-anchor="middle" font-size="17" font-weight="bold" fill="#1f4e79">事件驱动架构（EDA）：应用/组件间的集成架构模式</text>
+  <!-- 生产者 -->
+  <rect x="50" y="60" width="140" height="160" rx="8" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.5"/>
+  <text x="120" y="130" text-anchor="middle" font-size="15" font-weight="bold" fill="#1f4e79">生产者</text>
+  <text x="120" y="156" text-anchor="middle" font-size="11" fill="#6b7a8a">发布事件</text>
+  <!-- 主题 -->
+  <rect x="290" y="60" width="140" height="160" rx="8" fill="#fdf0e6" stroke="#c05621" stroke-width="1.5"/>
+  <text x="360" y="130" text-anchor="middle" font-size="15" font-weight="bold" fill="#c05621">主题 Topic</text>
+  <text x="360" y="156" text-anchor="middle" font-size="11" fill="#6b7a8a">事件通道</text>
+  <!-- 消费者 -->
+  <rect x="530" y="60" width="140" height="160" rx="8" fill="#f3f6ee" stroke="#8aa15c" stroke-width="1.5"/>
+  <text x="600" y="130" text-anchor="middle" font-size="15" font-weight="bold" fill="#4a6130">消费者</text>
+  <text x="600" y="156" text-anchor="middle" font-size="11" fill="#6b7a8a">订阅并处理事件</text>
+  <!-- 生产者->主题 三条事件箭头 -->
+  <text x="240" y="80" text-anchor="middle" font-size="11" fill="#22303f">事件</text>
+  <line x1="194" y1="90" x2="279" y2="90" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="287,90 279,85.5 279,94.5" fill="#1f4e79"/>
+  <line x1="194" y1="120" x2="279" y2="120" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="287,120 279,115.5 279,124.5" fill="#1f4e79"/>
+  <line x1="194" y1="150" x2="279" y2="150" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="287,150 279,145.5 279,154.5" fill="#1f4e79"/>
+  <!-- 主题->消费者 三条事件箭头 -->
+  <text x="480" y="80" text-anchor="middle" font-size="11" fill="#22303f">事件</text>
+  <line x1="434" y1="90" x2="519" y2="90" stroke="#c05621" stroke-width="1.5" fill="none"/>
+  <polygon points="527,90 519,85.5 519,94.5" fill="#c05621"/>
+  <line x1="434" y1="120" x2="519" y2="120" stroke="#c05621" stroke-width="1.5" fill="none"/>
+  <polygon points="527,120 519,115.5 519,124.5" fill="#c05621"/>
+  <line x1="434" y1="150" x2="519" y2="150" stroke="#c05621" stroke-width="1.5" fill="none"/>
+  <polygon points="527,150 519,145.5 519,154.5" fill="#c05621"/>
+  <!-- 消费者->主题 订阅（左向） -->
+  <text x="480" y="182" text-anchor="middle" font-size="11" fill="#4a6130">订阅</text>
+  <line x1="526" y1="192" x2="441" y2="192" stroke="#8aa15c" stroke-width="1.5" fill="none"/>
+  <polygon points="433,192 441,187.5 441,196.5" fill="#8aa15c"/>
+  <!-- 底部说明 -->
+  <text x="360" y="248" text-anchor="middle" font-size="12" fill="#22303f">事件具有 schema、可校验有效性；EDA 具备 QoS 保障，能对处理失败进行响应</text>
+  <text x="360" y="268" text-anchor="middle" font-size="11" fill="#6b7a8a">典型场景：服务解耦与韧性、CQRS/Event Sourcing、数据变化通知、开放接口、事件流、IoT</text>
+</svg>

@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 240" font-family="Microsoft YaHei, 微软雅黑, sans-serif">
+  <defs>
+    <marker id="arrow" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+      <path d="M0,0 L6,3 L0,6 Z" fill="#1f4e79"/>
+    </marker>
+  </defs>
+  <!-- 四个主线阶段 -->
+  <g>
+    <rect x="15" y="50" width="150" height="80" rx="6" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.2"/>
+    <text x="90" y="80" font-size="14" font-weight="bold" fill="#1f4e79" text-anchor="middle">模块化 / 面向对象</text>
+    <text x="90" y="102" font-size="11" fill="#22303f" text-anchor="middle">模块化编程、OOP</text>
+    <text x="90" y="120" font-size="11" fill="#6b7a8a" text-anchor="middle">UML、RUP</text>
+    <rect x="200" y="50" width="150" height="80" rx="6" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.2"/>
+    <text x="275" y="80" font-size="14" font-weight="bold" fill="#1f4e79" text-anchor="middle">构件技术</text>
+    <text x="275" y="102" font-size="11" fill="#22303f" text-anchor="middle">可组装、可插拔</text>
+    <text x="275" y="120" font-size="11" fill="#6b7a8a" text-anchor="middle">CORBA、COM、EJB</text>
+    <rect x="385" y="50" width="150" height="80" rx="6" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.2"/>
+    <text x="460" y="80" font-size="14" font-weight="bold" fill="#1f4e79" text-anchor="middle">面向服务开发</text>
+    <text x="460" y="102" font-size="11" fill="#22303f" text-anchor="middle">服务复用与集成</text>
+    <text x="460" y="120" font-size="11" fill="#6b7a8a" text-anchor="middle">SOA、Web Service</text>
+    <rect x="570" y="50" width="150" height="80" rx="6" fill="#f3f6ee" stroke="#8aa15c" stroke-width="1.2"/>
+    <text x="645" y="80" font-size="14" font-weight="bold" fill="#4a6130" text-anchor="middle">云技术</text>
+    <text x="645" y="102" font-size="11" fill="#22303f" text-anchor="middle">弹性扩展、云原生</text>
+    <text x="645" y="120" font-size="11" fill="#6b7a8a" text-anchor="middle">Cloud、容器、微服务</text>
+  </g>
+  <!-- 阶段间箭头 -->
+  <g stroke="#1f4e79" stroke-width="1.6" fill="none">
+    <line x1="168" y1="90" x2="186.0" y2="90.0"/>
+    <polygon points="194.0,90.0 186.0,94.5 186.0,85.5" fill="#1f4e79"/>
+    <line x1="353" y1="90" x2="371.0" y2="90.0"/>
+    <polygon points="379.0,90.0 371.0,94.5 371.0,85.5" fill="#1f4e79"/>
+    <line x1="538" y1="90" x2="556.0" y2="90.0"/>
+    <polygon points="564.0,90.0 556.0,94.5 556.0,85.5" fill="#1f4e79"/>
+  </g>
+  <text x="360" y="172" font-size="12" fill="#22303f" text-anchor="middle">架构描述、建模与验证技术贯穿发展始终</text>
+  <text x="360" y="198" font-size="12" fill="#6b7a8a" text-anchor="middle">微服务架构、数据驱动架构、智能架构等新技术与新思想不断融入</text>
+  <text x="360" y="224" font-size="11" fill="#6b7a8a" text-anchor="middle">（据教材图 1-7《软件架构技术发展路线概览》提炼主线）</text>
+</svg>

@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 360" font-family="Microsoft YaHei, 微软雅黑, sans-serif">
+  <rect width="720" height="360" fill="#ffffff"/>
+  <text x="360" y="30" text-anchor="middle" font-size="20" font-weight="bold" fill="#1f4e79">完全、部分与传递函数依赖</text>
+  <rect x="20" y="55" width="210" height="260" rx="8" fill="#f3f6ee" stroke="#8aa15c"/>
+  <text x="125" y="84" text-anchor="middle" font-size="17" font-weight="bold" fill="#4a6130">完全函数依赖</text>
+  <rect x="45" y="105" width="160" height="42" rx="5" fill="#ffffff" stroke="#8aa15c"/>
+  <text x="125" y="132" text-anchor="middle" font-size="14" fill="#22303f">（学号，课程号）</text>
+  <line x1="125" y1="147" x2="125" y2="209" stroke="#4a6130" stroke-width="1.6"/>
+  <polygon points="125,217 120.5,209 129.5,209" fill="#4a6130"/>
+  <rect x="85" y="220" width="80" height="40" rx="5" fill="#ffffff" stroke="#8aa15c"/>
+  <text x="125" y="246" text-anchor="middle" font-size="15" fill="#22303f">成绩</text>
+  <text x="125" y="287" text-anchor="middle" font-size="13" fill="#4a6130">去掉任一属性都不能决定</text>
+  <rect x="255" y="55" width="210" height="260" rx="8" fill="#fdf0e6" stroke="#c05621"/>
+  <text x="360" y="84" text-anchor="middle" font-size="17" font-weight="bold" fill="#c05621">部分函数依赖</text>
+  <rect x="280" y="105" width="160" height="42" rx="5" fill="#ffffff" stroke="#c05621"/>
+  <text x="360" y="132" text-anchor="middle" font-size="14" fill="#22303f">（学号，课程号）</text>
+  <line x1="360" y1="147" x2="360" y2="209" stroke="#c05621" stroke-width="1.6"/>
+  <polygon points="360,217 355.5,209 364.5,209" fill="#c05621"/>
+  <rect x="320" y="220" width="80" height="40" rx="5" fill="#ffffff" stroke="#c05621"/>
+  <text x="360" y="246" text-anchor="middle" font-size="15" fill="#22303f">姓名</text>
+  <text x="360" y="287" text-anchor="middle" font-size="13" fill="#c05621">学号单独即可决定姓名</text>
+  <rect x="490" y="55" width="210" height="260" rx="8" fill="#eaf1f8" stroke="#1f4e79"/>
+  <text x="595" y="79" text-anchor="middle" font-size="17" font-weight="bold" fill="#1f4e79">传递依赖</text>
+  <rect x="555" y="91" width="80" height="35" rx="5" fill="#ffffff" stroke="#1f4e79"/>
+  <text x="595" y="114" text-anchor="middle" font-size="14" fill="#22303f">学号 X</text>
+  <line x1="595" y1="126" x2="595" y2="144" stroke="#1f4e79" stroke-width="1.5"/>
+  <polygon points="595,152 590.5,144 599.5,144" fill="#1f4e79"/>
+  <rect x="555" y="155" width="80" height="35" rx="5" fill="#ffffff" stroke="#1f4e79"/>
+  <text x="595" y="178" text-anchor="middle" font-size="14" fill="#22303f">状态 Y</text>
+  <line x1="595" y1="190" x2="595" y2="208" stroke="#1f4e79" stroke-width="1.5"/>
+  <polygon points="595,216 590.5,208 599.5,208" fill="#1f4e79"/>
+  <rect x="555" y="219" width="80" height="35" rx="5" fill="#ffffff" stroke="#1f4e79"/>
+  <text x="595" y="242" text-anchor="middle" font-size="14" fill="#22303f">城市 Z</text>
+  <text x="595" y="285" text-anchor="middle" font-size="13" fill="#1f4e79">X→Y，Y→Z</text>
+  <text x="360" y="342" text-anchor="middle" font-size="14" font-weight="bold" fill="#c05621">判断依赖看业务语义，不能只看某一时刻的数据</text>
+</svg>

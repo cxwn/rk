@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 430" font-family="Microsoft YaHei, 微软雅黑, sans-serif">
+  <rect width="720" height="430" fill="#ffffff"/>
+  <text x="180" y="28" text-anchor="middle" font-size="20" font-weight="bold" fill="#1f4e79">宏内核</text>
+  <text x="540" y="28" text-anchor="middle" font-size="20" font-weight="bold" fill="#1f4e79">微内核</text>
+  <rect x="30" y="48" width="300" height="118" rx="8" fill="#fbfdff" stroke="#6b7a8a"/>
+  <text x="48" y="71" font-size="13" font-weight="bold" fill="#6b7a8a">用户空间</text>
+  <g text-anchor="middle" font-size="13" fill="#22303f">
+    <rect x="50" y="86" width="75" height="48" rx="5" fill="#eaf1f8" stroke="#1f4e79"/><text x="87" y="115">应用进程</text>
+    <rect x="142" y="86" width="75" height="48" rx="5" fill="#eaf1f8" stroke="#1f4e79"/><text x="179" y="115">应用进程</text>
+    <rect x="234" y="86" width="75" height="48" rx="5" fill="#eaf1f8" stroke="#1f4e79"/><text x="271" y="115">应用进程</text>
+  </g>
+  <rect x="90" y="181" width="180" height="32" rx="5" fill="#6b7a8a"/>
+  <text x="180" y="203" text-anchor="middle" font-size="13" fill="#ffffff">系统 API / 系统调用</text>
+  <line x1="180" y1="166" x2="180" y2="173" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="180,178 175.5,170 184.5,170" fill="#1f4e79"/>
+  <rect x="30" y="228" width="300" height="142" rx="8" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.5"/>
+  <text x="48" y="252" font-size="13" font-weight="bold" fill="#1f4e79">内核空间：服务同址、直接调用</text>
+  <g text-anchor="middle" font-size="12" fill="#22303f">
+    <rect x="48" y="268" width="120" height="35" rx="4" fill="#ffffff" stroke="#1f4e79"/><text x="108" y="291">进程 / 内存管理</text>
+    <rect x="192" y="268" width="120" height="35" rx="4" fill="#ffffff" stroke="#1f4e79"/><text x="252" y="291">文件 / 设备管理</text>
+    <rect x="48" y="318" width="264" height="35" rx="4" fill="#1f4e79"/><text x="180" y="341" fill="#ffffff">驱动程序及其他功能代码</text>
+  </g>
+  <line x1="180" y1="213" x2="180" y2="220" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="180,225 175.5,217 184.5,217" fill="#1f4e79"/>
+  <rect x="390" y="48" width="300" height="205" rx="8" fill="#fbfdff" stroke="#6b7a8a"/>
+  <text x="408" y="71" font-size="13" font-weight="bold" fill="#6b7a8a">用户空间：服务进程彼此隔离</text>
+  <g text-anchor="middle" font-size="12" fill="#22303f">
+    <rect x="410" y="85" width="80" height="42" rx="5" fill="#f3f6ee" stroke="#8aa15c"/><text x="450" y="111">驱动服务</text>
+    <rect x="500" y="85" width="80" height="42" rx="5" fill="#f3f6ee" stroke="#8aa15c"/><text x="540" y="111">文件服务</text>
+    <rect x="590" y="85" width="80" height="42" rx="5" fill="#f3f6ee" stroke="#8aa15c"/><text x="630" y="111">设备服务</text>
+    <rect x="430" y="181" width="90" height="45" rx="5" fill="#eaf1f8" stroke="#1f4e79"/><text x="475" y="209">应用进程</text>
+    <rect x="560" y="181" width="90" height="45" rx="5" fill="#eaf1f8" stroke="#1f4e79"/><text x="605" y="209">应用进程</text>
+  </g>
+  <rect x="470" y="141" width="140" height="26" rx="13" fill="#fdf0e6" stroke="#c05621"/>
+  <text x="540" y="159" text-anchor="middle" font-size="12" fill="#c05621">消息通信</text>
+  <rect x="390" y="287" width="300" height="83" rx="8" fill="#1f4e79"/>
+  <text x="408" y="312" font-size="13" font-weight="bold" fill="#ffffff">内核空间：只保留最小基础服务</text>
+  <text x="540" y="339" text-anchor="middle" font-size="13" fill="#eaf1f8">进程调度 · 中断处理 · IPC · 地址空间</text>
+  <line x1="475" y1="253" x2="475" y2="279" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="475,284 470.5,276 479.5,276" fill="#1f4e79"/>
+  <line x1="605" y1="279" x2="605" y2="264" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="605,256 600.5,264 609.5,264" fill="#1f4e79"/>
+  <rect x="80" y="390" width="560" height="28" rx="5" fill="#f3f6ee"/>
+  <text x="360" y="410" text-anchor="middle" font-size="13" fill="#4a6130">宏内核重调用效率；微内核重隔离、移植与扩展</text>
+</svg>

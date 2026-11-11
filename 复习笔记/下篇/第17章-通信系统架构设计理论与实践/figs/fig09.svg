@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 300" font-family="Microsoft YaHei, 微软雅黑, sans-serif">
+  <text x="360" y="26" text-anchor="middle" font-size="16" font-weight="bold" fill="#1f4e79">网络需求分析：五个方面与输出物</text>
+  <!-- 卡1 业务需求 -->
+  <rect x="20" y="40" width="128" height="150" rx="8" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.2"/>
+  <text x="84" y="64" text-anchor="middle" font-size="12" font-weight="bold" fill="#1f4e79">业务需求</text>
+  <text x="84" y="88" text-anchor="middle" font-size="10" fill="#22303f">干系人/时间点</text>
+  <text x="84" y="106" text-anchor="middle" font-size="10" fill="#22303f">投资与增长率</text>
+  <text x="84" y="124" text-anchor="middle" font-size="10" fill="#22303f">可靠性/安全指标</text>
+  <text x="84" y="170" text-anchor="middle" font-size="10" fill="#c05621">输出：业务需求清单</text>
+  <!-- 卡2 用户需求 -->
+  <rect x="158" y="40" width="128" height="150" rx="8" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.2"/>
+  <text x="222" y="64" text-anchor="middle" font-size="12" font-weight="bold" fill="#1f4e79">用户需求</text>
+  <text x="222" y="88" text-anchor="middle" font-size="10" fill="#22303f">观察/问卷/访谈</text>
+  <text x="222" y="106" text-anchor="middle" font-size="10" fill="#22303f">提取真实需要</text>
+  <text x="222" y="124" text-anchor="middle" font-size="10" fill="#22303f">需求归档</text>
+  <text x="222" y="170" text-anchor="middle" font-size="10" fill="#c05621">输出：用户服务表</text>
+  <!-- 卡3 应用需求 -->
+  <rect x="296" y="40" width="128" height="150" rx="8" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.2"/>
+  <text x="360" y="64" text-anchor="middle" font-size="12" font-weight="bold" fill="#1f4e79">应用需求</text>
+  <text x="360" y="88" text-anchor="middle" font-size="10" fill="#22303f">应用类型/地点</text>
+  <text x="360" y="106" text-anchor="middle" font-size="10" fill="#22303f">使用方法/增长性</text>
+  <text x="360" y="124" text-anchor="middle" font-size="10" fill="#22303f">响应时间要求</text>
+  <text x="360" y="170" text-anchor="middle" font-size="10" fill="#c05621">输出：应用需求表</text>
+  <!-- 卡4 计算机平台需求 -->
+  <rect x="434" y="40" width="128" height="150" rx="8" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.2"/>
+  <text x="498" y="64" text-anchor="middle" font-size="12" font-weight="bold" fill="#1f4e79">计算机平台需求</text>
+  <text x="498" y="88" text-anchor="middle" font-size="10" fill="#22303f">PC / 工作站</text>
+  <text x="498" y="106" text-anchor="middle" font-size="10" fill="#22303f">小型机/大型机</text>
+  <text x="498" y="124" text-anchor="middle" font-size="10" fill="#22303f">设备类型统计</text>
+  <text x="498" y="170" text-anchor="middle" font-size="10" fill="#c05621">输出：设备类型需求表</text>
+  <!-- 卡5 网络需求 -->
+  <rect x="572" y="40" width="128" height="150" rx="8" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.2"/>
+  <text x="636" y="64" text-anchor="middle" font-size="12" font-weight="bold" fill="#1f4e79">网络需求</text>
+  <text x="636" y="88" text-anchor="middle" font-size="10" fill="#22303f">拓扑/性能</text>
+  <text x="636" y="106" text-anchor="middle" font-size="10" fill="#22303f">管理/安全</text>
+  <text x="636" y="124" text-anchor="middle" font-size="10" fill="#22303f">WAN 连接方案</text>
+  <text x="636" y="170" text-anchor="middle" font-size="10" fill="#c05621">输出：分项需求表</text>
+  <!-- 汇聚线 -->
+  <line x1="84" y1="190" x2="84" y2="212" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <line x1="222" y1="190" x2="222" y2="212" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <line x1="360" y1="190" x2="360" y2="212" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <line x1="498" y1="190" x2="498" y2="212" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <line x1="636" y1="190" x2="636" y2="212" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <line x1="84" y1="212" x2="636" y2="212" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <line x1="360" y1="212" x2="360" y2="219" stroke="#1f4e79" stroke-width="1.5" fill="none"/>
+  <polygon points="360,227 355.5,219 364.5,219" fill="#1f4e79"/>
+  <rect x="210" y="230" width="300" height="34" rx="6" fill="#fdf0e6" stroke="#c05621" stroke-width="1.5"/>
+  <text x="360" y="251" text-anchor="middle" font-size="13" font-weight="bold" fill="#c05621">网络需求规格说明书</text>
+  <text x="360" y="286" text-anchor="middle" font-size="11" fill="#4a6130">助记：业务→用户→应用→平台→网络；先明确「为谁建、用来干什么」，再落到技术与设备</text>
+</svg>

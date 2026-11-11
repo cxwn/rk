@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 460" width="720" height="460" font-family="Microsoft YaHei, 微软雅黑, sans-serif">
+  <rect width="720" height="460" fill="#ffffff"/>
+  <text x="360" y="30" text-anchor="middle" font-size="22" font-weight="bold" fill="#1f4e79">广义与狭义的软件可靠性测试（教材图 9-1）</text>
+  <rect x="15" y="45" width="690" height="400" rx="10" fill="#fbfdfe" stroke="#1f4e79" stroke-width="1.5"/>
+  <text x="30" y="68" font-size="14" font-weight="bold" fill="#1f4e79">广义的软件可靠性测试</text>
+  <rect x="45" y="150" width="630" height="210" rx="8" fill="none" stroke="#6b7a8a" stroke-width="1.2" stroke-dasharray="6,4"/>
+  <rect x="290" y="80" width="140" height="44" rx="6" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.5"/>
+  <text x="360" y="107" text-anchor="middle" font-size="14" font-weight="bold" fill="#1f4e79">确定可靠性目标</text>
+  <rect x="70" y="180" width="120" height="44" rx="6" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.5"/>
+  <text x="130" y="207" text-anchor="middle" font-size="14" font-weight="bold" fill="#1f4e79">定义运行剖面</text>
+  <rect x="300" y="180" width="120" height="44" rx="6" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.5"/>
+  <text x="360" y="207" text-anchor="middle" font-size="14" font-weight="bold" fill="#1f4e79">设计测试用例</text>
+  <rect x="530" y="180" width="120" height="44" rx="6" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.5"/>
+  <text x="590" y="207" text-anchor="middle" font-size="14" font-weight="bold" fill="#1f4e79">实施测试</text>
+  <rect x="70" y="270" width="120" height="44" rx="6" fill="#fdf0e6" stroke="#c05621" stroke-width="1.5"/>
+  <text x="130" y="288" text-anchor="middle" font-size="14" font-weight="bold" fill="#c05621">排错</text>
+  <text x="130" y="306" text-anchor="middle" font-size="11" fill="#22303f">修改软件配置</text>
+  <rect x="300" y="270" width="120" height="44" rx="6" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.5"/>
+  <text x="360" y="288" text-anchor="middle" font-size="14" font-weight="bold" fill="#1f4e79">测试数据</text>
+  <text x="360" y="306" text-anchor="middle" font-size="11" fill="#22303f">测试问题集</text>
+  <text x="360" y="348" text-anchor="middle" font-size="12" fill="#6b7a8a">虚线框内＝狭义的软件可靠性测试（软件可靠性试验）</text>
+  <rect x="70" y="390" width="120" height="44" rx="6" fill="#f3f6ee" stroke="#8aa15c" stroke-width="1.5"/>
+  <text x="130" y="417" text-anchor="middle" font-size="14" font-weight="bold" fill="#4a6130">可靠性评价</text>
+  <rect x="300" y="390" width="120" height="44" rx="6" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.5"/>
+  <text x="360" y="417" text-anchor="middle" font-size="14" font-weight="bold" fill="#1f4e79">分析可靠性数据</text>
+  <rect x="530" y="390" width="120" height="44" rx="6" fill="#eaf1f8" stroke="#1f4e79" stroke-width="1.5"/>
+  <text x="590" y="408" text-anchor="middle" font-size="14" font-weight="bold" fill="#1f4e79">建模或选取模型</text>
+  <text x="590" y="426" text-anchor="middle" font-size="11" fill="#22303f">可靠性模型</text>
+  <g stroke="#1f4e79" stroke-width="1.5" fill="none">
+    <polyline points="290,102 130,102 130,169"/>
+    <line x1="190" y1="202" x2="289" y2="202"/>
+    <line x1="420" y1="202" x2="519" y2="202"/>
+    <polyline points="590,224 590,247 360,247 360,259"/>
+    <line x1="300" y1="292" x2="201" y2="292"/>
+    <line x1="360" y1="314" x2="360" y2="379"/>
+    <line x1="530" y1="412" x2="431" y2="412"/>
+    <line x1="300" y1="412" x2="201" y2="412"/>
+  </g>
+  <g fill="#1f4e79">
+    <polygon points="130,177 125.5,169 134.5,169"/>
+    <polygon points="297,202 289,197.5 289,206.5"/>
+    <polygon points="527,202 519,197.5 519,206.5"/>
+    <polygon points="360,267 355.5,259 364.5,259"/>
+    <polygon points="193,292 201,287.5 201,296.5"/>
+    <polygon points="360,387 355.5,379 364.5,379"/>
+    <polygon points="423,412 431,407.5 431,416.5"/>
+    <polygon points="193,412 201,407.5 201,416.5"/>
+  </g>
+</svg>
