@@ -62,3 +62,7 @@ python tools/build_notes.py "复习笔记/上篇/第01章-绪论" --docx-only
 - 实践案例和扩展知识放在对应子目录，不并入主笔记的六个板块。
 - HTML 与 DOCX 均由统一生成器产出，避免手工修改导致内容不一致。
 - 更详细的撰写、绘图和排版规范见 `AGENTS.md`。
+
+## 许可证
+
+本仓库采用 [MIT License](LICENSE)。
