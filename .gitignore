@@ -1,0 +1,34 @@
+# Python 缓存与打包产物
+__pycache__/
+*.py[cod]
+*$py.class
+build/
+dist/
+*.egg-info/
+
+# Python 虚拟环境
+.venv/
+venv/
+env/
+
+# 日志与临时文件
+*.log
+*.tmp
+*.temp
+*~
+
+# Office 临时文件
+~$*.docx
+.~lock.*
+
+# 编辑器与 IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# 操作系统
+.DS_Store
+Thumbs.db
+
+# 注意：PDF、复习笔记 HTML/DOCX 和 SVG 均为仓库资料，不忽略。
